@@ -110,7 +110,7 @@ export class ProvenanceService {
       // For relative paths, resolve against SAFE_ROOT
       resolvedPath = path.resolve(SAFE_ROOT, subjectPath);
       // Ensure the resolved path is within SAFE_ROOT
-      if (!resolvedPath.startsWith(SAFE_ROOT + path.sep)) {
+      if (!(resolvedPath === SAFE_ROOT || resolvedPath.startsWith(SAFE_ROOT + path.sep))) {
         throw new Error('Invalid file path: Access outside of allowed directory is not permitted.');
       }
     }
