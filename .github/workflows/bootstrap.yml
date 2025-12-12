@@ -1,0 +1,36 @@
+name: Governance Bootstrap
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show governance index summary
+        run: |
+          python - <<'PY'
+from pathlib import Path
+import json
+
+index_file = Path("governance/index/governance-index.json")
+data = json.loads(index_file.read_text(encoding="utf-8"))
+registry = data.get("index_registry", {})
+print("Loaded governance index:", index_file)
+print("Registry keys:", ", ".join(sorted(registry.keys())))
+PY
+
+      - name: Run governance closed-loop entrypoint
+        run: |
+          chmod +x governance/ci-run.sh
+          ./governance/ci-run.sh

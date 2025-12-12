@@ -214,13 +214,17 @@
       "06-security": ["NIST-AI-RMF", "EU-AI-ACT", "SLSA", "GDPR", "ISO-42001"],
       "07-audit": ["ISO-42001", "SOX"],
       "10-policy": ["ISO-42001", "NIST-AI-RMF", "GDPR"],
+      "20-intent": ["ISO-42001", "NIST-AI-RMF"],
       "30-agents": ["ISO-42001", "NIST-AI-RMF", "EU-AI-ACT"],
       "38-sbom": ["SLSA"],
+      "39-automation": ["ISO-42001"],
+      "60-contracts": ["SLSA", "ISO-42001"],
       "61-lineage": ["EU-AI-ACT", "GDPR"],
       "62-provenance": ["EU-AI-ACT", "SLSA", "GDPR"],
       "63-evidence": ["ISO-42001", "SOX"],
       "64-attestation": ["SLSA"],
-      "70-audit": ["ISO-42001", "EU-AI-ACT", "SOX", "GDPR"]
+      "70-audit": ["ISO-42001", "EU-AI-ACT", "SOX", "GDPR"],
+      "80-feedback": ["ISO-42001", "NIST-AI-RMF"]
     }
   },
   "audit_schedule": {
