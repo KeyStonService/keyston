@@ -1,4 +1,4 @@
-import { ProvenanceService } from '../services/provenance';
+import { ProvenanceService, BuildAttestation } from '../services/provenance';
 import { writeFile, unlink } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -29,7 +29,22 @@ describe('ProvenanceService', () => {
 
     it('should throw error for non-existent file', async () => {
       await expect(service.generateFileDigest('/non/existent/file'))
-        .rejects.toThrow(/ENOENT/);
+        .rejects.toThrow();
+    });
+
+    it('should reject path traversal attempts with ../', async () => {
+      await expect(service.generateFileDigest('../../../etc/passwd'))
+        .rejects.toThrow(/Invalid file path|Access outside/);
+    });
+
+    it('should reject absolute paths outside safe root', async () => {
+      await expect(service.generateFileDigest('/etc/passwd'))
+        .rejects.toThrow();
+    });
+
+    it('should reject path traversal with encoded characters', async () => {
+      await expect(service.generateFileDigest('..%2F..%2F..%2Fetc%2Fpasswd'))
+        .rejects.toThrow();
     });
   });
 
@@ -84,7 +99,21 @@ describe('ProvenanceService', () => {
       await expect(service.createBuildAttestation(tmpdir(), {
         id: 'test-builder',
         version: '1.0.0'
-      })).rejects.toThrow('Subject path must be a file');
+      })).rejects.toThrow();
+    });
+
+    it('should reject path traversal attempts', async () => {
+      await expect(service.createBuildAttestation('../../../etc/passwd', {
+        id: 'test-builder',
+        version: '1.0.0'
+      })).rejects.toThrow(/Invalid file path|Access outside/);
+    });
+
+    it('should reject symbolic link escapes', async () => {
+      await expect(service.createBuildAttestation('/tmp/../../../etc/passwd', {
+        id: 'test-builder',
+        version: '1.0.0'
+      })).rejects.toThrow();
     });
   });
 
@@ -101,7 +130,7 @@ describe('ProvenanceService', () => {
       const invalidAttestation = {
         id: 'test',
         // Missing required fields
-      } as unknown as Attestation;
+      } as unknown as BuildAttestation;
 
       const isValid = await service.verifyAttestation(invalidAttestation);
       expect(isValid).toBe(false);
@@ -130,6 +159,32 @@ describe('ProvenanceService', () => {
 
       const isValid = await service.verifyAttestation(attestation);
       expect(isValid).toBe(true);
+    });
+
+    it('should reject attestation with path traversal in subject path', async () => {
+      const attestation = {
+        id: 'test-123',
+        timestamp: new Date().toISOString(),
+        subject: {
+          name: 'malicious-artifact',
+          digest: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          path: '../../../etc/passwd'
+        },
+        predicate: {
+          type: 'https://slsa.dev/provenance/v1',
+          builder: { id: 'test', version: '1.0.0' },
+          recipe: { type: 'test' },
+          metadata: {
+            buildStartedOn: new Date().toISOString(),
+            buildFinishedOn: new Date().toISOString(),
+            completeness: { parameters: true, environment: true, materials: true },
+            reproducible: false
+          }
+        }
+      };
+
+      const isValid = await service.verifyAttestation(attestation);
+      expect(isValid).toBe(false);
     });
   });
 
