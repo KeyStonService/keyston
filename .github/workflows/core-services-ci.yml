@@ -38,7 +38,7 @@ jobs:
     with:
       working-directory: core/contract_service/contracts-L1/contracts
       service-name: contracts-l1
-      node-version: '18'
+      node-version: '20'
       enable-coverage-upload: true
       enable-sbom: false
       enable-security-scan: false
@@ -50,7 +50,7 @@ jobs:
     with:
       working-directory: mcp-servers
       service-name: mcp-servers
-      node-version: '18'
+      node-version: '20'
       enable-sbom: false
       enable-security-scan: false
       custom-scripts: 'validate:deployment, validate:logic'

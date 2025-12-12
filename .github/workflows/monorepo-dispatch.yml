@@ -40,7 +40,7 @@ jobs:
     with:
       working-directory: mcp-servers
       service-name: mcp-servers
-      node-version: '18'
+      node-version: '20'
       enable-docker-build: false
       enable-sbom: true
 
@@ -51,7 +51,7 @@ jobs:
     with:
       working-directory: core/contract_service/contracts-L1/contracts
       service-name: contracts-service
-      node-version: '18'
+      node-version: '20'
       enable-docker-build: true
       enable-sbom: true
 
