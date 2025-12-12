@@ -97,7 +97,12 @@ index_root = Path("governance/index")
 dimensions = json.load(open(index_root / "dimensions.json"))
 compliance = json.load(open(index_root / "compliance.json"))
 
-dim_paths = {d["path"] for d in dimensions["dimensions"] if d.get("execution") == "required" and d.get("status") in {"active", "production"}}
+dim_paths = {
+    d["path"]
+    for d in dimensions["dimensions"]
+    if d.get("execution") == "required"
+    and d.get("status", "").lower() not in {"deprecated", "removed"}
+}
 
 covered = set()
 for fw in compliance.get("frameworks", []):
@@ -255,20 +260,26 @@ PY
           cache: "npm"
       - name: Generate SBOM and run audit
         run: |
-          if [ ! -f package.json ]; then
-            echo "::warning::No package.json found; skipping Node-based security scan"
+          first_pkg=$(find . -name package.json | head -n1 || true)
+          if [ -z "$first_pkg" ]; then
+            echo "::warning::No package.json found anywhere in repo; skipping Node-based security scan"
             exit 0
           fi
+          pkg_dir=$(dirname "$first_pkg")
+          echo "Using package.json at $pkg_dir"
+          cd "$pkg_dir"
           if [ "${SKIP_SECURITY_SCAN:-false}" = "true" ]; then
             echo "::warning::Skipping security scan due to SKIP_SECURITY_SCAN flag"
             exit 0
           fi
           npm install --ignore-scripts
           if [ ! -d node_modules ]; then
-            echo "::warning::node_modules not found after npm install; SBOM may be incomplete"
+            echo "::error::node_modules not found after npm install; SBOM would be incomplete"
+            exit 1
           fi
           npx @cyclonedx/cyclonedx-npm --output-file sbom.json
           npm audit --audit-level=high
+          cp sbom.json "$GITHUB_WORKSPACE/sbom.json"
       - name: Upload SBOM
         if: always()
         uses: actions/upload-artifact@v4
