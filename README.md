@@ -95,6 +95,15 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 │   ├── ✅ CI/CD 自動化 (GitHub Actions)
 │   └── ✅ 完整文檔 (INSTALL/BUILD/RELEASE)
 │
+├── 🏭 Project Factory System (NEW! 2024-12)
+│   ├── ✅ 專案生成引擎 (Generator Engine)
+│   ├── ✅ 模板系統 (32+ Templates)
+│   ├── ✅ 治理整合 (Governance Integration)
+│   ├── ✅ Python/TypeScript 支持
+│   ├── ✅ Docker + K8s + CI/CD 自動生成
+│   ├── ✅ SBOM + 合規性文檔
+│   └── ✅ CLI 介面 (Command-line Interface)
+│
 └── 🤖 Island AI Multi-Agent System
     ├── ✅ Stage 1: 6 個基礎 Agent
     └── 🔄 Stage 2-4: 進行中
@@ -208,7 +217,58 @@ capabilities:
 - core/mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
 - core/safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
 - core/slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
+- **core/project_factory/** ⭐ **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
 - **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
+
+#### 🏭 Project Factory（專案生成工廠）
+
+**一鍵生成完整專案交付物 - 將 SynergyMesh 轉變為「能生成專案的系統」**
+
+Project Factory 能夠自動生成符合治理標準的完整專案，包括源代碼、測試套件、Docker、Kubernetes、CI/CD 等所有交付物。
+
+```bash
+# 生成 FastAPI 微服務
+python -m core.project_factory.cli generate project \
+  --name user-service \
+  --type microservice \
+  --language python \
+  --framework fastapi \
+  --output ./projects/user-service
+
+# 生成 TypeScript 服務
+python -m core.project_factory.cli generate project \
+  --name auth-service \
+  --type microservice \
+  --language typescript \
+  --framework express \
+  --output ./projects/auth-service
+
+# 從 YAML 規格生成
+python -m core.project_factory.cli generate project \
+  --spec-file project-spec.yaml
+```
+
+**核心能力：**
+
+| 交付物類型 | 內容 |
+| ---------- | ---- |
+| 📦 **源代碼** | Python/TypeScript/Go, 完整架構層次, API/服務/數據層 |
+| 🧪 **測試套件** | 單元測試, 集成測試, E2E 測試 |
+| 🐳 **容器化** | 多階段 Dockerfile, docker-compose, 健康檢查 |
+| ☸️ **Kubernetes** | Deployment, Service, Ingress, HPA, NetworkPolicy |
+| 🔄 **CI/CD** | GitHub Actions, 自動測試/構建/部署 |
+| 📋 **治理文檔** | 架構文檔, SBOM, 合規性聲明, 安全評估 |
+| ✅ **治理整合** | SLSA L3 溯源, Schema 驗證, 策略閘檢查 |
+
+**自動治理合規：**
+- ✅ 語言政策驗證
+- ✅ 安全標準檢查
+- ✅ 架構約束驗證
+- ✅ CI/CD 需求檢查
+- ✅ SBOM 自動生成
+- ✅ 合規性文檔
+
+詳見：[core/project_factory/README.md](./core/project_factory/README.md)
 
 #### 🤖 Island AI Multi-Agent System（智能代理系統）
 
