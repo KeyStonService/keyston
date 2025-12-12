@@ -2,6 +2,13 @@
 """
 Secret Pattern Management Script
 動態管理 GitHub Secret Scanning 自定義模式
+
+Security Note:
+This script handles sensitive pattern data. All logging has been sanitized to:
+- Remove pattern names and regex details from console output
+- Truncate error responses to prevent sensitive data leakage
+- Provide warnings when exporting full pattern details
+- Use generic success/error messages without exposing identifiers
 """
 
 import requests
@@ -24,6 +31,23 @@ class SecretPatternManager:
             'X-GitHub-Api-Version': '2022-11-28'
         }
     
+    @staticmethod
+    def _sanitize_response(response_text: str, max_length: int = 100) -> str:
+        """Sanitize response text to avoid logging sensitive information"""
+        if not response_text:
+            return "Empty response"
+        # Truncate and remove potentially sensitive details
+        sanitized = response_text[:max_length]
+        if len(response_text) > max_length:
+            sanitized += "... (truncated for security)"
+        return sanitized
+    
+    @staticmethod
+    def _sanitize_pattern_data(pattern: Dict) -> Dict:
+        """Remove sensitive fields from pattern data for safe logging"""
+        safe_fields = ['id', 'created_at', 'updated_at']
+        return {k: v for k, v in pattern.items() if k in safe_fields}
+    
     def create_custom_pattern(self, org: str, pattern_data: Dict) -> Optional[Dict]:
         """建立自定義秘密掃描模式"""
         url = f'{self.base_url}/orgs/{org}/secret-scanning/custom-patterns'
@@ -35,8 +59,8 @@ class SecretPatternManager:
                 print("✅ Custom pattern created successfully")
                 return response.json()
             else:
-                print(f"❌ Failed to create pattern: {response.status_code}")
-                print(f"   Response: {response.text}")
+                print(f"❌ Failed to create pattern: HTTP {response.status_code}")
+                print(f"   Error details: {self._sanitize_response(response.text)}")
                 return None
         except Exception as e:
             print(f"❌ Error creating pattern: {str(e)}")
@@ -50,11 +74,11 @@ class SecretPatternManager:
             response = requests.patch(url, headers=self.headers, json=pattern_data)
             
             if response.status_code == 200:
-                print(f"✅ Pattern {pattern_id} updated successfully")
+                print("✅ Pattern updated successfully")
                 return response.json()
             else:
-                print(f"❌ Failed to update pattern: {response.status_code}")
-                print(f"   Response: {response.text}")
+                print(f"❌ Failed to update pattern: HTTP {response.status_code}")
+                print(f"   Error details: {self._sanitize_response(response.text)}")
                 return None
         except Exception as e:
             print(f"❌ Error updating pattern: {str(e)}")
@@ -68,10 +92,10 @@ class SecretPatternManager:
             response = requests.delete(url, headers=self.headers)
             
             if response.status_code == 204:
-                print(f"✅ Pattern {pattern_id} deleted successfully")
+                print("✅ Pattern deleted successfully")
                 return True
             else:
-                print(f"❌ Failed to delete pattern: {response.status_code}")
+                print(f"❌ Failed to delete pattern: HTTP {response.status_code}")
                 return False
         except Exception as e:
             print(f"❌ Error deleting pattern: {str(e)}")
@@ -89,8 +113,8 @@ class SecretPatternManager:
                 print(f"✅ Found {len(patterns)} custom patterns")
                 return patterns
             else:
-                print(f"❌ Failed to list patterns: {response.status_code}")
-                print(f"   Response: {response.text}")
+                print(f"❌ Failed to list patterns: HTTP {response.status_code}")
+                print(f"   Error details: {self._sanitize_response(response.text)}")
                 return []
         except Exception as e:
             print(f"❌ Error listing patterns: {str(e)}")
@@ -106,7 +130,7 @@ class SecretPatternManager:
             if response.status_code == 200:
                 return response.json()
             else:
-                print(f"❌ Failed to get pattern: {response.status_code}")
+                print(f"❌ Failed to get pattern: HTTP {response.status_code}")
                 return None
         except Exception as e:
             print(f"❌ Error getting pattern: {str(e)}")
@@ -155,7 +179,11 @@ class SecretPatternManager:
         print(f"{'='*50}")
     
     def export_patterns(self, org: str, output_file: str) -> None:
-        """導出所有自定義模式到 JSON 文件"""
+        """導出所有自定義模式到 JSON 文件
+        
+        Warning: Exported file may contain sensitive pattern data.
+        Store securely and restrict access appropriately.
+        """
         patterns = self.list_custom_patterns(org)
         
         if patterns:
@@ -163,6 +191,7 @@ class SecretPatternManager:
                 with open(output_file, 'w') as f:
                     json.dump(patterns, f, indent=2)
                 print(f"✅ Patterns exported to {output_file}")
+                print("⚠️  Warning: Exported file contains sensitive pattern data")
             except Exception as e:
                 print(f"❌ Error exporting patterns: {str(e)}")
     
@@ -221,8 +250,11 @@ def main():
         if args.action == 'list':
             patterns = manager.list_custom_patterns(args.org)
             if patterns:
-                print("\nCustom Patterns:")
-                print(json.dumps(patterns, indent=2))
+                print("\nCustom Patterns (sanitized view):")
+                # Show only non-sensitive metadata
+                safe_patterns = [manager._sanitize_pattern_data(p) for p in patterns]
+                print(json.dumps(safe_patterns, indent=2))
+                print(f"\n💡 Use 'export' action to save full pattern details to a secure file")
         
         elif args.action == 'create':
             if not all([args.name, args.regex, args.secret_type]):
