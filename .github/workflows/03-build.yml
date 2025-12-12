@@ -61,7 +61,12 @@ jobs:
 
       - name: Go build
         if: ${{ matrix.target == 'go' }}
-        run: go build ./...
+        run: |
+          if find . -name go.mod -print -quit | grep -q .; then
+            GOWORK=off go build ./...
+          else
+            echo "No Go modules found; skipping Go build."
+          fi
         working-directory: services
 
       - name: Setup Java
