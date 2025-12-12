@@ -1,6 +1,7 @@
 # 01_deconstruction：解構劇本層（Deconstruction Playbook Layer）
 
-> 本目錄是 **Unmanned Island System 重構系統的第一層**，專門用於分析和記錄「舊世界」的架構、設計決策與歷史包袱。
+> 本目錄是 **Unmanned Island
+> System 重構系統的第一層**，專門用於分析和記錄「舊世界」的架構、設計決策與歷史包袱。
 
 ---
 
@@ -27,7 +28,7 @@
 ```
 
 - **輸入**：舊程式碼、歷史文件、團隊訪談
-- **輸出**：解構劇本（\*_deconstruction.md）、legacy_assets_index.yaml
+- **輸出**：解構劇本（\*\_deconstruction.md）、legacy_assets_index.yaml
 - **使用者**：02_integration 和 03_refactor 作為參考依據
 
 ---
@@ -57,7 +58,8 @@
 
 ### 重要原則
 
-1. **實體檔案不進 git**：真實的舊程式碼只暫存在 `_legacy_scratch/`，受 `.gitignore` 保護
+1. **實體檔案不進 git**：真實的舊程式碼只暫存在 `_legacy_scratch/`，受
+   `.gitignore` 保護
 2. **知識保留**：透過 index 保留「為什麼有這個舊資產」的脈絡
 3. **可追溯**：任何時候都能從 source_repo + source_ref 重新取得舊資產
 

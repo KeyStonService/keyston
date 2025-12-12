@@ -28,12 +28,6 @@
   "bot": {
     "name": "Auto-Fix Bot",
     "version": "1.0.0",
-    "capabilities": [
-      "code-analysis",
-      "auto-fixing",
-      "security-scanning",
-      "performance-optimization",
-      "documentation-generation"
-    ]
+    "capabilities": ["code-analysis", "auto-fixing", "security-scanning", "performance-optimization", "documentation-generation"]
   }
 }

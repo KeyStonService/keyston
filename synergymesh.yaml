@@ -211,8 +211,8 @@ capabilities:
         capabilities: ["prioritization", "roadmap", "feedback_analysis", "kpi_tracking"]
         integration: "mind_matrix"
     orchestration:
-      enabled: false  # Stage 2 feature
-      coordinator: "TBD"  # 待 Stage 2 實現
+      enabled: false # Stage 2 feature
+      coordinator: "TBD" # 待 Stage 2 實現
     next_stages:
       stage_2: "Multi-agent collaboration + decision engine"
       stage_3: "Self-learning + governance framework"

@@ -5,7 +5,7 @@
 #
 # Version: 1.0.0
 # Purpose: Single source of truth for project synchronization and refactoring
-# 
+#
 # This configuration file is referenced by:
 # - .github/workflows/08-sync-subdirs.yml
 # - .github/workflows/update-refactor-playbooks.yml
@@ -83,11 +83,11 @@ sync:
     checks:
       - type: "yaml"
         description: "Validate YAML syntax"
-        command: "python -c 'import yaml; yaml.safe_load(open(\"{file}\"))'"
+        command: 'python -c ''import yaml; yaml.safe_load(open("{file}"))'''
         file_patterns: ["*.yaml", "*.yml"]
       - type: "json"
         description: "Validate JSON syntax"
-        command: "python -c 'import json; json.load(open(\"{file}\"))'"
+        command: 'python -c ''import json; json.load(open("{file}"))'''
         file_patterns: ["*.json"]
       - type: "markdown"
         description: "Check markdown links"
@@ -106,7 +106,7 @@ refactor:
       - "01_deconstruction"
       - "02_integration"
       - "03_refactor"
-    
+
     # Clusters to generate playbooks for (要生成 playbook 的集群)
     clusters:
       - id: "core"
@@ -178,7 +178,7 @@ refactor:
 integration:
   # Sync-to-refactor integration (同步到重構整合)
   sync_triggers_refactor: true
-  
+
   # Workflows to trigger (要觸發的工作流程)
   workflows:
     refactor_playbooks:
@@ -246,13 +246,13 @@ features:
   # Sync features
   auto_sync_enabled: true
   watch_script_enabled: true
-  post_commit_hook_enabled: false  # Disabled to avoid conflicts with watch script
-  
+  post_commit_hook_enabled: false # Disabled to avoid conflicts with watch script
+
   # Refactor features
-  ai_powered_suggestions: false  # Requires OpenAI API key
+  ai_powered_suggestions: false # Requires OpenAI API key
   incremental_generation: true
   cache_enabled: true
-  
+
   # Integration features
   cross_workflow_triggers: true
   unified_validation: true
@@ -262,7 +262,7 @@ features:
 # ============================================================================
 troubleshooting:
   debug_mode: false
-  log_level: "info"  # debug, info, warn, error
+  log_level: "info" # debug, info, warn, error
   log_directory: ".git/logs"
   preserve_temp_files: false
 

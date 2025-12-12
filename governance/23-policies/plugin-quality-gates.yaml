@@ -2,7 +2,7 @@
 # Plugin Quality Gates Policy
 # 插件質量門檻策略
 # ===================================================================
-# 
+#
 # 定義所有插件必須通過的質量門檻，確保系統整體質量與可靠性
 # Defines quality gates that all plugins must pass to ensure system-wide quality and reliability
 #
@@ -39,14 +39,14 @@ policy_scope:
 # ===================================================================
 code_quality:
   description: "程式碼質量標準與門檻"
-  
+
   language_violations:
     description: "語言政策違規檢查"
     max_violations: 5
     enforcement: "block_on_exceed"
     check_method: "semgrep-language-policy"
     exemption_process: "require @core-owners approval"
-  
+
   static_analysis:
     description: "靜態分析安全檢查"
     semgrep:
@@ -55,28 +55,28 @@ code_quality:
       low_severity_max: 10
       enforcement: "block_on_high"
       exemption_required: true
-    
+
     codeql:
       enabled: true
       block_on_critical: true
       block_on_high: true
       allow_medium: 5
-  
+
   complexity_metrics:
     description: "程式碼複雜度指標"
     cyclomatic_complexity:
       max_per_function: 15
       max_per_module: 100
       enforcement: "warn"
-    
+
     cognitive_complexity:
       max_per_function: 20
       enforcement: "warn"
-    
+
     nesting_depth:
       max_depth: 4
       enforcement: "warn"
-  
+
   test_coverage:
     description: "測試覆蓋率要求"
     minimum_coverage: 70
@@ -92,78 +92,78 @@ code_quality:
 # ===================================================================
 performance_quality:
   description: "性能指標與服務等級目標"
-  
+
   knowledge_processing:
     description: "知識處理插件專用指標"
-    
+
     extraction_metrics:
       triple_extraction_rate:
         target: ">= 1000 triples/minute"
         measurement: "throughput test"
         enforcement: "warn_below_target"
-      
+
       entity_extraction_accuracy:
         target: "> 0.85"
         measurement: "F1-score on test dataset"
         enforcement: "block_below_0.8"
-      
+
       relation_extraction_recall:
         target: "> 0.80"
         measurement: "recall on test dataset"
         enforcement: "warn_below_target"
-    
+
     resolution_metrics:
       entity_resolution_accuracy:
         target: "> 0.85"
         measurement: "precision on benchmark"
         enforcement: "block_below_0.8"
-      
+
       entity_merge_precision:
         target: "> 0.90"
         measurement: "false positive rate < 0.1"
         enforcement: "warn_below_target"
-    
+
     ontology_metrics:
       ontology_consistency_score:
         target: "> 0.90"
         measurement: "OWL reasoner validation"
         enforcement: "block_below_0.85"
-      
+
       alignment_confidence:
         target: "> 0.75"
         measurement: "average alignment confidence"
         enforcement: "warn_below_target"
-  
+
   latency_targets:
     description: "延遲目標"
-    
+
     processing_latency:
       p50: "< 10s per document batch"
       p95: "< 30s per document batch"
       p99: "< 60s per document batch"
       measurement: "histogram metrics"
       enforcement: "warn_on_regression"
-    
+
     query_latency:
       p50: "< 50ms"
       p95: "< 100ms"
       p99: "< 500ms"
       measurement: "prometheus histogram"
       enforcement: "block_on_severe_regression"
-  
+
   resource_efficiency:
     description: "資源使用效率"
-    
+
     memory_usage:
       max_per_document: "100MB"
       max_per_worker: "4Gi"
       enforcement: "warn_on_exceed"
-    
+
     cpu_utilization:
       target_utilization: "70%"
       auto_scaling_threshold: "85%"
       enforcement: "warn_on_inefficiency"
-    
+
     storage_efficiency:
       triple_compression_ratio: ">= 3:1"
       enforcement: "info"
@@ -173,38 +173,38 @@ performance_quality:
 # ===================================================================
 reliability_quality:
   description: "可靠性與容錯要求"
-  
+
   availability:
     target_uptime: "99.9%"
     max_downtime_per_month: "43.8 minutes"
     measurement: "uptime monitoring"
     enforcement: "alert_on_breach"
-  
+
   error_handling:
     description: "錯誤處理要求"
-    
+
     required_strategies:
       - "graceful_degradation"
       - "retry_with_backoff"
       - "circuit_breaker"
-    
+
     error_rate:
       max_error_rate: "1%"
       measurement: "errors / total requests"
       enforcement: "alert_on_exceed"
-    
+
     recovery_time:
       max_recovery_time: "5 minutes"
       enforcement: "warn"
-  
+
   data_integrity:
     description: "數據完整性要求"
-    
+
     validation:
       schema_validation_required: true
       consistency_check_required: true
       enforcement: "block_on_failure"
-    
+
     provenance:
       provenance_tracking_required: true
       audit_trail_retention: "90 days"
@@ -215,25 +215,25 @@ reliability_quality:
 # ===================================================================
 security_quality:
   description: "安全要求與檢查"
-  
+
   vulnerability_scanning:
     description: "漏洞掃描要求"
-    
+
     dependency_scanning:
       enabled: true
       block_on_critical: true
       block_on_high: true
       allow_medium: 5
       tools: ["npm audit", "pip-audit", "trivy"]
-    
+
     container_scanning:
       enabled: true
       block_on_critical: true
       tools: ["trivy", "grype"]
-  
+
   authentication_authorization:
     description: "認證與授權要求"
-    
+
     authentication:
       method_required: true
       supported_methods:
@@ -241,21 +241,21 @@ security_quality:
         - "jwt"
         - "mtls"
       enforcement: "mandatory"
-    
+
     authorization:
       rbac_required: true
       least_privilege_principle: true
       enforcement: "mandatory"
-  
+
   data_privacy:
     description: "數據隱私要求"
-    
+
     pii_handling:
       pii_detection_required: true
       anonymization_required: true
       gdpr_compliance_required: true
       enforcement: "mandatory"
-    
+
     encryption:
       data_at_rest: "aes-256-gcm"
       data_in_transit: "tls-1.3"
@@ -266,19 +266,19 @@ security_quality:
 # ===================================================================
 documentation_quality:
   description: "文檔完整性要求"
-  
+
   required_documentation:
     - "README.md (plugin overview)"
     - "API documentation"
     - "configuration guide"
     - "troubleshooting guide"
     - "security considerations"
-  
+
   documentation_coverage:
     min_coverage: "80%"
     measurement: "documented functions / total functions"
     enforcement: "warn_below_threshold"
-  
+
   documentation_quality:
     spelling_check: true
     link_validation: true
@@ -290,7 +290,7 @@ documentation_quality:
 # ===================================================================
 compliance_quality:
   description: "合規性要求"
-  
+
   license_compliance:
     description: "授權合規"
     allowed_licenses:
@@ -298,26 +298,26 @@ compliance_quality:
       - "Apache-2.0"
       - "BSD-3-Clause"
       - "GPL-3.0 (with exceptions)"
-    
+
     forbidden_licenses:
       - "proprietary (unless approved)"
       - "AGPL-3.0 (unless approved)"
-    
+
     enforcement: "block_on_forbidden"
-  
+
   semantic_web_standards:
     description: "語義網標準合規 (for knowledge processing plugins)"
-    
+
     required_standards:
       rdf_compliance: "RDF 1.1"
       owl_compliance: "OWL 2"
       sparql_support: "SPARQL 1.1 (optional)"
-    
+
     enforcement: "mandatory_for_kg_plugins"
-  
+
   data_governance:
     description: "數據治理要求"
-    
+
     lineage_tracking: true
     audit_logging: true
     access_auditing: true
@@ -336,12 +336,12 @@ enforcement:
     - "codeql"
     - "pytest"
     - "jest"
-  
+
   violation_severity:
     blocked: "registration/deployment blocked"
     warned: "proceed with warning logged"
     info: "informational only"
-  
+
   exemption_process:
     enabled: true
     approval_required: true
@@ -362,7 +362,7 @@ monitoring:
       - "plugin_quality_score"
       - "gate_pass_rate"
       - "exemption_count"
-  
+
   alerting:
     enabled: true
     channels:
@@ -372,7 +372,7 @@ monitoring:
       - "quality_gate_failure > 3 in 24h"
       - "security_violation detected"
       - "performance_regression > 20%"
-  
+
   reporting:
     frequency: "weekly"
     report_type: "quality-metrics-report"
@@ -389,17 +389,17 @@ exceptions:
       relaxed_gates: ["test_coverage", "performance_targets"]
       marker_required: "alpha-stage"
       approval_required: true
-    
+
     - reason: "third-party integration"
       relaxed_gates: ["code_quality.complexity_metrics"]
       documentation_required: true
       approval_required: true
-    
+
     - reason: "legacy plugin migration"
       relaxed_gates: ["documentation_quality"]
       sunset_date_required: true
       approval_required: true
-  
+
   approval_workflow:
     step1: "submit exemption request (GitHub issue)"
     step2: "platform team review"
@@ -416,14 +416,14 @@ continuous_improvement:
     - "@platform-team"
     - "@quality-team"
     - "@security-team"
-  
+
   improvement_process:
     - "collect quality metrics and feedback"
     - "identify pain points and bottlenecks"
     - "propose policy updates"
     - "implement and communicate changes"
     - "monitor impact and iterate"
-  
+
   feedback_channels:
     - "slack-quality-feedback"
     - "github-discussions"
@@ -437,9 +437,8 @@ references:
     - "config/system-module-map.yaml (quality_thresholds)"
     - "governance/31-schemas/plugin-specification.schema.json"
     - "docs/ARCHITECTURE/plugin-architecture-pattern.md"
-  
+
   external:
     - "https://semver.org/ (Semantic Versioning)"
     - "https://owasp.org/www-project-top-ten/ (OWASP Top 10)"
     - "https://www.w3.org/TR/owl2-overview/ (OWL 2 Standard)"
-

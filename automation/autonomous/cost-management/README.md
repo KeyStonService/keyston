@@ -4,7 +4,8 @@
 
 本骨架負責成本監控、預算規劃、資源優化和成本預測，確保系統運營的經濟效益。
 
-This skeleton handles cost monitoring, budget planning, resource optimization, and cost forecasting to ensure economic efficiency of system operations.
+This skeleton handles cost monitoring, budget planning, resource optimization,
+and cost forecasting to ensure economic efficiency of system operations.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +18,8 @@ This skeleton handles cost monitoring, budget planning, resource optimization, a
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/`
 
 ### 指南文件結構
 
@@ -83,7 +85,8 @@ cost-management/
    - 資源使用指標
    - 成本指標收集
 
-2. **Performance & Reliability** (`automation/autonomous/performance-reliability/`)
+2. **Performance & Reliability**
+   (`automation/autonomous/performance-reliability/`)
    - 容量規劃
    - 資源擴展決策
 
@@ -99,12 +102,12 @@ cost-management/
 
 ### 按資源類型 / By Resource Type
 
-| 資源類型 | 成本驅動因素 | 優化策略 |
-|---------|-------------|---------|
-| **計算 (Compute)** | CPU 使用率、實例數量 | 自動擴展、預留實例、Spot 實例 |
-| **存儲 (Storage)** | 存儲容量、IOPS | 資料生命週期、壓縮、歸檔 |
-| **網絡 (Network)** | 數據傳輸量、帶寬 | CDN、緩存、流量優化 |
-| **資料庫 (Database)** | 資料庫大小、讀寫次數 | 查詢優化、索引、複製策略 |
+| 資源類型              | 成本驅動因素         | 優化策略                      |
+| --------------------- | -------------------- | ----------------------------- |
+| **計算 (Compute)**    | CPU 使用率、實例數量 | 自動擴展、預留實例、Spot 實例 |
+| **存儲 (Storage)**    | 存儲容量、IOPS       | 資料生命週期、壓縮、歸檔      |
+| **網絡 (Network)**    | 數據傳輸量、帶寬     | CDN、緩存、流量優化           |
+| **資料庫 (Database)** | 資料庫大小、讀寫次數 | 查詢優化、索引、複製策略      |
 
 ### 按業務功能 / By Business Function
 
@@ -117,12 +120,12 @@ cost-management/
 
 ### 關鍵指標 / Key Metrics
 
-| 指標 | 描述 | 監控頻率 | 告警閾值 |
-|------|------|----------|---------|
-| **日成本** | 每日總成本 | 每小時 | > 預算 110% |
-| **成本趨勢** | 成本變化率 | 每日 | 增長 > 20% |
-| **資源效率** | 成本/效益比 | 每週 | < 70% |
-| **預算使用率** | 已用預算百分比 | 每日 | > 90% |
+| 指標           | 描述           | 監控頻率 | 告警閾值    |
+| -------------- | -------------- | -------- | ----------- |
+| **日成本**     | 每日總成本     | 每小時   | > 預算 110% |
+| **成本趨勢**   | 成本變化率     | 每日     | 增長 > 20%  |
+| **資源效率**   | 成本/效益比    | 每週     | < 70%       |
+| **預算使用率** | 已用預算百分比 | 每日     | > 90%       |
 
 ### 成本分配標籤 / Cost Allocation Tags
 
@@ -134,7 +137,7 @@ tagging_strategy:
     - owner: [team-name]
     - project: [project-code]
     - cost-center: [department]
-  
+
   optional_tags:
     - application: [app-name]
     - version: [version-number]
@@ -149,8 +152,8 @@ tagging_strategy:
 
 ```yaml
 cost_saving:
-  strategy: "Auto Scaling"
-  potential_saving: "30-50%"
+  strategy: 'Auto Scaling'
+  potential_saving: '30-50%'
   implementation:
     - 設置最小/最大實例數
     - 基於負載自動調整
@@ -161,8 +164,8 @@ cost_saving:
 
 ```yaml
 cost_saving:
-  strategy: "Reserved Instances"
-  potential_saving: "40-60%"
+  strategy: 'Reserved Instances'
+  potential_saving: '40-60%'
   recommendation:
     - 分析歷史使用模式
     - 購買 1-3 年預留實例
@@ -173,8 +176,8 @@ cost_saving:
 
 ```yaml
 cost_saving:
-  strategy: "Spot Instances"
-  potential_saving: "70-90%"
+  strategy: 'Spot Instances'
+  potential_saving: '70-90%'
   use_cases:
     - 批處理任務
     - 可中斷的工作負載
@@ -189,10 +192,10 @@ cost_saving:
 lifecycle_policy:
   - transition:
       days: 30
-      storage_class: "INFREQUENT_ACCESS"
+      storage_class: 'INFREQUENT_ACCESS'
   - transition:
       days: 90
-      storage_class: "GLACIER"
+      storage_class: 'GLACIER'
   - expiration:
       days: 365
 ```
@@ -231,10 +234,10 @@ lifecycle_policy:
 ### 預測準確度 / Forecast Accuracy
 
 | 預測期間 | 目標準確度 | 實際準確度 |
-|---------|-----------|-----------|
-| 下週 | ±5% | - |
-| 下月 | ±10% | - |
-| 下季 | ±20% | - |
+| -------- | ---------- | ---------- |
+| 下週     | ±5%        | -          |
+| 下月     | ±10%       | -          |
+| 下季     | ±20%       | -          |
 
 ## 🎯 預算管理 / Budget Management
 
@@ -262,17 +265,17 @@ annual_budget:
 
 ```yaml
 budget_alerts:
-  - level: "warning"
+  - level: 'warning'
     threshold: 75%
-    action: "notify_team_lead"
-  
-  - level: "critical"
+    action: 'notify_team_lead'
+
+  - level: 'critical'
     threshold: 90%
-    action: "notify_management"
-  
-  - level: "emergency"
+    action: 'notify_management'
+
+  - level: 'emergency'
     threshold: 100%
-    action: "auto_scale_down + notify_cfo"
+    action: 'auto_scale_down + notify_cfo'
 ```
 
 ## 🔍 成本異常檢測 / Cost Anomaly Detection

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Development Container Service
@@ -31,7 +31,7 @@ services:
     image: postgres:15-alpine
     restart: unless-stopped
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
       POSTGRES_DB: life_system
       POSTGRES_USER: life_admin
@@ -42,7 +42,7 @@ services:
     networks:
       - life-system-network
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U life_admin -d life_system']
+      test: ["CMD-SHELL", "pg_isready -U life_admin -d life_system"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -51,13 +51,13 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - life-system-network
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -66,25 +66,25 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     ports:
-      - '9090:9090'
+      - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     networks:
       - life-system-network
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--storage.tsdb.retention.time=200h"
+      - "--web.enable-lifecycle"
 
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=consciousness_2024
     volumes:
@@ -105,7 +105,7 @@ services:
     volumes:
       - ..:/workspace:cached
     ports:
-      - '3010:3010'
+      - "3010:3010"
     environment:
       - NODE_ENV=development
       - REDIS_URL=redis://redis:6379
@@ -122,9 +122,9 @@ services:
     volumes:
       - ..:/workspace:cached
     ports:
-      - '3015:3015'
-      - '3016:3016'
-      - '3017:3017'
+      - "3015:3015"
+      - "3016:3016"
+      - "3017:3017"
     environment:
       - NODE_ENV=development
       - BRAIN_PORT=3015
@@ -146,8 +146,8 @@ services:
       - ..:/workspace:cached
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - '3018:3018'
-      - '3019:3019'
+      - "3018:3018"
+      - "3019:3019"
     environment:
       - NODE_ENV=development
       - HEART_PORT=3018
@@ -168,9 +168,9 @@ services:
     volumes:
       - ..:/workspace:cached
     ports:
-      - '3020:3020'
-      - '3021:3021'
-      - '9091:9091'
+      - "3020:3020"
+      - "3021:3021"
+      - "9091:9091"
     environment:
       - NODE_ENV=development
       - HEARTBEAT_PORT=3020

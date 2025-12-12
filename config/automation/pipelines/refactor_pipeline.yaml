@@ -14,7 +14,7 @@ enabled: true
 triggers:
   # 定時觸發
   - type: cron
-    schedule: "0 */6 * * *"  # 每6小時
+    schedule: "0 */6 * * *" # 每6小時
 
   # 事件觸發
   - type: event
@@ -88,7 +88,7 @@ stages:
 # ═══════════════════════════════════════════════════════════════════════════════
 error_handling:
   # 失敗策略
-  on_stage_failure: continue_to_next  # abort | continue_to_next | retry
+  on_stage_failure: continue_to_next # abort | continue_to_next | retry
 
   # 重試配置
   retry:

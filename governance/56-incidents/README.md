@@ -22,4 +22,4 @@ Incident response, root cause analysis, and problem management governance
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

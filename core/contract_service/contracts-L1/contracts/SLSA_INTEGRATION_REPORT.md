@@ -2,7 +2,8 @@
 
 ## 概述
 
-成功將 SLSA (Supply Chain Levels for Software Artifacts) 構建溯源認證功能從 `attest-build-provenance-main.zip` 整合到 SynergyMesh 合約服務中。
+成功將 SLSA (Supply Chain Levels for Software Artifacts) 構建溯源認證功能從
+`attest-build-provenance-main.zip` 整合到 SynergyMesh 合約服務中。
 
 ## 已完成的功能
 
@@ -21,7 +22,7 @@
 提供 RESTful API 端點：
 
 - `POST /api/v1/slsa/attestations` - 創建 SLSA 認證
-- `POST /api/v1/slsa/verify` - 驗證 SLSA 認證  
+- `POST /api/v1/slsa/verify` - 驗證 SLSA 認證
 - `POST /api/v1/slsa/digest` - 生成內容摘要
 - `POST /api/v1/slsa/contracts` - 智能合約部署認證
 - `POST /api/v1/slsa/summary` - 認證摘要資訊
@@ -91,10 +92,9 @@
 
 ## 服務狀態
 
-✅ **編譯成功**: TypeScript 編譯無錯誤
-✅ **服務啟動**: 在端口 3000 成功運行
-✅ **API 端點**: 所有 SLSA 端點都可正常回應
-✅ **Git 提交**: 已推送到主分支 (commit: 81899d4)
+✅ **編譯成功**: TypeScript 編譯無錯誤 ✅ **服務啟動**: 在端口 3000 成功運行 ✅
+**API 端點**: 所有 SLSA 端點都可正常回應 ✅
+**Git 提交**: 已推送到主分支 (commit: 81899d4)
 
 ## API 文檔
 
@@ -104,7 +104,7 @@
 {
   "slsa": {
     "createAttestation": "POST /api/v1/slsa/attestations",
-    "verifyAttestation": "POST /api/v1/slsa/verify", 
+    "verifyAttestation": "POST /api/v1/slsa/verify",
     "generateDigest": "POST /api/v1/slsa/digest",
     "contractAttestation": "POST /api/v1/slsa/contracts",
     "summary": "POST /api/v1/slsa/summary"
@@ -121,4 +121,5 @@
 
 ## 總結
 
-SLSA 整合已成功完成，為 SynergyMesh 合約服務提供了企業級的供應鏈安全和構建溯源能力。所有有價值的功能都已從原始 GitHub Actions 工具中提取並適配到我們的微服務架構中。
+SLSA 整合已成功完成，為 SynergyMesh 合約服務提供了企業級的供應鏈安全和構建溯源能力。所有有價值的功能都已從原始 GitHub
+Actions 工具中提取並適配到我們的微服務架構中。

@@ -1,32 +1,32 @@
-generated_at: '2025-12-07T13:49:52.316425Z'
+generated_at: "2025-12-07T13:49:52.316425Z"
 metrics:
   language_violations_total: 0
   semgrep_high_total: 0
   playbook_coverage_ratio: 1.0
 objectives:
-- id: language-governance
-  name: 語言治理健康度
-  metric: language_violations_total
-  value: 0.0
-  target: 0
-  direction: lower_is_better
-  weight: 0.4
-  score: 100.0
-- id: security
-  name: 安全掃描健康度
-  metric: semgrep_high_total
-  value: 0.0
-  target: 0
-  direction: lower_is_better
-  weight: 0.3
-  score: 100.0
-- id: refactor-playbook-coverage
-  name: 重構劇本覆蓋率
-  metric: playbook_coverage_ratio
-  value: 1.0
-  target: 1.0
-  direction: higher_is_better
-  weight: 0.3
-  score: 100.0
+  - id: language-governance
+    name: 語言治理健康度
+    metric: language_violations_total
+    value: 0.0
+    target: 0
+    direction: lower_is_better
+    weight: 0.4
+    score: 100.0
+  - id: security
+    name: 安全掃描健康度
+    metric: semgrep_high_total
+    value: 0.0
+    target: 0
+    direction: lower_is_better
+    weight: 0.3
+    score: 100.0
+  - id: refactor-playbook-coverage
+    name: 重構劇本覆蓋率
+    metric: playbook_coverage_ratio
+    value: 1.0
+    target: 1.0
+    direction: higher_is_better
+    weight: 0.3
+    score: 100.0
 overall_score: 100.0
 config_version: 0.1.0

@@ -2,13 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Tenant Schema",
   "type": "object",
-  "required": [
-    "id",
-    "name",
-    "tier",
-    "isolation_level",
-    "status"
-  ],
+  "required": ["id", "name", "tier", "isolation_level", "status"],
   "properties": {
     "id": {
       "type": "string",
@@ -37,13 +31,7 @@
     },
     "quotas": {
       "type": "object",
-      "required": [
-        "max_users",
-        "max_projects",
-        "max_agents",
-        "max_knowledge_size_gb",
-        "max_api_calls_per_month"
-      ],
+      "required": ["max_users", "max_projects", "max_agents", "max_knowledge_size_gb", "max_api_calls_per_month"],
       "properties": {
         "max_users": {
           "type": "integer",

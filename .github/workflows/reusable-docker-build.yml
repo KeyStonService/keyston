@@ -63,7 +63,7 @@ concurrency:
 # See: https://docs.github.com/en/actions/using-workflows/reusing-workflows#supported-keywords-for-jobs-that-call-a-reusable-workflow
 permissions:
   contents: read
-  packages: write  # For pushing to container registry
+  packages: write # For pushing to container registry
 
 jobs:
   docker-build:
@@ -93,7 +93,7 @@ jobs:
         run: |
           service="${{ inputs.service-name }}"
           sha_short="${GITHUB_SHA::7}"
-          
+
           if [ -n "${{ inputs.image-tags }}" ]; then
             tags="${{ inputs.image-tags }}"
           else
@@ -102,7 +102,7 @@ jobs:
               tags="${tags},ghcr.io/${{ github.repository }}/${service}:latest"
             fi
           fi
-          
+
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - name: 🏗️ Build Docker image
@@ -121,18 +121,18 @@ jobs:
         if: inputs.health-check-url != '' && inputs.push-image == false
         run: |
           echo "🧪 Testing Docker image..."
-          
+
           service_name="${{ inputs.service-name }}"
           port="${{ inputs.health-check-port }}"
           health_url="${{ inputs.health-check-url }}"
-          
+
           # Extract first tag for testing
           first_tag=$(echo "${{ steps.meta.outputs.tags }}" | cut -d',' -f1)
-          
+
           # Start container
           container_id=$(docker run --rm -d --name "test-${service_name}" -p "${port}:${port}" "${first_tag}")
           echo "Started container: ${container_id}"
-          
+
           # Health check with retry
           max_attempts=30
           attempt=0
@@ -158,10 +158,10 @@ jobs:
         if: inputs.enable-security-scan == true && inputs.push-image == false
         run: |
           echo "🔒 Running container security scan..."
-          
+
           # Extract first tag for scanning
           first_tag=$(echo "${{ steps.meta.outputs.tags }}" | cut -d',' -f1)
-          
+
           # Use Trivy for security scanning
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
             aquasec/trivy:latest image --severity HIGH,CRITICAL \

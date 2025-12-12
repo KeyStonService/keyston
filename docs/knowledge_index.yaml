@@ -41,11 +41,11 @@ categories:
 
 # Layers (from architecture/layers.md) / 分層
 layers:
-  - experience-interfaces     # Frontend, bridges, contracts
-  - platform-core            # Core services, runtime, shared
-  - ai-automation           # Automation, agents, MCP servers
-  - enablement              # Infrastructure, CI, tests, config
-  - governance-ops          # Governance, ops, docs
+  - experience-interfaces # Frontend, bridges, contracts
+  - platform-core # Core services, runtime, shared
+  - ai-automation # Automation, agents, MCP servers
+  - enablement # Infrastructure, CI, tests, config
+  - governance-ops # Governance, ops, docs
 
 # Document Items / 文檔項目
 items:
@@ -425,31 +425,31 @@ relationships:
   - from: "architecture_layers"
     to: "architecture_repo_map"
     type: "complements"
-    
+
   - from: "core_readme"
     to: "execution_engine_readme"
     type: "parent-child"
-    
+
   - from: "core_readme"
     to: "execution_architecture_readme"
     type: "parent-child"
-    
+
   - from: "runtime_readme"
     to: "execution_engine_readme"
     type: "depends-on"
-    
+
   - from: "agent_readme"
     to: "core_readme"
     type: "depends-on"
-    
+
   - from: "mcp_servers_readme"
     to: "core_readme"
     type: "depends-on"
-    
+
   - from: "automation_intelligent_readme"
     to: "agent_readme"
     type: "depends-on"
-    
+
   - from: "automation_intelligent_readme"
     to: "mcp_servers_readme"
     type: "depends-on"

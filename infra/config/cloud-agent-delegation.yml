@@ -24,7 +24,7 @@ metadata:
   created_at: "2025-11-21"
   updated_at: "2025-11-21"
   author: "Auto-Fix Bot Team"
-  
+
   # 驗證意圖 (Validation Intent)
   validation:
     purpose: "確保多雲委派配置的正確性和安全性"
@@ -32,7 +32,7 @@ metadata:
       - "provider credentials validation"
       - "network security compliance"
       - "resource quota verification"
-    
+
   # 質量目標 (Quality Objectives)
   quality:
     completeness: "所有必要配置項已定義"
@@ -45,7 +45,7 @@ global:
   environment: "production"
   region: "global"
   timezone: "UTC"
-  
+
 # 雲端提供商配置
 cloud_providers:
   # AWS Lambda 配置
@@ -54,8 +54,8 @@ cloud_providers:
     service: "lambda"
     region: "us-east-1"
     runtime: "nodejs18.x"
-    timeout: 300  # 秒
-    memory_size: 1024  # MB
+    timeout: 300 # 秒
+    memory_size: 1024 # MB
     environment_variables:
       NODE_ENV: "production"
       LOG_LEVEL: "info"
@@ -63,7 +63,7 @@ cloud_providers:
       enabled: false
     layers:
       - "arn:aws:lambda:us-east-1:123456789012:layer:auto-fix-bot-deps:1"
-    
+
   # Google Cloud Functions 配置
   gcp:
     enabled: true
@@ -75,7 +75,7 @@ cloud_providers:
     environment_variables:
       NODE_ENV: "production"
       LOG_LEVEL: "info"
-    
+
   # Azure Functions 配置
   azure:
     enabled: true
@@ -103,8 +103,8 @@ cloud_providers:
 delegation_strategy:
   # 負載均衡策略 (Load Balancing Strategy)
   load_balancing:
-    algorithm: "weighted-round-robin"  # round-robin, least-connections, weighted-round-robin
-    
+    algorithm: "weighted-round-robin" # round-robin, least-connections, weighted-round-robin
+
     # 權重分配 (Weight Distribution)
     # 設計理念：基於任務類型和提供商特性的最優分配
     # AWS 40%: 代碼分析、安全掃描 (低延遲、高可靠)
@@ -115,30 +115,30 @@ delegation_strategy:
       aws: 40
       gcp: 35
       azure: 25
-      
+
     # 健康檢查 (Health Check Configuration)
     # 驗證規則：interval > timeout, thresholds > 0
     health_check:
       enabled: true
-      interval: 30  # 秒，檢查間隔 (must be > timeout)
-      timeout: 10   # 秒，單次檢查超時
-      unhealthy_threshold: 3  # 連續失敗次數判定不健康
-      healthy_threshold: 2    # 連續成功次數判定健康
-      
+      interval: 30 # 秒，檢查間隔 (must be > timeout)
+      timeout: 10 # 秒，單次檢查超時
+      unhealthy_threshold: 3 # 連續失敗次數判定不健康
+      healthy_threshold: 2 # 連續成功次數判定健康
+
   # 故障轉移
   failover:
     enabled: true
     retry_policy:
       max_attempts: 3
-      initial_delay: 1  # 秒
+      initial_delay: 1 # 秒
       max_delay: 10
       backoff_multiplier: 2
-      backoff_strategy: "exponential"  # linear, exponential
+      backoff_strategy: "exponential" # linear, exponential
     fallback_providers:
       - "aws"
       - "gcp"
       - "azure"
-      
+
   # 任務路由
   task_routing:
     rules:
@@ -148,28 +148,28 @@ delegation_strategy:
         preferred_provider: "aws"
         max_parallel: 10
         priority: "high"
-        
+
       # 自動修復任務
       - name: "auto-fix"
         pattern: "fix:*"
         preferred_provider: "gcp"
         max_parallel: 20
         priority: "high"
-        
+
       # 性能優化任務
       - name: "optimization"
         pattern: "optimize:*"
         preferred_provider: "azure"
         max_parallel: 5
         priority: "medium"
-        
+
       # 安全掃描任務
       - name: "security-scan"
         pattern: "security:*"
         preferred_provider: "aws"
         max_parallel: 15
         priority: "critical"
-        
+
       # 報告生成任務
       - name: "report-generation"
         pattern: "report:*"
@@ -186,9 +186,9 @@ tasks:
     memory: 1024
     concurrent_limit: 50
     queue:
-      type: "sqs"  # sqs, pubsub, storage-queue
+      type: "sqs" # sqs, pubsub, storage-queue
       name: "auto-fix-bot-analysis-queue"
-      
+
   # 自動修復
   auto_fix:
     enabled: true
@@ -198,7 +198,7 @@ tasks:
     queue:
       type: "pubsub"
       name: "auto-fix-bot-fix-queue"
-      
+
   # 性能優化
   optimization:
     enabled: true
@@ -208,7 +208,7 @@ tasks:
     queue:
       type: "storage-queue"
       name: "auto-fix-bot-optimize-queue"
-      
+
   # 安全掃描
   security_scan:
     enabled: true
@@ -218,7 +218,7 @@ tasks:
     queue:
       type: "sqs"
       name: "auto-fix-bot-security-queue"
-      
+
   # 報告生成
   report_generation:
     enabled: true
@@ -232,40 +232,40 @@ tasks:
 # 監控與日誌
 monitoring:
   enabled: true
-  
+
   # 指標收集
   metrics:
-    provider: "prometheus"  # prometheus, cloudwatch, stackdriver
+    provider: "prometheus" # prometheus, cloudwatch, stackdriver
     endpoint: "https://metrics.auto-fix-bot.dev"
-    push_interval: 30  # 秒
+    push_interval: 30 # 秒
     metrics_list:
       - name: "task_execution_time"
         type: "histogram"
         labels: ["task_type", "provider", "status"]
-        
+
       - name: "task_success_rate"
         type: "gauge"
         labels: ["task_type", "provider"]
-        
+
       - name: "task_error_rate"
         type: "gauge"
         labels: ["task_type", "provider", "error_type"]
-        
+
       - name: "queue_depth"
         type: "gauge"
         labels: ["queue_name"]
-        
+
       - name: "concurrent_tasks"
         type: "gauge"
         labels: ["task_type", "provider"]
-        
+
       - name: "provider_health"
         type: "gauge"
         labels: ["provider"]
-        
+
   # 日誌配置
   logging:
-    level: "info"  # debug, info, warn, error
+    level: "info" # debug, info, warn, error
     format: "json"
     outputs:
       - type: "stdout"
@@ -275,24 +275,24 @@ monitoring:
       - type: "stackdriver"
         project_id: "auto-fix-bot-project"
         log_name: "delegation"
-        
+
   # 追蹤
   tracing:
     enabled: true
-    provider: "jaeger"  # jaeger, zipkin, x-ray
+    provider: "jaeger" # jaeger, zipkin, x-ray
     endpoint: "https://tracing.auto-fix-bot.dev"
-    sample_rate: 0.1  # 10%
+    sample_rate: 0.1 # 10%
 
 # 告警配置
 alerts:
   enabled: true
-  
+
   channels:
     # Slack 通知
     - type: "slack"
       webhook_url: "${AUTO_FIX_BOT_SLACK_WEBHOOK_URL}"
       channel: "#auto-fix-bot-alerts"
-      
+
     # Email 通知
     - type: "email"
       smtp_server: "smtp.example.com"
@@ -301,40 +301,40 @@ alerts:
       to:
         - "devops@example.com"
         - "engineering@example.com"
-        
+
     # PagerDuty 集成
     - type: "pagerduty"
       integration_key: "${AUTO_FIX_BOT_PAGERDUTY_KEY}"
-      
+
   rules:
     # 高錯誤率告警
     - name: "high-error-rate"
       condition: "error_rate > 5%"
-      duration: 5  # 分鐘
+      duration: 5 # 分鐘
       severity: "critical"
       channels: ["slack", "pagerduty"]
-      
+
     # 任務超時告警
     - name: "task-timeout"
       condition: "timeout_rate > 10%"
       duration: 3
       severity: "warning"
       channels: ["slack", "email"]
-      
+
     # 隊列積壓告警
     - name: "queue-backlog"
       condition: "queue_depth > 1000"
       duration: 10
       severity: "warning"
       channels: ["slack"]
-      
+
     # 提供商不健康告警
     - name: "provider-unhealthy"
       condition: "provider_health < 1"
       duration: 1
       severity: "critical"
       channels: ["slack", "pagerduty", "email"]
-      
+
     # 低成功率告警
     - name: "low-success-rate"
       condition: "success_rate < 95%"
@@ -347,9 +347,9 @@ security:
   # 認證
   authentication:
     enabled: true
-    method: "api-key"  # api-key, oauth2, jwt
+    method: "api-key" # api-key, oauth2, jwt
     api_key_header: "X-API-Key"
-    
+
   # 授權
   authorization:
     enabled: true
@@ -360,22 +360,22 @@ security:
         permissions: ["analyze", "fix", "optimize"]
       - role: "viewer"
         permissions: ["read"]
-        
+
   # 加密
   encryption:
     enabled: true
     algorithm: "AES-256-GCM"
     key_rotation_days: 90
-    
+
   # 網絡安全
   network:
     # PRODUCTION NOTE: These are example private network ranges.
     # Replace with your actual internal network ranges before deploying to production.
     # For development/testing, these private ranges provide basic security.
     allowed_ips:
-      - "10.0.0.0/8"      # Private network range - replace with your actual range
-      - "172.16.0.0/12"   # Private network range - replace with your actual range
-      - "192.168.0.0/16"  # Private network range - replace with your actual range
+      - "10.0.0.0/8" # Private network range - replace with your actual range
+      - "172.16.0.0/12" # Private network range - replace with your actual range
+      - "192.168.0.0/16" # Private network range - replace with your actual range
     rate_limiting:
       enabled: true
       requests_per_minute: 1000
@@ -384,41 +384,41 @@ security:
 # 成本優化
 cost_optimization:
   enabled: true
-  
+
   # 自動擴展
   auto_scaling:
     enabled: true
     min_capacity: 5
     max_capacity: 100
     target_cpu_utilization: 70
-    scale_up_cooldown: 60  # 秒
+    scale_up_cooldown: 60 # 秒
     scale_down_cooldown: 300
-    
+
   # 預留實例
   reserved_capacity:
     enabled: false
     provider: "aws"
     instance_count: 10
-    
+
   # 成本告警
   cost_alerts:
-    - threshold: 1000  # USD
+    - threshold: 1000 # USD
       period: "daily"
       action: "notify"
     - threshold: 20000
       period: "monthly"
       action: "notify"
-      
+
   # 閒置資源清理
   idle_cleanup:
     enabled: true
-    idle_time_threshold: 300  # 秒
+    idle_time_threshold: 300 # 秒
     cleanup_interval: 600
 
 # 備份與恢復
 backup:
   enabled: true
-  schedule: "0 0 * * *"  # 每日 00:00 UTC
+  schedule: "0 0 * * *" # 每日 00:00 UTC
   retention_days: 30
   storage:
     type: "s3"
@@ -432,25 +432,25 @@ performance:
     min_size: 10
     max_size: 100
     idle_timeout: 60
-    
+
   # 緩存
   cache:
     enabled: true
     type: "redis"
     endpoint: "redis.auto-fix-bot.dev:6379"
-    ttl: 3600  # 秒
-    
+    ttl: 3600 # 秒
+
   # 壓縮
   compression:
     enabled: true
     algorithm: "gzip"
     level: 6
-    
+
   # 批處理
   batching:
     enabled: true
     batch_size: 50
-    batch_timeout: 5  # 秒
+    batch_timeout: 5 # 秒
 
 # 實驗性功能
 experimental:
@@ -458,12 +458,12 @@ experimental:
   ai_routing:
     enabled: false
     model: "task-router-v1"
-    
+
   # 預測性擴展
   predictive_scaling:
     enabled: false
     model: "demand-predictor-v1"
-    
+
   # 多區域容錯
   multi_region_failover:
     enabled: false
@@ -478,12 +478,12 @@ compliance:
   gdpr:
     enabled: true
     data_residency: "EU"
-    
+
   # SOC 2
   soc2:
     enabled: true
     audit_logging: true
-    
+
   # HIPAA
   hipaa:
     enabled: false
@@ -496,10 +496,10 @@ documentation:
   last_updated: "2025-11-21"
   maintainer: "Auto-Fix Bot DevOps Team"
   contact: "devops@auto-fix-bot.dev"
-  
+
 notes: |
   此配置文件定義了 Auto-Fix Bot 雲端代理程式委派系統的完整設置。
-  
+
   主要功能：
   1. 多雲端提供商支援（AWS, GCP, Azure）
   2. 智能負載均衡和故障轉移
@@ -507,7 +507,7 @@ notes: |
   4. 全面的監控和告警
   5. 安全和合規性保障
   6. 成本優化和性能調優
-  
+
   使用前請確保：
   - 所有環境變量已正確設置
   - 雲端提供商憑證已配置

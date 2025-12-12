@@ -9,12 +9,12 @@ rules:
       - name: core
         path: core/**
         can-depend-on: []
-      
+
       - name: platform
         path: platform/**
         can-depend-on:
           - core
-      
+
       - name: services
         path: services/**
         can-depend-on:
@@ -24,7 +24,7 @@ rules:
           - services
           - agents
           - applications
-      
+
       - name: agents
         path: agents/**
         can-depend-on:
@@ -33,7 +33,7 @@ rules:
         cannot-depend-on:
           - agents
           - applications
-      
+
       - name: applications
         path: applications/**
         can-depend-on:

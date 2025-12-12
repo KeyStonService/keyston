@@ -16,8 +16,8 @@ metadata:
   category: governance
   subcategory: uav-ad
   language: zh-TW
-  created_at: '2025-11-25T00:00:00Z'
-  updated_at: '2025-11-25T00:00:00Z'
+  created_at: "2025-11-25T00:00:00Z"
+  updated_at: "2025-11-25T00:00:00Z"
 
 # 責任者
 ownership:
@@ -34,8 +34,8 @@ ownership:
 governance:
   policy_version: v1.0.0
   compliance_level: SLSA-L2
-  kubernetes_version: '1.30'
-  
+  kubernetes_version: "1.30"
+
   # 治理鉤子 (Governance Hooks)
   hooks:
     pre_deploy:
@@ -43,35 +43,35 @@ governance:
         command: conftest test manifests/ -p policies/rego/
         required: true
         description: 執行策略驗證
-      
+
       - type: sbom-verify
         command: cosign verify-blob --signature sbom.sig sbom.json
         required: true
         description: 驗證 SBOM 簽章
-      
+
       - type: image-scan
         command: trivy image --severity CRITICAL,HIGH
         required: true
         description: 掃描容器映像漏洞
-    
+
     post_deploy:
       - type: health-check
         command: kubectl rollout status deployment
         required: true
         timeout: 300s
         description: 檢查部署健康狀態
-      
+
       - type: audit-log
         command: ./scripts/log-deployment.sh
         required: true
         description: 記錄部署事件到審計日誌
-    
+
     on_failure:
       - type: rollback
         command: kubectl rollout undo deployment
         required: true
         description: 自動回滾失敗的部署
-      
+
       - type: notify
         command: ./scripts/notify-failure.sh
         required: false
@@ -85,18 +85,18 @@ policy_hints:
     - namespace.io/environment
     - uav.io/system
     - uav.io/safety-level
-  
+
   security_requirements:
     - runAsNonRoot: true
     - readOnlyRootFilesystem: true
     - allowPrivilegeEscalation: false
-  
+
   resource_limits:
     cpu_min: 100m
     memory_min: 128Mi
     cpu_max: 2
     memory_max: 2Gi
-  
+
   geo_fencing:
     enabled: true
     required_for: uav
@@ -109,17 +109,17 @@ migration_hooks:
       command: ./scripts/migrate-v1-to-v2.sh
       description: 遷移 v1 配置到 v2 格式
       reversible: true
-    
+
     - type: label-update
       command: kubectl label --overwrite
       description: 更新資源標籤到 v2 格式
       reversible: true
-  
+
   rollback_strategy:
     - type: version-pin
       description: 回滾到前一版本
       command: kubectl set image deployment --image=@previous
-    
+
     - type: config-restore
       description: 恢復前一版本配置
       command: kubectl apply -f backup/
@@ -128,25 +128,25 @@ migration_hooks:
 dependencies:
   required:
     - name: kubernetes
-      version: '>=1.30.0'
+      version: ">=1.30.0"
       type: platform
-    
+
     - name: opa
-      version: '>=0.59.0'
+      version: ">=0.59.0"
       type: tool
-    
+
     - name: conftest
-      version: '>=0.47.0'
+      version: ">=0.47.0"
       type: tool
-  
+
   optional:
     - name: gatekeeper
-      version: '>=3.14.0'
+      version: ">=3.14.0"
       type: platform
       description: 用於准入控制
-    
+
     - name: argocd
-      version: '>=2.9.0'
+      version: ">=2.9.0"
       type: platform
       description: 用於 GitOps 部署
 
@@ -156,12 +156,12 @@ testing:
     - path: tests/unit/
       command: npm test
       coverage_min: 80
-  
+
   integration_tests:
     - path: tests/integration/
       command: npm run test:integration
       required: true
-  
+
   policy_tests:
     - path: policy/
       command: conftest verify
@@ -172,14 +172,14 @@ documentation:
   readme: intelligent-hyperautomation/README.md
   changelog: intelligent-hyperautomation/CHANGELOG.md
   quick_reference: intelligent-hyperautomation/QUICK_REFERENCE.md
-  
+
   guides:
     - type: usage
       path: intelligent-hyperautomation/docs/usage-notes.md
-    
+
     - type: governance
       path: intelligent-hyperautomation/docs/uav-autonomous-driving-governance.md
-    
+
     - type: ci-cd
       path: intelligent-hyperautomation/docs/ci-cd-strategy.md
 
@@ -190,15 +190,15 @@ compliance:
     - Kubernetes 1.30
     - CycloneDX 1.5
     - OPA Policy
-  
+
   certifications:
     - name: Security Scan
       status: passed
-      last_checked: '2025-11-25'
-    
+      last_checked: "2025-11-25"
+
     - name: Policy Validation
       status: passed
-      last_checked: '2025-11-25'
+      last_checked: "2025-11-25"
 
 # 授權
 license: MIT

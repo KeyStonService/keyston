@@ -2,7 +2,8 @@
 
 ## 概述
 
-Contracts Service 是 SynergyMesh 平台的核心服務之一，負責 SLSA (Supply-chain Levels for Software Artifacts) 合約管理與構建溯源驗證。
+Contracts Service 是 SynergyMesh 平台的核心服務之一，負責 SLSA (Supply-chain
+Levels for Software Artifacts) 合約管理與構建溯源驗證。
 
 ## 服務定位
 

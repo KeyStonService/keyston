@@ -22,4 +22,4 @@ Data flow tracking, impact analysis, and lineage governance
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

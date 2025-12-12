@@ -6,7 +6,9 @@
 
 專為無人機系統設計的代碼分析與修復解決方案，確保飛行控制系統的安全性、實時性和可靠性。
 
-This scenario provides code analysis and repair solutions specifically designed for drone systems, ensuring safety, real-time performance, and reliability of flight control systems.
+This scenario provides code analysis and repair solutions specifically designed
+for drone systems, ensuring safety, real-time performance, and reliability of
+flight control systems.
 
 ## 核心關注點 Focus Areas
 
@@ -56,10 +58,10 @@ This scenario provides code analysis and repair solutions specifically designed 
 
 ```yaml
 analysis_priority:
-  security: critical      # 安全性最高優先級
-  performance: critical   # 實時性能關鍵
-  quality: high          # 代碼質量重要
-  architecture: medium   # 架構適度關注
+  security: critical # 安全性最高優先級
+  performance: critical # 實時性能關鍵
+  quality: high # 代碼質量重要
+  architecture: medium # 架構適度關注
 ```
 
 ## 典型問題檢測 Common Issues Detected

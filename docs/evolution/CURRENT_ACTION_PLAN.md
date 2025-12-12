@@ -1,8 +1,7 @@
 # 🤖 System Evolution Action Plan
 
-生成時間: 2025-12-07T08:24:15.810466
-基於狀態: 2025-12-07T06:56:04.535641Z
-計畫 ID: plan-20251207-082415
+生成時間: 2025-12-07T08:24:15.810466基於狀態:
+2025-12-07T06:56:04.535641Z計畫 ID: plan-20251207-082415
 
 ## 📊 當前狀態
 
@@ -16,7 +15,8 @@
 - 不得自動修改 core/autonomous 中 safety-critical 邏輯。
 - 不得破壞 architecture skeletons 的邊界（core 不依賴 apps 等）。
 - 不得將 forbidden_languages（如 PHP/Perl）引入新的路徑。
-- 所有重大重構建議都必須在 docs/refactor_playbooks/03_refactor/* 中有對應 Playbook。
+- 所有重大重構建議都必須在 docs/refactor_playbooks/03_refactor/\* 中有對應 Playbook。
 
 ---
+
 本計畫由 `evolution_orchestrator.py` 自動生成

@@ -15,7 +15,7 @@
 # 🤖 For AI Agents / Copilot / LLMs:
 # ──────────────────────────────────────────────────────────────────────────────
 # IMPORTANT: Before making changes, read these documents:
-# 
+#
 # 1. AI Behavior Contract: .github/AI-BEHAVIOR-CONTRACT.md
 #    - Defines how AI agents should work with this project
 #    - 定義 AI 代理如何與此專案協作
@@ -68,26 +68,26 @@ defaults:
   # Language policy defaults (語言策略預設值)
   language_policy:
     high_level_languages:
-      - TypeScript      # apps, services (Node.js), tools, agents
-      - Python          # AI, automation, analysis pipelines
+      - TypeScript # apps, services (Node.js), tools, agents
+      - Python # AI, automation, analysis pipelines
     low_level_languages:
-      - Go              # security / observability / infra agents
-      - C++             # real-time / ROS2 / flight control
-      - Rust            # perf-critical / safety-critical cores
+      - Go # security / observability / infra agents
+      - C++ # real-time / ROS2 / flight control
+      - Rust # perf-critical / safety-critical cores
     infra_languages:
-      - YAML            # K8s manifests, governance schemas
-      - HCL             # IaC (Terraform 等)
+      - YAML # K8s manifests, governance schemas
+      - HCL # IaC (Terraform 等)
     forbidden_languages:
       - PHP
       - Perl
-  
+
   # Quality thresholds defaults (品質門檻預設值)
   quality_thresholds:
-    language_violations_max: 0         # 每個 module 預設不得有語言治理違規
-    semgrep_high_max: 0                # 預設不接受 HIGH severity issue
-    coverage_delta_min: 0.0            # 預設不要讓覆蓋率下降
+    language_violations_max: 0 # 每個 module 預設不得有語言治理違規
+    semgrep_high_max: 0 # 預設不接受 HIGH severity issue
+    coverage_delta_min: 0.0 # 預設不要讓覆蓋率下降
     complexity_trend: "non_increasing" # 預設不允許複雜度上升
-  
+
   # Phase defaults (階段預設值)
   phase_defaults:
     enabled_phases: [0, 1, 2, 3, 4, 5]
@@ -114,7 +114,6 @@ defaults:
 # Modules (模組定義)
 # ============================================================================
 modules:
-  
   # ──────────────────────────────────────────────────────────────────────────
   # Module 1: core-architecture
   # ──────────────────────────────────────────────────────────────────────────
@@ -126,14 +125,14 @@ modules:
       Core platform architecture & stability for Unmanned Island:
       unified integration layer, mind matrix, lifecycle systems.
       核心平台架構與穩定性：統一整合層、心智矩陣、生命週期系統。
-    
+
     # Module roots (模組根目錄)
     roots:
       - "core/unified_integration"
       - "core/mind_matrix"
       - "core/safety_mechanisms"
       - "core/slsa_provenance"
-    
+
     # Architecture constraints (架構約束)
     architecture_constraints:
       allowed_dependencies:
@@ -154,56 +153,56 @@ modules:
       notes: |
         Core 層是系統基礎，不可依賴上層（apps/services）。
         Core layer is the foundation, cannot depend on upper layers.
-    
+
     # Quality thresholds (品質門檻) - 更嚴格
     quality_thresholds:
-      language_violations_max: 0         # Stricter: zero violations for core
-      semgrep_high_max: 0                # Zero tolerance
-      coverage_delta_min: 0.0            # No coverage decrease
+      language_violations_max: 0 # Stricter: zero violations for core
+      semgrep_high_max: 0 # Zero tolerance
+      coverage_delta_min: 0.0 # No coverage decrease
       complexity_trend: "non_increasing" # Complexity must not increase
-    
+
     # Refactor configuration (重構配置)
     refactor:
       cluster_id: "core/architecture-stability"
-      
+
       target_roots:
         - "core/unified_integration"
         - "core/mind_matrix"
         - "core/safety_mechanisms"
-      
+
       allow_new_subdirs: false
-      
+
       allowed_new_paths:
         - "core/unified_integration/plugins/*"
         - "core/mind_matrix/agents/*"
-      
+
       include_globs:
         - "core/unified_integration/**/*.ts"
         - "core/unified_integration/**/*.py"
         - "core/mind_matrix/**/*.py"
         - "core/safety_mechanisms/**/*.ts"
-      
+
       exclude_globs:
         - "**/tests/**"
         - "**/node_modules/**"
         - "**/__pycache__/**"
         - "**/dist/**"
-      
+
       preferred_languages:
         - "TypeScript"
         - "Python"
-      
+
       owners:
         - "@core-team"
         - "@architecture-reviewers"
-      
+
       playbook_path: "docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md"
-      
+
       phase_defaults:
         current_phase: "Phase-3-Execution"
         status: "active"
-        priority: 1  # P0 - highest priority
-  
+        priority: 1 # P0 - highest priority
+
   # ──────────────────────────────────────────────────────────────────────────
   # Module 2: services-gateway
   # ──────────────────────────────────────────────────────────────────────────
@@ -213,12 +212,12 @@ modules:
     description: >
       Services gateway layer - MCP servers, API gateway, service mesh.
       服務閘道層 - MCP 伺服器、API 閘道、服務網格。
-    
+
     roots:
       - "services/mcp"
       - "services/gateway"
       - "mcp-servers"
-    
+
     architecture_constraints:
       allowed_dependencies:
         - "core/*"
@@ -236,51 +235,51 @@ modules:
       notes: |
         Services 層提供 API 給 apps，可依賴 core 但不可依賴 apps。
         Services layer provides APIs to apps, can depend on core but not apps.
-    
+
     quality_thresholds:
       language_violations_max: 0
       semgrep_high_max: 0
       coverage_delta_min: 0.0
       complexity_trend: "non_increasing"
-    
+
     refactor:
       cluster_id: "services/gateway"
-      
+
       target_roots:
         - "services/mcp"
         - "services/gateway"
         - "mcp-servers"
-      
+
       allow_new_subdirs: true
-      
+
       allowed_new_paths:
         - "services/mcp/servers/*"
         - "services/gateway/middlewares/*"
-      
+
       include_globs:
         - "services/**/*.ts"
         - "services/**/*.js"
         - "mcp-servers/**/*.ts"
-      
+
       exclude_globs:
         - "**/node_modules/**"
         - "**/dist/**"
         - "**/tests/**"
-      
+
       preferred_languages:
         - "TypeScript"
-      
+
       owners:
         - "@services-team"
         - "@integration-team"
-      
+
       playbook_path: "docs/refactor_playbooks/03_refactor/services/services__gateway_refactor.md"
-      
+
       phase_defaults:
         current_phase: "Phase-3-Execution"
         status: "active"
-        priority: 1  # P1
-  
+        priority: 1 # P1
+
   # ──────────────────────────────────────────────────────────────────────────
   # Module 3: apps-web
   # ──────────────────────────────────────────────────────────────────────────
@@ -290,18 +289,18 @@ modules:
     description: >
       Web applications layer - React frontend, code analysis UI, language governance dashboard.
       Web 應用層 - React 前端、代碼分析 UI、語言治理儀表板。
-    
+
     roots:
       - "apps/web"
       - "apps/web/src"
       - "apps/web/public"
-    
+
     architecture_constraints:
       allowed_dependencies:
         - "services/*"
         - "apps/*"
       banned_dependencies:
-        - "core/unified_integration/**"  # Must go through services
+        - "core/unified_integration/**" # Must go through services
         - "automation/**"
       layering_rules:
         - "Apps layer is the top layer"
@@ -313,52 +312,52 @@ modules:
       notes: |
         Apps 層是最上層，應透過 services API 存取資源，不可直接呼叫 core。
         Apps layer is the top layer, should access resources via services API, not core directly.
-    
+
     quality_thresholds:
       language_violations_max: 0
       semgrep_high_max: 0
       coverage_delta_min: 0.0
       complexity_trend: "non_increasing"
-    
+
     refactor:
       cluster_id: "apps/web"
-      
+
       target_roots:
         - "apps/web/src"
         - "apps/web/public"
-      
+
       allow_new_subdirs: true
-      
+
       allowed_new_paths:
         - "apps/web/src/components/*"
         - "apps/web/src/pages/*"
         - "apps/web/src/features/*"
-      
+
       include_globs:
         - "apps/web/src/**/*.ts"
         - "apps/web/src/**/*.tsx"
         - "apps/web/src/**/*.jsx"
-      
+
       exclude_globs:
         - "**/node_modules/**"
         - "**/dist/**"
         - "**/build/**"
-        - "apps/web/public/data/**"  # Generated data
-      
+        - "apps/web/public/data/**" # Generated data
+
       preferred_languages:
         - "TypeScript"
-      
+
       owners:
         - "@frontend-team"
         - "@web-team"
-      
+
       playbook_path: "docs/refactor_playbooks/03_refactor/apps/apps__web_refactor.md"
-      
+
       phase_defaults:
         current_phase: "Phase-2-Planning"
         status: "active"
-        priority: 2  # P1
-  
+        priority: 2 # P1
+
   # ──────────────────────────────────────────────────────────────────────────
   # Module 4: automation-autonomous
   # ──────────────────────────────────────────────────────────────────────────
@@ -368,12 +367,12 @@ modules:
     description: >
       Autonomous systems - five-skeleton architecture, drone control, ROS2 integration.
       自主系統 - 五骨架架構、無人機控制、ROS2 整合。
-    
+
     roots:
       - "automation/autonomous"
       - "automation/autonomous/architecture-stability"
       - "automation/autonomous/api-governance"
-    
+
     architecture_constraints:
       allowed_dependencies:
         - "core/safety_mechanisms"
@@ -393,51 +392,51 @@ modules:
       notes: |
         自主系統獨立運作，僅依賴 core 安全機制，不依賴 services 或 apps。
         Autonomous systems operate independently, only depend on core safety, not services or apps.
-    
+
     quality_thresholds:
       language_violations_max: 0
       semgrep_high_max: 0
       coverage_delta_min: 0.0
       complexity_trend: "non_increasing"
-    
+
     refactor:
       cluster_id: "automation/autonomous"
-      
+
       target_roots:
         - "automation/autonomous"
-      
+
       allow_new_subdirs: true
-      
+
       allowed_new_paths:
         - "automation/autonomous/architecture-stability/skeletons/*"
         - "automation/autonomous/api-governance/agents/*"
-      
+
       include_globs:
         - "automation/autonomous/**/*.cpp"
         - "automation/autonomous/**/*.py"
         - "automation/autonomous/**/*.go"
-      
+
       exclude_globs:
         - "**/tests/**"
         - "**/build/**"
         - "**/__pycache__/**"
-      
+
       preferred_languages:
-        - "C++"      # For ROS2 nodes
-        - "Python"   # For high-level orchestration
-        - "Go"       # For API governance agents
-      
+        - "C++" # For ROS2 nodes
+        - "Python" # For high-level orchestration
+        - "Go" # For API governance agents
+
       owners:
         - "@robotics-team"
         - "@autonomous-systems-team"
-      
+
       playbook_path: "docs/refactor_playbooks/03_refactor/automation/automation__autonomous_refactor.md"
-      
+
       phase_defaults:
         current_phase: "Phase-3-Execution"
         status: "active"
-        priority: 0  # P0 - critical
-  
+        priority: 0 # P0 - critical
+
   # ──────────────────────────────────────────────────────────────────────────
   # Module 5: governance-schemas-policies
   # ──────────────────────────────────────────────────────────────────────────
@@ -447,12 +446,12 @@ modules:
     description: >
       Governance system - schema namespaces, policy definitions, compliance validation.
       治理系統 - Schema 命名空間、策略定義、合規驗證。
-    
+
     roots:
       - "governance/schemas"
       - "governance/policies"
       - "governance/rules"
-    
+
     architecture_constraints:
       allowed_dependencies:
         - "governance/*"
@@ -471,54 +470,54 @@ modules:
       notes: |
         治理系統是跨層的，提供驗證給所有層級，不應依賴實作層。
         Governance is cross-cutting, provides validation to all layers, should not depend on implementation.
-    
+
     quality_thresholds:
-      language_violations_max: 0  # Very strict for governance
+      language_violations_max: 0 # Very strict for governance
       semgrep_high_max: 0
       coverage_delta_min: 0.0
       complexity_trend: "non_increasing"
-    
+
     refactor:
       cluster_id: "governance/schemas-policies"
-      
+
       target_roots:
         - "governance/schemas"
         - "governance/policies"
         - "governance/rules"
-      
+
       allow_new_subdirs: true
-      
+
       allowed_new_paths:
         - "governance/schemas/mndoc/*"
         - "governance/policies/opa/*"
         - "governance/rules/custom/*"
-      
+
       include_globs:
         - "governance/**/*.json"
         - "governance/**/*.yaml"
         - "governance/**/*.rego"
         - "governance/**/*.py"
-      
+
       exclude_globs:
         - "**/tests/**"
-        - "governance/registry/**"  # Auto-generated
-      
+        - "governance/registry/**" # Auto-generated
+
       preferred_languages:
-        - "YAML"      # For schemas
-        - "Rego"      # For OPA policies
-        - "Python"    # For validation scripts
-      
+        - "YAML" # For schemas
+        - "Rego" # For OPA policies
+        - "Python" # For validation scripts
+
       owners:
         - "@governance-team"
         - "@compliance-team"
         - "@architecture-reviewers"
-      
+
       playbook_path: "docs/refactor_playbooks/03_refactor/governance/governance__schemas_policies_refactor.md"
-      
+
       phase_defaults:
         current_phase: "Phase-4-Validation"
         status: "active"
-        priority: 1  # P1
+        priority: 1 # P1
 
 # ============================================================================
 # Validation Rules (驗證規則)
@@ -526,23 +525,23 @@ modules:
 validation:
   # Ensure no circular dependencies between modules
   check_circular_dependencies: true
-  
+
   # Validate all referenced playbook paths exist
   check_playbook_paths: true
-  
+
   # Ensure all owners are valid GitHub teams/users
   validate_owners: true
-  
+
   # Check that architecture constraints are consistent
   validate_architecture_constraints: true
-  
+
   # Verify quality thresholds are within acceptable ranges
   validate_quality_thresholds: true
 
 # ============================================================================
 # Notes (使用說明)
 # ============================================================================
-# 
+#
 # How to use this template:
 # 如何使用此範本：
 #

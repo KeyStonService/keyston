@@ -9,9 +9,9 @@ kind: ClusterRole
 metadata:
   name: fluent-bit
 rules:
-- apiGroups: [""]
-  resources: ["pods", "namespaces"]
-  verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "namespaces"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -22,6 +22,6 @@ roleRef:
   kind: ClusterRole
   name: fluent-bit
 subjects:
-- kind: ServiceAccount
-  name: fluent-bit
-  namespace: logging
+  - kind: ServiceAccount
+    name: fluent-bit
+    namespace: logging

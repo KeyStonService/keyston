@@ -58,7 +58,8 @@ The npm workspaces are configured as:
 
 - **advisory-database/**: Security advisory database and management
 - **contract_service/**: Contract management services
-  - **contracts-L1/contracts/**: Layer 1 contract service (main TypeScript service)
+  - **contracts-L1/contracts/**: Layer 1 contract service (main TypeScript
+    service)
 
 ### MCP Servers (`mcp-servers/`)
 
@@ -76,7 +77,8 @@ Model Context Protocol server implementations for:
 ### Automation Systems
 
 - **v1-python-drones/**: Python-based automation (conceptual architecture)
-- **v2-multi-islands/**: Multi-language automation system (conceptual architecture)
+- **v2-multi-islands/**: Multi-language automation system (conceptual
+  architecture)
 
 ## Build Commands
 

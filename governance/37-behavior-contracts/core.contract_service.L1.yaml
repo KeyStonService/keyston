@@ -17,11 +17,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@core-platform-team"
-  
+
   description: |
     The Contract Service L1 provides contract lifecycle management,
     signature verification, and SLSA provenance attestation.
-    
+
     合約服務 L1 提供合約生命週期管理、簽名驗證和 SLSA 溯源認證。
 
 # ============================================================================
@@ -30,20 +30,19 @@ contract:
 
 api:
   base_path: "/api/v1/contracts"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Create Contract
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Create Contract"
       method: POST
       path: "/contracts"
-      
+
       description: |
         Create a new contract with signature verification and provenance attestation.
         創建新合約，包含簽名驗證和溯源認證。
-      
+
       input_schema:
         type: "object"
         required: ["content", "signature", "metadata"]
@@ -63,7 +62,7 @@ api:
               creator: { type: "string" }
               timestamp: { type: "string", format: "date-time" }
               tags: { type: "array", items: { type: "string" } }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -73,14 +72,14 @@ api:
           status: { type: "string", enum: ["created", "verified", "failed"] }
           provenance_url: { type: "string", format: "uri" }
           created_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Contract ID is globally unique (UUID v4)"
         - "Timestamp is monotonically increasing within single process"
         - "Signature is verified before storage"
         - "Provenance attestation is created and stored"
         - "Transaction is atomic (all-or-nothing)"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid signature or malformed input"
@@ -91,7 +90,7 @@ api:
         - code: 500
           condition: "Internal server error or database failure"
           message: "ERR_INTERNAL_ERROR"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 500ms"
@@ -103,18 +102,18 @@ api:
     - name: "Get Contract"
       method: GET
       path: "/contracts/{contract_id}"
-      
+
       description: |
         Retrieve a contract by its unique identifier.
         根據唯一識別碼檢索合約。
-      
+
       input_schema:
         type: "object"
         properties:
           contract_id:
             type: "string"
             description: "Unique contract identifier"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -125,12 +124,12 @@ api:
           provenance: { type: "object" }
           created_at: { type: "string", format: "date-time" }
           updated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Returns consistent data for same contract_id"
         - "Includes full provenance chain"
         - "Signature is re-verifiable"
-      
+
       error_responses:
         - code: 404
           condition: "Contract not found"
@@ -138,7 +137,7 @@ api:
         - code: 500
           condition: "Internal server error"
           message: "ERR_INTERNAL_ERROR"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 200ms"
@@ -150,11 +149,11 @@ api:
     - name: "Verify Contract Signature"
       method: POST
       path: "/contracts/{contract_id}/verify"
-      
+
       description: |
         Re-verify the signature of an existing contract.
         重新驗證現有合約的簽名。
-      
+
       output_schema:
         type: "object"
         properties:
@@ -162,12 +161,12 @@ api:
           valid: { type: "boolean" }
           verified_at: { type: "string", format: "date-time" }
           verification_details: { type: "object" }
-      
+
       guarantees:
         - "Uses same algorithm as original verification"
         - "Result is deterministic for same contract"
         - "Does not modify contract state"
-      
+
       performance:
         response_time_p50: "< 80ms"
         response_time_p99: "< 300ms"
@@ -178,11 +177,11 @@ api:
     - name: "List Contracts"
       method: GET
       path: "/contracts"
-      
+
       description: |
         List contracts with pagination and filtering.
         列出合約，支援分頁和篩選。
-      
+
       input_schema:
         type: "object"
         properties:
@@ -190,7 +189,7 @@ api:
           page_size: { type: "integer", minimum: 1, maximum: 100, default: 20 }
           filter: { type: "object" }
           sort: { type: "string", enum: ["created_at", "updated_at"] }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -199,12 +198,12 @@ api:
           page: { type: "integer" }
           page_size: { type: "integer" }
           has_more: { type: "boolean" }
-      
+
       guarantees:
         - "Results are ordered by specified sort field"
         - "Pagination is consistent during iteration"
         - "Total count reflects filter criteria"
-      
+
       performance:
         response_time_p50: "< 150ms"
         response_time_p99: "< 800ms"
@@ -214,13 +213,12 @@ api:
 # ============================================================================
 
 events:
-  
   # ─────────────────────────────────────────────────────────────────────────
   # Contract Created Event
   # ─────────────────────────────────────────────────────────────────────────
   - name: "contract.created"
     description: "Emitted when a new contract is successfully created"
-    
+
     payload_schema:
       type: "object"
       required: ["contract_id", "creator", "created_at"]
@@ -230,11 +228,11 @@ events:
         content_hash: { type: "string" }
         created_at: { type: "string", format: "date-time" }
         metadata: { type: "object" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "per-contract"
     retention: "30 days"
-    
+
     consumers:
       - "services.billing"
       - "services.audit"
@@ -245,7 +243,7 @@ events:
   # ─────────────────────────────────────────────────────────────────────────
   - name: "contract.verified"
     description: "Emitted when a contract signature is verified"
-    
+
     payload_schema:
       type: "object"
       required: ["contract_id", "valid", "verified_at"]
@@ -254,11 +252,11 @@ events:
         valid: { type: "boolean" }
         verified_at: { type: "string", format: "date-time" }
         verification_method: { type: "string" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "per-contract"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "core.slsa_provenance"
@@ -268,7 +266,7 @@ events:
   # ─────────────────────────────────────────────────────────────────────────
   - name: "contract.error"
     description: "Emitted when contract operation fails"
-    
+
     payload_schema:
       type: "object"
       required: ["operation", "error_code", "timestamp"]
@@ -278,10 +276,10 @@ events:
         error_code: { type: "string" }
         error_message: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "7 days"
-    
+
     consumers:
       - "automation.monitoring"
       - "ops.alerting"
@@ -291,32 +289,31 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Signature Verification Required"
     description: "All contracts must have verified signatures before storage"
     rule: "forall c in contracts: c.signature.verified = true"
     enforcement: "pre-condition"
-    
+
   - name: "Immutable Contract Content"
     description: "Contract content cannot be modified after creation"
     rule: "forall c in contracts: c.content is immutable"
     enforcement: "database-constraint"
-    
+
   - name: "Unique Contract IDs"
     description: "Contract IDs must be globally unique"
     rule: "forall c1, c2 in contracts: c1.id != c2.id"
     enforcement: "database-constraint"
-    
+
   - name: "Monotonic Timestamps"
     description: "Contract timestamps increase monotonically within process"
     rule: "forall c1, c2 in contracts where c1.created_at < c2.created_at: c1.id != c2.id"
     enforcement: "application-logic"
-    
+
   - name: "Provenance Required"
     description: "All contracts must have associated provenance attestation"
     rule: "forall c in contracts: exists p in provenance where p.contract_id = c.id"
     enforcement: "post-condition"
-    
+
   - name: "No Final Settlement Modification"
     description: "Contract service never modifies final settlement state"
     rule: "settlement.state is not writable by contract_service"
@@ -327,7 +324,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Invalid Signature"
     triggers:
       - "Signature algorithm not supported"
@@ -338,7 +334,7 @@ failure_modes:
       - "Log security event"
       - "Do not store contract"
     error_code: "ERR_INVALID_SIGNATURE"
-    
+
   - scenario: "Duplicate Contract"
     triggers:
       - "Contract with same content hash exists"
@@ -346,7 +342,7 @@ failure_modes:
       - "Return 409 error with existing contract ID"
       - "Do not create new contract"
     error_code: "ERR_DUPLICATE_CONTRACT"
-    
+
   - scenario: "Database Failure"
     triggers:
       - "Database connection lost"
@@ -358,7 +354,7 @@ failure_modes:
       - "Alert operations team"
       - "Retry with exponential backoff"
     error_code: "ERR_DATABASE_FAILURE"
-    
+
   - scenario: "Provenance Service Unavailable"
     triggers:
       - "SLSA provenance service down"
@@ -376,18 +372,17 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "core.slsa_provenance"
       purpose: "Generate provenance attestations"
       api_version: "1.x"
       failure_mode: "degraded"
-    
+
     - module: "infrastructure.database"
       purpose: "Store contract data"
       type: "PostgreSQL 14+"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.billing"
       purpose: "Trigger billing events"
@@ -405,14 +400,14 @@ testing:
       - "Signature verification logic"
       - "Contract ID generation"
       - "Transaction rollback"
-  
+
   integration_tests:
     required:
       - "End-to-end contract creation"
       - "Signature verification flow"
       - "Provenance integration"
       - "Database transaction handling"
-  
+
   performance_tests:
     scenarios:
       - name: "High throughput"
@@ -421,7 +416,7 @@ testing:
       - name: "Large payload"
         payload_size: "1MB"
         response_time_p99: "< 1s"
-  
+
   chaos_tests:
     scenarios:
       - "Database failure during transaction"
@@ -435,7 +430,7 @@ testing:
 compatibility:
   backward_compatible: true
   breaking_changes: []
-  
+
   deprecated_features:
     - feature: "Legacy signature algorithm MD5"
       removed_in: "2.0.0"
@@ -458,13 +453,13 @@ observability:
       labels: ["valid", "algorithm"]
     - name: "provenance_generation_errors"
       type: "counter"
-  
+
   logs:
     level: "INFO"
     security_events: "WARN"
     structured: true
     retention: "30 days"
-  
+
   traces:
     enabled: true
     sample_rate: 0.1

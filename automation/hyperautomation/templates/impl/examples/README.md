@@ -124,8 +124,8 @@ UAV 系統必須配置地理圍欄：
 
 ```yaml
 data:
-  geo.fence.enabled: "true"  # 或 "false"
-  geo.fence.regions: "TW-Taipei, TW-Taichung, JP-Tokyo"
+  geo.fence.enabled: 'true' # 或 "false"
+  geo.fence.regions: 'TW-Taipei, TW-Taichung, JP-Tokyo'
 ```
 
 ### 區域格式
@@ -142,11 +142,11 @@ data:
 ```yaml
 resources:
   requests:
-    cpu: "500m"
-    memory: "256Mi"
+    cpu: '500m'
+    memory: '256Mi'
   limits:
-    cpu: "1"
-    memory: "512Mi"
+    cpu: '1'
+    memory: '512Mi'
 ```
 
 ### AD 系統建議配置
@@ -154,11 +154,11 @@ resources:
 ```yaml
 resources:
   requests:
-    cpu: "1"
-    memory: "1Gi"
+    cpu: '1'
+    memory: '1Gi'
   limits:
-    cpu: "2"
-    memory: "2Gi"
+    cpu: '2'
+    memory: '2Gi'
 ```
 
 ## 安全最佳實踐
@@ -174,7 +174,7 @@ image: registry.example.com/app@sha256:abc123...
 ❌ 避免使用可變標籤
 
 ```yaml
-image: registry.example.com/app:latest  # 不建議
+image: registry.example.com/app:latest # 不建議
 ```
 
 ### 安全上下文
@@ -187,7 +187,7 @@ securityContext:
   readOnlyRootFilesystem: true
   capabilities:
     drop:
-    - ALL
+      - ALL
 ```
 
 ### 健康檢查

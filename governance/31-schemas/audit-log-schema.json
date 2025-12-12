@@ -67,7 +67,7 @@
         },
         "roles": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -103,9 +103,9 @@
         "error": {
           "type": "object",
           "properties": {
-            "code": {"type": "string"},
-            "message": {"type": "string"},
-            "details": {"type": "object"}
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "details": { "type": "object" }
           }
         }
       }
@@ -147,8 +147,8 @@
           "items": {
             "type": "object",
             "properties": {
-              "path": {"type": "string"},
-              "op": {"type": "string", "enum": ["add", "remove", "replace"]},
+              "path": { "type": "string" },
+              "op": { "type": "string", "enum": ["add", "remove", "replace"] },
               "value": {}
             }
           }

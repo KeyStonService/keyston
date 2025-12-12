@@ -85,8 +85,7 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 - 驗收條件表格
 - 常見語言遷移場景
 
-**使用方法**：
-直接複製需要的 snippet 到你的劇本中。
+**使用方法**：直接複製需要的 snippet 到你的劇本中。
 
 ---
 
@@ -131,13 +130,13 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 
 ### 與 Legacy Scratch 的區別
 
-| 特性 | Scratch Notes | Legacy Scratch |
-|------|---------------|----------------|
-| 位置 | `docs/scratch/`, `*/_scratch/` | `docs/refactor_playbooks/_legacy_scratch/` |
-| 內容 | 設計草稿、筆記、探索 | 舊程式碼、舊模板 |
-| Git | ✅ 可進 git | ❌ 不進 git (.gitignore) |
-| 用途 | 創作與思考空間 | 臨時程式碼暫存 |
-| 生命週期 | 升級為正式文件或歸檔 | 重構完成後刪除 |
+| 特性     | Scratch Notes                  | Legacy Scratch                             |
+| -------- | ------------------------------ | ------------------------------------------ |
+| 位置     | `docs/scratch/`, `*/_scratch/` | `docs/refactor_playbooks/_legacy_scratch/` |
+| 內容     | 設計草稿、筆記、探索           | 舊程式碼、舊模板                           |
+| Git      | ✅ 可進 git                    | ❌ 不進 git (.gitignore)                   |
+| 用途     | 創作與思考空間                 | 臨時程式碼暫存                             |
+| 生命週期 | 升級為正式文件或歸檔           | 重構完成後刪除                             |
 
 ---
 

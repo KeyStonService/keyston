@@ -38,17 +38,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Auto-Fix Bot
         env:
           AUTOFIX_CLOUD_TOKEN: ${{ secrets.AUTOFIX_TOKEN }}
         run: |
           npm install -g autofix-bot
-          
+
       - name: Run Analysis
         run: |
           autofix analyze --cloud-delegation
-          
+
       - name: Apply Fixes
         if: github.event_name == 'pull_request'
         run: |
@@ -88,20 +88,20 @@ autofix:fix:
 // Jenkinsfile
 pipeline {
     agent any
-    
+
     stages {
         stage('Auto-Fix Analysis') {
             steps {
                 sh 'autofix analyze'
             }
         }
-        
+
         stage('Cloud Delegation') {
             steps {
                 sh 'autofix delegate --tasks all'
             }
         }
-        
+
         stage('Report') {
             steps {
                 publishHTML([
@@ -151,12 +151,7 @@ code --install-extension autofix-bot.vscode
   "autofix.enabled": true,
   "autofix.cloudDelegation": true,
   "autofix.autoFixOnSave": true,
-  "autofix.languages": [
-    "javascript",
-    "typescript",
-    "python",
-    "java"
-  ]
+  "autofix.languages": ["javascript", "typescript", "python", "java"]
 }
 ```
 
@@ -229,10 +224,7 @@ autofix watch --auto-fix
   "rules": {
     "autoFix": true,
     "severity": "warning",
-    "excludePatterns": [
-      "node_modules/**",
-      "dist/**"
-    ]
+    "excludePatterns": ["node_modules/**", "dist/**"]
   },
   "languages": {
     "javascript": {
@@ -349,7 +341,8 @@ services:
 
 ### GitHub Webhook
 
-> **注意：** 以下示例中的 `'autofix-bot'` 為佔位符，請根據實際情況替換為真實的 npm 套件名稱或本地模組路徑。如果尚未發布，請聯繫維護者獲取安裝方式。
+> **注意：** 以下示例中的 `'autofix-bot'`
+> 為佔位符，請根據實際情況替換為真實的 npm 套件名稱或本地模組路徑。如果尚未發布，請聯繫維護者獲取安裝方式。
 
 ```javascript
 // webhook-handler.js
@@ -362,16 +355,16 @@ app.use(express.json());
 
 app.post('/webhook/github', async (req, res) => {
   const { action, pull_request } = req.body;
-  
+
   if (action === 'opened' || action === 'synchronize') {
     const bot = new AutoFixBot({
-      cloudDelegation: true
+      cloudDelegation: true,
     });
-    
+
     await bot.analyzePullRequest(pull_request);
     await bot.commentOnPR(pull_request);
   }
-  
+
   res.status(200).send('OK');
 });
 
@@ -393,11 +386,11 @@ bot = AutoFixBot(cloud_delegation=True)
 @app.route('/webhook/gitlab', methods=['POST'])
 def handle_gitlab_webhook():
     data = request.json
-    
+
     if data['object_kind'] == 'merge_request':
         bot.analyze_merge_request(data['object_attributes'])
         bot.add_mr_comment(data['object_attributes'])
-    
+
     return 'OK', 200
 
 if __name__ == '__main__':
@@ -417,25 +410,25 @@ class AutoFixBotAPI {
     this.client = axios.create({
       baseURL: 'https://apiconfig/autofix-bot.com/v1',
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
-  
+
   async analyze(code, options = {}) {
     const response = await this.client.post('/analyze', {
       code,
       cloudDelegation: options.cloudDelegation || true,
-      language: options.language || 'auto-detect'
+      language: options.language || 'auto-detect',
     });
     return response.data;
   }
-  
+
   async fix(analysisId) {
     const response = await this.client.post(`/fix/${analysisId}`);
     return response.data;
   }
-  
+
   async getReport(analysisId) {
     const response = await this.client.get(`/reports/${analysisId}`);
     return response.data;
@@ -447,7 +440,7 @@ const api = new AutoFixBotAPI(process.env.AUTOFIX_TOKEN);
 
 const analysis = await api.analyze(sourceCode, {
   cloudDelegation: true,
-  language: 'javascript'
+  language: 'javascript',
 });
 
 const fixed = await api.fix(analysis.id);

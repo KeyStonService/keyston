@@ -2,11 +2,14 @@
 
 **Date**: 2025-12-10  
 **Component**: `@synergymesh/advisory-database`  
-**Issue**: Deep Maintenance Project Fundamental Build Failure (深度維修專案建置根本性失敗問題)
+**Issue**: Deep Maintenance Project Fundamental Build Failure
+(深度維修專案建置根本性失敗問題)
 
 ## Problem
 
-The `@synergymesh/advisory-database` workspace was experiencing test failures due to a missing `ts-node` dependency required by the Jest TypeScript configuration file (`jest.config.ts`).
+The `@synergymesh/advisory-database` workspace was experiencing test failures
+due to a missing `ts-node` dependency required by the Jest TypeScript
+configuration file (`jest.config.ts`).
 
 ### Error Message
 
@@ -21,7 +24,8 @@ Error: Jest: Failed to parse the TypeScript config file jest.config.ts
 Jest configuration file was written in TypeScript (`jest.config.ts`) but:
 
 1. The required `ts-node` loader was not installed as a dependency
-2. The package has `"type": "module"` in package.json, requiring CommonJS config to use `.cjs` extension
+2. The package has `"type": "module"` in package.json, requiring CommonJS config
+   to use `.cjs` extension
 
 ## Solution
 
@@ -38,7 +42,8 @@ Jest configuration file was written in TypeScript (`jest.config.ts`) but:
 
 ### Files Changed
 
-- `core/advisory-database/jest.config.ts` → `core/advisory-database/jest.config.cjs`
+- `core/advisory-database/jest.config.ts` →
+  `core/advisory-database/jest.config.cjs`
 - `core/advisory-database/package.json` (added ts-jest dependency)
 
 ## Validation
@@ -86,7 +91,8 @@ The package.json contains `"type": "module"`, which means:
 
 The `useESM: true` in ts-jest config is correct because:
 
-- It's for handling ES modules in the TypeScript **source code**, not the config file
+- It's for handling ES modules in the TypeScript **source code**, not the config
+  file
 - The source files use ES module imports/exports
 - The config file itself is CommonJS (`.cjs`)
 
@@ -97,9 +103,12 @@ The `useESM: true` in ts-jest config is correct because:
 
 ## Lessons Learned
 
-1. **Module System Awareness**: When a package uses `"type": "module"`, CommonJS files must use `.cjs` extension
-2. **Minimal Dependencies**: Converting TypeScript config to JavaScript eliminates the need for `ts-node`
-3. **Explicit Dependencies**: Adding `ts-jest` explicitly is better than relying on transitive dependencies
+1. **Module System Awareness**: When a package uses `"type": "module"`, CommonJS
+   files must use `.cjs` extension
+2. **Minimal Dependencies**: Converting TypeScript config to JavaScript
+   eliminates the need for `ts-node`
+3. **Explicit Dependencies**: Adding `ts-jest` explicitly is better than relying
+   on transitive dependencies
 4. **Test First**: Always verify test infrastructure before making other changes
 
 ## Future Recommendations

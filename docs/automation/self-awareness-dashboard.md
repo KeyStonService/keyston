@@ -6,16 +6,17 @@ feed dashboards, while the Markdown stays human-friendly for PR comments.
 
 ## Data Sources
 
-| Source | Trigger | Output | Location |
-| ------ | ------- | ------ | -------- |
-| CLI sampling (`npm run dev -- automation:run --sample`) | Developer before handoff | `reports/self-awareness-sample.md/json` | Local workspace (tracked in `.gitignore`) |
-| CLI full run (`npm run dev -- automation:run`) | Pre-deploy self-check | `reports/self-awareness-full.md/json` | Local workspace |
-| Pull-request workflow (`project-self-awareness.yml`) | PR open/sync | `reports/self-awareness.md/json` artifact, PR comment | GitHub Actions artifacts named `self-awareness-report` |
-| Nightly workflow (`project-self-awareness-nightly.yml`) | 06:00 UTC daily | `reports/self-awareness.md/json` artifact, issue on failure | GitHub Actions artifacts named `self-awareness-nightly` |
+| Source                                                  | Trigger                  | Output                                                      | Location                                                |
+| ------------------------------------------------------- | ------------------------ | ----------------------------------------------------------- | ------------------------------------------------------- |
+| CLI sampling (`npm run dev -- automation:run --sample`) | Developer before handoff | `reports/self-awareness-sample.md/json`                     | Local workspace (tracked in `.gitignore`)               |
+| CLI full run (`npm run dev -- automation:run`)          | Pre-deploy self-check    | `reports/self-awareness-full.md/json`                       | Local workspace                                         |
+| Pull-request workflow (`project-self-awareness.yml`)    | PR open/sync             | `reports/self-awareness.md/json` artifact, PR comment       | GitHub Actions artifacts named `self-awareness-report`  |
+| Nightly workflow (`project-self-awareness-nightly.yml`) | 06:00 UTC daily          | `reports/self-awareness.md/json` artifact, issue on failure | GitHub Actions artifacts named `self-awareness-nightly` |
 
 Each JSON document contains:
 
-- `sections`: parsed copy of [docs/project-manifest.md](docs/project-manifest.md).
+- `sections`: parsed copy of
+  [docs/project-manifest.md](docs/project-manifest.md).
 - `automation`: exit codes, output tails, and commands that were executed.
 - `automation_summary`: total/success/failure counts so dashboards can color
   cards without parsing Markdown.

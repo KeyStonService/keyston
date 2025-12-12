@@ -34,7 +34,7 @@
 | 角色              | 第一步                                                                                             | 第二步                                                                 | 第三步                                                                                 |
 | ----------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | **新手開發者**    | [README.md](./README.md)                                                                           | [docs/QUICK_START.md](./docs/QUICK_START.md)                           | [docs/EXAMPLES.md](./docs/EXAMPLES.md)                                                 |
-| **專案經理** ⭐   | [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md)                    | [PROJECT_DELIVERY_CHECKLIST.md](./PROJECT_DELIVERY_CHECKLIST.md)       | [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md)          |
+| **專案經理** ⭐   | [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md)                     | [PROJECT_DELIVERY_CHECKLIST.md](./PROJECT_DELIVERY_CHECKLIST.md)       | [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md)           |
 | **DevOps 工程師** | [docs/architecture/DEPLOYMENT_INFRASTRUCTURE.md](./docs/architecture/DEPLOYMENT_INFRASTRUCTURE.md) | [docs/AUTO_REVIEW_MERGE.md](./docs/AUTO_REVIEW_MERGE.md)               | [docs/operations/](./docs/operations/)                                                 |
 | **系統架構師**    | [docs/architecture/layers.md](./docs/architecture/layers.md)                                       | [docs/architecture/repo-map.md](./docs/architecture/repo-map.md)       | [docs/architecture/SYSTEM_ARCHITECTURE.md](./docs/architecture/SYSTEM_ARCHITECTURE.md) |
 | **安全工程師**    | [SECURITY.md](./SECURITY.md)                                                                       | [docs/VULNERABILITY_MANAGEMENT.md](./docs/VULNERABILITY_MANAGEMENT.md) | [docs/security/](./docs/security/)                                                     |
@@ -56,13 +56,13 @@
 
 ### AI 協作規範 ⭐ **NEW**
 
-| 文件路徑                                                                                          | 說明             | 操作指引                         |
-| ------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------- |
-| [.github/AI-BEHAVIOR-CONTRACT.md](./.github/AI-BEHAVIOR-CONTRACT.md) ⭐                          | AI 行為合約      | AI 代理必讀，定義協作規範與責任  |
-| [.github/AI-BEHAVIOR-CONTRACT-QUICK-REFERENCE.md](./.github/AI-BEHAVIOR-CONTRACT-QUICK-REFERENCE.md) | 快速參考卡       | 4 核心規則速查表，模板與範例     |
-| [.github/copilot-instructions.md](./.github/copilot-instructions.md)                             | Copilot 技術指南 | 技術實現指引，參考三系統視圖     |
-| [.github/island-ai-instructions.md](./.github/island-ai-instructions.md)                         | Island AI 規範   | 代碼風格、測試、文檔語言標準     |
-| [.github/agents/my-agent.agent.md](./.github/agents/my-agent.agent.md)                           | 自定義代理配置   | 無人島智能代理行為定義           |
+| 文件路徑                                                                                             | 說明             | 操作指引                        |
+| ---------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------- |
+| [.github/AI-BEHAVIOR-CONTRACT.md](./.github/AI-BEHAVIOR-CONTRACT.md) ⭐                              | AI 行為合約      | AI 代理必讀，定義協作規範與責任 |
+| [.github/AI-BEHAVIOR-CONTRACT-QUICK-REFERENCE.md](./.github/AI-BEHAVIOR-CONTRACT-QUICK-REFERENCE.md) | 快速參考卡       | 4 核心規則速查表，模板與範例    |
+| [.github/copilot-instructions.md](./.github/copilot-instructions.md)                                 | Copilot 技術指南 | 技術實現指引，參考三系統視圖    |
+| [.github/island-ai-instructions.md](./.github/island-ai-instructions.md)                             | Island AI 規範   | 代碼風格、測試、文檔語言標準    |
+| [.github/agents/my-agent.agent.md](./.github/agents/my-agent.agent.md)                               | 自定義代理配置   | 無人島智能代理行為定義          |
 
 **AI 行為合約關鍵原則：**
 
@@ -108,20 +108,20 @@
 
 實時語言政策合規性監控與可視化系統文檔。
 
-| 文件路徑                                                                                         | 說明                     | 關鍵內容                           |
-| ------------------------------------------------------------------------------------------------ | ------------------------ | ---------------------------------- |
-| [docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md](./docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md) ⭐   | 完整實作指南             | 架構、API、前端組件、CI/CD         |
-| [docs/HOTSPOT_HEATMAP.md](./docs/HOTSPOT_HEATMAP.md)                                            | 違規熱點地圖             | 演算法、色碼、Top 熱點             |
-| [docs/MIGRATION_FLOW.md](./docs/MIGRATION_FLOW.md)                                              | 叢集遷移流模型           | 歷史/建議流程、遷移路徑            |
-| [docs/KNOWLEDGE_HEALTH.md](./docs/KNOWLEDGE_HEALTH.md)                                          | 知識庫健康度量           | 85/100 分數、趨勢、A-F 等級        |
-| [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md) ⭐                 | PR #2 深度分析與行動計劃 | 差距分析、下一步、資源需求         |
-| [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md) ⭐ **NEW**      | 未完成任務掃描報告       | 1,952 項待辦、優先級、行動計劃     |
-| [governance/language-governance-report.md](./governance/language-governance-report.md)          | 治理報告                 | 違規清單、合規狀態                 |
-| [governance/sankey-data.json](./governance/sankey-data.json)                                    | Sankey 圖資料            | 違規流向                           |
-| [governance/hotspot-data.json](./governance/hotspot-data.json)                                  | 熱點資料                 | 檔案強度分數                       |
-| [governance/migration-flow.json](./governance/migration-flow.json)                              | 遷移流資料               | 叢集遷移邊                         |
-| [governance/semgrep-report.json](./governance/semgrep-report.json)                              | 安全掃描結果             | Semgrep 發現                       |
-| [knowledge/language-history.yaml](./knowledge/language-history.yaml)                            | 語言歷史事件             | 修復/掃描/違規時間軸               |
+| 文件路徑                                                                                      | 說明                     | 關鍵內容                       |
+| --------------------------------------------------------------------------------------------- | ------------------------ | ------------------------------ |
+| [docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md](./docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md) ⭐ | 完整實作指南             | 架構、API、前端組件、CI/CD     |
+| [docs/HOTSPOT_HEATMAP.md](./docs/HOTSPOT_HEATMAP.md)                                          | 違規熱點地圖             | 演算法、色碼、Top 熱點         |
+| [docs/MIGRATION_FLOW.md](./docs/MIGRATION_FLOW.md)                                            | 叢集遷移流模型           | 歷史/建議流程、遷移路徑        |
+| [docs/KNOWLEDGE_HEALTH.md](./docs/KNOWLEDGE_HEALTH.md)                                        | 知識庫健康度量           | 85/100 分數、趨勢、A-F 等級    |
+| [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md) ⭐               | PR #2 深度分析與行動計劃 | 差距分析、下一步、資源需求     |
+| [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md) ⭐ **NEW**     | 未完成任務掃描報告       | 1,952 項待辦、優先級、行動計劃 |
+| [governance/language-governance-report.md](./governance/language-governance-report.md)        | 治理報告                 | 違規清單、合規狀態             |
+| [governance/sankey-data.json](./governance/sankey-data.json)                                  | Sankey 圖資料            | 違規流向                       |
+| [governance/hotspot-data.json](./governance/hotspot-data.json)                                | 熱點資料                 | 檔案強度分數                   |
+| [governance/migration-flow.json](./governance/migration-flow.json)                            | 遷移流資料               | 叢集遷移邊                     |
+| [governance/semgrep-report.json](./governance/semgrep-report.json)                            | 安全掃描結果             | Semgrep 發現                   |
+| [knowledge/language-history.yaml](./knowledge/language-history.yaml)                          | 語言歷史事件             | 修復/掃描/違規時間軸           |
 
 **使用指引：**
 
@@ -145,31 +145,31 @@ curl http://localhost:8000/api/v1/language-governance
 
 三階段結構化重構系統，從解構到執行的完整追溯性。
 
-| 文件路徑                                                                                         | 說明                     | 關鍵內容                           |
-| ------------------------------------------------------------------------------------------------ | ------------------------ | ---------------------------------- |
-| [docs/refactor_playbooks/README.md](./docs/refactor_playbooks/README.md) ⭐                      | 重構系統總覽             | 三階段流程、使用指南、LLM 整合     |
-| [docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md](./docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md) ⭐ | 舊資產系統完整分析報告   | 架構、索引系統、CI/CD 整合、最佳實務 |
-| [docs/refactor_playbooks/ARCHITECTURE.md](./docs/refactor_playbooks/ARCHITECTURE.md)            | 系統架構設計             | 資料流程、生成器設計               |
-| [docs/refactor_playbooks/IMPLEMENTATION_SUMMARY.md](./docs/refactor_playbooks/IMPLEMENTATION_SUMMARY.md) | 實作摘要                 | 完成功能、統計數據、使用方式       |
+| 文件路徑                                                                                                    | 說明                   | 關鍵內容                             |
+| ----------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------ |
+| [docs/refactor_playbooks/README.md](./docs/refactor_playbooks/README.md) ⭐                                 | 重構系統總覽           | 三階段流程、使用指南、LLM 整合       |
+| [docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md](./docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md) ⭐ | 舊資產系統完整分析報告 | 架構、索引系統、CI/CD 整合、最佳實務 |
+| [docs/refactor_playbooks/ARCHITECTURE.md](./docs/refactor_playbooks/ARCHITECTURE.md)                        | 系統架構設計           | 資料流程、生成器設計                 |
+| [docs/refactor_playbooks/IMPLEMENTATION_SUMMARY.md](./docs/refactor_playbooks/IMPLEMENTATION_SUMMARY.md)    | 實作摘要               | 完成功能、統計數據、使用方式         |
 
 ### 三階段文檔
 
-| 階段 | 文件路徑 | 說明 | 關鍵內容 |
-|------|----------|------|----------|
-| **Phase 1: Deconstruction** | [01_deconstruction/README.md](./docs/refactor_playbooks/01_deconstruction/README.md) | 解構層說明 | 考古挖掘、模式識別、依賴分析 |
-|  | [01_deconstruction/legacy_assets_index.yaml](./docs/refactor_playbooks/01_deconstruction/legacy_assets_index.yaml) | 舊資產索引 | ID → 來源/描述/原因 |
-| **Phase 2: Integration** | [02_integration/README.md](./docs/refactor_playbooks/02_integration/README.md) | 集成層說明 | 語言策略、模組邊界、架構藍圖 |
-| **Phase 3: Refactor** | [03_refactor/README.md](./docs/refactor_playbooks/03_refactor/README.md) | 重構層說明 | 可執行計畫、Auto-Fix 整合 |
-|  | [03_refactor/INDEX.md](./docs/refactor_playbooks/03_refactor/INDEX.md) | 人類可讀索引 | 劇本清單、狀態總覽 |
-|  | [03_refactor/index.yaml](./docs/refactor_playbooks/03_refactor/index.yaml) | 機器可讀索引 | CI/工具使用、cluster 映射 |
+| 階段                        | 文件路徑                                                                                                           | 說明         | 關鍵內容                     |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------ | ---------------------------- |
+| **Phase 1: Deconstruction** | [01_deconstruction/README.md](./docs/refactor_playbooks/01_deconstruction/README.md)                               | 解構層說明   | 考古挖掘、模式識別、依賴分析 |
+|                             | [01_deconstruction/legacy_assets_index.yaml](./docs/refactor_playbooks/01_deconstruction/legacy_assets_index.yaml) | 舊資產索引   | ID → 來源/描述/原因          |
+| **Phase 2: Integration**    | [02_integration/README.md](./docs/refactor_playbooks/02_integration/README.md)                                     | 集成層說明   | 語言策略、模組邊界、架構藍圖 |
+| **Phase 3: Refactor**       | [03_refactor/README.md](./docs/refactor_playbooks/03_refactor/README.md)                                           | 重構層說明   | 可執行計畫、Auto-Fix 整合    |
+|                             | [03_refactor/INDEX.md](./docs/refactor_playbooks/03_refactor/INDEX.md)                                             | 人類可讀索引 | 劇本清單、狀態總覽           |
+|                             | [03_refactor/index.yaml](./docs/refactor_playbooks/03_refactor/index.yaml)                                         | 機器可讀索引 | CI/工具使用、cluster 映射    |
 
 ### 模板與規範
 
-| 文件路徑 | 說明 | 用途 |
-|----------|------|------|
-| [03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md](./docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md) | 劇本標準模板 | 建立新重構劇本 |
-| [03_refactor/templates/SECTION_SNIPPETS.md](./docs/refactor_playbooks/03_refactor/templates/SECTION_SNIPPETS.md) | 常用章節片段 | P0/P1/P2 範例、驗收條件 |
-| [03_refactor/templates/META_CONVENTIONS.md](./docs/refactor_playbooks/03_refactor/templates/META_CONVENTIONS.md) | 命名與格式規範 | 檔名規則、Cluster ID 格式 |
+| 文件路徑                                                                                                                               | 說明           | 用途                      |
+| -------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------- |
+| [03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md](./docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md) | 劇本標準模板   | 建立新重構劇本            |
+| [03_refactor/templates/SECTION_SNIPPETS.md](./docs/refactor_playbooks/03_refactor/templates/SECTION_SNIPPETS.md)                       | 常用章節片段   | P0/P1/P2 範例、驗收條件   |
+| [03_refactor/templates/META_CONVENTIONS.md](./docs/refactor_playbooks/03_refactor/templates/META_CONVENTIONS.md)                       | 命名與格式規範 | 檔名規則、Cluster ID 格式 |
 
 **使用指引：**
 
@@ -212,23 +212,24 @@ cat docs/refactor_playbooks/03_refactor/index.yaml
 
 ### Island AI Multi-Agent System (`island-ai/`) ⭐ **NEW**
 
-**Island AI Stage 1** - 六個基礎 Agent 的 TypeScript 實現，提供智能診斷與系統洞察。
+**Island AI Stage
+1** - 六個基礎 Agent 的 TypeScript 實現，提供智能診斷與系統洞察。
 
-| 文件路徑                                   | 說明                 | 狀態     | 操作指引                       |
-| ------------------------------------------ | -------------------- | -------- | ------------------------------ |
-| [island-ai/README.md](./island-ai/README.md) ⭐ | Island AI 總覽 | ✅ Stage 1 | 多 Agent 系統架構與使用指南     |
-| [island-ai.md](./island-ai.md)              | 四階段實施路線圖     | 📋 規劃  | 完整發展計畫（54,000 行代碼）  |
-| [island-ai-readme.md](./island-ai-readme.md) | Stage 1 詳細說明   | ✅ 完成  | 基礎運行時與 6 個 Agent 實現   |
+| 文件路徑                                        | 說明             | 狀態       | 操作指引                      |
+| ----------------------------------------------- | ---------------- | ---------- | ----------------------------- |
+| [island-ai/README.md](./island-ai/README.md) ⭐ | Island AI 總覽   | ✅ Stage 1 | 多 Agent 系統架構與使用指南   |
+| [island-ai.md](./island-ai.md)                  | 四階段實施路線圖 | 📋 規劃    | 完整發展計畫（54,000 行代碼） |
+| [island-ai-readme.md](./island-ai-readme.md)    | Stage 1 詳細說明 | ✅ 完成    | 基礎運行時與 6 個 Agent 實現  |
 
 **Stage 1 Agents（已實現）：**
 
-| Agent 名稱          | 模組路徑                              | 職責               | 關鍵功能                      |
-| ------------------- | ------------------------------------- | ------------------ | ----------------------------- |
-| **Architect**       | `island-ai/src/agents/architect/`     | 架構設計與優化     | 系統分析、設計模式建議、性能優化 |
-| **Security**        | `island-ai/src/agents/security/`      | 安全審計與修補     | 漏洞掃描、OWASP/CWE 規則檢查 |
-| **DevOps**          | `island-ai/src/agents/devops/`        | 部署與監控         | CI/CD 管道、自動擴展、告警管理 |
-| **QA**              | `island-ai/src/agents/qa/`            | 測試與驗證         | 單元/整合/E2E 測試策略執行   |
-| **Data Scientist**  | `island-ai/src/agents/data-scientist/` | 數據分析與預測   | 回歸/分類/聚類模型、趨勢預測 |
+| Agent 名稱          | 模組路徑                                | 職責               | 關鍵功能                         |
+| ------------------- | --------------------------------------- | ------------------ | -------------------------------- |
+| **Architect**       | `island-ai/src/agents/architect/`       | 架構設計與優化     | 系統分析、設計模式建議、性能優化 |
+| **Security**        | `island-ai/src/agents/security/`        | 安全審計與修補     | 漏洞掃描、OWASP/CWE 規則檢查     |
+| **DevOps**          | `island-ai/src/agents/devops/`          | 部署與監控         | CI/CD 管道、自動擴展、告警管理   |
+| **QA**              | `island-ai/src/agents/qa/`              | 測試與驗證         | 單元/整合/E2E 測試策略執行       |
+| **Data Scientist**  | `island-ai/src/agents/data-scientist/`  | 數據分析與預測     | 回歸/分類/聚類模型、趨勢預測     |
 | **Product Manager** | `island-ai/src/agents/product-manager/` | 產品優先級與路線圖 | KPI 追蹤、用戶反饋分析、功能排序 |
 
 **快速開始：**
@@ -269,35 +270,35 @@ const reports = await runStageOne({
 
 完整的 11 個架構骨架系統，整合 unmanned-engineer-ceo 指南與 automation/autonomous 實現。
 
-| 文件路徑                                                                                                                    | 說明                       | 操作指引             |
-| --------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------------------- |
-| [automation/architecture-skeletons/README.md](./automation/architecture-skeletons/README.md) ⭐                             | 統一骨架系統入口           | AI 和工程師使用指南  |
-| [automation/architecture-skeletons/unified-index.yaml](./automation/architecture-skeletons/unified-index.yaml)             | 完整骨架索引和映射         | AI 查詢主要文件      |
-| [automation/architecture-skeletons/mapping.yaml](./automation/architecture-skeletons/mapping.yaml)                         | 指南與實現雙向映射         | 路徑映射參考         |
-| [docs/ARCHITECTURE_SKELETON_ANALYSIS.md](./docs/ARCHITECTURE_SKELETON_ANALYSIS.md)                                         | 架構骨架整合分析報告       | 整合策略和實施計劃   |
-| [unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/](./unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/) | 11 個完整架構指南（源文件） | AI 架構決策參考      |
+| 文件路徑                                                                                                                                   | 說明                        | 操作指引            |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------- |
+| [automation/architecture-skeletons/README.md](./automation/architecture-skeletons/README.md) ⭐                                            | 統一骨架系統入口            | AI 和工程師使用指南 |
+| [automation/architecture-skeletons/unified-index.yaml](./automation/architecture-skeletons/unified-index.yaml)                             | 完整骨架索引和映射          | AI 查詢主要文件     |
+| [automation/architecture-skeletons/mapping.yaml](./automation/architecture-skeletons/mapping.yaml)                                         | 指南與實現雙向映射          | 路徑映射參考        |
+| [docs/ARCHITECTURE_SKELETON_ANALYSIS.md](./docs/ARCHITECTURE_SKELETON_ANALYSIS.md)                                                         | 架構骨架整合分析報告        | 整合策略和實施計劃  |
+| [unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/](./unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/) | 11 個完整架構指南（源文件） | AI 架構決策參考     |
 
 ### 自主系統框架 (`automation/autonomous/`)
 
 11 個架構骨架的實現代碼（與 unmanned-engineer-ceo 指南對應）。
 
-| 文件路徑                                                                                                                          | 說明                     | 狀態     | 操作指引                 |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | -------- | ------------------------ |
-| [automation/autonomous/README.md](./automation/autonomous/README.md)                                                              | 自主系統框架             | ✅       | 11 骨架架構說明          |
-| [automation/autonomous/INTEGRATION_SUMMARY.md](./automation/autonomous/INTEGRATION_SUMMARY.md)                                    | 整合摘要                 | ✅       | 整合實施結果             |
-| [automation/autonomous/architecture-stability/README.md](./automation/autonomous/architecture-stability/README.md)                | 架構穩定性骨架           | ✅ 生產  | 即時飛控系統（C++ ROS2） |
-| [automation/autonomous/api-governance/README.md](./automation/autonomous/api-governance/README.md)                                | API 治理骨架             | ✅ 生產  | API 規範與驗證（Python） |
-| [automation/autonomous/security-observability/README.md](./automation/autonomous/security-observability/README.md)                | 安全與可觀測性骨架       | ✅ 生產  | 分散式事件日誌（Go）     |
-| [automation/autonomous/testing-compatibility/README.md](./automation/autonomous/testing-compatibility/README.md)                  | 測試治理骨架             | ✅ 生產  | 自動化測試套件（Python） |
-| [automation/autonomous/docs-examples/README.md](./automation/autonomous/docs-examples/README.md)                                  | 文檔治理骨架             | ✅ 生產  | 治理矩陣和範例           |
-| [automation/autonomous/identity-tenancy/README.md](./automation/autonomous/identity-tenancy/README.md)                            | 身份與多租戶骨架         | 🟡 設計  | 認證授權、RBAC/ABAC      |
-| [automation/autonomous/data-governance/README.md](./automation/autonomous/data-governance/README.md)                              | 資料治理骨架             | 🟡 設計  | 資料分類、隱私合規       |
-| [automation/autonomous/performance-reliability/README.md](./automation/autonomous/performance-reliability/README.md)              | 性能與可靠性骨架         | 🟡 設計  | SLA、容量規劃、災難恢復  |
-| [automation/autonomous/cost-management/README.md](./automation/autonomous/cost-management/README.md)                              | 成本管理骨架             | 🟡 設計  | 成本監控、預算規劃       |
-| [automation/autonomous/knowledge-base/README.md](./automation/autonomous/knowledge-base/README.md)                                | 知識庫骨架               | 🟡 設計  | 知識組織、AI 上下文管理  |
-| [automation/autonomous/nucleus-orchestrator/README.md](./automation/autonomous/nucleus-orchestrator/README.md)                    | 核心編排骨架             | 🟡 設計  | 工作流編排、代理協調     |
-| [automation/autonomous/docs-examples/API_DOCUMENTATION.md](./automation/autonomous/docs-examples/API_DOCUMENTATION.md)            | API 文檔                 | ✅       | API 參考                 |
-| [automation/autonomous/docs-examples/QUICKSTART.md](./automation/autonomous/docs-examples/QUICKSTART.md)                          | 快速入門                 | ✅       | 自主系統快速開始         |
+| 文件路徑                                                                                                               | 說明               | 狀態    | 操作指引                 |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- | ------------------------ |
+| [automation/autonomous/README.md](./automation/autonomous/README.md)                                                   | 自主系統框架       | ✅      | 11 骨架架構說明          |
+| [automation/autonomous/INTEGRATION_SUMMARY.md](./automation/autonomous/INTEGRATION_SUMMARY.md)                         | 整合摘要           | ✅      | 整合實施結果             |
+| [automation/autonomous/architecture-stability/README.md](./automation/autonomous/architecture-stability/README.md)     | 架構穩定性骨架     | ✅ 生產 | 即時飛控系統（C++ ROS2） |
+| [automation/autonomous/api-governance/README.md](./automation/autonomous/api-governance/README.md)                     | API 治理骨架       | ✅ 生產 | API 規範與驗證（Python） |
+| [automation/autonomous/security-observability/README.md](./automation/autonomous/security-observability/README.md)     | 安全與可觀測性骨架 | ✅ 生產 | 分散式事件日誌（Go）     |
+| [automation/autonomous/testing-compatibility/README.md](./automation/autonomous/testing-compatibility/README.md)       | 測試治理骨架       | ✅ 生產 | 自動化測試套件（Python） |
+| [automation/autonomous/docs-examples/README.md](./automation/autonomous/docs-examples/README.md)                       | 文檔治理骨架       | ✅ 生產 | 治理矩陣和範例           |
+| [automation/autonomous/identity-tenancy/README.md](./automation/autonomous/identity-tenancy/README.md)                 | 身份與多租戶骨架   | 🟡 設計 | 認證授權、RBAC/ABAC      |
+| [automation/autonomous/data-governance/README.md](./automation/autonomous/data-governance/README.md)                   | 資料治理骨架       | 🟡 設計 | 資料分類、隱私合規       |
+| [automation/autonomous/performance-reliability/README.md](./automation/autonomous/performance-reliability/README.md)   | 性能與可靠性骨架   | 🟡 設計 | SLA、容量規劃、災難恢復  |
+| [automation/autonomous/cost-management/README.md](./automation/autonomous/cost-management/README.md)                   | 成本管理骨架       | 🟡 設計 | 成本監控、預算規劃       |
+| [automation/autonomous/knowledge-base/README.md](./automation/autonomous/knowledge-base/README.md)                     | 知識庫骨架         | 🟡 設計 | 知識組織、AI 上下文管理  |
+| [automation/autonomous/nucleus-orchestrator/README.md](./automation/autonomous/nucleus-orchestrator/README.md)         | 核心編排骨架       | 🟡 設計 | 工作流編排、代理協調     |
+| [automation/autonomous/docs-examples/API_DOCUMENTATION.md](./automation/autonomous/docs-examples/API_DOCUMENTATION.md) | API 文檔           | ✅      | API 參考                 |
+| [automation/autonomous/docs-examples/QUICKSTART.md](./automation/autonomous/docs-examples/QUICKSTART.md)               | 快速入門           | ✅      | 自主系統快速開始         |
 
 ### 架構師工具 (`automation/architect/`)
 
@@ -327,8 +328,8 @@ const reports = await runStageOne({
 
 ### 自我覺察報告 (`automation/`)
 
-| 文件路徑                                                                      | 說明                 | 操作指引                                    |
-| ----------------------------------------------------------------------------- | -------------------- | ------------------------------------------- |
+| 文件路徑                                                                           | 說明               | 操作指引                                    |
+| ---------------------------------------------------------------------------------- | ------------------ | ------------------------------------------- |
 | [automation/self-awareness-dashboard.md](./automation/self-awareness-dashboard.md) | 自我覺察儀表板指南 | CLI、PR、Nightly 報告與 JSON 輸出的整合流程 |
 
 ---
@@ -368,12 +369,12 @@ const reports = await runStageOne({
 
 ### CI/CD 文檔 (`docs/ci-cd/`)
 
-| 文件路徑                                                                       | 說明         | 操作指引    |
-| ------------------------------------------------------------------------------ | ------------ | ----------- |
-| [docs/ci-cd/README.md](./docs/ci-cd/README.md)                                 | CI/CD 入口   | CI/CD 總覽  |
+| 文件路徑                                                                        | 說明             | 操作指引                             |
+| ------------------------------------------------------------------------------- | ---------------- | ------------------------------------ |
+| [docs/ci-cd/README.md](./docs/ci-cd/README.md)                                  | CI/CD 入口       | CI/CD 總覽                           |
 | [docs/ci-cd/workflow-coordination.md](./docs/ci-cd/workflow-coordination.md) ⭐ | 工作流程協調策略 | 三層工作流程架構、成本優化、最佳實踐 |
-| [docs/ci-cd/IMPLEMENTATION_SUMMARY.md](./docs/ci-cd/IMPLEMENTATION_SUMMARY.md) | 實施摘要     | 實施結果    |
-| [docs/ci-cd/stage-1-basic-ci.md](./docs/ci-cd/stage-1-basic-ci.md)             | 基礎 CI 階段 | 第一階段 CI |
+| [docs/ci-cd/IMPLEMENTATION_SUMMARY.md](./docs/ci-cd/IMPLEMENTATION_SUMMARY.md)  | 實施摘要         | 實施結果                             |
+| [docs/ci-cd/stage-1-basic-ci.md](./docs/ci-cd/stage-1-basic-ci.md)              | 基礎 CI 階段     | 第一階段 CI                          |
 
 ### 自動化流程文檔
 
@@ -404,22 +405,24 @@ const reports = await runStageOne({
 
 ### CI 治理框架 (`config/`, `scripts/hooks/`)
 
-> **新增於 PR #73** - 完整的 CI 治理框架，包含智能代理配置、錯誤處理映射、和 Stage 0 自動化檢查。
+> **新增於 PR
+> #73** - 完整的 CI 治理框架，包含智能代理配置、錯誤處理映射、和 Stage
+> 0 自動化檢查。
 
-| 文件路徑 | 說明 | 操作指引 |
-| --- | --- | --- |
-| [config/ci-agent-config.yaml](./config/ci-agent-config.yaml) | CI Copilot 智能代理配置 | 定義代理角色、分析流程、骨架整合 |
-| [config/ci-error-handler.yaml](./config/ci-error-handler.yaml) | 錯誤分類與行動映射 | 錯誤類型 → 優先級 → 修復步驟 |
-| [.github/workflows/reusable-ci.yml](./.github/workflows/reusable-ci.yml) ⭐ | 可重用 CI 管道 | 統一的 lint、test、build 流程 |
-| [.github/workflows/reusable-docker-build.yml](./.github/workflows/reusable-docker-build.yml) ⭐ | 可重用 Docker 建置 | 統一的容器建置、測試、掃描流程 |
-| [.github/workflows/monorepo-dispatch.yml](./.github/workflows/monorepo-dispatch.yml) | Monorepo CI 調度器 | 基礎 CI，路徑偵測、快速反饋 |
-| [.github/workflows/core-services-ci.yml](./.github/workflows/core-services-ci.yml) | 核心服務 CI | 包含 Docker 建置的完整 CI |
-| [.github/workflows/integration-deployment.yml](./.github/workflows/integration-deployment.yml) | 整合與部署 | 全面系統整合測試、四層驗證 |
-| [.github/workflows/arch-governance-validation.yml](./.github/workflows/arch-governance-validation.yml) | 架構與治理驗證工作流程 | 自動驗證架構、安全、資料治理 |
-| [scripts/hooks/pre-commit](./scripts/hooks/pre-commit) | Stage 0 提交前檢查 | YAML 驗證、Workflow 檢查、敏感資料掃描 |
-| [scripts/hooks/pre-push](./scripts/hooks/pre-push) | Stage 0 推送前驗證 | 必要檔案、目錄結構、骨架索引檢查 |
-| [scripts/hooks/install-hooks.sh](./scripts/hooks/install-hooks.sh) | Git Hooks 安裝腳本 | 一鍵安裝本地 hooks |
-| [docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md](./docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md) | CI 治理框架分析報告 | 完整架構分析與整合說明 |
+| 文件路徑                                                                                               | 說明                    | 操作指引                               |
+| ------------------------------------------------------------------------------------------------------ | ----------------------- | -------------------------------------- |
+| [config/ci-agent-config.yaml](./config/ci-agent-config.yaml)                                           | CI Copilot 智能代理配置 | 定義代理角色、分析流程、骨架整合       |
+| [config/ci-error-handler.yaml](./config/ci-error-handler.yaml)                                         | 錯誤分類與行動映射      | 錯誤類型 → 優先級 → 修復步驟           |
+| [.github/workflows/reusable-ci.yml](./.github/workflows/reusable-ci.yml) ⭐                            | 可重用 CI 管道          | 統一的 lint、test、build 流程          |
+| [.github/workflows/reusable-docker-build.yml](./.github/workflows/reusable-docker-build.yml) ⭐        | 可重用 Docker 建置      | 統一的容器建置、測試、掃描流程         |
+| [.github/workflows/monorepo-dispatch.yml](./.github/workflows/monorepo-dispatch.yml)                   | Monorepo CI 調度器      | 基礎 CI，路徑偵測、快速反饋            |
+| [.github/workflows/core-services-ci.yml](./.github/workflows/core-services-ci.yml)                     | 核心服務 CI             | 包含 Docker 建置的完整 CI              |
+| [.github/workflows/integration-deployment.yml](./.github/workflows/integration-deployment.yml)         | 整合與部署              | 全面系統整合測試、四層驗證             |
+| [.github/workflows/arch-governance-validation.yml](./.github/workflows/arch-governance-validation.yml) | 架構與治理驗證工作流程  | 自動驗證架構、安全、資料治理           |
+| [scripts/hooks/pre-commit](./scripts/hooks/pre-commit)                                                 | Stage 0 提交前檢查      | YAML 驗證、Workflow 檢查、敏感資料掃描 |
+| [scripts/hooks/pre-push](./scripts/hooks/pre-push)                                                     | Stage 0 推送前驗證      | 必要檔案、目錄結構、骨架索引檢查       |
+| [scripts/hooks/install-hooks.sh](./scripts/hooks/install-hooks.sh)                                     | Git Hooks 安裝腳本      | 一鍵安裝本地 hooks                     |
+| [docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md](./docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md)           | CI 治理框架分析報告     | 完整架構分析與整合說明                 |
 
 ### 自動修復文檔 (`docs/automation/`)
 
@@ -450,42 +453,43 @@ const reports = await runStageOne({
 
 ### 治理文檔 (`governance/`)
 
-> **⚠️ 重要更新 (2025-12-12)**: 治理目錄已完成重組，解決目錄衝突與重複問題。詳見 [governance/RESTRUCTURING_GUIDE.md](./governance/RESTRUCTURING_GUIDE.md)
+> **⚠️ 重要更新 (2025-12-12)**: 治理目錄已完成重組，解決目錄衝突與重複問題。詳見
+> [governance/RESTRUCTURING_GUIDE.md](./governance/RESTRUCTURING_GUIDE.md)
 
-| 文件路徑                                                                                                                     | 說明              | 操作指引      |
-| ---------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------- |
-| [governance/README.md](./governance/README.md)                                                                               | 治理入口          | 政策與規則（已更新結構） |
-| [governance/RESTRUCTURING_GUIDE.md](./governance/RESTRUCTURING_GUIDE.md) 🆕                                                  | 重組遷移指南      | 目錄重組說明與遷移步驟 |
-| [governance/RESTRUCTURING_SUMMARY.md](./governance/RESTRUCTURING_SUMMARY.md) 🆕                                              | 重組完成摘要      | 變更總結與驗證結果 |
-| [governance/ARCHITECTURE_GOVERNANCE_MATRIX.md](./governance/ARCHITECTURE_GOVERNANCE_MATRIX.md) ⭐                            | 架構治理矩陣      | 九大治理維度完整框架 |
-| [governance/DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md](./governance/DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md)                       | 目錄結構深度分析  | 治理目錄完整結構與統計 |
-| [governance/FILE_CONTENT_STRUCTURE_ANALYSIS.md](./governance/FILE_CONTENT_STRUCTURE_ANALYSIS.md) 🆕                          | 檔案內容結構分析  | 實際檔案內容模式與最佳實踐 |
-| [governance/MISSING_DIMENSIONS_ANALYSIS.md](./governance/MISSING_DIMENSIONS_ANALYSIS.md) 🆕                                  | 缺失維度分析報告  | 39 個缺失維度評估與擴展建議 |
-| **🎉 已實施完整 81 個治理維度** | 治理覆蓋率達成 100% | 完整 00-80 連續維度覆蓋 (執行層、觀測層、回饋層全面完成) |
-| [governance/architecture/layers-domains.yaml](./governance/architecture/layers-domains.yaml)                                 | 層級與領域定義    | 架構層級與功能領域語義 |
-| [governance/ownership-map.yaml](./governance/ownership-map.yaml)                                                             | 所有權與生命週期  | 模組責任人與狀態追蹤 |
-| [governance/architecture-health.yaml](./governance/architecture-health.yaml)                                                 | 架構健康度指標    | 可量測的架構品質閘門 |
-| [governance/behavior-contracts/](./governance/behavior-contracts/)                                                          | 行為契約目錄      | 模組 API、事件與不變條件 |
-| [governance/modules/](./governance/modules/)                                                                                 | 模組角色與能力    | 模組責任與功能定義 |
-| [governance/policies/architecture-rules.yaml](./governance/policies/architecture-rules.yaml)                                 | 架構策略規則      | 可執行的治理策略 |
-| [governance/23-policies/python-code-standards.md](./governance/23-policies/python-code-standards.md) ⭐ **NEW**              | Python 代碼標準   | Python 語法與質量規範 |
-| [governance/35-scripts/validate-python-syntax.py](./governance/35-scripts/validate-python-syntax.py) ⭐ **NEW**              | Python 語法驗證器 | 自動化語法檢查工具 |
-| [governance/environment-matrix/LANGUAGE_DIMENSION_MAPPING.md](./governance/environment-matrix/LANGUAGE_DIMENSION_MAPPING.md) | 語言維度映射      | 多語言配置    |
-| [governance/policies/conftest/matechat-integration/README.md](./governance/policies/conftest/matechat-integration/README.md) | MateChat 整合策略 | Conftest 策略 |
+| 文件路徑                                                                                                                     | 說明                | 操作指引                                                 |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------------------------------- |
+| [governance/README.md](./governance/README.md)                                                                               | 治理入口            | 政策與規則（已更新結構）                                 |
+| [governance/RESTRUCTURING_GUIDE.md](./governance/RESTRUCTURING_GUIDE.md) 🆕                                                  | 重組遷移指南        | 目錄重組說明與遷移步驟                                   |
+| [governance/RESTRUCTURING_SUMMARY.md](./governance/RESTRUCTURING_SUMMARY.md) 🆕                                              | 重組完成摘要        | 變更總結與驗證結果                                       |
+| [governance/ARCHITECTURE_GOVERNANCE_MATRIX.md](./governance/ARCHITECTURE_GOVERNANCE_MATRIX.md) ⭐                            | 架構治理矩陣        | 九大治理維度完整框架                                     |
+| [governance/DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md](./governance/DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md)                       | 目錄結構深度分析    | 治理目錄完整結構與統計                                   |
+| [governance/FILE_CONTENT_STRUCTURE_ANALYSIS.md](./governance/FILE_CONTENT_STRUCTURE_ANALYSIS.md) 🆕                          | 檔案內容結構分析    | 實際檔案內容模式與最佳實踐                               |
+| [governance/MISSING_DIMENSIONS_ANALYSIS.md](./governance/MISSING_DIMENSIONS_ANALYSIS.md) 🆕                                  | 缺失維度分析報告    | 39 個缺失維度評估與擴展建議                              |
+| **🎉 已實施完整 81 個治理維度**                                                                                              | 治理覆蓋率達成 100% | 完整 00-80 連續維度覆蓋 (執行層、觀測層、回饋層全面完成) |
+| [governance/architecture/layers-domains.yaml](./governance/architecture/layers-domains.yaml)                                 | 層級與領域定義      | 架構層級與功能領域語義                                   |
+| [governance/ownership-map.yaml](./governance/ownership-map.yaml)                                                             | 所有權與生命週期    | 模組責任人與狀態追蹤                                     |
+| [governance/architecture-health.yaml](./governance/architecture-health.yaml)                                                 | 架構健康度指標      | 可量測的架構品質閘門                                     |
+| [governance/behavior-contracts/](./governance/behavior-contracts/)                                                           | 行為契約目錄        | 模組 API、事件與不變條件                                 |
+| [governance/modules/](./governance/modules/)                                                                                 | 模組角色與能力      | 模組責任與功能定義                                       |
+| [governance/policies/architecture-rules.yaml](./governance/policies/architecture-rules.yaml)                                 | 架構策略規則        | 可執行的治理策略                                         |
+| [governance/23-policies/python-code-standards.md](./governance/23-policies/python-code-standards.md) ⭐ **NEW**              | Python 代碼標準     | Python 語法與質量規範                                    |
+| [governance/35-scripts/validate-python-syntax.py](./governance/35-scripts/validate-python-syntax.py) ⭐ **NEW**              | Python 語法驗證器   | 自動化語法檢查工具                                       |
+| [governance/environment-matrix/LANGUAGE_DIMENSION_MAPPING.md](./governance/environment-matrix/LANGUAGE_DIMENSION_MAPPING.md) | 語言維度映射        | 多語言配置                                               |
+| [governance/policies/conftest/matechat-integration/README.md](./governance/policies/conftest/matechat-integration/README.md) | MateChat 整合策略   | Conftest 策略                                            |
 
 ### 重構 Playbooks (`docs/refactor_playbooks/`) ⭐ **NEW**
 
 AI 驅動的重構計畫生成系統，為每個目錄群集提供可執行的重構指南。
 
-| 文件路徑                                                                     | 說明                   | 操作指引                         |
-| ---------------------------------------------------------------------------- | ---------------------- | -------------------------------- |
-| [docs/refactor_playbooks/README.md](./docs/refactor_playbooks/README.md) ⭐ | 重構 Playbooks 入口    | 了解如何使用和生成重構計畫       |
-| [tools/generate-refactor-playbook.py](./tools/generate-refactor-playbook.py) | Playbook 生成器        | 自動生成 cluster 重構計畫        |
-| [governance/language-governance-report.md](./governance/language-governance-report.md) | 語言治理報告           | 語言違規與統計資料               |
-| [governance/ai-refactor-suggestions.md](./governance/ai-refactor-suggestions.md) | AI 重構建議            | 全局重構策略與最佳實踐           |
-| [apps/web/public/data/hotspot.json](./apps/web/public/data/hotspot.json)     | Hotspot 熱點分析       | 高風險檔案列表                   |
-| [apps/web/public/data/cluster-heatmap.json](./apps/web/public/data/cluster-heatmap.json) | Cluster 熱力圖         | 目錄群集健康分數                 |
-| [apps/web/public/data/migration-flow.json](./apps/web/public/data/migration-flow.json) | 語言遷移流向           | 語言遷移建議與歷史               |
+| 文件路徑                                                                                 | 說明                | 操作指引                   |
+| ---------------------------------------------------------------------------------------- | ------------------- | -------------------------- |
+| [docs/refactor_playbooks/README.md](./docs/refactor_playbooks/README.md) ⭐              | 重構 Playbooks 入口 | 了解如何使用和生成重構計畫 |
+| [tools/generate-refactor-playbook.py](./tools/generate-refactor-playbook.py)             | Playbook 生成器     | 自動生成 cluster 重構計畫  |
+| [governance/language-governance-report.md](./governance/language-governance-report.md)   | 語言治理報告        | 語言違規與統計資料         |
+| [governance/ai-refactor-suggestions.md](./governance/ai-refactor-suggestions.md)         | AI 重構建議         | 全局重構策略與最佳實踐     |
+| [apps/web/public/data/hotspot.json](./apps/web/public/data/hotspot.json)                 | Hotspot 熱點分析    | 高風險檔案列表             |
+| [apps/web/public/data/cluster-heatmap.json](./apps/web/public/data/cluster-heatmap.json) | Cluster 熱力圖      | 目錄群集健康分數           |
+| [apps/web/public/data/migration-flow.json](./apps/web/public/data/migration-flow.json)   | 語言遷移流向        | 語言遷移建議與歷史         |
 
 **關鍵功能：**
 
@@ -527,12 +531,13 @@ python3 tools/generate-refactor-playbook.py --use-llm
 
 ### MCP 伺服器 (`mcp-servers/`)
 
-| 文件路徑                                                   | 說明           | 操作指引     |
-| ---------------------------------------------------------- | -------------- | ------------ |
-| [mcp-servers/README.md](./mcp-servers/README.md)           | MCP 伺服器入口 | LLM 工具端點 |
-| [mcp-servers/VALIDATION.md](./mcp-servers/VALIDATION.md)   | 驗證說明       | 驗證配置     |
+| 文件路徑                                                 | 說明           | 操作指引     |
+| -------------------------------------------------------- | -------------- | ------------ |
+| [mcp-servers/README.md](./mcp-servers/README.md)         | MCP 伺服器入口 | LLM 工具端點 |
+| [mcp-servers/VALIDATION.md](./mcp-servers/VALIDATION.md) | 驗證說明       | 驗證配置     |
 
-> **注意**: 歷史路徑 `services/mcp/` 仍然存在以保持向後相容，但 CI/CD 和 npm workspaces 使用 `mcp-servers/`。
+> **注意**: 歷史路徑 `services/mcp/` 仍然存在以保持向後相容，但 CI/CD 和 npm
+> workspaces 使用 `mcp-servers/`。
 
 ---
 
@@ -596,13 +601,13 @@ CLI 工具與腳本文檔。
 
 ### 治理與重構工具 (`tools/`)
 
-| 文件路徑                                                                                                 | 說明                     | 操作指引                   |
-| -------------------------------------------------------------------------------------------------------- | ------------------------ | -------------------------- |
-| [tools/generate-refactor-playbook.py](./tools/generate-refactor-playbook.py) ⭐                          | AI 重構 Playbook 生成器  | 為每個 cluster 生成重構計畫 |
-| [tools/governance/language-governance-analyzer.py](./tools/governance/language-governance-analyzer.py)   | 語言治理分析器           | 掃描語言違規               |
-| [tools/governance/check-language-policy.py](./tools/governance/check-language-policy.py)                 | 語言政策檢查             | CI 語言政策驗證            |
-| [tools/language-health-score.py](./tools/language-health-score.py)                                       | 語言健康分數計算         | 計算語言治理健康分數       |
-| [tools/generate-language-dashboard.py](./tools/generate-language-dashboard.py)                           | 語言儀表板生成器         | 生成治理儀表板數據         |
+| 文件路徑                                                                                               | 說明                    | 操作指引                    |
+| ------------------------------------------------------------------------------------------------------ | ----------------------- | --------------------------- |
+| [tools/generate-refactor-playbook.py](./tools/generate-refactor-playbook.py) ⭐                        | AI 重構 Playbook 生成器 | 為每個 cluster 生成重構計畫 |
+| [tools/governance/language-governance-analyzer.py](./tools/governance/language-governance-analyzer.py) | 語言治理分析器          | 掃描語言違規                |
+| [tools/governance/check-language-policy.py](./tools/governance/check-language-policy.py)               | 語言政策檢查            | CI 語言政策驗證             |
+| [tools/language-health-score.py](./tools/language-health-score.py)                                     | 語言健康分數計算        | 計算語言治理健康分數        |
+| [tools/generate-language-dashboard.py](./tools/generate-language-dashboard.py)                         | 語言儀表板生成器        | 生成治理儀表板數據          |
 
 ---
 
@@ -1103,7 +1108,8 @@ journalctl -u <service-name> -f
 ## 📊 文檔統計
 
 > **備註**: 以下統計表為本索引**手動維護**的主要文檔數量快照（已分類整理）。  
-> 完整的機器掃描發現倉庫中共有 **426 個 `.md` 文件**（包含子模組、模板、範例等）。  
+> 完整的機器掃描發現倉庫中共有 **426 個 `.md`
+> 文件**（包含子模組、模板、範例等）。  
 > 執行 `find . -name "*.md" -type f | wc -l` 可取得最新完整數量。  
 > **最新掃描**: 2025-12-06
 
@@ -1124,7 +1130,8 @@ journalctl -u <service-name> -f
 | **手動索引小計** | **約 176**       |
 | **完整掃描總計** | **426**          |
 
-> **自動生成索引**: 完整的機器可讀索引請參考 [docs/generated-index.yaml](./docs/generated-index.yaml)（426 個文件）
+> **自動生成索引**: 完整的機器可讀索引請參考
+> [docs/generated-index.yaml](./docs/generated-index.yaml)（426 個文件）
 
 ---
 
@@ -1143,5 +1150,6 @@ journalctl -u <service-name> -f
 **文件版本**: 1.1.0  
 **最後更新**: 2025-12-06  
 **維護者**: SynergyMesh Development Team  
-**自動化索引**: 請參考 [docs/knowledge_index.yaml](./docs/knowledge_index.yaml) 或 [docs/generated-index.yaml](./docs/generated-index.yaml)
+**自動化索引**: 請參考 [docs/knowledge_index.yaml](./docs/knowledge_index.yaml)
+或 [docs/generated-index.yaml](./docs/generated-index.yaml)
 獲取機器可讀的最新索引

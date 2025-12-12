@@ -2,17 +2,25 @@
 
 ## 📖 Overview
 
-The **Evolution Orchestrator** is an AI-powered automated evolution planning engine that reads the system's evolution state and generates prioritized, actionable refactor plans.
+The **Evolution Orchestrator** is an AI-powered automated evolution planning
+engine that reads the system's evolution state and generates prioritized,
+actionable refactor plans.
 
-**Location**: `automation/intelligent/synergymesh_core/evolution_orchestrator.py`
+**Location**:
+`automation/intelligent/synergymesh_core/evolution_orchestrator.py`
 
 ## 🎯 Core Capabilities
 
-1. **Auto-Read Evolution State**: Automatically loads `knowledge/evolution-state.yaml`
-2. **Constraint Validation**: Applies constraints from `config/system-evolution.yaml` and `config/ai-constitution.yaml`
-3. **Priority Generation**: Creates P0-P3 prioritized action lists based on objective scores
-4. **Plan Export**: Outputs executable markdown plans to `docs/evolution/CURRENT_ACTION_PLAN.md`
-5. **Ecosystem Integration**: Works with `ecosystem_orchestrator.py` as EVOLUTION_ENGINE subsystem
+1. **Auto-Read Evolution State**: Automatically loads
+   `knowledge/evolution-state.yaml`
+2. **Constraint Validation**: Applies constraints from
+   `config/system-evolution.yaml` and `config/ai-constitution.yaml`
+3. **Priority Generation**: Creates P0-P3 prioritized action lists based on
+   objective scores
+4. **Plan Export**: Outputs executable markdown plans to
+   `docs/evolution/CURRENT_ACTION_PLAN.md`
+5. **Ecosystem Integration**: Works with `ecosystem_orchestrator.py` as
+   EVOLUTION_ENGINE subsystem
 
 ## 🏗️ Architecture
 
@@ -93,43 +101,49 @@ plan = asyncio.run(run_orchestration())
 
 Generated plans follow this structure:
 
-```markdown
+````markdown
 # 🤖 System Evolution Action Plan
 
-生成時間: 2025-12-07T07:09:41
-基於狀態: 2025-12-07T06:56:04.535641Z
-計畫 ID: plan-20251207-070941
+生成時間: 2025-12-07T07:09:41基於狀態: 2025-12-07T06:56:04.535641Z計畫 ID:
+plan-20251207-070941
 
 ## 📊 當前狀態
+
 - 目前分數: **81.25/100**
 - 目標分數: **100.0/100**
 - 待執行動作: **3** 個
 - 預估時程: **2.5 hours**
 
 ## 🔒 演化約束
+
 - 不得自動修改 core/autonomous 中 safety-critical 邏輯。
 - 不得破壞 architecture skeletons 的邊界...
 - ...
 
 ## P0: P0 Critical
+
 **1 個動作**
 
 ### [PENDING] 修復 Semgrep 高風險問題 (當前: 2 個問題)
+
 - **Action ID**: `security-high-severity`
 - **Objective**: security
 - **Cluster**: core
 - **Expected Improvement**: +15.0 points
-- **Playbook**: `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+- **Playbook**:
+  `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
 - **Constraints**: ✅ Checked
 
 **執行步驟:**
+
 ```bash
 # Review security issues in governance/semgrep-report.json
 # Create security refactor playbooks for affected clusters
 # Apply fixes following playbook guidelines
 ```
+````
 
-```
+````
 
 ## 🔄 Integration with Ecosystem Orchestrator
 
@@ -166,7 +180,7 @@ await ecosystem.register_subsystem(
     capabilities=["plan_generation", "constraint_validation"],
     handler=handle_evolution_request
 )
-```
+````
 
 ## 🎨 Customization
 
@@ -177,7 +191,7 @@ Edit `generate_actions_for_objective()` in `evolution_orchestrator.py`:
 ```python
 def generate_actions_for_objective(self, objective: dict[str, Any]) -> list[RefactorAction]:
     # ... existing code ...
-    
+
     # Add new objective type
     elif obj_id == "test-coverage" and score < 100:
         action = RefactorAction(
@@ -203,13 +217,13 @@ Add constraint validation in `check_constraints()`:
 ```python
 def check_constraints(self, action: RefactorAction) -> tuple[bool, list[str]]:
     violations = []
-    
+
     for constraint in self.constraints:
         # Add custom constraint check
         if "no-external-api" in constraint:
             if "API" in action.description or "http" in action.description.lower():
                 violations.append(f"External API constraint violated")
-    
+
     return len(violations) == 0, violations
 ```
 
@@ -258,7 +272,7 @@ Add to `.github/workflows/system-evolution.yml`:
 - name: Generate Evolution Plan
   run: |
     python3 automation/intelligent/synergymesh_core/evolution_orchestrator.py
-    
+
 - name: Commit Evolution Plan
   run: |
     git add docs/evolution/CURRENT_ACTION_PLAN.md
@@ -273,7 +287,7 @@ Add cron job for daily planning:
 ```yaml
 on:
   schedule:
-    - cron: "0 18 * * *"  # Daily at 18:00 UTC
+    - cron: '0 18 * * *' # Daily at 18:00 UTC
 ```
 
 ## 📈 Metrics & Monitoring
@@ -336,9 +350,12 @@ python3 tools/evolution/generate_evolution_report.py
 ## 📚 Related Documentation
 
 - [`docs/evolution/README.md`](./README.md) - Evolution subsystem overview
-- [`docs/evolution/orchestrator-prompt-template.md`](./orchestrator-prompt-template.md) - AI prompt template
-- [`config/system-evolution.yaml`](../../config/system-evolution.yaml) - Evolution configuration
-- [`config/ai-constitution.yaml`](../../config/ai-constitution.yaml) - AI behavior constraints
+- [`docs/evolution/orchestrator-prompt-template.md`](./orchestrator-prompt-template.md) -
+  AI prompt template
+- [`config/system-evolution.yaml`](../../config/system-evolution.yaml) -
+  Evolution configuration
+- [`config/ai-constitution.yaml`](../../config/ai-constitution.yaml) - AI
+  behavior constraints
 
 ---
 

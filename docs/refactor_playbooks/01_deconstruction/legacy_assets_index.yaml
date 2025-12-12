@@ -40,16 +40,16 @@ assets:
       Contains old JavaScript-based modules that were replaced with TypeScript.
       Used for reference during migration to understand original design decisions.
       Should be deleted once core architecture refactor is complete.
-      
+
       Key learnings:
       - Original event-driven design was sound but implementation was fragile
       - Module boundaries need explicit interface definitions
       - Configuration management should be centralized
-    
+
   - asset_id: "architecture-old-contracts"
     description: "Legacy gRPC contract definitions (Protocol Buffer v2)"
     source_repo: "internal/contracts-legacy"
-    source_ref: "main@abc1234"  # Example: Replace with actual commit SHA when indexing real assets
+    source_ref: "main@abc1234" # Example: Replace with actual commit SHA when indexing real assets
     date_archived: "2025-12-06"
     deprecated_date: "2024-10-15"
     reason: |
@@ -62,7 +62,7 @@ assets:
       Migration to Protocol Buffer v3 with proper API versioning.
       Each service should own its own contract definitions.
       Use backward-compatible evolution strategies.
-  
+
   - asset_id: "core-toplevel-engines-v2.5"
     description: "Core 頂層 AI engines 原始佈局（重組前快照）"
     source_repo: "internal/unmanned-island"
@@ -84,14 +84,14 @@ assets:
       - autonomous_trust_engine.py → core/governance/trust_engine.py
       - auto_bug_detector.py → core/quality_assurance/bug_detector.py
       - (共 11 個檔案)
-      
+
       保留原因：記錄原始組織方式，幫助理解重組決策與影響評估。
-      
+
       關鍵學習：
       - 頂層目錄應保持簡潔，功能模組應分類組織
       - 明確的目錄結構降低新成員學習成本
       - 遷移時應提供 shim layer 確保向後相容
-  
+
   - asset_id: "advisory-db-javascript-legacy"
     description: "Advisory Database JavaScript 實作（TypeScript 遷移前）"
     source_repo: "internal/unmanned-island"
@@ -113,18 +113,18 @@ assets:
       - advisory-database/src/cache.js → cache.ts
       - advisory-database/src/query.js → query.ts
       - advisory-database/src/formatter.js → formatter.ts
-      
+
       遷移要點：
       - 保持 API 相容性（公開介面不變）
       - 新增型別定義（interface, type）
       - 測試覆蓋率目標 > 80%
       - 漸進式遷移，先檔案後型別強化
-      
+
       預期效果：
       - 語言違規：-7
       - 型別安全性：+100%
       - 維護成本：-30%
-  
+
   - asset_id: "mind-matrix-hypergraph-v1"
     description: "Mind Matrix 超圖架構原始設計（已簡化為 cognitive_processor）"
     source_repo: "internal/unmanned-island-v1"
@@ -140,20 +140,20 @@ assets:
       - "core/unified_integration"
     notes: |
       原始設計文檔：docs/archive/mind-matrix-design-v1.md
-      
+
       保留原因：
       超圖設計概念在未來大規模系統（數百個 agent 協作）中可能復用。
       保留設計思路供參考。
-      
+
       關鍵學習：
       - 抽象層次應與系統規模匹配（YAGNI 原則）
       - 簡單設計優於過度設計
       - 複雜度應隨需求逐步演進，而非一步到位
-      
+
       替代方案：
       當前使用 cognitive_processor.py 的四層架構已足夠應對需求，
       且更易於測試與維護。
-  
+
   - asset_id: "unified-integration-monolithic-v2"
     description: "Unified Integration 單體結構（子模組化重組前）"
     source_repo: "internal/unmanned-island"
@@ -173,21 +173,21 @@ assets:
       - work_configuration_manager.py → configuration/work_manager.py
       - system_orchestrator.py → orchestration/orchestrator.py
       - deep_execution_system.py → orchestration/execution_system.py
-      
+
       保留檔案（不變）：
       - cognitive_processor.py（重構降低複雜度）
       - service_registry.py（重構降低複雜度）
       - integration_hub.py
       - cli_bridge.py
-      
+
       重組目標：
       - 配置相關功能集中管理
       - 編排相關功能集中管理
       - 降低單一目錄的檔案數量
       - 提高模組內聚性
-  
+
   # Future legacy assets will be added here as refactoring progresses
-  # 
+  #
   # Template for new entries:
   # - asset_id: "unique-identifier"
   #   description: "Brief description of the asset"

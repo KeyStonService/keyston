@@ -10,6 +10,6 @@ spec:
   selector:
     matchLabels:
       app: contracts-service
-  
+
   # 替代方案：使用 maxUnavailable
   # maxUnavailable: 1

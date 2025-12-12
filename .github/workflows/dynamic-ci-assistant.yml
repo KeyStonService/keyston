@@ -46,7 +46,7 @@ jobs:
       has_failures: ${{ steps.check-status.outputs.has_failures || steps.set-defaults.outputs.has_failures }}
       failed_workflows: ${{ steps.check-status.outputs.failed_workflows || steps.set-defaults.outputs.failed_workflows }}
       pr_number: ${{ steps.get-pr.outputs.pr_number }}
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -54,14 +54,14 @@ jobs:
           # 安全性：使用 pull_request_target 時，明確檢出基礎分支
           # 以避免執行來自 fork 的不受信任代碼
           ref: ${{ github.event.repository.default_branch }}
-      
+
       - name: 🔍 獲取 PR 編號
         id: get-pr
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             let prNumber = null;
-            
+
             if (context.eventName === 'pull_request_target') {
               prNumber = context.payload.pull_request.number;
             } else if (context.eventName === 'workflow_run') {
@@ -77,11 +77,11 @@ jobs:
                 prNumber = pulls.data[0].number;
               }
             }
-            
+
             console.log(`PR Number: ${prNumber}`);
             core.setOutput('pr_number', prNumber);
             return prNumber;
-      
+
       - name: 🔧 設定預設輸出值
         id: set-defaults
         if: ${{ !steps.get-pr.outputs.pr_number }}
@@ -89,7 +89,7 @@ jobs:
           echo "has_failures=false" >> $GITHUB_OUTPUT
           echo "failed_workflows=[]" >> $GITHUB_OUTPUT
           echo "No PR number found, setting default outputs"
-      
+
       - name: 🔍 檢查 CI 狀態
         id: check-status
         if: steps.get-pr.outputs.pr_number != ''
@@ -97,26 +97,26 @@ jobs:
         with:
           script: |
             const prNumber = ${{ steps.get-pr.outputs.pr_number }};
-            
+
             // 獲取 PR 的所有 check runs
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: prNumber
             });
-            
+
             const { data: checks } = await github.rest.checks.listForRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: pr.head.sha,
               per_page: 100
             });
-            
+
             // 分析失敗的 workflows
             const failedChecks = checks.check_runs.filter(check => 
               check.conclusion === 'failure' || check.conclusion === 'timed_out'
             );
-            
+
             const hasFailures = failedChecks.length > 0;
             const failedWorkflows = failedChecks.map(check => ({
               name: check.name,
@@ -125,13 +125,13 @@ jobs:
               started_at: check.started_at,
               completed_at: check.completed_at
             }));
-            
+
             console.log(`Has failures: ${hasFailures}`);
             console.log(`Failed workflows: ${JSON.stringify(failedWorkflows, null, 2)}`);
-            
+
             core.setOutput('has_failures', hasFailures);
             core.setOutput('failed_workflows', JSON.stringify(failedWorkflows));
-            
+
             // 生成摘要
             if (hasFailures) {
               core.summary
@@ -157,13 +157,13 @@ jobs:
     if: needs.analyze-ci-status.outputs.has_failures == 'true' && needs.analyze-ci-status.outputs.pr_number != ''
     outputs:
       diagnosis_report: ${{ steps.diagnose.outputs.report }}
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event.repository.default_branch }}
-      
+
       - name: 🔬 分析失敗原因
         id: diagnose
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
@@ -171,14 +171,14 @@ jobs:
           script: |
             const failedWorkflows = JSON.parse('${{ needs.analyze-ci-status.outputs.failed_workflows }}');
             const prNumber = ${{ needs.analyze-ci-status.outputs.pr_number }};
-            
+
             let diagnosis = {
               summary: '',
               details: [],
               recommendations: [],
               quickFixes: []
             };
-            
+
             // 智能診斷邏輯
             for (const workflow of failedWorkflows) {
               const workflowName = workflow.name.toLowerCase();
@@ -273,7 +273,7 @@ jobs:
                 });
               }
             }
-            
+
             // 添加快速修復建議
             diagnosis.quickFixes = [
               {
@@ -292,9 +292,9 @@ jobs:
                 description: '詳細的錯誤解決方案'
               }
             ];
-            
+
             diagnosis.summary = `發現 ${failedWorkflows.length} 個 CI 檢查失敗`;
-            
+
             core.setOutput('report', JSON.stringify(diagnosis));
             return diagnosis;
 
@@ -306,13 +306,13 @@ jobs:
     needs: [analyze-ci-status, diagnose-failures]
     runs-on: ubuntu-latest
     if: needs.analyze-ci-status.outputs.has_failures == 'true' && needs.analyze-ci-status.outputs.pr_number != ''
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event.repository.default_branch }}
-      
+
       - name: 💬 發布智能診斷評論
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
@@ -320,27 +320,27 @@ jobs:
             const prNumber = ${{ needs.analyze-ci-status.outputs.pr_number }};
             const diagnosis = JSON.parse('${{ needs.diagnose-failures.outputs.diagnosis_report }}');
             const failedWorkflows = JSON.parse('${{ needs.analyze-ci-status.outputs.failed_workflows }}');
-            
+
             // 生成互動式評論
             let comment = `## 🤖 動態 CI 助手 - 智能診斷報告
-            
+
             ${diagnosis.summary}
-            
+
             ---
-            
+
             ### 📊 失敗的 CI 檢查
-            
+
             | Workflow | 狀態 | 日誌連結 |
             |----------|------|---------|
             `;
-            
+
             for (const workflow of failedWorkflows) {
               const status = workflow.conclusion === 'failure' ? '❌ 失敗' : '⏱️ 超時';
               comment += `| ${workflow.name} | ${status} | [查看日誌](${workflow.html_url}) |\n`;
             }
-            
+
             comment += `\n---\n\n### 🔬 智能診斷分析\n\n`;
-            
+
             for (const detail of diagnosis.details) {
               comment += `#### ${detail.workflow}\n\n`;
               comment += `**問題類型**: ${detail.message}\n\n`;
@@ -350,9 +350,9 @@ jobs:
               }
               comment += `\n`;
             }
-            
+
             comment += `---\n\n### ✅ 修復建議\n\n`;
-            
+
             for (const rec of diagnosis.recommendations) {
               const urgencyEmoji = rec.urgency === 'high' ? '🔴' : '🟡';
               comment += `${urgencyEmoji} **${rec.title}**\n\n`;
@@ -362,9 +362,9 @@ jobs:
               }
               comment += `\`\`\`\n\n`;
             }
-            
+
             comment += `---\n\n### ⚡ 快速修復\n\n`;
-            
+
             for (const fix of diagnosis.quickFixes) {
               comment += `**${fix.title}**\n`;
               if (fix.command) {
@@ -377,24 +377,24 @@ jobs:
               }
               comment += `\n`;
             }
-            
+
             comment += `---\n\n### 🤝 需要幫助？\n\n`;
             comment += `- 💬 在此評論回覆 \`@copilot 幫我分析\` 獲取更詳細的協助\n`;
             comment += `- 📚 查看 [CI 故障排除文檔](./docs/ci-troubleshooting.md)\n`;
             comment += `- 🔧 執行 \`bash scripts/check-env.sh\` 檢查本地環境\n\n`;
             comment += `*此評論由動態 CI 助手自動生成 | 最後更新: ${new Date().toISOString()}*`;
-            
+
             // 檢查是否已有相同的評論
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber
             });
-            
+
             const botComments = comments.filter(c => 
               c.user.type === 'Bot' && c.body.includes('動態 CI 助手')
             );
-            
+
             if (botComments.length > 0) {
               // 更新現有評論
               await github.rest.issues.updateComment({
@@ -414,17 +414,17 @@ jobs:
               });
               console.log('Created new comment');
             }
-      
+
       - name: 🏷️ 更新 PR 標籤
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             const prNumber = ${{ needs.analyze-ci-status.outputs.pr_number }};
             const diagnosis = JSON.parse('${{ needs.diagnose-failures.outputs.diagnosis_report }}');
-            
+
             // 根據診斷結果添加標籤
             let labels = ['ci-needs-attention'];
-            
+
             for (const detail of diagnosis.details) {
               if (detail.type === 'build_failure') {
                 labels.push('build-failed');
@@ -434,10 +434,10 @@ jobs:
                 labels.push('deployment-failed');
               }
             }
-            
+
             // 去重
             labels = [...new Set(labels)];
-            
+
             try {
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
@@ -460,22 +460,22 @@ jobs:
       github.event_name == 'issue_comment' && 
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '@copilot')
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event.repository.default_branch }}
-      
+
       - name: 🗣️ 解析開發者請求
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             const comment = context.payload.comment.body;
             const prNumber = context.issue.number;
-            
+
             let response = '';
-            
+
             if (comment.includes('幫我分析') || comment.includes('分析')) {
               response = `## 🔍 深度分析中...\n\n`;
               response += `我正在分析您的 PR，這可能需要幾分鐘時間。\n\n`;
@@ -511,7 +511,7 @@ jobs:
               response += `- 📚 **查找相關文檔** - 回覆 \`@copilot 文檔\`\n\n`;
               response += `有什麼可以幫助您的嗎？`;
             }
-            
+
             // 發布回應
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -530,7 +530,7 @@ jobs:
     needs: analyze-ci-status
     runs-on: ubuntu-latest
     if: needs.analyze-ci-status.outputs.has_failures == 'false' && needs.analyze-ci-status.outputs.pr_number != ''
-    
+
     steps:
       - name: 🧹 移除失敗標籤
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
@@ -545,9 +545,9 @@ jobs:
               'ci-failed',
               'env-error'
             ];
-            
+
             console.log('✅ CI 檢查成功，清理失敗標籤（不發布成功評論）');
-            
+
             for (const label of labelsToRemove) {
               try {
                 await github.rest.issues.removeLabel({
@@ -562,5 +562,5 @@ jobs:
                 console.log(`ℹ️ 標籤 ${label} 不存在，跳過`);
               }
             }
-            
+
             console.log('✅ 標籤清理完成。專注於失敗診斷，不發布成功通知。');

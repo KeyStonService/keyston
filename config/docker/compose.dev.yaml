@@ -3,7 +3,7 @@
 #                    Docker Compose 配置 (開發環境)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-version: '3.9'
+version: "3.9"
 
 services:
   # ─────────────────────────────────────────────────────────────────────────────
@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-      - "3001:3001"  # MCP Server
+      - "3001:3001" # MCP Server
     environment:
       - NODE_ENV=development
       - SYNERGYMESH_ENV=development
@@ -97,11 +97,11 @@ services:
       - ./config/prometheus-rules.yml:/etc/prometheus/rules.yml
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
     networks:
       - synergymesh-network
 
@@ -154,9 +154,9 @@ services:
     container_name: synergymesh-jaeger
     restart: unless-stopped
     ports:
-      - "16686:16686"  # UI
-      - "4317:4317"    # OTLP gRPC
-      - "4318:4318"    # OTLP HTTP
+      - "16686:16686" # UI
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
     environment:
       - COLLECTOR_OTLP_ENABLED=true
     networks:

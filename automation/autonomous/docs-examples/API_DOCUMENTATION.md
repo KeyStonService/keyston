@@ -283,27 +283,27 @@ Authorization: Bearer <token>
 
 ### 錯誤碼
 
-| 錯誤碼 | HTTP 狀態 | 描述 |
-|-------|----------|------|
-| VALIDATION_ERROR | 400 | 參數驗證失敗 |
-| AUTHENTICATION_ERROR | 401 | 認證失敗 |
-| AUTHORIZATION_ERROR | 403 | 無權限 |
-| NOT_FOUND | 404 | 資源不存在 |
-| RATE_LIMIT_EXCEEDED | 429 | 請求過於頻繁 |
-| INTERNAL_ERROR | 500 | 內部錯誤 |
-| SERVICE_UNAVAILABLE | 503 | 服務不可用 |
+| 錯誤碼               | HTTP 狀態 | 描述         |
+| -------------------- | --------- | ------------ |
+| VALIDATION_ERROR     | 400       | 參數驗證失敗 |
+| AUTHENTICATION_ERROR | 401       | 認證失敗     |
+| AUTHORIZATION_ERROR  | 403       | 無權限       |
+| NOT_FOUND            | 404       | 資源不存在   |
+| RATE_LIMIT_EXCEEDED  | 429       | 請求過於頻繁 |
+| INTERNAL_ERROR       | 500       | 內部錯誤     |
+| SERVICE_UNAVAILABLE  | 503       | 服務不可用   |
 
 ---
 
 ## 速率限制
 
-| 端點 | 限制 |
-|------|------|
-| 飛行控制 API | 100 請求/秒 |
-| 安全監控 API | 50 請求/秒 |
+| 端點           | 限制        |
+| -------------- | ----------- |
+| 飛行控制 API   | 100 請求/秒 |
+| 安全監控 API   | 50 請求/秒  |
 | 感測器融合 API | 200 請求/秒 |
-| 事件日誌 API | 20 請求/秒 |
-| 治理 API | 10 請求/秒 |
+| 事件日誌 API   | 20 請求/秒  |
+| 治理 API       | 10 請求/秒  |
 
 ---
 
@@ -379,13 +379,13 @@ import { AutonomyClient } from '@synergymesh/autonomy-client';
 // 創建客戶端
 const client = new AutonomyClient({
   baseUrl: 'http://localhost:8080',
-  apiKey: 'your_api_key'
+  apiKey: 'your_api_key',
 });
 
 // 發送控制命令
 const response = await client.flightControl.sendCommand({
   targetAltitude: 10.0,
-  targetVelocity: [1.0, 2.0, 3.0]
+  targetVelocity: [1.0, 2.0, 3.0],
 });
 
 // 訂閱實時事件
@@ -393,7 +393,7 @@ client.events.subscribe({
   categories: ['sensor_error', 'safety_violation'],
   onEvent: (event) => {
     console.log('Received event:', event);
-  }
+  },
 });
 ```
 

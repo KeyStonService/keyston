@@ -22,4 +22,4 @@ Data provenance, model origin tracking, and source traceability governance
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

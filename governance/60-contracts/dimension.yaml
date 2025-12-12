@@ -5,13 +5,13 @@ metadata:
   name: 契約治理
   name_en: Contracts Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.954958Z'
-  updated_at: '2025-12-11T22:17:20.954964Z'
+  created_at: "2025-12-11T22:17:20.954958Z"
+  updated_at: "2025-12-11T22:17:20.954964Z"
   owner: governance-bot
   category: observability
   tags:
-  - 60_contracts
-  - observability
+    - 60_contracts
+    - observability
 spec:
   description: Contracts Governance dimension for SynergyMesh governance framework
   schema:
@@ -27,32 +27,32 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
+      - ISO-19770
+      - SPDX
+    framework_mappings:
+      - framework: ISO-19770
+        controls: []
+        compliance_status: in_progress
+      - framework: SPDX
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
     - ISO-19770
     - SPDX
-    framework_mappings:
+  framework_mappings:
     - framework: ISO-19770
       controls: []
       compliance_status: in_progress
     - framework: SPDX
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-19770
-  - SPDX
-  framework_mappings:
-  - framework: ISO-19770
-    controls: []
-    compliance_status: in_progress
-  - framework: SPDX
-    controls: []
-    compliance_status: in_progress

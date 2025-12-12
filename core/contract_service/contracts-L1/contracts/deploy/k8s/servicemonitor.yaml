@@ -12,10 +12,10 @@ spec:
     matchLabels:
       app: contracts-l1
   endpoints:
-  - port: metrics
-    path: /metrics
-    interval: 30s
-    scrapeTimeout: 10s
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
   namespaceSelector:
     matchNames:
-    - synergymesh
+      - synergymesh

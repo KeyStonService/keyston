@@ -28,31 +28,31 @@ stages:
     name: "AI-Driven Analysis & Synthesis"
     order: 1
     enabled: true
-    timeout: 5  # seconds
+    timeout: 5 # seconds
     retry_on_failure: false
-    
+
     config:
       accuracy_target: 0.97
       confidence_threshold: 0.85
       risk_threshold: 75.0
-      
+
     steps:
       - name: codebase_scan
         description: "AST-based deep scan of repository"
         timeout: 2
-        
+
       - name: pattern_recognition
         description: "ML-based naming pattern recognition"
         timeout: 1
-        
+
       - name: conflict_detection
         description: "Automated conflict and anti-pattern detection"
         timeout: 1
-        
+
       - name: ai_decision
         description: "AI governance decision making"
         timeout: 1
-    
+
     success_criteria:
       - type: confidence
         threshold: 0.85
@@ -63,7 +63,7 @@ stages:
       - type: decision
         value: ["approve", "conditional_approve"]
         operator: "in"
-    
+
     outputs:
       - decision
       - confidence_score
@@ -75,29 +75,29 @@ stages:
     name: "Synthetic Validation"
     order: 2
     enabled: true
-    timeout: 30  # seconds
+    timeout: 30 # seconds
     retry_on_failure: true
     max_retries: 2
-    
+
     config:
       test_suite: comprehensive
       parallel_execution: true
       fail_fast: false
-      
+
     steps:
       - name: automated_testing
         description: "Run automated test suite"
         timeout: 15
-        
+
       - name: config_validation
         description: "Validate all configuration files"
         timeout: 5
-        
+
       - name: baseline_validation
         description: "Kubernetes baseline validation"
         timeout: 10
-        optional: true  # May not have cluster access
-    
+        optional: true # May not have cluster access
+
     success_criteria:
       - type: test_pass_rate
         threshold: 0.8
@@ -105,7 +105,7 @@ stages:
       - type: config_validation
         value: true
         operator: "=="
-    
+
     outputs:
       - test_results
       - validation_status
@@ -116,34 +116,34 @@ stages:
     name: "Automated Deployment"
     order: 3
     enabled: true
-    timeout: 1800  # seconds (30 minutes)
+    timeout: 1800 # seconds (30 minutes)
     retry_on_failure: true
     max_retries: 1
     rollback_on_failure: true
-    
+
     config:
       deployment_strategy: rolling
       health_check_interval: 5
       health_check_timeout: 300
       rollback_timeout: 120
-      
+
     steps:
       - name: pre_deployment_check
         description: "Pre-deployment validation"
         timeout: 60
-        
+
       - name: resource_deployment
         description: "Deploy Kubernetes resources"
         timeout: 600
-        
+
       - name: health_monitoring
         description: "Monitor deployment health"
         timeout: 300
-        
+
       - name: post_deployment_verification
         description: "Verify deployment success"
         timeout: 120
-    
+
     success_criteria:
       - type: deployment_status
         value: success
@@ -154,7 +154,7 @@ stages:
       - type: verification
         value: true
         operator: "=="
-    
+
     outputs:
       - deployment_status
       - resource_list
@@ -165,11 +165,11 @@ stages:
 # ============================================================================
 
 execution:
-  mode: sequential  # sequential | parallel
+  mode: sequential # sequential | parallel
   stop_on_failure: true
   skip_on_dry_run:
     - automated-deployment
-  
+
   dependencies:
     synthetic-validation:
       - ai-analysis
@@ -189,17 +189,17 @@ integrations:
       accuracy_target: 0.97
       confidence_threshold: 0.85
       risk_threshold: 75.0
-  
+
   validation:
     enabled: true
     engine: tools/automation/engines/baseline_validation_engine.py
     namespace: synergymesh-system
-  
+
   testing:
     enabled: true
     framework: tests/automation/test_framework_patterns.py
     parallel: true
-  
+
   deployment:
     enabled: true
     script: scripts/k8s/deploy-baselines.sh
@@ -218,16 +218,16 @@ monitoring:
     - confidence_scores
     - risk_scores
     - test_pass_rate
-  
+
   alerts:
     - type: stage_timeout
-      threshold: 1.2  # 120% of expected duration
+      threshold: 1.2 # 120% of expected duration
       action: notify
-    
+
     - type: confidence_below_threshold
       threshold: 0.85
       action: fail_stage
-    
+
     - type: risk_above_threshold
       threshold: 75.0
       action: fail_stage
@@ -242,11 +242,11 @@ self_healing:
     - type: auto_retry
       max_attempts: 3
       backoff: exponential
-      
+
     - type: auto_rollback
       trigger: deployment_failure
       timeout: 120
-      
+
     - type: circuit_breaker
       failure_threshold: 5
       reset_timeout: 300
@@ -256,13 +256,13 @@ self_healing:
 # ============================================================================
 
 performance_targets:
-  stage_1_max_duration: 5      # seconds
-  stage_2_max_duration: 30     # seconds
-  stage_3_max_duration: 1800   # seconds (30 minutes)
-  
-  overall_accuracy: 0.97       # 97%
-  min_confidence: 0.85         # 85%
-  max_risk_score: 75.0         # out of 100
+  stage_1_max_duration: 5 # seconds
+  stage_2_max_duration: 30 # seconds
+  stage_3_max_duration: 1800 # seconds (30 minutes)
+
+  overall_accuracy: 0.97 # 97%
+  min_confidence: 0.85 # 85%
+  max_risk_score: 75.0 # out of 100
 
 # ============================================================================
 # Resource Requirements
@@ -270,14 +270,14 @@ performance_targets:
 
 resources:
   required:
-    - kubectl  # Kubernetes CLI
-    - python3  # Python 3.8+
-    - bash     # Shell for scripts
-  
+    - kubectl # Kubernetes CLI
+    - python3 # Python 3.8+
+    - bash # Shell for scripts
+
   optional:
-    - jq       # JSON processing
-    - yq       # YAML processing
-    - helm     # Helm charts
+    - jq # JSON processing
+    - yq # YAML processing
+    - helm # Helm charts
 
 # ============================================================================
 # Environment Configuration
@@ -288,12 +288,12 @@ environments:
     namespace: synergymesh-dev
     dry_run: true
     skip_validation: false
-  
+
   staging:
     namespace: synergymesh-staging
     dry_run: false
     skip_validation: false
-  
+
   production:
     namespace: synergymesh-prod
     dry_run: false

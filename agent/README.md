@@ -2,14 +2,16 @@
 
 # 代理服務
 
-> 長生命週期業務代理，負責自動化任務執行和系統協調。
-> Long-lifecycle business agents for automated task execution and system orchestration.
+> 長生命週期業務代理，負責自動化任務執行和系統協調。Long-lifecycle business
+> agents for automated task execution and system orchestration.
 
 ## 📋 Overview 概述
 
 本目錄包含 SynergyMesh 平台的智能業務代理。這些代理是獨立運行的服務，負責執行特定的自動化任務，如代碼修復、安全掃描和任務編排。
 
-This directory contains intelligent business agents for the SynergyMesh platform. These agents are independent services that handle specific automation tasks such as code repair, security scanning, and task orchestration.
+This directory contains intelligent business agents for the SynergyMesh
+platform. These agents are independent services that handle specific automation
+tasks such as code repair, security scanning, and task orchestration.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -63,20 +65,20 @@ agent/
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `core/` | 使用平台級 AI 決策引擎、上下文理解等能力 |
-| `mcp-servers/` | 調用 LLM 工具端點進行分析 |
-| `shared/` | 使用共用工具和配置 |
-| `config/` | 讀取代理配置 |
+| Dependency 依賴 | Purpose 用途                             |
+| --------------- | ---------------------------------------- |
+| `core/`         | 使用平台級 AI 決策引擎、上下文理解等能力 |
+| `mcp-servers/`  | 調用 LLM 工具端點進行分析                |
+| `shared/`       | 使用共用工具和配置                       |
+| `config/`       | 讀取代理配置                             |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `automation/intelligent/` | 避免循環依賴，pipeline 應調用代理而非相反 |
-| `frontend/` | 代理不應直接依賴 UI |
-| `infrastructure/` | 代理邏輯不應依賴部署配置 |
+| Should NOT depend on 不應依賴 | Reason 原因                               |
+| ----------------------------- | ----------------------------------------- |
+| `automation/intelligent/`     | 避免循環依賴，pipeline 應調用代理而非相反 |
+| `frontend/`                   | 代理不應直接依賴 UI                       |
+| `infrastructure/`             | 代理邏輯不應依賴部署配置                  |
 
 ## 🚀 Usage 使用方式
 
@@ -123,11 +125,11 @@ class BaseAgent:
     async def initialize(self) -> None:
         """初始化代理"""
         pass
-    
+
     async def execute(self, task: Task) -> Result:
         """執行任務"""
         pass
-    
+
     async def health_check(self) -> HealthStatus:
         """健康檢查"""
         pass
@@ -142,9 +144,9 @@ class BaseAgent:
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README with boundary definitions |
+| Date 日期  | Version 版本 | Changes 變更                             |
+| ---------- | ------------ | ---------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial README with boundary definitions |
 
 ---
 

@@ -2,7 +2,8 @@
 
 ## 🎯 概述 / Overview
 
-本目錄提供 **AI 專用的工程架構指南系統**，由 11 個相互關聯的骨架組成。每個骨架都針對系統設計的特定面向提供：
+本目錄提供
+**AI 專用的工程架構指南系統**，由 11 個相互關聯的骨架組成。每個骨架都針對系統設計的特定面向提供：
 
 - **overview.md** - 骨架用途與應用場景
 - **runtime-mapping.yaml** - 對應到真實 monorepo 位置
@@ -10,7 +11,9 @@
 - **guardrails.md** - 不可越界的安全紅線
 - **checklists.md** - AI 自我檢查清單
 
-This directory provides an **AI-specialized engineering architecture guidance system** consisting of 11 interconnected skeletons. Each skeleton covers specific aspects of system design.
+This directory provides an **AI-specialized engineering architecture guidance
+system** consisting of 11 interconnected skeletons. Each skeleton covers
+specific aspects of system design.
 
 ---
 
@@ -213,13 +216,13 @@ skeleton-name/
 
 ### 檔案說明
 
-| 檔案 | 用途 | AI 讀取對象 |
-|------|------|----------|
-| **overview.md** | 骨架用途、責任範圍、關鍵概念 | 初次了解 + 人類 |
-| **runtime-mapping.yaml** | 對應到真實代碼位置、配置檔、工具 | 實現時查詢 |
-| **io-contract.yaml** | 標準化輸入/輸出 schema、驗證規則 | 驗證輸入、格式化輸出 |
-| **guardrails.md** | 禁止操作、安全紅線、邊界限制 | 決策前檢查 |
-| **checklists.md** | 設計前/中/後的檢查項 | 每個階段自檢 |
+| 檔案                     | 用途                             | AI 讀取對象          |
+| ------------------------ | -------------------------------- | -------------------- |
+| **overview.md**          | 骨架用途、責任範圍、關鍵概念     | 初次了解 + 人類      |
+| **runtime-mapping.yaml** | 對應到真實代碼位置、配置檔、工具 | 實現時查詢           |
+| **io-contract.yaml**     | 標準化輸入/輸出 schema、驗證規則 | 驗證輸入、格式化輸出 |
+| **guardrails.md**        | 禁止操作、安全紅線、邊界限制     | 決策前檢查           |
+| **checklists.md**        | 設計前/中/後的檢查項             | 每個階段自檢         |
 
 ---
 
@@ -333,7 +336,9 @@ skeleton-name/
 
 ## 🔄 與工程師指南的關係 / Relationship to Engineer Guide
 
-這些架構骨架與 [ENGINEER_CORE_FILES_GUIDE.md](../../../ENGINEER_CORE_FILES_GUIDE.md) 中的 15 份核心檔案相互補充：
+這些架構骨架與
+[ENGINEER_CORE_FILES_GUIDE.md](../../../ENGINEER_CORE_FILES_GUIDE.md)
+中的 15 份核心檔案相互補充：
 
 - **工程師指南** - 告訴工程師「要看哪些檔案」
 - **架構骨架** - 告訴 AI「在做決策時應考慮什麼」
@@ -429,7 +434,8 @@ skeleton-name/
 ## 🏆 最佳實踐 / Best Practices
 
 1. **始終從索引開始** - 使用 skeletons-index.yaml 作為入口點
-2. **順序閱讀檔案** - overview → runtime-mapping → io-contract → guardrails → checklists
+2. **順序閱讀檔案** - overview → runtime-mapping → io-contract → guardrails →
+   checklists
 3. **檢查依賴關係** - 看該骨架與其他骨架的關係
 4. **記錄決策** - 在知識庫中記錄架構決策
 5. **定期審查** - 定期審查使用的骨架和決策
@@ -447,4 +453,5 @@ skeleton-name/
 
 **🎯 記住：這些骨架的目的是讓 AI 在做出架構決策時，能夠快速查詢指導、避免常見陷阱、並確保決策的一致性。**
 
-Remember: These skeletons are designed to help AI make architecture decisions quickly, avoid common pitfalls, and ensure consistency.
+Remember: These skeletons are designed to help AI make architecture decisions
+quickly, avoid common pitfalls, and ensure consistency.

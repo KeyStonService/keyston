@@ -16,9 +16,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 9121
-    targetPort: 9121
-    protocol: TCP
-    name: metrics
+    - port: 9121
+      targetPort: 9121
+      protocol: TCP
+      name: metrics
   selector:
     app: redis

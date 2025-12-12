@@ -6,10 +6,7 @@
   "documentNamespace": "https://github.com/Unmanned-Island-admin/SynergyMesh/sbom",
   "creationInfo": {
     "created": "2025-11-30T00:00:00Z",
-    "creators": [
-      "Tool: SynergyMesh CI/CD Pipeline",
-      "Organization: SynergyMesh Team"
-    ],
+    "creators": ["Tool: SynergyMesh CI/CD Pipeline", "Organization: SynergyMesh Team"],
     "licenseListVersion": "3.21"
   },
   "documentDescribes": ["SPDXRef-Package-synergymesh"],

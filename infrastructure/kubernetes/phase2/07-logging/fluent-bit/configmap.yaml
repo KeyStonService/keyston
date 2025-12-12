@@ -8,12 +8,12 @@ data:
     [SERVICE]
         Flush 1
         Log_Level info
-    
+
     [INPUT]
         Name tail
         Path /var/log/containers/*.log
         Parser docker
-    
+
     [OUTPUT]
         Name loki
         Match *

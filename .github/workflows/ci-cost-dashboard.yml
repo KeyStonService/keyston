@@ -3,13 +3,13 @@ name: CI Cost Dashboard
 on:
   schedule:
     # Run every Monday at 9:00 AM UTC
-    - cron: '0 9 * * 1'
+    - cron: "0 9 * * 1"
   workflow_dispatch:
     inputs:
       report_period_days:
-        description: 'Number of days to analyze'
+        description: "Number of days to analyze"
         required: false
-        default: '7'
+        default: "7"
         type: string
 
 concurrency:
@@ -27,23 +27,23 @@ jobs:
     name: Generate CI Cost Dashboard
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
-      
+          python-version: "3.11"
+          cache: "pip"
+
       - name: Install dependencies
         run: |
           pip install requests pyyaml tabulate
-      
+
       - name: Generate cost analysis report
         id: cost_analysis
         env:
@@ -52,26 +52,26 @@ jobs:
         run: |
           set -e
           set -o pipefail
-          
+
           python3 tools/ci-cost-dashboard.py --days "$REPORT_DAYS" --output docs/CI_COST_DASHBOARD.md
-          
+
           echo "report_generated=true" >> $GITHUB_OUTPUT
-      
+
       - name: Upload dashboard artifact
         uses: actions/upload-artifact@v4
         with:
           name: ci-cost-dashboard
           path: docs/CI_COST_DASHBOARD.md
           retention-days: 30
-      
+
       - name: Commit dashboard update
         if: steps.cost_analysis.outputs.report_generated == 'true'
         run: |
           set -e
-          
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
+
           if git diff --quiet docs/CI_COST_DASHBOARD.md; then
             echo "No changes to commit"
           else
@@ -79,7 +79,7 @@ jobs:
             git commit -m "chore: update CI cost dashboard [skip ci]"
             git push
           fi
-      
+
       - name: Create summary comment
         if: github.event_name == 'workflow_dispatch'
         uses: actions/github-script@v7
@@ -87,23 +87,23 @@ jobs:
           script: |
             const fs = require('fs');
             const dashboard = fs.readFileSync('docs/CI_COST_DASHBOARD.md', 'utf8');
-            
+
             // Extract summary section for comment
             const summaryMatch = dashboard.match(/## 📊 Summary[\s\S]*?(?=\n## )/);
             const summary = summaryMatch ? summaryMatch[0] : 'Dashboard generated successfully!';
-            
+
             const comment = `### CI Cost Dashboard Generated 📊\n\n${summary}\n\n[View Full Dashboard](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/docs/CI_COST_DASHBOARD.md)`;
-            
+
             core.summary.addRaw(comment).write();
-      
+
       - name: Check for anomalies
         id: anomaly_check
         run: |
           set -e
           set -o pipefail
-          
+
           python3 tools/ci-cost-dashboard.py --check-anomalies --output /tmp/anomalies.txt || true
-          
+
           if [ -f /tmp/anomalies.txt ] && [ -s /tmp/anomalies.txt ]; then
             echo "anomalies_detected=true" >> $GITHUB_OUTPUT
             echo "anomaly_message<<EOF" >> $GITHUB_OUTPUT
@@ -112,14 +112,14 @@ jobs:
           else
             echo "anomalies_detected=false" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Create anomaly issue
         if: steps.anomaly_check.outputs.anomalies_detected == 'true'
         uses: actions/github-script@v7
         with:
           script: |
             const anomalyMessage = `${{ steps.anomaly_check.outputs.anomaly_message }}`;
-            
+
             const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -127,5 +127,5 @@ jobs:
               body: `## CI Cost Anomaly Alert\n\nAnomalous workflow behavior detected in the past week:\n\n${anomalyMessage}\n\n### Recommended Actions\n\n1. Review the workflows listed above\n2. Check for unexpected trigger patterns\n3. Verify timeout and concurrency settings\n4. Review recent workflow changes\n\n[View Full Dashboard](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/docs/CI_COST_DASHBOARD.md)`,
               labels: ['ci', 'cost-optimization', 'alert']
             });
-            
+
             console.log(`Created issue #${issue.data.number}`);

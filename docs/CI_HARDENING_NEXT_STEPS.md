@@ -12,7 +12,7 @@
 
 #### Phase 2: Batch Hardening
 
-- **Status**: ✅ 100% Complete  
+- **Status**: ✅ 100% Complete
 - **Workflows**: 41 remaining workflows hardened
 - **Savings**: 30-50% on these workflows
 
@@ -80,7 +80,7 @@
     script1.sh
     script2.sh
 
-# After  
+# After
 - name: Run script
   run: |
     set -euo pipefail  # Exit on error, undefined vars, pipe failures
@@ -136,7 +136,7 @@ name: CI Cost Report
 
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Monday morning
+    - cron: '0 9 * * 1' # Monday morning
   workflow_dispatch:
 
 jobs:
@@ -148,7 +148,7 @@ jobs:
           # Query GitHub API for last week's runs
           # Calculate total minutes used
           # Compare to baseline
-          
+
       - name: Generate report
         run: |
           # Create markdown report
@@ -156,7 +156,7 @@ jobs:
           # - Top 10 most expensive workflows
           # - Week-over-week comparison
           # - Anomaly detection
-          
+
       - name: Post to issue/discussion
         run: |
           # Create or update tracking issue
@@ -181,7 +181,6 @@ jobs:
   - Average duration
   - Total minutes consumed
   - Success rate
-  
 - **Overall**:
   - Daily/weekly total minutes
   - Cost trend
@@ -250,7 +249,7 @@ concurrency:
 jobs:
   job-name:
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Adjust as needed
+    timeout-minutes: 10 # Adjust as needed
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -415,13 +414,15 @@ With Phases 1-3 complete, the repository has:
 - **Comprehensive timeout coverage**
 - **75-90% cost reduction achieved**
 
-The system is production-ready. Phases 4-5 and long-term improvements are optional enhancements that can be implemented based on:
+The system is production-ready. Phases 4-5 and long-term improvements are
+optional enhancements that can be implemented based on:
 
 - Team priorities
 - Available bandwidth
 - Actual observed costs
 
-**Recommendation**: Monitor costs for 1-2 GitHub billing cycles (monthly periods), then decide if Phase 4-5 are needed.
+**Recommendation**: Monitor costs for 1-2 GitHub billing cycles (monthly
+periods), then decide if Phase 4-5 are needed.
 
 ---
 

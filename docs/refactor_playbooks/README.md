@@ -48,7 +48,8 @@
 
 ## 📚 什麼是 Refactor Playbook？
 
-Refactor Playbook 是一份結構化的重構指南，針對特定的目錄群集（如 `core/`, `services/`, `automation/` 等）提供：
+Refactor Playbook 是一份結構化的重構指南，針對特定的目錄群集（如 `core/`,
+`services/`, `automation/` 等）提供：
 
 1. **Cluster 概覽** - 群集在系統中的角色與當前狀態
 2. **問題盤點** - 語言治理違規、安全問題、熱點檔案
@@ -119,7 +120,8 @@ Playbooks 基於以下治理資料生成：
 
 ## 🤖 LLM 整合
 
-此工具包含 System Prompt 和 User Prompt 模板，可直接與 LLM（如 ChatGPT、Claude）整合：
+此工具包含 System Prompt 和 User
+Prompt 模板，可直接與 LLM（如 ChatGPT、Claude）整合：
 
 1. **System Prompt**: 定義 AI 角色（架構師 + 語言治理負責人 + 安全顧問）
 2. **User Prompt**: 提供 cluster 的所有治理數據
@@ -231,8 +233,8 @@ docs/refactor_playbooks/
 # .github/workflows/update-playbooks.yml
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每日執行
-  
+    - cron: '0 0 * * *' # 每日執行
+
 jobs:
   update-playbooks:
     runs-on: ubuntu-latest
@@ -260,8 +262,10 @@ jobs:
 
 ### 核心文檔
 
-- **[CONFIG_INTEGRATION_GUIDE.md](./CONFIG_INTEGRATION_GUIDE.md)** ⭐ - 配置整合指南（如何使用既有配置系統）
-- **[LEGACY_ANALYSIS_REPORT.md](./LEGACY_ANALYSIS_REPORT.md)** ⭐ - 舊資產系統完整分析報告
+- **[CONFIG_INTEGRATION_GUIDE.md](./CONFIG_INTEGRATION_GUIDE.md)**
+  ⭐ - 配置整合指南（如何使用既有配置系統）
+- **[LEGACY_ANALYSIS_REPORT.md](./LEGACY_ANALYSIS_REPORT.md)**
+  ⭐ - 舊資產系統完整分析報告
 - [INTEGRATION_REPORT.md](./INTEGRATION_REPORT.md) - 整合報告與使用方式
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - 系統架構設計
 - [IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md) - 實作摘要
@@ -295,4 +299,5 @@ jobs:
 
 ---
 
-**注意：** Playbooks 是基於當前治理資料自動生成的建議。實際執行時請根據專案具體情況調整。
+**注意：**
+Playbooks 是基於當前治理資料自動生成的建議。實際執行時請根據專案具體情況調整。

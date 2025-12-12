@@ -83,14 +83,14 @@ export AUTOFIX_MAX_AGENTS=10
 
 ### 可委派任務
 
-| 任務類型 | 說明 | 優先級 | 預估時間 |
-|---------|------|--------|---------|
-| 🔍 代碼分析 | 靜態代碼掃描 | High | 1-2分鐘 |
-| 🧪 測試執行 | 單元/集成測試 | Critical | 3-5分鐘 |
-| 🏗️ 建置編譯 | 項目建置 | Normal | 2-10分鐘 |
-| 📦 依賴解析 | 套件依賴分析 | Normal | 1-3分鐘 |
-| 🔐 安全掃描 | 漏洞檢測 | High | 2-5分鐘 |
-| 📚 文檔生成 | 自動生成文檔 | Low | 1-2分鐘 |
+| 任務類型    | 說明          | 優先級   | 預估時間 |
+| ----------- | ------------- | -------- | -------- |
+| 🔍 代碼分析 | 靜態代碼掃描  | High     | 1-2分鐘  |
+| 🧪 測試執行 | 單元/集成測試 | Critical | 3-5分鐘  |
+| 🏗️ 建置編譯 | 項目建置      | Normal   | 2-10分鐘 |
+| 📦 依賴解析 | 套件依賴分析  | Normal   | 1-3分鐘  |
+| 🔐 安全掃描 | 漏洞檢測      | High     | 2-5分鐘  |
+| 📚 文檔生成 | 自動生成文檔  | Low      | 1-2分鐘  |
 
 ### 不建議委派任務
 
@@ -107,15 +107,15 @@ const AutoFixBot = require('autofix-bot');
 
 async function analyzeCode() {
   const bot = new AutoFixBot({
-    cloudDelegation: true
+    cloudDelegation: true,
   });
-  
+
   const result = await bot.analyze({
     path: './src',
     delegate: true,
-    priority: 'high'
+    priority: 'high',
   });
-  
+
   console.log('分析結果:', result);
 }
 
@@ -128,12 +128,12 @@ analyzeCode();
 const tasks = [
   { type: 'analyze', path: './src' },
   { type: 'test', suite: 'unit' },
-  { type: 'build', target: 'production' }
+  { type: 'build', target: 'production' },
 ];
 
 const results = await AutoFixBot.delegateBatch(tasks, {
   strategy: 'parallel',
-  maxConcurrent: 3
+  maxConcurrent: 3,
 });
 ```
 
@@ -144,7 +144,7 @@ const results = await AutoFixBot.delegateBatch(tasks, {
 const result = await AutoFixBot.delegate({
   task: 'security-scan',
   routing: 'intelligent', // 自動選擇最佳代理程式
-  fallback: 'local'       // 失敗時本地執行
+  fallback: 'local', // 失敗時本地執行
 });
 ```
 
@@ -198,7 +198,7 @@ const result = await AutoFixBot.delegate({
    ```javascript
    // 好的做法：批量提交
    await bot.delegateBatch(tasks);
-   
+
    // 避免：逐個提交
    for (const task of tasks) {
      await bot.delegate(task); // 效率較低
@@ -209,8 +209,8 @@ const result = await AutoFixBot.delegate({
 
    ```javascript
    const options = {
-     maxConcurrent: 5,  // 控制並發數
-     throttle: 100      // 節流時間(ms)
+     maxConcurrent: 5, // 控制並發數
+     throttle: 100, // 節流時間(ms)
    };
    ```
 
@@ -218,9 +218,9 @@ const result = await AutoFixBot.delegate({
 
    ```javascript
    const options = {
-     timeout: 300000,   // 5分鐘超時
-     retryAttempts: 3,  // 重試3次
-     retryDelay: 1000   // 重試延遲1秒
+     timeout: 300000, // 5分鐘超時
+     retryAttempts: 3, // 重試3次
+     retryDelay: 1000, // 重試延遲1秒
    };
    ```
 
@@ -264,12 +264,12 @@ autofix delegate --task analyze --debug
 
 ### 委派效益
 
-| 指標 | 本地執行 | 雲端委派 | 提升 |
-|-----|---------|---------|------|
-| 處理時間 | 10分鐘 | 3分鐘 | ⚡ 233% 更快 |
-| 並發任務 | 2個 | 10個 | 📈 400% |
-| 資源使用 | 100% | 20% | 💪 80% |
-| 擴展性 | 有限 | 彈性 | 🚀 無限 |
+| 指標     | 本地執行 | 雲端委派 | 提升         |
+| -------- | -------- | -------- | ------------ |
+| 處理時間 | 10分鐘   | 3分鐘    | ⚡ 233% 更快 |
+| 並發任務 | 2個      | 10個     | 📈 400%      |
+| 資源使用 | 100%     | 20%      | 💪 80%       |
+| 擴展性   | 有限     | 彈性     | 🚀 無限      |
 
 ## 🔗 相關資源
 
@@ -283,7 +283,8 @@ autofix delegate --task analyze --debug
 如需協助，請聯繫:
 
 - 📧 <cloud-support@autofix-bot.com>
-- 💬 即時聊天: [supportconfig/autofix-bot.com](https://supportconfig/autofix-bot.com)
+- 💬 即時聊天:
+  [supportconfig/autofix-bot.com](https://supportconfig/autofix-bot.com)
 - 📚 幫助中心: [helpconfig/autofix-bot.com](https://helpconfig/autofix-bot.com)
 
 ---

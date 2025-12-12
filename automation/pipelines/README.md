@@ -2,7 +2,8 @@
 
 ## Overview / 概覽
 
-This directory contains reusable automation pipelines for SynergyMesh, including the AI-powered Instant Execution Pipeline.
+This directory contains reusable automation pipelines for SynergyMesh, including
+the AI-powered Instant Execution Pipeline.
 
 本目錄包含 SynergyMesh 的可重用自動化管線，包括 AI 驅動的即時執行管線。
 
@@ -40,7 +41,8 @@ python3 automation/pipelines/instant_execution_pipeline.py run \
   --output results.json
 ```
 
-**Documentation:** See [INSTANT_EXECUTION_INTEGRATION_MAP.md](../../docs/INSTANT_EXECUTION_INTEGRATION_MAP.md)
+**Documentation:** See
+[INSTANT_EXECUTION_INTEGRATION_MAP.md](../../docs/INSTANT_EXECUTION_INTEGRATION_MAP.md)
 
 ---
 
@@ -71,10 +73,10 @@ from typing import Dict, Any
 
 class CustomPipeline:
     """Your custom pipeline"""
-    
+
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-    
+
     async def run_pipeline(self) -> Dict[str, Any]:
         """Execute pipeline"""
         # Your logic here
@@ -122,18 +124,22 @@ result = await pipeline.run_pipeline()
 
 ## 📊 Performance Metrics / 效能指標
 
-| Pipeline | Stage 1 | Stage 2 | Stage 3 | Total |
-|----------|---------|---------|---------|-------|
-| Instant Execution | < 5s | < 30s | < 30min | < 31min |
+| Pipeline          | Stage 1 | Stage 2 | Stage 3 | Total   |
+| ----------------- | ------- | ------- | ------- | ------- |
+| Instant Execution | < 5s    | < 30s   | < 30min | < 31min |
 
 ---
 
 ## 🔗 Related Documentation / 相關文件
 
-- [Integration Map](../../docs/INSTANT_EXECUTION_INTEGRATION_MAP.md) - Complete architecture
-- [AI Governance Engine](../../tools/ai/governance_engine.py) - AI decision making
-- [Validation Engine](../../tools/automation/engines/baseline_validation_engine.py) - Resource validation
-- [Test Framework](../../tests/automation/test_framework_patterns.py) - Testing patterns
+- [Integration Map](../../docs/INSTANT_EXECUTION_INTEGRATION_MAP.md) - Complete
+  architecture
+- [AI Governance Engine](../../tools/ai/governance_engine.py) - AI decision
+  making
+- [Validation Engine](../../tools/automation/engines/baseline_validation_engine.py) -
+  Resource validation
+- [Test Framework](../../tests/automation/test_framework_patterns.py) - Testing
+  patterns
 - [Deployment Script](../../scripts/k8s/deploy-baselines.sh) - K8s deployment
 
 ---

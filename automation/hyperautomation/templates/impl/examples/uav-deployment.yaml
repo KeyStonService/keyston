@@ -42,61 +42,61 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       containers:
-      - name: controller
-        image: registry.example.com/uav-controller@sha256:abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
-        - name: metrics
-          containerPort: 9090
-          protocol: TCP
-        env:
-        - name: ENVIRONMENT
-          value: "production"
-        - name: GEO_FENCE_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              name: uav-geo-config
-              key: geo.fence.enabled
-        - name: GEO_FENCE_REGIONS
-          valueFrom:
-            configMapKeyRef:
-              name: uav-geo-config
-              key: geo.fence.regions
-        resources:
-          requests:
-            cpu: "500m"
-            memory: "256Mi"
-          limits:
-            cpu: "1"
-            memory: "512Mi"
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-            - ALL
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
-        - name: cache
-          mountPath: /app/cache
+        - name: controller
+          image: registry.example.com/uav-controller@sha256:abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: GEO_FENCE_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: uav-geo-config
+                  key: geo.fence.enabled
+            - name: GEO_FENCE_REGIONS
+              valueFrom:
+                configMapKeyRef:
+                  name: uav-geo-config
+                  key: geo.fence.regions
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /app/cache
       volumes:
-      - name: tmp
-        emptyDir: {}
-      - name: cache
-        emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}

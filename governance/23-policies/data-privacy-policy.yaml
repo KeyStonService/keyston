@@ -29,14 +29,14 @@ policy_scope:
     - "data storage systems"
     - "data transmission systems"
     - "external integrations"
-  
+
   data_types_covered:
     - "personal identifiable information (PII)"
     - "sensitive personal data"
     - "user-generated content"
     - "system logs containing user data"
     - "analytics and telemetry data"
-  
+
   jurisdictions:
     - "European Union (GDPR)"
     - "United States (CCPA)"
@@ -48,10 +48,10 @@ policy_scope:
 # ===================================================================
 pii_detection:
   description: "個人識別信息檢測與分類機制"
-  
+
   enabled: true
   enforcement: "mandatory"
-  
+
   pii_categories:
     direct_identifiers:
       description: "直接識別個人的信息"
@@ -59,76 +59,76 @@ pii_detection:
         - name: "full_name"
           examples: ["張三", "John Doe"]
           sensitivity: "high"
-        
+
         - name: "national_id"
           examples: ["身份證號", "SSN"]
           sensitivity: "critical"
-        
+
         - name: "passport_number"
           examples: ["護照號碼"]
           sensitivity: "critical"
-        
+
         - name: "phone_number"
           examples: ["+886-912-345-678", "(123) 456-7890"]
           sensitivity: "high"
-        
+
         - name: "email_address"
           examples: ["user@example.com"]
           sensitivity: "high"
-        
+
         - name: "physical_address"
           examples: ["台北市信義區市府路1號"]
           sensitivity: "high"
-    
+
     quasi_identifiers:
       description: "準識別符（組合可識別個人）"
       types:
         - name: "date_of_birth"
           sensitivity: "medium"
-        
+
         - name: "gender"
           sensitivity: "medium"
-        
+
         - name: "postal_code"
           sensitivity: "medium"
-        
+
         - name: "occupation"
           sensitivity: "low"
-    
+
     sensitive_attributes:
       description: "敏感屬性"
       types:
         - name: "health_information"
           sensitivity: "critical"
           examples: ["病歷", "診斷記錄"]
-        
+
         - name: "financial_information"
           sensitivity: "critical"
           examples: ["銀行帳號", "信用卡號"]
-        
+
         - name: "biometric_data"
           sensitivity: "critical"
           examples: ["指紋", "臉部識別數據"]
-        
+
         - name: "political_opinion"
           sensitivity: "high"
-        
+
         - name: "religious_belief"
           sensitivity: "high"
-  
+
   detection_methods:
     - method: "regex_pattern_matching"
       description: "正則表達式模式匹配"
       patterns_path: "config/privacy/pii-patterns.yaml"
-    
+
     - method: "named_entity_recognition"
       description: "命名實體識別"
       models: ["spacy-zh-core-lg", "privacy-bert"]
-    
+
     - method: "statistical_inference"
       description: "統計推斷（識別準識別符）"
       algorithm: "k-anonymity-risk-assessment"
-  
+
   detection_confidence_threshold: 0.8
   false_positive_handling: "human-review-queue"
 
@@ -137,10 +137,10 @@ pii_detection:
 # ===================================================================
 data_anonymization:
   description: "數據匿名化與去識別化機制"
-  
+
   enabled: true
   enforcement: "mandatory_for_pii"
-  
+
   anonymization_methods:
     k_anonymity:
       description: "K-匿名化：確保每組準識別符至少有 k 個記錄"
@@ -148,60 +148,60 @@ data_anonymization:
       k_value: 5
       suppression_threshold: 0.1
       generalization_hierarchy_path: "config/privacy/generalization-hierarchy.yaml"
-      
+
       example:
         original: "年齡: 32, 郵遞區號: 110, 性別: 男"
         anonymized: "年齡: 30-35, 郵遞區號: 11*, 性別: 男"
-    
+
     l_diversity:
       description: "L-多樣性：確保敏感屬性至少有 l 個不同值"
       enabled: true
       l_value: 3
       applicable_to: ["sensitive_attributes"]
-    
+
     differential_privacy:
       description: "差分隱私：添加統計噪音保護隱私"
-      enabled: false  # 實驗性功能
+      enabled: false # 實驗性功能
       epsilon: 0.1
       delta: 0.00001
-    
+
     pseudonymization:
       description: "假名化：用假名替換直接識別符"
       enabled: true
       method: "cryptographic_hash"
       hash_algorithm: "sha3-256"
       salt_rotation_period: "90 days"
-      
+
       reversible: false
       key_management: "external-kms"
-    
+
     data_masking:
       description: "數據遮罩：部分隱藏敏感信息"
       enabled: true
       strategies:
         - type: "partial_masking"
           example: "0912-***-678"
-        
+
         - type: "format_preserving"
           example: "original: 0912345678 → masked: 0987654321 (preserves phone format)"
-        
+
         - type: "tokenization"
           example: "original: A123456789 → token: TOKEN_X7Y9Z2"
-  
+
   anonymization_reversibility:
     allowed: false
     exception_cases:
       - reason: "legal_obligation"
         approval_required: true
         approvers: ["@legal-team", "@security-team"]
-      
+
       - reason: "data_breach_investigation"
         approval_required: true
         approvers: ["@security-team", "@compliance-team"]
-  
+
   quality_assurance:
     re_identification_risk_assessment: true
-    risk_threshold: 0.05  # 5% re-identification risk
+    risk_threshold: 0.05 # 5% re-identification risk
     assessment_frequency: "quarterly"
 
 # ===================================================================
@@ -209,11 +209,11 @@ data_anonymization:
 # ===================================================================
 gdpr_compliance:
   description: "GDPR（通用數據保護條例）合規要求"
-  
-  applicable: "${GDPR_APPLICABLE:-true}"  # Set to false for non-EU deployments
-  deployment_regions: ["EU", "EEA"]      # Configurable based on deployment context
+
+  applicable: "${GDPR_APPLICABLE:-true}" # Set to false for non-EU deployments
+  deployment_regions: ["EU", "EEA"] # Configurable based on deployment context
   enforcement: "mandatory"
-  
+
   lawful_basis:
     description: "合法處理依據"
     required_documentation: true
@@ -224,7 +224,7 @@ gdpr_compliance:
       - "legitimate_interest (with balancing test)"
       - "vital_interest"
       - "public_task"
-  
+
   data_minimization:
     description: "數據最小化原則"
     enabled: true
@@ -232,17 +232,17 @@ gdpr_compliance:
       - "collect only necessary data"
       - "retain only for required duration"
       - "delete data when purpose fulfilled"
-    
+
     retention_periods:
       operational_data: "30 days"
       analytics_data: "90 days"
       audit_logs: "1 year"
       legal_hold_data: "as_required_by_law"
-    
+
     automatic_deletion:
       enabled: true
       schedule: "daily"
-  
+
   purpose_limitation:
     description: "目的限制原則"
     enabled: true
@@ -250,21 +250,21 @@ gdpr_compliance:
       - "clearly define processing purpose"
       - "do not use data for incompatible purposes"
       - "document purpose changes"
-  
+
   data_subject_rights:
     description: "數據主體權利"
-    
+
     right_to_access:
       enabled: true
       response_time: "30 days"
       data_format: "json / pdf"
       self_service_portal: true
-    
+
     right_to_rectification:
       enabled: true
       response_time: "30 days"
       verification_required: true
-    
+
     right_to_erasure:
       enabled: true
       response_time: "30 days"
@@ -274,29 +274,29 @@ gdpr_compliance:
         - "legal_claims"
       soft_delete_period: "30 days"
       hard_delete_after: "90 days"
-    
+
     right_to_data_portability:
       enabled: true
       response_time: "30 days"
       formats: ["json", "csv", "xml"]
-    
+
     right_to_object:
       enabled: true
       response_time: "immediate"
       applicable_to: ["marketing", "profiling"]
-    
+
     right_to_restrict_processing:
       enabled: true
       response_time: "30 days"
-  
+
   consent_management:
     description: "同意管理"
-    
+
     consent_required_for:
       - "marketing communications"
       - "data sharing with third parties"
       - "profiling and automated decision-making"
-    
+
     consent_characteristics:
       freely_given: true
       specific: true
@@ -304,23 +304,23 @@ gdpr_compliance:
       unambiguous: true
       granular: true
       easy_to_withdraw: true
-    
+
     consent_record_retention: "as_long_as_data_processed + 3_years"
     consent_proof_required: true
-  
+
   data_breach_notification:
     description: "數據洩露通知"
-    
+
     notification_to_authority:
       required: true
       timeframe: "72 hours"
       authority: "relevant_data_protection_authority"
-    
+
     notification_to_individuals:
       required_when: "high_risk_to_rights_and_freedoms"
       timeframe: "without_undue_delay"
       method: "email / sms / portal_notification"
-    
+
     breach_documentation:
       required: true
       contents:
@@ -328,16 +328,16 @@ gdpr_compliance:
         - "categories and volume of data affected"
         - "consequences"
         - "measures taken"
-  
+
   data_protection_impact_assessment:
     description: "數據保護影響評估 (DPIA)"
-    
+
     required_when:
       - "high-risk processing"
       - "large-scale processing of sensitive data"
       - "systematic monitoring"
       - "profiling with legal effects"
-    
+
     assessment_frequency: "annually"
     approval_required: true
     approvers: ["@legal-team", "@security-team"]
@@ -347,7 +347,7 @@ gdpr_compliance:
 # ===================================================================
 data_handling:
   description: "數據處理技術要求"
-  
+
   encryption:
     data_at_rest:
       enabled: true
@@ -355,71 +355,71 @@ data_handling:
       algorithm: "aes-256-gcm"
       key_management: "external-kms"
       key_rotation_period: "90 days"
-    
+
     data_in_transit:
       enabled: true
       enforcement: "mandatory"
       protocol: "tls-1.3"
       certificate_validation: "strict"
       minimum_tls_version: "1.2"
-    
+
     backup_encryption:
       enabled: true
       algorithm: "aes-256-gcm"
       key_escrow: true
-  
+
   access_control:
     principle: "least_privilege"
-    
+
     authentication:
       multi_factor_required: true
       methods: ["password + totp", "certificate"]
-    
+
     authorization:
       model: "rbac"
       roles:
         - name: "data_viewer"
           permissions: ["read"]
-        
+
         - name: "data_processor"
           permissions: ["read", "process"]
-        
+
         - name: "data_admin"
           permissions: ["read", "process", "delete", "configure"]
-      
+
       approval_workflow:
         enabled: true
         approvers: ["@data-governance-team"]
-    
+
     audit_logging:
       enabled: true
       log_all_access: true
       log_retention: "1 year"
       tamper_proof: true
-  
+
   data_transfer:
     description: "數據傳輸要求"
-    
+
     cross_border_transfer:
-      enabled: false  # 預設禁止跨境傳輸
+      enabled: false # 預設禁止跨境傳輸
       allowed_regions: []
-      
+
       safeguards_required:
         - "adequacy_decision"
         - "standard_contractual_clauses"
         - "binding_corporate_rules"
-      
+
       approval_required: true
       approvers: ["@legal-team", "@compliance-team"]
-    
+
     third_party_sharing:
-      enabled: false  # 預設禁止第三方共享
-      
+      enabled: false # 預設禁止第三方共享
+
       allowed_when:
         - "data_processing_agreement_signed"
         - "adequate_safeguards_in_place"
         - "user_consent_obtained"
-      
+
       due_diligence_required: true
       annual_audit_required: true
 
@@ -428,26 +428,26 @@ data_handling:
 # ===================================================================
 special_data_categories:
   description: "特殊類別數據的額外保護措施"
-  
+
   children_data:
     description: "兒童數據（< 16 歲）"
-    
+
     parental_consent_required: true
     age_verification_method: "self_declaration + verification"
     enhanced_protection: true
     marketing_prohibited: true
-  
+
   health_data:
     description: "健康數據"
-    
+
     explicit_consent_required: true
     encryption_level: "critical"
     access_logging: "detailed"
     retention_period: "as_required_by_law"
-  
+
   biometric_data:
     description: "生物識別數據"
-    
+
     explicit_consent_required: true
     purpose_specific: true
     storage_limitation: "temporary_only"
@@ -458,35 +458,35 @@ special_data_categories:
 # ===================================================================
 enforcement:
   validation_method: "automated + manual_review"
-  
+
   ci_integration:
     enabled: true
     checks:
       - "pii_detection_scan"
       - "anonymization_validation"
       - "gdpr_compliance_check"
-  
+
   runtime_enforcement:
     enabled: true
     mechanisms:
       - "api_gateway_policy"
       - "data_loss_prevention_rules"
       - "access_control_enforcement"
-  
+
   violation_handling:
     severity_levels:
       critical:
         action: "block_and_alert"
         notification: ["@security-team", "@legal-team"]
-      
+
       high:
         action: "warn_and_log"
         notification: ["@compliance-team"]
-      
+
       medium:
         action: "log_only"
         notification: []
-  
+
   compliance_auditing:
     frequency: "quarterly"
     auditor: "external_auditor"
@@ -505,18 +505,18 @@ privacy_by_design:
     - "end-to-end security"
     - "visibility and transparency"
     - "respect for user privacy"
-  
+
   implementation:
     design_review:
       required: true
       stage: "before_development"
       reviewers: ["@privacy-team", "@security-team"]
-    
+
     threat_modeling:
       required: true
       methodology: "stride"
       focus_areas: ["data_flow", "storage", "access"]
-    
+
     privacy_testing:
       required: true
       test_types: ["pii_detection", "anonymization", "access_control"]
@@ -534,10 +534,10 @@ training:
       - "PII handling"
       - "data breach response"
       - "user rights management"
-    
+
     completion_tracking: true
     certification_required: true
-  
+
   awareness_campaigns:
     frequency: "quarterly"
     channels: ["email", "slack", "training-portal"]
@@ -551,10 +551,9 @@ references:
     - "governance/23-policies/base-policy.yaml"
     - "governance/01-architecture/policies/plugin-quality-gates.yaml"
     - "docs/ARCHITECTURE/knowledge-graph-processing.md"
-  
+
   external:
     - "https://gdpr.eu/ (GDPR Official)"
     - "https://ico.org.uk/ (UK Information Commissioner's Office)"
     - "https://www.iso.org/standard/71670.html (ISO/IEC 27701)"
     - "https://oag.ca.gov/privacy/ccpa (California CCPA)"
-

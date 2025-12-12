@@ -5,13 +5,13 @@ metadata:
   name: 審計追蹤治理
   name_en: Audit Trail Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.956362Z'
-  updated_at: '2025-12-11T22:17:20.956368Z'
+  created_at: "2025-12-11T22:17:20.956362Z"
+  updated_at: "2025-12-11T22:17:20.956368Z"
   owner: governance-bot
   category: observability
   tags:
-  - 70_audit
-  - observability
+    - 70_audit
+    - observability
 spec:
   description: Audit Trail Governance dimension for SynergyMesh governance framework
   schema:
@@ -27,32 +27,32 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
+      - ISO-19011
+      - SOC-2
+    framework_mappings:
+      - framework: ISO-19011
+        controls: []
+        compliance_status: in_progress
+      - framework: SOC-2
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
     - ISO-19011
     - SOC-2
-    framework_mappings:
+  framework_mappings:
     - framework: ISO-19011
       controls: []
       compliance_status: in_progress
     - framework: SOC-2
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-19011
-  - SOC-2
-  framework_mappings:
-  - framework: ISO-19011
-    controls: []
-    compliance_status: in_progress
-  - framework: SOC-2
-    controls: []
-    compliance_status: in_progress

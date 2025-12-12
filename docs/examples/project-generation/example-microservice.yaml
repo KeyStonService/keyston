@@ -8,11 +8,11 @@ spec:
   type: microservice
   language: python
   framework: fastapi
-  
+
   architecture:
     pattern: clean-architecture
     layers: [presentation, application, domain, infrastructure]
-  
+
   features:
     api:
       rest: true
@@ -31,7 +31,7 @@ spec:
       metrics: prometheus
       tracing: opentelemetry
       health_checks: true
-  
+
   deliverables:
     tests:
       unit: true
@@ -47,7 +47,7 @@ spec:
     ci_cd:
       platform: github-actions
       stages: [lint, test, build, security-scan, deploy]
-  
+
   governance:
     compliance: [ISO-42001, SOC2, GDPR]
     security_level: high

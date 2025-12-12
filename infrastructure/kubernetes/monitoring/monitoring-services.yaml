@@ -7,8 +7,8 @@ spec:
   selector:
     app: prometheus
   ports:
-  - port: 9090
-    targetPort: 9090
+    - port: 9090
+      targetPort: 9090
 ---
 apiVersion: v1
 kind: Service
@@ -19,8 +19,8 @@ spec:
   selector:
     app: grafana
   ports:
-  - port: 3000
-    targetPort: 3000
+    - port: 3000
+      targetPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -31,8 +31,8 @@ spec:
   selector:
     app: loki
   ports:
-  - port: 3100
-    targetPort: 3100
+    - port: 3100
+      targetPort: 3100
 ---
 apiVersion: v1
 kind: Service
@@ -43,9 +43,9 @@ spec:
   selector:
     app: jaeger
   ports:
-  - port: 16686
-    targetPort: 16686
-    name: ui
-  - port: 6831
-    targetPort: 6831
-    name: agent
+    - port: 16686
+      targetPort: 16686
+      name: ui
+    - port: 6831
+      targetPort: 6831
+      name: agent

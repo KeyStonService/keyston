@@ -81,12 +81,12 @@ OK
 
 ## 兼容性矩陣
 
-| 組件 | 支援版本 |
-|------|---------|
+| 組件   | 支援版本                   |
+| ------ | -------------------------- |
 | Python | 3.8, 3.9, 3.10, 3.11, 3.12 |
-| ROS 2 | Humble, Iron, Jazzy |
-| OS | Ubuntu 20.04, 22.04, 24.04 |
-| C++ | C++17, C++20 |
+| ROS 2  | Humble, Iron, Jazzy        |
+| OS     | Ubuntu 20.04, 22.04, 24.04 |
+| C++    | C++17, C++20               |
 
 ## 測試覆蓋率要求
 
@@ -107,8 +107,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-    
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python

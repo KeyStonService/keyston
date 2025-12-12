@@ -2,7 +2,8 @@
 
 ## 📋 Overview
 
-This document summarizes the complete implementation of the AI Behavior Contract system for the Unmanned Island repository.
+This document summarizes the complete implementation of the AI Behavior Contract
+system for the Unmanned Island repository.
 
 **Implementation Date:** 2025-12-06  
 **Status:** ✅ Complete  
@@ -12,12 +13,14 @@ This document summarizes the complete implementation of the AI Behavior Contract
 
 ## 🎯 Objectives Achieved
 
-The AI Behavior Contract system was successfully implemented to enforce strict behavioral rules for AI agents, ensuring:
+The AI Behavior Contract system was successfully implemented to enforce strict
+behavioral rules for AI agents, ensuring:
 
 1. ✅ **No Vague Excuses** - AI agents must use concrete, specific language
 2. ✅ **Binary Responses** - Clear CAN_COMPLETE or CANNOT_COMPLETE status
 3. ✅ **Proactive Task Decomposition** - Large tasks broken into 2-3 subtasks
-4. ✅ **Draft Mode by Default** - File modifications require explicit authorization
+4. ✅ **Draft Mode by Default** - File modifications require explicit
+   authorization
 
 ---
 
@@ -258,11 +261,11 @@ Analysis Result for 'actions'. Found 0 alerts:
 
 ### Files Created/Modified
 
-| Type | Count | Total Lines |
-|------|-------|-------------|
-| Created | 4 | 850+ |
-| Modified | 5 | 150+ |
-| **Total** | **9** | **1000+** |
+| Type      | Count | Total Lines |
+| --------- | ----- | ----------- |
+| Created   | 4     | 850+        |
+| Modified  | 5     | 150+        |
+| **Total** | **9** | **1000+**   |
 
 **Files Created:**
 
@@ -337,11 +340,9 @@ AI Behavior Contract (this system)
 The contract validation is integrated into the GitHub Actions workflow:
 
 ```yaml
-PR opened/edited → validate-ai-behavior-contract.yml
-                → validate-pr-description job
-                → Run validation script
-                → Post comment if violations found
-                → Fail if violations detected
+PR opened/edited → validate-ai-behavior-contract.yml → validate-pr-description
+job → Run validation script → Post comment if violations found → Fail if
+violations detected
 ```
 
 ---
@@ -369,8 +370,8 @@ output: |
 
 # If CANNOT_COMPLETE:
 missing_resources:
-  - "exact/file/path.yaml"
-  - "specific error message"
+  - 'exact/file/path.yaml'
+  - 'specific error message'
 ```
 
 ### For Developers

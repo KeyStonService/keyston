@@ -4,9 +4,14 @@
 
 ## 📋 專案概述 Project Overview
 
-本次開發實現了 SynergyMesh 平台的進階升級系統（Advanced Escalation System），專門處理自動化解決方案失敗後的智能升級流程。系統特別針對無人機、自動駕駛和自動化迭代場景優化，確保關鍵時刻能快速升級到適當的人工支援層級。
+本次開發實現了 SynergyMesh 平台的進階升級系統（Advanced Escalation
+System），專門處理自動化解決方案失敗後的智能升級流程。系統特別針對無人機、自動駕駛和自動化迭代場景優化，確保關鍵時刻能快速升級到適當的人工支援層級。
 
-This development implements the Advanced Escalation System for the SynergyMesh platform, specifically handling intelligent escalation workflows when automated solutions fail. The system is optimized for drones, autonomous vehicles, and automated iteration scenarios, ensuring rapid escalation to appropriate human support levels during critical moments.
+This development implements the Advanced Escalation System for the SynergyMesh
+platform, specifically handling intelligent escalation workflows when automated
+solutions fail. The system is optimized for drones, autonomous vehicles, and
+automated iteration scenarios, ensuring rapid escalation to appropriate human
+support levels during critical moments.
 
 ## 🎯 實現的核心功能 Core Features Implemented
 
@@ -54,15 +59,15 @@ L5: 客服人員介入 (Customer Service)
 
 ### 3. 七種升級觸發原因 (Seven Escalation Triggers)
 
-| 觸發原因 | 說明 | 適用場景 |
-|---------|------|---------|
-| `AUTO_FIX_FAILED` | 自動修復失敗 | 重試 3 次後仍無法修復 |
-| `TIMEOUT_NO_RESPONSE` | 超時無回應 | 分派後無人確認 |
-| `TIMEOUT_NO_PROGRESS` | 超時無進展 | 確認後長時間無進展 |
-| `CRITICAL_SEVERITY` | 嚴重等級 | 系統判定為嚴重問題 |
-| `REPEATED_FAILURES` | 重複失敗 | 同一問題反覆出現 |
-| `SAFETY_CRITICAL` | 安全關鍵 | 涉及飛行/行駛安全 |
-| `MANUAL_REQUEST` | 手動請求 | 人工主動升級 |
+| 觸發原因              | 說明         | 適用場景              |
+| --------------------- | ------------ | --------------------- |
+| `AUTO_FIX_FAILED`     | 自動修復失敗 | 重試 3 次後仍無法修復 |
+| `TIMEOUT_NO_RESPONSE` | 超時無回應   | 分派後無人確認        |
+| `TIMEOUT_NO_PROGRESS` | 超時無進展   | 確認後長時間無進展    |
+| `CRITICAL_SEVERITY`   | 嚴重等級     | 系統判定為嚴重問題    |
+| `REPEATED_FAILURES`   | 重複失敗     | 同一問題反覆出現      |
+| `SAFETY_CRITICAL`     | 安全關鍵     | 涉及飛行/行駛安全     |
+| `MANUAL_REQUEST`      | 手動請求     | 人工主動升級          |
 
 ### 4. 完整的生命週期管理 (Complete Lifecycle Management)
 
@@ -120,16 +125,16 @@ docs/
 
 ## 🔌 API 端點清單 API Endpoints
 
-| 方法 | 端點 | 功能 |
-|------|-----|------|
-| POST | `/api/v1/escalation/create` | 創建升級事件 |
-| GET | `/api/v1/escalation/:escalationId` | 取得升級詳情 |
-| GET | `/api/v1/escalation/incident/:incidentId` | 取得事件所有升級 |
-| POST | `/api/v1/escalation/:escalationId/status` | 更新升級狀態 |
-| POST | `/api/v1/escalation/:escalationId/resolve` | 解決升級事件 |
-| POST | `/api/v1/escalation/:escalationId/escalate` | 進一步升級 |
-| GET | `/api/v1/escalation/customer-service/available` | 取得可用客服 |
-| GET | `/api/v1/escalation/statistics` | 取得統計數據 |
+| 方法 | 端點                                            | 功能             |
+| ---- | ----------------------------------------------- | ---------------- |
+| POST | `/api/v1/escalation/create`                     | 創建升級事件     |
+| GET  | `/api/v1/escalation/:escalationId`              | 取得升級詳情     |
+| GET  | `/api/v1/escalation/incident/:incidentId`       | 取得事件所有升級 |
+| POST | `/api/v1/escalation/:escalationId/status`       | 更新升級狀態     |
+| POST | `/api/v1/escalation/:escalationId/resolve`      | 解決升級事件     |
+| POST | `/api/v1/escalation/:escalationId/escalate`     | 進一步升級       |
+| GET  | `/api/v1/escalation/customer-service/available` | 取得可用客服     |
+| GET  | `/api/v1/escalation/statistics`                 | 取得統計數據     |
 
 ## 🧪 測試覆蓋 Test Coverage
 
@@ -202,8 +207,7 @@ docs/
 
 ### 場景 2: 自動駕駛煞車系統異常
 
-**問題描述 Problem:**
-自動駕駛車輛檢測到煞車系統出現安全相關異常。
+**問題描述 Problem:** 自動駕駛車輛檢測到煞車系統出現安全相關異常。
 
 **系統行為 System Behavior:**
 
@@ -225,8 +229,7 @@ docs/
 
 ### 場景 3: 生產環境 API 性能下降
 
-**問題描述 Problem:**
-生產環境 API 響應時間持續增加，影響用戶體驗。
+**問題描述 Problem:** 生產環境 API 響應時間持續增加，影響用戶體驗。
 
 **系統行為 System Behavior:**
 
@@ -306,16 +309,11 @@ if (assignmentNeedsEscalation) {
 ```typescript
 // 當自動修復失敗時
 if (autoFixResult.attempts >= 3 && !autoFixResult.success) {
-  escalationEngine.createEscalation(
-    incidentId,
-    'AUTO_FIX_FAILED',
-    'CRITICAL',
-    {
-      systemType: 'DRONE',
-      autoFixAttempts: autoFixResult.attempts,
-      // ...其他上下文
-    }
-  );
+  escalationEngine.createEscalation(incidentId, 'AUTO_FIX_FAILED', 'CRITICAL', {
+    systemType: 'DRONE',
+    autoFixAttempts: autoFixResult.attempts,
+    // ...其他上下文
+  });
 }
 ```
 

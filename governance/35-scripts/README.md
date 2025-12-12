@@ -1,19 +1,20 @@
 # Governance Scripts
 
-This directory contains utility scripts for governance automation and validation.
+This directory contains utility scripts for governance automation and
+validation.
 
 ## Scripts Overview
 
 ### Quick Reference
 
-| Script | Purpose | Execution | Auto-Fix |
-|--------|---------|-----------|----------|
-| extreme-problem-identifier.py | 10-category problem detection | < 5s | 76.6% |
-| intelligent-file-router.py | Content-based file routing | < 5s | N/A |
-| logical-consistency-engine.py | Logical consistency analysis | < 10s | 65% |
-| validate-governance-structure.py | Structure validation | < 5s | No |
-| validate-dag.py | DAG dependency validation | < 2s | No |
-| auto-fix-medium-issues.py | Auto-fix MEDIUM issues | < 3s | 100% |
+| Script                           | Purpose                       | Execution | Auto-Fix |
+| -------------------------------- | ----------------------------- | --------- | -------- |
+| extreme-problem-identifier.py    | 10-category problem detection | < 5s      | 76.6%    |
+| intelligent-file-router.py       | Content-based file routing    | < 5s      | N/A      |
+| logical-consistency-engine.py    | Logical consistency analysis  | < 10s     | 65%      |
+| validate-governance-structure.py | Structure validation          | < 5s      | No       |
+| validate-dag.py                  | DAG dependency validation     | < 2s      | No       |
+| auto-fix-medium-issues.py        | Auto-fix MEDIUM issues        | < 3s      | 100%     |
 
 ---
 
@@ -21,7 +22,8 @@ This directory contains utility scripts for governance automation and validation
 
 ### `intelligent-file-router.py` ⭐ NEW
 
-**智能文件路由系統** - AI-powered content analysis and intelligent path assignment.
+**智能文件路由系統** - AI-powered content analysis and intelligent path
+assignment.
 
 **Purpose:**
 
@@ -71,7 +73,8 @@ Top matches:
 
 ### `logical-consistency-engine.py` ⭐ NEW
 
-**邏輯一致性引擎** - Deep project understanding and logical consistency validation.
+**邏輯一致性引擎** - Deep project understanding and logical consistency
+validation.
 
 **Purpose:**
 
@@ -156,7 +159,8 @@ Issues by Category:
 
 ### `extreme-problem-identifier.py` ⭐
 
-**極致問題識別系統** - Advanced multi-dimensional problem detection and root cause analysis.
+**極致問題識別系統** - Advanced multi-dimensional problem detection and root
+cause analysis.
 
 **Purpose:**
 
@@ -211,7 +215,8 @@ python governance/scripts/extreme-problem-identifier.py --export json --output p
 
 **CI Integration:**
 
-- `.github/workflows/extreme-problem-identification.yml` - Runs on governance/ changes and daily
+- `.github/workflows/extreme-problem-identification.yml` - Runs on governance/
+  changes and daily
 - Exports JSON report as workflow artifact
 - Comments on PRs with problem summary
 - Fails on critical problems
@@ -220,7 +225,8 @@ python governance/scripts/extreme-problem-identifier.py --export json --output p
 
 ### `validate-governance-structure.py`
 
-Validates the governance directory structure against `governance-map.yaml` registry.
+Validates the governance directory structure against `governance-map.yaml`
+registry.
 
 **Purpose:**
 
@@ -257,8 +263,8 @@ python governance/scripts/validate-governance-structure.py --governance-root ./g
 5. Dependency graph validation
 6. Migration deadline tracking
 
-**CI Integration:**
-This script is automatically run by `.github/workflows/governance-validation.yml` on:
+**CI Integration:** This script is automatically run by
+`.github/workflows/governance-validation.yml` on:
 
 - Push to `governance/**`
 - Pull requests modifying `governance/**`
@@ -279,13 +285,13 @@ When adding a new dimension directory:
 3. Register in `governance-map.yaml`:
 
    ```yaml
-   - name: "XX-dimension-name"
+   - name: 'XX-dimension-name'
      type: dimension
      category: strategic|policy|execution|observability|feedback
      owner: team-name
      path: governance/XX-dimension-name
-     depends_on: ["other-dimension"]
-     purpose: "Description of dimension"
+     depends_on: ['other-dimension']
+     purpose: 'Description of dimension'
      status: active
    ```
 
@@ -300,12 +306,12 @@ When adding shared (unnumbered) directories:
 2. Register in `governance-map.yaml`:
 
    ```yaml
-   - name: "resource-name"
+   - name: 'resource-name'
      type: shared
      owner: team-name
      path: governance/resource-name
-     purpose: "Description of shared resource"
-     consumers: ["dimension-1", "dimension-2"]
+     purpose: 'Description of shared resource'
+     consumers: ['dimension-1', 'dimension-2']
    ```
 
 3. Run validation

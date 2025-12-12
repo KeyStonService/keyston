@@ -2,12 +2,15 @@
 
 # 行為契約
 
-> **Purpose**: Define expected behaviors, APIs, events, and invariants for modules  
+> **Purpose**: Define expected behaviors, APIs, events, and invariants for
+> modules  
 > **用途**: 定義模組的預期行為、API、事件和不變條件
 
 ## 📋 Overview | 概述
 
-Behavior contracts specify what happens when you call a module - not just "who can call whom", but the complete behavioral specification including APIs, events, invariants, and failure modes.
+Behavior contracts specify what happens when you call a module - not just "who
+can call whom", but the complete behavioral specification including APIs,
+events, invariants, and failure modes.
 
 行為契約規定當您調用模組時會發生什麼 - 不僅僅是「誰可以調用誰」，而是包括 API、事件、不變條件和失敗模式的完整行為規範。
 
@@ -29,11 +32,11 @@ Each behavior contract file should include:
 
 ```yaml
 contract:
-  module: "core.contract_service.L1"
-  version: "1.0.0"
-  status: "active"
-  owner: "@core-platform-team"
-  description: "Contract management with provenance"
+  module: 'core.contract_service.L1'
+  version: '1.0.0'
+  status: 'active'
+  owner: '@core-platform-team'
+  description: 'Contract management with provenance'
 ```
 
 ### 2. API Contracts | API 契約
@@ -48,17 +51,17 @@ Define all public APIs with:
 ```yaml
 api:
   endpoints:
-    - name: "Create Contract"
+    - name: 'Create Contract'
       method: POST
-      path: "/contracts"
+      path: '/contracts'
       input_schema: { ... }
       output_schema: { ... }
       guarantees:
-        - "Contract ID is unique"
-        - "Signature is verified"
-      error_responses: [ ... ]
+        - 'Contract ID is unique'
+        - 'Signature is verified'
+      error_responses: [...]
       performance:
-        response_time_p99: "< 500ms"
+        response_time_p99: '< 500ms'
 ```
 
 ### 3. Event Contracts | 事件契約
@@ -72,13 +75,13 @@ Define all events published/consumed:
 
 ```yaml
 events:
-  - name: "contract.created"
+  - name: 'contract.created'
     payload_schema: { ... }
-    delivery_guarantee: "at-least-once"
-    ordering: "per-contract"
+    delivery_guarantee: 'at-least-once'
+    ordering: 'per-contract'
     consumers:
-      - "services.billing"
-      - "services.audit"
+      - 'services.billing'
+      - 'services.audit'
 ```
 
 ### 4. Invariants | 不變條件
@@ -91,10 +94,10 @@ Conditions that must always hold:
 
 ```yaml
 invariants:
-  - name: "Signature Verification Required"
-    description: "All contracts must have verified signatures"
-    rule: "forall c in contracts: c.signature.verified = true"
-    enforcement: "pre-condition"
+  - name: 'Signature Verification Required'
+    description: 'All contracts must have verified signatures'
+    rule: 'forall c in contracts: c.signature.verified = true'
+    enforcement: 'pre-condition'
 ```
 
 ### 5. Failure Modes | 失敗模式
@@ -107,10 +110,10 @@ How the module behaves under failure:
 
 ```yaml
 failure_modes:
-  - scenario: "Database Failure"
-    triggers: ["Connection lost", "Transaction timeout"]
-    recovery: ["Rollback", "Return 500", "Alert ops"]
-    error_code: "ERR_DATABASE_FAILURE"
+  - scenario: 'Database Failure'
+    triggers: ['Connection lost', 'Transaction timeout']
+    recovery: ['Rollback', 'Return 500', 'Alert ops']
+    error_code: 'ERR_DATABASE_FAILURE'
 ```
 
 ## 🎯 Why Behavior Contracts? | 為什麼需要行為契約？
@@ -228,21 +231,21 @@ Contracts require architecture team review when:
 
 ```yaml
 deprecated_features:
-  - feature: "Legacy signature algorithm"
-    removed_in: "2.0.0"
-    migration: "Use RSA-SHA256 instead"
+  - feature: 'Legacy signature algorithm'
+    removed_in: '2.0.0'
+    migration: 'Use RSA-SHA256 instead'
 ```
 
 ## 📊 Contract Coverage | 契約覆蓋率
 
 Track which modules have behavior contracts:
 
-| Layer | Total Modules | With Contracts | Coverage |
-|-------|--------------|----------------|----------|
-| Core | 25 | 15 | 60% |
-| Services | 12 | 8 | 67% |
-| Automation | 8 | 3 | 38% |
-| Apps | 5 | 2 | 40% |
+| Layer      | Total Modules | With Contracts | Coverage |
+| ---------- | ------------- | -------------- | -------- |
+| Core       | 25            | 15             | 60%      |
+| Services   | 12            | 8              | 67%      |
+| Automation | 8             | 3              | 38%      |
+| Apps       | 5             | 2              | 40%      |
 
 **Goal**: 100% coverage for active modules by Q2 2026
 
@@ -250,17 +253,22 @@ Track which modules have behavior contracts:
 
 ### Links to Other Dimensions
 
-- **Module Mapping**: Contracts reference modules in `config/system-module-map.yaml`
+- **Module Mapping**: Contracts reference modules in
+  `config/system-module-map.yaml`
 - **Ownership**: Owner field links to `governance/34-config/ownership-map.yaml`
-- **Layers**: API patterns follow layer rules in `governance/01-architecture/config/layers-domains.yaml`
-- **Policies**: Contracts are validated by `governance/23-policies/architecture-rules.yaml`
-- **Health Metrics**: Coverage tracked in `governance/34-config/architecture-health.yaml`
+- **Layers**: API patterns follow layer rules in
+  `governance/01-architecture/config/layers-domains.yaml`
+- **Policies**: Contracts are validated by
+  `governance/23-policies/architecture-rules.yaml`
+- **Health Metrics**: Coverage tracked in
+  `governance/34-config/architecture-health.yaml`
 
 ## 🔍 Examples | 範例
 
 ### Complete Example
 
-See [`core.contract_service.L1.yaml`](./core.contract_service.L1.yaml) for a complete example covering:
+See [`core.contract_service.L1.yaml`](./core.contract_service.L1.yaml) for a
+complete example covering:
 
 - CRUD APIs
 - Event publishing
@@ -274,27 +282,27 @@ See [`core.contract_service.L1.yaml`](./core.contract_service.L1.yaml) for a com
 ```yaml
 # Minimal contract
 contract:
-  module: "services.example"
-  version: "1.0.0"
+  module: 'services.example'
+  version: '1.0.0'
 
 api:
   endpoints:
-    - name: "Get Resource"
+    - name: 'Get Resource'
       method: GET
-      path: "/resources/{id}"
-      guarantees: ["Returns 404 if not found"]
+      path: '/resources/{id}'
+      guarantees: ['Returns 404 if not found']
 
 events:
-  - name: "resource.created"
-    delivery_guarantee: "at-least-once"
+  - name: 'resource.created'
+    delivery_guarantee: 'at-least-once'
 
 invariants:
-  - name: "IDs are unique"
-    rule: "forall r in resources: unique(r.id)"
+  - name: 'IDs are unique'
+    rule: 'forall r in resources: unique(r.id)'
 
 failure_modes:
-  - scenario: "Not Found"
-    error_code: "ERR_NOT_FOUND"
+  - scenario: 'Not Found'
+    error_code: 'ERR_NOT_FOUND'
 ```
 
 ## 🔗 Related Documentation | 相關文檔

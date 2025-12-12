@@ -2,14 +2,19 @@
 
 ## Executive Summary
 
-Following the successful extraction and integration of the three-phase refactor playbook system, the next phase focuses on **end-to-end execution** starting with the `core/architecture-stability` cluster as a template, then scaling to other subsystems.
+Following the successful extraction and integration of the three-phase refactor
+playbook system, the next phase focuses on **end-to-end execution** starting
+with the `core/architecture-stability` cluster as a template, then scaling to
+other subsystems.
 
 ## Status: Foundation Complete ✅
 
 ### Completed Infrastructure (Current PR)
 
-- ✅ Three-phase playbook system (01_deconstruction → 02_integration → 03_refactor)
-- ✅ Config integration (system-module-map.yaml v1.2.0, unified-config-index.yaml)
+- ✅ Three-phase playbook system (01_deconstruction → 02_integration →
+  03_refactor)
+- ✅ Config integration (system-module-map.yaml v1.2.0,
+  unified-config-index.yaml)
 - ✅ Global defaults (language_policy, quality_thresholds)
 - ✅ Architecture constraints (dependencies, skeleton rules, language strategy)
 - ✅ Proposer/Critic AI workflow
@@ -38,7 +43,8 @@ modules:
 
 ### Objective
 
-Create a complete, replicable template by executing the full refactor cycle on `core/architecture-stability` cluster.
+Create a complete, replicable template by executing the full refactor cycle on
+`core/architecture-stability` cluster.
 
 ### 1.1 Deconstruction Phase (Week 1)
 
@@ -46,8 +52,10 @@ Create a complete, replicable template by executing the full refactor cycle on `
 
 **Tasks**:
 
-- [ ] Create `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
-- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`, `core/lifecycle_systems/`
+- [ ] Create
+      `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- [ ] Analyze `core/unified_integration/`, `core/mind_matrix/`,
+      `core/lifecycle_systems/`
 - [ ] Document architecture patterns, anti-patterns, technical debt
 - [ ] Identify legacy asset dependencies
 - [ ] Update `legacy_assets_index.yaml` with core-specific entries
@@ -67,7 +75,8 @@ Create a complete, replicable template by executing the full refactor cycle on `
 
 **Tasks**:
 
-- [ ] Create `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+- [ ] Create
+      `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
 - [ ] Design new architecture respecting skeleton rules
 - [ ] Map old → new component transitions
 - [ ] Define API boundaries and interfaces
@@ -88,7 +97,8 @@ Create a complete, replicable template by executing the full refactor cycle on `
 
 **Tasks**:
 
-- [ ] Create `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+- [ ] Create
+      `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
 - [ ] Implement P0 refactorings (critical fixes)
 - [ ] Implement P1 refactorings (high priority)
 - [ ] Implement P2 refactorings (nice-to-have)
@@ -257,19 +267,23 @@ Following core template success, execute in order:
 
 ### Risk 1: Scope Creep
 
-**Mitigation**: Focus on one cluster at a time. Complete end-to-end before moving to next.
+**Mitigation**: Focus on one cluster at a time. Complete end-to-end before
+moving to next.
 
 ### Risk 2: Breaking Changes
 
-**Mitigation**: Use Proposer/Critic workflow. Validate after each change. Maintain before/after metrics.
+**Mitigation**: Use Proposer/Critic workflow. Validate after each change.
+Maintain before/after metrics.
 
 ### Risk 3: Tool Complexity
 
-**Mitigation**: Start simple. Add features iteratively. Document each tool thoroughly.
+**Mitigation**: Start simple. Add features iteratively. Document each tool
+thoroughly.
 
 ### Risk 4: Resource Constraints
 
-**Mitigation**: Prioritize P0 clusters. Automate repetitive tasks. Use AI for assistance.
+**Mitigation**: Prioritize P0 clusters. Automate repetitive tasks. Use AI for
+assistance.
 
 ---
 
@@ -310,8 +324,10 @@ Parallel: Infrastructure enhancements (tools, CI/CD, dashboards)
 
 - **Current PR**: Extract and integrate three-phase refactor playbook system
 - **Config**: `config/system-module-map.yaml` (v1.2.0)
-- **Workflow**: `docs/refactor_playbooks/03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md`
-- **Template**: `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md`
+- **Workflow**:
+  `docs/refactor_playbooks/03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md`
+- **Template**:
+  `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md`
 - **Validation**: `tools/validate-refactor-index.py`
 
 ---

@@ -97,7 +97,7 @@ docker run -p 3000:3000 \
 - ✅ 部署驗證器
 - ✅ 邏輯驗證器
 - ✅ 綜合驗證器
-- ⚠️  需要配置環境變數
+- ⚠️ 需要配置環境變數
 
 #### 部署要求
 
@@ -150,7 +150,7 @@ npm start             # 啟動 MCP 伺服器
 - ✅ JSON Schema 驗證
 - ✅ 驗證工具完整
 - ✅ 文件完整
-- ⚠️  需要配置外部服務 (Slack, Email, Cosign)
+- ⚠️ 需要配置外部服務 (Slack, Email, Cosign)
 
 #### 部署要求
 
@@ -181,12 +181,8 @@ npm start             # 啟動 MCP 伺服器
 觸發條件:
   - Pull Request (YAML 檔案變更)
   - Push to main
-  
-執行流程:
-  1. 驗證 YAML 語法
-  2. 驗證 Schema
-  3. 驗證測試向量
-  4. 生成報告
+
+執行流程: 1. 驗證 YAML 語法 2. 驗證 Schema 3. 驗證測試向量 4. 生成報告
 ```
 
 ---
@@ -406,12 +402,12 @@ services:
   contracts-l1:
     build: ./core/contract_service/contracts-L1/contracts
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - PORT=3000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -420,7 +416,7 @@ services:
   mcp-servers:
     build: ./mcp-servers
     ports:
-      - "3001:3001"
+      - '3001:3001'
     environment:
       - NODE_ENV=production
       - MCP_SERVER_PORT=3001
@@ -431,7 +427,7 @@ services:
   dashboard:
     image: nginx:alpine
     ports:
-      - "8080:80"
+      - '8080:80'
     volumes:
       - ./auto-fix-bot-dashboard.html:/usr/share/nginx/html/index.html:ro
     restart: unless-stopped
@@ -449,36 +445,36 @@ docker-compose up -d
 
 ### Contracts L1 Service
 
-| 項目 | 分數 | 說明 |
-|-----|------|------|
-| 代碼品質 | 9/10 | TypeScript, ESLint, 測試完整 |
-| 文檔完整性 | 7/10 | 需要補充 API 文檔 |
-| 測試覆蓋率 | 8/10 | 單元測試與整合測試 |
-| 部署就緒度 | 9/10 | Dockerfile, predeploy script |
-| 監控整合 | 6/10 | 需要補充監控端點 |
-| **總分** | **39/50** | **生產就緒** ✅ |
+| 項目       | 分數      | 說明                         |
+| ---------- | --------- | ---------------------------- |
+| 代碼品質   | 9/10      | TypeScript, ESLint, 測試完整 |
+| 文檔完整性 | 7/10      | 需要補充 API 文檔            |
+| 測試覆蓋率 | 8/10      | 單元測試與整合測試           |
+| 部署就緒度 | 9/10      | Dockerfile, predeploy script |
+| 監控整合   | 6/10      | 需要補充監控端點             |
+| **總分**   | **39/50** | **生產就緒** ✅              |
 
 ### MCP Servers
 
-| 項目 | 分數 | 說明 |
-|-----|------|------|
-| 代碼品質 | 8/10 | ESLint, 驗證完整 |
-| 文檔完整性 | 8/10 | README 與驗證文檔 |
-| 測試覆蓋率 | 7/10 | 驗證器存在，需補充單元測試 |
-| 部署就緒度 | 7/10 | 需要 Dockerfile |
-| 監控整合 | 5/10 | 需要補充監控 |
-| **總分** | **35/50** | **生產就緒** ✅ |
+| 項目       | 分數      | 說明                       |
+| ---------- | --------- | -------------------------- |
+| 代碼品質   | 8/10      | ESLint, 驗證完整           |
+| 文檔完整性 | 8/10      | README 與驗證文檔          |
+| 測試覆蓋率 | 7/10      | 驗證器存在，需補充單元測試 |
+| 部署就緒度 | 7/10      | 需要 Dockerfile            |
+| 監控整合   | 5/10      | 需要補充監控               |
+| **總分**   | **35/50** | **生產就緒** ✅            |
 
 ### Auto-Fix Bot System
 
-| 項目 | 分數 | 說明 |
-|-----|------|------|
-| 配置完整性 | 10/10 | 完整的 2.0 配置 |
-| 文檔完整性 | 10/10 | 詳細使用指南 |
-| 驗證工具 | 10/10 | 完整的驗證腳本 |
-| CI/CD 整合 | 9/10 | GitHub Actions 配置完整 |
-| 外部依賴 | 6/10 | 需要配置 Cosign, Syft, Slack |
-| **總分** | **45/50** | **配置就緒** ✅ |
+| 項目       | 分數      | 說明                         |
+| ---------- | --------- | ---------------------------- |
+| 配置完整性 | 10/10     | 完整的 2.0 配置              |
+| 文檔完整性 | 10/10     | 詳細使用指南                 |
+| 驗證工具   | 10/10     | 完整的驗證腳本               |
+| CI/CD 整合 | 9/10      | GitHub Actions 配置完整      |
+| 外部依賴   | 6/10      | 需要配置 Cosign, Syft, Slack |
+| **總分**   | **45/50** | **配置就緒** ✅              |
 
 ---
 

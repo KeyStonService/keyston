@@ -1,4 +1,5 @@
 # 🚀 Project Factory 快速開始指南
+
 # Quick Start Guide: Project Generation
 
 > **10 分鐘內生成完整專案** | **Generate Complete Project in 10 Minutes**
@@ -15,7 +16,7 @@
 ✅ Kubernetes 清單 (Deployment + Service + Ingress + HPA)  
 ✅ CI/CD Pipeline (GitHub Actions / GitLab CI)  
 ✅ 治理文檔 (Architecture + API + Compliance)  
-✅ 安全報告 (SBOM + Vulnerability Scan)  
+✅ 安全報告 (SBOM + Vulnerability Scan)
 
 **所有內容自動通過 5 層治理驗證，即刻可部署！**
 
@@ -40,6 +41,7 @@ python -m core.project_factory.cli generate project \
 ```
 
 **輸出結果預覽**:
+
 ```
 my-first-project/
 ├── src/demo_payment_service/
@@ -78,6 +80,7 @@ python -m core.project_factory.cli generate project \
 ```
 
 **完整參數說明**:
+
 ```bash
 python -m core.project_factory.cli generate project \
   --type microservice              # 專案類型: microservice, frontend, ai-agent
@@ -152,8 +155,8 @@ apiVersion: factory.synergymesh.io/v1
 kind: ProjectSpec
 metadata:
   name: payment-gateway
-  description: "高安全性支付網關微服務"
-  version: "1.0.0"
+  description: '高安全性支付網關微服務'
+  version: '1.0.0'
 
 spec:
   type: microservice
@@ -323,6 +326,7 @@ cat ./my-service/.project-factory-metadata.json
 ```
 
 **報告範例**:
+
 ```json
 {
   "project": "my-service",
@@ -369,42 +373,56 @@ kubectl apply --dry-run=client -f kubernetes/
 ## 💡 常見問題 FAQ
 
 ### Q1: 生成的專案可以直接部署嗎？
-✅ **是的！** 所有生成的專案都經過完整驗證，包含所有必要配置，可以直接部署到 Kubernetes。
+
+✅ **是的！**
+所有生成的專案都經過完整驗證，包含所有必要配置，可以直接部署到 Kubernetes。
 
 ### Q2: 如何自定義生成的代碼？
+
 📝 有三種方式：
+
 1. 修改 YAML 規格文件中的參數
 2. 使用 Python API 自定義 ProjectSpec
 3. 創建自定義模板（高級用法）
 
 ### Q3: 支援哪些語言和框架？
+
 🔧 目前支援：
+
 - **Python**: FastAPI, Flask, Django
 - **TypeScript**: NestJS, Express
 - **Go**: Gin, Echo
 - **Rust**: Actix (規劃中)
 
 ### Q4: 生成的測試覆蓋率如何？
+
 ✅ 預設生成的測試覆蓋率 ≥ 80%，可通過 `--coverage-threshold` 參數調整。
 
 ### Q5: 如何符合特定的合規標準？
+
 📋 使用 `--compliance` 參數指定：
+
 ```bash
 --compliance "ISO-42001,NIST-AI-RMF,PCI-DSS,GDPR"
 ```
 
 ### Q6: 生成速度有多快？
+
 ⚡ 生成時間：
+
 - 簡單專案: < 2 秒
 - 標準專案: < 3 秒
 - 完整專案: < 5 秒
 
 ### Q7: 如何更新已生成的專案？
+
 🔄 有兩種方式：
+
 1. 重新生成並手動合併變更
 2. 使用專案演化功能（規劃中）
 
 ### Q8: 是否支援多專案生態系統生成？
+
 🏗️ 規劃中！未來將支援一次生成整個微服務生態系統。
 
 ---
@@ -420,14 +438,14 @@ kubectl apply --dry-run=client -f kubernetes/
 apiVersion: factory.synergymesh.io/v1
 kind: ProjectSpec
 metadata:
-  name: "{{PROJECT_NAME}}"
-  description: "{{PROJECT_DESCRIPTION}}"
+  name: '{{PROJECT_NAME}}'
+  description: '{{PROJECT_DESCRIPTION}}'
 
 spec:
   type: microservice
   language: python
   framework: fastapi
-  
+
   # 標準配置
   deliverables:
     tests:
@@ -438,7 +456,7 @@ spec:
       multi_stage: true
     kubernetes:
       deployment: true
-    
+
   # 標準治理
   governance:
     compliance:
@@ -448,6 +466,7 @@ spec:
 ```
 
 使用模板：
+
 ```bash
 # 替換變數並生成
 sed 's/{{PROJECT_NAME}}/my-service/g' templates/microservice-base.yaml | \
@@ -479,7 +498,7 @@ for service_spec in services:
         framework="fastapi"
     )
     spec.features.database.type = service_spec["database"]
-    
+
     project = factory.generate(spec)
     project.export(f"./microservices/{service_spec['name']}")
     print(f"✅ Generated: {service_spec['name']}")
@@ -508,27 +527,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
         run: pip install -e .
-      
+
       - name: Generate project
         run: |
           python -m core.project_factory.cli generate project \
             --spec ${{ github.event.inputs.spec_file }} \
             --output ./generated/${{ github.event.inputs.service_name }}
-      
+
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
-          commit-message: "feat: Generate ${{ github.event.inputs.service_name }}"
-          branch: "generate/${{ github.event.inputs.service_name }}"
-          title: "New Service: ${{ github.event.inputs.service_name }}"
+          commit-message:
+            'feat: Generate ${{ github.event.inputs.service_name }}'
+          branch: 'generate/${{ github.event.inputs.service_name }}'
+          title: 'New Service: ${{ github.event.inputs.service_name }}'
 ```
 
 ---
@@ -536,24 +556,31 @@ jobs:
 ## 📚 下一步
 
 1. ✅ **探索範例**: 查看 `examples/project-factory-demo.yaml`
-2. ✅ **閱讀完整文檔**: [Project Factory README](../core/project_factory/README.md)
-3. ✅ **了解治理整合**: [Governance Integration Guide](./PROJECT_FACTORY_INTEGRATION.md)
-4. ✅ **學習模板系統**: [Template Customization](../core/project_factory/templates/README.md)
-5. ✅ **查看插件開發**: [Plugin Development Guide](../core/project_factory/plugins/README.md)
+2. ✅ **閱讀完整文檔**:
+   [Project Factory README](../core/project_factory/README.md)
+3. ✅ **了解治理整合**:
+   [Governance Integration Guide](./PROJECT_FACTORY_INTEGRATION.md)
+4. ✅ **學習模板系統**:
+   [Template Customization](../core/project_factory/templates/README.md)
+5. ✅ **查看插件開發**:
+   [Plugin Development Guide](../core/project_factory/plugins/README.md)
 
 ---
 
 ## 🆘 獲取幫助
 
 ### 文檔資源
+
 - [Project Factory README](../core/project_factory/README.md)
 - [Governance Deep Analysis](./DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md)
 - [Project Factory Integration](./PROJECT_FACTORY_INTEGRATION.md)
 
 ### 社群支援
-- GitHub Issues: [提交問題](https://github.com/SynergyMesh-master/SynergyMesh/issues)
+
+- GitHub Issues:
+  [提交問題](https://github.com/SynergyMesh-master/SynergyMesh/issues)
 - Slack Channel: #project-factory
-- Email: platform@synergymesh.io
+- Email: <platform@synergymesh.io>
 
 ---
 

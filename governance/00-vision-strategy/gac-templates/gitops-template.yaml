@@ -3,18 +3,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ APP_NAME }}
+  name: { { APP_NAME } }
   namespace: argocd
 spec:
-  project: {{ PROJECT_NAME }}
+  project: { { PROJECT_NAME } }
   source:
-    repoURL: {{ REPO_URL }}
-    targetRevision: {{ TARGET_REVISION }}
-    path: {{ TARGET_PATH }}
+    repoURL: { { REPO_URL } }
+    targetRevision: { { TARGET_REVISION } }
+    path: { { TARGET_PATH } }
   destination:
-    server: {{ DESTINATION_SERVER }}
-    namespace: {{ DESTINATION_NAMESPACE }}
+    server: { { DESTINATION_SERVER } }
+    namespace: { { DESTINATION_NAMESPACE } }
   syncPolicy:
     automated:
-      prune: {{ AUTO_PRUNE }}
-      selfHeal: {{ AUTO_SELF_HEAL }}
+      prune: { { AUTO_PRUNE } }
+      selfHeal: { { AUTO_SELF_HEAL } }

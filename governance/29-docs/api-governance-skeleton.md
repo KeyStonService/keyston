@@ -80,23 +80,23 @@ python api_contract.py
 
 ## 模組責任分類
 
-| 模組角色 | 描述 | 最大延遲 |
-|---------|------|---------|
-| SENSOR_FUSION | 感測器資料融合 | 50ms |
-| FLIGHT_CONTROL | 飛行控制 | 10ms |
-| NAVIGATION | 導航規劃 | 100ms |
-| SAFETY_MONITOR | 安全監控 | 5ms |
-| OBSERVABILITY | 可觀測性 | 100ms |
+| 模組角色       | 描述           | 最大延遲 |
+| -------------- | -------------- | -------- |
+| SENSOR_FUSION  | 感測器資料融合 | 50ms     |
+| FLIGHT_CONTROL | 飛行控制       | 10ms     |
+| NAVIGATION     | 導航規劃       | 100ms    |
+| SAFETY_MONITOR | 安全監控       | 5ms      |
+| OBSERVABILITY  | 可觀測性       | 100ms    |
 
 ## 錯誤分類
 
-| 錯誤類型 | 處理策略 |
-|---------|---------|
-| SENSOR_ERROR | fallback_to_last_known_state |
-| CONTROL_ERROR | emergency_landing |
-| NAVIGATION_ERROR | replan_route |
-| SAFETY_VIOLATION | trigger_emergency_protocol |
-| SYSTEM_ERROR | graceful_shutdown |
+| 錯誤類型         | 處理策略                     |
+| ---------------- | ---------------------------- |
+| SENSOR_ERROR     | fallback_to_last_known_state |
+| CONTROL_ERROR    | emergency_landing            |
+| NAVIGATION_ERROR | replan_route                 |
+| SAFETY_VIOLATION | trigger_emergency_protocol   |
+| SYSTEM_ERROR     | graceful_shutdown            |
 
 ## 整合至 SynergyMesh
 

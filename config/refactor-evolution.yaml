@@ -17,10 +17,10 @@ description: "Automated project refactoring and evolution using SynergyMesh engi
 # Workflow Configuration (工作流配置)
 # ============================================================================
 workflow:
-  mode: "autonomous"  # autonomous | supervised | interactive
-  max_iterations: 3  # Maximum evolution cycles
-  confidence_threshold: 0.7  # Minimum confidence for auto-apply changes
-  
+  mode: "autonomous" # autonomous | supervised | interactive
+  max_iterations: 3 # Maximum evolution cycles
+  confidence_threshold: 0.7 # Minimum confidence for auto-apply changes
+
   # Execution phases
   phases:
     - id: "analysis"
@@ -31,7 +31,7 @@ workflow:
         - "analyze_structure"
         - "identify_problems"
         - "assess_impact"
-      
+
     - id: "planning"
       name: "Planning Phase"
       description: "Create refactoring execution plan"
@@ -40,7 +40,7 @@ workflow:
         - "generate_plan"
         - "prioritize_actions"
         - "validate_plan"
-      
+
     - id: "execution"
       name: "Execution Phase"
       description: "Execute refactoring actions"
@@ -49,7 +49,7 @@ workflow:
         - "apply_changes"
         - "track_progress"
         - "handle_errors"
-      
+
     - id: "learning"
       name: "Learning Phase"
       description: "Learn from execution results"
@@ -58,7 +58,7 @@ workflow:
         - "collect_metrics"
         - "identify_patterns"
         - "extract_insights"
-      
+
     - id: "evolution"
       name: "Evolution Phase"
       description: "Identify and apply improvements"
@@ -67,7 +67,7 @@ workflow:
         - "find_opportunities"
         - "prioritize_improvements"
         - "apply_optimizations"
-      
+
     - id: "validation"
       name: "Validation Phase"
       description: "Validate changes and ensure stability"
@@ -95,11 +95,11 @@ engines:
         - "**/.git/**"
         - "**/dist/**"
         - "**/build/**"
-      analysis_depth: "deep"  # surface | normal | deep
+      analysis_depth: "deep" # surface | normal | deep
       validation_strict: true
       backup_enabled: true
       dry_run_first: true
-  
+
   evolution_engine:
     path: "automation/intelligent/synergymesh_core/self_evolution_engine.py"
     enabled: true
@@ -107,20 +107,20 @@ engines:
       learning_enabled: true
       # auto_optimize controls whether evolution opportunities are applied automatically
       # during the evolution phase (different from workflow.mode which controls overall automation)
-      auto_optimize: false  # Set to true to auto-apply evolution opportunities
+      auto_optimize: false # Set to true to auto-apply evolution opportunities
       confidence_threshold: 0.7
       max_evolution_cycles: 3
       safety_checks: true
       rollback_on_failure: true
-  
+
   island_ai_agents:
     path: "island-ai/dist/index.js"
     enabled: true
     agents:
-      - "architect"  # System analysis and patterns
-      - "security"   # Security validation
-      - "qa"         # Quality assurance
-    integration_mode: "advisory"  # advisory | active
+      - "architect" # System analysis and patterns
+      - "security" # Security validation
+      - "qa" # Quality assurance
+    integration_mode: "advisory" # advisory | active
 
 # ============================================================================
 # Target Configuration (目標配置)
@@ -130,19 +130,19 @@ targets:
     - path: "core/"
       priority: "high"
       focus: ["structure", "organization", "integration"]
-    
+
     - path: "automation/"
       priority: "high"
       focus: ["efficiency", "reliability", "scalability"]
-    
+
     - path: "services/"
       priority: "medium"
       focus: ["consistency", "maintainability"]
-    
+
     - path: "mcp-servers/"
       priority: "medium"
       focus: ["standardization", "integration"]
-  
+
   exclude:
     - "node_modules/"
     - ".git/"
@@ -163,24 +163,24 @@ safety:
     - "no_uncommitted_changes"
     - "backup_created"
     - "tests_passing"
-  
+
   # Post-execution validation
   post_checks:
     - "no_syntax_errors"
     - "tests_still_passing"
     - "no_new_vulnerabilities"
     - "performance_acceptable"
-  
+
   # Validation timeouts
-  validation_timeout: 300  # seconds for validation checks (e.g., test runs)
-  
+  validation_timeout: 300 # seconds for validation checks (e.g., test runs)
+
   # Rollback conditions
   rollback_on:
     - "tests_failing"
     - "critical_errors"
     - "security_vulnerabilities"
     - "performance_degradation"
-  
+
   # Human approval required for
   require_approval:
     - "breaking_changes"
@@ -194,16 +194,16 @@ metrics:
   track:
     - name: "code_quality"
       metrics: ["complexity", "duplication", "maintainability"]
-    
+
     - name: "structure"
       metrics: ["organization", "consistency", "modularity"]
-    
+
     - name: "performance"
       metrics: ["execution_time", "resource_usage", "efficiency"]
-    
+
     - name: "evolution"
       metrics: ["improvements_applied", "issues_resolved", "optimizations"]
-  
+
   reporting:
     format: "yaml"
     output_dir: "reports/refactor-evolution/"
@@ -218,10 +218,10 @@ output:
   plans_dir: "reports/refactor-evolution/plans/"
   logs_dir: "reports/refactor-evolution/logs/"
   backup_dir: ".refactor-backups/"
-  
-  report_format: "yaml"  # yaml | json | markdown
-  verbosity: "detailed"  # minimal | normal | detailed
-  
+
+  report_format: "yaml" # yaml | json | markdown
+  verbosity: "detailed" # minimal | normal | detailed
+
   # Notification settings
   notifications:
     enabled: true
@@ -236,12 +236,12 @@ integration:
   automation_launcher:
     enabled: true
     pipeline_id: "refactor_evolution_pipeline"
-  
+
   ci_cd:
-    enabled: false  # Enable when ready for CI integration
+    enabled: false # Enable when ready for CI integration
     trigger_on: ["push", "pull_request"]
     branch_filter: ["develop", "feature/*"]
-  
+
   knowledge_graph:
     update_on_completion: true
     sync_documentation: true
@@ -252,14 +252,14 @@ integration:
 modes:
   autonomous:
     description: "Fully automated with minimal human intervention"
-    auto_apply: false  # Still requires review for safety
+    auto_apply: false # Still requires review for safety
     confidence_required: 0.8
-  
+
   supervised:
     description: "Automated with human approval at key points"
     auto_apply: false
     require_approval_per_phase: true
-  
+
   interactive:
     description: "Step-by-step with human guidance"
     auto_apply: false
@@ -276,12 +276,12 @@ playbooks:
     - "execute_refactor"
     - "learn_and_evolve"
     - "validate_results"
-  
+
   quick_fix:
     - "analyze_structure"
     - "apply_quick_fixes"
     - "validate_results"
-  
+
   deep_evolution:
     - "comprehensive_analysis"
     - "identify_opportunities"

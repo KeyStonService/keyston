@@ -6,7 +6,9 @@
 
 本文檔定義了五大架構層次對應六大語言維度的治理映射，避免硬編碼依賴並確保環境差異化管理。
 
-This document defines the governance mapping of five architectural layers to six language dimensions, avoiding hardcoded dependencies and ensuring environment differentiation.
+This document defines the governance mapping of five architectural layers to six
+language dimensions, avoiding hardcoded dependencies and ensuring environment
+differentiation.
 
 ---
 
@@ -32,8 +34,8 @@ This document defines the governance mapping of five architectural layers to six
 請生成以 Python/Go 為主的治理自動化代碼，涵蓋模組責任矩陣、錯誤分類與事件追蹤。
 確保代碼可在 CI/CD pipeline 中直接執行，並提供 TypeScript 範例以支援前端治理。
 
-Generate governance automation code primarily in Python/Go, covering module responsibility 
-matrix, error classification, and event tracking. Ensure code can execute directly in 
+Generate governance automation code primarily in Python/Go, covering module responsibility
+matrix, error classification, and event tracking. Ensure code can execute directly in
 CI/CD pipeline and provide TypeScript examples for frontend governance support.
 ```
 
@@ -68,8 +70,8 @@ CI/CD pipeline and provide TypeScript examples for frontend governance support.
 請生成以 Java/C# 為主的服務器端治理代碼，定義 API 邊界、錯誤容忍策略與安全模組。
 確保代碼能與微服務架構整合，並支援事件驅動治理。
 
-Generate server-side governance code primarily in Java/C#, defining API boundaries, 
-error tolerance strategies, and security modules. Ensure code integrates with 
+Generate server-side governance code primarily in Java/C#, defining API boundaries,
+error tolerance strategies, and security modules. Ensure code integrates with
 microservices architecture and supports event-driven governance.
 ```
 
@@ -104,8 +106,8 @@ microservices architecture and supports event-driven governance.
 請生成以 TypeScript/HTML 為主的 Web 治理代碼，將 PR/Workflow 視窗轉化為治理觀測儀。
 代碼必須標示模組狀態、角色互動與錯誤分類，並支援語言邊界強制。
 
-Generate Web governance code primarily in TypeScript/HTML, transforming PR/Workflow 
-views into governance observability dashboards. Code must display module status, 
+Generate Web governance code primarily in TypeScript/HTML, transforming PR/Workflow
+views into governance observability dashboards. Code must display module status,
 role interactions, error classification, and enforce language boundary consistency.
 ```
 
@@ -140,8 +142,8 @@ role interactions, error classification, and enforce language boundary consisten
 請生成以 Swift/Kotlin 為主的移動端治理代碼，封裝 SDK 模組並支援跨平台。
 代碼必須包含 Quickstart 範例，並強制語言邊界一致性。
 
-Generate mobile governance code primarily in Swift/Kotlin, encapsulating SDK modules 
-with cross-platform support. Code must include Quickstart examples and enforce 
+Generate mobile governance code primarily in Swift/Kotlin, encapsulating SDK modules
+with cross-platform support. Code must include Quickstart examples and enforce
 language boundary consistency.
 ```
 
@@ -176,8 +178,8 @@ language boundary consistency.
 請生成以 JSON/YAML 為主的治理數據表示文件，定義模組責任矩陣、API 規格與事件追蹤日誌。
 文件必須可被自動化工具解析，並支援版本兼容性驗證。
 
-Generate governance data representation files primarily in JSON/YAML, defining module 
-responsibility matrix, API specs, and event tracking logs. Files must be parseable 
+Generate governance data representation files primarily in JSON/YAML, defining module
+responsibility matrix, API specs, and event tracking logs. Files must be parseable
 by automation tools and support version compatibility verification.
 ```
 
@@ -213,8 +215,8 @@ by automation tools and support version compatibility verification.
 請生成以 C++/Rust 為主的高性能治理代碼，專注於安全性模組與事件驅動架構。
 代碼必須支援記憶體安全檢查，並提供函數式語言範例以驗證治理閉環。
 
-Generate high-performance governance code primarily in C++/Rust, focusing on security 
-modules and event-driven architecture. Code must support memory safety checks and 
+Generate high-performance governance code primarily in C++/Rust, focusing on security
+modules and event-driven architecture. Code must support memory safety checks and
 provide functional language examples for governance closure verification.
 ```
 
@@ -239,7 +241,7 @@ provide functional language examples for governance closure verification.
 ```yaml
 # ❌ 錯誤：所有項目都被強制使用相同依賴
 environment:
-  python: "3.10"
+  python: '3.10'
   requires:
     - ModelScope API
     - camel-ai
@@ -251,9 +253,9 @@ environment:
 # ✅ 正確：根據模組類型條件式安裝
 modules:
   intelligent-automation:
-    runtime: "python >= 3.8"  # 靈活版本
+    runtime: 'python >= 3.8' # 靈活版本
     optional_dependencies:
-      - ModelScope API  # 標記為可選
+      - ModelScope API # 標記為可選
 ```
 
 ### 2. 環境差異化管理 Environment Differentiation
@@ -263,13 +265,13 @@ modules:
 ```yaml
 modules:
   core:
-    primary_language: "typescript"
-    runtime: "nodejs >= 18.0.0"
+    primary_language: 'typescript'
+    runtime: 'nodejs >= 18.0.0'
     requires_python: false
-  
+
   intelligent-automation:
-    primary_language: "python"
-    runtime: "python >= 3.8"
+    primary_language: 'python'
+    runtime: 'python >= 3.8'
     requires_nodejs: false
     optional_ai_ml: true
 ```
@@ -301,14 +303,14 @@ modules:
 
 ## 📊 模組映射表 Module Mapping Table
 
-| 模組 Module | 語言維度 Dimension | 主要語言 Primary | 依賴管理 Dependencies |
-|-------------|-------------------|-----------------|---------------------|
-| core/ | Server-side | TypeScript | npm, 必需 |
-| intelligent-automation/ | Popular | Python | pip, 可選 |
-| mcp-servers/ | Server-side | TypeScript | npm, 必需 |
-| scripts/ | Popular | Shell/Python | 條件式 |
-| governance/environment-matrix/ | Data Representation | YAML | N/A |
-| advanced-system-src/ | Web | TypeScript | npm, 必需 |
+| 模組 Module                    | 語言維度 Dimension  | 主要語言 Primary | 依賴管理 Dependencies |
+| ------------------------------ | ------------------- | ---------------- | --------------------- |
+| core/                          | Server-side         | TypeScript       | npm, 必需             |
+| intelligent-automation/        | Popular             | Python           | pip, 可選             |
+| mcp-servers/                   | Server-side         | TypeScript       | npm, 必需             |
+| scripts/                       | Popular             | Shell/Python     | 條件式                |
+| governance/environment-matrix/ | Data Representation | YAML             | N/A                   |
+| advanced-system-src/           | Web                 | TypeScript       | npm, 必需             |
 
 ---
 

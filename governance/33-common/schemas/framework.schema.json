@@ -69,10 +69,7 @@
             "type": "string"
           },
           "target": {
-            "oneOf": [
-              {"type": "string"},
-              {"type": "number"}
-            ]
+            "oneOf": [{ "type": "string" }, { "type": "number" }]
           }
         }
       }

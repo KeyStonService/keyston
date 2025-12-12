@@ -2,12 +2,13 @@
 
 ## Executive Summary
 
-Analysis of workflows that may be skipped, fail silently, or have permissive error handling that allows execution to continue despite errors.
+Analysis of workflows that may be skipped, fail silently, or have permissive
+error handling that allows execution to continue despite errors.
 
 **Date**: 2025-12-05  
 **Total Workflows**: 49  
 **Workflows with Permissive Error Handling**: 13  
-**Recommended for Fail-Fast**: 8  
+**Recommended for Fail-Fast**: 8
 
 ---
 
@@ -37,13 +38,15 @@ These workflows explicitly allow steps to fail without stopping the workflow:
 
 - **Usage**: 3 instances (code test, monitor, iac test)
 - **Reason**: Currently non-blocking security scans
-- **Recommendation**: ⚠️ **Review** - Security scans should fail on critical issues
+- **Recommendation**: ⚠️ **Review** - Security scans should fail on critical
+  issues
 
 ---
 
 ## 2. Workflows with `|| true` Silent Failure Pattern
 
-These workflows use `|| true` to suppress errors, allowing failures to pass silently:
+These workflows use `|| true` to suppress errors, allowing failures to pass
+silently:
 
 ### 2.1 High Risk (Should Fail-Fast)
 
@@ -59,7 +62,8 @@ These workflows use `|| true` to suppress errors, allowing failures to pass sile
 
 - **Issue**: Security vulnerabilities fail silently
 - **Impact**: Critical security issues may go undetected
-- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, fail on critical/high vulnerabilities
+- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, fail on critical/high
+  vulnerabilities
 
 #### 06-security-scan.yml
 
@@ -69,7 +73,8 @@ These workflows use `|| true` to suppress errors, allowing failures to pass sile
 
 - **Issue**: High-severity security issues fail silently
 - **Impact**: Security vulnerabilities in dependencies go unnoticed
-- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, fail on high vulnerabilities
+- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, fail on high
+  vulnerabilities
 
 #### 02-test.yml
 
@@ -79,7 +84,8 @@ These workflows use `|| true` to suppress errors, allowing failures to pass sile
 
 - **Issue**: Test failures are ignored
 - **Impact**: Broken tests won't prevent code from merging
-- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, tests should always fail-fast
+- **Recommendation**: 🔴 **CRITICAL** - Remove `|| true`, tests should always
+  fail-fast
 
 ### 2.2 Medium Risk (Review Needed)
 
@@ -88,8 +94,8 @@ These workflows use `|| true` to suppress errors, allowing failures to pass sile
 ```yaml
 HIGH_SEVERITY=$(echo "$ALERTS" | grep -c "high" || true)
 CRITICAL_SEVERITY=$(echo "$ALERTS" | grep -c "critical" || true)
-MEDIUM_SEVERITY=$(echo "$ALERTS" | grep -c "medium" || true)
-LOW_SEVERITY=$(echo "$ALERTS" | grep -c "low" || true)
+MEDIUM_SEVERITY=$(echo "$ALERTS" | grep -c "medium" || true) LOW_SEVERITY=$(echo
+"$ALERTS" | grep -c "low" || true)
 ```
 
 - **Issue**: Count operations fail silently if no matches
@@ -129,7 +135,8 @@ git diff --stat docs/generated-mndoc.yaml || true
 
 ## 3. Workflows Missing `set -e` in Shell Scripts
 
-Many workflows run multi-line shell scripts without `set -e`, allowing individual commands to fail without stopping the script:
+Many workflows run multi-line shell scripts without `set -e`, allowing
+individual commands to fail without stopping the script:
 
 ### 3.1 Workflows with Complex Shell Scripts
 
@@ -168,7 +175,8 @@ Weekly scheduled workflows:
 4. **project-self-awareness-nightly.yml**: Weekly only
 5. **osv-scanner.yml**: Weekly + PR only
 
-**Status**: ✅ **Working as designed** - Schedule optimization completed in Phase 1-3
+**Status**: ✅ **Working as designed** - Schedule optimization completed in
+Phase 1-3
 
 ---
 
@@ -176,31 +184,31 @@ Weekly scheduled workflows:
 
 ### 5.1 Critical (Must Fix)
 
-| Workflow | Issue | Action |
-|----------|-------|--------|
-| **02-test.yml** | `pytest \|\| true` | Remove `\|\| true`, fail on test failures |
-| **snyk-security.yml** | All security checks with `\|\| true` | Remove `\|\| true`, fail on critical/high |
-| **06-security-scan.yml** | `npm audit \|\| true` | Remove `\|\| true`, fail on high vulnerabilities |
+| Workflow                 | Issue                                | Action                                           |
+| ------------------------ | ------------------------------------ | ------------------------------------------------ |
+| **02-test.yml**          | `pytest \|\| true`                   | Remove `\|\| true`, fail on test failures        |
+| **snyk-security.yml**    | All security checks with `\|\| true` | Remove `\|\| true`, fail on critical/high        |
+| **06-security-scan.yml** | `npm audit \|\| true`                | Remove `\|\| true`, fail on high vulnerabilities |
 
 **Impact**: Prevents critical security and quality issues from being merged
 
 ### 5.2 High Priority (Should Fix)
 
-| Workflow | Issue | Action |
-|----------|-------|--------|
-| **pr-security-gate.yml** | `continue-on-error: true` | Remove, make security gate blocking |
-| **autonomous-ci-guardian.yml** | Missing `set -e` | Add fail-fast to shell scripts |
-| **ci-failure-auto-solution.yml** | Missing `set -e` | Add fail-fast to shell scripts |
+| Workflow                         | Issue                     | Action                              |
+| -------------------------------- | ------------------------- | ----------------------------------- |
+| **pr-security-gate.yml**         | `continue-on-error: true` | Remove, make security gate blocking |
+| **autonomous-ci-guardian.yml**   | Missing `set -e`          | Add fail-fast to shell scripts      |
+| **ci-failure-auto-solution.yml** | Missing `set -e`          | Add fail-fast to shell scripts      |
 
 **Impact**: Strengthens security posture and improves error detection
 
 ### 5.3 Medium Priority (Nice to Have)
 
-| Workflow | Issue | Action |
-|----------|-------|--------|
-| **snyk-security.yml** | `continue-on-error` on steps | Make selective (keep for monitoring, fail for critical) |
-| **dynamic-ci-assistant.yml** | Missing `set -e` | Add fail-fast to shell scripts |
-| **project-self-awareness.yml** | Missing `set -e` | Add fail-fast to shell scripts |
+| Workflow                       | Issue                        | Action                                                  |
+| ------------------------------ | ---------------------------- | ------------------------------------------------------- |
+| **snyk-security.yml**          | `continue-on-error` on steps | Make selective (keep for monitoring, fail for critical) |
+| **dynamic-ci-assistant.yml**   | Missing `set -e`             | Add fail-fast to shell scripts                          |
+| **project-self-awareness.yml** | Missing `set -e`             | Add fail-fast to shell scripts                          |
 
 **Impact**: Further improves reliability and error detection
 
@@ -363,6 +371,5 @@ Weekly scheduled workflows:
 
 ---
 
-**Analysis Complete**: Ready for Phase 4 implementation
-**Last Updated**: 2025-12-05
-**Analyst**: GitHub Copilot
+**Analysis Complete**: Ready for Phase 4 implementation **Last Updated**:
+2025-12-05 **Analyst**: GitHub Copilot

@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Services contain the **business logic** of the Contracts-L1 application. They are framework-agnostic and can be tested independently of the HTTP layer.
+Services contain the **business logic** of the Contracts-L1 application. They
+are framework-agnostic and can be tested independently of the HTTP layer.
 
 ## Responsibilities
 
@@ -170,12 +171,16 @@ Services should not depend on HTTP frameworks:
 // ❌ BAD: Depends on Express
 import { Request, Response } from 'express';
 export class BadService {
-  create(req: Request, res: Response) { /* ... */ }
+  create(req: Request, res: Response) {
+    /* ... */
+  }
 }
 
 // ✅ GOOD: Pure business logic
 export class GoodService {
-  create(input: CreateInput): Promise<CreateOutput> { /* ... */ }
+  create(input: CreateInput): Promise<CreateOutput> {
+    /* ... */
+  }
 }
 ```
 
@@ -186,17 +191,31 @@ Each service should have one clear purpose:
 ```typescript
 // ✅ GOOD: Focused service
 export class UserService {
-  async createUser(data: CreateUserInput): Promise<User> { /* ... */ }
-  async updateUser(id: string, data: UpdateUserInput): Promise<User> { /* ... */ }
-  async deleteUser(id: string): Promise<void> { /* ... */ }
+  async createUser(data: CreateUserInput): Promise<User> {
+    /* ... */
+  }
+  async updateUser(id: string, data: UpdateUserInput): Promise<User> {
+    /* ... */
+  }
+  async deleteUser(id: string): Promise<void> {
+    /* ... */
+  }
 }
 
 // ❌ BAD: Too many responsibilities
 export class MegaService {
-  async createUser() { /* ... */ }
-  async sendEmail() { /* ... */ }
-  async processPayment() { /* ... */ }
-  async generateReport() { /* ... */ }
+  async createUser() {
+    /* ... */
+  }
+  async sendEmail() {
+    /* ... */
+  }
+  async processPayment() {
+    /* ... */
+  }
+  async generateReport() {
+    /* ... */
+  }
 }
 ```
 
@@ -209,10 +228,7 @@ export class AssignmentService {
   private matrix: ResponsibilityMatrix;
   private balancer: WorkloadBalancer;
 
-  constructor(
-    matrix?: ResponsibilityMatrix,
-    balancer?: WorkloadBalancer
-  ) {
+  constructor(matrix?: ResponsibilityMatrix, balancer?: WorkloadBalancer) {
     this.matrix = matrix || new ResponsibilityMatrix();
     this.balancer = balancer || new WorkloadBalancer();
   }
@@ -229,15 +245,15 @@ import { createError } from '../errors';
 export class UserService {
   async getUser(id: string): Promise<User> {
     const user = await this.findById(id);
-    
+
     if (!user) {
       throw createError.notFound(`User ${id} not found`);
     }
-    
+
     if (!user.isActive) {
       throw createError.forbidden('User is not active');
     }
-    
+
     return user;
   }
 }
@@ -313,13 +329,13 @@ export class OrderService {
   async createOrder(input: CreateOrderInput): Promise<Order> {
     // Validate user
     const user = await this.userService.getUser(input.userId);
-    
+
     // Validate products
     const products = await this.productService.getProducts(input.productIds);
-    
+
     // Process payment
     const payment = await this.paymentService.charge(user, products);
-    
+
     // Create order
     return this.save({ user, products, payment });
   }
@@ -349,7 +365,7 @@ describe('UserService', () => {
     it('should create user successfully', async () => {
       const input = { email: 'test@example.com', name: 'Test' };
       const expected = { id: '123', ...input, createdAt: new Date() };
-      
+
       mockRepository.save.mockResolvedValue(expected);
 
       const result = await service.create(input);
@@ -360,7 +376,7 @@ describe('UserService', () => {
 
     it('should throw error for duplicate email', async () => {
       const input = { email: 'duplicate@example.com', name: 'Test' };
-      
+
       mockRepository.save.mockRejectedValue(new Error('Duplicate'));
 
       await expect(service.create(input)).rejects.toThrow();
@@ -427,7 +443,7 @@ describe('ExampleService', () => {
   it('should create example', async () => {
     const input = { name: 'Test' };
     const result = await service.create(input);
-    
+
     expect(result).toHaveProperty('id');
     expect(result.name).toBe('Test');
   });

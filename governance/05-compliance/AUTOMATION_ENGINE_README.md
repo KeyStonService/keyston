@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Compliance Governance** dimension.
+This directory contains the autonomous automation engine for the **Compliance
+Governance** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = ComplianceGovernanceEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: compliance_governance
-**Dimension Name**: Compliance Governance
-**Status**: Active
+**Dimension ID**: compliance_governance **Dimension Name**: Compliance
+Governance **Status**: Active

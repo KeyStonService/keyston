@@ -6,7 +6,9 @@
 
 ## 📋 任務概要
 
-從 `skeleton_configs_complete.txt` 中完整提取、解構並整合骨架配置到 `unmanned-engineer-ceo` 專案中，使得系統的架構規則和安全可觀測性配置能夠具體實現落地。
+從 `skeleton_configs_complete.txt` 中完整提取、解構並整合骨架配置到
+`unmanned-engineer-ceo`
+專案中，使得系統的架構規則和安全可觀測性配置能夠具體實現落地。
 
 ## ✅ 完成項目
 
@@ -21,15 +23,15 @@
 
 **文件**: 7 個
 
-| 文件 | 類型 | 用途 |
-|------|------|------|
-| docs/invariants.md | 📄 文檔 | 8 項架構不變條件定義 |
-| docs/layering-rules.md | 📄 文檔 | 5 層架構和依賴規則 |
-| docs/dependency-rules.md | 📄 文檔 | 依賴管理和共享庫規則 |
+| 文件                       | 類型    | 用途                     |
+| -------------------------- | ------- | ------------------------ |
+| docs/invariants.md         | 📄 文檔 | 8 項架構不變條件定義     |
+| docs/layering-rules.md     | 📄 文檔 | 5 層架構和依賴規則       |
+| docs/dependency-rules.md   | 📄 文檔 | 依賴管理和共享庫規則     |
 | tools/arch-lint.config.yml | ⚙️ 配置 | Architecture Linter 配置 |
-| tools/arch-lint.ts | 🔧 工具 | Linter 實現 (TypeScript) |
-| tests/arch-lint.test.ts | 🧪 測試 | Linter 單元測試 |
-| README.md | 📚 說明 | 使用和集成指南 |
+| tools/arch-lint.ts         | 🔧 工具 | Linter 實現 (TypeScript) |
+| tests/arch-lint.test.ts    | 🧪 測試 | Linter 單元測試          |
+| README.md                  | 📚 說明 | 使用和集成指南           |
 
 **關鍵內容**:
 
@@ -41,16 +43,16 @@
 
 **文件**: 8 個
 
-| 文件 | 類型 | 用途 |
-|------|------|------|
-| docs/security-model.md | 📄 文檔 | 認證、授權、審計模型 |
+| 文件                            | 類型    | 用途                             |
+| ------------------------------- | ------- | -------------------------------- |
+| docs/security-model.md          | 📄 文檔 | 認證、授權、審計模型             |
 | docs/observability-standards.md | 📄 文檔 | LMT 標準 (Logs, Metrics, Traces) |
-| config/rbac-policies.yaml | ⚙️ 配置 | 5 個角色的 RBAC 定義 |
-| config/log-schema.json | ⚙️ 配置 | 日誌 JSON Schema |
-| config/trace-config.yaml | ⚙️ 配置 | OpenTelemetry 追蹤配置 |
-| tools/security-scan.ts | 🔧 工具 | 安全問題掃描 |
-| tools/log-validator.ts | 🔧 工具 | 日誌 Schema 驗證 |
-| README.md | 📚 說明 | 使用和集成指南 |
+| config/rbac-policies.yaml       | ⚙️ 配置 | 5 個角色的 RBAC 定義             |
+| config/log-schema.json          | ⚙️ 配置 | 日誌 JSON Schema                 |
+| config/trace-config.yaml        | ⚙️ 配置 | OpenTelemetry 追蹤配置           |
+| tools/security-scan.ts          | 🔧 工具 | 安全問題掃描                     |
+| tools/log-validator.ts          | 🔧 工具 | 日誌 Schema 驗證                 |
+| README.md                       | 📚 說明 | 使用和集成指南                   |
 
 **關鍵內容**:
 
@@ -66,13 +68,13 @@
 
 ## 📊 統計數據
 
-| 類型 | 數量 |
-|------|------|
-| 文檔 (.md) | 5 |
-| 配置文件 (YAML/JSON) | 4 |
-| 工具代碼 (TypeScript) | 4 |
-| 測試代碼 (TypeScript) | 1 |
-| **總計** | **16** |
+| 類型                  | 數量   |
+| --------------------- | ------ |
+| 文檔 (.md)            | 5      |
+| 配置文件 (YAML/JSON)  | 4      |
+| 工具代碼 (TypeScript) | 4      |
+| 測試代碼 (TypeScript) | 1      |
+| **總計**              | **16** |
 
 **代碼行數**: 2,041 行  
 **所有文件驗證**: ✅ 通過 (JSON、YAML 語法正確)
@@ -198,11 +200,16 @@ npx ts-node tools/log-validator.ts config/log-schema.json app.log
 
 ## 📖 關鍵文檔參考
 
-1. **架構規則**: [01-architecture-stability/docs/invariants.md](./01-architecture-stability/docs/invariants.md)
-2. **分層規則**: [01-architecture-stability/docs/layering-rules.md](./01-architecture-stability/docs/layering-rules.md)
-3. **依賴規則**: [01-architecture-stability/docs/dependency-rules.md](./01-architecture-stability/docs/dependency-rules.md)
-4. **安全模型**: [04-security-observability/docs/security-model.md](./04-security-observability/docs/security-model.md)
-5. **可觀測性**: [04-security-observability/docs/observability-standards.md](./04-security-observability/docs/observability-standards.md)
+1. **架構規則**:
+   [01-architecture-stability/docs/invariants.md](./01-architecture-stability/docs/invariants.md)
+2. **分層規則**:
+   [01-architecture-stability/docs/layering-rules.md](./01-architecture-stability/docs/layering-rules.md)
+3. **依賴規則**:
+   [01-architecture-stability/docs/dependency-rules.md](./01-architecture-stability/docs/dependency-rules.md)
+4. **安全模型**:
+   [04-security-observability/docs/security-model.md](./04-security-observability/docs/security-model.md)
+5. **可觀測性**:
+   [04-security-observability/docs/observability-standards.md](./04-security-observability/docs/observability-standards.md)
 
 ## 🔄 後續步驟
 

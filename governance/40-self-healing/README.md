@@ -15,12 +15,12 @@
 ```yaml
 boundaries:
   strategic_layer:
-    control: "100% HUMAN"
-    scope: ["Vision", "Policy", "Budget", "Risk Acceptance"]
-    
+    control: '100% HUMAN'
+    scope: ['Vision', 'Policy', 'Budget', 'Risk Acceptance']
+
   operational_layer:
-    control: "100% AI_AUTONOMOUS"
-    scope: ["Monitoring", "Scaling", "Healing", "Optimization"]
+    control: '100% AI_AUTONOMOUS'
+    scope: ['Monitoring', 'Scaling', 'Healing', 'Optimization']
 ```
 
 ## ⚡ INSTANT Execution Standards | 執行標準

@@ -6,9 +6,15 @@
 
 ## 📋 執行摘要 / Executive Summary
 
-本文件提供 6 個 L-A 級基線骨架的完整整合、部署與驗證指南。這些基線構成了 Intelligent Hyperautomation v1 系統的憲法級治理層，實現零信任架構、自動化合規與量子混合計算能力。
+本文件提供 6 個 L-A 級基線骨架的完整整合、部署與驗證指南。這些基線構成了 Intelligent
+Hyperautomation
+v1 系統的憲法級治理層，實現零信任架構、自動化合規與量子混合計算能力。
 
-**This document provides complete integration, deployment, and validation guidance for 6 L-A level baseline skeletons. These baselines form the constitutional governance layer of the Intelligent Hyperautomation v1 system, implementing Zero Trust architecture, automated compliance, and quantum-hybrid computing capabilities.**
+**This document provides complete integration, deployment, and validation
+guidance for 6 L-A level baseline skeletons. These baselines form the
+constitutional governance layer of the Intelligent Hyperautomation v1 system,
+implementing Zero Trust architecture, automated compliance, and quantum-hybrid
+computing capabilities.**
 
 ---
 
@@ -38,14 +44,14 @@
 
 ### 基線矩陣 / Baseline Matrix
 
-| 基線編號 | 名稱 | 責任範疇 | 衝突優先級 | 依賴關係 |
-|---------|------|---------|-----------|---------|
-| **Baseline 1** | Namespace Governance | 命名空間生命週期管理、標籤規範、能力註冊 | 1000 | None |
-| **Baseline 2** | Security & RBAC | 零信任認證、授權、加密、審計 | 950 | Baseline 1 |
-| **Baseline 3** | Resource Management | 多租戶資源隔離、配額執行、成本分配 | 900 | Baseline 1, 2 |
-| **Baseline 4** | Network Policy | 網路分段、服務網格、流量控制 | 850 | Baseline 1, 2, 3 |
-| **Baseline 5** | Compliance & Attestation | 政策驗證、偏移檢測、證明鏈生成 | 800 | Baseline 1, 2, 3, 4 |
-| **Baseline 6** | Quantum Orchestration | 量子電路執行、混合工作流編排 | 750 | Baseline 1, 2, 3, 4, 5 |
+| 基線編號       | 名稱                     | 責任範疇                                 | 衝突優先級 | 依賴關係               |
+| -------------- | ------------------------ | ---------------------------------------- | ---------- | ---------------------- |
+| **Baseline 1** | Namespace Governance     | 命名空間生命週期管理、標籤規範、能力註冊 | 1000       | None                   |
+| **Baseline 2** | Security & RBAC          | 零信任認證、授權、加密、審計             | 950        | Baseline 1             |
+| **Baseline 3** | Resource Management      | 多租戶資源隔離、配額執行、成本分配       | 900        | Baseline 1, 2          |
+| **Baseline 4** | Network Policy           | 網路分段、服務網格、流量控制             | 850        | Baseline 1, 2, 3       |
+| **Baseline 5** | Compliance & Attestation | 政策驗證、偏移檢測、證明鏈生成           | 800        | Baseline 1, 2, 3, 4    |
+| **Baseline 6** | Quantum Orchestration    | 量子電路執行、混合工作流編排             | 750        | Baseline 1, 2, 3, 4, 5 |
 
 ---
 
@@ -141,11 +147,11 @@ VALIDATION_FAILED=0
 validate_baseline() {
     local baseline_name=$1
     local check_command=$2
-    
+
     echo ""
     echo "Validating: $baseline_name"
     echo "------------------------------------------"
-    
+
     if eval "$check_command"; then
         echo "✅ PASSED: $baseline_name"
         ((VALIDATION_PASSED++))
@@ -307,7 +313,7 @@ metadata:
     baseline.level: L-A
   annotations:
     baseline.io/capability-scope: compute,storage,network
-    baseline.io/conflict-priority: "500"
+    baseline.io/conflict-priority: '500'
     baseline.io/state-machine: DECLARED
 ```
 
@@ -439,14 +445,14 @@ spec:
         command: [python]
         args:
           - /scripts/preprocess.py
-          - "{{workflow.parameters.problem-definition}}"
+          - '{{workflow.parameters.problem-definition}}'
     - name: quantum-job
       container:
         image: gcr.io/company/quantum-executor:v1.0.0
         command: [python]
         args:
           - /scripts/qaoa-executor.py
-          - "{{steps.classical-preprocessing.outputs.result}}"
+          - '{{steps.classical-preprocessing.outputs.result}}'
         resources:
           requests:
             cpu: 1000m
@@ -460,7 +466,7 @@ spec:
         command: [python]
         args:
           - /scripts/optimize.py
-          - "{{steps.quantum-execution.outputs.result}}"
+          - '{{steps.quantum-execution.outputs.result}}'
     - name: check-convergence
       script:
         image: python:3.11-slim
@@ -483,14 +489,14 @@ spec:
 
 ### 關鍵指標 / Key Metrics
 
-| 指標名稱 | 描述 | 閾值 | 告警級別 |
-|---------|------|------|---------|
-| `baseline_policy_violations_total` | 政策違規總數 | > 10/hour | Warning |
-| `baseline_drift_detected_total` | 配置偏移檢測次數 | > 5/hour | High |
-| `baseline_attestation_failures_total` | 證明生成失敗次數 | > 0 | Critical |
-| `baseline_resource_quota_utilization` | 資源配額使用率 | > 85% | Warning |
-| `baseline_network_policy_blocks_total` | 網路策略阻擋次數 | > 100/hour | Info |
-| `baseline_quantum_job_success_rate` | 量子作業成功率 | < 95% | High |
+| 指標名稱                               | 描述             | 閾值       | 告警級別 |
+| -------------------------------------- | ---------------- | ---------- | -------- |
+| `baseline_policy_violations_total`     | 政策違規總數     | > 10/hour  | Warning  |
+| `baseline_drift_detected_total`        | 配置偏移檢測次數 | > 5/hour   | High     |
+| `baseline_attestation_failures_total`  | 證明生成失敗次數 | > 0        | Critical |
+| `baseline_resource_quota_utilization`  | 資源配額使用率   | > 85%      | Warning  |
+| `baseline_network_policy_blocks_total` | 網路策略阻擋次數 | > 100/hour | Info     |
+| `baseline_quantum_job_success_rate`    | 量子作業成功率   | < 95%      | High     |
 
 ### Prometheus 查詢範例 / Prometheus Query Examples
 
@@ -505,7 +511,7 @@ topk(10, baseline_resource_quota_utilization)
 avg(baseline_quantum_job_duration_seconds) by (circuit_type)
 
 # 合規證明生成成功率 / Compliance attestation success rate
-sum(rate(baseline_attestation_success_total[5m])) / 
+sum(rate(baseline_attestation_success_total[5m])) /
 sum(rate(baseline_attestation_attempts_total[5m]))
 ```
 
@@ -528,14 +534,14 @@ sum(rate(baseline_attestation_attempts_total[5m]))
 
 ### 威脅模型 / Threat Model
 
-| 威脅 | 緩解措施 | 責任基線 |
-|------|---------|---------|
-| 未授權存取 | OIDC + mTLS + RBAC | Baseline 2 |
-| 橫向移動 | 網路分段 + 微分段 | Baseline 4 |
-| 資料外洩 | 加密 + DLP + 稽核 | Baseline 2, 5 |
-| 供應鏈攻擊 | SBOM + 簽章驗證 | Baseline 5 |
-| 配置偏移 | GitOps + 偏移檢測 | Baseline 5 |
-| 資源耗盡 | 配額 + 限制 + 自動擴展 | Baseline 3 |
+| 威脅       | 緩解措施               | 責任基線      |
+| ---------- | ---------------------- | ------------- |
+| 未授權存取 | OIDC + mTLS + RBAC     | Baseline 2    |
+| 橫向移動   | 網路分段 + 微分段      | Baseline 4    |
+| 資料外洩   | 加密 + DLP + 稽核      | Baseline 2, 5 |
+| 供應鏈攻擊 | SBOM + 簽章驗證        | Baseline 5    |
+| 配置偏移   | GitOps + 偏移檢測      | Baseline 5    |
+| 資源耗盡   | 配額 + 限制 + 自動擴展 | Baseline 3    |
 
 ---
 
@@ -548,8 +554,8 @@ sum(rate(baseline_attestation_attempts_total[5m]))
 **症狀 / Symptoms:**
 
 ```
-Error from server (Forbidden): error when creating "deployment.yaml": 
-admission webhook "validation.gatekeeper.sh" denied the request: 
+Error from server (Forbidden): error when creating "deployment.yaml":
+admission webhook "validation.gatekeeper.sh" denied the request:
 [k8srequiredlabels] you must provide labels: {"baseline.level"}
 ```
 
@@ -568,8 +574,8 @@ kubectl label deployment my-app baseline.level=L-A
 **症狀 / Symptoms:**
 
 ```
-Error from server (Forbidden): pods "my-pod" is forbidden: 
-exceeded quota: baseline-resource-quota, 
+Error from server (Forbidden): pods "my-pod" is forbidden:
+exceeded quota: baseline-resource-quota,
 requested: requests.cpu=2, used: requests.cpu=99, limited: requests.cpu=100
 ```
 
@@ -635,12 +641,12 @@ kubectl apply -f custom-allow-policy.yaml
 
 ### 團隊技能矩陣 / Team Skill Matrix
 
-| 角色 | 必要技能 | 培訓資源 |
-|------|---------|---------|
-| Platform Engineer | Kubernetes, GitOps, Policy-as-Code | CNCF Certification, OPA Training |
-| Security Engineer | Zero Trust, mTLS, Encryption | CKS Certification, Security Best Practices |
-| DevOps Engineer | CI/CD, Monitoring, Troubleshooting | Prometheus/Grafana Courses |
-| Quantum Engineer | Quantum Circuits, Hybrid Workflows | Qiskit Documentation, IBM Quantum |
+| 角色              | 必要技能                           | 培訓資源                                   |
+| ----------------- | ---------------------------------- | ------------------------------------------ |
+| Platform Engineer | Kubernetes, GitOps, Policy-as-Code | CNCF Certification, OPA Training           |
+| Security Engineer | Zero Trust, mTLS, Encryption       | CKS Certification, Security Best Practices |
+| DevOps Engineer   | CI/CD, Monitoring, Troubleshooting | Prometheus/Grafana Courses                 |
+| Quantum Engineer  | Quantum Circuits, Hybrid Workflows | Qiskit Documentation, IBM Quantum          |
 
 ### 推薦認證 / Recommended Certifications
 
@@ -670,13 +676,13 @@ kubectl apply -f custom-allow-policy.yaml
 
 ### 變更審批矩陣 / Change Approval Matrix
 
-| 變更類型 | 審批者 | 測試要求 | 回滾計劃 |
-|---------|--------|---------|---------|
-| Baseline Policy 修改 | L1 Governance Team + Security | 完整迴歸測試 | 必要 |
-| 命名空間創建 | Platform Team Lead | 配額驗證 | 自動 |
-| RBAC 變更 | Security Team + Audit | 最小權限驗證 | 必要 |
-| 網路策略更新 | Network Team + Security | 連接測試 | 必要 |
-| 量子電路部署 | Quantum Team Lead | 模擬器驗證 | 可選 |
+| 變更類型             | 審批者                        | 測試要求     | 回滾計劃 |
+| -------------------- | ----------------------------- | ------------ | -------- |
+| Baseline Policy 修改 | L1 Governance Team + Security | 完整迴歸測試 | 必要     |
+| 命名空間創建         | Platform Team Lead            | 配額驗證     | 自動     |
+| RBAC 變更            | Security Team + Audit         | 最小權限驗證 | 必要     |
+| 網路策略更新         | Network Team + Security       | 連接測試     | 必要     |
+| 量子電路部署         | Quantum Team Lead             | 模擬器驗證   | 可選     |
 
 ---
 
@@ -684,14 +690,14 @@ kubectl apply -f custom-allow-policy.yaml
 
 ### KPI 定義 / KPI Definitions
 
-| KPI | 目標值 | 測量方法 |
-|-----|--------|---------|
-| 政策合規率 | > 99.5% | Gatekeeper 審計報告 |
-| 配置偏移檢測時間 | < 5 分鐘 | 偏移檢測器日誌 |
-| 證明生成成功率 | > 99.9% | 證明作業指標 |
-| 平均修復時間 (MTTR) | < 15 分鐘 | 事件追蹤系統 |
-| 量子作業成功率 | > 95% | 量子編排器指標 |
-| 系統可用性 | > 99.9% | Prometheus 正常運行時間 |
+| KPI                 | 目標值    | 測量方法                |
+| ------------------- | --------- | ----------------------- |
+| 政策合規率          | > 99.5%   | Gatekeeper 審計報告     |
+| 配置偏移檢測時間    | < 5 分鐘  | 偏移檢測器日誌          |
+| 證明生成成功率      | > 99.9%   | 證明作業指標            |
+| 平均修復時間 (MTTR) | < 15 分鐘 | 事件追蹤系統            |
+| 量子作業成功率      | > 95%     | 量子編排器指標          |
+| 系統可用性          | > 99.9%   | Prometheus 正常運行時間 |
 
 ---
 
@@ -721,7 +727,8 @@ kubectl apply -f custom-allow-policy.yaml
 5. **Qiskit Quantum SDK**: <https://qiskit.org/>
 6. **ArgoCD GitOps**: <https://argo-cd.readthedocs.io/>
 7. **SLSA Supply Chain Security**: <https://slsa.dev/>
-8. **CNCF Security Best Practices**: <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
+8. **CNCF Security Best Practices**:
+   <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
 
 ---
 

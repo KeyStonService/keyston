@@ -46,7 +46,8 @@ SynergyMesh/
 
 #### 問題診斷
 
-- **根本矛盾**: 專案已完成「治理統一遷移到 `./governance/`」，但 `docs/GOVERNANCE/` 仍存在
+- **根本矛盾**: 專案已完成「治理統一遷移到 `./governance/`」，但
+  `docs/GOVERNANCE/` 仍存在
 - **造成混淆**: 開發者不清楚治理文檔應該放在哪裡
 - **違反原則**: 違反了「統一映射、引用、依賴、執行操作統一管理」的架構原則
 
@@ -87,15 +88,15 @@ sed -i 's|docs/GOVERNANCE/|governance/29-docs/|g' tools/cli/README.md
 
 #### 衝突清單
 
-| UPPERCASE 目錄 | lowercase 目錄 | 文件數對比 | 內容重疊 |
-|---------------|---------------|-----------|---------|
-| `ARCHITECTURE/` | `architecture/` | 6 vs 23 | ❌ 不同內容 |
-| `AGENTS/` | `agents/` | 4 vs 1 | ❌ 不同內容 |
-| `AUTONOMY/` | - | 3 | - |
-| `COMPONENTS/` | - | 4 | - |
-| `COPILOT/` | - | 4 | - |
-| `DEPLOYMENT/` | - | 4 | - |
-| `GOVERNANCE/` | - | 6 | - |
+| UPPERCASE 目錄  | lowercase 目錄  | 文件數對比 | 內容重疊    |
+| --------------- | --------------- | ---------- | ----------- |
+| `ARCHITECTURE/` | `architecture/` | 6 vs 23    | ❌ 不同內容 |
+| `AGENTS/`       | `agents/`       | 4 vs 1     | ❌ 不同內容 |
+| `AUTONOMY/`     | -               | 3          | -           |
+| `COMPONENTS/`   | -               | 4          | -           |
+| `COPILOT/`      | -               | 4          | -           |
+| `DEPLOYMENT/`   | -               | 4          | -           |
+| `GOVERNANCE/`   | -               | 6          | -           |
 
 #### 內容差異分析
 
@@ -150,18 +151,18 @@ mv ARCHITECTURE/MULTILANG_STRATEGY.md architecture/
 
 根據文件名稱模式，建議分類如下：
 
-| 模式 | 數量 | 建議目錄 |
-|------|------|---------|
-| `CI_*.md` | ~10 | `ci-cd/` |
-| `AUTO_*.md` | ~8 | `automation/` |
-| `ARCHITECTURE_*.md` | ~5 | `architecture/` |
-| `DEPLOYMENT_*.md` | ~4 | `operations/deployment/` |
-| `WORKFLOW_*.md` | ~5 | `ci-cd/workflows/` |
-| `AGENT_*.md` | ~3 | `agents/` |
-| `SECURITY_*.md` | ~3 | `security/` |
-| `*_GUIDE.md` | ~6 | `guides/` (新建) |
-| `*_SUMMARY.md` | ~8 | `reports/summaries/` |
-| 其他 | ~48 | 依內容分類 |
+| 模式                | 數量 | 建議目錄                 |
+| ------------------- | ---- | ------------------------ |
+| `CI_*.md`           | ~10  | `ci-cd/`                 |
+| `AUTO_*.md`         | ~8   | `automation/`            |
+| `ARCHITECTURE_*.md` | ~5   | `architecture/`          |
+| `DEPLOYMENT_*.md`   | ~4   | `operations/deployment/` |
+| `WORKFLOW_*.md`     | ~5   | `ci-cd/workflows/`       |
+| `AGENT_*.md`        | ~3   | `agents/`                |
+| `SECURITY_*.md`     | ~3   | `security/`              |
+| `*_GUIDE.md`        | ~6   | `guides/` (新建)         |
+| `*_SUMMARY.md`      | ~8   | `reports/summaries/`     |
+| 其他                | ~48  | 依內容分類               |
 
 #### 推薦方案
 
@@ -218,12 +219,12 @@ echo "!.gitignore" >> docs/generated/.gitignore
 
 ## 📋 優先級排序
 
-| 優先級 | 問題 | 影響 | 建議時程 |
-|-------|------|------|---------|
-| P0 | 治理目錄重複 | 違反架構原則 | 立即處理 |
-| P1 | UPPERCASE 目錄衝突 | 造成開發混淆 | 1週內 |
-| P2 | 生成文件散落 | 影響可維護性 | 2週內 |
-| P3 | 根目錄文件過多 | 導航困難 | 分階段處理 |
+| 優先級 | 問題               | 影響         | 建議時程   |
+| ------ | ------------------ | ------------ | ---------- |
+| P0     | 治理目錄重複       | 違反架構原則 | 立即處理   |
+| P1     | UPPERCASE 目錄衝突 | 造成開發混淆 | 1週內      |
+| P2     | 生成文件散落       | 影響可維護性 | 2週內      |
+| P3     | 根目錄文件過多     | 導航困難     | 分階段處理 |
 
 ---
 

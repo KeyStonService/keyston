@@ -8,7 +8,8 @@
 
 ## 核心價值主張 (Core Value Proposition)
 
-MateChat 是一個面向智能化場景的 Vue 3 UI 組件庫，已服務於華為內部多個應用。我們提取其最具商業價值的功能並重構為適配 SynergyMesh 的微服務架構。
+MateChat 是一個面向智能化場景的 Vue 3
+UI 組件庫，已服務於華為內部多個應用。我們提取其最具商業價值的功能並重構為適配 SynergyMesh 的微服務架構。
 
 ### 千萬美元級特質 (Million-Dollar Features)
 
@@ -49,11 +50,11 @@ graph TB
         UI[Drone Control UI]
         WEB[Web Dashboard]
     end
-    
+
     subgraph "API 閘道層 API Gateway"
         GW[API Gateway]
     end
-    
+
     subgraph "應用層 Application Layer"
         CHAT[AI Chat Service<br/>Port: 8100]
         INPUT[Input Service<br/>Port: 8101]
@@ -61,19 +62,19 @@ graph TB
         MD[Markdown Renderer<br/>Port: 8103]
         MODEL[Model Integration<br/>Port: 8104]
     end
-    
+
     subgraph "數據層 Data Layer"
         DB[(Database)]
         CACHE[(Redis Cache)]
         S3[(Object Storage)]
     end
-    
+
     subgraph "外部服務 External Services"
         OPENAI[OpenAI API]
         LOCAL[Local LLM]
         TELEM[Telemetry System]
     end
-    
+
     UI --> GW
     WEB --> GW
     GW --> CHAT
@@ -81,17 +82,17 @@ graph TB
     GW --> FILE
     GW --> MD
     GW --> MODEL
-    
+
     CHAT --> DB
     CHAT --> CACHE
     CHAT --> OPENAI
     CHAT --> LOCAL
-    
+
     INPUT --> CACHE
     FILE --> S3
     MODEL --> OPENAI
     MODEL --> LOCAL
-    
+
     CHAT --> TELEM
 ```
 
@@ -139,16 +140,16 @@ SynergyMesh Root
 
 ### 核心技術
 
-| 層級 | 技術 | 版本 | 用途 |
-|------|------|------|------|
-| 前端 | Vue 3 | ^3.5.0 | UI 組件 |
-| 後端 | Node.js | >=18.0.0 | 運行時 |
-| 框架 | Express | ^4.21.2 | Web 服務 |
-| 語言 | TypeScript | ^5.3.2 | 類型安全 |
-| 驗證 | Zod | ^3.22.4 | Schema 驗證 |
-| AI | OpenAI SDK | ^4.77.0 | LLM 整合 |
-| 日誌 | Pino | ^8.17.0 | 結構化日誌 |
-| 安全 | Helmet | ^7.2.0 | 安全頭 |
+| 層級 | 技術       | 版本     | 用途        |
+| ---- | ---------- | -------- | ----------- |
+| 前端 | Vue 3      | ^3.5.0   | UI 組件     |
+| 後端 | Node.js    | >=18.0.0 | 運行時      |
+| 框架 | Express    | ^4.21.2  | Web 服務    |
+| 語言 | TypeScript | ^5.3.2   | 類型安全    |
+| 驗證 | Zod        | ^3.22.4  | Schema 驗證 |
+| AI   | OpenAI SDK | ^4.77.0  | LLM 整合    |
+| 日誌 | Pino       | ^8.17.0  | 結構化日誌  |
+| 安全 | Helmet     | ^7.2.0   | 安全頭      |
 
 ### 開發工具
 
@@ -395,13 +396,12 @@ ai_chat_error_rate{error_type="timeout", service="ai-chat-service"}
 ### 滾動更新
 
 ```yaml
-Phase 1: Canary (10%) - 1 hour
-  ├── Monitor error rate < 1%
-  └── Monitor latency P95 < 2s
+Phase 1:
+  Canary (10%) - 1 hour ├── Monitor error rate < 1% └── Monitor latency P95 < 2s
 
-Phase 2: Staged (50%) - 2 hours
-  ├── Monitor error rate < 1%
-  └── Monitor latency P95 < 2s
+Phase 2:
+  Staged (50%) - 2 hours ├── Monitor error rate < 1% └── Monitor latency P95 <
+  2s
 
 Phase 3: Full (100%) - Ongoing
 ```
@@ -477,21 +477,21 @@ npm run test:security
 
 ### 基礎設施成本 (月度)
 
-| 項目 | 數量 | 單價 | 總計 |
-|------|------|------|------|
-| Kubernetes 節點 | 3 | $100 | $300 |
-| Redis Cache | 1 | $50 | $50 |
-| Object Storage | 100GB | $0.02/GB | $2 |
-| 網路流量 | 1TB | $0.05/GB | $50 |
-| **基礎設施總計** | | | **$402** |
+| 項目             | 數量  | 單價     | 總計     |
+| ---------------- | ----- | -------- | -------- |
+| Kubernetes 節點  | 3     | $100     | $300     |
+| Redis Cache      | 1     | $50      | $50      |
+| Object Storage   | 100GB | $0.02/GB | $2       |
+| 網路流量         | 1TB   | $0.05/GB | $50      |
+| **基礎設施總計** |       |          | **$402** |
 
 ### AI 服務成本 (月度)
 
-| 模型 | 請求數 | 成本/1K tokens | 總計 |
-|------|--------|----------------|------|
-| GPT-4 Turbo | 100K req | $0.01 / $0.03 | $1,000 |
-| 本地 LLM | Unlimited | $0 | $0 |
-| **AI 服務總計** | | | **$1,000** |
+| 模型            | 請求數    | 成本/1K tokens | 總計       |
+| --------------- | --------- | -------------- | ---------- |
+| GPT-4 Turbo     | 100K req  | $0.01 / $0.03  | $1,000     |
+| 本地 LLM        | Unlimited | $0             | $0         |
+| **AI 服務總計** |           |                | **$1,000** |
 
 ### 總運營成本
 
@@ -509,20 +509,20 @@ npm run test:security
 
 ### 技術風險
 
-| 風險 | 影響 | 機率 | 緩解措施 |
-|------|------|------|----------|
-| AI 模型停機 | 高 | 低 | 本地 LLM 備援 |
-| 性能瓶頸 | 中 | 中 | 水平擴展 + 緩存 |
-| 安全漏洞 | 高 | 低 | 定期掃描 + 審計 |
-| 成本超支 | 中 | 中 | 配額管理 + 監控 |
+| 風險        | 影響 | 機率 | 緩解措施        |
+| ----------- | ---- | ---- | --------------- |
+| AI 模型停機 | 高   | 低   | 本地 LLM 備援   |
+| 性能瓶頸    | 中   | 中   | 水平擴展 + 緩存 |
+| 安全漏洞    | 高   | 低   | 定期掃描 + 審計 |
+| 成本超支    | 中   | 中   | 配額管理 + 監控 |
 
 ### 業務風險
 
-| 風險 | 影響 | 機率 | 緩解措施 |
-|------|------|------|----------|
-| 用戶採用率低 | 中 | 低 | 培訓 + 文檔 |
-| 監管合規 | 高 | 低 | SLSA L3 + 審計 |
-| 供應商依賴 | 中 | 中 | 多供應商策略 |
+| 風險         | 影響 | 機率 | 緩解措施       |
+| ------------ | ---- | ---- | -------------- |
+| 用戶採用率低 | 中   | 低   | 培訓 + 文檔    |
+| 監管合規     | 高   | 低   | SLSA L3 + 審計 |
+| 供應商依賴   | 中   | 中   | 多供應商策略   |
 
 ## 未來展望 (Future Roadmap)
 

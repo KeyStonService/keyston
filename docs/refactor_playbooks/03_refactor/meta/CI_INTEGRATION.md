@@ -1,6 +1,7 @@
 # CI Integration - 如何整合 03_refactor 到 CI/CD 流程
 
-本文件說明如何將 `03_refactor/` 重構劇本整合到 CI/CD、Auto-Fix Bot、語言治理 workflow 和 Dashboard。
+本文件說明如何將 `03_refactor/` 重構劇本整合到 CI/CD、Auto-Fix
+Bot、語言治理 workflow 和 Dashboard。
 
 ---
 
@@ -69,10 +70,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Language Governance
         run: npm run governance:check
-      
+
       - name: Map Violations to Refactor Playbooks
         if: failure()
         run: |
@@ -80,7 +81,7 @@ jobs:
             --violations governance/language-governance-report.json \
             --index docs/refactor_playbooks/03_refactor/index.yaml \
             --output governance-summary.md
-      
+
       - name: Comment PR with Refactor Plan
         if: failure()
         uses: actions/github-script@v7
@@ -88,7 +89,7 @@ jobs:
           script: |
             const fs = require('fs');
             const summary = fs.readFileSync('governance-summary.md', 'utf8');
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -119,30 +120,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Load Refactor Playbook
         run: |
           python3 tools/load-playbook.py \
             --cluster "${{ github.event.inputs.cluster_id }}" \
             --index docs/refactor_playbooks/03_refactor/index.yaml \
             --output playbook-context.json
-      
+
       - name: Execute Auto-Fix
         run: |
           python3 tools/ai-auto-fix.py \
             --playbook-context playbook-context.json \
             --fix-level "${{ github.event.inputs.fix_level }}" \
             --dry-run false
-      
+
       - name: Create PR with Changes
         uses: peter-evans/create-pull-request@v6
         with:
-          title: "auto-fix: ${{ github.event.inputs.cluster_id }} (${{ github.event.inputs.fix_level }})"
+          title:
+            'auto-fix: ${{ github.event.inputs.cluster_id }} (${{
+            github.event.inputs.fix_level }})'
           body: |
             Auto-fix based on refactor playbook: ${{ github.event.inputs.cluster_id }}
-            
+
             Refactor Plan: [View Playbook](../blob/main/docs/refactor_playbooks/03_refactor/...)
-            
+
             Fix Level: ${{ github.event.inputs.fix_level }}
           branch: auto-fix/${{ github.event.inputs.cluster_id }}
           labels: auto-fix, ${{ github.event.inputs.fix_level }}
@@ -181,7 +184,7 @@ def generate_summary(violations: list, index: dict) -> str:
     """Generate markdown summary linking violations to playbooks"""
     clusters = index['clusters']
     summary = ["# 語言治理違規與重構劇本對應\n"]
-    
+
     # Group violations by cluster
     cluster_violations = {}
     for violation in violations:
@@ -194,25 +197,25 @@ def generate_summary(violations: list, index: dict) -> str:
                     'violations': []
                 }
             cluster_violations[cluster_id]['violations'].append(violation)
-    
+
     # Generate summary for each cluster
     for cluster_id, data in cluster_violations.items():
         cluster = data['cluster']
         violations = data['violations']
-        
+
         summary.append(f"## {cluster_id}\n")
         summary.append(f"**重構劇本**: [查看計畫](../blob/main/docs/refactor_playbooks/03_refactor/{cluster['refactor_file']})\n")
         summary.append(f"**違規數量**: {len(violations)}\n")
         summary.append("\n### 違規清單\n")
-        
+
         for v in violations[:5]:  # Show top 5
             summary.append(f"- `{v['file']}` - {v['rule']}\n")
-        
+
         if len(violations) > 5:
             summary.append(f"\n_...以及 {len(violations) - 5} 個其他違規_\n")
-        
+
         summary.append("\n")
-    
+
     return ''.join(summary)
 
 if __name__ == '__main__':
@@ -222,13 +225,13 @@ if __name__ == '__main__':
     parser.add_argument('--index', required=True)
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    
+
     with open(args.violations) as f:
         violations = json.load(f)
-    
+
     index = load_index(args.index)
     summary = generate_summary(violations, index)
-    
+
     with open(args.output, 'w') as f:
         f.write(summary)
 ```
@@ -249,25 +252,25 @@ def load_playbook(cluster_id: str, index_path: str) -> dict:
     """Load refactor playbook for a cluster"""
     with open(index_path) as f:
         index = yaml.safe_load(f)
-    
+
     # Find cluster in index
     cluster = None
     for c in index['clusters']:
         if c['cluster_id'] == cluster_id:
             cluster = c
             break
-    
+
     if not cluster:
         raise ValueError(f"Cluster {cluster_id} not found in index")
-    
+
     # Load playbook markdown
     playbook_path = Path(index_path).parent / cluster['refactor_file']
     with open(playbook_path) as f:
         content = f.read()
-    
+
     # Extract auto-fix section
     auto_fix_section = extract_section(content, "Auto-Fix Bot 可以處理的項目")
-    
+
     return {
         'cluster_id': cluster_id,
         'playbook_path': str(playbook_path),
@@ -310,9 +313,9 @@ if __name__ == '__main__':
     parser.add_argument('--index', required=True)
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    
+
     context = load_playbook(args.cluster, args.index)
-    
+
     with open(args.output, 'w') as f:
         json.dump(context, f, indent=2, ensure_ascii=False)
 ```
@@ -343,35 +346,35 @@ import { marked } from 'marked';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const clusterId = searchParams.get('cluster_id');
-  
+
   // Load index
   const indexContent = await readFile(
     'docs/refactor_playbooks/03_refactor/index.yaml',
     'utf-8'
   );
   const index = yaml.load(indexContent);
-  
+
   // Find cluster
-  const cluster = index.clusters.find(c => c.cluster_id === clusterId);
+  const cluster = index.clusters.find((c) => c.cluster_id === clusterId);
   if (!cluster) {
     return Response.json({ error: 'Cluster not found' }, { status: 404 });
   }
-  
+
   // Load playbook
   const playbookPath = `docs/refactor_playbooks/03_refactor/${cluster.refactor_file}`;
   const playbookContent = await readFile(playbookPath, 'utf-8');
-  
+
   // Parse markdown
   const html = marked(playbookContent);
-  
+
   return Response.json({
     cluster_id: clusterId,
     playbook: {
       path: playbookPath,
       content: playbookContent,
-      html: html
+      html: html,
     },
-    metadata: cluster
+    metadata: cluster,
   });
 }
 ```

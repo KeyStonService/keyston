@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Controllers are the **presentation layer** of the Contracts-L1 service. They handle HTTP request/response cycle and orchestrate service calls.
+Controllers are the **presentation layer** of the Contracts-L1 service. They
+handle HTTP request/response cycle and orchestrate service calls.
 
 ## Responsibilities
 

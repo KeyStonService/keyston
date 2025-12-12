@@ -2,17 +2,21 @@
 
 ## 概述
 
-Secret Scanning 是 GitHub Advanced Security 的關鍵功能，用於檢測和防止敏感資訊（如 API 金鑰、密碼、令牌）洩露到代碼庫中。本文檔詳細說明如何在企業環境中實現全方位的 Secret Scanning 保護。
+Secret Scanning 是 GitHub Advanced
+Security 的關鍵功能，用於檢測和防止敏感資訊（如 API 金鑰、密碼、令牌）洩露到代碼庫中。本文檔詳細說明如何在企業環境中實現全方位的 Secret
+Scanning 保護。
 
 ## Push Protection 自動化配置
 
 ### 什麼是 Push Protection？
 
-Push Protection 是一種主動防禦機制，在開發者推送代碼時即時檢測並阻止秘密洩露。這是防止敏感資訊洩露的第一道防線。
+Push
+Protection 是一種主動防禦機制，在開發者推送代碼時即時檢測並阻止秘密洩露。這是防止敏感資訊洩露的第一道防線。
 
 ### 基本 Push Protection 設定
 
-Push Protection 工作流程已配置於 `.github/workflows/secret-protection.yml`，提供以下功能：
+Push Protection 工作流程已配置於
+`.github/workflows/secret-protection.yml`，提供以下功能：
 
 #### 主要特性
 
@@ -165,11 +169,11 @@ export GITHUB_TOKEN="your_github_token"
 
 ```yaml
 patterns:
-  - name: "Custom Service Token"
-    pattern: "svc_[A-Za-z0-9]{40}"
-    confidence: "high"
-    severity: "high"
-    description: "Internal service authentication token"
+  - name: 'Custom Service Token'
+    pattern: 'svc_[A-Za-z0-9]{40}'
+    confidence: 'high'
+    severity: 'high'
+    description: 'Internal service authentication token'
 ```
 
 ## 委派旁路機制實現
@@ -304,7 +308,7 @@ curl -X POST https://siem.example.com/api/events \
    ```bash
    # 好的做法
    export DATABASE_URL="postgres://..."
-   
+
    # 避免
    const dbUrl = "postgres://user:password@host/db"
    ```
@@ -347,7 +351,7 @@ curl -X POST https://siem.example.com/api/events \
    ```bash
    # 使用 BFG Repo-Cleaner
    bfg --replace-text passwords.txt repo.git
-   
+
    # 或使用 git filter-branch
    git filter-branch --force --index-filter \
      'git rm --cached --ignore-unmatch path/to/secret' \
@@ -444,7 +448,8 @@ A:
 
 ### 獲取支援
 
-- 查閱 [GitHub Secret Scanning 文檔](https://docs.github.com/en/code-security/secret-scanning)
+- 查閱
+  [GitHub Secret Scanning 文檔](https://docs.github.com/en/code-security/secret-scanning)
 - 聯繫安全團隊
 - 查看內部知識庫
 - 參與安全社群討論

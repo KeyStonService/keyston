@@ -1,7 +1,8 @@
 # {{CLUSTER_ID}} 重構劇本（Refactor Playbook）
 
-- Cluster ID：`{{CLUSTER_ID}}`             # 例如：core/architecture-stability
-- 對應目錄：`{{INVOLVED_DIRS}}`           # 例如：core/unified_integration/, core/mind_matrix/
+- Cluster ID：`{{CLUSTER_ID}}` # 例如：core/architecture-stability
+- 對應目錄：`{{INVOLVED_DIRS}}` # 例如：core/unified_integration/,
+  core/mind_matrix/
 - 對應集成劇本：
   - `docs/refactor_playbooks/02_integration/{{INTEGRATION_FILE}}`
 
@@ -31,8 +32,9 @@
 
 ## 3. 語言與結構重構策略（Language & Architecture Optimization Strategy）
 
-> **⚠️ REQUIRED**: 本區塊必須遵守 `.github/AI-BEHAVIOR-CONTRACT.md` Section 9 的「Global Optimization First」原則。
-> 所有提案必須包含：**Global Optimization View → Local Plan → Self-Check**
+> **⚠️ REQUIRED**: 本區塊必須遵守 `.github/AI-BEHAVIOR-CONTRACT.md` Section
+> 9 的「Global Optimization First」原則。所有提案必須包含：**Global Optimization
+> View → Local Plan → Self-Check**
 
 ### 3.1 全局優化目標（Global Optimization Targets）
 
@@ -189,14 +191,14 @@ automation/ (自動化/工具)
 
 **對系統級指標的預期影響：**
 
-| Metric | Baseline | Target | P0 Impact | P1 Impact | P2 Impact | Net Change |
-|--------|----------|--------|-----------|-----------|-----------|------------|
-| Language Violations | {{LV_BASELINE}} | {{LV_TARGET}} | {{LV_P0}} | {{LV_P1}} | {{LV_P2}} | {{LV_NET}} |
-| Semgrep HIGH | {{SH_BASELINE}} | 0 | {{SH_P0}} | {{SH_P1}} | {{SH_P2}} | {{SH_NET}} |
-| Semgrep MEDIUM | {{SM_BASELINE}} | {{SM_TARGET}} | {{SM_P0}} | {{SM_P1}} | {{SM_P2}} | {{SM_NET}} |
-| Architecture Violations | {{AV_BASELINE}} | 0 | {{AV_P0}} | {{AV_P1}} | {{AV_P2}} | {{AV_NET}} |
-| Test Coverage | {{TC_BASELINE}}% | ≥{{TC_TARGET}}% | {{TC_P0}}% | {{TC_P1}}% | {{TC_P2}}% | {{TC_NET}}% |
-| Cyclomatic Complexity (Avg) | {{CC_BASELINE}} | {{CC_TARGET}} | {{CC_P0}} | {{CC_P1}} | {{CC_P2}} | {{CC_NET}} |
+| Metric                      | Baseline         | Target          | P0 Impact  | P1 Impact  | P2 Impact  | Net Change  |
+| --------------------------- | ---------------- | --------------- | ---------- | ---------- | ---------- | ----------- |
+| Language Violations         | {{LV_BASELINE}}  | {{LV_TARGET}}   | {{LV_P0}}  | {{LV_P1}}  | {{LV_P2}}  | {{LV_NET}}  |
+| Semgrep HIGH                | {{SH_BASELINE}}  | 0               | {{SH_P0}}  | {{SH_P1}}  | {{SH_P2}}  | {{SH_NET}}  |
+| Semgrep MEDIUM              | {{SM_BASELINE}}  | {{SM_TARGET}}   | {{SM_P0}}  | {{SM_P1}}  | {{SM_P2}}  | {{SM_NET}}  |
+| Architecture Violations     | {{AV_BASELINE}}  | 0               | {{AV_P0}}  | {{AV_P1}}  | {{AV_P2}}  | {{AV_NET}}  |
+| Test Coverage               | {{TC_BASELINE}}% | ≥{{TC_TARGET}}% | {{TC_P0}}% | {{TC_P1}}% | {{TC_P2}}% | {{TC_NET}}% |
+| Cyclomatic Complexity (Avg) | {{CC_BASELINE}}  | {{CC_TARGET}}   | {{CC_P0}}  | {{CC_P1}}  | {{CC_P2}}  | {{CC_NET}}  |
 
 **Net Assessment**（淨評估）：
 
@@ -239,24 +241,22 @@ automation/ (自動化/工具)
 
 ### 3.8 架構約束（Architecture Invariants）
 
-**來源**：`config/system-module-map.yaml` 中對應 module 的 `refactor.architecture_constraints`
+**來源**：`config/system-module-map.yaml` 中對應 module 的
+`refactor.architecture_constraints`
 
 - **允許依賴方向**：
   - 本 cluster 可以依賴哪些 domain？
   - 例如：core → infrastructure ✅，core → apps ❌
-  
 - **禁止依賴**：
   - 明確列出不可 import / require 的路徑模式
   - 例如：禁止 `core/` 直接 import `apps/**`
-  
 - **架構骨架規則**：
   - 必須遵守的 skeleton 規則（從 `automation/architecture-skeletons/`）
   - 例如：`architecture-stability`, `api-governance`, `security-observability`
-  
 - **語言策略**：
   - Preferred languages: TypeScript, Python, Go
   - Banned languages: PHP, Perl, Ruby
-  
+
 **驗證方式**：
 
 - 使用 `tools/validate-architecture-constraints.py` 檢查
@@ -307,18 +307,19 @@ automation/ (自動化/工具)
 
 ### 6.1 重構成功指標（Refactor Success Metrics）
 
-**來源**：`config/system-module-map.yaml` 中對應 module 的 `refactor.quality_thresholds`
+**來源**：`config/system-module-map.yaml` 中對應 module 的
+`refactor.quality_thresholds`
 
 **Before/After 比對必須滿足**：
 
-| 指標 | 重構前 | 目標值 | 驗證方式 |
-|------|--------|--------|----------|
-| 語言治理違規數 | {{BEFORE_VIOLATIONS}} | ≤ {{MAX_VIOLATIONS}} | `language-governance-report.md` |
-| Semgrep HIGH severity | {{BEFORE_HIGH}} | = 0 | `semgrep-report.json` |
-| Semgrep MEDIUM severity | {{BEFORE_MEDIUM}} | ≤ {{MAX_MEDIUM}} | `semgrep-report.json` |
-| 平均 Cyclomatic Complexity | {{BEFORE_CC}} | ≤ {{MAX_CC}} | CodeQL / 靜態分析 |
-| 測試覆蓋率 | {{BEFORE_COV}}% | ≥ {{MIN_COV}}% | Jest / pytest coverage |
-| Hotspot 檔案數 (score > 80) | {{BEFORE_HOTSPOTS}} | 減少 50% | `hotspot.json` |
+| 指標                        | 重構前                | 目標值               | 驗證方式                        |
+| --------------------------- | --------------------- | -------------------- | ------------------------------- |
+| 語言治理違規數              | {{BEFORE_VIOLATIONS}} | ≤ {{MAX_VIOLATIONS}} | `language-governance-report.md` |
+| Semgrep HIGH severity       | {{BEFORE_HIGH}}       | = 0                  | `semgrep-report.json`           |
+| Semgrep MEDIUM severity     | {{BEFORE_MEDIUM}}     | ≤ {{MAX_MEDIUM}}     | `semgrep-report.json`           |
+| 平均 Cyclomatic Complexity  | {{BEFORE_CC}}         | ≤ {{MAX_CC}}         | CodeQL / 靜態分析               |
+| 測試覆蓋率                  | {{BEFORE_COV}}%       | ≥ {{MIN_COV}}%       | Jest / pytest coverage          |
+| Hotspot 檔案數 (score > 80) | {{BEFORE_HOTSPOTS}}   | 減少 50%             | `hotspot.json`                  |
 
 **強制要求**：
 
@@ -352,7 +353,6 @@ automation/ (自動化/工具)
 ```
 
 - 說明：
-
   - `{{FILE_A}}` — 主要入口 / API 層 / Adapter 等說明。
   - `{{FILE_B}}` — 補充說明。
   - ...
@@ -362,14 +362,13 @@ automation/ (自動化/工具)
 ## 8. 集成對齊（Integration Alignment）
 
 - 上游依賴：
-
   - 例如：core/contract_service（gRPC）、governance/schemas（型別）
+
 - 下游使用者：
-
   - 例如：apps/web 前端、mcp-servers/xxx
+
 - 集成步驟摘要：
-
   - 重構順序 + 每步驟需要通過的測試 / CI。
-- 回滾策略：
 
+- 回滾策略：
   - 若此 cluster 重構失敗，如何切回舊版組合？

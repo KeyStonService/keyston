@@ -6,7 +6,6 @@ description: "Complete dependency relationships between 14 governance dimensions
 
 # 依賴關係定義 | Dependency Definitions
 dependencies:
-
   # 維度 1: 治理架構層
   governance_architecture:
     name: "治理架構層 | Governance Architecture"

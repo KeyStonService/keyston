@@ -7,7 +7,7 @@
     "expected_error": "Threshold must be greater than 0",
     "created_at": "2025-11-21T10:00:00Z"
   },
-  
+
   "payload": {
     "project": {
       "name": "test-project",
@@ -27,7 +27,7 @@
       "types": []
     }
   },
-  
+
   "assertions": {
     "schema_valid": false,
     "error_type": "validation_error",

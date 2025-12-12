@@ -2,22 +2,24 @@
 
 # **全域語言堆疊決策文件（Language Stack & Governance Matrix v1.0）**
 
-> **目的：**
-> 讓整個 Unmanned Island System — SynergyMesh、Structural Governance、Autonomous Framework、Living Knowledge Base、Admin Copilot CLI、MCP Servers、Agents、Web 應用等 —
-> 擁有明確、可落地、可治理、可自動化的「語言分層策略」。
+> **目的：** 讓整個 Unmanned Island System — SynergyMesh、Structural
+> Governance、Autonomous Framework、Living Knowledge Base、Admin Copilot
+> CLI、MCP
+> Servers、Agents、Web 應用等 —擁有明確、可落地、可治理、可自動化的「語言分層策略」。
 
 ---
 
 ## ⭐ 1. 語言分層總覽（Language Layering Overview）
 
-以下是 **最高層語言堆疊（High-Level Stack）** 與 **性能層語言堆疊（Low-Level Stack）** 的正式定義：
+以下是 **最高層語言堆疊（High-Level Stack）** 與 **性能層語言堆疊（Low-Level
+Stack）** 的正式定義：
 
 ### **Layer 0 — OS / Hardware Integration （需高性能、低延遲）**
 
-| Component                | 語言              | 理由                    |
-| ------------------------ | --------------- | --------------------- |
+| Component                | 語言            | 理由                              |
+| ------------------------ | --------------- | --------------------------------- |
 | Real-time Flight Control | **C++ / ROS 2** | 即時性（100Hz）、控制器、IMU 融合 |
-| Sensor fusion modules    | C++             | 航太級 performance       |
+| Sensor fusion modules    | C++             | 航太級 performance                |
 | Kernel-level tools       | C / Rust        | 安全性、效能、記憶體掌控          |
 
 > ⚠️ **C++ Scope Limitation / C++ 範圍限制**
@@ -27,39 +29,41 @@
 > - `automation/autonomous/` - Autonomous flight control and real-time systems
 > - `core/native_adapters/` - Native performance adapters
 >
-> C++ 為 autonomous / native 子專案專用語言，**不作為全域命名規範來源**。
-> 詳細規範請參考 `docs/architecture/naming-conventions.md` 和 `config/system-module-map.yaml`。
+> C++ 為 autonomous /
+> native 子專案專用語言，**不作為全域命名規範來源**。詳細規範請參考
+> `docs/architecture/naming-conventions.md` 和 `config/system-module-map.yaml`。
 
 ### **Layer 1 — Core Engine（SynergyMesh 核心）**
 
-| Component                     | 語言                      | 理由                |
-| ----------------------------- | ----------------------- | ----------------- |
-| Cognitive Engine（認知、推理、執行）    | **TypeScript + Python** | 高階控制語言、擴展性佳、適合多代理 |
-| Unified Integration Layer     | TypeScript              | 與 MCP/CLI 互通      |
-| Lifecycle / Registry / Safety | TypeScript              | 適合同步 + 非同步事件流     |
+| Component                            | 語言                    | 理由                               |
+| ------------------------------------ | ----------------------- | ---------------------------------- |
+| Cognitive Engine（認知、推理、執行） | **TypeScript + Python** | 高階控制語言、擴展性佳、適合多代理 |
+| Unified Integration Layer            | TypeScript              | 與 MCP/CLI 互通                    |
+| Lifecycle / Registry / Safety        | TypeScript              | 適合同步 + 非同步事件流            |
 
 > **底層性能模組（如需要）仍可用 C++，但必須有 TS/Python API 封裝。**
 >
-> **📘 詳細的 Core Engine 語言堆疊說明請參考：[Core Engine Language Stack](./core-engine-language-stack.md)**  
+> **📘 詳細的 Core
+> Engine 語言堆疊說明請參考：[Core Engine Language Stack](./core-engine-language-stack.md)**  
 > 此文件定義了 TypeScript（控制層）、Python（認知層）、C++（性能層）的明確分工與邊界。
 
 ---
 
 ### **Layer 2 — Structural Governance System**
 
-| Component                | 語言                    | 理由                  |
-| ------------------------ | --------------------- | ------------------- |
+| Component                | 語言                  | 理由                         |
+| ------------------------ | --------------------- | ---------------------------- |
 | Schema, SBOM, Provenance | **Python**            | YAML/JSON 操作優勢、豐富工具 |
-| OPA / Policy Gate        | Rego + Python wrapper | 標準治理技術              |
-| Docs generation          | Python + TS           | 依目的選擇               |
+| OPA / Policy Gate        | Rego + Python wrapper | 標準治理技術                 |
+| Docs generation          | Python + TS           | 依目的選擇                   |
 
 ---
 
 ### **Layer 3 — AI / Automation / Agents**
 
-| Component                 | 語言         | 理由                        |
-| ------------------------- | ---------- | ------------------------- |
-| Multi-Agent Orchestration | **Python** | AI 相關生態完整                 |
+| Component                 | 語言       | 理由                          |
+| ------------------------- | ---------- | ----------------------------- |
+| Multi-Agent Orchestration | **Python** | AI 相關生態完整               |
 | LLM Integration           | Python     | HuggingFace / OpenAI 生態統一 |
 | High-level Automation     | TypeScript | MCP、CLI、Workflows 友好      |
 
@@ -67,32 +71,32 @@
 
 ### **Layer 4 — Business Services / Cloud APIs**
 
-| Component                         | 語言                  | 理由               |
-| --------------------------------- | ------------------- | ---------------- |
+| Component                         | 語言                | 理由                         |
+| --------------------------------- | ------------------- | ---------------------------- |
 | Backend services                  | **Go / TypeScript** | 高並發（Go）＋統一開發（TS） |
-| Orchestrator / Delegation Service | TypeScript          | 系統一致性            |
+| Orchestrator / Delegation Service | TypeScript          | 系統一致性                   |
 
 ---
 
 ### **Layer 5 — Applications & UI**
 
-| Component    | 語言                     | 理由         |
-| ------------ | ---------------------- | ---------- |
-| Web Frontend | **TypeScript + React** | 現代企業標準     |
-| FastAPI APIs | Python                 | AI 分析與資料處理 |
-| Mobile Apps  | Swift/Kotlin（若有需要）     | 原生平台       |
+| Component    | 語言                     | 理由              |
+| ------------ | ------------------------ | ----------------- |
+| Web Frontend | **TypeScript + React**   | 現代企業標準      |
+| FastAPI APIs | Python                   | AI 分析與資料處理 |
+| Mobile Apps  | Swift/Kotlin（若有需要） | 原生平台          |
 
 ---
 
 ## ⭐ 2. 語言通訊協定（Communication Protocol Matrix）
 
-| From                | To                   | Protocol                  | 說明                          |
-| ------------------- | -------------------- | ------------------------- | --------------------------- |
-| TS → Python         | HTTP / gRPC / MCP    | TS 呼叫 AI 引擎               | Cognitive engine integration |
-| Python → TS         | HTTP / Messaging Bus | AI 派工至 TS 控制層             | Task delegation              |
+| From                | To                   | Protocol                     | 說明                         |
+| ------------------- | -------------------- | ---------------------------- | ---------------------------- |
+| TS → Python         | HTTP / gRPC / MCP    | TS 呼叫 AI 引擎              | Cognitive engine integration |
+| Python → TS         | HTTP / Messaging Bus | AI 派工至 TS 控制層          | Task delegation              |
 | TS/Python → C++     | gRPC / ROS Topic     | 與 Autonomous Framework 通訊 | Real-time control            |
-| Services → Services | gRPC                 | Service mesh 標準           | Microservices communication  |
-| Web → API           | HTTP/REST            | 前後端互動                     | Frontend-backend             |
+| Services → Services | gRPC                 | Service mesh 標準            | Microservices communication  |
+| Web → API           | HTTP/REST            | 前後端互動                   | Frontend-backend             |
 
 ---
 
@@ -102,17 +106,17 @@
 
 ### **允許的語言與位置（必須遵守）：**
 
-| 目錄                       | 合法語言                      |
-| ------------------------ | ------------------------- |
-| `core/`                  | TS + Python（低層可以 C++）     |
-| `automation/`            | TS + Python               |
+| 目錄                     | 合法語言                          |
+| ------------------------ | --------------------------------- |
+| `core/`                  | TS + Python（低層可以 C++）       |
+| `automation/`            | TS + Python                       |
 | `automation/autonomous/` | Python（高層）+ C++（底層 ROS 2） |
-| `governance/`            | Python + Rego             |
-| `infrastructure/`        | YAML + TS tools           |
+| `governance/`            | Python + Rego                     |
+| `infrastructure/`        | YAML + TS tools                   |
 | `apps/web/`              | TS（前端） + Python（分析 API）   |
-| `mcp-servers/`           | TypeScript                |
-| `services/`              | Go or TypeScript          |
-| `knowledge/`             | Python + YAML             |
+| `mcp-servers/`           | TypeScript                        |
+| `services/`              | Go or TypeScript                  |
+| `knowledge/`             | Python + YAML                     |
 
 ---
 
@@ -132,14 +136,14 @@
 
 ## ⭐ 4. 語言決策矩陣（Language Decision Matrix）
 
-| Layer       | 首選語言       | 次選語言           | 禁止語言                |
-| ----------- | ---------- | -------------- | ------------------- |
-| OS/AI 控制    | C++ / Rust | Go             | 其他腳本語言              |
-| Core Engine | TypeScript | Python         | Go (僅高層), C++（除非必要） |
-| Governance  | Python     | TS             | Go, C++, Ruby       |
-| Automation  | Python     | TS             | Go（除非 infra）        |
-| Services    | Go / TS    | Python         | C++                 |
-| Web         | TypeScript | Python（後端 API） | 其他語言                |
+| Layer       | 首選語言   | 次選語言           | 禁止語言                     |
+| ----------- | ---------- | ------------------ | ---------------------------- |
+| OS/AI 控制  | C++ / Rust | Go                 | 其他腳本語言                 |
+| Core Engine | TypeScript | Python             | Go (僅高層), C++（除非必要） |
+| Governance  | Python     | TS                 | Go, C++, Ruby                |
+| Automation  | Python     | TS                 | Go（除非 infra）             |
+| Services    | Go / TS    | Python             | C++                          |
+| Web         | TypeScript | Python（後端 API） | 其他語言                     |
 
 ---
 
@@ -259,12 +263,15 @@ mkdir -p docs/architecture
 
 ## 參考文件
 
-- [Core Engine Language Stack](./core-engine-language-stack.md) ⭐ **NEW** - Core Engine 詳細語言堆疊說明
+- [Core Engine Language Stack](./core-engine-language-stack.md) ⭐ **NEW** -
+  Core Engine 詳細語言堆疊說明
 - [Language Governance](./language-governance.md) - 語言治理實施細節
 - [Language Policy Configuration](../../config/language-policy.yaml) - 語言策略配置
 - [System Module Map](../../config/system-module-map.yaml) - 模組語言映射配置
-- [Naming Conventions](./naming-conventions.md) ⭐ **NEW** - 命名規範（包含 C++ 範圍限制）
-- [Language Naming Rules](../../governance/language-naming-rules.yaml) ⭐ **NEW** - 語言命名規則配置
+- [Naming Conventions](./naming-conventions.md) ⭐
+  **NEW** - 命名規範（包含 C++ 範圍限制）
+- [Language Naming Rules](../../governance/language-naming-rules.yaml) ⭐
+  **NEW** - 語言命名規則配置
 - [System Architecture](./SYSTEM_ARCHITECTURE.md) - 系統整體架構
 - [Directory Structure](./DIRECTORY_STRUCTURE.md) - 目錄結構規範
 

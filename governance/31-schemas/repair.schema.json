@@ -4,13 +4,7 @@
   "title": "Repair Result",
   "description": "Schema for automated repair results from SynergyMesh auto-repair engine",
   "type": "object",
-  "required": [
-    "repair_id",
-    "timestamp",
-    "issue",
-    "repair",
-    "validation"
-  ],
+  "required": ["repair_id", "timestamp", "issue", "repair", "validation"],
   "properties": {
     "repair_id": {
       "type": "string",
@@ -33,11 +27,7 @@
     "issue": {
       "type": "object",
       "description": "Original issue being repaired",
-      "required": [
-        "id",
-        "type",
-        "severity"
-      ],
+      "required": ["id", "type", "severity"],
       "properties": {
         "id": {
           "type": "string",
@@ -46,22 +36,11 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "SECURITY",
-            "PERFORMANCE",
-            "CODE_QUALITY",
-            "MAINTAINABILITY",
-            "DEPENDENCY"
-          ]
+          "enum": ["SECURITY", "PERFORMANCE", "CODE_QUALITY", "MAINTAINABILITY", "DEPENDENCY"]
         },
         "severity": {
           "type": "string",
-          "enum": [
-            "CRITICAL",
-            "HIGH",
-            "MEDIUM",
-            "LOW"
-          ]
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         },
         "file": {
           "type": "string"
@@ -78,30 +57,17 @@
     "repair": {
       "type": "object",
       "description": "Repair details",
-      "required": [
-        "strategy",
-        "status"
-      ],
+      "required": ["strategy", "status"],
       "properties": {
         "strategy": {
           "type": "string",
           "description": "Repair strategy used",
-          "enum": [
-            "rule_based",
-            "ast_based",
-            "ml_based",
-            "manual"
-          ]
+          "enum": ["rule_based", "ast_based", "ml_based", "manual"]
         },
         "status": {
           "type": "string",
           "description": "Repair status",
-          "enum": [
-            "success",
-            "failed",
-            "partial",
-            "low_confidence"
-          ]
+          "enum": ["success", "failed", "partial", "low_confidence"]
         },
         "confidence": {
           "type": "number",
@@ -169,9 +135,7 @@
     "validation": {
       "type": "object",
       "description": "Validation results",
-      "required": [
-        "overall_passed"
-      ],
+      "required": ["overall_passed"],
       "properties": {
         "overall_passed": {
           "type": "boolean",
@@ -329,12 +293,7 @@
         },
         "status": {
           "type": "string",
-          "enum": [
-            "pending",
-            "approved",
-            "rejected",
-            "not_required"
-          ]
+          "enum": ["pending", "approved", "rejected", "not_required"]
         },
         "reviewers": {
           "type": "array",

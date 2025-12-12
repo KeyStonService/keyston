@@ -8,12 +8,12 @@ data_protection:
   encryption:
     at_rest: "AES-256"
     in_transit: "TLS 1.3"
-  
+
   backup:
     frequency: "Daily"
     retention: "90 days"
     testing: "Monthly"
-  
+
   privacy:
     compliance: "GDPR, CCPA"
     consent: "Explicit for personal data"

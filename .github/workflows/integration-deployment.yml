@@ -19,14 +19,14 @@ on:
   workflow_dispatch:
     inputs:
       deploy-environment:
-        description: '部署環境'
+        description: "部署環境"
         required: false
         type: choice
         options:
           - none
           - staging
           - production
-        default: 'none'
+        default: "none"
 
 permissions:
   contents: read
@@ -48,39 +48,39 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       build-status: ${{ steps.build.outcome }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
           cache-dependency-path: core/contract_service/contracts-L1/contracts/package-lock.json
-      
+
       - name: 📦 Install dependencies
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm ci
-      
+
       - name: 🔍 Type check
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm run typecheck
-      
+
       - name: 🎨 Lint code
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm run lint
-      
+
       - name: 🧪 Run tests
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm test -- --ci --coverage
-      
+
       - name: 🏗️ Build application
         id: build
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm run build
-      
+
       - name: 📊 Upload coverage
         if: always()
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
@@ -88,19 +88,19 @@ jobs:
           name: contracts-l1-coverage
           path: core/contract_service/contracts-L1/contracts/coverage/
           retention-days: 7
-      
+
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
           name: contracts-l1-dist
           path: core/contract_service/contracts-L1/contracts/dist/
           retention-days: 7
-      
+
       - name: 📌 Extract version
         id: version
         working-directory: core/contract_service/contracts-L1/contracts
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-      
+
       - name: ✅ Tier 1 完成
         run: |
           echo "## ✅ Tier 1: Contracts L1 Service 完成" >> $GITHUB_STEP_SUMMARY
@@ -118,42 +118,42 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       validation-status: ${{ steps.validate.outcome }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: 📦 Install dependencies
         working-directory: mcp-servers
         run: npm install
-      
+
       - name: 🎨 Lint code
         working-directory: mcp-servers
         run: npm run lint
-      
+
       - name: 🔍 Deployment validation
         id: validate
         working-directory: mcp-servers
         run: npm run validate:deployment
-      
+
       - name: 🔍 Logic validation
         working-directory: mcp-servers
         run: npm run validate:logic
-      
+
       - name: 🔍 Comprehensive validation
         working-directory: mcp-servers
         run: npm run validate:comprehensive
-      
+
       - name: 📌 Extract version
         id: version
         working-directory: mcp-servers
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
-      
+
       - name: ✅ Tier 2 完成
         run: |
           echo "## ✅ Tier 2: MCP Servers 完成" >> $GITHUB_STEP_SUMMARY
@@ -170,16 +170,16 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       config-status: ${{ steps.validate-config.outcome }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔍 Validate Auto-Fix Bot configuration
         id: validate-config
         run: |
           echo "🔍 檢查 Auto-Fix Bot 配置文件..."
-          
+
           # 檢查主配置文件
           if [ -f ".auto-fix-bot.yml" ]; then
             echo "✅ .auto-fix-bot.yml 存在"
@@ -187,14 +187,14 @@ jobs:
             echo "❌ .auto-fix-bot.yml 不存在"
             exit 1
           fi
-          
+
           if [ -f "auto-fix-bot.yml" ]; then
             echo "✅ auto-fix-bot.yml 存在"
           else
             echo "❌ auto-fix-bot.yml 不存在"
             exit 1
           fi
-          
+
           # 檢查腳本目錄
           if [ -d "scripts" ]; then
             echo "✅ scripts 目錄存在"
@@ -202,7 +202,7 @@ jobs:
           else
             echo "⚠️  scripts 目錄不存在"
           fi
-          
+
           # 檢查工具目錄
           if [ -d "tools" ]; then
             echo "✅ tools 目錄存在"
@@ -210,24 +210,24 @@ jobs:
           else
             echo "⚠️  tools 目錄不存在"
           fi
-          
+
           echo "✅ Auto-Fix Bot 配置驗證完成"
-      
+
       - name: 🔍 驗證 GitHub Actions 整合
         run: |
           echo "🔍 檢查 GitHub Actions 工作流程..."
-          
+
           workflow_count=$(find .github/workflows -name "*.yml" -o -name "*.yaml" | wc -l)
           echo "✅ 發現 $workflow_count 個工作流程文件"
-          
+
           if [ -f ".github/workflows/autofix-bot.yml" ]; then
             echo "✅ autofix-bot.yml 工作流程存在"
           else
             echo "⚠️  autofix-bot.yml 工作流程不存在"
           fi
-          
+
           echo "✅ GitHub Actions 整合驗證完成"
-      
+
       - name: ✅ Tier 3 完成
         run: |
           echo "## ✅ Tier 3: Auto-Fix Bot System 完成" >> $GITHUB_STEP_SUMMARY
@@ -243,16 +243,16 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       dashboard-status: ${{ steps.validate.outcome }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔍 Validate dashboard files
         id: validate
         run: |
           echo "🔍 檢查儀表板文件..."
-          
+
           if [ -f "auto-fix-bot-dashboard.html" ]; then
             echo "✅ auto-fix-bot-dashboard.html 存在"
             # Ubuntu runner 下建議使用 stat -c%s 或 wc -c
@@ -262,14 +262,14 @@ jobs:
             echo "❌ auto-fix-bot-dashboard.html 不存在"
             exit 1
           fi
-          
+
           if [ -f "nginx.conf" ]; then
             echo "✅ nginx.conf 存在"
           else
             echo "❌ nginx.conf 不存在"
             exit 1
           fi
-          
+
           if [ -f "docker-compose.yml" ]; then
             echo "✅ docker-compose.yml 存在"
             
@@ -284,9 +284,9 @@ jobs:
             echo "❌ docker-compose.yml 不存在"
             exit 1
           fi
-          
+
           echo "✅ 儀表板文件驗證完成"
-      
+
       - name: ✅ Tier 4 完成
         run: |
           echo "## ✅ Tier 4: Dashboard 完成" >> $GITHUB_STEP_SUMMARY
@@ -300,14 +300,14 @@ jobs:
     name: 🐳 Docker Integration Test
     runs-on: ubuntu-latest
     needs: [tier1-contracts-l1, tier2-mcp-servers, tier3-autofix-bot, tier4-dashboard]
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔧 Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
-      
+
       - name: 🏗️ Build Contracts L1 image
         uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
         with:
@@ -318,7 +318,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           load: true
-      
+
       - name: 🏗️ Build MCP Servers image
         uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
         with:
@@ -329,11 +329,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           load: true
-      
+
       - name: 🧪 Test Docker images
         run: |
           echo "🧪 測試 Docker 映像..."
-          
+
           # 健康檢查重試函數
           health_check() {
             local service_name=$1
@@ -356,30 +356,30 @@ jobs:
               sleep 2
             done
           }
-          
+
           # 列出建置的映像
           docker images | grep synergymesh
-          
+
           # 測試 Contracts L1 映像
           echo "Testing Contracts L1..."
           docker run --rm -d --name test-contracts-l1 -p 3000:3000 synergymesh/contracts-l1:test
           health_check "Contracts L1" "http://localhost:3000/healthz" "test-contracts-l1"
           docker stop test-contracts-l1
-          
+
           # 測試 MCP Servers 映像
           echo "Testing MCP Servers..."
           docker run --rm -d --name test-mcp-servers -p 3001:3001 synergymesh/mcp-servers:test
           health_check "MCP Servers" "http://localhost:3001/health" "test-mcp-servers"
           docker stop test-mcp-servers
-          
+
           echo "✅ 所有 Docker 映像測試通過"
-      
+
       - name: 🔍 Docker Compose validation
         run: |
           echo "🔍 驗證 Docker Compose 配置..."
           docker compose config --quiet
           echo "✅ Docker Compose 配置有效"
-      
+
       - name: ✅ Docker 整合完成
         run: |
           echo "## 🐳 Docker Integration 完成" >> $GITHUB_STEP_SUMMARY
@@ -392,9 +392,16 @@ jobs:
   production-readiness-report:
     name: 📊 Production Readiness Report
     runs-on: ubuntu-latest
-    needs: [tier1-contracts-l1, tier2-mcp-servers, tier3-autofix-bot, tier4-dashboard, docker-integration]
+    needs:
+      [
+        tier1-contracts-l1,
+        tier2-mcp-servers,
+        tier3-autofix-bot,
+        tier4-dashboard,
+        docker-integration,
+      ]
     if: always()
-    
+
     steps:
       - name: 📊 Generate comprehensive report
         run: |
@@ -404,7 +411,7 @@ jobs:
           echo "## 🔖 Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "## 👤 觸發者: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "## 📊 各層級生產就緒評分" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| 層級 | 服務 | 評分 | 狀態 | 位置 |" >> $GITHUB_STEP_SUMMARY
@@ -445,10 +452,10 @@ jobs:
             echo "| **${tier_upper}** | ${tier_names[$tier]} | **${tier_scores[$tier]}** | $display | ${tier_paths[$tier]} |" >> $GITHUB_STEP_SUMMARY
           done
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "## 🎯 總體評分: **87.5/100** ⭐⭐⭐⭐" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "## 🚀 部署指令" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
@@ -467,7 +474,7 @@ jobs:
           echo "docker-compose logs -f" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "## 🔗 服務端點" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Contracts L1 Service**: http://localhost:3000" >> $GITHUB_STEP_SUMMARY
@@ -479,7 +486,7 @@ jobs:
           echo "- **Dashboard**: http://localhost:8080" >> $GITHUB_STEP_SUMMARY
           echo "  - Health: http://localhost:8080/health" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "## ✅ 生產就緒檢查清單" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- [x] 程式碼品質檢查 (Linting)" >> $GITHUB_STEP_SUMMARY
@@ -493,15 +500,23 @@ jobs:
           echo "- [x] 文檔完整性" >> $GITHUB_STEP_SUMMARY
           echo "- [x] GitHub Actions 整合" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           echo "---" >> $GITHUB_STEP_SUMMARY
           echo "🎉 **所有層級已完成持續整合檢查！系統已準備好進行部署。**" >> $GITHUB_STEP_SUMMARY
-  
+
   # ==================== 互動式客服整合 ====================
   # Note: 全時反饋型 - 在所有事件都提供互動式反饋
   interactive-service:
     name: 🤖 Integration & Deployment 互動式客服
-    needs: [tier1-contracts-l1, tier2-mcp-servers, tier3-autofix-bot, tier4-dashboard, docker-integration, production-readiness-report]
+    needs:
+      [
+        tier1-contracts-l1,
+        tier2-mcp-servers,
+        tier3-autofix-bot,
+        tier4-dashboard,
+        docker-integration,
+        production-readiness-report,
+      ]
     if: always()
     uses: ./.github/workflows/interactive-ci-service.yml
     with:

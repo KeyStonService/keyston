@@ -24,13 +24,13 @@ services:
     path: core/contract_service/contracts-L1/ai-chat-service
     language: typescript
     framework: express
-    
+
     deployment:
       replicas: 3
       strategy: rolling-update
       max_surge: 1
       max_unavailable: 0
-      
+
     resources:
       requests:
         cpu: "500m"
@@ -38,7 +38,7 @@ services:
       limits:
         cpu: "2000m"
         memory: "4Gi"
-    
+
     ports:
       - name: http
         port: 8100
@@ -46,26 +46,26 @@ services:
       - name: metrics
         port: 9090
         protocol: TCP
-    
+
     health_checks:
       liveness:
         path: /health/live
         interval: 30s
         timeout: 5s
         failure_threshold: 3
-      
+
       readiness:
         path: /health/ready
         interval: 10s
         timeout: 5s
         failure_threshold: 3
-      
+
       startup:
         path: /health
         interval: 10s
         timeout: 5s
         failure_threshold: 30
-    
+
     environment:
       - name: NODE_ENV
         value: production
@@ -84,7 +84,7 @@ services:
         value: "4096"
       - name: TEMPERATURE
         value: "0.7"
-    
+
     security:
       run_as_non_root: true
       read_only_root_filesystem: true
@@ -92,7 +92,7 @@ services:
       capabilities:
         drop:
           - ALL
-      
+
       network_policies:
         - name: allow-ingress
           ingress:
@@ -103,7 +103,7 @@ services:
               ports:
                 - protocol: TCP
                   port: 8100
-        
+
         - name: allow-egress
           egress:
             - to:
@@ -120,7 +120,7 @@ services:
     status: planned
     dependencies:
       - ai-chat-service
-    
+
   - name: file-service
     type: microservice
     path: core/contract_service/contracts-L1/file-service
@@ -132,7 +132,7 @@ services:
     type: library
     path: advanced-system-src/markdown-renderer
     status: planned
-    
+
   - name: ai-model-integration
     type: mcp-server
     path: mcp-servers/ai-model-integration
@@ -147,12 +147,12 @@ integrations:
     rate_limits:
       requests_per_minute: 60
       tokens_per_minute: 150000
-  
+
   - name: drone-control-system
     type: internal
     endpoint: http://drone-control:8000
     authentication: jwt
-  
+
   - name: telemetry-collector
     type: internal
     endpoint: http://telemetry:8080
@@ -161,24 +161,24 @@ integrations:
 # Monitoring Configuration
 monitoring:
   enabled: true
-  
+
   metrics:
     - name: request_duration_ms
       type: histogram
       labels: [method, endpoint, status]
-    
+
     - name: active_connections
       type: gauge
       labels: [service]
-    
+
     - name: ai_tokens_used
       type: counter
       labels: [model, user]
-    
+
     - name: error_rate
       type: counter
       labels: [error_type, service]
-  
+
   alerts:
     - name: HighLatency
       condition: request_duration_ms > 2000
@@ -186,14 +186,14 @@ monitoring:
       notification:
         - slack
         - email
-    
+
     - name: ServiceDown
       condition: health_check_failures > 3
       severity: critical
       notification:
         - pagerduty
         - slack
-    
+
     - name: HighErrorRate
       condition: error_rate > 0.05
       severity: warning
@@ -209,14 +209,14 @@ rollout:
       success_criteria:
         - error_rate < 0.01
         - latency_p95 < 2000ms
-    
+
     - name: staged
       percentage: 50
       duration: 2h
       success_criteria:
         - error_rate < 0.01
         - latency_p95 < 2000ms
-    
+
     - name: full
       percentage: 100
       duration: ongoing
@@ -224,25 +224,25 @@ rollout:
 # Backup and Recovery
 backup:
   enabled: true
-  schedule: "0 */6 * * *"  # Every 6 hours
+  schedule: "0 */6 * * *" # Every 6 hours
   retention_days: 30
-  
+
   targets:
     - logs
     - configuration
     - telemetry_data
 
 recovery:
-  rto: 15m  # Recovery Time Objective
-  rpo: 1h   # Recovery Point Objective
-  
+  rto: 15m # Recovery Time Objective
+  rpo: 1h # Recovery Point Objective
+
   procedures:
     - name: service-restart
       trigger: health_check_failure
       actions:
         - restart_pod
         - notify_oncall
-    
+
     - name: rollback
       trigger: high_error_rate
       actions:
@@ -259,13 +259,13 @@ compliance:
       - build_service
       - provenance
       - non_falsifiable
-  
+
   security_scanning:
     - sast: required
     - dast: required
     - dependency_check: required
     - container_scan: required
-  
+
   audit_logging:
     enabled: true
     retention_days: 365

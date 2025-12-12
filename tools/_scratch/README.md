@@ -17,6 +17,7 @@
 - **全域草稿**: `docs/scratch/`
 - **實驗**: `experiments/`
 
-使用模板: `cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md tools/_scratch/`
+使用模板:
+`cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md tools/_scratch/`
 
 最後更新：2025-12-06

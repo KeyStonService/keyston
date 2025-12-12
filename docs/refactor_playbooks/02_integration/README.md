@@ -1,6 +1,7 @@
 # 02_integration：集成劇本層（Integration Playbook Layer）
 
-> 本目錄是 **Unmanned Island System 重構系統的第二層**，專門用於設計「新世界」的組合方式、模組邊界與整合策略。
+> 本目錄是 **Unmanned Island
+> System 重構系統的第二層**，專門用於設計「新世界」的組合方式、模組邊界與整合策略。
 
 ---
 
@@ -27,7 +28,7 @@
 ```
 
 - **輸入**：解構劇本（01_deconstruction）、系統需求、架構原則
-- **輸出**：集成劇本（\*_integration.md）
+- **輸出**：集成劇本（\*\_integration.md）
 - **使用者**：03_refactor 作為重構的設計依據
 
 ---
@@ -136,10 +137,11 @@ core/ ← services/ → core/
 
 ## 集成劇本範例結構
 
-```markdown
+````markdown
 # {cluster} 集成劇本（Integration Playbook）
 
 ## 1. 模組邊界定義
+
 - 屬於本模組的職責
 - 不屬於本模組的職責
 - 與其他模組的交界
@@ -147,70 +149,67 @@ core/ ← services/ → core/
 ## 2. 公開介面規格
 
 ### API Endpoints
-\```typescript
-interface UserService {
-  getUser(id: string): Promise<User>;
-  createUser(data: CreateUserRequest): Promise<User>;
-}
-\```
+
+\```typescript interface UserService { getUser(id: string): Promise<User>;
+createUser(data: CreateUserRequest): Promise<User>; } \```
 
 ### 資料格式
-\```json
-{
-  "user": {
-    "id": "string",
-    "name": "string"
-  }
-}
-\```
+
+\```json { "user": { "id": "string", "name": "string" } } \```
 
 ### 通訊協議
+
 - REST API: `GET /api/users/:id`
 - gRPC: `UserService.GetUser`
 
 ## 3. 依賴關係
 
 ### 上游依賴
+
 - core/auth: 認證與授權
 - core/database: 資料存取層
 
 ### 下游使用者
+
 - apps/web: 前端呼叫
 - services/notifications: 通知服務
 
 ### 依賴方向圖
-\```text
-apps/web → services/users → core/auth
-                          → core/database
-\```
+
+\```text apps/web → services/users → core/auth → core/database \```
 
 ## 4. 遷移策略
 
 ### Phase 1: 建立新介面
+
 - 新增 API endpoints
 - 保持舊介面運作
 
 ### Phase 2: 漸進遷移使用者
+
 - 前端逐步切換到新 API
 - 使用 feature flag 控制
 
 ### Phase 3: 下線舊介面
+
 - 標記舊 API 為 deprecated
 - 30 天後移除
 
 ## 5. 整合測試
 
 ### 測試場景
+
 - [ ] 正常流程測試
 - [ ] 錯誤處理測試
 - [ ] 效能測試
 - [ ] 相容性測試
 
 ### 驗收條件
+
 - API 回應時間 < 100ms
 - 錯誤率 < 0.1%
 - 所有下游服務正常運作
-```
+````
 
 ---
 
@@ -247,12 +246,15 @@ apps/web → services/users → core/auth
 
 ### ✅ Baseline YAML Integration (COMPLETED P0)
 
-**Project:** Integration of 6 baseline YAML files from `_legacy_scratch` to production locations
+**Project:** Integration of 6 baseline YAML files from `_legacy_scratch` to
+production locations
 
 **Documentation:**
 
-- 📋 [Integration Plan](./BASELINE_YAML_INTEGRATION_PLAN.md) - Comprehensive plan with 44 action items
-- 📊 [P0 Completion Report](./P0_COMPLETION_REPORT.md) - Detailed metrics and analysis
+- 📋 [Integration Plan](./BASELINE_YAML_INTEGRATION_PLAN.md) - Comprehensive
+  plan with 44 action items
+- 📊 [P0 Completion Report](./P0_COMPLETION_REPORT.md) - Detailed metrics and
+  analysis
 
 **Status:** P0 Complete (8/8 critical files integrated)
 

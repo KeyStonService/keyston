@@ -2,7 +2,9 @@
 
 ## 概述
 
-Auto-Fix Bot 是一個多功能的開發助手，專注於提升開發效率和代碼質量。本指南詳細介紹了 Auto-Fix Bot 的功能、使用方法和最佳實踐。
+Auto-Fix
+Bot 是一個多功能的開發助手，專注於提升開發效率和代碼質量。本指南詳細介紹了 Auto-Fix
+Bot 的功能、使用方法和最佳實踐。
 
 ## 🎯 核心功能
 
@@ -98,18 +100,18 @@ Auto-Fix Bot 是一個多功能的開發助手，專注於提升開發效率和�
 
 ### 程式語言
 
-| 語言 | 支援等級 | 特殊功能 |
-|------|---------|---------|
-| Python | ⭐⭐⭐⭐⭐ | AI/ML 優化 |
+| 語言                  | 支援等級   | 特殊功能          |
+| --------------------- | ---------- | ----------------- |
+| Python                | ⭐⭐⭐⭐⭐ | AI/ML 優化        |
 | JavaScript/TypeScript | ⭐⭐⭐⭐⭐ | React/Vue/Angular |
-| Java | ⭐⭐⭐⭐⭐ | Spring Boot 專項 |
-| C/C++ | ⭐⭐⭐⭐ | 性能優化 |
-| Rust | ⭐⭐⭐⭐ | 內存安全 |
-| Go | ⭐⭐⭐⭐ | 並發優化 |
-| C# | ⭐⭐⭐⭐ | .NET Core |
-| Ruby | ⭐⭐⭐ | Rails 支援 |
-| PHP | ⭐⭐⭐ | Laravel 支援 |
-| Swift | ⭐⭐⭐ | iOS 開發 |
+| Java                  | ⭐⭐⭐⭐⭐ | Spring Boot 專項  |
+| C/C++                 | ⭐⭐⭐⭐   | 性能優化          |
+| Rust                  | ⭐⭐⭐⭐   | 內存安全          |
+| Go                    | ⭐⭐⭐⭐   | 並發優化          |
+| C#                    | ⭐⭐⭐⭐   | .NET Core         |
+| Ruby                  | ⭐⭐⭐     | Rails 支援        |
+| PHP                   | ⭐⭐⭐     | Laravel 支援      |
+| Swift                 | ⭐⭐⭐     | iOS 開發          |
 
 ### 框架支援
 
@@ -153,7 +155,7 @@ async def analyze_code():
         """,
         analysis_type="security"
     )
-    
+
     # 自動修復已應用
     if result['result'].get('auto_fix_applied'):
         print("自動修復成功！")
@@ -229,13 +231,13 @@ auto-fix-bot report --format html
 
 ```yaml
 # .auto-fix-bot.yml
-version: "1.0"
+version: '1.0'
 
 settings:
-  language: "python"
-  framework: "django"
+  language: 'python'
+  framework: 'django'
   auto_fix: true
-  
+
 analysis:
   enabled: true
   rules:
@@ -243,20 +245,20 @@ analysis:
     - security
     - performance
     - style
-  
+
 fix:
   auto_commit: false
   create_pr: true
-  branch_prefix: "auto-fix/"
-  
+  branch_prefix: 'auto-fix/'
+
 notifications:
   slack:
     enabled: true
-    webhook_url: "${SLACK_WEBHOOK_URL}"
+    webhook_url: '${SLACK_WEBHOOK_URL}'
   email:
     enabled: true
     recipients:
-      - "dev-team@example.com"
+      - 'dev-team@example.com'
 ```
 
 ## 🌟 品牌核心價值
@@ -320,7 +322,7 @@ from auto_fix_bot import Rule, Severity
 class CustomComplexityRule(Rule):
     name = "custom-complexity"
     severity = Severity.WARNING
-    
+
     def check(self, code):
         # 自定義複雜度檢查邏輯
         if self.calculate_complexity(code) > 10:
@@ -343,13 +345,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Run Auto-Fix Bot
         uses: auto-fix-bot/action@v1
         with:
           auto-fix: true
           create-pr: true
-          
+
       - name: Security Scan
         run: auto-fix-bot security-scan --fail-on-high
 ```
@@ -362,7 +364,7 @@ const AutoFixBot = require('auto-fix-bot');
 
 const bot = new AutoFixBot({
   apiKey: process.env.AUTO_FIX_BOT_API_KEY,
-  project: 'my-project'
+  project: 'my-project',
 });
 
 // 分析代碼
@@ -374,7 +376,7 @@ const fixes = await bot.fix(analysis.issues);
 // 生成報告
 await bot.generateReport({
   format: 'html',
-  output: './reports/auto-fix-report.html'
+  output: './reports/auto-fix-report.html',
 });
 ```
 
@@ -419,37 +421,37 @@ await bot.generateReport({
 delegation:
   enabled: true
   providers:
-    - type: "aws-lambda"
-      region: "us-east-1"
+    - type: 'aws-lambda'
+      region: 'us-east-1'
       timeout: 300
       memory: 1024
-      
-    - type: "gcp-cloud-functions"
-      region: "us-central1"
+
+    - type: 'gcp-cloud-functions'
+      region: 'us-central1'
       timeout: 300
       memory: 1024
-      
-    - type: "azure-functions"
-      region: "eastus"
+
+    - type: 'azure-functions'
+      region: 'eastus'
       timeout: 300
       memory: 1024
 
 load_balancing:
-  strategy: "round-robin"
+  strategy: 'round-robin'
   health_check: true
   retry_policy:
     max_attempts: 3
-    backoff: "exponential"
+    backoff: 'exponential'
 
 monitoring:
   enabled: true
   metrics:
-    - "execution_time"
-    - "success_rate"
-    - "error_rate"
+    - 'execution_time'
+    - 'success_rate'
+    - 'error_rate'
   alerts:
-    - type: "email"
-      threshold: "error_rate > 5%"
+    - type: 'email'
+      threshold: 'error_rate > 5%'
 ```
 
 ### 委派工作流程

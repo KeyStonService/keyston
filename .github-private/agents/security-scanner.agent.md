@@ -4,7 +4,8 @@
 
 安全掃描代理，自動檢測代碼中的安全漏洞和潛在風險。
 
-Security scanning agent that automatically detects security vulnerabilities and potential risks in code.
+Security scanning agent that automatically detects security vulnerabilities and
+potential risks in code.
 
 ## Capabilities
 
@@ -29,8 +30,8 @@ security_scanner:
     - CRITICAL
     - HIGH
   ignore_paths:
-    - "**/*.test.ts"
-    - "**/__mocks__/**"
+    - '**/*.test.ts'
+    - '**/__mocks__/**'
   secret_patterns:
     - api[_-]?key
     - password
@@ -43,7 +44,7 @@ security_scanner:
 
 - Push to main branch
 - Pull request creation
-- Scheduled daily scan (cron: 0 2 * * *)
+- Scheduled daily scan (cron: 0 2 \* \* \*)
 - Manual workflow dispatch
 
 ## Instructions
@@ -122,14 +123,13 @@ You are a security expert for the SynergyMesh platform. When scanning code:
 ```markdown
 # Security Scan Report
 
-**Scan Date**: 2025-11-28T10:00:00Z
-**Repository**: SynergyMesh/SynergyMesh
+**Scan Date**: 2025-11-28T10:00:00Z **Repository**: SynergyMesh/SynergyMesh
 **Branch**: main
 
 ## Summary
 
 | Severity | Count |
-|----------|-------|
+| -------- | ----- |
 | Critical | 1     |
 | High     | 2     |
 | Medium   | 1     |
@@ -138,6 +138,7 @@ You are a security expert for the SynergyMesh platform. When scanning code:
 ## Critical Findings
 
 ### SEC-001: Hardcoded API Key
+
 - **File**: src/config.ts:15
 - **CWE**: CWE-798
 - **Description**: API key found hardcoded in source code
@@ -153,6 +154,7 @@ You are a security expert for the SynergyMesh platform. When scanning code:
 ## Integration
 
 This agent integrates with:
+
 - GitHub Advanced Security (GHAS)
 - CodeQL for code analysis
 - Semgrep for pattern matching

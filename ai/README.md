@@ -29,7 +29,7 @@ AI Module 聚焦在「AI 能力本身」，不負責：
 
 ## 2. 技術堆疊（Language & Framework）
 
-- **主要語言**：Python  
+- **主要語言**：Python
   - 所有核心 AI / 推理 / pipeline 邏輯必須以 Python 實作
 - **可能輔助**：TypeScript（只做 API adapter，不放演算法）
 

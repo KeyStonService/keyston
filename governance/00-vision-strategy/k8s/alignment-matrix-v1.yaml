@@ -29,7 +29,7 @@ spec:
     file: "alignment-framework.yaml"
     path: "governance/00-vision-strategy/alignment-framework.yaml"
     format: "yaml"
-  
+
 status:
   lastUpdated: "2025-12-11T02:43:43Z"
   validatedBy:

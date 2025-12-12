@@ -7,7 +7,7 @@
 # All other configs can reference environment IDs and risk levels.
 #
 # Dependency: None (this is the foundation)
-# Referenced by: dependencies.yaml, ai-constitution.yaml, 
+# Referenced by: dependencies.yaml, ai-constitution.yaml,
 #                virtual-experts.yaml, safety-mechanisms.yaml
 # ═══════════════════════════════════════════════════════════
 
@@ -28,7 +28,7 @@ environments:
       max_concurrent_agents: 5
       rate_limit_per_minute: 100
       data_retention_days: 7
-    
+
   - id: staging
     name: "Staging"
     risk_level: medium
@@ -41,7 +41,7 @@ environments:
       max_concurrent_agents: 20
       rate_limit_per_minute: 500
       data_retention_days: 30
-    
+
   - id: prod
     name: "Production"
     risk_level: high
@@ -65,21 +65,21 @@ risk_levels:
     color: "green"
     approval_required: false
     audit_level: "basic"
-    
+
   - id: medium
     name: "Medium Risk"
     description: "Staging and QA - moderate restrictions"
     color: "yellow"
     approval_required: false
     audit_level: "standard"
-    
+
   - id: high
     name: "High Risk"
     description: "Production - full restrictions and auditing"
     color: "red"
     approval_required: true
     audit_level: "comprehensive"
-    
+
   - id: critical
     name: "Critical Risk"
     description: "Financial, medical, or safety-critical systems"
@@ -97,7 +97,7 @@ regions:
     compliance_frameworks:
       - SOC2
       - HIPAA
-      
+
   - id: eu-west
     name: "EU West"
     timezone: "Europe/London"
@@ -105,7 +105,7 @@ regions:
     compliance_frameworks:
       - GDPR
       - SOC2
-      
+
   - id: ap-southeast
     name: "Asia Pacific"
     timezone: "Asia/Singapore"

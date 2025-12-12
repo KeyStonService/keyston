@@ -3,10 +3,10 @@ name: Policy Validation
 "on":
   pull_request:
     paths:
-      - 'deploy/**'
-      - 'templates/**'
-      - '.config/conftest/**'
-      - 'intelligent-hyperautomation/**'
+      - "deploy/**"
+      - "templates/**"
+      - ".config/conftest/**"
+      - "intelligent-hyperautomation/**"
 
 jobs:
   conftest-check:

@@ -4,7 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-
 # Cost protection: prevent concurrent runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +20,7 @@ jobs:
 
   build-matrix:
     needs: workflow-status
-    timeout-minutes: 15  # Prevent runaway costs
+    timeout-minutes: 15 # Prevent runaway costs
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -74,7 +73,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: "21"
           cache: maven
 
       - name: Maven build

@@ -1,4 +1,5 @@
 # Governance 檔案內容結構深度分析報告
+
 # Deep Analysis: Governance File Content Structure
 
 > **分析日期 (Analysis Date)**: 2025-12-12  
@@ -11,19 +12,20 @@
 
 ## 📋 執行摘要 (Executive Summary)
 
-本報告延伸 `DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md`，深入分析 SynergyMesh Governance 子專案的**實際檔案內容結構**。著重於檔案格式模式、內容組織、資料結構、整合介面及最佳實踐，提供開發者與維護者完整的檔案內容規範參考。
+本報告延伸 `DEEP_ANALYSIS_GOVERNANCE_STRUCTURE.md`，深入分析 SynergyMesh
+Governance 子專案的**實際檔案內容結構**。著重於檔案格式模式、內容組織、資料結構、整合介面及最佳實踐，提供開發者與維護者完整的檔案內容規範參考。
 
 ### 關鍵統計 (Key Statistics)
 
-| 檔案類型 | 數量 | 主要用途 | 關鍵範例 |
-|---------|------|---------|---------|
-| **YAML** | 377 | 配置、元數據、註冊表 | dimension.yaml, framework.yaml, agent-catalog.yaml |
-| **YAML (短)** | 5 | 簡短配置 | docker-compose.yml, CI 整合 |
-| **Rego** | 183 | 策略即代碼 (Policy as Code) | security-policy.rego, agent-policy.rego |
-| **JSON** | 146 | Schema 定義、結構化資料 | vulnerability.schema.json, technical-debt-report.json |
-| **Markdown** | 171 | 文檔、指南 | README.md, INTEGRATION_ARCHITECTURE.md |
-| **Python** | 90 | 自動化腳本、工具 | technical_debt_manager.py, instant-governance-cli.py |
-| **目錄數** | 282 | 分層組織 | 80+ 治理維度 + 共享資源 |
+| 檔案類型      | 數量 | 主要用途                    | 關鍵範例                                              |
+| ------------- | ---- | --------------------------- | ----------------------------------------------------- |
+| **YAML**      | 377  | 配置、元數據、註冊表        | dimension.yaml, framework.yaml, agent-catalog.yaml    |
+| **YAML (短)** | 5    | 簡短配置                    | docker-compose.yml, CI 整合                           |
+| **Rego**      | 183  | 策略即代碼 (Policy as Code) | security-policy.rego, agent-policy.rego               |
+| **JSON**      | 146  | Schema 定義、結構化資料     | vulnerability.schema.json, technical-debt-report.json |
+| **Markdown**  | 171  | 文檔、指南                  | README.md, INTEGRATION_ARCHITECTURE.md                |
+| **Python**    | 90   | 自動化腳本、工具            | technical_debt_manager.py, instant-governance-cli.py  |
+| **目錄數**    | 282  | 分層組織                    | 80+ 治理維度 + 共享資源                               |
 
 ### 核心檔案內容模式 (Core Content Patterns)
 
@@ -55,35 +57,35 @@ governance/
 apiVersion: governance.synergymesh.io/v2
 kind: DimensionModule
 metadata:
-  id: {nn-dimension-name}              # 唯一識別碼
-  name: {中文名稱}                      # 中文顯示名稱
-  name_en: {English Name}              # 英文顯示名稱
-  version: 1.0.0                       # 語義化版本
+  id: { nn-dimension-name } # 唯一識別碼
+  name: { 中文名稱 } # 中文顯示名稱
+  name_en: { English Name } # 英文顯示名稱
+  version: 1.0.0 # 語義化版本
   created_at: '2025-12-11T22:17:20.909717Z'
   updated_at: '2025-12-11T22:17:20.909723Z'
-  owner: governance-bot                # 所有者
-  category: {strategic|orchestration|execution|observability|feedback}
+  owner: governance-bot # 所有者
+  category: { strategic|orchestration|execution|observability|feedback }
   tags:
-    - {tag1}
-    - {tag2}
+    - { tag1 }
+    - { tag2 }
 
 spec:
-  description: "{描述此維度的目的與範圍}"
-  
+  description: '{描述此維度的目的與範圍}'
+
   schema:
-    path: ./schema.json                # Schema 檔案路徑
-    format: json-schema                # Schema 格式
-    validation: optional|required      # 驗證強度
-  
+    path: ./schema.json # Schema 檔案路徑
+    format: json-schema # Schema 格式
+    validation: optional|required # 驗證強度
+
   policy:
-    path: ./policy.rego                # 策略檔案路徑
-    engine: opa                        # 策略引擎
-    enforcement: optional|required     # 執行強度
-  
+    path: ./policy.rego # 策略檔案路徑
+    engine: opa # 策略引擎
+    enforcement: optional|required # 執行強度
+
   dependencies:
-    required: []                       # 必需依賴
-    optional: []                       # 可選依賴
-  
+    required: [] # 必需依賴
+    optional: [] # 可選依賴
+
   interface:
     inputs:
       - name: config
@@ -114,6 +116,7 @@ metadata:
 ```
 
 **關鍵欄位說明**:
+
 - `apiVersion`: 使用 `governance.synergymesh.io/v2` 統一 API 版本
 - `kind`: 固定為 `DimensionModule`
 - `metadata.id`: 必須與目錄名稱匹配 (例: `30-agents`)
@@ -135,50 +138,50 @@ metadata:
 # 框架配置
 
 metadata:
-  name: "{Framework Name}"
-  version: "1.0.0"
-  description: "{描述框架的目的與範圍}"
-  owner: "{Team Name}"
-  created_at: "2025-12-11"
-  updated_at: "2025-12-11"
+  name: '{Framework Name}'
+  version: '1.0.0'
+  description: '{描述框架的目的與範圍}'
+  owner: '{Team Name}'
+  created_at: '2025-12-11'
+  updated_at: '2025-12-11'
 
 # Framework Architecture
 architecture:
   layers:
-    {layer_name}:
-      description: "{層級描述}"
+    { layer_name }:
+      description: '{層級描述}'
       components:
-        - {component1}
-        - {component2}
+        - { component1 }
+        - { component2 }
 
 # Policy Categories (for Policy frameworks)
 policy_categories:
-  {category_name}:
-    description: "{類別描述}"
+  { category_name }:
+    description: '{類別描述}'
     policies:
-      - {policy1}
-      - {policy2}
+      - { policy1 }
+      - { policy2 }
 
 # Tools & Integration
 tools:
-  policy_engine: "{engine_name}"
+  policy_engine: '{engine_name}'
   validation_tools:
-    - {tool1}
-    - {tool2}
+    - { tool1 }
+    - { tool2 }
 
 # Metrics
 metrics:
-  {metric_name}:
-    description: "{指標描述}"
-    type: "{counter|gauge|histogram}"
-    unit: "{單位}"
+  { metric_name }:
+    description: '{指標描述}'
+    type: '{counter|gauge|histogram}'
+    unit: '{單位}'
 
 # Integrations
 integrations:
   external_systems:
-    - name: "{system_name}"
-      type: "{integration_type}"
-      config: "{config_path}"
+    - name: '{system_name}'
+      type: '{integration_type}'
+      config: '{config_path}'
 ```
 
 **實際範例** (10-policy/framework.yaml):
@@ -189,39 +192,39 @@ integrations:
 # Policy as Code 框架配置
 
 metadata:
-  name: "PaC Framework"
-  version: "1.0.0"
-  description: "Enterprise Policy as Code governance framework"
-  owner: "Policy Governance Team"
-  created_at: "2025-12-11"
-  updated_at: "2025-12-11"
+  name: 'PaC Framework'
+  version: '1.0.0'
+  description: 'Enterprise Policy as Code governance framework'
+  owner: 'Policy Governance Team'
+  created_at: '2025-12-11'
+  updated_at: '2025-12-11'
 
 # Framework Architecture
 architecture:
   layers:
     strategy_layer:
-      description: "策略層 - 定義高階治理規則與合規政策"
+      description: '策略層 - 定義高階治理規則與合規政策'
       components:
         - base_policies
         - domain_policies
         - compliance_standards
-    
+
     orchestration_layer:
-      description: "協調層 - 策略閘與執行協調"
+      description: '協調層 - 策略閘與執行協調'
       components:
         - policy_gates
         - policy_engine
         - suppress_manager
-    
+
     execution_layer:
-      description: "執行層 - 實際策略驗證與執行"
+      description: '執行層 - 實際策略驗證與執行'
       components:
         - opa_runtime
         - conftest
         - custom_validators
-    
+
     observability_layer:
-      description: "觀測層 - 監控、審計與度量"
+      description: '觀測層 - 監控、審計與度量'
       components:
         - policy_metrics
         - audit_logs
@@ -236,12 +239,12 @@ architecture:
 # AI Agent 治理框架配置
 
 metadata:
-  name: "AI Agent Governance Framework"
-  version: "1.0.0"
-  description: "Comprehensive AI Agent lifecycle and governance management"
-  owner: "AI Agent Governance Team"
-  created_at: "2025-12-11"
-  updated_at: "2025-12-11"
+  name: 'AI Agent Governance Framework'
+  version: '1.0.0'
+  description: 'Comprehensive AI Agent lifecycle and governance management'
+  owner: 'AI Agent Governance Team'
+  created_at: '2025-12-11'
+  updated_at: '2025-12-11'
 
 # Lifecycle Management
 lifecycle:
@@ -251,24 +254,24 @@ lifecycle:
       - training
       - testing
       - validation
-    
+
     deployment:
       approval_required: true
       source_verification: true
       permission_assignment: true
       health_check: true
-    
+
     operation:
       continuous_monitoring: true
       performance_tracking: true
       behavior_analysis: true
       auto_scaling: true
-    
+
     maintenance:
       version_updates: true
       retraining: true
       configuration_tuning: true
-    
+
     retirement:
       data_deletion: true
       permission_revocation: true
@@ -276,9 +279,9 @@ lifecycle:
 
 # Permission Model
 permission_model:
-  type: "least_privilege"
-  enforcement: "mandatory"
-  
+  type: 'least_privilege'
+  enforcement: 'mandatory'
+
   capabilities:
     read:
       - config/*
@@ -291,7 +294,9 @@ permission_model:
 ```
 
 **關鍵模式**:
-- 每個框架根據其特性定義不同的結構 (architecture, lifecycle, permission_model 等)
+
+- 每個框架根據其特性定義不同的結構 (architecture, lifecycle,
+  permission_model 等)
 - 使用分層架構 (layers) 組織複雜系統
 - 包含明確的 metadata 用於追蹤與審計
 - 整合工具與外部系統通過 `tools` 與 `integrations` 區塊
@@ -313,7 +318,8 @@ metadata:
   created_at: '2025-12-11T21:54:00Z'
   updated_at: '2025-12-12T12:02:00Z'
   owner: governance-bot
-  description: Central registry of all governance directories and their relationships
+  description:
+    Central registry of all governance directories and their relationships
 
 validation_rules:
   numbered_directories:
@@ -321,23 +327,23 @@ validation_rules:
     purpose: Single governance dimension assets only
     required_files:
       - dimension.yaml
-  
+
   unnumbered_directories:
     purpose: Cross-dimensional shared resources
     naming_convention: semantic names or prefixes (shared-, platform-, infra-)
-  
+
   migration_deadline: '2026-03-31'
 
 dimensions:
-  - name: {nn-dimension-name}
+  - name: { nn-dimension-name }
     type: dimension|shared
     category: strategic|orchestration|execution|observability|feedback
-    owner: {team-name}
+    owner: { team-name }
     path: governance/{nn-dimension-name}
     depends_on:
-      - {dependency1}
-      - {dependency2}
-    purpose: "{描述維度的目的}"
+      - { dependency1 }
+      - { dependency2 }
+    purpose: '{描述維度的目的}'
     status: active|deprecated|migrating
     execution: optional|required
 ```
@@ -382,6 +388,7 @@ dimensions:
 ```
 
 **關鍵功能**:
+
 - 提供整體治理圖譜的單一事實來源 (Single Source of Truth)
 - 定義維度之間的依賴關係 (`depends_on`)
 - 追蹤維度狀態 (`active`, `deprecated`, `migrating`)
@@ -393,7 +400,8 @@ dimensions:
 
 ### 2.1 agent-catalog.yaml - Agent 註冊表
 
-**用途**: 中央化的 AI Agent 註冊表，記錄所有 Agent 的生命週期、權限、資源限制與合規資訊
+**用途**: 中央化的 AI
+Agent 註冊表，記錄所有 Agent 的生命週期、權限、資源限制與合規資訊
 
 **標準結構**:
 
@@ -403,114 +411,115 @@ dimensions:
 # AI Agent 目錄 - 中央註冊表
 
 metadata:
-  name: "AI Agent Catalog"
-  version: "1.0.0"
-  description: "Central registry for all AI agents in SynergyMesh system"
-  owner: "AI Agent Governance Team"
-  created_at: "2025-12-11"
-  updated_at: "2025-12-11"
+  name: 'AI Agent Catalog'
+  version: '1.0.0'
+  description: 'Central registry for all AI agents in SynergyMesh system'
+  owner: 'AI Agent Governance Team'
+  created_at: '2025-12-11'
+  updated_at: '2025-12-11'
 
 # Agent Registry
 agents:
-  - agent_id: "{unique-agent-id}"
-    name: "{Agent Display Name}"
-    description: "{Agent 的功能描述}"
-    version: "{semantic_version}"
+  - agent_id: '{unique-agent-id}'
+    name: '{Agent Display Name}'
+    description: '{Agent 的功能描述}'
+    version: '{semantic_version}'
     status: active|inactive|deprecated
-    
+
     # Lifecycle
     lifecycle:
       stage: development|testing|staging|production
-      deployed_at: "{ISO8601_timestamp}"
-      last_updated: "{ISO8601_timestamp}"
-      next_review: "{ISO8601_timestamp}"
-    
+      deployed_at: '{ISO8601_timestamp}'
+      last_updated: '{ISO8601_timestamp}'
+      next_review: '{ISO8601_timestamp}'
+
     # Owner & Responsibility
     ownership:
-      team: "{Owning Team}"
-      owner: "{Primary Owner}"
-      contact: "{contact_email}"
-      on_call: "{on_call_team}"
-    
+      team: '{Owning Team}'
+      owner: '{Primary Owner}'
+      contact: '{contact_email}'
+      on_call: '{on_call_team}'
+
     # Capabilities
     capabilities:
       - capability1
       - capability2
-    
+
     # Permissions (RBAC)
     permissions:
       read:
-        - "path/pattern1"
-        - "path/pattern2"
+        - 'path/pattern1'
+        - 'path/pattern2'
       write:
-        - "path/pattern3"
+        - 'path/pattern3'
       execute:
-        - "action1"
-        - "action2"
-    
+        - 'action1'
+        - 'action2'
+
     # Resource Limits
     resource_limits:
-      memory: "{memory_limit}"
-      cpu: "{cpu_limit}"
-      network_bandwidth: "{bandwidth_limit}"
-      max_concurrent_tasks: {number}
-    
+      memory: '{memory_limit}'
+      cpu: '{cpu_limit}'
+      network_bandwidth: '{bandwidth_limit}'
+      max_concurrent_tasks: { number }
+
     # Compliance
     compliance:
       standards:
-        - "ISO/IEC 42001"
-        - "NIST AI RMF"
-        - "AI Behavior Contract"
+        - 'ISO/IEC 42001'
+        - 'NIST AI RMF'
+        - 'AI Behavior Contract'
       audit_frequency: monthly|quarterly|annually
-      last_audit: "{ISO8601_date}"
-      next_audit: "{ISO8601_date}"
-    
+      last_audit: '{ISO8601_date}'
+      next_audit: '{ISO8601_date}'
+
     # Integration
     integrations:
-      - name: "{system_name}"
-        type: "{integration_type}"
+      - name: '{system_name}'
+        type: '{integration_type}'
         status: active|inactive
-      
+
     # Monitoring
     monitoring:
-      health_check_endpoint: "{endpoint_url}"
-      metrics_endpoint: "{metrics_url}"
+      health_check_endpoint: '{endpoint_url}'
+      metrics_endpoint: '{metrics_url}'
       alert_channels:
-        - "{channel1}"
-        - "{channel2}"
-    
+        - '{channel1}'
+        - '{channel2}'
+
     # Self-Healing
     self_healing:
       enabled: true|false
       auto_restart: true|false
-      max_restart_attempts: {number}
-      escalation_policy: "{policy_name}"
+      max_restart_attempts: { number }
+      escalation_policy: '{policy_name}'
 ```
 
 **實際範例** (30-agents/registry/agent-catalog.yaml):
 
 ```yaml
 agents:
-  - agent_id: "unmanned-island-agent"
-    name: "Unmanned Island Agent"
-    description: "Intelligent automation agent for the Unmanned Island System platform"
-    version: "2.0.0"
-    status: "active"
-    
+  - agent_id: 'unmanned-island-agent'
+    name: 'Unmanned Island Agent'
+    description:
+      'Intelligent automation agent for the Unmanned Island System platform'
+    version: '2.0.0'
+    status: 'active'
+
     # Lifecycle
     lifecycle:
-      stage: "production"
-      deployed_at: "2025-12-11T16:00:00Z"
-      last_updated: "2025-12-11T16:00:00Z"
-      next_review: "2026-03-11T16:00:00Z"
-    
+      stage: 'production'
+      deployed_at: '2025-12-11T16:00:00Z'
+      last_updated: '2025-12-11T16:00:00Z'
+      next_review: '2026-03-11T16:00:00Z'
+
     # Owner & Responsibility
     ownership:
-      team: "SynergyMesh Core Team"
-      owner: "AI Agent Governance Team"
-      contact: "governance@synergymesh.io"
-      on_call: "platform-team"
-    
+      team: 'SynergyMesh Core Team'
+      owner: 'AI Agent Governance Team'
+      contact: 'governance@synergymesh.io'
+      on_call: 'platform-team'
+
     # Capabilities
     capabilities:
       - intelligent_automation
@@ -518,41 +527,42 @@ agents:
       - autonomous_operation
       - governance_compliance
       - behavior_contract_enforcement
-    
+
     # Permissions
     permissions:
       read:
-        - "config/*"
-        - "governance/*"
-        - "core/*"
-        - "automation/*"
+        - 'config/*'
+        - 'governance/*'
+        - 'core/*'
+        - 'automation/*'
       write:
-        - "reports/automation/*"
-        - "logs/agent/*"
+        - 'reports/automation/*'
+        - 'logs/agent/*'
       execute:
-        - "automation.deploy"
-        - "automation.monitor"
-        - "automation.heal"
-    
+        - 'automation.deploy'
+        - 'automation.monitor'
+        - 'automation.heal'
+
     # Resource Limits
     resource_limits:
-      memory: "2GB"
-      cpu: "1 core"
-      network_bandwidth: "50 Mbps"
+      memory: '2GB'
+      cpu: '1 core'
+      network_bandwidth: '50 Mbps'
       max_concurrent_tasks: 10
-    
+
     # Compliance
     compliance:
       standards:
-        - "ISO/IEC 42001"
-        - "NIST AI RMF"
-        - "AI Behavior Contract"
-      audit_frequency: "monthly"
-      last_audit: "2025-12-11"
-      next_audit: "2026-01-11"
+        - 'ISO/IEC 42001'
+        - 'NIST AI RMF'
+        - 'AI Behavior Contract'
+      audit_frequency: 'monthly'
+      last_audit: '2025-12-11'
+      next_audit: '2026-01-11'
 ```
 
 **關鍵設計模式**:
+
 - **完整生命週期追蹤**: 從開發到退役的每個階段
 - **細粒度權限控制**: 基於 RBAC 的讀寫執行權限
 - **資源限制**: 防止資源濫用與系統過載
@@ -573,31 +583,32 @@ agents:
 # AI Agent 能力矩陣
 
 metadata:
-  name: "Agent Capability Matrix"
-  version: "1.0.0"
-  description: "Defines available capabilities and permission mappings for AI agents"
+  name: 'Agent Capability Matrix'
+  version: '1.0.0'
+  description:
+    'Defines available capabilities and permission mappings for AI agents'
 
 capabilities:
-  {capability_name}:
-    description: "{能力描述}"
-    category: {automation|integration|governance|observability}
+  { capability_name }:
+    description: '{能力描述}'
+    category: { automation|integration|governance|observability }
     risk_level: low|medium|high|critical
-    
+
     required_permissions:
       read:
-        - "{path_pattern}"
+        - '{path_pattern}'
       write:
-        - "{path_pattern}"
+        - '{path_pattern}'
       execute:
-        - "{action}"
-    
+        - '{action}'
+
     dependencies:
-      - "{dependency1}"
-      - "{dependency2}"
-    
+      - '{dependency1}'
+      - '{dependency2}'
+
     compliance_requirements:
-      - "{standard1}"
-      - "{standard2}"
+      - '{standard1}'
+      - '{standard2}'
 ```
 
 **實際範例**:
@@ -605,26 +616,26 @@ capabilities:
 ```yaml
 capabilities:
   intelligent_automation:
-    description: "Automated decision-making and workflow execution"
+    description: 'Automated decision-making and workflow execution'
     category: automation
     risk_level: medium
-    
+
     required_permissions:
       read:
-        - "config/automation/*"
-        - "governance/39-automation/*"
+        - 'config/automation/*'
+        - 'governance/39-automation/*'
       write:
-        - "reports/automation/*"
+        - 'reports/automation/*'
       execute:
-        - "automation.deploy"
-        - "automation.execute"
-    
+        - 'automation.deploy'
+        - 'automation.execute'
+
     dependencies:
-      - "platform_integration"
-    
+      - 'platform_integration'
+
     compliance_requirements:
-      - "ISO/IEC 42001"
-      - "NIST AI RMF"
+      - 'ISO/IEC 42001'
+      - 'NIST AI RMF'
 ```
 
 ---
@@ -641,32 +652,32 @@ capabilities:
 # AI Agent RBAC 策略
 
 metadata:
-  name: "Agent RBAC Policies"
-  version: "1.0.0"
+  name: 'Agent RBAC Policies'
+  version: '1.0.0'
 
 roles:
-  {role_name}:
-    description: "{角色描述}"
+  { role_name }:
+    description: '{角色描述}'
     permissions:
-      - capability: "{capability_name}"
+      - capability: '{capability_name}'
         actions:
           - read
           - write
           - execute
         resources:
-          - "{resource_pattern}"
-    
+          - '{resource_pattern}'
+
     constraints:
       max_resource_usage:
-        memory: "{limit}"
-        cpu: "{limit}"
-      allowed_hours: "{time_range}"
+        memory: '{limit}'
+        cpu: '{limit}'
+      allowed_hours: '{time_range}'
 
 agent_assignments:
-  - agent_id: "{agent_id}"
+  - agent_id: '{agent_id}'
     roles:
-      - "{role1}"
-      - "{role2}"
+      - '{role1}'
+      - '{role2}'
 ```
 
 ---
@@ -793,6 +804,7 @@ secure if {
 ```
 
 **關鍵模式**:
+
 - 使用 `package governance.{domain}` 命名空間組織策略
 - `metadata` 提供策略元資訊與合規標準
 - `default` 定義安全的預設決策 (通常為拒絕)
@@ -803,7 +815,7 @@ secure if {
 
 ## 📐 四、JSON Schema 檔案結構 (JSON Schema Files)
 
-### 4.1 *.schema.json - 結構化資料驗證
+### 4.1 \*.schema.json - 結構化資料驗證
 
 **用途**: 定義資料結構的驗證規則，確保資料一致性
 
@@ -816,10 +828,7 @@ secure if {
   "title": "{Schema Title}",
   "description": "{Schema 用途描述}",
   "type": "object",
-  "required": [
-    "field1",
-    "field2"
-  ],
+  "required": ["field1", "field2"],
   "properties": {
     "field1": {
       "type": "string",
@@ -884,12 +893,7 @@ secure if {
     "scan_type": {
       "type": "string",
       "description": "Type of scan performed",
-      "enum": [
-        "full",
-        "incremental",
-        "targeted",
-        "dependency"
-      ]
+      "enum": ["full", "incremental", "targeted", "dependency"]
     },
     "duration": {
       "type": "number",
@@ -901,6 +905,7 @@ secure if {
 ```
 
 **關鍵模式**:
+
 - 使用 JSON Schema Draft-07 標準
 - 定義明確的 `$id` 用於 schema 引用
 - `required` 陣列強制必填欄位
@@ -1009,6 +1014,7 @@ echo "  [6/6] Deploying Feedback Loop (80-feedback/)..."
 ```
 
 **關鍵設計原則**:
+
 - **快速部署**: 目標 < 3 分鐘完整部署
 - **零人工介入**: 全自動化操作層部署
 - **分階段驗證**: 每個階段獨立驗證與計時
@@ -1159,16 +1165,16 @@ echo "  [6/6] Deploying Feedback Loop (80-feedback/)..."
 
 ### 7.2 檔案命名慣例
 
-| 檔案類型 | 命名模式 | 範例 |
-|---------|---------|------|
-| 維度元數據 | `dimension.yaml` | `30-agents/dimension.yaml` |
-| 框架配置 | `framework.yaml` | `30-agents/framework.yaml` |
-| 策略檔案 | `{domain}-policy.rego` | `security-policy.rego`, `agent-policy.rego` |
-| Schema 定義 | `{entity}.schema.json` | `vulnerability.schema.json` |
-| 配置檔案 | `{function}-config.yaml` | `rbac-policies.yaml` |
-| 註冊表 | `{entity}-catalog.yaml` | `agent-catalog.yaml` |
-| 腳本 | `{action}_{entity}.py` | `technical_debt_manager.py` |
-| 部署腳本 | `deploy-{target}.sh` | `deploy-instant.sh` |
+| 檔案類型    | 命名模式                 | 範例                                        |
+| ----------- | ------------------------ | ------------------------------------------- |
+| 維度元數據  | `dimension.yaml`         | `30-agents/dimension.yaml`                  |
+| 框架配置    | `framework.yaml`         | `30-agents/framework.yaml`                  |
+| 策略檔案    | `{domain}-policy.rego`   | `security-policy.rego`, `agent-policy.rego` |
+| Schema 定義 | `{entity}.schema.json`   | `vulnerability.schema.json`                 |
+| 配置檔案    | `{function}-config.yaml` | `rbac-policies.yaml`                        |
+| 註冊表      | `{entity}-catalog.yaml`  | `agent-catalog.yaml`                        |
+| 腳本        | `{action}_{entity}.py`   | `technical_debt_manager.py`                 |
+| 部署腳本    | `deploy-{target}.sh`     | `deploy-instant.sh`                         |
 
 ### 7.3 依賴關係圖
 
@@ -1179,11 +1185,11 @@ graph TD
     C --> D[Policies/*.rego]
     C --> E[Schemas/*.json]
     C --> F[Configs/*.yaml]
-    
+
     G[30-agents/dimension.yaml] --> H[agent-catalog.yaml]
     H --> I[capability-matrix.yaml]
     H --> J[rbac-policies.yaml]
-    
+
     K[deploy-instant.sh] --> L[All framework.yaml]
     K --> M[All dimension.yaml]
 ```
@@ -1194,19 +1200,19 @@ graph TD
 
 ### 8.1 維度檔案數量分布
 
-| 維度編號 | 維度名稱 | 總檔案數 | YAML | Rego | JSON | MD | Python |
-|---------|---------|---------|------|------|------|----|----|
-| 00 | vision-strategy | 77 | 47 | 12 | 1 | 11 | 0 |
-| 10 | policy | 4 | 3 | 0 | 0 | 1 | 0 |
-| 20 | intent | 3 | 2 | 0 | 0 | 1 | 0 |
-| 30 | agents | 14 | 10 | 0 | 0 | 4 | 0 |
-| 23 | policies | 26 | 14 | 9 | 0 | 3 | 0 |
-| 26 | tools | 16 | 1 | 0 | 0 | 0 | 14 |
-| 28 | tests | 24 | 5 | 0 | 2 | 6 | 10 |
-| 29 | docs | 71 | 15 | 0 | 1 | 55 | 0 |
-| 31 | schemas | 29 | 1 | 0 | 27 | 1 | 0 |
-| 35 | scripts | 15 | 2 | 0 | 0 | 1 | 8 |
-| 39 | automation | 14 | 1 | 0 | 0 | 3 | 10 |
+| 維度編號 | 維度名稱        | 總檔案數 | YAML | Rego | JSON | MD  | Python |
+| -------- | --------------- | -------- | ---- | ---- | ---- | --- | ------ |
+| 00       | vision-strategy | 77       | 47   | 12   | 1    | 11  | 0      |
+| 10       | policy          | 4        | 3    | 0    | 0    | 1   | 0      |
+| 20       | intent          | 3        | 2    | 0    | 0    | 1   | 0      |
+| 30       | agents          | 14       | 10   | 0    | 0    | 4   | 0      |
+| 23       | policies        | 26       | 14   | 9    | 0    | 3   | 0      |
+| 26       | tools           | 16       | 1    | 0    | 0    | 0   | 14     |
+| 28       | tests           | 24       | 5    | 0    | 2    | 6   | 10     |
+| 29       | docs            | 71       | 15   | 0    | 1    | 55  | 0      |
+| 31       | schemas         | 29       | 1    | 0    | 27   | 1   | 0      |
+| 35       | scripts         | 15       | 2    | 0    | 0    | 1   | 8      |
+| 39       | automation      | 14       | 1    | 0    | 0    | 3   | 10     |
 
 ### 8.2 檔案類型用途分布
 
@@ -1245,7 +1251,8 @@ Python (90)
 ### 9.1 檔案內容安全檢查清單
 
 - [ ] **敏感資訊**: 檔案不包含明文密碼、API keys、tokens
-- [ ] **權限設定**: 配置檔案設定適當的檔案權限 (644 for configs, 755 for scripts)
+- [ ] **權限設定**: 配置檔案設定適當的檔案權限 (644 for configs, 755 for
+      scripts)
 - [ ] **輸入驗證**: Schema 定義包含完整的驗證規則
 - [ ] **路徑檢查**: 腳本檔案使用絕對路徑或相對於 SCRIPT_DIR
 - [ ] **錯誤處理**: Python/Bash 腳本包含適當的錯誤處理
@@ -1254,12 +1261,12 @@ Python (90)
 
 ### 9.2 合規標準映射
 
-| 檔案類型 | 合規標準 | 驗證方式 |
-|---------|---------|---------|
-| agent-catalog.yaml | ISO/IEC 42001, NIST AI RMF | 包含 compliance 區塊 |
-| security-policy.rego | ISO 27001, NIST CSF | metadata 標記 |
-| vulnerability.schema.json | OWASP, CWE | schema 驗證 |
-| rbac-policies.yaml | ISO 27001, Zero Trust | 權限驗證 |
+| 檔案類型                  | 合規標準                   | 驗證方式             |
+| ------------------------- | -------------------------- | -------------------- |
+| agent-catalog.yaml        | ISO/IEC 42001, NIST AI RMF | 包含 compliance 區塊 |
+| security-policy.rego      | ISO 27001, NIST CSF        | metadata 標記        |
+| vulnerability.schema.json | OWASP, CWE                 | schema 驗證          |
+| rbac-policies.yaml        | ISO 27001, Zero Trust      | 權限驗證             |
 
 ---
 
@@ -1301,8 +1308,10 @@ Python (90)
 
 - [OPA Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/)
 - [JSON Schema Draft-07](https://json-schema.org/draft-07/json-schema-release-notes.html)
-- [ISO/IEC 42001](https://www.iso.org/standard/81230.html) - AI Management System
-- [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) - AI Risk Management Framework
+- [ISO/IEC 42001](https://www.iso.org/standard/81230.html) - AI Management
+  System
+- [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework) - AI Risk
+  Management Framework
 - [YAML 1.2 Specification](https://yaml.org/spec/1.2.2/)
 
 ### 11.3 工具與驗證器
@@ -1320,7 +1329,8 @@ Python (90)
 
 1. **5 種主要檔案類型**: YAML, Rego, JSON, Markdown, Python
 2. **3 層核心結構**: dimension.yaml (元數據) → framework.yaml (配置) → 功能檔案
-3. **完整的 AI Agent 治理**: agent-catalog.yaml, capability-matrix.yaml, rbac-policies.yaml
+3. **完整的 AI Agent 治理**: agent-catalog.yaml, capability-matrix.yaml,
+   rbac-policies.yaml
 4. **Policy as Code 實踐**: 183 個 Rego 策略檔案，涵蓋安全、合規、Agent 治理
 5. **Schema 驅動驗證**: 146 個 JSON Schema 確保資料一致性
 6. **自動化部署**: deploy-instant.sh 實現 < 3 分鐘快速部署
@@ -1333,4 +1343,4 @@ Python (90)
 **文檔版本**: 2.0.0  
 **最後更新**: 2025-12-12  
 **維護者**: Unmanned Island Agent  
-**聯繫**: governance@synergymesh.io
+**聯繫**: <governance@synergymesh.io>

@@ -22,4 +22,4 @@ Fault tolerance, circuit breaking, and degradation governance
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

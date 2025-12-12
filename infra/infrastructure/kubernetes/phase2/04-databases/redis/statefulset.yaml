@@ -15,11 +15,11 @@ data:
     tcp-backlog 511
     timeout 0
     tcp-keepalive 300
-    
+
     # 內存配置
     maxmemory 2gb
     maxmemory-policy allkeys-lru
-    
+
     # 持久化配置
     save 900 1
     save 300 10
@@ -29,7 +29,7 @@ data:
     rdbchecksum yes
     dbfilename dump.rdb
     dir /data
-    
+
     # AOF 配置
     appendonly yes
     appendfilename "appendonly.aof"
@@ -37,18 +37,18 @@ data:
     no-appendfsync-on-rewrite no
     auto-aof-rewrite-percentage 100
     auto-aof-rewrite-min-size 64mb
-    
+
     # 複製配置
     replica-serve-stale-data yes
     replica-read-only yes
     repl-diskless-sync no
     repl-diskless-sync-delay 5
     repl-disable-tcp-nodelay no
-    
+
     # 日誌配置
     loglevel notice
     logfile ""
-    
+
     # 慢查詢日誌
     slowlog-log-slower-than 10000
     slowlog-max-len 128
@@ -81,94 +81,94 @@ spec:
         fsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-      
+
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-              - key: node-type
-                operator: In
-                values:
-                - cache
-      
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: node-type
+                    operator: In
+                    values:
+                      - cache
+
       terminationGracePeriodSeconds: 30
-      
+
       containers:
-      # Redis 主容器
-      - name: redis
-        image: redis:7-alpine
-        imagePullPolicy: IfNotPresent
-        
-        command:
-        - redis-server
-        - /etc/redis/redis.conf
-        - --requirepass
-        - $(REDIS_PASSWORD)
-        
-        ports:
+        # Redis 主容器
         - name: redis
-          containerPort: 6379
-          protocol: TCP
-        
-        env:
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: REDIS_PASSWORD
-        
-        volumeMounts:
-        - name: redis-data
-          mountPath: /data
-        
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+
+          command:
+            - redis-server
+            - /etc/redis/redis.conf
+            - --requirepass
+            - $(REDIS_PASSWORD)
+
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: REDIS_PASSWORD
+
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+
+            - name: redis-config
+              mountPath: /etc/redis
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - -a
+                - $(REDIS_PASSWORD)
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - -a
+                - $(REDIS_PASSWORD)
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+
+      volumes:
         - name: redis-config
-          mountPath: /etc/redis
-        
+          configMap:
+            name: redis-config
+
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: fast-ssd
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
-        
-        livenessProbe:
-          exec:
-            command:
-            - redis-cli
-            - -a
-            - $(REDIS_PASSWORD)
-            - ping
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        
-        readinessProbe:
-          exec:
-            command:
-            - redis-cli
-            - -a
-            - $(REDIS_PASSWORD)
-            - ping
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          successThreshold: 1
-      
-      volumes:
-      - name: redis-config
-        configMap:
-          name: redis-config
-  
-  volumeClaimTemplates:
-  - metadata:
-      name: redis-data
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: fast-ssd
-      resources:
-        requests:
-          storage: 100Gi
+            storage: 100Gi

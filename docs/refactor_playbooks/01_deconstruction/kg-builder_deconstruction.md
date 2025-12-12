@@ -3,7 +3,8 @@
 # 知識圖譜構建器插件 - 解構分析
 
 **解構日期 (Deconstruction Date)**: 2025-12-07  
-**原始來源 (Original Source)**: `docs/refactor_playbooks/_legacy_scratch/README.md`  
+**原始來源 (Original Source)**:
+`docs/refactor_playbooks/_legacy_scratch/README.md`  
 **文件版本 (Document Version)**: v1.0.0  
 **解構範圍 (Deconstruction Scope)**: Complete YAML specification analysis
 
@@ -11,7 +12,10 @@
 
 ## 📋 1. 執行摘要 (Executive Summary)
 
-`_legacy_scratch/README.md` 包含一個完整的知識圖譜構建器插件規範（Knowledge Graph Builder Plugin），採用 Quantum-YAML 格式定義。該規範描述了一個企業級的語義處理系統，用於從文檔中提取三元組（triples）、構建本體（ontology）、並進行實體解析（entity resolution）。
+`_legacy_scratch/README.md` 包含一個完整的知識圖譜構建器插件規範（Knowledge
+Graph Builder
+Plugin），採用 Quantum-YAML 格式定義。該規範描述了一個企業級的語義處理系統，用於從文檔中提取三元組（triples）、構建本體（ontology）、並進行實體解析（entity
+resolution）。
 
 ### 核心發現 (Key Findings)
 
@@ -41,7 +45,8 @@
    - Dependency Management: 硬依賴與軟依賴管理
 
 3. **Processing Pipeline (處理流水線)**
-   - 6-Stage Pipeline: 文檔攝取 → 實體提取 → 關係提取 → 三元組生成 → 實體解析 → 本體對齊
+   - 6-Stage
+     Pipeline: 文檔攝取 → 實體提取 → 關係提取 → 三元組生成 → 實體解析 → 本體對齊
    - Hybrid Processing: 批處理 + 流處理雙模式
    - Multi-Format Support: 支持 PDF, DOCX, TXT, HTML, Markdown, JSON
 
@@ -70,8 +75,10 @@
    - Performance Targets: SLO 定義（1000 triples/分鐘、P95 延遲 < 30秒）
 
 4. **Integration Points**
-   - Upstream: Document Management System (REST API), Data Lake (S3), Streaming Pipeline (Kafka)
-   - Downstream: KG-Vector-Hybrid (Cypher), Reasoning Engine (OWL-RDF), Semantic Search (JSON-LD)
+   - Upstream: Document Management System (REST API), Data Lake (S3), Streaming
+     Pipeline (Kafka)
+   - Downstream: KG-Vector-Hybrid (Cypher), Reasoning Engine (OWL-RDF), Semantic
+     Search (JSON-LD)
 
 ---
 
@@ -79,32 +86,32 @@
 
 ### 3.1 核心處理模組 (Core Processing Modules)
 
-| 模組名稱 | 功能描述 | 關鍵技術 | 對應 YAML Section |
-|---------|---------|---------|------------------|
-| **Document Ingestion** | 多格式文檔解析 | multi-format-parser | architecture.processing_pipeline.stages[0] |
-| **Entity Extraction** | 命名實體識別 | spacy-en-core-lg, axiom-domain-ner | architecture.processing_pipeline.stages[1] |
-| **Relation Extraction** | 依存句法分析 | dependency-parser-enhanced | architecture.processing_pipeline.stages[2] |
-| **Triple Generation** | 三元組生成與驗證 | subject-predicate-object-extractor | architecture.processing_pipeline.stages[3] |
-| **Entity Resolution** | 模糊匹配與實體合併 | fuzzy-matching-engine | architecture.processing_pipeline.stages[4] |
-| **Ontology Alignment** | 本體映射與對齊 | schema-mapper | architecture.processing_pipeline.stages[5] |
+| 模組名稱                | 功能描述           | 關鍵技術                           | 對應 YAML Section                          |
+| ----------------------- | ------------------ | ---------------------------------- | ------------------------------------------ |
+| **Document Ingestion**  | 多格式文檔解析     | multi-format-parser                | architecture.processing_pipeline.stages[0] |
+| **Entity Extraction**   | 命名實體識別       | spacy-en-core-lg, axiom-domain-ner | architecture.processing_pipeline.stages[1] |
+| **Relation Extraction** | 依存句法分析       | dependency-parser-enhanced         | architecture.processing_pipeline.stages[2] |
+| **Triple Generation**   | 三元組生成與驗證   | subject-predicate-object-extractor | architecture.processing_pipeline.stages[3] |
+| **Entity Resolution**   | 模糊匹配與實體合併 | fuzzy-matching-engine              | architecture.processing_pipeline.stages[4] |
+| **Ontology Alignment**  | 本體映射與對齊     | schema-mapper                      | architecture.processing_pipeline.stages[5] |
 
 ### 3.2 支撐服務模組 (Supporting Service Modules)
 
-| 模組名稱 | 功能描述 | 技術實現 |
-|---------|---------|---------|
-| **Vector Embedding** | 語義向量化 | axiom-embed-v2 (1024維), relation-embed (768維), onto-embed (512維) |
-| **Quality Control** | 質量驗證與信心評分 | triple_validation, confidence_scoring |
-| **Error Handling** | 錯誤處理與容錯 | skip-with-logging, fallback-to-rule-based, exponential-backoff |
-| **Data Privacy** | PII 檢測與匿名化 | k-anonymity, GDPR compliance |
-| **Provenance** | 數據溯源 | blockchain-anchored, hash verification (sha3-256) |
+| 模組名稱             | 功能描述           | 技術實現                                                            |
+| -------------------- | ------------------ | ------------------------------------------------------------------- |
+| **Vector Embedding** | 語義向量化         | axiom-embed-v2 (1024維), relation-embed (768維), onto-embed (512維) |
+| **Quality Control**  | 質量驗證與信心評分 | triple_validation, confidence_scoring                               |
+| **Error Handling**   | 錯誤處理與容錯     | skip-with-logging, fallback-to-rule-based, exponential-backoff      |
+| **Data Privacy**     | PII 檢測與匿名化   | k-anonymity, GDPR compliance                                        |
+| **Provenance**       | 數據溯源           | blockchain-anchored, hash verification (sha3-256)                   |
 
 ### 3.3 運營與維護模組 (Operations & Maintenance Modules)
 
-| 模組名稱 | 頻率 | 功能 |
-|---------|-----|-----|
-| **Data Cleanup** | 每週 | 移除低信心三元組(<0.3)、合併重複實體(>0.95)、歸檔日誌(>30天) |
-| **Model Updates** | 每月 | 評估新 NER 模型、重訓關係分類器、更新本體映射 |
-| **Performance Optimization** | 雙週 | 分析查詢模式、優化索引結構、調整快取配置 |
+| 模組名稱                     | 頻率 | 功能                                                         |
+| ---------------------------- | ---- | ------------------------------------------------------------ |
+| **Data Cleanup**             | 每週 | 移除低信心三元組(<0.3)、合併重複實體(>0.95)、歸檔日誌(>30天) |
+| **Model Updates**            | 每月 | 評估新 NER 模型、重訓關係分類器、更新本體映射                |
+| **Performance Optimization** | 雙週 | 分析查詢模式、優化索引結構、調整快取配置                     |
 
 ---
 
@@ -120,7 +127,7 @@ graph TD
     D --> E[Entity Resolution<br/>實體解析與去重]
     E --> F[Ontology Alignment<br/>本體對齊]
     F --> G[Output Artifacts<br/>輸出三元組/本體/索引]
-    
+
     style A fill:#e1f5ff
     style D fill:#fff4e1
     style G fill:#e8f5e9
@@ -155,18 +162,18 @@ graph TD
 
 ### 5.1 硬依賴 (Hard Dependencies)
 
-| 依賴項 | 版本要求 | 用途 | 影響範圍 |
-|-------|---------|-----|---------|
-| **axiom-kernel-compute** | >= 1.0.0 | 計算內核 | 核心運行時，無法啟動如缺失 |
-| **hlp-executor-core** | >= 1.0.0 | 高層規劃執行器 | 工作流調度，無法啟動如缺失 |
-| **neo4j-database** | 5.x | 圖數據庫 | 三元組存儲，系統核心 |
-| **nlp-processing-pipeline** | N/A | NLP 處理管線 | 實體與關係提取 |
-| **axiom-trust-bundle** | N/A | 信任捆綁包 | 安全與認證 |
+| 依賴項                      | 版本要求 | 用途           | 影響範圍                   |
+| --------------------------- | -------- | -------------- | -------------------------- |
+| **axiom-kernel-compute**    | >= 1.0.0 | 計算內核       | 核心運行時，無法啟動如缺失 |
+| **hlp-executor-core**       | >= 1.0.0 | 高層規劃執行器 | 工作流調度，無法啟動如缺失 |
+| **neo4j-database**          | 5.x      | 圖數據庫       | 三元組存儲，系統核心       |
+| **nlp-processing-pipeline** | N/A      | NLP 處理管線   | 實體與關係提取             |
+| **axiom-trust-bundle**      | N/A      | 信任捆綁包     | 安全與認證                 |
 
 ### 5.2 軟依賴 (Soft Dependencies)
 
-| 依賴項 | 版本要求 | 降級策略 | 影響 |
-|-------|---------|---------|-----|
+| 依賴項                     | 版本要求 | 降級策略                   | 影響                 |
+| -------------------------- | -------- | -------------------------- | -------------------- |
 | **embedding-offline-pack** | >= 0.9.0 | graceful_degradation: true | 可用在線嵌入服務替代 |
 
 ### 5.3 外部系統依賴 (External System Dependencies)
@@ -189,12 +196,15 @@ graph TD
 
 2. **處理模式配置 (Processing Mode Configuration)**
    - Batch: chunk_size=1000, parallel_workers=8, memory_limit=4Gi
-   - Streaming: kafka_topic, consumer_group, batch_timeout=5s, max_batch_size=100
+   - Streaming: kafka_topic, consumer_group, batch_timeout=5s,
+     max_batch_size=100
 
 3. **質量控制配置 (Quality Control Configuration)**
-   - Triple Validation: subject_required, predicate_vocabulary_check, object_type_consistency
+   - Triple Validation: subject_required, predicate_vocabulary_check,
+     object_type_consistency
    - Confidence Scoring: extraction (model-based), resolution (similarity-based)
-   - Thresholds: NER confidence=0.8, relation confidence=0.7, merge=0.85, alignment=0.75
+   - Thresholds: NER confidence=0.8, relation confidence=0.7, merge=0.85,
+     alignment=0.75
 
 4. **資源配額配置 (Resource Quota Configuration)**
    - Requests: 6 CPU, 24Gi Memory, 1 GPU
@@ -254,12 +264,12 @@ Configuration Categories:
 
 ### 8.1 重構風險矩陣 (Refactoring Risk Matrix)
 
-| 風險類別 | 風險等級 | 描述 | 緩解策略 |
-|---------|---------|-----|---------|
-| **供應商鎖定** | 🔴 高 | AXIOM 系統特定概念（quantum_timestamp, axiom-embed-v2） | 抽象化為通用接口 |
-| **配置複雜度** | 🟡 中 | 單一文件混合多重關注點 | 分解為多個配置文件 |
-| **依賴脆弱性** | 🟡 中 | 硬依賴特定版本（Neo4j 5.x, hlp-executor-core） | 使用語義化版本約束 |
-| **文檔過時** | 🟢 低 | 作為模板存在於 _legacy_scratch | 標記為歷史文檔並遷移有效內容 |
+| 風險類別       | 風險等級 | 描述                                                    | 緩解策略                     |
+| -------------- | -------- | ------------------------------------------------------- | ---------------------------- |
+| **供應商鎖定** | 🔴 高    | AXIOM 系統特定概念（quantum_timestamp, axiom-embed-v2） | 抽象化為通用接口             |
+| **配置複雜度** | 🟡 中    | 單一文件混合多重關注點                                  | 分解為多個配置文件           |
+| **依賴脆弱性** | 🟡 中    | 硬依賴特定版本（Neo4j 5.x, hlp-executor-core）          | 使用語義化版本約束           |
+| **文檔過時**   | 🟢 低    | 作為模板存在於 \_legacy_scratch                         | 標記為歷史文檔並遷移有效內容 |
 
 ### 8.2 遷移風險評估 (Migration Risk Assessment)
 
@@ -274,13 +284,13 @@ Configuration Categories:
 
 ### 9.1 與 Unmanned Island 架構對齊 (Alignment with Unmanned Island Architecture)
 
-| Unmanned Island 組件 | KG Builder 對應組件 | 對齊程度 | 整合策略 |
-|---------------------|-------------------|---------|---------|
-| **core/unified_integration/** | Plugin Registry System | 🟡 部分 | 將插件規範集成到統一註冊表 |
-| **automation/intelligent/** | Processing Pipeline | 🟢 高 | 複用 NLP 處理能力 |
-| **knowledge/** | Output Artifacts (Triples, Ontology) | 🟢 高 | 作為知識庫構建工具 |
-| **governance/schemas/** | Plugin Specification Schema | 🟡 部分 | 定義通用插件 JSON Schema |
-| **config/system-module-map.yaml** | Plugin Registry Binding | 🟢 高 | 添加 KG Builder 模組項 |
+| Unmanned Island 組件              | KG Builder 對應組件                  | 對齊程度 | 整合策略                   |
+| --------------------------------- | ------------------------------------ | -------- | -------------------------- |
+| **core/unified_integration/**     | Plugin Registry System               | 🟡 部分  | 將插件規範集成到統一註冊表 |
+| **automation/intelligent/**       | Processing Pipeline                  | 🟢 高    | 複用 NLP 處理能力          |
+| **knowledge/**                    | Output Artifacts (Triples, Ontology) | 🟢 高    | 作為知識庫構建工具         |
+| **governance/schemas/**           | Plugin Specification Schema          | 🟡 部分  | 定義通用插件 JSON Schema   |
+| **config/system-module-map.yaml** | Plugin Registry Binding              | 🟢 高    | 添加 KG Builder 模組項     |
 
 ### 9.2 語言治理對齊 (Language Governance Alignment)
 
@@ -325,8 +335,10 @@ Configuration Categories:
 
 #### D. 部署模板 (Deployment Templates)
 
-- Kubernetes 部署模板 → `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml`
-- 資源配額模板 → `infrastructure/kubernetes/templates/resource-quota-template.yaml`
+- Kubernetes 部署模板 →
+  `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml`
+- 資源配額模板 →
+  `infrastructure/kubernetes/templates/resource-quota-template.yaml`
 
 #### E. 工具與腳本 (Tools & Scripts)
 

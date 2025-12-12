@@ -3,41 +3,41 @@ name: Extreme Problem Identification
 on:
   push:
     paths:
-      - 'governance/**'
-      - '.github/workflows/extreme-problem-identification.yml'
+      - "governance/**"
+      - ".github/workflows/extreme-problem-identification.yml"
   pull_request:
     paths:
-      - 'governance/**'
+      - "governance/**"
   schedule:
     # Run daily at 00:00 UTC
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
   identify-problems:
     name: Run Extreme Problem Identifier
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          
+          python-version: "3.11"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
-          
+
       - name: Run extreme problem identifier
         id: problem_scan
         continue-on-error: true
         run: |
           python governance/scripts/extreme-problem-identifier.py --verbose --export json --output governance-problems.json
-          
+
       - name: Upload problem report
         if: always()
         uses: actions/upload-artifact@v4
@@ -46,7 +46,7 @@ jobs:
           path: |
             governance-problems.json
           retention-days: 90
-          
+
       - name: Check for critical/high problems
         run: |
           if [ -f governance-problems.json ]; then
@@ -65,7 +65,7 @@ jobs:
               echo "::warning::Found $HIGH high severity problems"
             fi
           fi
-          
+
       - name: Comment PR with problems
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7

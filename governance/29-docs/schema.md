@@ -10,8 +10,8 @@
 ## Schema 命名空間
 
 ```yaml
-$schema: "https://schema.synergymesh.io/docs-index/v1"
-namespace: "synergymesh.docs"
+$schema: 'https://schema.synergymesh.io/docs-index/v1'
+namespace: 'synergymesh.docs'
 ```
 
 ---
@@ -22,30 +22,30 @@ namespace: "synergymesh.docs"
 
 ### 必要欄位
 
-| 欄位 | 類型 | 說明 |
-|------|------|------|
-| `id` | string | 唯一識別符 (snake_case) |
-| `path` | string | 文檔相對路徑 |
-| `title` | string | 文檔標題 |
-| `domain` | string | 領域分類 |
-| `layer` | string | 架構層級 |
-| `type` | string | 文檔類型 |
-| `tags` | array | 標籤陣列 |
-| `owner` | string | 負責團隊 |
-| `status` | string | 文檔狀態 |
-| `description` | string | 簡短描述 |
+| 欄位          | 類型   | 說明                    |
+| ------------- | ------ | ----------------------- |
+| `id`          | string | 唯一識別符 (snake_case) |
+| `path`        | string | 文檔相對路徑            |
+| `title`       | string | 文檔標題                |
+| `domain`      | string | 領域分類                |
+| `layer`       | string | 架構層級                |
+| `type`        | string | 文檔類型                |
+| `tags`        | array  | 標籤陣列                |
+| `owner`       | string | 負責團隊                |
+| `status`      | string | 文檔狀態                |
+| `description` | string | 簡短描述                |
 
 ### 可選欄位
 
-| 欄位 | 類型 | 說明 |
-|------|------|------|
-| `platforms` | array | 支援平台 |
-| `languages` | array | 程式語言 |
-| `provenance` | object | SLSA 溯源 |
-| `sbom` | string | SBOM 路徑 |
-| `signature` | string | 簽名信息 |
-| `links` | array | 相關連結 |
-| `meta` | object | 額外元數據 |
+| 欄位         | 類型   | 說明       |
+| ------------ | ------ | ---------- |
+| `platforms`  | array  | 支援平台   |
+| `languages`  | array  | 程式語言   |
+| `provenance` | object | SLSA 溯源  |
+| `sbom`       | string | SBOM 路徑  |
+| `signature`  | string | 簽名信息   |
+| `links`      | array  | 相關連結   |
+| `meta`       | object | 額外元數據 |
 
 ---
 
@@ -91,17 +91,17 @@ namespace: "synergymesh.docs"
 ## 範例
 
 ```yaml
-- id: "product_overview"
-  path: "docs/PRODUCT_OVERVIEW.md"
-  title: "產品概覽 Product Overview"
-  domain: "architecture"
-  layer: "platform-core"
-  type: "reference"
-  tags: ["overview", "vision", "mvp"]
-  owner: "docs-team"
-  status: "stable"
-  last_reviewed: "2025-12-02"
-  description: "系統價值、願景、定位"
+- id: 'product_overview'
+  path: 'docs/PRODUCT_OVERVIEW.md'
+  title: '產品概覽 Product Overview'
+  domain: 'architecture'
+  layer: 'platform-core'
+  type: 'reference'
+  tags: ['overview', 'vision', 'mvp']
+  owner: 'docs-team'
+  status: 'stable'
+  last_reviewed: '2025-12-02'
+  description: '系統價值、願景、定位'
 ```
 
 ---

@@ -2,7 +2,8 @@
 
 **Date**: 2025-12-10  
 **Component**: `@synergymesh/contracts-l1`  
-**Issue**: Missing test infrastructure dependencies (Part of Deep Maintenance Project Build Failure scan)
+**Issue**: Missing test infrastructure dependencies (Part of Deep Maintenance
+Project Build Failure scan)
 
 ## Problem
 
@@ -45,8 +46,10 @@ The workspace had:
 
 ### Files Changed
 
-- `core/contract_service/contracts-L1/contracts/jest.config.ts` → `jest.config.cjs`
-- `core/contract_service/contracts-L1/contracts/package.json` (added ts-jest and supertest)
+- `core/contract_service/contracts-L1/contracts/jest.config.ts` →
+  `jest.config.cjs`
+- `core/contract_service/contracts-L1/contracts/package.json` (added ts-jest and
+  supertest)
 
 ## Validation
 
@@ -55,7 +58,8 @@ The workspace had:
 - ✅ Jest can now find and execute tests
 - ✅ TypeScript test files compile and run
 - ✅ API tests can import supertest
-- ⚠️  Some tests have pre-existing failures unrelated to jest config (test logic issues)
+- ⚠️ Some tests have pre-existing failures unrelated to jest config (test logic
+  issues)
 
 ### Configuration
 
@@ -67,13 +71,13 @@ const config = {
   testMatch: ['**/__tests__/**/*.test.ts'],
   transform: { '^.+\\.ts$': 'ts-jest' },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.test.ts',
-    '!src/**/*.spec.ts'
-  ]
+    '!src/**/*.spec.ts',
+  ],
 };
 
 module.exports = config;
@@ -83,7 +87,8 @@ module.exports = config;
 
 ### Why `.cjs` extension?
 
-For consistency with the advisory-database fix and to avoid potential module resolution issues:
+For consistency with the advisory-database fix and to avoid potential module
+resolution issues:
 
 - Explicit CommonJS syntax with `module.exports`
 - Works reliably across all Node.js module configurations
@@ -93,7 +98,8 @@ For consistency with the advisory-database fix and to avoid potential module res
 
 This fix reveals the importance of:
 
-1. **Explicit test dependencies**: Always declare test runners and assertion libraries
+1. **Explicit test dependencies**: Always declare test runners and assertion
+   libraries
 2. **Complete test tooling**: Include all testing utilities (supertest, etc.)
 3. **Consistent configuration**: Use same config format across workspaces
 
@@ -104,10 +110,14 @@ This fix reveals the importance of:
 
 ## Lessons Learned
 
-1. **Scan Entire Project**: After fixing one workspace, scan all workspaces for similar issues
-2. **Missing Dependencies**: Jest config may parse but tests fail if test utilities missing
-3. **Pre-existing Issues**: Distinguish between config fixes and pre-existing test failures
-4. **Consistent Approach**: Apply same fix pattern across all affected workspaces
+1. **Scan Entire Project**: After fixing one workspace, scan all workspaces for
+   similar issues
+2. **Missing Dependencies**: Jest config may parse but tests fail if test
+   utilities missing
+3. **Pre-existing Issues**: Distinguish between config fixes and pre-existing
+   test failures
+4. **Consistent Approach**: Apply same fix pattern across all affected
+   workspaces
 
 ## Future Recommendations
 

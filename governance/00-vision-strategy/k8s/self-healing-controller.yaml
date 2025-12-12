@@ -13,9 +13,9 @@ metadata:
     governance.kai/execution: "instant"
 data:
   auto_fix_enabled: "true"
-  healing_delay: "0s"  # INSTANT
+  healing_delay: "0s" # INSTANT
   max_healing_attempts: "3"
-  
+
   # Self-healing rules (machine-readable)
   rules.yaml: |
     rules:

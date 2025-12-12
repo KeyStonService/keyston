@@ -18,16 +18,16 @@ on:
   workflow_dispatch:
     inputs:
       staging_branch:
-        description: 'Staging branch to delete'
+        description: "Staging branch to delete"
         required: true
         type: string
       head_branch:
-        description: 'Head branch to delete'
+        description: "Head branch to delete"
         required: true
         type: string
 
 permissions:
-  contents: write   # Required to delete branches
+  contents: write # Required to delete branches
 
 jobs:
   delete-staging-and-head-branches:
@@ -46,9 +46,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -xeo pipefail
-          
+
           echo "🧹 Cleaning up branches after PR closure"
-          
+
           # Delete staging branch
           if [ -n "$STAGING_BRANCH" ]; then
             echo "🗑️ Deleting staging branch: $STAGING_BRANCH"
@@ -56,7 +56,7 @@ jobs:
               echo "✅ Staging branch deleted: $STAGING_BRANCH" || \
               echo "ℹ️ Staging branch not found or already deleted: $STAGING_BRANCH"
           fi
-          
+
           # Delete head branch
           if [ -n "$HEAD_BRANCH" ]; then
             echo "🗑️ Deleting head branch: $HEAD_BRANCH"
@@ -64,5 +64,5 @@ jobs:
               echo "✅ Head branch deleted: $HEAD_BRANCH" || \
               echo "ℹ️ Head branch not found or already deleted: $HEAD_BRANCH"
           fi
-          
+
           echo "✅ Branch cleanup completed"

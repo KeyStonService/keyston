@@ -362,7 +362,8 @@ curl -X POST http://localhost:3000/api/v1/assignment/assign \
   }'
 ```
 
-**預期負責人 (Expected Owner):** Alice Chen, Bob Wang, or Carol Liu (Frontend Team)
+**預期負責人 (Expected Owner):** Alice Chen, Bob Wang, or Carol Liu (Frontend
+Team)
 
 ---
 
@@ -378,7 +379,8 @@ curl -X POST http://localhost:3000/api/v1/assignment/assign \
   }'
 ```
 
-**預期負責人 (Expected Owner):** David Zhang or Eva Wu (Backend Team with database expertise)
+**預期負責人 (Expected Owner):** David Zhang or Eva Wu (Backend Team with
+database expertise)
 
 ---
 
@@ -454,12 +456,12 @@ Tests:       21 passed, 21 total
 ### 實際測量結果 (Actual Measurements)
 
 | 操作 (Operation) | 平均時間 (Average Time) | SLA 目標 (SLA Target) | 達成 (Achieved) |
-|-----------------|----------------------|---------------------|----------------|
-| 創建分派 | 3-5 ms | < 5 秒 | ✅ 100% |
-| 狀態更新 | 4-6 ms | < 1 秒 | ✅ 100% |
-| 查詢狀態 | 2-3 ms | < 1 秒 | ✅ 100% |
-| 工作負載查詢 | 2 ms | < 1 秒 | ✅ 100% |
-| 重新分派 | 5-7 ms | < 2 秒 | ✅ 100% |
+| ---------------- | ----------------------- | --------------------- | --------------- |
+| 創建分派         | 3-5 ms                  | < 5 秒                | ✅ 100%         |
+| 狀態更新         | 4-6 ms                  | < 1 秒                | ✅ 100%         |
+| 查詢狀態         | 2-3 ms                  | < 1 秒                | ✅ 100%         |
+| 工作負載查詢     | 2 ms                    | < 1 秒                | ✅ 100%         |
+| 重新分派         | 5-7 ms                  | < 2 秒                | ✅ 100%         |
 
 ### 系統容量 (System Capacity)
 

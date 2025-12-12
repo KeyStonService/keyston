@@ -4,15 +4,15 @@
 network_security:
   # IP 白名單配置
   allowed_ips:
-    - "192.168.1.0/24"  # 企業內網
-    - "10.0.0.0/8"      # VPN 網段
-    - "172.16.0.0/12"   # 私有網段
-  
+    - "192.168.1.0/24" # 企業內網
+    - "10.0.0.0/8" # VPN 網段
+    - "172.16.0.0/12" # 私有網段
+
   # 阻擋的 IP 範圍
   blocked_ips:
-    - "0.0.0.0/8"       # 無效地址
-    - "127.0.0.0/8"     # 回環地址
-  
+    - "0.0.0.0/8" # 無效地址
+    - "127.0.0.0/8" # 回環地址
+
   # Webhook 端點配置
   webhook_endpoints:
     - url: "https://enterprise.example.com/webhooks/security"
@@ -24,7 +24,7 @@ network_security:
         - "dependabot_alert"
       ssl_verification: true
       timeout_seconds: 30
-    
+
     - url: "https://enterprise.example.com/webhooks/audit"
       secret: "${AUDIT_WEBHOOK_SECRET}"
       events:
@@ -34,14 +34,14 @@ network_security:
         - "member"
       ssl_verification: true
       timeout_seconds: 30
-  
+
   # API 速率限制
   api_rate_limits:
     per_hour: 5000
     per_minute: 100
     per_second: 10
     burst: 20
-  
+
   # TLS/SSL 配置
   tls:
     min_version: "1.2"
@@ -51,7 +51,7 @@ network_security:
       - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
       - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
     verify_certificates: true
-  
+
   # CORS 配置
   cors:
     enabled: true
@@ -71,7 +71,7 @@ network_security:
       - "X-RateLimit-Limit"
       - "X-RateLimit-Remaining"
     max_age: 3600
-  
+
   # 防火牆規則
   firewall_rules:
     - name: "Allow HTTPS"
@@ -79,20 +79,20 @@ network_security:
       port: 443
       action: "allow"
       priority: 100
-    
+
     - name: "Allow HTTP redirect"
       protocol: "tcp"
       port: 80
       action: "redirect"
       redirect_to: 443
       priority: 90
-    
+
     - name: "Block direct SSH"
       protocol: "tcp"
       port: 22
       action: "deny"
       priority: 80
-  
+
   # DDoS 防護
   ddos_protection:
     enabled: true
@@ -101,7 +101,7 @@ network_security:
       requests_per_ip: 100
     action: "throttle"
     block_duration_minutes: 60
-  
+
   # 內容安全策略
   content_security_policy:
     enabled: true
@@ -113,7 +113,7 @@ network_security:
       connect-src: ["'self'", "https://api.github.com"]
       font-src: ["'self'", "https://fonts.googleapis.com"]
       frame-ancestors: ["'none'"]
-  
+
   # 安全標頭
   security_headers:
     X-Content-Type-Options: "nosniff"
@@ -122,14 +122,14 @@ network_security:
     Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
     Referrer-Policy: "strict-origin-when-cross-origin"
     Permissions-Policy: "geolocation=(), microphone=(), camera=()"
-  
+
   # 代理配置
   proxy:
     enabled: false
     http_proxy: "${HTTP_PROXY}"
     https_proxy: "${HTTPS_PROXY}"
     no_proxy: "localhost,127.0.0.1,.example.com"
-  
+
   # VPN 配置
   vpn:
     required: true
@@ -137,7 +137,7 @@ network_security:
       - "10.0.0.0/8"
     authentication_method: "certificate"
     idle_timeout_minutes: 30
-  
+
   # 審計日誌
   audit_logging:
     log_all_requests: true

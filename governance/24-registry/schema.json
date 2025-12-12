@@ -4,15 +4,7 @@
   "title": "Module Registry Metadata Schema",
   "description": "模組註冊元資料架構定義 - Schema for module registry metadata",
   "type": "object",
-  "required": [
-    "id",
-    "name",
-    "version",
-    "owner",
-    "language",
-    "tech_stack",
-    "governance_hooks"
-  ],
+  "required": ["id", "name", "version", "owner", "language", "tech_stack", "governance_hooks"],
   "properties": {
     "id": {
       "type": "string",
@@ -36,22 +28,22 @@
       "type": "object",
       "required": ["major", "minor", "patch"],
       "properties": {
-        "major": {"type": "integer", "minimum": 0},
-        "minor": {"type": "integer", "minimum": 0},
-        "patch": {"type": "integer", "minimum": 0},
-        "prerelease": {"type": ["string", "null"]},
-        "build": {"type": ["string", "null"]}
+        "major": { "type": "integer", "minimum": 0 },
+        "minor": { "type": "integer", "minimum": 0 },
+        "patch": { "type": "integer", "minimum": 0 },
+        "prerelease": { "type": ["string", "null"] },
+        "build": { "type": ["string", "null"] }
       }
     },
     "owner": {
       "type": "object",
       "required": ["team", "primary_contact"],
       "properties": {
-        "team": {"type": "string"},
-        "primary_contact": {"type": "string", "format": "email"},
+        "team": { "type": "string" },
+        "primary_contact": { "type": "string", "format": "email" },
         "secondary_contacts": {
           "type": "array",
-          "items": {"type": "string", "format": "email"}
+          "items": { "type": "string", "format": "email" }
         },
         "maintainers": {
           "type": "array",
@@ -59,8 +51,8 @@
             "type": "object",
             "required": ["name", "email", "role"],
             "properties": {
-              "name": {"type": "string"},
-              "email": {"type": "string", "format": "email"},
+              "name": { "type": "string" },
+              "email": { "type": "string", "format": "email" },
               "role": {
                 "type": "string",
                 "enum": ["primary", "secondary", "reviewer", "contributor"]
@@ -78,21 +70,21 @@
           "type": "string",
           "enum": ["zh-TW", "zh-CN", "en-US", "ja-JP"]
         },
-        "secondary": {"type": "string"},
-        "documentation": {"type": "string"},
-        "comments": {"type": "string"},
-        "api_responses": {"type": "string"}
+        "secondary": { "type": "string" },
+        "documentation": { "type": "string" },
+        "comments": { "type": "string" },
+        "api_responses": { "type": "string" }
       }
     },
     "tech_stack": {
       "type": "object",
       "required": ["runtime", "language"],
       "properties": {
-        "runtime": {"type": "string"},
-        "language": {"type": "string"},
-        "framework": {"type": "string"},
-        "build_tool": {"type": "string"},
-        "package_manager": {"type": "string"},
+        "runtime": { "type": "string" },
+        "language": { "type": "string" },
+        "framework": { "type": "string" },
+        "build_tool": { "type": "string" },
+        "package_manager": { "type": "string" },
         "dependencies": {
           "type": "object",
           "properties": {
@@ -102,9 +94,9 @@
                 "type": "object",
                 "required": ["name", "version"],
                 "properties": {
-                  "name": {"type": "string"},
-                  "version": {"type": "string"},
-                  "critical": {"type": "boolean"}
+                  "name": { "type": "string" },
+                  "version": { "type": "string" },
+                  "critical": { "type": "boolean" }
                 }
               }
             }
@@ -118,11 +110,11 @@
       "properties": {
         "pre_upgrade": {
           "type": "array",
-          "items": {"$ref": "#/definitions/governance_hook"}
+          "items": { "$ref": "#/definitions/governance_hook" }
         },
         "post_upgrade": {
           "type": "array",
-          "items": {"$ref": "#/definitions/governance_hook"}
+          "items": { "$ref": "#/definitions/governance_hook" }
         }
       }
     },
@@ -133,10 +125,10 @@
           "type": "object",
           "required": ["description", "migration_steps"],
           "properties": {
-            "description": {"type": "string"},
+            "description": { "type": "string" },
             "breaking_changes": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             },
             "migration_steps": {
               "type": "array",
@@ -144,9 +136,9 @@
                 "type": "object",
                 "required": ["step", "command"],
                 "properties": {
-                  "step": {"type": "string"},
-                  "command": {"type": "string"},
-                  "rollback": {"type": "string"}
+                  "step": { "type": "string" },
+                  "command": { "type": "string" },
+                  "rollback": { "type": "string" }
                 }
               }
             },
@@ -156,8 +148,8 @@
                 "type": "object",
                 "required": ["type", "command"],
                 "properties": {
-                  "type": {"type": "string"},
-                  "command": {"type": "string"}
+                  "type": { "type": "string" },
+                  "command": { "type": "string" }
                 }
               }
             }
@@ -170,23 +162,23 @@
       "properties": {
         "frameworks": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "security_requirements": {
           "type": "object",
           "properties": {
-            "deterministic_builds": {"type": "boolean"},
-            "signed_sbom": {"type": "boolean"},
-            "signed_artifacts": {"type": "boolean"},
-            "vulnerability_scanning": {"type": "boolean"}
+            "deterministic_builds": { "type": "boolean" },
+            "signed_sbom": { "type": "boolean" },
+            "signed_artifacts": { "type": "boolean" },
+            "vulnerability_scanning": { "type": "boolean" }
           }
         },
         "audit": {
           "type": "object",
           "properties": {
-            "enabled": {"type": "boolean"},
-            "retention_days": {"type": "integer", "minimum": 0},
-            "immutable_log": {"type": "boolean"}
+            "enabled": { "type": "boolean" },
+            "retention_days": { "type": "integer", "minimum": 0 },
+            "immutable_log": { "type": "boolean" }
           }
         }
       }
@@ -197,33 +189,33 @@
         "resource_limits": {
           "type": "object",
           "properties": {
-            "cpu_request": {"type": "string"},
-            "cpu_limit": {"type": "string"},
-            "memory_request": {"type": "string"},
-            "memory_limit": {"type": "string"}
+            "cpu_request": { "type": "string" },
+            "cpu_limit": { "type": "string" },
+            "memory_request": { "type": "string" },
+            "memory_limit": { "type": "string" }
           }
         },
         "scaling": {
           "type": "object",
           "properties": {
-            "min_replicas": {"type": "integer", "minimum": 1},
-            "max_replicas": {"type": "integer", "minimum": 1},
-            "target_cpu_utilization": {"type": "integer", "minimum": 0, "maximum": 100}
+            "min_replicas": { "type": "integer", "minimum": 1 },
+            "max_replicas": { "type": "integer", "minimum": 1 },
+            "target_cpu_utilization": { "type": "integer", "minimum": 0, "maximum": 100 }
           }
         },
         "availability": {
           "type": "object",
           "properties": {
-            "slo_target": {"type": "number", "minimum": 0, "maximum": 100},
-            "max_downtime_per_month": {"type": "string"}
+            "slo_target": { "type": "number", "minimum": 0, "maximum": 100 },
+            "max_downtime_per_month": { "type": "string" }
           }
         },
         "performance": {
           "type": "object",
           "properties": {
-            "response_time_p95": {"type": "string"},
-            "response_time_p99": {"type": "string"},
-            "throughput_min": {"type": "integer", "minimum": 0}
+            "response_time_p95": { "type": "string" },
+            "response_time_p99": { "type": "string" },
+            "throughput_min": { "type": "integer", "minimum": 0 }
           }
         }
       }
@@ -237,10 +229,10 @@
             "type": "object",
             "required": ["name", "version", "protocol"],
             "properties": {
-              "name": {"type": "string"},
-              "version": {"type": "string"},
-              "protocol": {"type": "string"},
-              "endpoint": {"type": "string"}
+              "name": { "type": "string" },
+              "version": { "type": "string" },
+              "protocol": { "type": "string" },
+              "endpoint": { "type": "string" }
             }
           }
         },
@@ -250,10 +242,10 @@
             "type": "object",
             "required": ["name", "provider"],
             "properties": {
-              "name": {"type": "string"},
-              "provider": {"type": "string"},
-              "required": {"type": "boolean"},
-              "contract_ref": {"type": "string"}
+              "name": { "type": "string" },
+              "provider": { "type": "string" },
+              "required": { "type": "boolean" },
+              "contract_ref": { "type": "string" }
             }
           }
         }
@@ -265,25 +257,25 @@
         "metrics": {
           "type": "object",
           "properties": {
-            "enabled": {"type": "boolean"},
-            "endpoint": {"type": "string"},
-            "format": {"type": "string"}
+            "enabled": { "type": "boolean" },
+            "endpoint": { "type": "string" },
+            "format": { "type": "string" }
           }
         },
         "health_checks": {
           "type": "object",
           "properties": {
-            "liveness": {"type": "string"},
-            "readiness": {"type": "string"},
-            "startup": {"type": "string"}
+            "liveness": { "type": "string" },
+            "readiness": { "type": "string" },
+            "startup": { "type": "string" }
           }
         },
         "logging": {
           "type": "object",
           "properties": {
-            "level": {"type": "string"},
-            "format": {"type": "string"},
-            "destination": {"type": "string"}
+            "level": { "type": "string" },
+            "format": { "type": "string" },
+            "destination": { "type": "string" }
           }
         }
       }
@@ -294,12 +286,12 @@
         "type": "object",
         "required": ["version", "date", "author", "changes"],
         "properties": {
-          "version": {"type": "string"},
-          "date": {"type": "string", "format": "date"},
-          "author": {"type": "string"},
+          "version": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "author": { "type": "string" },
           "changes": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": { "type": "string" }
           }
         }
       }
@@ -307,11 +299,11 @@
     "metadata": {
       "type": "object",
       "properties": {
-        "created_at": {"type": "string", "format": "date-time"},
-        "updated_at": {"type": "string", "format": "date-time"},
-        "architecture_pattern": {"type": "string"},
-        "project_structure": {"type": "string"},
-        "governance_level": {"type": "string"}
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "architecture_pattern": { "type": "string" },
+        "project_structure": { "type": "string" },
+        "governance_level": { "type": "string" }
       }
     }
   },
@@ -322,19 +314,12 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "compatibility_check",
-            "security_scan",
-            "policy_simulation",
-            "smoke_test",
-            "integration_test",
-            "generate_sbom"
-          ]
+          "enum": ["compatibility_check", "security_scan", "policy_simulation", "smoke_test", "integration_test", "generate_sbom"]
         },
-        "command": {"type": "string"},
-        "required": {"type": "boolean"},
-        "timeout": {"type": "string"},
-        "fail_on": {"type": "string"}
+        "command": { "type": "string" },
+        "required": { "type": "boolean" },
+        "timeout": { "type": "string" },
+        "fail_on": { "type": "string" }
       }
     }
   }

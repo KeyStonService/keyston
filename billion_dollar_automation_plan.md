@@ -11,17 +11,18 @@
 
 ## 建造基準整合 - 與 docs/README.md 的映射一致性
 
-> **關鍵原則**: 本商業規劃書的每個執行里程碑必須對應到 `docs/README.md` 中定義的**代理決策樹**和**執行路徑**，確保所有開發、部署、運維工作都符合統一的映射標準。
+> **關鍵原則**: 本商業規劃書的每個執行里程碑必須對應到 `docs/README.md`
+> 中定義的**代理決策樹**和**執行路徑**，確保所有開發、部署、運維工作都符合統一的映射標準。
 
 ### 映射關係
 
-| 商業里程碑 | 代理決策樹 | 執行路徑 | 驗證文檔 |
-|----------|---------|---------|--------|
-| MVP 功能交付 | Build Task | Build Execution Path | `repo-map.md` + `layers.md` |
-| 客戶部署 | Deployment | Deployment Execution Path | `DEPLOYMENT_INFRASTRUCTURE.md` |
-| 問題修復 & QA | QA Issues | Issue Resolution Path | `CODE_QUALITY_CHECKS.md` |
-| 安全審計 | Security Alert | Security Decision Tree | `SECURITY_CONFIG_CHECKS.md` |
-| 客戶成功管理 | Task Assignment | Agent Assignment Path | `AUTO_ASSIGNMENT_SYSTEM.md` |
+| 商業里程碑    | 代理決策樹      | 執行路徑                  | 驗證文檔                       |
+| ------------- | --------------- | ------------------------- | ------------------------------ |
+| MVP 功能交付  | Build Task      | Build Execution Path      | `repo-map.md` + `layers.md`    |
+| 客戶部署      | Deployment      | Deployment Execution Path | `DEPLOYMENT_INFRASTRUCTURE.md` |
+| 問題修復 & QA | QA Issues       | Issue Resolution Path     | `CODE_QUALITY_CHECKS.md`       |
+| 安全審計      | Security Alert  | Security Decision Tree    | `SECURITY_CONFIG_CHECKS.md`    |
+| 客戶成功管理  | Task Assignment | Agent Assignment Path     | `AUTO_ASSIGNMENT_SYSTEM.md`    |
 
 ### 一致性驗證 (Consistency Checkpoint)
 
@@ -58,7 +59,8 @@ cat core/contract_service/ | grep -i "version_1_0_0"
 - **毛利率目標**: 70-85%
 - **客戶終身價值 (LTV)**: $500K-$5M/客戶
 
-**建造基準** (Build Reference): `docs/README.md` v1.0.0 - AI Agent Build Reference Standard
+**建造基準** (Build Reference): `docs/README.md` v1.0.0 - AI Agent Build
+Reference Standard
 
 ---
 
@@ -111,17 +113,18 @@ cat core/contract_service/ | grep -i "version_1_0_0"
 
 ### 從技術導向 → 商業價值導向
 
-**舊定位** (技術焦點):
-"統一企業級智能自動化平台，整合SynergyMesh核心引擎..."
+**舊定位** (技術焦點): "統一企業級智能自動化平台，整合SynergyMesh核心引擎..."
 
 **新定位** (商業焦點):
 "自動化操作系統 - 將任何企業流程轉換為自主運作的自動化工廠
+
 - 自動代碼審查：減少70%的代碼審查時間
 - 智能派工：提升團隊效率300%
 - 自動修復：消除95%的低級別bug
 - 自我進化：系統每月自動優化10%的效能"
 
 **關鍵差異化**:
+
 1. 不是工具，是操作系統
 2. 不是自動化某個環節，而是全自動化整個軟體工程流程
 3. 自學習、自修復、自演進
@@ -131,13 +134,13 @@ cat core/contract_service/ | grep -i "version_1_0_0"
 
 **目標客戶畫像：**
 
-| 特性 | 描述 |
-|------|------|
-| **公司規模** | 500-5000工程師 |
-| **技術成熟度** | 已有CI/CD基礎，但仍需改進 |
-| **痛點** | 代碼審查瓶頸、測試覆蓋率低、人力成本高 |
-| **預算** | $100K-$500K/年 |
-| **決策週期** | 2-3個月 |
+| 特性           | 描述                                   |
+| -------------- | -------------------------------------- |
+| **公司規模**   | 500-5000工程師                         |
+| **技術成熟度** | 已有CI/CD基礎，但仍需改進              |
+| **痛點**       | 代碼審查瓶頸、測試覆蓋率低、人力成本高 |
+| **預算**       | $100K-$500K/年                         |
+| **決策週期**   | 2-3個月                                |
 
 **取得計畫：**
 
@@ -170,7 +173,7 @@ pricing_tier:
     target: 成熟的大型企業
 
   enterprise:
-    monthly: "custom"
+    monthly: 'custom'
     features:
       - 自主私有部署選項
       - 無限無人機
@@ -180,10 +183,10 @@ pricing_tier:
     target: Fortune 500
 
 revenue_model:
-  saas_base: 40%     # 平台使用費
-  automation_surplus: 30%  # 自動化節省成本分成
-  ai_credits: 20%    # AI處理使用費
-  premium_services: 10%   # 諮詢、定制、培訓
+  saas_base: 40% # 平台使用費
+  automation_surplus: 30% # 自動化節省成本分成
+  ai_credits: 20% # AI處理使用費
+  premium_services: 10% # 諮詢、定制、培訓
 ```
 
 ---
@@ -198,13 +201,13 @@ revenue_model:
 
 #### 決策樹應用
 
-| 開發活動 | 對應決策樹 | 執行路徑 | 驗證步驟 |
-|---------|----------|---------|--------|
-| **MVP功能開發** | Build Task Decision Tree | Build Execution Path | 檢查 `repo-map.md` 邊界 |
-| **客戶環境部署** | Deployment Decision Tree | Deployment Execution Path | 執行 `DEPLOYMENT_INFRASTRUCTURE.md` |
-| **代碼審查** | QA Issues Decision Tree | Issue Resolution Path | 運行 `CODE_QUALITY_CHECKS.md` 規則 |
-| **安全漏洞修復** | Security Alert Decision Tree | Security Path | 參考 `SECURITY_CONFIG_CHECKS.md` |
-| **任務派工** | Task Assignment Decision Tree | Agent Assignment Path | 查詢 `AUTO_ASSIGNMENT_SYSTEM.md` |
+| 開發活動         | 對應決策樹                    | 執行路徑                  | 驗證步驟                            |
+| ---------------- | ----------------------------- | ------------------------- | ----------------------------------- |
+| **MVP功能開發**  | Build Task Decision Tree      | Build Execution Path      | 檢查 `repo-map.md` 邊界             |
+| **客戶環境部署** | Deployment Decision Tree      | Deployment Execution Path | 執行 `DEPLOYMENT_INFRASTRUCTURE.md` |
+| **代碼審查**     | QA Issues Decision Tree       | Issue Resolution Path     | 運行 `CODE_QUALITY_CHECKS.md` 規則  |
+| **安全漏洞修復** | Security Alert Decision Tree  | Security Path             | 參考 `SECURITY_CONFIG_CHECKS.md`    |
+| **任務派工**     | Task Assignment Decision Tree | Agent Assignment Path     | 查詢 `AUTO_ASSIGNMENT_SYSTEM.md`    |
 
 #### 一致性驗證檢查 (每個里程碑)
 
@@ -245,18 +248,21 @@ python tools/docs/validate_index.py
 ## MVP核心三柱
 
 ### 1️⃣ 自動代碼審查引擎
+
 - 檢測60%的常見代碼缺陷
 - PR自動評論 & 建議
 - 與GitHub深度集成
 - 平均節省：每位工程師/週 3小時
 
 ### 2️⃣ 智能派工系統
+
 - 自動分配任務到最合適的工程師
 - 基於技能、可用性、歷史表現
 - 負載均衡優化
 - 平均提升：團隊生產力 25-40%
 
 ### 3️⃣ 自動修復代理
+
 - 偵測並修復常見issues
 - 自動生成PR並請求審查
 - 追蹤修復成功率
@@ -379,16 +385,19 @@ python tools/docs/validate_index.py --all-regions --mode=strict
 ## 地區化策略
 
 ### 美國 (英文)
+
 - 目標: 50家Fortune 500客戶
 - ROI focus: 成本節省、速度提升
 - 合作: Microsoft、Google、AWS
 
 ### 歐洲 (GDPR)
+
 - 目標: EU GDPR認證版本
 - ROI focus: 合規性、數據主權
 - 合作: SAP、Siemens、歐洲銀行
 
 ### 亞洲 (多語言)
+
 - 目標: 100+家本地科技公司
 - ROI focus: 本地化客服、文化適應
 - 合作: 騰訊、阿里巴巴、百度
@@ -436,26 +445,26 @@ priority_3_future:
 
 #### 企業級要求
 
-| 維度 | Phase 1-2 | Phase 3 | Phase 4 ($1B+) |
-|-----|---------|--------|-----------------|
-| **代碼邊界驗證** | 每周檢查 | 每日檢查 | 實時監控 + CI/CD Gate |
-| **層級依賴規則** | 開發檢查 | 自動檢查 | 實時阻擋違規 |
-| **契約完整性** | 測試驗證 | 持續驗證 | 契約版本管理 + 向下兼容性檢查 |
-| **治理規則** | 人工審批 | 自動審批 | AI決策 + 風險評分 |
-| **文檔同步** | 手工更新 | 半自動 | 完全自動化（代理同步） |
+| 維度             | Phase 1-2 | Phase 3  | Phase 4 ($1B+)                |
+| ---------------- | --------- | -------- | ----------------------------- |
+| **代碼邊界驗證** | 每周檢查  | 每日檢查 | 實時監控 + CI/CD Gate         |
+| **層級依賴規則** | 開發檢查  | 自動檢查 | 實時阻擋違規                  |
+| **契約完整性**   | 測試驗證  | 持續驗證 | 契約版本管理 + 向下兼容性檢查 |
+| **治理規則**     | 人工審批  | 自動審批 | AI決策 + 風險評分             |
+| **文檔同步**     | 手工更新  | 半自動   | 完全自動化（代理同步）        |
 
 #### 建造基準 SLA
 
 ```yaml
 build_reference_sla:
-  availability: 99.99%  # 文檔服務可用性
-  consistency_check_latency: <5min  # 從commit到驗證時間
-  agent_decision_latency: <10min  # 代理決策延遲
-  cross_region_sync: <1min  # 跨地區同步時間
-  
+  availability: 99.99% # 文檔服務可用性
+  consistency_check_latency: <5min # 從commit到驗證時間
+  agent_decision_latency: <10min # 代理決策延遲
+  cross_region_sync: <1min # 跨地區同步時間
+
   monitoring:
     - tool: datadog
-      alerts: ["build_reference_sync_failed", "consistency_violation"]
+      alerts: ['build_reference_sync_failed', 'consistency_violation']
     - dashboard: real_time_build_reference_health
     - escalation: VP Engineering on critical violations
 ```
@@ -483,20 +492,24 @@ automation/build_reference_management/
 ## 收入增長路徑
 
 ### 1. 直接SaaS收入 ($400M ARR)
+
 - 600個客戶 × 平均 $700K/年
 - 毛利率: 80%
 
 ### 2. 垂直集成解決方案 ($300M ARR)
+
 - 金融服務版本 ($150M)
 - 醫療健康版本 ($80M)
 - 政府/防務版本 ($70M)
 
 ### 3. 生態系統費用分成 ($200M ARR)
+
 - 第三方AI模型使用費分成
 - 計算資源委派費用
 - 無人機/代理租賃費用
 
 ### 4. 企業服務與諮詢 ($100M ARR)
+
 - 系統實施與客制化
 - 數據遷移服務
 - 24/7全球支持團隊
@@ -539,21 +552,25 @@ team_size_progression:
 ## 融資路線圖
 
 ### Series A ($20-30M)
+
 - 時間: M3-M6
 - 目的: 補強銷售與營運團隊
 - 投資者類型: Tier-1 VC (Sequoia, Andreessen, Benchmark)
 
 ### Series B ($50-80M)
+
 - 時間: M12-M15
 - 目的: 國際擴張與垂直集成
 - 投資者類型: Late-stage VC + Corporate VCs
 
 ### Series C ($150-250M)
+
 - 時間: M18-M21
 - 目的: 並購、IPO前準備
 - 投資者類型: Growth PE、IPO前投資者
 
 ### IPO或戰略併購
+
 - 時間: M24+
 - 目標估值: $5-10B
 - 潛在買家: Microsoft、Google、Salesforce、GitHub
@@ -569,7 +586,7 @@ team_size_progression:
 
 ```yaml
 Q1 (Month 1-3):
-  focus: "Foundation & First Customer"
+  focus: 'Foundation & First Customer'
   targets:
     - Refine positioning & pitch deck
     - Sign first 3-5 customers
@@ -584,7 +601,7 @@ Q1 (Month 1-3):
   revenue: $30K MRR
 
 Q2 (Month 4-6):
-  focus: "Series A & Early Traction"
+  focus: 'Series A & Early Traction'
   targets:
     - Complete Series A funding ($25M)
     - Reach 15 customers
@@ -599,7 +616,7 @@ Q2 (Month 4-6):
   revenue: $300K MRR
 
 Q3 (Month 7-9):
-  focus: "Scale Sales & Operations"
+  focus: 'Scale Sales & Operations'
   targets:
     - 35 customers signed
     - Achieve $750K MRR
@@ -614,7 +631,7 @@ Q3 (Month 7-9):
   revenue: $750K MRR
 
 Q4 (Month 10-12):
-  focus: "Series B Preparation"
+  focus: 'Series B Preparation'
   targets:
     - 60+ customers
     - Achieve $1.5M MRR
@@ -630,7 +647,7 @@ Q4 (Month 10-12):
   revenue: $1.5M MRR
 
 Q5-Q6 (Month 13-18):
-  focus: "Geographic Expansion"
+  focus: 'Geographic Expansion'
   targets:
     - Series B funding ($60-80M)
     - 250+ customers
@@ -645,7 +662,7 @@ Q5-Q6 (Month 13-18):
     - ✓ Build reference agent pool auto-scales with team growth
 
 Q7-Q8 (Month 19-24):
-  focus: "Consolidation & IPO Prep"
+  focus: 'Consolidation & IPO Prep'
   targets:
     - 600+ customers
     - Achieve $35M MRR
@@ -667,14 +684,14 @@ Q7-Q8 (Month 19-24):
 
 ### 必須做對的5件事 + Build Reference
 
-| # | 因素 | 如何測量 | 目標 | Build Reference 連結 |
-|---|------|---------|------|------------------|
-| 1 | **產品市場契合度** | NPS得分 + 淨流失率 | NPS ≥60, 淨流失 <5% | `docs/README.md` 決策樹應用 |
-| 2 | **客戶滿意度** | 客戶保留率 + 擴張率 | >95% 保留率, 40%+ 擴張 | `AUTO_ASSIGNMENT_SYSTEM.md` 派工精準度 |
-| 3 | **銷售效率** | CAC vs LTV比例 | CAC payback <12月 | `governance/build-rules.yaml` 合規性 |
-| 4 | **技術可靠性** | 系統正常時間 + 支持響應 | 99.95% uptime | `DEPLOYMENT_INFRASTRUCTURE.md` 執行路徑 |
-| 5 | **人才與文化** | 員工留任率 + 聘僱速度 | >90% 留任, 週期 <30天 | `repo-map.md` 清晰的責任邊界 |
-| 6 | **Build Reference 一致性** ⭐ | 違規檢測 + 驗證通過率 | 99.9% 通過率, 0 critical 違規 | `python tools/docs/validate_index.py` |
+| #   | 因素                          | 如何測量                | 目標                          | Build Reference 連結                    |
+| --- | ----------------------------- | ----------------------- | ----------------------------- | --------------------------------------- |
+| 1   | **產品市場契合度**            | NPS得分 + 淨流失率      | NPS ≥60, 淨流失 <5%           | `docs/README.md` 決策樹應用             |
+| 2   | **客戶滿意度**                | 客戶保留率 + 擴張率     | >95% 保留率, 40%+ 擴張        | `AUTO_ASSIGNMENT_SYSTEM.md` 派工精準度  |
+| 3   | **銷售效率**                  | CAC vs LTV比例          | CAC payback <12月             | `governance/build-rules.yaml` 合規性    |
+| 4   | **技術可靠性**                | 系統正常時間 + 支持響應 | 99.95% uptime                 | `DEPLOYMENT_INFRASTRUCTURE.md` 執行路徑 |
+| 5   | **人才與文化**                | 員工留任率 + 聘僱速度   | >90% 留任, 週期 <30天         | `repo-map.md` 清晰的責任邊界            |
+| 6   | **Build Reference 一致性** ⭐ | 違規檢測 + 驗證通過率   | 99.9% 通過率, 0 critical 違規 | `python tools/docs/validate_index.py`   |
 
 ---
 
@@ -686,12 +703,14 @@ Q7-Q8 (Month 19-24):
 ## 成本結構（月度）
 
 ### 可變成本 (可擴展)
+
 - 云計算資源: $50K
 - AI API調用: $30K
 - 支持團隊: $80K
 - 小計: $160K (20%)
 
 ### 固定成本 (需要監控)
+
 - 工程團隊: $350K
 - 銷售團隊: $200K
 - 行銷與BD: $100K
@@ -699,6 +718,7 @@ Q7-Q8 (Month 19-24):
 - 小計: $730K (80%)
 
 ### 現金流管理
+
 - 預期月燒錢率: $890K
 - Series A ($25M) → 28個月跑道
 - 但應在M6之前達損益平衡路線 (基於客戶增長)
@@ -758,13 +778,13 @@ Q7-Q8 (Month 19-24):
   phase: mvp
   rules:
     code_review_automation:
-      - defect_detection_rate: ">= 60%"
-      - pr_comment_latency: "< 5min"
+      - defect_detection_rate: '>= 60%'
+      - pr_comment_latency: '< 5min'
     task_assignment:
-      - success_rate: ">= 85%"
-      - assignment_latency: "< 2min"
+      - success_rate: '>= 85%'
+      - assignment_latency: '< 2min'
     auto_fix:
-      - fix_success_rate: ">= 80%"
+      - fix_success_rate: '>= 80%'
   ```
 
 ### Week 4: 執行與測試 + Validation
@@ -778,7 +798,7 @@ Q7-Q8 (Month 19-24):
   # Phase 1 Baseline Validation
   python tools/docs/validate_index.py --phase 1
   python -m pytest tests/consistency/ -v
-  
+
   # Verify all references
   echo "Build Reference Validation Complete ✓"
   ```
@@ -810,13 +830,13 @@ O3: 建立持續成長的引擎
 
 ## ⚠️ 風險與風險緩解
 
-| 風險 | 概率 | 影響 | 緩解策略 |
-|------|------|------|---------|
-| 競爭對手進入 | 高 | 重大 | 專利+生態+客戶粘性 |
-| 技術集成難度 | 中 | 中等 | 提前客戶試用+支持 |
-| 融資環境變化 | 中 | 高 | 儘早達損益平衡 |
-| 人才流失 | 中 | 重大 | 股權激勵+文化建設 |
-| 監管合規 | 低 | 高 | 提前法律準備 |
+| 風險         | 概率 | 影響 | 緩解策略           |
+| ------------ | ---- | ---- | ------------------ |
+| 競爭對手進入 | 高   | 重大 | 專利+生態+客戶粘性 |
+| 技術集成難度 | 中   | 中等 | 提前客戶試用+支持  |
+| 融資環境變化 | 中   | 高   | 儘早達損益平衡     |
+| 人才流失     | 中   | 重大 | 股權激勵+文化建設  |
+| 監管合規     | 低   | 高   | 提前法律準備       |
 
 ---
 
@@ -874,8 +894,10 @@ success_metrics:
 - 《The SaaS Playbook》by Jason Lemkin
 - B2B SaaS Metrics 基準 (比較你的MRR增長速度)
 - ⭐ **`docs/README.md` v1.0.0** - AI Agent Build Reference Standard
-- ⭐ **`docs/architecture/repo-map.md`** - Code Boundary & Responsibility Mapping
-- ⭐ **`docs/architecture/layers.md`** - Dependency Rules & Architecture Constraints
+- ⭐ **`docs/architecture/repo-map.md`** - Code Boundary & Responsibility
+  Mapping
+- ⭐ **`docs/architecture/layers.md`** - Dependency Rules & Architecture
+  Constraints
 - ⭐ **`governance/rules.yaml`** - Executive Governance Rules
 - ⭐ **`tools/docs/validate_index.py`** - Build Reference Validation Tool
 

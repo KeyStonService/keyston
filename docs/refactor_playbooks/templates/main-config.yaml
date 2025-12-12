@@ -13,31 +13,31 @@ system:
     environment: "production"
     deployment_id: "${DEPLOYMENT_ID:-default}"
     instance_id: "${INSTANCE_ID:-${HOSTNAME}}"
-    
+
   core_capabilities:
     intent_recognition: true
     behavior_prediction: true
     context_awareness: true
     adaptive_learning: true
     real_time_optimization: true
-    
+
   operational_mode:
-    execution_strategy: "adaptive"  # adaptive | strict | permissive
+    execution_strategy: "adaptive" # adaptive | strict | permissive
     fallback_behavior: "safe_default"
     error_recovery: "automatic"
-    performance_mode: "balanced"  # balanced | throughput | latency
-    
+    performance_mode: "balanced" # balanced | throughput | latency
+
 # ============================================================================
 # VALIDATION FRAMEWORK - 6-Layer Architecture (L-A through L-F)
 # ============================================================================
 validation:
   framework:
     enabled: true
-    mode: "strict"  # strict | moderate | advisory
+    mode: "strict" # strict | moderate | advisory
     fail_fast: false
     parallel_execution: true
     max_concurrent_validations: 16
-    
+
   layers:
     L_A_INTENT_VALIDATION:
       enabled: true
@@ -47,35 +47,35 @@ validation:
       retry_policy:
         max_attempts: 3
         backoff_multiplier: 2
-        
+
     L_B_SECURITY_VALIDATION:
       enabled: true
       priority: 2
       gates: ["zero-trust-verification", "quantum-signature", "threat-detection"]
       timeout_ms: 1000
       enforcement: "mandatory"
-      
+
     L_C_COMPLIANCE_VALIDATION:
       enabled: true
       priority: 3
       gates: ["policy-compliance", "regulatory-check", "ethical-boundary"]
       timeout_ms: 800
       audit_required: true
-      
+
     L_D_RESOURCE_VALIDATION:
       enabled: true
       priority: 4
       gates: ["resource-availability", "quota-check", "cost-optimization"]
       timeout_ms: 300
       auto_scaling: true
-      
+
     L_E_BEHAVIORAL_VALIDATION:
       enabled: true
       priority: 5
       gates: ["pattern-analysis", "anomaly-detection", "consistency-check"]
       timeout_ms: 600
       ml_enabled: true
-      
+
     L_F_QUALITY_VALIDATION:
       enabled: true
       priority: 6
@@ -92,7 +92,7 @@ security:
     continuous_verification: true
     micro_segmentation: true
     least_privilege: true
-    
+
   authentication:
     providers:
       - type: "oidc"
@@ -103,44 +103,44 @@ security:
         ca_bundle: "/etc/ibcs/certs/ca-bundle.pem"
         cert_path: "/etc/ibcs/certs/client-cert.pem"
         key_path: "/etc/ibcs/certs/client-key.pem"
-    
+
     session_management:
       ttl_seconds: 3600
       refresh_enabled: true
       max_sessions_per_user: 5
-      
+
   authorization:
-    model: "rbac_abac_hybrid"  # Role-Based + Attribute-Based
-    policy_engine: "opa"  # Open Policy Agent
+    model: "rbac_abac_hybrid" # Role-Based + Attribute-Based
+    policy_engine: "opa" # Open Policy Agent
     decision_cache_ttl: 300
-    
+
   cryptography:
     algorithms:
       signing: "EdDSA-Ed25519"
       encryption: "AES-256-GCM"
       hashing: "SHA3-512"
       key_derivation: "Argon2id"
-    
+
     quantum_resistant:
       enabled: true
       algorithms: ["CRYSTALS-Kyber", "CRYSTALS-Dilithium"]
-      transition_mode: "hybrid"  # hybrid | quantum_only
-      
+      transition_mode: "hybrid" # hybrid | quantum_only
+
   threat_protection:
     rate_limiting:
       enabled: true
       requests_per_minute: 1000
       burst_size: 150
-      
+
     ddos_protection:
       enabled: true
       threshold_rps: 10000
       mitigation: "automatic"
-      
+
     behavioral_analysis:
       enabled: true
       anomaly_threshold: 0.85
-      learning_period_hours: 168  # 1 week
+      learning_period_hours: 168 # 1 week
 
 # ============================================================================
 # BEHAVIOR CONTRACT ENGINE
@@ -153,9 +153,9 @@ contracts:
       - "/etc/ibcs/contracts/"
     watch_for_changes: true
     reload_interval_seconds: 60
-    
+
   execution:
-    mode: "parallel"  # parallel | sequential | adaptive
+    mode: "parallel" # parallel | sequential | adaptive
     timeout_seconds: 30
     max_retries: 3
     circuit_breaker:
@@ -163,14 +163,14 @@ contracts:
       failure_threshold: 5
       timeout_seconds: 60
       half_open_requests: 3
-      
+
   versioning:
-    strategy: "semantic"  # semantic | timestamp | hash
+    strategy: "semantic" # semantic | timestamp | hash
     backward_compatibility: true
     migration_support: true
-    
+
   conflict_resolution:
-    strategy: "priority_based"  # priority_based | merge | explicit
+    strategy: "priority_based" # priority_based | merge | explicit
     priorities:
       - "system-level"
       - "application-level"
@@ -183,23 +183,23 @@ plugins:
   management:
     auto_discovery: true
     hot_reload: true
-    isolation_level: "sandbox"  # sandbox | namespace | process
-    
+    isolation_level: "sandbox" # sandbox | namespace | process
+
   registry:
     path: "./config/plugin-registry.yaml"
     validation_required: true
     signature_verification: true
-    
+
   categories:
     behavior_adapters:
       enabled: true
       max_instances: 10
-      
+
     integration_connectors:
       enabled: true
       connection_pooling: true
       max_connections: 100
-      
+
     security_modules:
       enabled: true
       mandatory_validation: true
@@ -209,7 +209,7 @@ plugins:
 # ============================================================================
 observability:
   logging:
-    level: "info"  # debug | info | warn | error
+    level: "info" # debug | info | warn | error
     format: "json"
     outputs:
       - type: "stdout"
@@ -221,30 +221,30 @@ observability:
       - type: "syslog"
         network: "udp"
         address: "${SYSLOG_SERVER:-localhost:514}"
-        
+
   metrics:
     enabled: true
     exporter: "prometheus"
     port: 9090
     path: "/metrics"
-    
+
     collectors:
       - "contract_executions"
       - "validation_gate_duration"
       - "plugin_performance"
       - "resource_utilization"
       - "error_rates"
-      
+
   tracing:
     enabled: true
     provider: "opentelemetry"
     endpoint: "${OTEL_EXPORTER_OTLP_ENDPOINT:-localhost:4317}"
-    sampling_rate: 0.1  # 10% sampling
-    
+    sampling_rate: 0.1 # 10% sampling
+
     attributes:
       service_name: "ibcs-core"
       deployment_environment: "${ENVIRONMENT:-production}"
-      
+
   alerting:
     enabled: true
     channels:
@@ -252,7 +252,7 @@ observability:
         url: "${ALERT_WEBHOOK_URL}"
       - type: "pagerduty"
         integration_key: "${PAGERDUTY_KEY}"
-        
+
     rules:
       - name: "high_error_rate"
         condition: "error_rate > 0.05"
@@ -269,7 +269,7 @@ performance:
     enabled: true
     provider: "redis"
     connection: "${REDIS_URL:-redis://localhost:6379}"
-    
+
     policies:
       intent_analysis:
         ttl_seconds: 300
@@ -277,17 +277,17 @@ performance:
       validation_results:
         ttl_seconds: 600
         max_size_mb: 200
-        
+
   resource_management:
     cpu:
       max_cores: 8
       reservation_percent: 20
-      
+
     memory:
       max_mb: 4096
       gc_strategy: "generational"
       heap_size_mb: 2048
-      
+
     concurrency:
       max_workers: 32
       queue_size: 1000
@@ -303,25 +303,25 @@ data:
       connection: "${DATABASE_URL}"
       pool_size: 20
       max_overflow: 10
-      
+
     cache:
       type: "redis"
       connection: "${REDIS_URL}"
       cluster_mode: false
-      
+
     object_storage:
       type: "s3"
       bucket: "${S3_BUCKET}"
       region: "${AWS_REGION:-us-east-1}"
-      
+
   retention:
     audit_logs_days: 365
     execution_history_days: 90
     metrics_days: 30
-    
+
   backup:
     enabled: true
-    schedule: "0 2 * * *"  # Daily at 2 AM
+    schedule: "0 2 * * *" # Daily at 2 AM
     retention_days: 30
     encryption: true
 
@@ -333,16 +333,16 @@ features:
     enabled: true
     provider: "anthropic_claude"
     model: "claude-sonnet-4-5"
-    
+
   predictive_behavior:
     enabled: true
     confidence_threshold: 0.8
-    
+
   adaptive_learning:
     enabled: true
     learning_rate: 0.001
     update_frequency_hours: 24
-    
+
   quantum_security:
     enabled: true
     post_quantum_ready: true
@@ -355,7 +355,7 @@ integrations:
     enabled: true
     base_url: "${API_GATEWAY_URL}"
     timeout_seconds: 30
-    
+
   event_streaming:
     provider: "kafka"
     brokers: "${KAFKA_BROKERS}"
@@ -363,7 +363,7 @@ integrations:
       contracts: "ibcs.contracts"
       validations: "ibcs.validations"
       executions: "ibcs.executions"
-      
+
   notification_service:
     provider: "sns"
     topic_arn: "${SNS_TOPIC_ARN}"
@@ -375,11 +375,11 @@ development:
   debug_mode: false
   profiling_enabled: false
   hot_reload: false
-  
+
   testing:
     mock_external_services: false
     seed_data_enabled: false
-    
+
   experimental_features:
     enabled: false
     features: []
@@ -388,6 +388,6 @@ development:
 # CHECKSUM & VERIFICATION
 # ============================================================================
 integrity:
-  config_hash: ""  # Auto-generated: SHA3-512 hash of config
-  last_validated: ""  # ISO-8601 timestamp
-  signature: ""  # EdDSA signature for tamper detection
+  config_hash: "" # Auto-generated: SHA3-512 hash of config
+  last_validated: "" # ISO-8601 timestamp
+  signature: "" # EdDSA signature for tamper detection

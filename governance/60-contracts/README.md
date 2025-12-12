@@ -17,7 +17,8 @@
 
 ## 🎯 Core Concept | 核心概念
 
-**Contract-Driven Design**: 以契約驅動模組化設計，每個模組透過明確契約定義接口、資料結構與行為，支援自動化測試、版本控制與向後兼容。**契約即時註冊，自動驗證。**
+**Contract-Driven
+Design**: 以契約驅動模組化設計，每個模組透過明確契約定義接口、資料結構與行為，支援自動化測試、版本控制與向後兼容。**契約即時註冊，自動驗證。**
 
 ## 📋 Responsibility | 責任範圍
 
@@ -76,71 +77,71 @@ scope:
 
 ```yaml
 contract:
-  id: "contract.self-healing.v1"
-  name: "Self-Healing Module Contract"
-  version: "1.0.0"
-  status: "active"
-  owner: "self-healing-team"
-  
+  id: 'contract.self-healing.v1'
+  name: 'Self-Healing Module Contract'
+  version: '1.0.0'
+  status: 'active'
+  owner: 'self-healing-team'
+
   interface:
-    module_id: "40-self-healing"
-    
+    module_id: '40-self-healing'
+
     inputs:
-      - name: "health_status"
-        type: "HealthStatus"
+      - name: 'health_status'
+        type: 'HealthStatus'
         required: true
         schema:
-          type: "object"
+          type: 'object'
           properties:
-            component_id: {type: "string"}
-            status: {type: "string", enum: ["healthy", "degraded", "failed"]}
-            metrics: {type: "object"}
-      
-      - name: "recovery_policy"
-        type: "RecoveryPolicy"
+            component_id: { type: 'string' }
+            status: { type: 'string', enum: ['healthy', 'degraded', 'failed'] }
+            metrics: { type: 'object' }
+
+      - name: 'recovery_policy'
+        type: 'RecoveryPolicy'
         required: false
         schema:
-          type: "object"
+          type: 'object'
           properties:
-            strategy: {type: "string"}
-            max_attempts: {type: "integer"}
-    
+            strategy: { type: 'string' }
+            max_attempts: { type: 'integer' }
+
     outputs:
-      - name: "recovery_result"
-        type: "RecoveryResult"
+      - name: 'recovery_result'
+        type: 'RecoveryResult'
         schema:
-          type: "object"
+          type: 'object'
           properties:
-            success: {type: "boolean"}
-            actions_taken: {type: "array"}
-            recovery_time: {type: "number"}
-    
+            success: { type: 'boolean' }
+            actions_taken: { type: 'array' }
+            recovery_time: { type: 'number' }
+
     errors:
-      - code: "SH001"
-        name: "RecoveryFailure"
-        description: "Recovery attempt failed"
-      
-      - code: "SH002"
-        name: "InvalidPolicy"
-        description: "Invalid recovery policy"
-  
+      - code: 'SH001'
+        name: 'RecoveryFailure'
+        description: 'Recovery attempt failed'
+
+      - code: 'SH002'
+        name: 'InvalidPolicy'
+        description: 'Invalid recovery policy'
+
   behavior:
     invariants:
-      - "Recovery must complete within 5 minutes"
-      - "Must log all recovery attempts"
-      - "Must not perform destructive actions without approval"
-    
+      - 'Recovery must complete within 5 minutes'
+      - 'Must log all recovery attempts'
+      - 'Must not perform destructive actions without approval'
+
     side_effects:
-      - "May restart services"
-      - "May scale resources"
-      - "May trigger alerts"
-  
+      - 'May restart services'
+      - 'May scale resources'
+      - 'May trigger alerts'
+
   dependencies:
-    - contract_id: "contract.monitoring.v1"
-      type: "required"
-    
-    - contract_id: "contract.automation.v1"
-      type: "required"
+    - contract_id: 'contract.monitoring.v1'
+      type: 'required'
+
+    - contract_id: 'contract.automation.v1'
+      type: 'required'
 ```
 
 ### 2. 版本控制策略 (Versioning Strategy)
@@ -149,39 +150,39 @@ contract:
 
 ```yaml
 versioning:
-  policy: "semantic_versioning"
-  format: "MAJOR.MINOR.PATCH"
-  
+  policy: 'semantic_versioning'
+  format: 'MAJOR.MINOR.PATCH'
+
   version_increments:
     major:
-      trigger: "Breaking changes to interface"
+      trigger: 'Breaking changes to interface'
       examples:
-        - "Remove or rename input/output fields"
-        - "Change required fields"
-        - "Modify behavior contracts"
-    
+        - 'Remove or rename input/output fields'
+        - 'Change required fields'
+        - 'Modify behavior contracts'
+
     minor:
-      trigger: "Backward-compatible additions"
+      trigger: 'Backward-compatible additions'
       examples:
-        - "Add new optional fields"
-        - "Add new methods"
-        - "Extend capabilities"
-    
+        - 'Add new optional fields'
+        - 'Add new methods'
+        - 'Extend capabilities'
+
     patch:
-      trigger: "Backward-compatible bug fixes"
+      trigger: 'Backward-compatible bug fixes'
       examples:
-        - "Fix implementation bugs"
-        - "Performance improvements"
-        - "Documentation updates"
-  
+        - 'Fix implementation bugs'
+        - 'Performance improvements'
+        - 'Documentation updates'
+
   compatibility:
     backward_compatible:
-      - "MINOR version upgrades"
-      - "PATCH version upgrades"
-    
+      - 'MINOR version upgrades'
+      - 'PATCH version upgrades'
+
     forward_compatible:
-      - "Clients ignore unknown fields"
-      - "Graceful degradation"
+      - 'Clients ignore unknown fields'
+      - 'Graceful degradation'
 ```
 
 ### 3. 契約測試框架 (Contract Testing Framework)
@@ -191,30 +192,30 @@ versioning:
 ```yaml
 contract_testing:
   tools:
-    - name: "Pact"
-      type: "consumer_driven"
-      languages: ["python", "javascript", "java"]
-    
-    - name: "Spring Cloud Contract"
-      type: "producer_driven"
-      languages: ["java", "kotlin"]
-    
-    - name: "Postman Contract Tests"
-      type: "api_testing"
-      formats: ["openapi", "swagger"]
-  
+    - name: 'Pact'
+      type: 'consumer_driven'
+      languages: ['python', 'javascript', 'java']
+
+    - name: 'Spring Cloud Contract'
+      type: 'producer_driven'
+      languages: ['java', 'kotlin']
+
+    - name: 'Postman Contract Tests'
+      type: 'api_testing'
+      formats: ['openapi', 'swagger']
+
   test_stages:
-    - name: "Schema Validation"
-      description: "Validate contract schemas"
-    
-    - name: "Behavior Verification"
-      description: "Verify behavior contracts"
-    
-    - name: "Compatibility Testing"
-      description: "Test version compatibility"
-    
-    - name: "Integration Testing"
-      description: "Test module integration"
+    - name: 'Schema Validation'
+      description: 'Validate contract schemas'
+
+    - name: 'Behavior Verification'
+      description: 'Verify behavior contracts'
+
+    - name: 'Compatibility Testing'
+      description: 'Test version compatibility'
+
+    - name: 'Integration Testing'
+      description: 'Test module integration'
 ```
 
 ### 4. 契約演化管理 (Contract Evolution)
@@ -223,28 +224,28 @@ contract_testing:
 
 ```yaml
 contract_evolution:
-  contract_id: "contract.self-healing.v1"
-  
+  contract_id: 'contract.self-healing.v1'
+
   lifecycle:
-    - version: "1.0.0"
-      status: "active"
-      released: "2025-01-01"
-    
-    - version: "1.1.0"
-      status: "active"
-      released: "2025-06-01"
+    - version: '1.0.0'
+      status: 'active'
+      released: '2025-01-01'
+
+    - version: '1.1.0'
+      status: 'active'
+      released: '2025-06-01'
       changes:
-        - "Added optional timeout parameter"
-    
-    - version: "2.0.0"
-      status: "beta"
-      planned_release: "2026-01-01"
+        - 'Added optional timeout parameter'
+
+    - version: '2.0.0'
+      status: 'beta'
+      planned_release: '2026-01-01'
       breaking_changes:
-        - "Changed recovery_policy structure"
-  
+        - 'Changed recovery_policy structure'
+
   deprecation_policy:
-    notice_period: "6 months"
-    support_period: "12 months after deprecation"
+    notice_period: '6 months'
+    support_period: '12 months after deprecation'
     migration_guide: true
 ```
 
@@ -253,28 +254,28 @@ contract_evolution:
 ```yaml
 lifecycle_stages:
   draft:
-    description: "Contract under development"
-    allowed_actions: ["edit", "validate"]
-  
+    description: 'Contract under development'
+    allowed_actions: ['edit', 'validate']
+
   review:
-    description: "Under review"
-    allowed_actions: ["approve", "reject", "request_changes"]
-  
+    description: 'Under review'
+    allowed_actions: ['approve', 'reject', 'request_changes']
+
   approved:
-    description: "Approved for use"
-    allowed_actions: ["publish", "reject"]
-  
+    description: 'Approved for use'
+    allowed_actions: ['publish', 'reject']
+
   published:
-    description: "Active and in use"
-    allowed_actions: ["deprecate", "update_minor"]
-  
+    description: 'Active and in use'
+    allowed_actions: ['deprecate', 'update_minor']
+
   deprecated:
-    description: "Marked for retirement"
-    allowed_actions: ["retire"]
-  
+    description: 'Marked for retirement'
+    allowed_actions: ['retire']
+
   retired:
-    description: "No longer supported"
-    allowed_actions: ["archive"]
+    description: 'No longer supported'
+    allowed_actions: ['archive']
 ```
 
 ## 🔗 Integration | 整合
@@ -292,10 +293,10 @@ lifecycle_stages:
 ### OpenAPI / Swagger
 
 ```yaml
-openapi: "3.0.0"
+openapi: '3.0.0'
 info:
-  title: "Self-Healing API"
-  version: "1.0.0"
+  title: 'Self-Healing API'
+  version: '1.0.0'
 paths:
   /recovery/execute:
     post:
@@ -305,7 +306,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RecoveryRequest"
+              $ref: '#/components/schemas/RecoveryRequest'
 ```
 
 ### gRPC / Protocol Buffers

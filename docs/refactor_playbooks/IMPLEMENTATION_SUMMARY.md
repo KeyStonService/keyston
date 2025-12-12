@@ -6,7 +6,8 @@
 
 ## 📋 概覽
 
-本實作建立了一個完整的 AI 驅動重構計畫生成系統，針對 Unmanned Island System 的各個目錄群集（cluster）自動生成結構化、可執行的重構 playbook。
+本實作建立了一個完整的 AI 驅動重構計畫生成系統，針對 Unmanned Island
+System 的各個目錄群集（cluster）自動生成結構化、可執行的重構 playbook。
 
 ## ✅ 已完成功能
 
@@ -47,11 +48,17 @@
 
 ```markdown
 ## 1. Cluster 概覽
+
 ## 2. 問題盤點
+
 ## 3. 語言與結構重構策略
+
 ## 4. 分級重構計畫（P0 / P1 / P2）
+
 ## 5. 適合交給 Auto-Fix Bot 的項目
+
 ## 6. 驗收條件與成功指標
+
 ## 7. 檔案與目錄結構（交付視圖）⭐ NEW
 ```
 
@@ -59,14 +66,14 @@
 
 **整合的數據源：**
 
-| 資料來源 | 路徑 | 用途 |
-|---------|------|------|
-| 語言治理報告 | `governance/language-governance-report.md` | 違規檔案與原因 |
-| Hotspot 分析 | `apps/web/public/data/hotspot.json` | 高風險檔案列表 |
-| Cluster Heatmap | `apps/web/public/data/cluster-heatmap.json` | 群集健康分數 |
-| Migration Flow | `apps/web/public/data/migration-flow.json` | 語言遷移建議 |
-| Semgrep 報告 | `governance/semgrep-report.json` | 安全問題 |
-| AI 建議 | `governance/ai-refactor-suggestions.md` | 全局重構策略 |
+| 資料來源        | 路徑                                        | 用途           |
+| --------------- | ------------------------------------------- | -------------- |
+| 語言治理報告    | `governance/language-governance-report.md`  | 違規檔案與原因 |
+| Hotspot 分析    | `apps/web/public/data/hotspot.json`         | 高風險檔案列表 |
+| Cluster Heatmap | `apps/web/public/data/cluster-heatmap.json` | 群集健康分數   |
+| Migration Flow  | `apps/web/public/data/migration-flow.json`  | 語言遷移建議   |
+| Semgrep 報告    | `governance/semgrep-report.json`            | 安全問題       |
+| AI 建議         | `governance/ai-refactor-suggestions.md`     | 全局重構策略   |
 
 **資料解析能力：**
 
@@ -136,13 +143,9 @@
 **執行流程：**
 
 ```yaml
-1. Checkout repository
-2. Setup Python 3.10
-3. Install dependencies (pyyaml)
-4. Generate refactor playbooks
-5. Check for changes
-6. Commit and push (if changes detected)
-7. Create workflow summary
+1. Checkout repository 2. Setup Python 3.10 3. Install dependencies (pyyaml) 4.
+Generate refactor playbooks 5. Check for changes 6. Commit and push (if changes
+detected) 7. Create workflow summary
 ```
 
 ### 5. 文檔系統
@@ -218,7 +221,7 @@ python3 tools/generate-refactor-playbook.py --use-llm --cluster "services/"
 # .github/workflows/your-workflow.yml
 - name: Generate Refactor Playbooks
   run: python3 tools/generate-refactor-playbook.py
-  
+
 - name: Commit Changes
   run: |
     git add docs/refactor_playbooks/
@@ -240,13 +243,13 @@ class RefactorPlaybookGenerator:
     - semgrep_results: List[Dict]
     - migration_flows: Dict
     - global_suggestions: str
-    
+
     # 主要方法
     - load_governance_data()           # 載入所有治理數據
     - generate_cluster_prompt()        # 生成 LLM prompt
     - generate_playbook_stub()         # 生成 stub playbook
     - generate_all_playbooks()         # 批量生成
-    
+
     # 輔助方法
     - _get_cluster_violations()        # 過濾 cluster 違規
     - _get_cluster_hotspots()          # 過濾 cluster hotspots
@@ -277,11 +280,10 @@ generate_cluster_prompt() / generate_playbook_stub()
 ```markdown
 # Refactor Playbook: services/
 
-**Generated:** 2025-12-06T17:03:15
-**Cluster Score:** 82
-**Status:** Draft
+**Generated:** 2025-12-06T17:03:15 **Cluster Score:** 82 **Status:** Draft
 
 ## 1. Cluster 概覽
+
 - 違規數量：0
 - Hotspot 檔案：2
 - 安全問題：2
@@ -289,10 +291,12 @@ generate_cluster_prompt() / generate_playbook_stub()
 ## 2. 問題盤點
 
 ### Hotspot 檔案 (2)
+
 - **services/gateway/router.lua** (score: 88)
 - **services/api/handler.cpp** (score: 70)
 
 ### Semgrep 安全問題 (2)
+
 - [MEDIUM] **services/gateway/router.lua**: Use of eval-like function detected
 - [MEDIUM] **services/api/handler.cpp**: Potential buffer overflow
 
@@ -363,7 +367,7 @@ def load_governance_data(self):
 def generate_playbook_stub(self, cluster_name: str, cluster_score: float = 0) -> str:
     # 修改 Markdown 模板
     playbook = f"""# Refactor Playbook: {cluster_name}
-    
+
     ... 自訂章節 ...
     """
     return playbook

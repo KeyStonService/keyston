@@ -2,7 +2,8 @@
 
 ## Service Template
 
-1. Install deps (`npm install -w <service>` / `pip install -r requirements.txt`).
+1. Install deps (`npm install -w <service>` /
+   `pip install -r requirements.txt`).
 2. Run lint/test/build。
 3. Build container + cosign sign。
 4. Deploy via GH Actions → infrastructure/kubernetes。

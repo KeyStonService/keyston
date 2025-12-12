@@ -2,8 +2,8 @@
 
 # 外部 API 合約定義
 
-> 外部 API 合約規格定義，包含 OpenAPI specs 和 JSON Schema。
-> External API contract specifications, including OpenAPI specs and JSON Schema.
+> 外部 API 合約規格定義，包含 OpenAPI specs 和 JSON Schema。External API
+> contract specifications, including OpenAPI specs and JSON Schema.
 
 ## 📋 Overview 概述
 
@@ -11,12 +11,14 @@
 
 **⚠️ 重要區分 Important Distinction:**
 
-| 目錄 Directory | 內容 Content | 說明 Description |
-|----------------|--------------|------------------|
-| `contracts/` (本目錄) | 合約定義資料 | 外部 API 合約**規格定義** |
+| 目錄 Directory           | 內容 Content | 說明 Description           |
+| ------------------------ | ------------ | -------------------------- |
+| `contracts/` (本目錄)    | 合約定義資料 | 外部 API 合約**規格定義**  |
 | `core/contract_service/` | 微服務程式碼 | 合約管理服務的**實作代碼** |
 
-This directory contains external API contract definitions for the SynergyMesh platform. These are pure data/specification files without any implementation code.
+This directory contains external API contract definitions for the SynergyMesh
+platform. These are pure data/specification files without any implementation
+code.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -59,17 +61,17 @@ contracts/
 
 ### ✅ Who Should Depend on This 誰應該依賴本目錄
 
-| Consumer 使用者 | Purpose 用途 |
-|----------------|--------------|
-| `bridges/` | 跨語言整合時參考合約 |
-| `core/unified_integration/` | 整合外部系統時使用 |
-| `tests/` | API 測試驗證 |
+| Consumer 使用者             | Purpose 用途         |
+| --------------------------- | -------------------- |
+| `bridges/`                  | 跨語言整合時參考合約 |
+| `core/unified_integration/` | 整合外部系統時使用   |
+| `tests/`                    | API 測試驗證         |
 
 ### ❌ This Directory Should NOT Depend on 本目錄不應依賴
 
-| 不應依賴 | Reason 原因 |
-|---------|-------------|
-| 任何實作代碼 | 合約定義應獨立於實作 |
+| 不應依賴                 | Reason 原因          |
+| ------------------------ | -------------------- |
+| 任何實作代碼             | 合約定義應獨立於實作 |
 | `core/contract_service/` | 規格不應依賴服務實作 |
 
 ## 🚀 Usage 使用方式
@@ -125,9 +127,9 @@ contracts/
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README with boundary definitions |
+| Date 日期  | Version 版本 | Changes 變更                             |
+| ---------- | ------------ | ---------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial README with boundary definitions |
 
 ---
 

@@ -14,29 +14,29 @@ spec:
         app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus:latest
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: config
-          mountPath: /etc/prometheus
-        - name: storage
-          mountPath: /prometheus
-        resources:
-          requests:
-            cpu: 2
-            memory: 4Gi
-          limits:
-            cpu: 4
-            memory: 8Gi
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus
+            - name: storage
+              mountPath: /prometheus
+          resources:
+            requests:
+              cpu: 2
+              memory: 4Gi
+            limits:
+              cpu: 4
+              memory: 8Gi
       volumes:
-      - name: config
-        configMap:
-          name: autofix-bot-config
-          items:
-          - key: prometheus.yml
-            path: prometheus.yml
-      - name: storage
-        persistentVolumeClaim:
-          claimName: prometheus-pvc
+        - name: config
+          configMap:
+            name: autofix-bot-config
+            items:
+              - key: prometheus.yml
+                path: prometheus.yml
+        - name: storage
+          persistentVolumeClaim:
+            claimName: prometheus-pvc

@@ -36,72 +36,72 @@ spec:
             runAsUser: 1000
             fsGroup: 1000
           containers:
-          - name: drift-scanner
-            image: drift-detector:latest@sha256:placeholder
-            imagePullPolicy: IfNotPresent
-            command:
-              - /bin/bash
-              - -c
-              - |
-                echo "🔍 開始 Drift 掃描..."
-                echo "時間: $(date)"
-                
-                # 載入配置
-                kubectl get configmap drift-rules -n platform -o jsonpath='{.data.rules\.yaml}' > /tmp/rules.yaml
-                
-                # 掃描 Deployments
-                echo "掃描 Deployments..."
-                kubectl get deployments --all-namespaces -o yaml > /tmp/current-deployments.yaml
-                
-                # 從 Git 取得期望配置
-                if [ -d "/config" ]; then
-                  echo "比對 Git 配置..."
-                  # 這裡應該比對 /config 與實際配置的差異
-                fi
-                
-                # 生成報告
-                REPORT_FILE="drift-report-$(date +%Y%m%d-%H%M%S).json"
-                cat > "/reports/$REPORT_FILE" << EOF
-                {
-                  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-                  "scan_duration": "5s",
-                  "total_resources_scanned": 0,
-                  "drifts_detected": 0,
-                  "violations": []
-                }
-                EOF
-                
-                echo "✅ Drift 掃描完成"
-                echo "報告: $REPORT_FILE"
-            env:
-            - name: KUBECONFIG
-              value: /var/run/secrets/kubernetes.io/serviceaccount
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                cpu: 500m
-                memory: 512Mi
-            volumeMounts:
-            - name: reports
-              mountPath: /reports
-            - name: config
-              mountPath: /config
-              readOnly: true
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                - ALL
+            - name: drift-scanner
+              image: drift-detector:latest@sha256:placeholder
+              imagePullPolicy: IfNotPresent
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  echo "🔍 開始 Drift 掃描..."
+                  echo "時間: $(date)"
+
+                  # 載入配置
+                  kubectl get configmap drift-rules -n platform -o jsonpath='{.data.rules\.yaml}' > /tmp/rules.yaml
+
+                  # 掃描 Deployments
+                  echo "掃描 Deployments..."
+                  kubectl get deployments --all-namespaces -o yaml > /tmp/current-deployments.yaml
+
+                  # 從 Git 取得期望配置
+                  if [ -d "/config" ]; then
+                    echo "比對 Git 配置..."
+                    # 這裡應該比對 /config 與實際配置的差異
+                  fi
+
+                  # 生成報告
+                  REPORT_FILE="drift-report-$(date +%Y%m%d-%H%M%S).json"
+                  cat > "/reports/$REPORT_FILE" << EOF
+                  {
+                    "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+                    "scan_duration": "5s",
+                    "total_resources_scanned": 0,
+                    "drifts_detected": 0,
+                    "violations": []
+                  }
+                  EOF
+
+                  echo "✅ Drift 掃描完成"
+                  echo "報告: $REPORT_FILE"
+              env:
+                - name: KUBECONFIG
+                  value: /var/run/secrets/kubernetes.io/serviceaccount
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+              volumeMounts:
+                - name: reports
+                  mountPath: /reports
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
           volumes:
-          - name: reports
-            emptyDir: {}
-          - name: config
-            configMap:
-              name: drift-rules
-              optional: true
+            - name: reports
+              emptyDir: {}
+            - name: config
+              configMap:
+                name: drift-rules
+                optional: true
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -114,15 +114,15 @@ kind: ClusterRole
 metadata:
   name: drift-detector
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "configmaps"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["apps"]
-  resources: ["deployments", "statefulsets", "daemonsets"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["networking.k8s.io"]
-  resources: ["ingresses", "networkpolicies"]
-  verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "daemonsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses", "networkpolicies"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -133,9 +133,9 @@ roleRef:
   kind: ClusterRole
   name: drift-detector
 subjects:
-- kind: ServiceAccount
-  name: drift-detector
-  namespace: platform
+  - kind: ServiceAccount
+    name: drift-detector
+    namespace: platform
 
 # ==============================================================================
 # 使用說明

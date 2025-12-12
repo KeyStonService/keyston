@@ -6,7 +6,7 @@ status: "active"
 
 # 治理模型類型 | Governance Model Type
 governance_model:
-  type: "hybrid"  # 混合治理模型
+  type: "hybrid" # 混合治理模型
   description: "Mixed governance combining centralized strategic decisions with decentralized operational autonomy"
 
 # 治理特點 | Governance Characteristics
@@ -81,7 +81,7 @@ timeline:
 
 # 治理成熟度 | Governance Maturity
 maturity:
-  current_level: "3"  # 成熟度級別 1-5
+  current_level: "3" # 成熟度級別 1-5
   target_level: "5"
   description: "Current level: Managed, Target level: Optimized"
   milestones:

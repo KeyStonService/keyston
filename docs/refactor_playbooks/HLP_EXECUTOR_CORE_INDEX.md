@@ -2,7 +2,8 @@
 
 ## 📚 快速導覽
 
-本目錄包含 HLP Executor Core Plugin 從 `_legacy_scratch/README.md` 解構並整合到 Unmanned Island 系統的完整規劃文件。
+本目錄包含 HLP Executor Core Plugin 從 `_legacy_scratch/README.md`
+解構並整合到 Unmanned Island 系統的完整規劃文件。
 
 ---
 
@@ -129,8 +130,7 @@ docs/refactor_playbooks/
 - P0 和 P1 完成後，準備清理時
 - 需要確認是否可以刪除 legacy_scratch 時
 
-**重要提醒**:
-⚠️ 不要在整合完成並驗證前刪除 legacy_scratch 內容
+**重要提醒**: ⚠️ 不要在整合完成並驗證前刪除 legacy_scratch 內容
 
 ---
 
@@ -230,17 +230,17 @@ docs/refactor_playbooks/
 
 ## 📊 關鍵數據
 
-| 指標 | 數值 |
-|------|-----|
-| **原始規格大小** | 548 行 (Quantum-YAML) |
-| **提取的邏輯元件** | 53 項 |
-| **生成的規劃文件** | 6 份 |
-| **文件總容量** | ~104 KB |
-| **新增檔案計畫** | 50 個 (10 P0 + 23 P1 + 17 P2) |
-| **更新檔案計畫** | 9 個 |
-| **新增目錄計畫** | 25 個 |
-| **影響的系統模組** | 9 個 |
-| **需適配的依賴** | 6 項 |
+| 指標               | 數值                          |
+| ------------------ | ----------------------------- |
+| **原始規格大小**   | 548 行 (Quantum-YAML)         |
+| **提取的邏輯元件** | 53 項                         |
+| **生成的規劃文件** | 6 份                          |
+| **文件總容量**     | ~104 KB                       |
+| **新增檔案計畫**   | 50 個 (10 P0 + 23 P1 + 17 P2) |
+| **更新檔案計畫**   | 9 個                          |
+| **新增目錄計畫**   | 25 個                         |
+| **影響的系統模組** | 9 個                          |
+| **需適配的依賴**   | 6 項                          |
 
 ---
 
@@ -348,9 +348,11 @@ docs/refactor_playbooks/
 
 ## 🎉 總結
 
-本套文件從 legacy_scratch 的 548 行規格中完整提取了 HLP Executor Core Plugin 的所有邏輯，並設計了詳細的整合方案。所有檔案、目錄、依賴、命名空間都已經過仔細規劃，可立即開始執行。
+本套文件從 legacy_scratch 的 548 行規格中完整提取了 HLP Executor Core
+Plugin 的所有邏輯，並設計了詳細的整合方案。所有檔案、目錄、依賴、命名空間都已經過仔細規劃，可立即開始執行。
 
-**下一步**: 打開 `03_refactor/HLP_EXECUTOR_CORE_ACTION_PLAN.md`，從 P0-1 開始執行！
+**下一步**: 打開
+`03_refactor/HLP_EXECUTOR_CORE_ACTION_PLAN.md`，從 P0-1 開始執行！
 
 ---
 

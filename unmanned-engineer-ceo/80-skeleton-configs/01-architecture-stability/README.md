@@ -8,7 +8,8 @@
 
 ### 核心原則
 
-- **分層隔離**: 明確的五層架構 (core → platform → services → agents → applications)
+- **分層隔離**: 明確的五層架構 (core → platform → services → agents →
+  applications)
 - **單向依賴**: 依賴必須由外向內，禁止反向依賴
 - **同層隔離**: 同層模組之間禁止直接依賴，必須通過 API 或 Event
 - **零信任**: 所有跨邊界調用需驗證身份和權限
@@ -71,7 +72,9 @@ npx ts-node tools/arch-lint.ts --config tools/arch-lint.config.yml
 ```yaml
 # .github/workflows/architecture-lint.yml
 - name: Architecture Lint
-  run: npm exec --workspace architecture-stability -- npx ts-node tools/arch-lint.ts
+  run:
+    npm exec --workspace architecture-stability -- npx ts-node
+    tools/arch-lint.ts
 ```
 
 ### 3. 新增豁免規則
@@ -81,7 +84,7 @@ npx ts-node tools/arch-lint.ts --config tools/arch-lint.config.yml
 ```yaml
 exemptions:
   - path: platform/legacy/**
-    reason: "Gradual migration plan"
+    reason: 'Gradual migration plan'
     adr: ADR-2025-001
     expires: 2025-12-31
 ```

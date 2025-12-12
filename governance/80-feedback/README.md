@@ -17,7 +17,8 @@ AI 決策: < 1 秒
 
 ## 🎯 Core Concept | 核心概念
 
-**治理閉環 (Closed-Loop Governance)**: 從策略制定、執行、監控到回饋優化的完整循環，確保治理效果持續提升。結合 AI/ML 進行異常預測、決策建議與自動修正。**實時監控，秒級回饋，持續演化。**
+**治理閉環 (Closed-Loop
+Governance)**: 從策略制定、執行、監控到回饋優化的完整循環，確保治理效果持續提升。結合 AI/ML 進行異常預測、決策建議與自動修正。**實時監控，秒級回饋，持續演化。**
 
 ## 📋 Responsibility | 責任範圍
 
@@ -84,7 +85,7 @@ scope:
 closed_loop_architecture:
   stages:
     1_strategy:
-      description: "策略制定"
+      description: '策略制定'
       inputs:
         - business_requirements
         - compliance_standards
@@ -93,10 +94,10 @@ closed_loop_architecture:
         - governance_policies
         - intent_definitions
         - agent_contracts
-      responsible: "Governance Committee"
-    
+      responsible: 'Governance Committee'
+
     2_execution:
-      description: "策略執行"
+      description: '策略執行'
       inputs:
         - governance_policies
         - intent_definitions
@@ -104,10 +105,10 @@ closed_loop_architecture:
         - deployed_configurations
         - active_agents
         - running_workflows
-      responsible: "Automation Engine"
-    
+      responsible: 'Automation Engine'
+
     3_monitoring:
-      description: "實時監控"
+      description: '實時監控'
       inputs:
         - system_metrics
         - audit_logs
@@ -116,10 +117,10 @@ closed_loop_architecture:
         - health_status
         - alerts
         - compliance_reports
-      responsible: "Observability Platform"
-    
+      responsible: 'Observability Platform'
+
     4_feedback:
-      description: "回饋分析"
+      description: '回饋分析'
       inputs:
         - monitoring_data
         - audit_trails
@@ -128,10 +129,10 @@ closed_loop_architecture:
         - analysis_results
         - optimization_recommendations
         - improvement_triggers
-      responsible: "Feedback System"
-    
+      responsible: 'Feedback System'
+
     5_optimization:
-      description: "持續優化"
+      description: '持續優化'
       inputs:
         - recommendations
         - approval_decisions
@@ -139,7 +140,7 @@ closed_loop_architecture:
         - updated_policies
         - refined_intents
         - improved_contracts
-      responsible: "Optimization Engine"
+      responsible: 'Optimization Engine'
 ```
 
 ### 2. 回饋數據收集 (Feedback Data Collection)
@@ -149,57 +150,57 @@ closed_loop_architecture:
 ```yaml
 feedback_collection:
   metrics:
-    - source: "policy_engine"
+    - source: 'policy_engine'
       metrics:
         - policy_compliance_rate
         - policy_violation_count
         - suppress_request_rate
         - policy_execution_time
-      collection_interval: "1m"
-    
-    - source: "intent_orchestrator"
+      collection_interval: '1m'
+
+    - source: 'intent_orchestrator'
       metrics:
         - intent_success_rate
         - translation_accuracy
         - semantic_consistency_score
         - auto_correction_frequency
-      collection_interval: "5m"
-    
-    - source: "agent_platform"
+      collection_interval: '5m'
+
+    - source: 'agent_platform'
       metrics:
         - agent_availability
         - agent_performance
         - permission_violations
         - rollback_frequency
-      collection_interval: "1m"
-    
-    - source: "contract_registry"
+      collection_interval: '1m'
+
+    - source: 'contract_registry'
       metrics:
         - contract_compliance_rate
         - breaking_change_frequency
         - compatibility_violations
-      collection_interval: "1h"
-  
+      collection_interval: '1h'
+
   events:
-    - type: "policy_violation"
-      severity: "high"
+    - type: 'policy_violation'
+      severity: 'high'
       notification: true
-    
-    - type: "agent_failure"
-      severity: "critical"
+
+    - type: 'agent_failure'
+      severity: 'critical'
       notification: true
-    
-    - type: "performance_degradation"
-      severity: "medium"
+
+    - type: 'performance_degradation'
+      severity: 'medium'
       notification: true
-  
+
   user_feedback:
     channels:
       - surveys
       - feedback_forms
       - support_tickets
       - code_reviews
-    frequency: "weekly"
+    frequency: 'weekly'
 ```
 
 ### 3. AI/ML 驅動分析 (AI/ML-Driven Analysis)
@@ -209,26 +210,26 @@ feedback_collection:
 ```yaml
 ai_ml_analysis:
   anomaly_detection:
-    algorithm: "isolation_forest"
-    sensitivity: "medium"
+    algorithm: 'isolation_forest'
+    sensitivity: 'medium'
     features:
       - policy_violation_rate
       - agent_error_rate
       - contract_breach_count
-    
+
     anomaly_types:
-      - sudden_spike: "Alert if metric increases >50% in 5 minutes"
-      - gradual_drift: "Alert if metric trends >20% over 24 hours"
-      - pattern_break: "Alert if pattern deviates from historical norm"
-  
+      - sudden_spike: 'Alert if metric increases >50% in 5 minutes'
+      - gradual_drift: 'Alert if metric trends >20% over 24 hours'
+      - pattern_break: 'Alert if pattern deviates from historical norm'
+
   root_cause_analysis:
-    method: "causal_inference"
-    
+    method: 'causal_inference'
+
     correlation_analysis:
       - policy_changes -> violation_rate
       - agent_updates -> failure_rate
       - load_increase -> performance_degradation
-    
+
     causal_graph:
       nodes:
         - policy_complexity
@@ -237,20 +238,20 @@ ai_ml_analysis:
       edges:
         - [policy_complexity, execution_time]
         - [execution_time, compliance_rate]
-  
+
   predictive_models:
-    - model: "time_series_forecasting"
-      target: "policy_violation_rate"
-      horizon: "7 days"
-      algorithm: "prophet"
-    
-    - model: "classification"
-      target: "agent_failure_risk"
+    - model: 'time_series_forecasting'
+      target: 'policy_violation_rate'
+      horizon: '7 days'
+      algorithm: 'prophet'
+
+    - model: 'classification'
+      target: 'agent_failure_risk'
       features:
         - agent_version
         - load_level
         - error_history
-      algorithm: "xgboost"
+      algorithm: 'xgboost'
 ```
 
 ### 4. 自動化優化建議 (Automated Optimization Recommendations)
@@ -260,54 +261,54 @@ ai_ml_analysis:
 ```yaml
 optimization_recommendations:
   policy_optimization:
-    - trigger: "policy_execution_time > 500ms"
+    - trigger: 'policy_execution_time > 500ms'
       recommendation:
-        type: "simplify_policy"
-        description: "Policy too complex, consider splitting"
-        expected_improvement: "40% faster execution"
-        risk: "low"
+        type: 'simplify_policy'
+        description: 'Policy too complex, consider splitting'
+        expected_improvement: '40% faster execution'
+        risk: 'low'
         approval_required: true
-    
-    - trigger: "suppress_request_rate > 15%"
+
+    - trigger: 'suppress_request_rate > 15%'
       recommendation:
-        type: "relax_policy"
-        description: "Policy too strict, causing high suppress rate"
-        expected_improvement: "Reduce suppress rate to <5%"
-        risk: "medium"
+        type: 'relax_policy'
+        description: 'Policy too strict, causing high suppress rate'
+        expected_improvement: 'Reduce suppress rate to <5%'
+        risk: 'medium'
         approval_required: true
-  
+
   intent_optimization:
-    - trigger: "translation_accuracy < 90%"
+    - trigger: 'translation_accuracy < 90%'
       recommendation:
-        type: "improve_semantic_mapping"
-        description: "Add more training examples"
-        expected_improvement: "Increase accuracy to >95%"
-        risk: "low"
+        type: 'improve_semantic_mapping'
+        description: 'Add more training examples'
+        expected_improvement: 'Increase accuracy to >95%'
+        risk: 'low'
         approval_required: false
-    
-    - trigger: "auto_correction_frequency > 20%"
+
+    - trigger: 'auto_correction_frequency > 20%'
       recommendation:
-        type: "refine_intent_templates"
-        description: "Intent templates need improvement"
-        expected_improvement: "Reduce corrections to <10%"
-        risk: "low"
+        type: 'refine_intent_templates'
+        description: 'Intent templates need improvement'
+        expected_improvement: 'Reduce corrections to <10%'
+        risk: 'low'
         approval_required: true
-  
+
   agent_optimization:
-    - trigger: "agent_availability < 99%"
+    - trigger: 'agent_availability < 99%'
       recommendation:
-        type: "increase_redundancy"
-        description: "Deploy additional agent instances"
-        expected_improvement: "Availability to 99.9%"
-        risk: "low"
+        type: 'increase_redundancy'
+        description: 'Deploy additional agent instances'
+        expected_improvement: 'Availability to 99.9%'
+        risk: 'low'
         approval_required: false
-    
-    - trigger: "rollback_frequency > 5%"
+
+    - trigger: 'rollback_frequency > 5%'
       recommendation:
-        type: "improve_testing"
-        description: "Enhance pre-deployment testing"
-        expected_improvement: "Reduce rollbacks to <2%"
-        risk: "low"
+        type: 'improve_testing'
+        description: 'Enhance pre-deployment testing'
+        expected_improvement: 'Reduce rollbacks to <2%'
+        risk: 'low'
         approval_required: true
 ```
 
@@ -318,82 +319,84 @@ optimization_recommendations:
 ```yaml
 ab_testing:
   experiment:
-    id: "exp-001"
-    name: "Simplified Policy Test"
-    hypothesis: "Simplifying policy will improve execution time without sacrificing compliance"
-    
+    id: 'exp-001'
+    name: 'Simplified Policy Test'
+    hypothesis:
+      'Simplifying policy will improve execution time without sacrificing
+      compliance'
+
     variants:
       control:
-        description: "Current policy"
+        description: 'Current policy'
         allocation: 50%
-      
+
       treatment:
-        description: "Simplified policy"
+        description: 'Simplified policy'
         allocation: 50%
-    
+
     metrics:
       primary:
         - policy_execution_time
         - compliance_rate
-      
+
       secondary:
         - user_satisfaction
         - violation_count
-    
-    duration: "14 days"
-    
+
+    duration: '14 days'
+
     success_criteria:
-      - "execution_time reduced by >30%"
-      - "compliance_rate maintained at >95%"
-    
+      - 'execution_time reduced by >30%'
+      - 'compliance_rate maintained at >95%'
+
     rollout_plan:
-      - phase: "canary"
+      - phase: 'canary'
         allocation: 5%
-        duration: "2 days"
-      
-      - phase: "gradual"
+        duration: '2 days'
+
+      - phase: 'gradual'
         allocation: 50%
-        duration: "7 days"
-      
-      - phase: "full"
+        duration: '7 days'
+
+      - phase: 'full'
         allocation: 100%
-        trigger: "success_criteria_met"
+        trigger: 'success_criteria_met'
 ```
 
 ## 🔄 Feedback Loop Execution | 回饋循環執行
 
 ```yaml
 feedback_loop_execution:
-  frequency: "continuous"
-  
+  frequency: 'continuous'
+
   workflow:
     1_collect:
-      description: "收集所有維度的回饋數據"
-      duration: "real-time"
-    
+      description: '收集所有維度的回饋數據'
+      duration: 'real-time'
+
     2_analyze:
-      description: "分析數據，識別異常與趨勢"
-      duration: "5 minutes"
-    
+      description: '分析數據，識別異常與趨勢'
+      duration: '5 minutes'
+
     3_recommend:
-      description: "生成優化建議"
-      duration: "10 minutes"
-    
+      description: '生成優化建議'
+      duration: '10 minutes'
+
     4_approve:
-      description: "人工審核高風險建議"
-      duration: "variable (within 24h)"
-    
+      description: '人工審核高風險建議'
+      duration: 'variable (within 24h)'
+
     5_implement:
-      description: "實施優化建議"
-      duration: "variable"
-    
+      description: '實施優化建議'
+      duration: 'variable'
+
     6_validate:
-      description: "驗證優化效果"
-      duration: "7 days"
-    
+      description: '驗證優化效果'
+      duration: '7 days'
+
     7_iterate:
-      description: "根據結果調整或回滾"
-      duration: "1 day"
+      description: '根據結果調整或回滾'
+      duration: '1 day'
 ```
 
 ## 🔗 Integration | 整合
@@ -414,17 +417,17 @@ technologies:
     - apache_kafka
     - apache_flink
     - apache_spark
-  
+
   analytics:
     - prometheus
     - grafana
     - elasticsearch
-  
+
   ml_platform:
     - scikit_learn
     - tensorflow
     - pytorch
-  
+
   experimentation:
     - statsig
     - optimizely

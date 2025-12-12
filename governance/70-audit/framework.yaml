@@ -13,7 +13,7 @@ metadata:
 # Audit Log Schema
 audit_log_schema:
   version: "1.0"
-  
+
   required_fields:
     - log_id
     - timestamp
@@ -21,7 +21,7 @@ audit_log_schema:
     - action
     - resource
     - outcome
-  
+
   optional_fields:
     - trace_id
     - correlation_id
@@ -34,12 +34,12 @@ log_collection:
     enabled: true
     streaming: true
     buffer_size: 10000
-  
+
   batch:
     enabled: true
     interval_seconds: 300
     batch_size: 5000
-  
+
   sources:
     - policy_engine
     - intent_orchestrator
@@ -55,19 +55,19 @@ storage:
     retention_days: 30
     indexing: true
     search: true
-  
+
   warm_storage:
     backend: "s3"
     retention_days: 365
     compression: true
     indexing: false
-  
+
   cold_storage:
     backend: "glacier"
     retention_years: 7
     compression: true
     encryption: true
-  
+
   archive:
     backend: "glacier_deep_archive"
     retention: "permanent"
@@ -76,20 +76,20 @@ storage:
 # Traceability
 traceability:
   trace_id_format: "uuid_v4"
-  
+
   propagation:
     enabled: true
     headers:
       - X-Trace-ID
       - X-Correlation-ID
       - X-Request-ID
-  
+
   trace_context:
     - intent_id
     - policy_id
     - contract_version
     - environment
-  
+
   chain_tracking:
     enabled: true
     max_depth: 50
@@ -97,13 +97,13 @@ traceability:
 # Data Lineage
 data_lineage:
   tracking_enabled: true
-  
+
   tracked_entities:
     - datasets
     - models
     - artifacts
     - configurations
-  
+
   lineage_graph:
     storage: "neo4j"
     query_api: true
@@ -117,11 +117,11 @@ model_provenance:
     - hyperparameters
     - evaluation_metrics
     - deployment_info
-  
+
   versioning:
     enabled: true
     immutable: true
-  
+
   attestation:
     required: true
     signers:
@@ -135,22 +135,22 @@ compliance_reporting:
     - name: "daily_summary"
       frequency: "daily"
       recipients: ["ops_team"]
-    
+
     - name: "weekly_compliance"
       frequency: "weekly"
       recipients: ["compliance_team"]
-    
+
     - name: "monthly_audit"
       frequency: "monthly"
       recipients: ["audit_committee"]
-  
+
   standards:
     - ISO/IEC 42001
     - NIST AI RMF
     - EU AI Act
     - SOX
     - GDPR
-  
+
   report_formats:
     - pdf
     - json
@@ -163,23 +163,23 @@ query_api:
     - path: "/api/v1/audit/search"
       method: "POST"
       description: "Search audit logs"
-    
+
     - path: "/api/v1/audit/trace/{trace_id}"
       method: "GET"
       description: "Get trace chain"
-    
+
     - path: "/api/v1/audit/lineage/{entity_id}"
       method: "GET"
       description: "Get data lineage"
-    
+
     - path: "/api/v1/audit/provenance/{model_id}"
       method: "GET"
       description: "Get model provenance"
-  
+
   authentication:
     required: true
     method: "jwt"
-  
+
   rate_limiting:
     enabled: true
     requests_per_minute: 100
@@ -190,13 +190,13 @@ access_control:
     - audit_team
     - compliance_team
     - security_team
-  
+
   write:
     - system_services
-  
+
   delete:
-    - none  # immutable logs
-  
+    - none # immutable logs
+
   export:
     - audit_team
     - compliance_team
@@ -205,20 +205,20 @@ access_control:
 # Retention Policy
 retention_policy:
   default_retention_days: 365
-  
+
   override_rules:
     - category: "security_events"
       retention_years: 7
-    
+
     - category: "compliance_events"
       retention_years: 10
-    
+
     - category: "financial_transactions"
       retention_years: 7
-  
+
   auto_deletion:
-    enabled: false  # require manual approval
-  
+    enabled: false # require manual approval
+
   legal_hold:
     supported: true
     override_retention: true
@@ -232,4 +232,3 @@ integrations:
   self_healing: "40-self-healing"
   contract_registry: "60-contracts"
   feedback_loop: "80-feedback"
-

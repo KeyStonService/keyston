@@ -1,29 +1,35 @@
 # PR #49 Workflow Failure Analysis
 
 **Date**: 2025-12-05  
-**PR**: #49 - Complete Integration: 11 Architecture Skeletons + CI/CD Hardening  
-**Status**: 6 failing, 3 cancelled, 2 skipped  
+**PR**: #49 - Complete Integration: 11 Architecture Skeletons + CI/CD
+Hardening  
+**Status**: 6 failing, 3 cancelled, 2 skipped
 
 ## Executive Summary
 
-Analysis of workflow failures on PR #49 after implementing all 5 phases of CI/CD hardening. This report identifies root causes and provides actionable fixes for all failing workflows.
+Analysis of workflow failures on PR #49 after implementing all 5 phases of CI/CD
+hardening. This report identifies root causes and provides actionable fixes for
+all failing workflows.
 
 ## Current Status
 
-| Status | Count | Workflows |
-|--------|-------|-----------|
-| ❌ Failing | 6 | To be identified |
-| ⏹️ Cancelled | 3 | Likely due to concurrency settings |
-| ⏭️ Skipped | 2 | Expected behavior (path filters, conditions) |
-| ✅ Passing | ~38 | Majority working correctly |
+| Status       | Count | Workflows                                    |
+| ------------ | ----- | -------------------------------------------- |
+| ❌ Failing   | 6     | To be identified                             |
+| ⏹️ Cancelled | 3     | Likely due to concurrency settings           |
+| ⏭️ Skipped   | 2     | Expected behavior (path filters, conditions) |
+| ✅ Passing   | ~38   | Majority working correctly                   |
 
 ## Root Cause Analysis
 
 ### Primary Issues Identified
 
-1. **Phase 4 Fail-Fast Changes**: Removed `|| true` and `continue-on-error` may have exposed pre-existing issues
-2. **Test Environment Dependencies**: Tests may require setup that was previously masked
-3. **Security Scan Thresholds**: New strict thresholds may flag existing vulnerabilities
+1. **Phase 4 Fail-Fast Changes**: Removed `|| true` and `continue-on-error` may
+   have exposed pre-existing issues
+2. **Test Environment Dependencies**: Tests may require setup that was
+   previously masked
+3. **Security Scan Thresholds**: New strict thresholds may flag existing
+   vulnerabilities
 4. **Path Filters**: Some workflows may have incorrect path configurations
 
 ## Detailed Failure Analysis
@@ -32,10 +38,14 @@ Analysis of workflow failures on PR #49 after implementing all 5 phases of CI/CD
 
 These are **GOOD failures** - they indicate the hardening is working:
 
-1. **02-test.yml**: If tests are actually failing, this should block (Phase 4 goal achieved)
-2. **06-security-scan.yml**: If vulnerabilities exist, this should block (Phase 4 goal achieved)
-3. **snyk-security.yml**: If critical/high vulnerabilities exist, this should block (Phase 4 goal achieved)
-4. **pr-security-gate.yml**: If security issues exist, this should block (Phase 4 goal achieved)
+1. **02-test.yml**: If tests are actually failing, this should block (Phase 4
+   goal achieved)
+2. **06-security-scan.yml**: If vulnerabilities exist, this should block (Phase
+   4 goal achieved)
+3. **snyk-security.yml**: If critical/high vulnerabilities exist, this should
+   block (Phase 4 goal achieved)
+4. **pr-security-gate.yml**: If security issues exist, this should block (Phase
+   4 goal achieved)
 
 ### Action Required
 
@@ -254,7 +264,9 @@ git push
 
 ## Conclusion
 
-The workflow failures on PR #49 are likely a **positive sign** that our Phase 4 fail-fast improvements are working correctly. Previously masked issues (failing tests, vulnerabilities) are now being properly caught and blocked.
+The workflow failures on PR #49 are likely a **positive sign** that our Phase 4
+fail-fast improvements are working correctly. Previously masked issues (failing
+tests, vulnerabilities) are now being properly caught and blocked.
 
 Our next steps are to:
 

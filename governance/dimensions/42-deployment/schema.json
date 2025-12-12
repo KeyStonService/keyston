@@ -17,11 +17,7 @@
         "mode": {
           "type": "string",
           "description": "Operating mode",
-          "enum": [
-            "strict",
-            "permissive",
-            "audit"
-          ],
+          "enum": ["strict", "permissive", "audit"],
           "default": "strict"
         },
         "settings": {
@@ -30,9 +26,7 @@
           "additionalProperties": true
         }
       },
-      "required": [
-        "enabled"
-      ]
+      "required": ["enabled"]
     },
     "context": {
       "type": "object",
@@ -48,11 +42,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [
-                "human",
-                "ai_agent",
-                "system"
-              ]
+              "enum": ["human", "ai_agent", "system"]
             },
             "id": {
               "type": "string"
@@ -93,9 +83,7 @@
           }
         }
       },
-      "required": [
-        "success"
-      ]
+      "required": ["success"]
     },
     "audit_log": {
       "type": "object",
@@ -126,23 +114,13 @@
         },
         "outcome": {
           "type": "string",
-          "enum": [
-            "success",
-            "failure",
-            "partial"
-          ]
+          "enum": ["success", "failure", "partial"]
         },
         "details": {
           "type": "object"
         }
       },
-      "required": [
-        "log_id",
-        "timestamp",
-        "dimension",
-        "action",
-        "outcome"
-      ]
+      "required": ["log_id", "timestamp", "dimension", "action", "outcome"]
     }
   },
   "properties": {
@@ -161,13 +139,7 @@
     "status": {
       "type": "string",
       "description": "Current status",
-      "enum": [
-        "pending",
-        "active",
-        "inactive",
-        "error",
-        "deprecated"
-      ]
+      "enum": ["pending", "active", "inactive", "error", "deprecated"]
     },
     "metadata": {
       "type": "object",
@@ -193,9 +165,6 @@
       }
     }
   },
-  "required": [
-    "id",
-    "status"
-  ],
+  "required": ["id", "status"],
   "additionalProperties": false
 }

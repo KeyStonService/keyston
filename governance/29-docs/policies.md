@@ -31,27 +31,27 @@ governance/
 
 ### 1. 安全策略
 
-| 策略 | 說明 |
-|------|------|
-| `no-secrets` | 禁止硬編碼密鑰 |
-| `secure-defaults` | 安全默認配置 |
-| `vulnerability-check` | 漏洞檢查 |
+| 策略                  | 說明           |
+| --------------------- | -------------- |
+| `no-secrets`          | 禁止硬編碼密鑰 |
+| `secure-defaults`     | 安全默認配置   |
+| `vulnerability-check` | 漏洞檢查       |
 
 ### 2. 合規策略
 
-| 策略 | 說明 |
-|------|------|
-| `gdpr-compliance` | GDPR 合規 |
-| `soc2-compliance` | SOC2 合規 |
+| 策略               | 說明       |
+| ------------------ | ---------- |
+| `gdpr-compliance`  | GDPR 合規  |
+| `soc2-compliance`  | SOC2 合規  |
 | `hipaa-compliance` | HIPAA 合規 |
 
 ### 3. 品質策略
 
-| 策略 | 說明 |
-|------|------|
-| `test-coverage` | 測試覆蓋率 >= 80% |
-| `lint-errors` | 零 lint 錯誤 |
-| `schema-validation` | Schema 驗證通過 |
+| 策略                | 說明              |
+| ------------------- | ----------------- |
+| `test-coverage`     | 測試覆蓋率 >= 80% |
+| `lint-errors`       | 零 lint 錯誤      |
+| `schema-validation` | Schema 驗證通過   |
 
 ---
 
@@ -80,7 +80,7 @@ opa eval -d governance/policies/opa/ -i input.json "data.policy.allow"
 
 ```yaml
 quality_gates:
-  test_coverage: ">= 80%"
+  test_coverage: '>= 80%'
   lint_errors: 0
   security_vulnerabilities: 0
   schema_validation: pass

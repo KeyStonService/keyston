@@ -13,7 +13,7 @@ metadata:
     tier: database
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: fast-ssd
   resources:
     requests:
@@ -28,7 +28,7 @@ metadata:
   namespace: autofix
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: fast-ssd
   resources:
     requests:
@@ -43,7 +43,7 @@ metadata:
   namespace: autofix
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: standard
   resources:
     requests:
@@ -61,7 +61,7 @@ metadata:
     tier: cache
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: fast-ssd
   resources:
     requests:
@@ -78,7 +78,7 @@ metadata:
     app: prometheus
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: standard
   resources:
     requests:
@@ -95,7 +95,7 @@ metadata:
     app: grafana
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: standard
   resources:
     requests:
@@ -112,7 +112,7 @@ metadata:
     app: loki
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: standard
   resources:
     requests:
@@ -129,7 +129,7 @@ metadata:
     app: elasticsearch
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: fast-ssd
   resources:
     requests:

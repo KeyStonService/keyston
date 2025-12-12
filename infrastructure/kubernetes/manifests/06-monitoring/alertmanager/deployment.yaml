@@ -14,28 +14,28 @@ spec:
         app: alertmanager
     spec:
       containers:
-      - name: alertmanager
-        image: prom/alertmanager:latest
-        ports:
-        - containerPort: 9093
-        args:
-        - '--config.file=/etc/alertmanager/alertmanager.yml'
-        - '--storage.path=/alertmanager'
-        volumeMounts:
-        - name: config
-          mountPath: /etc/alertmanager
-        - name: data
-          mountPath: /alertmanager
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - name: alertmanager
+          image: prom/alertmanager:latest
+          ports:
+            - containerPort: 9093
+          args:
+            - "--config.file=/etc/alertmanager/alertmanager.yml"
+            - "--storage.path=/alertmanager"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alertmanager
+            - name: data
+              mountPath: /alertmanager
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       volumes:
-      - name: config
-        configMap:
-          name: alertmanager-config
-      - name: data
-        emptyDir: {}
+        - name: config
+          configMap:
+            name: alertmanager-config
+        - name: data
+          emptyDir: {}

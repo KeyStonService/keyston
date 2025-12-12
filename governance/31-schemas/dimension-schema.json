@@ -67,7 +67,7 @@
         },
         "tags": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -111,7 +111,7 @@
     "schemaReference": {
       "type": "object",
       "properties": {
-        "path": {"type": "string"},
+        "path": { "type": "string" },
         "format": {
           "type": "string",
           "enum": ["json-schema", "openapi", "protobuf"]
@@ -125,7 +125,7 @@
     "policyReference": {
       "type": "object",
       "properties": {
-        "path": {"type": "string"},
+        "path": { "type": "string" },
         "engine": {
           "type": "string",
           "enum": ["opa", "kyverno", "custom"]
@@ -141,11 +141,11 @@
       "properties": {
         "required": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "optional": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -157,10 +157,10 @@
           "items": {
             "type": "object",
             "properties": {
-              "name": {"type": "string"},
-              "type": {"type": "string"},
-              "required": {"type": "boolean"},
-              "schema_ref": {"type": "string"}
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "required": { "type": "boolean" },
+              "schema_ref": { "type": "string" }
             }
           }
         },
@@ -169,9 +169,9 @@
           "items": {
             "type": "object",
             "properties": {
-              "name": {"type": "string"},
-              "type": {"type": "string"},
-              "schema_ref": {"type": "string"}
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "schema_ref": { "type": "string" }
             }
           }
         },
@@ -180,9 +180,9 @@
           "items": {
             "type": "object",
             "properties": {
-              "code": {"type": "string"},
-              "name": {"type": "string"},
-              "description": {"type": "string"}
+              "code": { "type": "string" },
+              "name": { "type": "string" },
+              "description": { "type": "string" }
             }
           }
         }
@@ -193,19 +193,19 @@
       "properties": {
         "invariants": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "preconditions": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "postconditions": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "side_effects": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -214,16 +214,16 @@
       "properties": {
         "states": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "transitions": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "from": {"type": "string"},
-              "to": {"type": "string"},
-              "trigger": {"type": "string"}
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "trigger": { "type": "string" }
             }
           }
         }
@@ -233,15 +233,15 @@
       "type": "object",
       "required": ["name", "type"],
       "properties": {
-        "name": {"type": "string"},
+        "name": { "type": "string" },
         "type": {
           "type": "string",
           "enum": ["counter", "gauge", "histogram", "summary"]
         },
-        "description": {"type": "string"},
+        "description": { "type": "string" },
         "labels": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -250,11 +250,11 @@
       "properties": {
         "frameworks": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "controls": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "audit_frequency": {
           "type": "string",

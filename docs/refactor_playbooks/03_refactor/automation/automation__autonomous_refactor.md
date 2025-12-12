@@ -15,7 +15,8 @@
 
 ### 角色說明
 
-本 cluster 是 **Unmanned Island System 的自主系統框架層**，在系統中扮演以下角色：
+本 cluster 是 **Unmanned Island
+System 的自主系統框架層**，在系統中扮演以下角色：
 
 - **五骨架自主系統（Five-Skeleton Autonomous System）**的實作
 - 提供無人機（Drone）與自駕車（Self-Driving）的控制與整合
@@ -56,7 +57,8 @@ autonomous/
 
 ### 語言治理問題彙總
 
-_待補充：從 `governance/language-governance-report.md` 提取 automation/autonomous 相關違規_
+_待補充：從 `governance/language-governance-report.md`
+提取 automation/autonomous 相關違規_
 
 預期問題類型：
 
@@ -68,9 +70,9 @@ _待補充：從 `governance/language-governance-report.md` 提取 automation/au
 
 根據 `apps/web/public/data/hotspot.json` 實際掃描結果：
 
-| 檔案 | Score | 嚴重性 | 問題描述 |
-|------|-------|--------|----------|
-| `automation/autonomous/flight_controller.lua` | 65 | MEDIUM | Lua 不應用於 autonomous 層，應使用 C++ 或 Python |
+| 檔案                                          | Score | 嚴重性 | 問題描述                                         |
+| --------------------------------------------- | ----- | ------ | ------------------------------------------------ |
+| `automation/autonomous/flight_controller.lua` | 65    | MEDIUM | Lua 不應用於 autonomous 層，應使用 C++ 或 Python |
 
 **分析**：
 
@@ -211,7 +213,8 @@ automation/autonomous/
 
 - 目標：移除語言違規，確保五骨架架構完整性
 - 行動項目（檔案層級）：
-  - ✅ **行動 1**：評估 `automation/autonomous/flight_controller.lua` (score: 65, MEDIUM)
+  - ✅ **行動 1**：評估 `automation/autonomous/flight_controller.lua` (score:
+    65, MEDIUM)
     - **步驟 1**：分析檔案功能（即時控制 vs 高階邏輯）
     - **步驟 2**：決定目標語言：
       - 如果是即時控制（< 10ms 延遲要求）→ **改寫為 C++**
@@ -221,7 +224,6 @@ automation/autonomous/
     - **步驟 5**：刪除原始 Lua 檔案
     - **預估時間**：8-16 小時（含模擬測試）
     - **風險評估**：中等（需要充分測試確保飛行安全）
-  
   - ✅ **行動 2**：檢查並加固安全機制
     - 驗證所有遠端控制通道使用加密（TLS/SSL）
     - 測試緊急停止機制的反應時間（< 100ms）
@@ -326,23 +328,23 @@ automation/autonomous/
 
 ### 語言治理指標
 
-| 指標 | 當前值 | 目標值 | 驗證方式 |
-|------|--------|--------|----------|
-| 語言違規數 | **1** (1 MEDIUM: Lua) | **0** | `npm run governance:check` |
-| Lua 檔案數 | **1** (`flight_controller.lua`) | **0** | `find automation/ -name "*.lua" \| wc -l` |
-| Python 型別覆蓋率 | 待測量 | > 80% | `mypy automation/autonomous/` |
-| C++ 靜態分析 | 待執行 | 0 warnings | `clang-tidy automation/autonomous/` |
-| Hotspot Score | **Max: 65** (flight_controller.lua) | < 50 | Review hotspot.json |
+| 指標              | 當前值                              | 目標值     | 驗證方式                                  |
+| ----------------- | ----------------------------------- | ---------- | ----------------------------------------- |
+| 語言違規數        | **1** (1 MEDIUM: Lua)               | **0**      | `npm run governance:check`                |
+| Lua 檔案數        | **1** (`flight_controller.lua`)     | **0**      | `find automation/ -name "*.lua" \| wc -l` |
+| Python 型別覆蓋率 | 待測量                              | > 80%      | `mypy automation/autonomous/`             |
+| C++ 靜態分析      | 待執行                              | 0 warnings | `clang-tidy automation/autonomous/`       |
+| Hotspot Score     | **Max: 65** (flight_controller.lua) | < 50       | Review hotspot.json                       |
 
 ### 安全指標
 
-| 嚴重性 | 當前數量 | 目標數量 | 驗證方式 |
-|--------|----------|----------|----------|
-| CRITICAL | **0** ✅ | 0 | Semgrep 掃描 |
-| HIGH | **0** ✅ | 0 | Semgrep + 手動代碼審查 |
-| MEDIUM | **0** ✅ | <= 2 | Semgrep |
-| 記憶體洩漏 | 待檢測 | 0 | Valgrind / AddressSanitizer |
-| 緊急停止反應時間 | 待測量 | < 100ms | 壓力測試 |
+| 嚴重性           | 當前數量 | 目標數量 | 驗證方式                    |
+| ---------------- | -------- | -------- | --------------------------- |
+| CRITICAL         | **0** ✅ | 0        | Semgrep 掃描                |
+| HIGH             | **0** ✅ | 0        | Semgrep + 手動代碼審查      |
+| MEDIUM           | **0** ✅ | <= 2     | Semgrep                     |
+| 記憶體洩漏       | 待檢測   | 0        | Valgrind / AddressSanitizer |
+| 緊急停止反應時間 | 待測量   | < 100ms  | 壓力測試                    |
 
 ### 架構指標
 
@@ -433,7 +435,8 @@ automation/autonomous/
 
 ### 關鍵檔案說明
 
-- **perception/ros2_nodes/sensor_fusion_node/** - 多感測器融合（LiDAR + Camera + IMU）
+- **perception/ros2_nodes/sensor_fusion_node/** - 多感測器融合（LiDAR + Camera +
+  IMU）
 - **planning/ros2_nodes/path_planner_node/** - 即時路徑規劃與避障
 - **control/ros2_nodes/motor_controller_node/** - 低階馬達控制與 PID 調節
 - **communication/api_gateway/** - 遠端控制與遙測的 HTTP/gRPC API
@@ -447,22 +450,22 @@ automation/autonomous/
 
 本 cluster 依賴以下服務：
 
-| 服務 | 介面類型 | 用途 |
-|------|----------|------|
-| `core/ai_engines/decision` | Python Module | AI 決策支援 |
-| `core/safety_mechanisms` | Python Module | 安全機制整合 |
-| ROS2 Humble | ROS2 | 機器人作業系統 |
-| Gazebo | Simulation | 模擬環境 |
+| 服務                       | 介面類型      | 用途           |
+| -------------------------- | ------------- | -------------- |
+| `core/ai_engines/decision` | Python Module | AI 決策支援    |
+| `core/safety_mechanisms`   | Python Module | 安全機制整合   |
+| ROS2 Humble                | ROS2          | 機器人作業系統 |
+| Gazebo                     | Simulation    | 模擬環境       |
 
 ### 下游使用者
 
 本 cluster 被以下服務使用：
 
-| 服務 | 介面類型 | 使用方式 |
-|------|----------|----------|
-| `automation/intelligent` | ROS2 Topics | 高階智能決策 |
-| External: Drone Control UI | HTTP API | 遠端控制介面 |
-| External: Monitoring | gRPC | 遙測與監控 |
+| 服務                       | 介面類型    | 使用方式     |
+| -------------------------- | ----------- | ------------ |
+| `automation/intelligent`   | ROS2 Topics | 高階智能決策 |
+| External: Drone Control UI | HTTP API    | 遠端控制介面 |
+| External: Monitoring       | gRPC        | 遙測與監控   |
 
 ### 集成步驟摘要
 

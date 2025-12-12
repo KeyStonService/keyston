@@ -23,13 +23,13 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to create staging branch for'
+        description: "PR number to create staging branch for"
         required: true
         type: number
 
 permissions:
-  contents: write        # Required to create and push branches
-  pull-requests: write   # Required to edit PR base branch
+  contents: write # Required to create and push branches
+  pull-requests: write # Required to edit PR base branch
 
 jobs:
   ensure-base-is-staging:
@@ -46,18 +46,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -xeo pipefail
-          
+
           # Validate inputs
           if [ -z "$PR_NUMBER" ]; then
             echo "❌ PR number is required"
             exit 1
           fi
-          
+
           # Generate staging branch name following GitHub Advisory Database pattern
           BRANCH_NAME="${PR_AUTHOR}/advisory-improvement-${PR_NUMBER}"
-          
+
           echo "📋 Creating staging branch: $BRANCH_NAME"
-          
+
           # Check if branch already exists
           if git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
             echo "ℹ️ Staging branch already exists, skipping creation"
@@ -67,7 +67,7 @@ jobs:
             git push origin "$BRANCH_NAME"
             echo "✅ Staging branch created: $BRANCH_NAME"
           fi
-          
+
           # Update PR base branch
           echo "🔄 Updating PR #${PR_NUMBER} base branch to: $BRANCH_NAME"
           gh pr edit --repo ${{ github.repository }} "$PR_NUMBER" --base "$BRANCH_NAME"

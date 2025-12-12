@@ -16,7 +16,8 @@
 
 ## 🎯 Core Concept | 核心概念
 
-**Policy as Code (PaC)**: 將治理規則、合規政策與業務邏輯以程式碼形式定義，並嵌入 CI/CD 流程，實現自動化審核、彈性抑制與持續演進。**所有配置立即可用，無需額外設定。**
+**Policy as Code
+(PaC)**: 將治理規則、合規政策與業務邏輯以程式碼形式定義，並嵌入 CI/CD 流程，實現自動化審核、彈性抑制與持續演進。**所有配置立即可用，無需額外設定。**
 
 ## 📋 Responsibility | 責任範圍
 
@@ -71,10 +72,10 @@ scope:
 
 ```yaml
 phases:
-  1_explore: "探索期 - 規則制定與共識建立"
-  2_silent: "無感期 - 規則靜默執行，不阻擋流程"
-  3_adapt: "適應期 - 規則警告，促進團隊適應"
-  4_enforce: "落實期 - 規則強制執行"
+  1_explore: '探索期 - 規則制定與共識建立'
+  2_silent: '無感期 - 規則靜默執行，不阻擋流程'
+  3_adapt: '適應期 - 規則警告，促進團隊適應'
+  4_enforce: '落實期 - 規則強制執行'
 ```
 
 ### 3. Suppress 機制
@@ -83,10 +84,10 @@ phases:
 
 ```yaml
 suppress_request:
-  policy_id: "SEC-001"
-  reason: "Legacy system migration, requires temporary exception"
-  approver: "security-team@example.com"
-  expiry_date: "2025-12-31"
+  policy_id: 'SEC-001'
+  reason: 'Legacy system migration, requires temporary exception'
+  approver: 'security-team@example.com'
+  expiry_date: '2025-12-31'
   audit_trail: true
 ```
 
@@ -96,11 +97,11 @@ suppress_request:
 
 ```yaml
 policy_gate:
-  stage: "ci"
+  stage: 'ci'
   policies:
     - architecture-policies
     - security-policies
-  enforcement_level: "blocking"
+  enforcement_level: 'blocking'
   notification: true
 ```
 

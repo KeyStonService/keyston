@@ -10,26 +10,26 @@ maturity_levels:
     characteristics:
       - "Reactive security"
       - "No formal processes"
-  
+
   level_2_managed:
     description: "Basic security controls"
     characteristics:
       - "Documented policies"
       - "Basic controls implemented"
-  
+
   level_3_defined:
     description: "Standardized security"
     characteristics:
       - "Comprehensive framework"
       - "Regular assessments"
     current_status: "SynergyMesh is here"
-  
+
   level_4_measured:
     description: "Metrics-driven security"
     characteristics:
       - "Quantitative metrics"
       - "Continuous monitoring"
-  
+
   level_5_optimized:
     description: "Continuous improvement"
     characteristics:

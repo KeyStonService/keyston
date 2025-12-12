@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Security Governance** dimension.
+This directory contains the autonomous automation engine for the **Security
+Governance** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = SecurityGovernanceEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: security_governance
-**Dimension Name**: Security Governance
+**Dimension ID**: security_governance **Dimension Name**: Security Governance
 **Status**: Active

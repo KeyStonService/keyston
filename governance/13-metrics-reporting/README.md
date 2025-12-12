@@ -1,13 +1,15 @@
 # 治理指標與報告 | Governance Metrics and Reporting
 
-> 治理指標、報告體系、發佈機制
-> Governance metrics, reporting systems, and distribution mechanisms
+> 治理指標、報告體系、發佈機制Governance metrics, reporting systems, and
+> distribution mechanisms
 
 ## 📋 概述 | Overview
 
 治理指標與報告維度定義了治理績效的度量指標、報告體系和定期發佈機制，確保治理可視化和透明化。
 
-The Governance Metrics and Reporting dimension defines the governance performance measurement metrics, reporting systems, and periodic distribution mechanisms to ensure governance visibility and transparency.
+The Governance Metrics and Reporting dimension defines the governance
+performance measurement metrics, reporting systems, and periodic distribution
+mechanisms to ensure governance visibility and transparency.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -65,6 +67,5 @@ governance-metrics/
 
 ---
 
-**Owner 負責人**: Governance Metrics and Reporting Team
-**Last Updated 最後更新**: 2025-12-09
-**Status 狀態**: Active
+**Owner 負責人**: Governance Metrics and Reporting Team **Last
+Updated 最後更新**: 2025-12-09 **Status 狀態**: Active

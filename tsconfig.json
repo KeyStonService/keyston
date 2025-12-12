@@ -50,10 +50,7 @@
       "@validation/*": ["validation/*"]
     },
 
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ]
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
 
   "files": [],

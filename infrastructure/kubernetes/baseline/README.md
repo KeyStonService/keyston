@@ -2,7 +2,9 @@
 
 ## 📋 Overview / 概覽
 
-This directory contains the foundational Kubernetes resources extracted from the 6 baseline YAML files. These resources establish the constitutional-level (L-A) governance, security, and operational standards for the entire cluster.
+This directory contains the foundational Kubernetes resources extracted from the
+6 baseline YAML files. These resources establish the constitutional-level (L-A)
+governance, security, and operational standards for the entire cluster.
 
 本目錄包含從 6 個基線 YAML 檔案中提取的基礎 Kubernetes 資源。這些資源為整個集群建立憲法級別 (L-A) 的治理、安全和營運標準。
 
@@ -63,7 +65,9 @@ kubectl apply -f baseline-06-quantum-orchestration.yaml  # optional
 
 ## 📚 Documentation
 
-See [KUBERNETES_BASELINE_GUIDE.md](../../../docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md) for detailed deployment guide.
+See
+[KUBERNETES_BASELINE_GUIDE.md](../../../docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md)
+for detailed deployment guide.
 
 **Version:** v1.0.0  
 **Maintainers:** Platform Engineering Team

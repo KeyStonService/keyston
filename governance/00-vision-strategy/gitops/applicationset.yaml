@@ -22,7 +22,7 @@ spec:
             namespace: governance
   template:
     metadata:
-      name: 'gac-{{name}}'
+      name: "gac-{{name}}"
       labels:
         gac-phase: "3-gitops"
         governance-tier: "strategic"
@@ -31,10 +31,10 @@ spec:
       source:
         repoURL: https://github.com/SynergyMesh-admin/SynergyMesh.git
         targetRevision: main
-        path: 'governance/00-vision-strategy/{{path}}'
+        path: "governance/00-vision-strategy/{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: "{{namespace}}"
       syncPolicy:
         automated:
           prune: true

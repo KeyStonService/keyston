@@ -4,7 +4,9 @@
 
 ## 📋 Overview
 
-This document defines the Python code quality standards for the SynergyMesh project, ensuring consistent, maintainable, and error-free Python code across all modules.
+This document defines the Python code quality standards for the SynergyMesh
+project, ensuring consistent, maintainable, and error-free Python code across
+all modules.
 
 本文檔定義了 SynergyMesh 項目的 Python 代碼質量標準，確保所有模組的 Python 代碼一致、可維護且無錯誤。
 
@@ -248,8 +250,7 @@ To meet the project's INSTANT execution standards:
 SyntaxError: invalid syntax
 ```
 
-**Fix:**
-Add commas between all items in the list.
+**Fix:** Add commas between all items in the list.
 
 #### Import Not Found
 
@@ -259,8 +260,7 @@ Add commas between all items in the list.
 AttributeError: module 'tools.refactor' has no attribute 'ClassName'
 ```
 
-**Fix:**
-Either:
+**Fix:** Either:
 
 1. Add `__getattr__` for lazy loading, OR
 2. Add explicit import: `from .module import ClassName`
@@ -273,19 +273,18 @@ Either:
 ImportError: cannot import name 'X' from partially initialized module
 ```
 
-**Fix:**
-Use lazy loading with `__getattr__` to defer imports until needed.
+**Fix:** Use lazy loading with `__getattr__` to defer imports until needed.
 
 ## 📊 Quality Metrics
 
 Track these metrics for code quality:
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| Syntax errors | 0 | 0 ✅ |
-| Linting warnings | < 10 | TBD |
-| Test coverage | > 80% | TBD |
-| Type hint coverage | > 70% | TBD |
+| Metric             | Target | Current |
+| ------------------ | ------ | ------- |
+| Syntax errors      | 0      | 0 ✅    |
+| Linting warnings   | < 10   | TBD     |
+| Test coverage      | > 80%  | TBD     |
+| Type hint coverage | > 70%  | TBD     |
 
 ## 🔄 Continuous Improvement
 

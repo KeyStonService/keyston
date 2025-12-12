@@ -4,9 +4,11 @@
 
 ## 概述 Overview
 
-本文檔描述了 Automation Architect 系統的 API 接口，包括代碼分析、自動修復和監控等功能。
+本文檔描述了 Automation
+Architect 系統的 API 接口，包括代碼分析、自動修復和監控等功能。
 
-This document describes the API interfaces of the Automation Architect system, including code analysis, auto-repair, and monitoring capabilities.
+This document describes the API interfaces of the Automation Architect system,
+including code analysis, auto-repair, and monitoring capabilities.
 
 ## 目錄 Table of Contents
 
@@ -72,14 +74,14 @@ from automation_architect.core.orchestration.pipeline import AnalysisPipeline
 
 async def main():
     pipeline = AnalysisPipeline()
-    
+
     result = await pipeline.analyze(
         code_path="/path/to/code",
         scenario='drone-systems',
         enable_repair=True,
         enable_verification=True
     )
-    
+
     if result.success:
         print(f"Analysis completed in {result.execution_time_ms:.2f}ms")
         print(f"Static Analysis: {result.analysis_results['static_analysis']}")
@@ -125,15 +127,15 @@ from automation_architect.core.analysis import StaticAnalyzer
 
 async def analyze_code():
     analyzer = StaticAnalyzer()
-    
+
     result = await analyzer.analyze(
         code_path="/path/to/file.py",
         language='python'
     )
-    
+
     print(f"Total issues: {len(result.issues)}")
     print(f"Severity counts: {result.severity_counts}")
-    
+
     for issue in result.issues:
         print(f"  - {issue['type']}: {issue['message']} (Line {issue['line']})")
 ```
@@ -174,19 +176,19 @@ from automation_architect.core.analysis import SecurityScanner
 
 async def scan_security():
     scanner = SecurityScanner()
-    
+
     issues = await scanner.scan(
         code_path="/path/to/code",
         severity_filter=['critical', 'high']
     )
-    
+
     # 生成報告
     report = scanner.generate_report(issues)
-    
+
     print(f"Total security issues: {report['total_issues']}")
     print(f"Critical issues: {report['severity_counts']['critical']}")
     print(f"High issues: {report['severity_counts']['high']}")
-    
+
     if report['critical_files']:
         print("\nFiles with critical issues:")
         for file in report['critical_files']:
@@ -217,12 +219,12 @@ from automation_architect.core.analysis import PerformanceAnalyzer
 
 async def analyze_performance():
     analyzer = PerformanceAnalyzer()
-    
+
     issues = await analyzer.analyze(
         code_path="/path/to/code",
         profiling=True
     )
-    
+
     for issue in issues:
         print(f"{issue.type}: {issue.message}")
         print(f"  File: {issue.file}, Line: {issue.line}")
@@ -300,12 +302,12 @@ from automation_architect.core.repair import RuleEngine
 
 async def auto_fix():
     engine = RuleEngine()
-    
+
     result = await engine.apply_fixes(
         file_path="/path/to/file.py",
         auto_only=True
     )
-    
+
     if result.success:
         print(f"Applied {len(result.rules_applied)} rules")
         print(f"Made {result.changes_made} changes")
@@ -336,18 +338,18 @@ from automation_architect.core.repair import ASTTransformer
 
 async def transform_code():
     transformer = ASTTransformer()
-    
+
     original_code = """
     def example():
         x = 1
         return x
     """
-    
+
     transformed = await transformer.transform(
         code=original_code,
         language='python'
     )
-    
+
     print("Transformed code:")
     print(transformed)
 ```
@@ -464,16 +466,16 @@ api_token = os.environ.get('AUTOMATION_ARCHITECT_TOKEN')
 
 ### 錯誤代碼 Error Codes
 
-| 代碼 | 描述 |
-|------|------|
-| 1000 | 一般錯誤 |
+| 代碼 | 描述       |
+| ---- | ---------- |
+| 1000 | 一般錯誤   |
 | 1001 | 文件未找到 |
-| 1002 | 語法錯誤 |
-| 1003 | 配置錯誤 |
-| 2000 | 分析失敗 |
-| 2001 | 掃描超時 |
-| 3000 | 修復失敗 |
-| 3001 | 驗證失敗 |
+| 1002 | 語法錯誤   |
+| 1003 | 配置錯誤   |
+| 2000 | 分析失敗   |
+| 2001 | 掃描超時   |
+| 3000 | 修復失敗   |
+| 3001 | 驗證失敗   |
 
 ### 異常處理示例
 
@@ -482,17 +484,17 @@ from automation_architect.core.orchestration.pipeline import AnalysisPipeline
 
 async def safe_analysis():
     pipeline = AnalysisPipeline()
-    
+
     try:
         result = await pipeline.analyze("/path/to/code")
-        
+
         if not result.success:
             print(f"Analysis failed: {result.message}")
             return
-        
+
         # 處理結果
         process_results(result)
-        
+
     except FileNotFoundError:
         print("Code path not found")
     except TimeoutError:
@@ -513,14 +515,14 @@ from automation_architect.core.orchestration.pipeline import AnalysisPipeline
 
 async def batch_analyze(file_paths):
     pipeline = AnalysisPipeline()
-    
+
     tasks = [
         pipeline.analyze(path, scenario='general')
         for path in file_paths
     ]
-    
+
     results = await asyncio.gather(*tasks, return_exceptions=True)
-    
+
     for path, result in zip(file_paths, results):
         if isinstance(result, Exception):
             print(f"Failed to analyze {path}: {result}")
@@ -560,7 +562,7 @@ class CustomAnalyzer(StaticAnalyzer):
         issues = []
         # 添加自定義檢查
         return issues
-    
+
     async def analyze(self, code_path: str, **kwargs):
         result = await super().analyze(code_path, **kwargs)
         # 添加自定義分析

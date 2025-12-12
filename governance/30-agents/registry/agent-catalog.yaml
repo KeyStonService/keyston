@@ -17,21 +17,21 @@ agents:
     description: "Intelligent automation agent for the Unmanned Island System platform"
     version: "2.0.0"
     status: "active"
-    
+
     # Lifecycle
     lifecycle:
       stage: "production"
       deployed_at: "2025-12-11T16:00:00Z"
       last_updated: "2025-12-11T16:00:00Z"
       next_review: "2026-03-11T16:00:00Z"
-    
+
     # Owner & Responsibility
     ownership:
       team: "SynergyMesh Core Team"
       owner: "AI Agent Governance Team"
       contact: "governance@synergymesh.io"
       on_call: "platform-team"
-    
+
     # Capabilities
     capabilities:
       - intelligent_automation
@@ -39,7 +39,7 @@ agents:
       - autonomous_operation
       - governance_compliance
       - behavior_contract_enforcement
-    
+
     # Permissions
     permissions:
       read:
@@ -54,14 +54,14 @@ agents:
         - "automation.deploy"
         - "automation.monitor"
         - "automation.heal"
-    
+
     # Resource Limits
     resource_limits:
       memory: "2GB"
       cpu: "1 core"
       network_bandwidth: "50 Mbps"
       max_concurrent_tasks: 10
-    
+
     # Compliance
     compliance:
       standards:
@@ -71,7 +71,7 @@ agents:
       audit_frequency: "monthly"
       last_audit: "2025-12-11"
       next_audit: "2026-01-11"
-    
+
     # Integration
     integrations:
       - name: "SynergyMesh Core"
@@ -88,7 +88,7 @@ agents:
         status: "active"
         module: "v2-multi-islands/orchestrator/island_orchestrator.py"
         governance_module: "v2-multi-islands/governance_integration.py"
-    
+
     # Monitoring
     monitoring:
       health_check_url: "/health"
@@ -97,7 +97,7 @@ agents:
       alert_channels:
         - "slack://platform-alerts"
         - "email://governance@synergymesh.io"
-    
+
     # Deployment
     deployment:
       method: "instant"
@@ -105,7 +105,7 @@ agents:
       rollback_enabled: true
       canary_enabled: true
       auto_scaling: true
-    
+
     # Documentation
     documentation:
       agent_file: ".github/agents/my-agent.agent.md"
@@ -121,7 +121,7 @@ statistics:
   active_agents: 1
   deprecated_agents: 0
   under_development: 0
-  
+
 # Catalog Metadata
 catalog_metadata:
   last_sync: "2025-12-11T16:00:00Z"

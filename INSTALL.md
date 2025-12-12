@@ -4,7 +4,8 @@
 
 **🚀 跨平台安裝說明 | Cross-Platform Installation Instructions**
 
-支援 Windows, macOS, Linux 和 Docker | Supporting Windows, macOS, Linux, and Docker
+支援 Windows, macOS, Linux 和 Docker | Supporting Windows, macOS, Linux, and
+Docker
 
 </div>
 
@@ -27,12 +28,12 @@
 
 ### 最低配置 | Minimum Requirements
 
-| 組件 | 要求 | Component | Requirement |
-|------|------|-----------|-------------|
-| **CPU** | 2 核心 | **CPU** | 2 cores |
-| **記憶體** | 4 GB RAM | **Memory** | 4 GB RAM |
+| 組件         | 要求          | Component   | Requirement     |
+| ------------ | ------------- | ----------- | --------------- |
+| **CPU**      | 2 核心        | **CPU**     | 2 cores         |
+| **記憶體**   | 4 GB RAM      | **Memory**  | 4 GB RAM        |
 | **儲存空間** | 2 GB 可用空間 | **Storage** | 2 GB free space |
-| **作業系統** | 見下方 | **OS** | See below |
+| **作業系統** | 見下方        | **OS**      | See below       |
 
 ### 支援的作業系統 | Supported Operating Systems
 
@@ -471,7 +472,8 @@ docker-compose up -d
 
 - **文檔**: <https://github.com/SynergyMesh-admin/SynergyMesh/tree/main/docs>
 - **Issues**: <https://github.com/SynergyMesh-admin/SynergyMesh/issues>
-- **Discussions**: <https://github.com/SynergyMesh-admin/SynergyMesh/discussions>
+- **Discussions**:
+  <https://github.com/SynergyMesh-admin/SynergyMesh/discussions>
 
 ---
 

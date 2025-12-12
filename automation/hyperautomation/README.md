@@ -2,7 +2,8 @@
 
 ## 概述
 
-Intelligent Hyperautomation 是一個整合「核心理念與定位」與「無人機/自動駕駛核心規範」的平台中立模板套件，提供治理、驗證與自動化準則。
+Intelligent
+Hyperautomation 是一個整合「核心理念與定位」與「無人機/自動駕駛核心規範」的平台中立模板套件，提供治理、驗證與自動化準則。
 
 ## 特點
 
@@ -55,14 +56,14 @@ metadata:
   name: uav-controller
   labels:
     # 標準標籤
-    namespace.io/managed-by: "platform-team"
-    namespace.io/domain: "uav"
-    namespace.io/environment: "production"
-    namespace.io/lifecycle: "stable"
+    namespace.io/managed-by: 'platform-team'
+    namespace.io/domain: 'uav'
+    namespace.io/environment: 'production'
+    namespace.io/lifecycle: 'stable'
     # UAV/AD 特定標籤
-    uav.io/system: "uav"
-    uav.io/safety-level: "L4"
-    uav.io/risk-category: "high"
+    uav.io/system: 'uav'
+    uav.io/safety-level: 'L4'
+    uav.io/risk-category: 'high'
 spec:
   # ... deployment spec
 ```
@@ -75,10 +76,10 @@ kind: ConfigMap
 metadata:
   name: uav-geo-config
   labels:
-    uav.io/system: "uav"
+    uav.io/system: 'uav'
 data:
-  geo.fence.enabled: "true"
-  geo.fence.regions: "TW-Taipei, TW-Taichung, JP-Tokyo"
+  geo.fence.enabled: 'true'
+  geo.fence.regions: 'TW-Taipei, TW-Taichung, JP-Tokyo'
 ```
 
 ### 4. 驗證策略
@@ -128,8 +129,8 @@ kubectl apply -f policies/gatekeeper/ --dry-run=server
 
 驗證資源包含必要標籤：
 
-- namespace.io/* 標準標籤
-- uav.io/* UAV/AD 特定標籤
+- namespace.io/\* 標準標籤
+- uav.io/\* UAV/AD 特定標籤
 
 #### geo-fencing.yaml
 
@@ -143,24 +144,24 @@ kubectl apply -f policies/gatekeeper/ --dry-run=server
 
 ### 標準命名空間標籤
 
-| 標籤 | 說明 | 範例值 |
-|------|------|--------|
-| namespace.io/managed-by | 管理者 | platform-team |
-| namespace.io/domain | 業務領域 | uav, ad |
-| namespace.io/team | 負責團隊 | robotics |
-| namespace.io/environment | 環境 | dev, staging, production |
-| namespace.io/region | 地理區域 | asia-east1 |
-| namespace.io/lifecycle | 生命週期 | experimental, stable, deprecated |
+| 標籤                     | 說明     | 範例值                           |
+| ------------------------ | -------- | -------------------------------- |
+| namespace.io/managed-by  | 管理者   | platform-team                    |
+| namespace.io/domain      | 業務領域 | uav, ad                          |
+| namespace.io/team        | 負責團隊 | robotics                         |
+| namespace.io/environment | 環境     | dev, staging, production         |
+| namespace.io/region      | 地理區域 | asia-east1                       |
+| namespace.io/lifecycle   | 生命週期 | experimental, stable, deprecated |
 
 ### UAV/AD 特定標籤
 
-| 標籤 | 說明 | 範例值 |
-|------|------|--------|
-| uav.io/system | 系統類型 | uav, ad |
-| uav.io/safety-level | 安全等級 | L0-L5 |
-| uav.io/risk-category | 風險類別 | low, medium, high |
-| uav.io/geo-fence-enabled | 地理圍欄狀態 | true, false |
-| uav.io/emergency-stop | 緊急停止狀態 | enabled, disabled |
+| 標籤                     | 說明         | 範例值            |
+| ------------------------ | ------------ | ----------------- |
+| uav.io/system            | 系統類型     | uav, ad           |
+| uav.io/safety-level      | 安全等級     | L0-L5             |
+| uav.io/risk-category     | 風險類別     | low, medium, high |
+| uav.io/geo-fence-enabled | 地理圍欄狀態 | true, false       |
+| uav.io/emergency-stop    | 緊急停止狀態 | enabled, disabled |
 
 ## 安全與合規
 
@@ -210,14 +211,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Conftest
         run: |
           curl -L https://github.com/open-policy-agent/conftest/releases/download/v0.47.0/conftest_0.47.0_Linux_x86_64.tar.gz | tar xz
           sudo mv conftest /usr/local/bin/
-      
+
       - name: Validate policies
-        run: conftest test manifests/ -p intelligent-hyperautomation/policies/rego/
+        run:
+          conftest test manifests/ -p intelligent-hyperautomation/policies/rego/
 ```
 
 ## GitOps 部署

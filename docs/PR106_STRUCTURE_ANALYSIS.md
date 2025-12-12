@@ -5,7 +5,9 @@
 **分析日期 (Analysis Date)**: 2025-12-11  
 **分析者 (Analyst)**: GitHub Copilot Coding Agent  
 **PR 編號 (PR Number)**: #106  
-**PR 標題 (PR Title)**: Complete /docs/ restructure + governance/00-vision-strategy (P0) with GaC foundation & seamless agent handoff  
+**PR 標題 (PR Title)**: Complete /docs/ restructure +
+governance/00-vision-strategy (P0) with GaC foundation & seamless agent
+handoff  
 **PR 狀態 (PR Status)**: ✅ MERGED (2025-12-11T01:52:53Z)
 
 ---
@@ -14,7 +16,8 @@
 
 ### 英文翻譯 (English Translation)
 
-**原文**: "Development Successfully merging this pull request may close these issues."  
+**原文**: "Development Successfully merging this pull request may close these
+issues."  
 **中文翻譯**: "開發中 - 成功合併此拉取請求可能會關閉這些問題。"
 
 ### PR #106 主要目標
@@ -142,7 +145,8 @@ superroot-entities.yaml     ❌ 應該在 docs/generated/
 unmanned-island.mndoc.yaml  ✅ (此文件不在聲稱的遷移清單)
 ```
 
-**結論**: ❌ **未完成** - `docs/generated/` 目錄不存在，生成文件仍在 docs/ 根目錄
+**結論**: ❌ **未完成** - `docs/generated/`
+目錄不存在，生成文件仍在 docs/ 根目錄
 
 **影響**:
 
@@ -184,7 +188,8 @@ $ make all-kg
 
 - 1511-1512 nodes (varies based on repo state)
 - 1510-1511 edges (directed graph structure)
-- Note: Count differences vs PR #106 (1504 nodes) are expected due to ongoing development
+- Note: Count differences vs PR #106 (1504 nodes) are expected due to ongoing
+  development
 
 ---
 
@@ -273,15 +278,15 @@ git mv docs/superroot-entities.yaml docs/generated/
 
 ## 📈 完成度評分 (Completion Score)
 
-| 目標 (Goal) | 聲稱狀態 | 實際狀態 | 完成度 |
-|------------|---------|---------|-------|
-| P0: 治理統一 | ✅ 完成 | ✅ 完成 | 100% |
-| P0: 願景戰略框架 | ✅ 完成 | ✅ 完成 | 100% |
-| P0: GaC 基礎 | ✅ 完成 | ✅ 完成 | 100% |
-| P1: 目錄合併 | ✅ 完成 | ✅ 完成 | 100% |
-| **P2: 生成文件隔離** | ✅ 完成 | ❌ **未完成** | **0%** |
-| 文檔驗證 | ✅ 通過 | ✅ 通過 | 100% |
-| 知識圖譜 | ✅ 成功 | ✅ 成功 | 100% |
+| 目標 (Goal)          | 聲稱狀態 | 實際狀態      | 完成度 |
+| -------------------- | -------- | ------------- | ------ |
+| P0: 治理統一         | ✅ 完成  | ✅ 完成       | 100%   |
+| P0: 願景戰略框架     | ✅ 完成  | ✅ 完成       | 100%   |
+| P0: GaC 基礎         | ✅ 完成  | ✅ 完成       | 100%   |
+| P1: 目錄合併         | ✅ 完成  | ✅ 完成       | 100%   |
+| **P2: 生成文件隔離** | ✅ 完成  | ❌ **未完成** | **0%** |
+| 文檔驗證             | ✅ 通過  | ✅ 通過       | 100%   |
+| 知識圖譜             | ✅ 成功  | ✅ 成功       | 100%   |
 
 **整體完成度**: **85.7%** (6/7 主要目標)
 
@@ -311,7 +316,7 @@ git mv docs/superroot-entities.yaml docs/generated/
    # Auto-generated files
    *.yaml
    *.json
-   
+
    # Keep directory structure
    !.gitignore
    ```
@@ -334,7 +339,8 @@ git mv docs/superroot-entities.yaml docs/generated/
 
 ### PR 聲稱 vs 實際實施的差距
 
-**發現**: PR #106 詳細聲稱建立 `docs/generated/` 並遷移 5 個文件，但這部分從未實施。
+**發現**: PR #106 詳細聲稱建立 `docs/generated/`
+並遷移 5 個文件，但這部分從未實施。
 
 **可能原因**:
 
@@ -352,7 +358,8 @@ git mv docs/superroot-entities.yaml docs/generated/
 
 ## 📝 結論 (Conclusion)
 
-**總體評價**: PR #106 **大部分成功**，在關鍵的治理統一和戰略框架建立方面達成 100% 目標。
+**總體評價**: PR #106
+**大部分成功**，在關鍵的治理統一和戰略框架建立方面達成 100% 目標。
 
 **主要成就**:
 

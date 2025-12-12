@@ -8,7 +8,10 @@
 
 ## 📋 Overview
 
-This document bridges **strategic governance documents** (YAML policies) to **operational deployment** (Kubernetes resources). It provides the foundational architecture for future PRs to implement full Governance-as-Code without fragmentation.
+This document bridges **strategic governance documents** (YAML policies) to
+**operational deployment** (Kubernetes resources). It provides the foundational
+architecture for future PRs to implement full Governance-as-Code without
+fragmentation.
 
 ### Architecture Phases
 
@@ -87,17 +90,17 @@ governance/00-vision-strategy/
 
 ## 🔗 Strategic Docs → K8s Resources Mapping
 
-| Strategic Document | K8s CRD | K8s Instance | OPA Policy |
-|--------------------|---------|--------------|------------|
-| vision-statement.yaml | VisionStatement | vision-synergymesh-2025 | policy-vision.rego |
-| strategic-objectives.yaml | StrategicObjective | objectives-2025-q4 | policy-okr.rego |
-| governance-charter.yaml | GovernanceCharter | charter-v1 | policy-governance.rego |
-| alignment-framework.yaml | AlignmentFramework | alignment-matrix-v1 | policy-alignment.rego |
-| risk-register.yaml | RiskRegister | risks-2025 | policy-risk.rego |
-| implementation-roadmap.yaml | ImplementationRoadmap | roadmap-2025-2030 | policy-roadmap.rego |
-| communication-plan.yaml | CommunicationPlan | comms-plan-v1 | policy-communication.rego |
-| success-metrics-dashboard.yaml | MetricsDashboard | metrics-dashboard-v1 | policy-metrics.rego |
-| change-management-protocol.yaml | ChangeProtocol | change-mgmt-v1 | policy-change.rego |
+| Strategic Document              | K8s CRD               | K8s Instance            | OPA Policy                |
+| ------------------------------- | --------------------- | ----------------------- | ------------------------- |
+| vision-statement.yaml           | VisionStatement       | vision-synergymesh-2025 | policy-vision.rego        |
+| strategic-objectives.yaml       | StrategicObjective    | objectives-2025-q4      | policy-okr.rego           |
+| governance-charter.yaml         | GovernanceCharter     | charter-v1              | policy-governance.rego    |
+| alignment-framework.yaml        | AlignmentFramework    | alignment-matrix-v1     | policy-alignment.rego     |
+| risk-register.yaml              | RiskRegister          | risks-2025              | policy-risk.rego          |
+| implementation-roadmap.yaml     | ImplementationRoadmap | roadmap-2025-2030       | policy-roadmap.rego       |
+| communication-plan.yaml         | CommunicationPlan     | comms-plan-v1           | policy-communication.rego |
+| success-metrics-dashboard.yaml  | MetricsDashboard      | metrics-dashboard-v1    | policy-metrics.rego       |
+| change-management-protocol.yaml | ChangeProtocol        | change-mgmt-v1          | policy-change.rego        |
 
 ---
 
@@ -200,7 +203,8 @@ argocd app get governance-00-vision-strategy
 
 **Why**:
 
-- Mixed concerns: Strategic docs (completed) vs infrastructure code (separate PR)
+- Mixed concerns: Strategic docs (completed) vs infrastructure code (separate
+  PR)
 - Validation needs: K8s deployment requires test cluster
 - Atomic changes: Keep PRs focused and reviewable
 
@@ -261,9 +265,9 @@ Every K8s resource links back to strategic doc:
 ```yaml
 metadata:
   annotations:
-    governance.kai/strategic-doc: "vision-statement.yaml"
-    governance.kai/version: "v2025.Q4"
-    governance.kai/owner: "governance-team"
+    governance.kai/strategic-doc: 'vision-statement.yaml'
+    governance.kai/version: 'v2025.Q4'
+    governance.kai/owner: 'governance-team'
 ```
 
 ### Automation-First

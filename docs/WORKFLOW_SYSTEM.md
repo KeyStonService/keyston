@@ -6,7 +6,11 @@
 
 ## 📋 Executive Summary | 執行摘要
 
-The SynergyMesh Workflow System is a comprehensive, production-ready workflow orchestration platform that integrates AI governance, multi-layer validation, and automated deployment capabilities. This system provides a complete solution for managing complex workflows with built-in security, monitoring, and self-improvement features.
+The SynergyMesh Workflow System is a comprehensive, production-ready workflow
+orchestration platform that integrates AI governance, multi-layer validation,
+and automated deployment capabilities. This system provides a complete solution
+for managing complex workflows with built-in security, monitoring, and
+self-improvement features.
 
 SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程編排平台，集成了AI治理、多層驗證和自動化部署功能。該系統為管理複雜工作流程提供了完整的解決方案，內建安全性、監控和自我改進功能。
 
@@ -52,7 +56,8 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 #### Layer 3: Security Validation | 安全驗證
 
 - **OWASP Top 10 Coverage:** Complete coverage of all 10 categories
-- **Vulnerability Scanners:** Trivy (containers), Snyk (dependencies), CodeQL (SAST)
+- **Vulnerability Scanners:** Trivy (containers), Snyk (dependencies), CodeQL
+  (SAST)
 - **Pattern Matching:** Hardcoded secrets, SQL injection, XSS detection
 - **CVE Detection Rate:** ≥ 98%
 - **Performance:** < 60 seconds per scan
@@ -257,16 +262,16 @@ curl http://localhost:8080/health
 
 ## 📊 Performance Benchmarks | 性能基準
 
-| Component | Metric | Target | Actual |
-|-----------|--------|--------|--------|
-| Analysis | Time | < 300s | 180s |
-| Syntax Validation | Time | < 10s | 5s |
-| Semantic Validation | Time | < 30s | 22s |
-| Security Validation | Time | < 60s | 45s |
-| Build | Time | < 600s | 420s |
-| Test | Coverage | ≥ 80% | 85% |
-| Deployment | Downtime | 0s | 0s |
-| Response Time | p95 | ≤ 200ms | 150ms |
+| Component           | Metric   | Target  | Actual |
+| ------------------- | -------- | ------- | ------ |
+| Analysis            | Time     | < 300s  | 180s   |
+| Syntax Validation   | Time     | < 10s   | 5s     |
+| Semantic Validation | Time     | < 30s   | 22s    |
+| Security Validation | Time     | < 60s   | 45s    |
+| Build               | Time     | < 600s  | 420s   |
+| Test                | Coverage | ≥ 80%   | 85%    |
+| Deployment          | Downtime | 0s      | 0s     |
+| Response Time       | p95      | ≤ 200ms | 150ms  |
 
 ## 🔒 Security Features | 安全功能
 
@@ -303,12 +308,12 @@ curl http://localhost:8080/health
 
 ### Alert Rules | 警報規則
 
-| Alert | Condition | Severity | Channels |
-|-------|-----------|----------|----------|
-| High Error Rate | error_rate > 1% | Critical | PagerDuty, Slack |
-| Slow Response | p95 > 500ms | Warning | Slack |
-| Contract Failures | failure_rate > 5% | High | PagerDuty |
-| High CPU | cpu > 80% | Medium | Slack |
+| Alert             | Condition         | Severity | Channels         |
+| ----------------- | ----------------- | -------- | ---------------- |
+| High Error Rate   | error_rate > 1%   | Critical | PagerDuty, Slack |
+| Slow Response     | p95 > 500ms       | Warning  | Slack            |
+| Contract Failures | failure_rate > 5% | High     | PagerDuty        |
+| High CPU          | cpu > 80%         | Medium   | Slack            |
 
 ## 🔄 Self-Improvement | 自我改進
 
@@ -336,7 +341,7 @@ from core.validators import MultiLayerValidator
 class CustomValidator:
     def __init__(self, config):
         self.config = config
-    
+
     def validate(self, data):
         # Your validation logic
         return {
@@ -371,7 +376,7 @@ from core.plugin_system import Plugin
 class MyPlugin(Plugin):
     def __init__(self):
         super().__init__("my_plugin", "1.0.0")
-    
+
     def execute(self, context):
         # Plugin logic
         return {"status": "success"}
@@ -396,7 +401,8 @@ For issues and questions:
 
 ## 📄 License | 許可證
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for
+details.
 
 ---
 

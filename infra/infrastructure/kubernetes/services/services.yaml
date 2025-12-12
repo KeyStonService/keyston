@@ -7,12 +7,12 @@ spec:
   selector:
     app: code-analyzer
   ports:
-  - port: 8080
-    targetPort: 8080
-    name: http
-  - port: 9090
-    targetPort: 9090
-    name: metrics
+    - port: 8080
+      targetPort: 8080
+      name: http
+    - port: 9090
+      targetPort: 9090
+      name: metrics
 ---
 apiVersion: v1
 kind: Service
@@ -23,12 +23,12 @@ spec:
   selector:
     app: vulnerability-detector
   ports:
-  - port: 8081
-    targetPort: 8081
-    name: http
-  - port: 9090
-    targetPort: 9090
-    name: metrics
+    - port: 8081
+      targetPort: 8081
+      name: http
+    - port: 9090
+      targetPort: 9090
+      name: metrics
 ---
 apiVersion: v1
 kind: Service
@@ -39,12 +39,12 @@ spec:
   selector:
     app: auto-repair
   ports:
-  - port: 8082
-    targetPort: 8082
-    name: http
-  - port: 9090
-    targetPort: 9090
-    name: metrics
+    - port: 8082
+      targetPort: 8082
+      name: http
+    - port: 9090
+      targetPort: 9090
+      name: metrics
 ---
 apiVersion: v1
 kind: Service
@@ -55,9 +55,9 @@ spec:
   selector:
     app: orchestrator
   ports:
-  - port: 8083
-    targetPort: 8083
-    name: http
-  - port: 9090
-    targetPort: 9090
-    name: metrics
+    - port: 8083
+      targetPort: 8083
+      name: http
+    - port: 9090
+      targetPort: 9090
+      name: metrics

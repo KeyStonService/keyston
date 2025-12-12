@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Change Governance** dimension.
+This directory contains the autonomous automation engine for the **Change
+Governance** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = ChangeGovernanceEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: change_governance
-**Dimension Name**: Change Governance
+**Dimension ID**: change_governance **Dimension Name**: Change Governance
 **Status**: Active

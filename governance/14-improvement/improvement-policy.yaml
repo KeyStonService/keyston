@@ -17,7 +17,7 @@ approach:
 governance:
   improvement_committee: "Quarterly reviews"
   resources: "Dedicated improvement budget"
-  
+
 # 自我修復整合 | Self-Healing Integration
 self_healing_integration:
   self_healing_framework:
@@ -28,11 +28,11 @@ self_healing_integration:
       - "持續自我感知 (Continuous Self-Awareness)"
       - "主動適應策略 (Proactive Adaptation)"
     mttr_target: "< 45 seconds"
-    
+
   ai_agents_involved:
     - "Monitor Agent (異常檢測)"
     - "Architect Agent (架構優化)"
     - "Coordinator Agent (修復協調)"
-    
+
   automation_level: "100% (運營層)"
   human_intervention: "戰略層僅"

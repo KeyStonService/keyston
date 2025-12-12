@@ -11,13 +11,18 @@
 
 ## 1. 概述 (Overview)
 
-本文檔定義了 Unmanned Island System 的知識圖譜處理流水線架構。該流水線負責從非結構化文檔中提取結構化知識，構建語義化的知識圖譜，並提供本體對齊與實體解析能力。
+本文檔定義了 Unmanned Island
+System 的知識圖譜處理流水線架構。該流水線負責從非結構化文檔中提取結構化知識，構建語義化的知識圖譜，並提供本體對齊與實體解析能力。
 
-This document defines the knowledge graph processing pipeline architecture for the Unmanned Island System. The pipeline extracts structured knowledge from unstructured documents, constructs semantic knowledge graphs, and provides ontology alignment and entity resolution capabilities.
+This document defines the knowledge graph processing pipeline architecture for
+the Unmanned Island System. The pipeline extracts structured knowledge from
+unstructured documents, constructs semantic knowledge graphs, and provides
+ontology alignment and entity resolution capabilities.
 
 ### 關鍵能力 (Key Capabilities)
 
-- **多格式文檔攝取 (Multi-format Document Ingestion)**: 支持 PDF, DOCX, TXT, HTML, Markdown, JSON
+- **多格式文檔攝取 (Multi-format Document Ingestion)**: 支持 PDF, DOCX, TXT,
+  HTML, Markdown, JSON
 - **實體提取 (Entity Extraction)**: 命名實體識別與分類
 - **關係提取 (Relation Extraction)**: 實體間關係識別與分類
 - **三元組生成 (Triple Generation)**: 結構化知識表示 (Subject-Predicate-Object)
@@ -38,13 +43,13 @@ graph TD
     D --> E[實體解析<br/>Entity Resolution]
     E --> F[本體對齊<br/>Ontology Alignment]
     F --> G[知識圖譜存儲<br/>Knowledge Graph Storage]
-    
+
     B -.-> H[NER模型<br/>NER Models]
     C -.-> I[依存解析<br/>Dependency Parser]
     D -.-> J[本體驗證器<br/>Ontology Validator]
     E -.-> K[相似度引擎<br/>Similarity Engine]
     F -.-> L[參考本體<br/>Reference Ontologies]
-    
+
     style A fill:#e1f5ff
     style G fill:#e1f5ff
     style H fill:#fff4e1
@@ -73,14 +78,14 @@ graph TD
 
 ```yaml
 document_ingestion:
-  processor: "multi-format-parser"
-  supported_formats: ["pdf", "docx", "txt", "html", "markdown", "json"]
-  output_format: "structured_document"
+  processor: 'multi-format-parser'
+  supported_formats: ['pdf', 'docx', 'txt', 'html', 'markdown', 'json']
+  output_format: 'structured_document'
   metadata_extraction:
-    - "title"
-    - "author"
-    - "creation_date"
-    - "language"
+    - 'title'
+    - 'author'
+    - 'creation_date'
+    - 'language'
 ```
 
 **輸出 (Output)**:
@@ -106,21 +111,21 @@ document_ingestion:
 
 ```yaml
 entity_extraction:
-  processor: "named-entity-recognizer"
+  processor: 'named-entity-recognizer'
   models:
     # 模型名稱應從 config/ai-models/vector-alignment-config.yaml 讀取
-    - name: "{general-ner-model}"     # 通用 NER 模型（配置引用）
+    - name: '{general-ner-model}' # 通用 NER 模型（配置引用）
       confidence_threshold: 0.8
-    - name: "{domain-ner-model}"      # 領域特定模型（配置引用）
+    - name: '{domain-ner-model}' # 領域特定模型（配置引用）
       confidence_threshold: 0.85
     # 注意：避免硬編碼模型名稱，使用配置文件管理
   entity_types:
-    - "PERSON"
-    - "ORGANIZATION"
-    - "LOCATION"
-    - "PRODUCT"
-    - "DATE"
-    - "MONEY"
+    - 'PERSON'
+    - 'ORGANIZATION'
+    - 'LOCATION'
+    - 'PRODUCT'
+    - 'DATE'
+    - 'MONEY'
 ```
 
 **範例 (Example)**:
@@ -142,9 +147,9 @@ entity_extraction:
 
 ```yaml
 relation_extraction:
-  processor: "dependency-parser-enhanced"
-  patterns_path: "knowledge/semantic-patterns/relation-patterns.json"
-  post_processing: "relation-classifier"
+  processor: 'dependency-parser-enhanced'
+  patterns_path: 'knowledge/semantic-patterns/relation-patterns.json'
+  post_processing: 'relation-classifier'
   confidence_threshold: 0.7
 ```
 
@@ -152,16 +157,16 @@ relation_extraction:
 
 ```yaml
 patterns:
-  - pattern: "(PERSON) (VERB:訪問) (LOCATION)"
-    relation_type: "visited"
+  - pattern: '(PERSON) (VERB:訪問) (LOCATION)'
+    relation_type: 'visited'
     confidence: 0.85
-  
-  - pattern: "(ORGANIZATION) (VERB:位於) (LOCATION)"
-    relation_type: "headquartered_at"
+
+  - pattern: '(ORGANIZATION) (VERB:位於) (LOCATION)'
+    relation_type: 'headquartered_at'
     confidence: 0.90
-  
-  - pattern: "(PERSON) (VERB:創立) (ORGANIZATION)"
-    relation_type: "founded_by"
+
+  - pattern: '(PERSON) (VERB:創立) (ORGANIZATION)'
+    relation_type: 'founded_by'
     confidence: 0.88
 ```
 
@@ -173,9 +178,9 @@ patterns:
 
 ```yaml
 triple_generation:
-  processor: "subject-predicate-object-extractor"
-  validation: "ontology-consistency-checker"
-  output_format: "ndjson"
+  processor: 'subject-predicate-object-extractor'
+  validation: 'ontology-consistency-checker'
+  output_format: 'ndjson'
 ```
 
 **範例 (Example)**:
@@ -203,15 +208,15 @@ triple_generation:
 
 ```yaml
 entity_resolution:
-  processor: "fuzzy-matching-engine"
-  similarity_algorithm: "weighted-jaccard-levenshtein"
+  processor: 'fuzzy-matching-engine'
+  similarity_algorithm: 'weighted-jaccard-levenshtein'
   merge_threshold: 0.85
   metrics:
-    - metric: "jaccard_similarity"
+    - metric: 'jaccard_similarity'
       weight: 0.4
-    - metric: "levenshtein_distance"
+    - metric: 'levenshtein_distance'
       weight: 0.3
-    - metric: "semantic_embedding_cosine"
+    - metric: 'semantic_embedding_cosine'
       weight: 0.3
 ```
 
@@ -244,13 +249,13 @@ entity_resolution:
 
 ```yaml
 ontology_alignment:
-  processor: "schema-mapper"
+  processor: 'schema-mapper'
   reference_ontologies:
-    - "schema.org"
-    - "dbpedia"
-    - "wikidata"
+    - 'schema.org'
+    - 'dbpedia'
+    - 'wikidata'
   alignment_confidence: 0.75
-  output_format: "owl"
+  output_format: 'owl'
 ```
 
 **對齊範例 (Alignment Example)**:
@@ -295,16 +300,16 @@ ontology_alignment:
 **配置範例**:
 
 ```yaml
-processing_mode: "batch"  # 或 "streaming" 或 "hybrid"
+processing_mode: 'batch' # 或 "streaming" 或 "hybrid"
 
 batch_processing:
   chunk_size: 1000
   parallel_workers: 8
-  memory_limit_per_worker: "4Gi"
+  memory_limit_per_worker: '4Gi'
 
 streaming_processing:
-  kafka_topic: "documents-stream"
-  consumer_group: "kg-builder"
+  kafka_topic: 'documents-stream'
+  consumer_group: 'kg-builder'
   batch_timeout_ms: 5000
   max_batch_size: 100
 ```
@@ -328,16 +333,16 @@ quality_control:
     predicate_vocabulary_check: true
     object_type_consistency: true
     min_confidence_score: 0.6
-  
+
   confidence_scoring:
-    extraction_confidence: "model-based"
-    resolution_confidence: "similarity-based"
-    overall_score_method: "weighted-average"
-  
+    extraction_confidence: 'model-based'
+    resolution_confidence: 'similarity-based'
+    overall_score_method: 'weighted-average'
+
   human_review:
     enabled: true
     confidence_threshold: 0.75
-    review_queue: "kg-review-queue"
+    review_queue: 'kg-review-queue'
 ```
 
 ---
@@ -346,11 +351,11 @@ quality_control:
 
 ### 4.1 權衡
 
-| 權衡項 | 選擇 | 代價 |
-|--------|------|------|
-| **精確率 vs 召回率** | 平衡（F1-Score 優化） | 需調整置信度閾值 |
-| **處理速度 vs 質量** | 優先質量 | 較長的處理時間 |
-| **自動化 vs 人工審核** | 高置信度自動化 | 低置信度需人工介入 |
+| 權衡項                 | 選擇                  | 代價               |
+| ---------------------- | --------------------- | ------------------ |
+| **精確率 vs 召回率**   | 平衡（F1-Score 優化） | 需調整置信度閾值   |
+| **處理速度 vs 質量**   | 優先質量              | 較長的處理時間     |
+| **自動化 vs 人工審核** | 高置信度自動化        | 低置信度需人工介入 |
 
 ### 4.2 限制
 
@@ -402,13 +407,13 @@ quality_control:
 ```yaml
 data_privacy:
   pii_detection: true
-  pii_types: ["name", "email", "phone", "id_card"]
-  anonymization_method: "k-anonymity"
+  pii_types: ['name', 'email', 'phone', 'id_card']
+  anonymization_method: 'k-anonymity'
   k_value: 5
   gdpr_compliance:
     data_minimization: true
     purpose_limitation: true
-    consent_management: "external-service"
+    consent_management: 'external-service'
 ```
 
 ### 6.2 數據來源驗證 (Data Source Verification)
@@ -423,12 +428,12 @@ data_privacy:
 
 ### 7.1 性能目標 (Performance Targets)
 
-| 指標 | 目標 | 測量方法 |
-|------|------|---------|
-| **三元組提取速率** | >= 1000 triples/min | 批處理吞吐量 |
-| **實體解析準確率** | > 0.85 | F1-Score |
-| **本體一致性分數** | > 0.90 | OWL Reasoner 驗證 |
-| **處理延遲 (P95)** | < 30s per document batch | 端到端延遲 |
+| 指標               | 目標                     | 測量方法          |
+| ------------------ | ------------------------ | ----------------- |
+| **三元組提取速率** | >= 1000 triples/min      | 批處理吞吐量      |
+| **實體解析準確率** | > 0.85                   | F1-Score          |
+| **本體一致性分數** | > 0.90                   | OWL Reasoner 驗證 |
+| **處理延遲 (P95)** | < 30s per document batch | 端到端延遲        |
 
 ### 7.2 優化策略 (Optimization Strategies)
 
@@ -446,18 +451,18 @@ data_privacy:
 
 ```yaml
 metrics:
-  - name: "kg_triples_extracted_total"
-    type: "counter"
-    help: "Total number of triples extracted"
-    labels: ["source_type", "confidence_level"]
-  
-  - name: "kg_entity_resolution_accuracy"
-    type: "gauge"
-    help: "Entity resolution accuracy score"
-  
-  - name: "kg_processing_duration_seconds"
-    type: "histogram"
-    help: "Document processing duration"
+  - name: 'kg_triples_extracted_total'
+    type: 'counter'
+    help: 'Total number of triples extracted'
+    labels: ['source_type', 'confidence_level']
+
+  - name: 'kg_entity_resolution_accuracy'
+    type: 'gauge'
+    help: 'Entity resolution accuracy score'
+
+  - name: 'kg_processing_duration_seconds'
+    type: 'histogram'
+    help: 'Document processing duration'
     buckets: [1, 5, 10, 30, 60, 300]
 ```
 
@@ -509,7 +514,8 @@ metrics:
 
 ### 學術論文
 
-- Dong, X. et al. (2014). "Knowledge Vault: A Web-Scale Approach to Probabilistic Knowledge Fusion"
+- Dong, X. et al. (2014). "Knowledge Vault: A Web-Scale Approach to
+  Probabilistic Knowledge Fusion"
 - Suchanek, F. et al. (2007). "YAGO: A Core of Semantic Knowledge"
 
 ### 相關架構文檔

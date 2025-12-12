@@ -4,30 +4,30 @@ kind: Kustomization
 namespace: autofix-bot
 
 resources:
-- namespace.yaml
-- configmap.yaml
-- secrets.yaml
-- storage/pvc.yaml
-- storage/storageclass.yaml
-- database/postgres-statefulset.yaml
-- database/postgres-service.yaml
-- cache/redis-statefulset.yaml
-- cache/redis-service.yaml
-- services/code-analyzer-deployment.yaml
-- services/vulnerability-detector-deployment.yaml
-- services/auto-repair-deployment.yaml
-- services/orchestrator-deployment.yaml
-- services/services.yaml
-- monitoring/prometheus-deployment.yaml
-- monitoring/grafana-deployment.yaml
-- monitoring/loki-deployment.yaml
-- monitoring/jaeger-deployment.yaml
-- monitoring/monitoring-services.yaml
-- ingress/ingress.yaml
-- ingress/cert-manager.yaml
-- rbac/serviceaccount.yaml
-- rbac/role.yaml
-- rbac/rolebinding.yaml
-- hpa/hpa.yaml
-- hpa/vpa.yaml
-- network-policies/network-policy.yaml
+  - namespace.yaml
+  - configmap.yaml
+  - secrets.yaml
+  - storage/pvc.yaml
+  - storage/storageclass.yaml
+  - database/postgres-statefulset.yaml
+  - database/postgres-service.yaml
+  - cache/redis-statefulset.yaml
+  - cache/redis-service.yaml
+  - services/code-analyzer-deployment.yaml
+  - services/vulnerability-detector-deployment.yaml
+  - services/auto-repair-deployment.yaml
+  - services/orchestrator-deployment.yaml
+  - services/services.yaml
+  - monitoring/prometheus-deployment.yaml
+  - monitoring/grafana-deployment.yaml
+  - monitoring/loki-deployment.yaml
+  - monitoring/jaeger-deployment.yaml
+  - monitoring/monitoring-services.yaml
+  - ingress/ingress.yaml
+  - ingress/cert-manager.yaml
+  - rbac/serviceaccount.yaml
+  - rbac/role.yaml
+  - rbac/rolebinding.yaml
+  - hpa/hpa.yaml
+  - hpa/vpa.yaml
+  - network-policies/network-policy.yaml

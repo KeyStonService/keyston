@@ -11,7 +11,7 @@ metadata:
     app: postgres
     component: backup
 spec:
-  schedule: "0 2 * * *"  # 每天凌晨 2 點執行
+  schedule: "0 2 * * *" # 每天凌晨 2 點執行
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   concurrencyPolicy: Forbid
@@ -24,47 +24,47 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-          - name: backup
-            image: postgres:15-alpine
-            command:
-            - /bin/sh
-            - -c
-            - |
-              BACKUP_FILE="/backup/postgres-$(date +%Y%m%d-%H%M%S).sql.gz"
-              pg_dump -h postgres -U $POSTGRES_USER -d $POSTGRES_DB | gzip > $BACKUP_FILE
-              echo "Backup completed: $BACKUP_FILE"
-              
-              # 清理 7 天前的備份
-              find /backup -name "postgres-*.sql.gz" -mtime +7 -delete
-            env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: autofix-secrets
-                  key: DATABASE_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: autofix-secrets
-                  key: DATABASE_PASSWORD
-            - name: POSTGRES_DB
-              value: autofix
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: autofix-secrets
-                  key: DATABASE_PASSWORD
-            volumeMounts:
             - name: backup
-              mountPath: /backup
-            resources:
-              requests:
-                memory: "256Mi"
-                cpu: "100m"
-              limits:
-                memory: "512Mi"
-                cpu: "500m"
+              image: postgres:15-alpine
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  BACKUP_FILE="/backup/postgres-$(date +%Y%m%d-%H%M%S).sql.gz"
+                  pg_dump -h postgres -U $POSTGRES_USER -d $POSTGRES_DB | gzip > $BACKUP_FILE
+                  echo "Backup completed: $BACKUP_FILE"
+
+                  # 清理 7 天前的備份
+                  find /backup -name "postgres-*.sql.gz" -mtime +7 -delete
+              env:
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: autofix-secrets
+                      key: DATABASE_USER
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: autofix-secrets
+                      key: DATABASE_PASSWORD
+                - name: POSTGRES_DB
+                  value: autofix
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: autofix-secrets
+                      key: DATABASE_PASSWORD
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
           volumes:
-          - name: backup
-            persistentVolumeClaim:
-              claimName: postgres-backup-pvc
+            - name: backup
+              persistentVolumeClaim:
+                claimName: postgres-backup-pvc

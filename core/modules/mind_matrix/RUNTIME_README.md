@@ -2,14 +2,17 @@
 
 # 運行時環境
 
-> 實際運行時環境，承載 execution 的部署和啟動組件。
-> Actual runtime environment, hosting execution deployment and startup components.
+> 實際運行時環境，承載 execution 的部署和啟動組件。Actual runtime environment,
+> hosting execution deployment and startup components.
 
 ## 📋 Overview 概述
 
-本目錄包含 SynergyMesh 平台的運行時組件，特別是 Mind Matrix runtime。這些組件負責實際的系統運行、部署啟動和運行時狀態管理。
+本目錄包含 SynergyMesh 平台的運行時組件，特別是 Mind Matrix
+runtime。這些組件負責實際的系統運行、部署啟動和運行時狀態管理。
 
-This directory contains runtime components for the SynergyMesh platform, particularly the Mind Matrix runtime. These components handle actual system execution, deployment startup, and runtime state management.
+This directory contains runtime components for the SynergyMesh platform,
+particularly the Mind Matrix runtime. These components handle actual system
+execution, deployment startup, and runtime state management.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -42,7 +45,7 @@ runtime/
 - **不提供 AI 能力** - 使用 `core/` 中的 AI 引擎
 - **不處理配置** - 配置在 `config/`
 
-## 🔗 Relationship with core/execution_*與 core/execution_* 的關係
+## 🔗 Relationship with core/execution*\*與 core/execution*\* 的關係
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -83,30 +86,30 @@ runtime/
 
 ### Summary 總結
 
-| 組件 Component | 層級 Level | 職責 Responsibility |
-|----------------|-----------|---------------------|
-| `core/execution_architecture/` | 架構設計層 | 定義執行拓撲、agent 編排、工具系統 |
-| `core/execution_engine/` | 抽象邏輯層 | 提供執行、驗證、回滾的抽象介面 |
-| `runtime/` | 運行時環境層 | 實際部署、啟動、運行時狀態 |
+| 組件 Component                 | 層級 Level   | 職責 Responsibility                |
+| ------------------------------ | ------------ | ---------------------------------- |
+| `core/execution_architecture/` | 架構設計層   | 定義執行拓撲、agent 編排、工具系統 |
+| `core/execution_engine/`       | 抽象邏輯層   | 提供執行、驗證、回滾的抽象介面     |
+| `runtime/`                     | 運行時環境層 | 實際部署、啟動、運行時狀態         |
 
 ## 🔗 Dependencies 依賴關係
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `core/execution_engine/` | 使用執行邏輯抽象 |
+| Dependency 依賴                | Purpose 用途     |
+| ------------------------------ | ---------------- |
+| `core/execution_engine/`       | 使用執行邏輯抽象 |
 | `core/execution_architecture/` | 讀取執行架構定義 |
-| `shared/` | 共用工具和配置 |
-| `config/` | 運行時配置 |
+| `shared/`                      | 共用工具和配置   |
+| `config/`                      | 運行時配置       |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `agent/` | 運行時不應直接依賴業務代理 |
-| `automation/` | 運行時不應直接依賴自動化模組 |
-| `frontend/` | 運行時不應依賴 UI |
+| Should NOT depend on 不應依賴 | Reason 原因                  |
+| ----------------------------- | ---------------------------- |
+| `agent/`                      | 運行時不應直接依賴業務代理   |
+| `automation/`                 | 運行時不應直接依賴自動化模組 |
+| `frontend/`                   | 運行時不應依賴 UI            |
 
 ## 🚀 Usage 使用方式
 
@@ -142,9 +145,9 @@ result = await runtime.execute_task(task_definition)
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README with boundary definitions |
+| Date 日期  | Version 版本 | Changes 變更                             |
+| ---------- | ------------ | ---------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial README with boundary definitions |
 
 ---
 

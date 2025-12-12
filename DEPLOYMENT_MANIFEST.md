@@ -4,7 +4,8 @@
 
 本檔案列出所有必要的部署配置、依賴項和驗證步驟，確保系統完整部署。
 
-This document lists all necessary deployment configurations, dependencies, and verification steps to ensure complete system deployment.
+This document lists all necessary deployment configurations, dependencies, and
+verification steps to ensure complete system deployment.
 
 ---
 
@@ -22,7 +23,7 @@ This document lists all necessary deployment configurations, dependencies, and v
 ### 代碼準備 / Code Preparation
 
 - [ ] 所有分支已合併至 main
-- [ ] 版本號已更新 (package.json, __version__.py)
+- [ ] 版本號已更新 (package.json, **version**.py)
 - [ ] CHANGELOG.md 已更新
 - [ ] 標籤已創建 (git tag v X.Y.Z)
 
@@ -416,6 +417,6 @@ docker logs synergymesh-postgres
 
 ---
 
-__最後更新 / Last Updated__: 2025-01-15  
-__版本 / Version__: 4.0.0  
-__維護者 / Maintainer__: SynergyMesh Team
+**最後更新 / Last Updated**: 2025-01-15  
+**版本 / Version**: 4.0.0  
+**維護者 / Maintainer**: SynergyMesh Team

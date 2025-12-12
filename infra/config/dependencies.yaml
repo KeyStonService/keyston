@@ -24,7 +24,7 @@ tools:
     allowed_environments: ["dev", "staging", "prod"]
     risk_level: low
     requires_approval: false
-    
+
   - id: db_writer
     name: "Database Writer"
     kind: "database"
@@ -33,7 +33,7 @@ tools:
     risk_level: high
     requires_approval: true
     audit_all_operations: true
-    
+
   # HTTP/API Tools
   - id: http_client
     name: "HTTP Client"
@@ -42,7 +42,7 @@ tools:
     allowed_environments: ["dev", "staging", "prod"]
     risk_level: medium
     rate_limit: 100
-    
+
   - id: web_browser
     name: "Web Browser"
     kind: "browser"
@@ -50,7 +50,7 @@ tools:
     allowed_environments: ["dev"]
     risk_level: high
     requires_approval: true
-    
+
   # File System Tools
   - id: file_reader
     name: "File Reader"
@@ -61,7 +61,7 @@ tools:
     allowed_paths:
       - "/data/input"
       - "/tmp"
-      
+
   - id: file_writer
     name: "File Writer"
     kind: "filesystem"
@@ -71,7 +71,7 @@ tools:
     allowed_paths:
       - "/data/output"
       - "/tmp"
-      
+
   # Code Execution Tools
   - id: code_executor
     name: "Code Executor"
@@ -81,7 +81,7 @@ tools:
     risk_level: critical
     requires_approval: true
     sandbox_required: true
-    
+
   # Policy/Security Tools
   - id: policy_checker
     name: "Policy Checker"
@@ -104,7 +104,7 @@ models:
       - reasoning
     cost_tier: "high"
     rate_limit: 60
-    
+
   - id: gpt-4.1-mini
     name: "GPT-4.1 Mini"
     provider: "openai"
@@ -115,7 +115,7 @@ models:
       - code_generation
     cost_tier: "medium"
     rate_limit: 120
-    
+
   - id: claude-3.5-sonnet
     name: "Claude 3.5 Sonnet"
     provider: "anthropic"
@@ -128,7 +128,7 @@ models:
       - analysis
     cost_tier: "high"
     rate_limit: 60
-    
+
   - id: local-llama
     name: "Local Llama"
     provider: "local"
@@ -148,14 +148,14 @@ external_services:
     environments: ["dev", "staging", "prod"]
     auth_required: true
     rate_limit: 5000
-    
+
   - id: slack_webhook
     name: "Slack Webhook"
     kind: "notification"
     description: "Send notifications to Slack"
     environments: ["staging", "prod"]
     auth_required: true
-    
+
   - id: email_service
     name: "Email Service"
     kind: "notification"
@@ -163,7 +163,7 @@ external_services:
     environments: ["prod"]
     auth_required: true
     requires_approval: true
-    
+
   - id: kubernetes_api
     name: "Kubernetes API"
     kind: "infrastructure"
@@ -183,7 +183,7 @@ dependency_groups:
       - http_client
       - file_reader
       - policy_checker
-      
+
   - id: advanced_tools
     name: "Advanced Tools"
     description: "Tools requiring elevated permissions"

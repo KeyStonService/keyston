@@ -106,7 +106,7 @@ python tools/docs/provenance_injector.py --generate-provenance
 
 ```yaml
 quality_gates:
-  test_coverage: ">= 80%"
+  test_coverage: '>= 80%'
   lint_errors: 0
   security_vulnerabilities: 0
   schema_validation: pass
@@ -117,11 +117,11 @@ quality_gates:
 
 ## 工具位置
 
-| 工具 | 路徑 |
-|------|------|
-| Schema 驗證器 | `tools/docs/validate_index.py` |
-| 倉庫掃描器 | `tools/docs/scan_repo_generate_index.py` |
-| 溯源注入器 | `tools/docs/provenance_injector.py` |
+| 工具          | 路徑                                     |
+| ------------- | ---------------------------------------- |
+| Schema 驗證器 | `tools/docs/validate_index.py`           |
+| 倉庫掃描器    | `tools/docs/scan_repo_generate_index.py` |
+| 溯源注入器    | `tools/docs/provenance_injector.py`      |
 
 ---
 

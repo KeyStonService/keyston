@@ -2,18 +2,24 @@
 
 ## 📋 概述
 
-本系統提供完整的無人機/無人駕駛高自治系統框架，整合至 SynergyMesh 平台。系統採用 **11 個架構骨架設計**，涵蓋架構穩定性、API 治理、測試兼容性、安全觀測、身份管理、資料治理、性能優化、成本管理、文檔治理、知識庫和工作流編排。
+本系統提供完整的無人機/無人駕駛高自治系統框架，整合至 SynergyMesh 平台。系統採用
+**11 個架構骨架設計**，涵蓋架構穩定性、API 治理、測試兼容性、安全觀測、身份管理、資料治理、性能優化、成本管理、文檔治理、知識庫和工作流編排。
 
 ## ⭐ 統一架構骨架系統
 
 **完整的架構指南與實現整合系統**：
 
-- **入口**: [`../architecture-skeletons/README.md`](../architecture-skeletons/README.md) - 統一使用指南
-- **索引**: [`../architecture-skeletons/unified-index.yaml`](../architecture-skeletons/unified-index.yaml) - 完整骨架索引
-- **映射**: [`../architecture-skeletons/mapping.yaml`](../architecture-skeletons/mapping.yaml) - 指南與實現雙向映射
-- **分析**: [`../../docs/ARCHITECTURE_SKELETON_ANALYSIS.md`](../../docs/ARCHITECTURE_SKELETON_ANALYSIS.md) - 整合分析報告
+- **入口**:
+  [`../architecture-skeletons/README.md`](../architecture-skeletons/README.md) - 統一使用指南
+- **索引**:
+  [`../architecture-skeletons/unified-index.yaml`](../architecture-skeletons/unified-index.yaml) - 完整骨架索引
+- **映射**:
+  [`../architecture-skeletons/mapping.yaml`](../architecture-skeletons/mapping.yaml) - 指南與實現雙向映射
+- **分析**:
+  [`../../docs/ARCHITECTURE_SKELETON_ANALYSIS.md`](../../docs/ARCHITECTURE_SKELETON_ANALYSIS.md) - 整合分析報告
 
-本目錄包含 11 個骨架的 **實現代碼**，對應的 **架構指南** 位於 [`../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/`](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/)。
+本目錄包含 11 個骨架的 **實現代碼**，對應的 **架構指南** 位於
+[`../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/`](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/)。
 
 ## 🏗️ 11 個核心骨架
 
@@ -101,7 +107,8 @@
 - 審計追蹤
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./identity-tenancy/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/)
+[詳細文檔](./identity-tenancy/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/)
 
 ### 7️⃣ 資料治理骨架 (Data Governance Skeleton) 🆕
 
@@ -116,7 +123,8 @@
 - 資料血緣追蹤
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./data-governance/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/)
+[詳細文檔](./data-governance/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/)
 
 ### 8️⃣ 性能與可靠性骨架 (Performance & Reliability Skeleton) 🆕
 
@@ -131,7 +139,8 @@
 - 災難恢復計劃
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./performance-reliability/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/)
+[詳細文檔](./performance-reliability/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/)
 
 ### 9️⃣ 成本管理骨架 (Cost Management Skeleton) 🆕
 
@@ -146,7 +155,8 @@
 - 成本預測模型
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./cost-management/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/)
+[詳細文檔](./cost-management/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/)
 
 ### 🔟 知識庫骨架 (Knowledge Base Skeleton) 🆕
 
@@ -161,7 +171,8 @@
 - 自動更新機制
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./knowledge-base/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/)
+[詳細文檔](./knowledge-base/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/)
 
 ### 1️⃣1️⃣ 核心編排骨架 (Nucleus Orchestrator Skeleton) 🆕
 
@@ -176,7 +187,8 @@
 - 檢查點與恢復
 
 **狀態**: 🟡 架構設計階段  
-[詳細文檔](./nucleus-orchestrator/README.md) | [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/)
+[詳細文檔](./nucleus-orchestrator/README.md) |
+[架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/)
 
 ## 🚀 快速開始
 
@@ -207,7 +219,8 @@ cd synergymesh/autonomous-system
 
 ### 詳細指南
 
-請參考 [Quickstart 指南](./docs-examples/QUICKSTART.md) 獲取完整的安裝和使用說明。
+請參考 [Quickstart 指南](./docs-examples/QUICKSTART.md)
+獲取完整的安裝和使用說明。
 
 ## 📊 系統架構
 
@@ -285,15 +298,15 @@ cd synergymesh/autonomous-system
 
 ## 📚 文檔資源
 
-| 文檔 | 描述 |
-|------|------|
-| [Quickstart](./docs-examples/QUICKSTART.md) | 快速開始指南 |
-| [API Documentation](./docs-examples/API_DOCUMENTATION.md) | 完整 API 文檔 |
-| [Governance Matrix](./docs-examples/governance_matrix.yaml) | 治理邊界定義 |
-| [Architecture Stability](./architecture-stability/README.md) | 架構穩定性文檔 |
-| [API Governance](./api-governance/README.md) | API 治理文檔 |
-| [Testing & Compatibility](./testing-compatibility/README.md) | 測試兼容性文檔 |
-| [Security & Observability](./security-observability/README.md) | 安全觀測文檔 |
+| 文檔                                                           | 描述           |
+| -------------------------------------------------------------- | -------------- |
+| [Quickstart](./docs-examples/QUICKSTART.md)                    | 快速開始指南   |
+| [API Documentation](./docs-examples/API_DOCUMENTATION.md)      | 完整 API 文檔  |
+| [Governance Matrix](./docs-examples/governance_matrix.yaml)    | 治理邊界定義   |
+| [Architecture Stability](./architecture-stability/README.md)   | 架構穩定性文檔 |
+| [API Governance](./api-governance/README.md)                   | API 治理文檔   |
+| [Testing & Compatibility](./testing-compatibility/README.md)   | 測試兼容性文檔 |
+| [Security & Observability](./security-observability/README.md) | 安全觀測文檔   |
 
 ## 🧪 測試
 
@@ -338,12 +351,12 @@ colcon test
 
 ## 📈 性能指標
 
-| 指標 | 目標值 | 實際值 |
-|------|--------|--------|
-| 控制迴圈延遲 | < 10ms | ~5ms |
-| API 響應時間 | < 100ms | ~50ms |
-| 事件處理延遲 | < 1ms | ~0.5ms |
-| 系統可用性 | > 99.9% | 99.95% |
+| 指標         | 目標值  | 實際值 |
+| ------------ | ------- | ------ |
+| 控制迴圈延遲 | < 10ms  | ~5ms   |
+| API 響應時間 | < 100ms | ~50ms  |
+| 事件處理延遲 | < 1ms   | ~0.5ms |
+| 系統可用性   | > 99.9% | 99.95% |
 
 ## 🛠️ 開發指南
 
@@ -397,13 +410,13 @@ MIT License - 詳見 [LICENSE](../LICENSE) 文件
 
 ## 📊 專案狀態
 
-| 骨架 | 狀態 | 測試覆蓋率 | 文檔完整度 |
-|------|------|-----------|-----------|
-| 架構穩定性 | ✅ 完成 | 85% | 100% |
-| API 治理 | ✅ 完成 | 90% | 100% |
-| 測試兼容性 | ✅ 完成 | 95% | 100% |
-| 安全觀測 | ✅ 完成 | 88% | 100% |
-| 文件範例 | ✅ 完成 | N/A | 100% |
+| 骨架       | 狀態    | 測試覆蓋率 | 文檔完整度 |
+| ---------- | ------- | ---------- | ---------- |
+| 架構穩定性 | ✅ 完成 | 85%        | 100%       |
+| API 治理   | ✅ 完成 | 90%        | 100%       |
+| 測試兼容性 | ✅ 完成 | 95%        | 100%       |
+| 安全觀測   | ✅ 完成 | 88%        | 100%       |
+| 文件範例   | ✅ 完成 | N/A        | 100%       |
 
 ## 🗺️ 路線圖
 

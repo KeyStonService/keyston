@@ -25,38 +25,38 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
       containers:
-      - name: auto-repair
-        image: autofix/auto-repair:latest
-        ports:
-        - containerPort: 8082
-        envFrom:
-        - configMapRef:
-            name: autofix-config
-        env:
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: DATABASE_PASSWORD
-        - name: GITHUB_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: GITHUB_TOKEN
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8082
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8082
-          initialDelaySeconds: 10
+        - name: auto-repair
+          image: autofix/auto-repair:latest
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: autofix-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: DATABASE_PASSWORD
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: GITHUB_TOKEN
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8082
+            initialDelaySeconds: 10

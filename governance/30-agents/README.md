@@ -17,7 +17,8 @@
 
 ## 🎯 Core Concept | 核心概念
 
-**AI Agent Governance**: AI Agent 全生命週期治理，涵蓋部署、版本、回滾、再訓練到退役的完整管理，並強調監控、管理、守護、合規、審計與責任歸屬。**所有治理規則立即生效，零配置啟動。**
+**AI Agent Governance**: AI
+Agent 全生命週期治理，涵蓋部署、版本、回滾、再訓練到退役的完整管理，並強調監控、管理、守護、合規、審計與責任歸屬。**所有治理規則立即生效，零配置啟動。**
 
 ## 📋 Responsibility | 責任範圍
 
@@ -82,24 +83,24 @@ lifecycle_stages:
     - training
     - testing
     - validation
-  
+
   deployment:
     - approval_required: true
     - source_verification: true
     - permission_assignment: true
     - health_check: true
-  
+
   operation:
     - continuous_monitoring: true
     - performance_tracking: true
     - behavior_analysis: true
     - auto_scaling: true
-  
+
   maintenance:
     - version_updates: true
     - retraining: true
     - configuration_tuning: true
-  
+
   retirement:
     - data_deletion: true
     - permission_revocation: true
@@ -112,30 +113,30 @@ lifecycle_stages:
 
 ```yaml
 permission_model:
-  agent_id: "agent-001"
-  role: "data_analyzer"
-  
+  agent_id: 'agent-001'
+  role: 'data_analyzer'
+
   capabilities:
     read:
-      - "database.analytics.*"
-      - "storage.reports.*"
-    
+      - 'database.analytics.*'
+      - 'storage.reports.*'
+
     write:
-      - "storage.reports.generated/*"
-    
+      - 'storage.reports.generated/*'
+
     execute:
-      - "analytics.query"
-      - "ml.inference"
-  
+      - 'analytics.query'
+      - 'ml.inference'
+
   resource_limits:
-    memory: "4GB"
-    cpu: "2 cores"
-    gpu: "1 unit"
-    network_bandwidth: "100 Mbps"
-  
+    memory: '4GB'
+    cpu: '2 cores'
+    gpu: '1 unit'
+    network_bandwidth: '100 Mbps'
+
   time_restrictions:
-    allowed_hours: "00:00-23:59 UTC"
-    max_session_duration: "24h"
+    allowed_hours: '00:00-23:59 UTC'
+    max_session_duration: '24h'
 ```
 
 ### 3. 版本控制與回滾 (Versioning & Rollback)
@@ -144,29 +145,29 @@ permission_model:
 
 ```yaml
 versioning:
-  agent_id: "agent-001"
-  current_version: "v2.1.0"
-  
+  agent_id: 'agent-001'
+  current_version: 'v2.1.0'
+
   version_history:
-    - version: "v2.1.0"
-      status: "active"
-      deployed_at: "2025-12-10"
-      model_hash: "sha256:abc123..."
-    
-    - version: "v2.0.0"
-      status: "standby"
-      deployed_at: "2025-11-15"
-      model_hash: "sha256:def456..."
-  
+    - version: 'v2.1.0'
+      status: 'active'
+      deployed_at: '2025-12-10'
+      model_hash: 'sha256:abc123...'
+
+    - version: 'v2.0.0'
+      status: 'standby'
+      deployed_at: '2025-11-15'
+      model_hash: 'sha256:def456...'
+
   rollback_policy:
     trigger_conditions:
       - error_rate > 5%
       - latency_p95 > 500ms
       - accuracy < 90%
-    
-    rollback_to: "previous_stable"
+
+    rollback_to: 'previous_stable'
     auto_rollback: true
-    approval_required: false  # for automated rollback
+    approval_required: false # for automated rollback
 ```
 
 ### 4. 持續再訓練 (Continuous Retraining)
@@ -175,12 +176,12 @@ versioning:
 
 ```yaml
 retraining:
-  schedule: "weekly"
+  schedule: 'weekly'
   trigger_conditions:
     - data_drift_detected: true
-    - accuracy_degradation: ">5%"
-    - feedback_score: "<3.5/5"
-  
+    - accuracy_degradation: '>5%'
+    - feedback_score: '<3.5/5'
+
   retraining_pipeline:
     - collect_new_data
     - validate_data_quality
@@ -188,7 +189,7 @@ retraining:
     - evaluate_performance
     - a_b_test
     - gradual_rollout
-  
+
   approval_required: true
   rollback_on_failure: true
 ```
@@ -201,24 +202,24 @@ retraining:
 governance_structure:
   oversight_committee:
     members:
-      - role: "AI Ethics Officer"
-      - role: "Chief Data Officer"
-      - role: "Security Lead"
-    
+      - role: 'AI Ethics Officer'
+      - role: 'Chief Data Officer'
+      - role: 'Security Lead'
+
     responsibilities:
       - policy_approval
       - risk_assessment
       - compliance_review
-  
+
   approval_workflow:
     new_agent_deployment:
-      approvers: ["team_lead", "security_team", "compliance_officer"]
-      
+      approvers: ['team_lead', 'security_team', 'compliance_officer']
+
     agent_capability_change:
-      approvers: ["team_lead", "oversight_committee"]
-    
+      approvers: ['team_lead', 'oversight_committee']
+
     production_deployment:
-      approvers: ["team_lead", "ops_team", "security_team"]
+      approvers: ['team_lead', 'ops_team', 'security_team']
 ```
 
 ## 🔄 Agent Lifecycle States | Agent 生命週期狀態
@@ -226,19 +227,19 @@ governance_structure:
 ```yaml
 state_machine:
   states:
-    - registered: "Agent registered in catalog"
-    - developing: "Under development"
-    - testing: "In testing phase"
-    - validating: "Validation in progress"
-    - approved: "Approved for deployment"
-    - deploying: "Deployment in progress"
-    - active: "Running in production"
-    - monitoring: "Active monitoring"
-    - degraded: "Performance degraded"
-    - retraining: "Retraining in progress"
-    - updating: "Version update in progress"
-    - retiring: "Retirement in progress"
-    - retired: "Retired and archived"
+    - registered: 'Agent registered in catalog'
+    - developing: 'Under development'
+    - testing: 'In testing phase'
+    - validating: 'Validation in progress'
+    - approved: 'Approved for deployment'
+    - deploying: 'Deployment in progress'
+    - active: 'Running in production'
+    - monitoring: 'Active monitoring'
+    - degraded: 'Performance degraded'
+    - retraining: 'Retraining in progress'
+    - updating: 'Version update in progress'
+    - retiring: 'Retirement in progress'
+    - retired: 'Retired and archived'
 ```
 
 ## 🔗 Integration | 整合
@@ -262,7 +263,7 @@ iso_42001:
     - risk_management
     - ethical_review
     - continuous_improvement
-  
+
   documentation:
     - system_description
     - data_sheets
@@ -279,7 +280,7 @@ nist_ai_rmf:
     - map
     - measure
     - manage
-  
+
   trustworthiness:
     - valid_and_reliable
     - safe

@@ -67,7 +67,7 @@ kubectl top pod <pod-name>
    ```bash
    # 檢查映像是否存在
    docker pull ghcr.io/we-can-fix/synergymesh/contracts-service:latest
-   
+
    # 檢查 ImagePullSecrets
    kubectl get secret -n default
    ```
@@ -77,7 +77,7 @@ kubectl top pod <pod-name>
    ```bash
    # 檢查節點資源
    kubectl top nodes
-   
+
    # 調整資源請求
    kubectl edit deployment contracts-service
    ```
@@ -153,7 +153,7 @@ kubectl get hpa contracts-service-hpa
    ```bash
    # 手動擴展
    kubectl scale deployment contracts-service --replicas=5
-   
+
    # 調整 HPA 配置
    kubectl edit hpa contracts-service-hpa
    ```

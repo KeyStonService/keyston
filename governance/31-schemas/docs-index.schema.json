@@ -48,18 +48,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "id",
-          "path",
-          "title",
-          "domain",
-          "layer",
-          "type",
-          "tags",
-          "owner",
-          "status",
-          "description"
-        ],
+        "required": ["id", "path", "title", "domain", "layer", "type", "tags", "owner", "status", "description"],
         "properties": {
           "id": {
             "type": "string",
@@ -188,20 +177,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "kubernetes",
-                "docker",
-                "linux",
-                "windows",
-                "macos",
-                "ios",
-                "android",
-                "aws",
-                "gcp",
-                "azure",
-                "edge",
-                "baremetal"
-              ]
+              "enum": ["kubernetes", "docker", "linux", "windows", "macos", "ios", "android", "aws", "gcp", "azure", "edge", "baremetal"]
             },
             "description": "適用平台（可選），為跨平台工作預留"
           },

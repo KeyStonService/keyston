@@ -2,7 +2,8 @@
 
 ## 📋 Overview
 
-This guide explains how to deploy and run the Unmanned Island System on Replit, specifically for the "Unmanned-Island-3" project.
+This guide explains how to deploy and run the Unmanned Island System on Replit,
+specifically for the "Unmanned-Island-3" project.
 
 **Status:** ✅ **READY FOR DEPLOYMENT**  
 **Date:** December 2025  
@@ -108,7 +109,8 @@ externalPort = 80
 
 ### Environment Variables
 
-No environment variables are required for basic operation. Optional configurations:
+No environment variables are required for basic operation. Optional
+configurations:
 
 ```bash
 # .env (optional)
@@ -153,7 +155,8 @@ npm run build
 
 ### Frontend Tests
 
-Currently, the frontend doesn't have specific tests. Integration tests are in Island AI.
+Currently, the frontend doesn't have specific tests. Integration tests are in
+Island AI.
 
 ### Island AI Tests
 
@@ -246,8 +249,7 @@ npm test
 
 ### Issue: "React is not defined" error
 
-**Solution:**
-Check that `main.tsx` imports React:
+**Solution:** Check that `main.tsx` imports React:
 
 ```typescript
 import React from 'react';
@@ -256,8 +258,7 @@ import { createRoot } from 'react-dom/client';
 
 ### Issue: Routes not working (404 errors)
 
-**Solution:**
-Ensure `HashRouter` is used (not `BrowserRouter`):
+**Solution:** Ensure `HashRouter` is used (not `BrowserRouter`):
 
 ```typescript
 import { HashRouter } from 'react-router';
@@ -302,20 +303,20 @@ npm run build
 
 ### Build Times
 
-| Operation | Time |
-|-----------|------|
-| First install | ~20s |
-| Dev server start | ~3s |
-| Production build | ~5s |
-| Hot reload | <1s |
+| Operation        | Time |
+| ---------------- | ---- |
+| First install    | ~20s |
+| Dev server start | ~3s  |
+| Production build | ~5s  |
+| Hot reload       | <1s  |
 
 ### Bundle Sizes
 
-| File | Size | Gzipped |
-|------|------|---------|
-| `main.js` | 2.9 MB | ~600 KB |
-| `main.css` | 71 KB | ~15 KB |
-| **Total** | **2.97 MB** | **~615 KB** |
+| File       | Size        | Gzipped     |
+| ---------- | ----------- | ----------- |
+| `main.js`  | 2.9 MB      | ~600 KB     |
+| `main.css` | 71 KB       | ~15 KB      |
+| **Total**  | **2.97 MB** | **~615 KB** |
 
 ### Runtime Performance
 

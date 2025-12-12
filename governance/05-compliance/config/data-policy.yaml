@@ -43,7 +43,7 @@ rules:
   # Data Retention
   retention:
     default_days: 365
-    maximum_days: 2555  # 7 years
+    maximum_days: 2555 # 7 years
     archive_strategy: "cold_storage"
     deletion_verification: required
     deletion_audit_log: required

@@ -1,6 +1,7 @@
 # Evolution Orchestrator - AI Prompt Template
 
-本模板供 AI Agent（如 Monica / GPT）使用，讓 AI 自動讀取 `knowledge/evolution-state.yaml` 並產生行動計畫。
+本模板供 AI Agent（如 Monica / GPT）使用，讓 AI 自動讀取
+`knowledge/evolution-state.yaml` 並產生行動計畫。
 
 ---
 
@@ -22,7 +23,7 @@
 
 ```yaml
 # 路徑: knowledge/evolution-state.yaml
-generated_at: "2025-12-07T06:56:04.535641Z"
+generated_at: '2025-12-07T06:56:04.535641Z'
 metrics:
   language_violations_total: 0
   semgrep_high_total: 0
@@ -43,10 +44,11 @@ overall_score: 100.0
 
 ```yaml
 constraints:
-  - "不得自動修改 core/autonomous 中 safety-critical 邏輯。"
-  - "不得破壞 architecture skeletons 的邊界（core 不依賴 apps 等）。"
-  - "不得將 forbidden_languages（如 PHP/Perl）引入新的路徑。"
-  - "所有重大重構建議都必須在 docs/refactor_playbooks/03_refactor/* 中有對應 Playbook。"
+  - '不得自動修改 core/autonomous 中 safety-critical 邏輯。'
+  - '不得破壞 architecture skeletons 的邊界（core 不依賴 apps 等）。'
+  - '不得將 forbidden_languages（如 PHP/Perl）引入新的路徑。'
+  - '所有重大重構建議都必須在 docs/refactor_playbooks/03_refactor/* 中有對應
+    Playbook。'
 ```
 
 ### 3. 治理報告（可選，用於細節分析）
@@ -77,57 +79,65 @@ IF overall_score < 100:
 
 ```markdown
 ## [Objective ID] - [Objective Name]
+
 - **當前分數**: X/100
 - **目標值**: Y
 - **差距**: Z 個問題/項目
 
 ### 優先處理的 Clusters/Modules:
+
 1. [Cluster A] - [原因/影響]
 2. [Cluster B] - [原因/影響]
 
 ### 建議行動:
+
 - [ ] [具體可執行的任務 1]
 - [ ] [具體可執行的任務 2]
 - [ ] [具體可執行的任務 3]
 
 ### 對應 Refactor Playbook:
+
 - `docs/refactor_playbooks/03_refactor/[domain]/[playbook].md`
 
 ### 約束檢查:
-✅ 不違反 constraint 1
-✅ 不違反 constraint 2
+
+✅ 不違反 constraint 1 ✅ 不違反 constraint 2
 ```
 
 ### Step 3: 輸出可執行計畫
 
 **格式範例：**
 
-```markdown
+````markdown
 # System Evolution Action Plan
-生成時間: [TIMESTAMP]
-基於狀態: knowledge/evolution-state.yaml ([generated_at])
+
+生成時間: [TIMESTAMP] 基於狀態: knowledge/evolution-state.yaml ([generated_at])
 
 ## 🎯 目標
+
 從當前 [X]/100 提升到 [Y]/100
 
 ## 📊 優先處理順序 (P0-P2)
 
 ### P0: [最低分數 Objective]
+
 **目標:** [分數] → 100/100
 
 **Tasks:**
+
 1. [ ] [Cluster]: [具體行動]
    - 影響: [預估改善分數]
    - Playbook: [路徑]
    - 執行命令: `[bash command]`
 
-2. [ ] [Cluster]: [具體行動]
-   ...
+2. [ ] [Cluster]: [具體行動] ...
 
 ### P1: [次低分數 Objective]
+
 ...
 
 ### P2: [維護已達標項目]
+
 ...
 
 ## 🚀 立即執行建議
@@ -142,6 +152,7 @@ cd /path/to/repo
 # P0 Task 2
 [command 2]
 ```
+````
 
 ## 📈 預期改善
 
@@ -150,7 +161,7 @@ cd /path/to/repo
 - 劇本覆蓋: [X] → [Y] (+Z)
 - **總分: [X] → [Y] (+Z)**
 
-```
+````
 
 ---
 
@@ -173,33 +184,33 @@ def generate_evolution_plan():
     # 1. 讀取 evolution-state.yaml
     with open("knowledge/evolution-state.yaml") as f:
         state = yaml.safe_load(f)
-    
+
     # 2. 讀取 constraints
     with open("config/system-evolution.yaml") as f:
         config = yaml.safe_load(f)
         constraints = config["constraints"]
-    
+
     # 3. 呼叫 AI 產生計畫
     client = OpenAI()
     prompt = f"""
     {open("docs/evolution/orchestrator-prompt-template.md").read()}
-    
+
     當前狀態:
     {yaml.dump(state)}
-    
+
     約束:
     {yaml.dump(constraints)}
-    
+
     請產生具體行動計畫。
     """
-    
+
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}]
     )
-    
+
     return response.choices[0].message.content
-```
+````
 
 ### 方式 3: 整合到 CI/CD
 
@@ -207,7 +218,7 @@ def generate_evolution_plan():
 
 ```yaml
 - name: Generate AI Evolution Plan (Optional)
-  if: github.event_name == 'schedule'  # 只在排程時執行
+  if: github.event_name == 'schedule' # 只在排程時執行
   run: |
     python automation/intelligent/synergymesh_core/evolution_orchestrator.py
     # 產生的計畫會被存到 docs/evolution/CURRENT_PLAN.md
@@ -226,7 +237,8 @@ def generate_evolution_plan():
 
 ## 🔄 迭代改進
 
-當系統狀態改變時（新的 evolution-state.yaml 生成），重新執行 AI Orchestrator 以：
+當系統狀態改變時（新的 evolution-state.yaml 生成），重新執行 AI
+Orchestrator 以：
 
 1. 調整優先級（新的低分項目）
 2. 更新任務列表（已完成的移除）
@@ -235,5 +247,4 @@ def generate_evolution_plan():
 
 ---
 
-最後更新: 2025-12-07
-版本: 1.0.0
+最後更新: 2025-12-07版本: 1.0.0

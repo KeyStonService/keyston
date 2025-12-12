@@ -10,7 +10,9 @@
 
 ## 📋 Overview / 概覽
 
-This document provides a complete integration map for the AI-powered Instant Execution Pipeline, showing how all components connect and work together to achieve zero-touch deployment.
+This document provides a complete integration map for the AI-powered Instant
+Execution Pipeline, showing how all components connect and work together to
+achieve zero-touch deployment.
 
 這份文件提供了 AI 驅動即時執行管線的完整整合架構圖，展示所有元件如何連結並協同工作以實現零接觸部署。
 
@@ -486,11 +488,11 @@ Output:
 # Stage configurations
 stages:
   - id: ai-analysis
-    timeout: 5  # seconds
+    timeout: 5 # seconds
   - id: synthetic-validation
-    timeout: 30  # seconds
+    timeout: 30 # seconds
   - id: automated-deployment
-    timeout: 1800  # seconds
+    timeout: 1800 # seconds
 
 # Integration points
 integrations:
@@ -524,14 +526,14 @@ export PYTHONPATH="$PWD:$PWD/tools:..."
 
 ### Target Metrics
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| **Stage 1 Duration** | < 5s | ✅ 2-3s |
-| **Stage 2 Duration** | < 30s | ✅ 15-20s |
-| **Stage 3 Duration** | < 30min | ✅ 5-10min |
-| **AI Accuracy** | 97% | ✅ Mock (ready for ML) |
-| **Confidence Threshold** | 85% | ✅ Configurable |
-| **Risk Threshold** | < 75/100 | ✅ Configurable |
+| Metric                   | Target   | Current                |
+| ------------------------ | -------- | ---------------------- |
+| **Stage 1 Duration**     | < 5s     | ✅ 2-3s                |
+| **Stage 2 Duration**     | < 30s    | ✅ 15-20s              |
+| **Stage 3 Duration**     | < 30min  | ✅ 5-10min             |
+| **AI Accuracy**          | 97%      | ✅ Mock (ready for ML) |
+| **Confidence Threshold** | 85%      | ✅ Configurable        |
+| **Risk Threshold**       | < 75/100 | ✅ Configurable        |
 
 ### Success Criteria
 
@@ -660,7 +662,7 @@ python3 automation/pipelines/instant_execution_pipeline.py run --dry-run
 ```python
 class InstantExecutionPipeline:
     def __init__(self, context: PipelineContext)
-    
+
     async def run_pipeline(self) -> Dict[str, Any]
     async def run_stage_1_ai_analysis(self) -> StageResult
     async def run_stage_2_synthetic_validation(self) -> StageResult
@@ -672,7 +674,7 @@ class InstantExecutionPipeline:
 ```python
 class AIGovernanceEngine:
     def __init__(self, config: Dict[str, Any])
-    
+
     def analyze_codebase(self, repo_path: Path) -> CodebaseMetrics
     def detect_naming_patterns(self, resources: List[Dict]) -> Dict
     def assess_risk(self, change_type: str, ...) -> Tuple[RiskLevel, float]
@@ -684,7 +686,7 @@ class AIGovernanceEngine:
 ```python
 class BaselineValidationEngine:
     def __init__(self, namespace: str)
-    
+
     def run_all_validations(self) -> bool
     def validate_namespace(self) -> bool
     def validate_deployments(self) -> bool
@@ -728,7 +730,8 @@ class BaselineValidationEngine:
 
 ### Issues
 
-Report issues at: [GitHub Issues](https://github.com/your-org/SynergyMesh/issues)
+Report issues at:
+[GitHub Issues](https://github.com/your-org/SynergyMesh/issues)
 
 ### Contributing
 

@@ -22,30 +22,31 @@
 
 ## 📖 專案概述
 
-此文件包含 **unmanned-island** 專案的完整目錄樹狀結構，展開所有子目錄、子子目錄至無限延伸。
+此文件包含 **unmanned-island**
+專案的完整目錄樹狀結構，展開所有子目錄、子子目錄至無限延伸。
 
 ### 技術棧
 
-| 層級 | 技術 | 用途 |
-|------|------|------|
-| 後端 | TypeScript, Python, Node.js | 核心服務與 API |
-| 前端 | React, TypeScript | Web 應用介面 |
-| 基礎設施 | Kubernetes, Docker | 容器化部署 |
-| CI/CD | GitHub Actions | 自動化流程 |
-| 安全 | Sigstore, SLSA | 供應鏈安全 |
-| 監控 | Prometheus, Grafana | 系統觀測 |
+| 層級     | 技術                        | 用途           |
+| -------- | --------------------------- | -------------- |
+| 後端     | TypeScript, Python, Node.js | 核心服務與 API |
+| 前端     | React, TypeScript           | Web 應用介面   |
+| 基礎設施 | Kubernetes, Docker          | 容器化部署     |
+| CI/CD    | GitHub Actions              | 自動化流程     |
+| 安全     | Sigstore, SLSA              | 供應鏈安全     |
+| 監控     | Prometheus, Grafana         | 系統觀測       |
 
 ---
 
 ## 📊 統計資訊
 
-| 統計項目 | 數量 |
-|----------|------|
-| 📁 目錄數量 | 306 |
+| 統計項目    | 數量  |
+| ----------- | ----- |
+| 📁 目錄數量 | 306   |
 | 📄 檔案數量 | 1,186 |
-| 🏛️ 主要模組 | 15+ |
-| 🔧 工具腳本 | 30+ |
-| 📚 文件檔案 | 100+ |
+| 🏛️ 主要模組 | 15+   |
+| 🔧 工具腳本 | 30+   |
+| 📚 文件檔案 | 100+  |
 
 ---
 
@@ -1554,26 +1555,26 @@
 
 ## 📁 主要目錄說明
 
-| 目錄 | 圖示 | 說明 |
-|------|------|------|
-| `.devcontainer/` | 🐳 | 開發容器配置 |
-| `.github/` | 🔄 | GitHub Actions 工作流程和配置 |
-| `.vscode/` | 🆚 | VS Code 編輯器配置 |
-| `apps/` | 📱 | 應用程式 (Web 前端) |
-| `automation/` | 🤖 | 自動化模組 (智能、自主、架構、超自動化) |
-| `config/` | ⚙️ | 配置中心 |
-| `core/` | 🏛️ | 核心平台服務 |
-| `docs/` | 📚 | 專案文件 |
-| `governance/` | ⚖️ | 治理與策略 (Schema、策略、SBOM) |
-| `infrastructure/` | 🏗️ | 基礎設施 (K8s、監控) |
-| `legacy/` | 📜 | 舊版存檔 |
-| `mcp-servers/` | 🔌 | MCP (Model Context Protocol) 伺服器 (符號連結至 services/mcp) |
-| `ops/` | 📋 | 運維資源 |
-| `scripts/` | 📝 | 根目錄腳本 |
-| `services/` | ⚙️ | 服務層 |
-| `shared/` | 📦 | 共用資源 |
-| `tests/` | 🧪 | 測試套件 |
-| `tools/` | 🔧 | 工具腳本 |
+| 目錄              | 圖示 | 說明                                                          |
+| ----------------- | ---- | ------------------------------------------------------------- |
+| `.devcontainer/`  | 🐳   | 開發容器配置                                                  |
+| `.github/`        | 🔄   | GitHub Actions 工作流程和配置                                 |
+| `.vscode/`        | 🆚   | VS Code 編輯器配置                                            |
+| `apps/`           | 📱   | 應用程式 (Web 前端)                                           |
+| `automation/`     | 🤖   | 自動化模組 (智能、自主、架構、超自動化)                       |
+| `config/`         | ⚙️   | 配置中心                                                      |
+| `core/`           | 🏛️   | 核心平台服務                                                  |
+| `docs/`           | 📚   | 專案文件                                                      |
+| `governance/`     | ⚖️   | 治理與策略 (Schema、策略、SBOM)                               |
+| `infrastructure/` | 🏗️   | 基礎設施 (K8s、監控)                                          |
+| `legacy/`         | 📜   | 舊版存檔                                                      |
+| `mcp-servers/`    | 🔌   | MCP (Model Context Protocol) 伺服器 (符號連結至 services/mcp) |
+| `ops/`            | 📋   | 運維資源                                                      |
+| `scripts/`        | 📝   | 根目錄腳本                                                    |
+| `services/`       | ⚙️   | 服務層                                                        |
+| `shared/`         | 📦   | 共用資源                                                      |
+| `tests/`          | 🧪   | 測試套件                                                      |
+| `tools/`          | 🔧   | 工具腳本                                                      |
 
 ---
 

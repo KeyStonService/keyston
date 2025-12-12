@@ -1,6 +1,7 @@
 # 🚀 快速開始 - 生產部署 / Production Quick Start
 
-**語言**: [繁體中文](#快速開始---生產部署) | [English](#quick-start---production-deployment)
+**語言**: [繁體中文](#快速開始---生產部署) |
+[English](#quick-start---production-deployment)
 
 ---
 
@@ -503,5 +504,7 @@ docker-compose up -d
 ## 🤝 Support
 
 - 📖 [Documentation](./docs/)
-- 🐛 [Issue Tracker](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
-- 💬 [Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+- 🐛
+  [Issue Tracker](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
+- 💬
+  [Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)

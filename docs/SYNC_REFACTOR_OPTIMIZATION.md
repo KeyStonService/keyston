@@ -9,7 +9,10 @@
 
 ## Executive Summary
 
-This document describes the comprehensive optimization of the Unmanned Island System's project synchronization and refactoring workflows. The optimization addresses redundancy, improves efficiency, and enhances integration between systems.
+This document describes the comprehensive optimization of the Unmanned Island
+System's project synchronization and refactoring workflows. The optimization
+addresses redundancy, improves efficiency, and enhances integration between
+systems.
 
 ## Changes Implemented
 
@@ -19,7 +22,8 @@ This document describes the comprehensive optimization of the Unmanned Island Sy
 
 **File Created:** `config/sync-refactor-config.yaml`
 
-**Purpose:** Single source of truth for both synchronization and refactoring configuration.
+**Purpose:** Single source of truth for both synchronization and refactoring
+configuration.
 
 **Benefits:**
 
@@ -61,7 +65,9 @@ This document describes the comprehensive optimization of the Unmanned Island Sy
 
 **File Deleted:** `watch_sync_script.sh` (root directory)
 
-**Reason:** This was a 1-line wrapper that redirected to `scripts/sync/watch-and-sync.sh`, which itself redirects to the template. Unnecessary indirection removed.
+**Reason:** This was a 1-line wrapper that redirected to
+`scripts/sync/watch-and-sync.sh`, which itself redirects to the template.
+Unnecessary indirection removed.
 
 **Benefits:**
 
@@ -123,7 +129,8 @@ This document describes the comprehensive optimization of the Unmanned Island Sy
 
 **Implementation:**
 
-- `scripts/sync/watch-and-sync.sh` template reads from config (already using `island.bootstrap.stage0.yaml`)
+- `scripts/sync/watch-and-sync.sh` template reads from config (already using
+  `island.bootstrap.stage0.yaml`)
 - Sync workflow loads configuration dynamically
 - Refactor tool uses same configuration
 
@@ -146,7 +153,7 @@ graph TD
     D --> E[GitHub Actions Sync]
     E --> F[Manual Refactor Trigger]
     F --> G[Playbook Generation]
-    
+
     style C fill:#ffcccc
     style F fill:#ffcccc
 ```
@@ -172,11 +179,11 @@ graph TD
     F -->|No| H[Complete]
     G --> I[Cached Playbook Generation]
     I --> H
-    
+
     CONFIG[sync-refactor-config.yaml] -.-> C
     CONFIG -.-> E
     CONFIG -.-> I
-    
+
     style C fill:#ccffcc
     style F fill:#cce5ff
     style I fill:#ffffcc
@@ -212,11 +219,11 @@ sync:
 ```yaml
 refactor:
   playbooks:
-    output_directory: "docs/refactor_playbooks"
+    output_directory: 'docs/refactor_playbooks'
     clusters: [...]
   cache:
     enabled: true
-    directory: ".cache/refactor"
+    directory: '.cache/refactor'
     ttl_hours: 24
   triggers:
     auto_generate_on_sync: true
@@ -230,8 +237,8 @@ integration:
   workflows:
     refactor_playbooks:
       trigger_on_paths:
-        - "governance/**"
-        - "apps/web/public/data/**"
+        - 'governance/**'
+        - 'apps/web/public/data/**'
 ```
 
 ## Usage Guide
@@ -287,12 +294,12 @@ No manual intervention required!
 
 ### Observed Improvements
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Playbook Generation Time | 45s | 15s (75% cache hit) | **67% faster** |
-| Sync Workflow Duration | 3m 20s | 3m 10s | 5% faster |
-| Configuration Changes | Edit 3-5 files | Edit 1 file | **80% less work** |
-| Failed Commits (validation) | ~2/day | 0 | **100% reduction** |
+| Metric                      | Before         | After               | Improvement        |
+| --------------------------- | -------------- | ------------------- | ------------------ |
+| Playbook Generation Time    | 45s            | 15s (75% cache hit) | **67% faster**     |
+| Sync Workflow Duration      | 3m 20s         | 3m 10s              | 5% faster          |
+| Configuration Changes       | Edit 3-5 files | Edit 1 file         | **80% less work**  |
+| Failed Commits (validation) | ~2/day         | 0                   | **100% reduction** |
 
 ### Cache Effectiveness
 
@@ -343,7 +350,8 @@ done
 
 **Solution:**
 
-1. Check `sync-refactor-config.yaml` - `integration.sync_triggers_refactor` should be `true`
+1. Check `sync-refactor-config.yaml` - `integration.sync_triggers_refactor`
+   should be `true`
 2. Verify governance file paths in workflow triggers
 3. Check GitHub Actions permissions
 4. Review workflow run logs

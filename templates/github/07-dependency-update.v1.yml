@@ -2,7 +2,7 @@ name: 07-dependency-update
 
 on:
   schedule:
-    - cron: '0 6 * * 1'
+    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -51,8 +51,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: chore/auto-dependency-updates
-          commit-message: 'chore: automated dependency updates'
-          title: 'chore: automated dependency updates'
+          commit-message: "chore: automated dependency updates"
+          title: "chore: automated dependency updates"
           body: |
             ## Summary
             - Updated workspace dependencies across supported languages.

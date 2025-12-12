@@ -10,60 +10,60 @@ spec:
     matchLabels:
       app: contracts-service
   policyTypes:
-  - Ingress
-  - Egress
-  
+    - Ingress
+    - Egress
+
   ingress:
-  # 允許來自 Ingress Controller 的流量
-  # 注意：根據實際環境調整 namespace 標籤
-  # 常見標籤：name: ingress-nginx, kubernetes.io/metadata.name: ingress-nginx
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    ports:
-    - protocol: TCP
-      port: 3000
-  
-  # 允許同命名空間內服務互訪
-  - from:
-    - podSelector: {}
-    ports:
-    - protocol: TCP
-      port: 3000
-  
-  # 允許 Prometheus 監控抓取
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: monitoring
-    ports:
-    - protocol: TCP
-      port: 3000
-  
+    # 允許來自 Ingress Controller 的流量
+    # 注意：根據實際環境調整 namespace 標籤
+    # 常見標籤：name: ingress-nginx, kubernetes.io/metadata.name: ingress-nginx
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 3000
+
+    # 允許同命名空間內服務互訪
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 3000
+
+    # 允許 Prometheus 監控抓取
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+      ports:
+        - protocol: TCP
+          port: 3000
+
   egress:
-  # 允許 DNS 查詢
-  - to:
-    - namespaceSelector: {}
-      podSelector:
-        matchLabels:
-          k8s-app: kube-dns
-    ports:
-    - protocol: UDP
-      port: 53
-  
-  # 允許訪問 Kubernetes API (如需要)
-  - to:
-    - namespaceSelector: {}
-    ports:
-    - protocol: TCP
-      port: 443
-  
-  # 允許訪問外部 API (如 Sigstore、SBOM 服務)
-  - to:
-    - namespaceSelector: {}
-    ports:
-    - protocol: TCP
-      port: 443
-    - protocol: TCP
-      port: 80
+    # 允許 DNS 查詢
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+
+    # 允許訪問 Kubernetes API (如需要)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+
+    # 允許訪問外部 API (如 Sigstore、SBOM 服務)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 80

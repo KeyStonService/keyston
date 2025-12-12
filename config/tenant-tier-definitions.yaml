@@ -12,13 +12,13 @@ metadata:
 
 spec:
   version: v1.0.0
-  
+
   tenant_tiers:
     enterprise:
       description: "企業級租戶 / Enterprise tier tenant"
       tier_level: 1
       priority_class: "high-priority"
-      
+
       quotas:
         cpu_requests: "80"
         memory_requests: "160Gi"
@@ -31,14 +31,14 @@ spec:
         ingresses: "50"
         configmaps: "200"
         secrets: "200"
-      
+
       sla:
         uptime_target: "99.95"
         support_level: "24x7"
         response_time_critical: "15-minutes"
         response_time_high: "1-hour"
         response_time_medium: "4-hours"
-      
+
       features:
         dedicated_nodes: true
         gpu_access: true
@@ -47,24 +47,24 @@ spec:
         custom_dashboards: true
         backup_retention_days: 90
         disaster_recovery: true
-      
+
       cost:
         base_monthly_usd: 10000
         cpu_core_hour: 0.08
         memory_gb_hour: 0.015
         storage_gb_month: 0.25
         support_included: true
-      
+
       limits:
         max_namespaces: 50
         max_users: 100
         max_service_accounts: 200
-    
+
     business:
       description: "商業級租戶 / Business tier tenant"
       tier_level: 2
       priority_class: "medium-priority"
-      
+
       quotas:
         cpu_requests: "40"
         memory_requests: "80Gi"
@@ -77,14 +77,14 @@ spec:
         ingresses: "25"
         configmaps: "100"
         secrets: "100"
-      
+
       sla:
         uptime_target: "99.9"
         support_level: "business-hours"
         response_time_critical: "30-minutes"
         response_time_high: "2-hours"
         response_time_medium: "8-hours"
-      
+
       features:
         dedicated_nodes: false
         gpu_access: true
@@ -93,24 +93,24 @@ spec:
         custom_dashboards: false
         backup_retention_days: 30
         disaster_recovery: false
-      
+
       cost:
         base_monthly_usd: 5000
         cpu_core_hour: 0.06
         memory_gb_hour: 0.012
         storage_gb_month: 0.20
         support_included: true
-      
+
       limits:
         max_namespaces: 25
         max_users: 50
         max_service_accounts: 100
-    
+
     startup:
       description: "新創級租戶 / Startup tier tenant"
       tier_level: 3
       priority_class: "low-priority"
-      
+
       quotas:
         cpu_requests: "20"
         memory_requests: "40Gi"
@@ -123,14 +123,14 @@ spec:
         ingresses: "10"
         configmaps: "50"
         secrets: "50"
-      
+
       sla:
         uptime_target: "99.5"
         support_level: "email-only"
         response_time_critical: "4-hours"
         response_time_high: "8-hours"
         response_time_medium: "24-hours"
-      
+
       features:
         dedicated_nodes: false
         gpu_access: false
@@ -139,24 +139,24 @@ spec:
         custom_dashboards: false
         backup_retention_days: 7
         disaster_recovery: false
-      
+
       cost:
         base_monthly_usd: 1000
         cpu_core_hour: 0.05
         memory_gb_hour: 0.01
         storage_gb_month: 0.15
         support_included: false
-      
+
       limits:
         max_namespaces: 10
         max_users: 20
         max_service_accounts: 50
-    
+
     development:
       description: "開發測試環境 / Development environment"
       tier_level: 4
       priority_class: "low-priority"
-      
+
       quotas:
         cpu_requests: "10"
         memory_requests: "20Gi"
@@ -169,14 +169,14 @@ spec:
         ingresses: "5"
         configmaps: "25"
         secrets: "25"
-      
+
       sla:
         uptime_target: "99.0"
         support_level: "best-effort"
         response_time_critical: "next-business-day"
         response_time_high: "2-business-days"
         response_time_medium: "5-business-days"
-      
+
       features:
         dedicated_nodes: false
         gpu_access: false
@@ -185,14 +185,14 @@ spec:
         custom_dashboards: false
         backup_retention_days: 3
         disaster_recovery: false
-      
+
       cost:
         base_monthly_usd: 500
         cpu_core_hour: 0.03
         memory_gb_hour: 0.008
         storage_gb_month: 0.10
         support_included: false
-      
+
       limits:
         max_namespaces: 5
         max_users: 10
@@ -240,7 +240,7 @@ spec:
   related_configs:
     - resource-optimization.yaml
     - cost-allocation-model.yaml
-  
+
   references:
     - description: "Kubernetes Resource Quotas"
       url: "https://kubernetes.io/docs/concepts/policy/resource-quotas/"

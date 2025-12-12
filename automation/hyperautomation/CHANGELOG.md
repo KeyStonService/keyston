@@ -1,9 +1,11 @@
 # Changelog
 
-All notable changes to the Intelligent Hyperautomation project will be documented in this file.
+All notable changes to the Intelligent Hyperautomation project will be
+documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.0.0] - 2025-11-25
 
@@ -57,8 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - SHA256 digest 建議
 
 - **policies/gatekeeper/uav-ad-labels.yaml**: Gatekeeper 約束
-  - 標準命名空間標籤驗證（namespace.io/*）
-  - UAV/AD 特定標籤驗證（uav.io/*）
+  - 標準命名空間標籤驗證（namespace.io/\*）
+  - UAV/AD 特定標籤驗證（uav.io/\*）
   - 支援 Namespace、ConfigMap、Service、Deployment 等資源
 
 - **policies/gatekeeper/geo-fencing.yaml**: 地理圍欄策略約束

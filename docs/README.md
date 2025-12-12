@@ -2,14 +2,17 @@
 
 # 文檔入口
 
-> 這是 SynergyMesh 所有文檔的統一入口。人類請從這裡開始，機器請讀 [knowledge_index.yaml](./knowledge_index.yaml)。
-> This is the unified entry point for all SynergyMesh documentation. Humans start here; machines read [knowledge_index.yaml](./knowledge_index.yaml).
+> 這是 SynergyMesh 所有文檔的統一入口。人類請從這裡開始，機器請讀
+> [knowledge_index.yaml](./knowledge_index.yaml)。This is the unified entry
+> point for all SynergyMesh documentation. Humans start here; machines read
+> [knowledge_index.yaml](./knowledge_index.yaml).
 
 ## 🤖 For Agents & Automation 給智能體和自動化工具
 
 **Machine-readable knowledge index / 機器可讀知識索引:**
 
-- **[knowledge_index.yaml](./knowledge_index.yaml)** - Structured document catalog with metadata
+- **[knowledge_index.yaml](./knowledge_index.yaml)** - Structured document
+  catalog with metadata
 - **[Living Knowledge Base](./LIVING_KNOWLEDGE_BASE.md)** - 活體知識庫設計：自動感知、建模、診斷、回饋
 - Validate with: `python tools/docs/validate_index.py`
 
@@ -21,67 +24,67 @@
 
 核心架構設計和系統邊界定義。
 
-| Document | Description |
-|----------|-------------|
-| **[Architecture Layers](./architecture/layers.md)** ⭐ | Five-layer architecture view with dependency rules |
-| **[Repository Map](./architecture/repo-map.md)** ⭐ | Semantic boundaries and decision guides |
-| [System Architecture](./architecture/SYSTEM_ARCHITECTURE.md) | Four-layer microservices architecture |
-| [Deployment & Infrastructure](./architecture/DEPLOYMENT_INFRASTRUCTURE.md) | Docker, Kubernetes, CI/CD setup |
-| [Code Quality Checks](./architecture/CODE_QUALITY_CHECKS.md) | Quality tools configuration |
-| [Security & Config Checks](./architecture/SECURITY_CONFIG_CHECKS.md) | Security scanning and validation |
+| Document                                                                   | Description                                        |
+| -------------------------------------------------------------------------- | -------------------------------------------------- |
+| **[Architecture Layers](./architecture/layers.md)** ⭐                     | Five-layer architecture view with dependency rules |
+| **[Repository Map](./architecture/repo-map.md)** ⭐                        | Semantic boundaries and decision guides            |
+| [System Architecture](./architecture/SYSTEM_ARCHITECTURE.md)               | Four-layer microservices architecture              |
+| [Deployment & Infrastructure](./architecture/DEPLOYMENT_INFRASTRUCTURE.md) | Docker, Kubernetes, CI/CD setup                    |
+| [Code Quality Checks](./architecture/CODE_QUALITY_CHECKS.md)               | Quality tools configuration                        |
+| [Security & Config Checks](./architecture/SECURITY_CONFIG_CHECKS.md)       | Security scanning and validation                   |
 
 ### 🤖 Automation & Agents 自動化與代理
 
 AI 系統、自動化流程和智能代理。
 
-| Document | Description |
-|----------|-------------|
+| Document                                                          | Description                         |
+| ----------------------------------------------------------------- | ----------------------------------- |
 | **[Intelligent Automation](../automation/intelligent/README.md)** | Multi-agent AI code analysis system |
-| **[Agent Services](../agent/README.md)** | Long-lifecycle business agents |
-| **[MCP Servers](../mcp-servers/README.md)** | LLM tool endpoints (MCP protocol) |
-| [Autonomous System](../automation/autonomous/README.md) | Drone/self-driving framework |
-| [Auto-Assignment System](./AUTO_ASSIGNMENT_SYSTEM.md) | Intelligent task assignment |
-| [Advanced Escalation](./ADVANCED_ESCALATION_SYSTEM.md) | Multi-level escalation system |
+| **[Agent Services](../agent/README.md)**                          | Long-lifecycle business agents      |
+| **[MCP Servers](../mcp-servers/README.md)**                       | LLM tool endpoints (MCP protocol)   |
+| [Autonomous System](../automation/autonomous/README.md)           | Drone/self-driving framework        |
+| [Auto-Assignment System](./AUTO_ASSIGNMENT_SYSTEM.md)             | Intelligent task assignment         |
+| [Advanced Escalation](./ADVANCED_ESCALATION_SYSTEM.md)            | Multi-level escalation system       |
 
 ### 🏛️ Core Platform 核心平台
 
 平台核心服務和執行環境。
 
-| Document | Description |
-|----------|-------------|
-| **[Core Services](../core/README.md)** | Platform core capabilities |
-| **[Runtime Environment](../runtime/README.md)** | Runtime hosting execution |
-| [Execution Engine](../core/execution_engine/README.md) | Execution logic abstraction |
-| [Execution Architecture](../core/execution_architecture/README.md) | Execution topology design |
-| [Contract Service](../core/contract_service/README.md) | Contract management microservice |
-| [External Contracts](../contracts/README.md) | API specs and schemas |
+| Document                                                           | Description                      |
+| ------------------------------------------------------------------ | -------------------------------- |
+| **[Core Services](../core/README.md)**                             | Platform core capabilities       |
+| **[Runtime Environment](../runtime/README.md)**                    | Runtime hosting execution        |
+| [Execution Engine](../core/execution_engine/README.md)             | Execution logic abstraction      |
+| [Execution Architecture](../core/execution_architecture/README.md) | Execution topology design        |
+| [Contract Service](../core/contract_service/README.md)             | Contract management microservice |
+| [External Contracts](../contracts/README.md)                       | API specs and schemas            |
 
 ### ⚖️ Governance & Security 治理與安全
 
 政策、規則、安全和合規。
 
-| Document | Description |
-|----------|-------------|
-| [Governance](../governance/README.md) | Policies, rules, SBOM |
+| Document                                                  | Description                |
+| --------------------------------------------------------- | -------------------------- |
+| [Governance](../governance/README.md)                     | Policies, rules, SBOM      |
 | [Vulnerability Management](./VULNERABILITY_MANAGEMENT.md) | CVE detection and response |
-| [Secret Scanning](./SECRET_SCANNING.md) | Secret detection |
-| [Security Training](./SECURITY_TRAINING.md) | Security best practices |
+| [Secret Scanning](./SECRET_SCANNING.md)                   | Secret detection           |
+| [Security Training](./SECURITY_TRAINING.md)               | Security best practices    |
 
 ### 🚀 Getting Started 快速入門
 
-| Document | Description |
-|----------|-------------|
-| [Quick Start Guide](./QUICK_START.md) | Get up and running quickly |
-| [Island AI Setup](./ISLAND_AI_SETUP.md) | Island AI integration |
+| Document                                    | Description                 |
+| ------------------------------------------- | --------------------------- |
+| [Quick Start Guide](./QUICK_START.md)       | Get up and running quickly  |
+| [Island AI Setup](./ISLAND_AI_SETUP.md)     | Island AI integration       |
 | [Integration Guide](./INTEGRATION_GUIDE.md) | External system integration |
 
 ### 🔄 CI/CD & Operations CI/CD 與運維
 
-| Document | Description |
-|----------|-------------|
-| [Auto Review & Merge](./AUTO_REVIEW_MERGE.md) | Automated PR workflow |
-| [Dynamic CI Assistant](./DYNAMIC_CI_ASSISTANT.md) | Interactive CI system |
-| [Cloud Delegation](./CLOUD_DELEGATION.md) | Distributed task processing |
+| Document                                          | Description                 |
+| ------------------------------------------------- | --------------------------- |
+| [Auto Review & Merge](./AUTO_REVIEW_MERGE.md)     | Automated PR workflow       |
+| [Dynamic CI Assistant](./DYNAMIC_CI_ASSISTANT.md) | Interactive CI system       |
+| [Cloud Delegation](./CLOUD_DELEGATION.md)         | Distributed task processing |
 
 ---
 
@@ -89,23 +92,23 @@ AI 系統、自動化流程和智能代理。
 
 ### By Role 按角色
 
-| Role | Start Here | Then Read |
-|------|------------|-----------|
-| **New Developer** | [Quick Start](./QUICK_START.md) | [Examples](./EXAMPLES.md) → [Island AI Setup](./ISLAND_AI_SETUP.md) |
-| **DevOps Engineer** | [Deployment](./architecture/DEPLOYMENT_INFRASTRUCTURE.md) | [CI/CD](./AUTO_REVIEW_MERGE.md) → [Monitoring](./architecture/CODE_QUALITY_CHECKS.md) |
-| **System Architect** | [Architecture Layers](./architecture/layers.md) | [Repo Map](./architecture/repo-map.md) → [System Design](./architecture/SYSTEM_ARCHITECTURE.md) |
-| **Agent Developer** | [Repo Map](./architecture/repo-map.md) | [Agent Services](../agent/README.md) → [MCP Servers](../mcp-servers/README.md) |
-| **Security Engineer** | [Security Checks](./architecture/SECURITY_CONFIG_CHECKS.md) | [Vulnerability Mgmt](./VULNERABILITY_MANAGEMENT.md) → [Governance](../governance/README.md) |
+| Role                  | Start Here                                                  | Then Read                                                                                       |
+| --------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **New Developer**     | [Quick Start](./QUICK_START.md)                             | [Examples](./EXAMPLES.md) → [Island AI Setup](./ISLAND_AI_SETUP.md)                             |
+| **DevOps Engineer**   | [Deployment](./architecture/DEPLOYMENT_INFRASTRUCTURE.md)   | [CI/CD](./AUTO_REVIEW_MERGE.md) → [Monitoring](./architecture/CODE_QUALITY_CHECKS.md)           |
+| **System Architect**  | [Architecture Layers](./architecture/layers.md)             | [Repo Map](./architecture/repo-map.md) → [System Design](./architecture/SYSTEM_ARCHITECTURE.md) |
+| **Agent Developer**   | [Repo Map](./architecture/repo-map.md)                      | [Agent Services](../agent/README.md) → [MCP Servers](../mcp-servers/README.md)                  |
+| **Security Engineer** | [Security Checks](./architecture/SECURITY_CONFIG_CHECKS.md) | [Vulnerability Mgmt](./VULNERABILITY_MANAGEMENT.md) → [Governance](../governance/README.md)     |
 
 ### By Domain 按領域
 
-| Domain | Key Documents |
-|--------|---------------|
-| **Architecture** | [layers.md](./architecture/layers.md), [repo-map.md](./architecture/repo-map.md) |
+| Domain                 | Key Documents                                                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Architecture**       | [layers.md](./architecture/layers.md), [repo-map.md](./architecture/repo-map.md)                                                  |
 | **Autonomous Systems** | [autonomous/README.md](../automation/autonomous/README.md), [QUICKSTART.md](../automation/autonomous/docs-examples/QUICKSTART.md) |
-| **AI/Agents** | [intelligent/README.md](../automation/intelligent/README.md), [agent/README.md](../agent/README.md) |
-| **Security** | [SECURITY_CONFIG_CHECKS.md](./architecture/SECURITY_CONFIG_CHECKS.md), [governance/](../governance/) |
-| **CI/CD** | [AUTO_REVIEW_MERGE.md](./AUTO_REVIEW_MERGE.md), [DYNAMIC_CI_ASSISTANT.md](./DYNAMIC_CI_ASSISTANT.md) |
+| **AI/Agents**          | [intelligent/README.md](../automation/intelligent/README.md), [agent/README.md](../agent/README.md)                               |
+| **Security**           | [SECURITY_CONFIG_CHECKS.md](./architecture/SECURITY_CONFIG_CHECKS.md), [governance/](../governance/)                              |
+| **CI/CD**              | [AUTO_REVIEW_MERGE.md](./AUTO_REVIEW_MERGE.md), [DYNAMIC_CI_ASSISTANT.md](./DYNAMIC_CI_ASSISTANT.md)                              |
 
 ---
 
@@ -154,7 +157,8 @@ tools/docs/
 
 1. Check existing documentation for gaps
 2. Follow the established format and style
-3. **Update [knowledge_index.yaml](./knowledge_index.yaml)** when adding new docs
+3. **Update [knowledge_index.yaml](./knowledge_index.yaml)** when adding new
+   docs
 4. Run `python tools/docs/validate_index.py` before submitting
 5. Submit a Pull Request
 
@@ -295,38 +299,38 @@ optional_fields:
 ```yaml
 # 知識循環四層次
 knowledge_cycle:
-  perception:      # 感知層 - 偵測變化
+  perception: # 感知層 - 偵測變化
     - Git 提交紀錄（檔案新增 / 修改 / 刪除）
     - GitHub Actions 工作流結果
     - 定期排程掃描
-  
-  modeling:        # 建模層 - 重建結構
+
+  modeling: # 建模層 - 重建結構
     outputs:
-      - docs/generated-mndoc.yaml      # 系統說明書
-      - docs/knowledge-graph.yaml      # 結構關係圖
-      - docs/superroot-entities.yaml   # SuperRoot ontology 編碼
-  
-  self_diagnosis:  # 自我診斷層 - 找出問題
+      - docs/generated-mndoc.yaml # 系統說明書
+      - docs/knowledge-graph.yaml # 結構關係圖
+      - docs/superroot-entities.yaml # SuperRoot ontology 編碼
+
+  self_diagnosis: # 自我診斷層 - 找出問題
     checks:
       - 孤兒元件（無關聯的 Component）
       - 死設定（未使用的 Config）
       - 重疊工作流
       - 斷鏈文件
     output: docs/knowledge-health-report.yaml
-  
-  action:          # 行動層 - 回報狀態
+
+  action: # 行動層 - 回報狀態
     - 更新 docs/KNOWLEDGE_HEALTH.md 儀表板
     - 必要時自動開 GitHub Issue
 ```
 
 **目錄佈局：**
 
-| 目錄 | 用途 |
-|------|------|
-| `knowledge/` | 純知識資料層（YAML/JSON），不放程式碼 |
-| `runtime/` | 操作知識的程式碼：載入、建模、診斷、輸出報告 |
-| `pipelines/` | 把 runtime 組合成完整活體流程 |
-| `docs/` | 給人類看的說明與健康報告 |
+| 目錄         | 用途                                         |
+| ------------ | -------------------------------------------- |
+| `knowledge/` | 純知識資料層（YAML/JSON），不放程式碼        |
+| `runtime/`   | 操作知識的程式碼：載入、建模、診斷、輸出報告 |
+| `pipelines/` | 把 runtime 組合成完整活體流程                |
+| `docs/`      | 給人類看的說明與健康報告                     |
 
 📚 詳見 [活體知識庫設計說明](docs/LIVING_KNOWLEDGE_BASE.md)
 
@@ -488,17 +492,18 @@ python tools/docs/validate_index.py --verbose
 
 </div>
 
-Admin Copilot CLI 將 AI 驅動的程式碼分析與操作能力帶入命令列，使系統可透過自然語言理解自身程式碼，並執行建置、偵錯與維護流程。
+Admin Copilot
+CLI 將 AI 驅動的程式碼分析與操作能力帶入命令列，使系統可透過自然語言理解自身程式碼，並執行建置、偵錯與維護流程。
 
 #### 核心特色
 
-| 特色 | 說明 |
-|------|------|
-| 🖥️ **終端機原生** | 直接在命令列中與 AI 協作，無需切換工具 |
-| 🔗 **GitHub 整合** | 使用自然語言存取倉庫、問題和拉取請求 |
-| 🤖 **代理能力** | AI 協作者可以計劃和執行複雜任務 |
-| 🔌 **MCP 擴展** | 支援自訂 MCP 伺服器擴展功能 |
-| ✅ **完全控制** | 每個操作在執行前都會預覽 |
+| 特色               | 說明                                   |
+| ------------------ | -------------------------------------- |
+| 🖥️ **終端機原生**  | 直接在命令列中與 AI 協作，無需切換工具 |
+| 🔗 **GitHub 整合** | 使用自然語言存取倉庫、問題和拉取請求   |
+| 🤖 **代理能力**    | AI 協作者可以計劃和執行複雜任務        |
+| 🔌 **MCP 擴展**    | 支援自訂 MCP 伺服器擴展功能            |
+| ✅ **完全控制**    | 每個操作在執行前都會預覽               |
 
 #### 快速安裝
 
@@ -516,26 +521,26 @@ smcli
 
 #### 可用命令
 
-| 命令 | 說明 |
-|------|------|
-| `chat` | 開始互動式 AI 對話 |
-| `analyze [path]` | 分析指定目錄的程式碼 |
-| `fix` | 修復程式碼問題 |
-| `explain <query>` | 解釋程式碼或概念 |
+| 命令              | 說明                 |
+| ----------------- | -------------------- |
+| `chat`            | 開始互動式 AI 對話   |
+| `analyze [path]`  | 分析指定目錄的程式碼 |
+| `fix`             | 修復程式碼問題       |
+| `explain <query>` | 解釋程式碼或概念     |
 | `generate <desc>` | 從自然語言生成程式碼 |
-| `review [path]` | 程式碼最佳實踐審查 |
-| `test [path]` | 為程式碼生成測試 |
+| `review [path]`   | 程式碼最佳實踐審查   |
+| `test [path]`     | 為程式碼生成測試     |
 
 #### 斜線命令（對話模式）
 
-| 命令 | 說明 |
-|------|------|
-| `/login` | 使用 GitHub 認證 |
-| `/logout` | 登出 GitHub |
-| `/model` | 選擇 AI 模型 (Claude Sonnet 4.5, GPT-5 等) |
-| `/feedback` | 提交回饋 |
-| `/help` | 顯示幫助 |
-| `/exit` | 退出 CLI |
+| 命令        | 說明                                       |
+| ----------- | ------------------------------------------ |
+| `/login`    | 使用 GitHub 認證                           |
+| `/logout`   | 登出 GitHub                                |
+| `/model`    | 選擇 AI 模型 (Claude Sonnet 4.5, GPT-5 等) |
+| `/feedback` | 提交回饋                                   |
+| `/help`     | 顯示幫助                                   |
+| `/exit`     | 退出 CLI                                   |
 
 #### 使用範例
 
@@ -585,7 +590,8 @@ docker-compose up -d
 
 ### 概述
 
-`apps/web` 是 SynergyMesh 平台的企業級代碼分析服務，實現了多語言、多策略的智能代碼分析功能，包含：
+`apps/web`
+是 SynergyMesh 平台的企業級代碼分析服務，實現了多語言、多策略的智能代碼分析功能，包含：
 
 - **React 前端 UI** - 架構視覺化與系統界面
 - **FastAPI 後端** - 代碼分析 API 服務
@@ -670,14 +676,14 @@ open http://localhost:8000/api/docs
 
 #### API 端點
 
-| 端點 | 方法 | 說明 |
-|------|------|------|
-| `/api/v1/analyze` | POST | 提交代碼分析任務 |
-| `/api/v1/analyze/{id}` | GET | 獲取分析結果 |
-| `/api/v1/analyze` | GET | 列出分析任務 |
-| `/api/v1/analyze/{id}` | DELETE | 刪除分析記錄 |
-| `/api/v1/metrics` | GET | 獲取系統指標 |
-| `/healthz` | GET | 健康檢查 |
+| 端點                   | 方法   | 說明             |
+| ---------------------- | ------ | ---------------- |
+| `/api/v1/analyze`      | POST   | 提交代碼分析任務 |
+| `/api/v1/analyze/{id}` | GET    | 獲取分析結果     |
+| `/api/v1/analyze`      | GET    | 列出分析任務     |
+| `/api/v1/analyze/{id}` | DELETE | 刪除分析記錄     |
+| `/api/v1/metrics`      | GET    | 獲取系統指標     |
+| `/healthz`             | GET    | 健康檢查         |
 
 #### 使用範例
 
@@ -702,23 +708,23 @@ curl http://localhost:8000/api/v1/metrics
 
 #### 支援語言
 
-| 語言 | 狀態 | 說明 |
-|------|------|------|
-| Python | ✅ | 完整支援 |
-| JavaScript/TypeScript | ✅ | 完整支援 |
-| Go | ✅ | 完整支援 |
-| Rust | ✅ | 完整支援 |
-| Java | ✅ | 完整支援 |
-| C++ | ✅ | 完整支援 |
+| 語言                  | 狀態 | 說明     |
+| --------------------- | ---- | -------- |
+| Python                | ✅   | 完整支援 |
+| JavaScript/TypeScript | ✅   | 完整支援 |
+| Go                    | ✅   | 完整支援 |
+| Rust                  | ✅   | 完整支援 |
+| Java                  | ✅   | 完整支援 |
+| C++                   | ✅   | 完整支援 |
 
 #### 分析策略
 
-| 策略 | 耗時 | 說明 |
-|------|------|------|
-| `QUICK` | < 1 分鐘 | 快速掃描常見問題 |
-| `STANDARD` | 1-5 分鐘 | 標準分析（推薦） |
-| `DEEP` | 5-30 分鐘 | 深度分析 |
-| `COMPREHENSIVE` | 30+ 分鐘 | 全面分析所有面向 |
+| 策略            | 耗時      | 說明             |
+| --------------- | --------- | ---------------- |
+| `QUICK`         | < 1 分鐘  | 快速掃描常見問題 |
+| `STANDARD`      | 1-5 分鐘  | 標準分析（推薦） |
+| `DEEP`          | 5-30 分鐘 | 深度分析         |
+| `COMPREHENSIVE` | 30+ 分鐘  | 全面分析所有面向 |
 
 #### 檢測能力
 
@@ -802,14 +808,15 @@ kubectl scale deployment code-analysis-api --replicas=5 -n code-analysis
 
 ### 性能指標
 
-| 指標 | 目標值 | 實際值 |
-|------|--------|--------|
-| 分析速度 | ≥ 1000 行/秒 | 1000-5000 行/秒 |
-| 準確率 | ≥ 90% | > 95% |
-| 測試覆蓋率 | ≥ 80% | 80-85% |
-| 記憶體使用 | ≤ 512 MB | < 512 MB |
+| 指標       | 目標值       | 實際值          |
+| ---------- | ------------ | --------------- |
+| 分析速度   | ≥ 1000 行/秒 | 1000-5000 行/秒 |
+| 準確率     | ≥ 90%        | > 95%           |
+| 測試覆蓋率 | ≥ 80%        | 80-85%          |
+| 記憶體使用 | ≤ 512 MB     | < 512 MB        |
 
-📚 詳見 [apps/web/README.md](apps/web/README.md) 與 [apps/web/PHASE2_IMPROVEMENTS.md](apps/web/PHASE2_IMPROVEMENTS.md)
+📚 詳見 [apps/web/README.md](apps/web/README.md) 與
+[apps/web/PHASE2_IMPROVEMENTS.md](apps/web/PHASE2_IMPROVEMENTS.md)
 
 ---
 
@@ -898,20 +905,20 @@ python tools/docs/provenance_injector.py --generate-sbom
 
 ### 治理文檔
 
-| 文檔                                  | 說明              |
-| ------------------------------------- | ----------------- |
-| [Schema 定義](governance/schemas/)    | JSON Schema 規範  |
-| [策略配置](governance/policies/)      | OPA/Conftest 策略 |
-| [審計格式](governance/audit/)         | 審計事件定義      |
-| [知識索引](docs/knowledge_index.yaml) | 機器可讀索引      |
+| 文檔                                        | 說明              |
+| ------------------------------------------- | ----------------- |
+| [Schema 定義](governance/schemas/)          | JSON Schema 規範  |
+| [策略配置](governance/policies/)            | OPA/Conftest 策略 |
+| [審計格式](governance/audit/)               | 審計事件定義      |
+| [知識索引](docs/knowledge_index.yaml)       | 機器可讀索引      |
 | [活體知識庫](docs/LIVING_KNOWLEDGE_BASE.md) | 系統自我感知設計  |
 
 ### 應用程式文檔
 
-| 文檔                                                   | 說明                    |
-| ------------------------------------------------------ | ----------------------- |
-| [Web 前端與 API](apps/web/README.md)                   | 企業級代碼分析服務      |
-| [Phase 2 改進](apps/web/PHASE2_IMPROVEMENTS.md)        | API 與部署改進詳情      |
+| 文檔                                            | 說明               |
+| ----------------------------------------------- | ------------------ |
+| [Web 前端與 API](apps/web/README.md)            | 企業級代碼分析服務 |
+| [Phase 2 改進](apps/web/PHASE2_IMPROVEMENTS.md) | API 與部署改進詳情 |
 
 ---
 
@@ -945,32 +952,32 @@ quality_gates:
 
 ### 主配置入口
 
-| 配置檔案 | 說明 | 用途 |
-|---------|------|------|
-| `synergymesh.yaml` | 🔑 統一主配置入口 | 所有系統配置的唯一真實來源 |
-| `config/system-manifest.yaml` | 系統宣告清單 | 系統啟動與元件協調 |
-| `config/unified-config-index.yaml` | 統一配置索引 v3.0.0 | 配置整合與目錄合併指南 |
-| `config/system-module-map.yaml` | 模組映射 | 目錄結構與元件映射 |
+| 配置檔案                           | 說明                | 用途                       |
+| ---------------------------------- | ------------------- | -------------------------- |
+| `synergymesh.yaml`                 | 🔑 統一主配置入口   | 所有系統配置的唯一真實來源 |
+| `config/system-manifest.yaml`      | 系統宣告清單        | 系統啟動與元件協調         |
+| `config/unified-config-index.yaml` | 統一配置索引 v3.0.0 | 配置整合與目錄合併指南     |
+| `config/system-module-map.yaml`    | 模組映射            | 目錄結構與元件映射         |
 
 ### AI 與治理配置
 
-| 配置檔案 | 說明 |
-|---------|------|
-| `config/ai-constitution.yaml` | AI 最高指導憲章（三層憲法體系） |
-| `config/agents/team/virtual-experts.yaml` | 虛擬專家團隊配置 |
-| `config/safety-mechanisms.yaml` | 安全機制配置 |
-| `config/topology-mind-matrix.yaml` | 心智矩陣拓撲配置 |
+| 配置檔案                                  | 說明                            |
+| ----------------------------------------- | ------------------------------- |
+| `config/ai-constitution.yaml`             | AI 最高指導憲章（三層憲法體系） |
+| `config/agents/team/virtual-experts.yaml` | 虛擬專家團隊配置                |
+| `config/safety-mechanisms.yaml`           | 安全機制配置                    |
+| `config/topology-mind-matrix.yaml`        | 心智矩陣拓撲配置                |
 
 ### 自動化與運維配置
 
-| 配置檔案 | 說明 |
-|---------|------|
-| `config/drone-config.yml` | 無人機編隊與自動化系統配置 |
-| `config/island-control.yml` | 多語言無人之島系統配置 |
-| `config/cloud-agent-delegation.yml` | 雲端代理程式委派配置 |
-| `config/auto-fix-bot.yml` | Auto-Fix Bot 自動修復配置 |
-| `config/monitoring.yaml` | 監控配置 |
-| `config/ci-error-handler.yaml` | CI 錯誤處理配置 |
+| 配置檔案                            | 說明                       |
+| ----------------------------------- | -------------------------- |
+| `config/drone-config.yml`           | 無人機編隊與自動化系統配置 |
+| `config/island-control.yml`         | 多語言無人之島系統配置     |
+| `config/cloud-agent-delegation.yml` | 雲端代理程式委派配置       |
+| `config/auto-fix-bot.yml`           | Auto-Fix Bot 自動修復配置  |
+| `config/monitoring.yaml`            | 監控配置                   |
+| `config/ci-error-handler.yaml`      | CI 錯誤處理配置            |
 
 ---
 
@@ -978,14 +985,14 @@ quality_gates:
 
 系統內建六位高級虛擬專家，提供全方位技術諮詢：
 
-| 專家 | 角色 | 專長領域 | 經驗 |
-|------|------|---------|------|
-| 🧠 Dr. Alex Chen | AI 架構師 | 決策引擎、神經網路、ML 系統 | 15 年 |
-| 💬 Sarah Wong | NLP 專家 | 大語言模型、對話系統、Prompt Engineering | 12 年 |
-| 🔐 Marcus Johnson | 安全架構師 | 零信任架構、滲透測試、合規框架 | 18 年 |
-| 🗄️ Li Wei | 數據庫專家 | PostgreSQL 優化、分佈式數據庫、數據倉庫 | 16 年 |
-| 🚀 Emma Thompson | DevOps 專家 | K8s 編排、GitOps、混沌工程 | 14 年 |
-| 🏗️ James Miller | 系統架構師 | 微服務、事件驅動、領域驅動設計 | 20 年 |
+| 專家              | 角色        | 專長領域                                 | 經驗  |
+| ----------------- | ----------- | ---------------------------------------- | ----- |
+| 🧠 Dr. Alex Chen  | AI 架構師   | 決策引擎、神經網路、ML 系統              | 15 年 |
+| 💬 Sarah Wong     | NLP 專家    | 大語言模型、對話系統、Prompt Engineering | 12 年 |
+| 🔐 Marcus Johnson | 安全架構師  | 零信任架構、滲透測試、合規框架           | 18 年 |
+| 🗄️ Li Wei         | 數據庫專家  | PostgreSQL 優化、分佈式數據庫、數據倉庫  | 16 年 |
+| 🚀 Emma Thompson  | DevOps 專家 | K8s 編排、GitOps、混沌工程               | 14 年 |
+| 🏗️ James Miller   | 系統架構師  | 微服務、事件驅動、領域驅動設計           | 20 年 |
 
 ### 領域專家映射
 
@@ -1007,21 +1014,21 @@ domain_mapping:
 
 長生命週期業務代理，負責自動化任務執行和系統協調：
 
-| 代理 | 職責 | 說明 |
-|------|------|------|
-| **Auto-Repair Agent** | 自動修復 | 自動檢測和修復程式碼問題，追蹤修復歷史 |
-| **Code Analyzer Agent** | 程式碼分析 | 深度品質分析、複雜度評估、安全路徑識別 |
-| **Dependency Manager** | 依賴管理 | 版本管理、漏洞檢測、升級建議 |
-| **Orchestrator** | 代理編排 | 多代理任務協調、工作流編排、通訊管理 |
-| **Vulnerability Detector** | 漏洞檢測 | CVE 資料庫比對、安全報告生成 |
+| 代理                       | 職責       | 說明                                   |
+| -------------------------- | ---------- | -------------------------------------- |
+| **Auto-Repair Agent**      | 自動修復   | 自動檢測和修復程式碼問題，追蹤修復歷史 |
+| **Code Analyzer Agent**    | 程式碼分析 | 深度品質分析、複雜度評估、安全路徑識別 |
+| **Dependency Manager**     | 依賴管理   | 版本管理、漏洞檢測、升級建議           |
+| **Orchestrator**           | 代理編排   | 多代理任務協調、工作流編排、通訊管理   |
+| **Vulnerability Detector** | 漏洞檢測   | CVE 資料庫比對、安全報告生成           |
 
 ### 智能自動化代理 (`automation/intelligent/agents/`)
 
-| 代理 | 職責 |
-|------|------|
-| `recognition_server.py` | 意圖識別伺服器 |
-| `task_executor.py` | 任務執行器 |
-| `visualization_agent.py` | 視覺化代理 |
+| 代理                     | 職責           |
+| ------------------------ | -------------- |
+| `recognition_server.py`  | 意圖識別伺服器 |
+| `task_executor.py`       | 任務執行器     |
+| `visualization_agent.py` | 視覺化代理     |
 
 ---
 
@@ -1033,20 +1040,20 @@ domain_mapping:
 
 ```yaml
 drone_fleet:
-  coordinator:    # 🎯 主協調器 - 優先級 1
-    name: "主協調器"
+  coordinator: # 🎯 主協調器 - 優先級 1
+    name: '主協調器'
     auto_start: true
-  
-  autopilot:      # 🛫 自動駕駛 - 優先級 2
-    name: "自動駕駛"
+
+  autopilot: # 🛫 自動駕駛 - 優先級 2
+    name: '自動駕駛'
     auto_start: true
-  
+
   code_generator: # 💻 代碼生成器 - 優先級 3
-    name: "代碼生成器"
+    name: '代碼生成器'
     auto_start: false
-  
+
   deployment_drone: # 🚀 部署無人機 - 優先級 4
-    name: "部署無人機"
+    name: '部署無人機'
     auto_start: false
 ```
 
@@ -1054,13 +1061,13 @@ drone_fleet:
 
 五大技術島嶼並行運作，各司其職：
 
-| 島嶼 | 技術棧 | 核心能力 |
-|------|--------|---------|
-| 🦀 **Rust 性能核心島** | Rust 1.70+ | 性能監控、安全守護、數據管道、系統編排 |
-| 🌊 **Go 雲原生服務島** | Go 1.20+ | API 閘道、微服務網格、容器管理、分散式快取 |
-| ⚡ **TypeScript 全棧開發島** | TS 5.0+ | Web 儀表板、API 客戶端生成、即時監控、開發工具 |
-| 🐍 **Python AI 數據島** | Python 3.10+ | AI 程式碼助手、數據分析、ML 管道、自動化腳本 |
-| ☕ **Java 企業服務島** | Java 17+ | 企業整合、消息佇列、批處理、遺留系統橋接 |
+| 島嶼                         | 技術棧       | 核心能力                                       |
+| ---------------------------- | ------------ | ---------------------------------------------- |
+| 🦀 **Rust 性能核心島**       | Rust 1.70+   | 性能監控、安全守護、數據管道、系統編排         |
+| 🌊 **Go 雲原生服務島**       | Go 1.20+     | API 閘道、微服務網格、容器管理、分散式快取     |
+| ⚡ **TypeScript 全棧開發島** | TS 5.0+      | Web 儀表板、API 客戶端生成、即時監控、開發工具 |
+| 🐍 **Python AI 數據島**      | Python 3.10+ | AI 程式碼助手、數據分析、ML 管道、自動化腳本   |
+| ☕ **Java 企業服務島**       | Java 17+     | 企業整合、消息佇列、批處理、遺留系統橋接       |
 
 ### 島嶼通信協議
 
@@ -1115,12 +1122,12 @@ bridges:
 
 ### 性能指標
 
-| 指標 | 目標值 | 實際值 |
-|------|--------|--------|
-| 控制迴圈延遲 | < 10ms | ~5ms |
-| API 響應時間 | < 100ms | ~50ms |
-| 事件處理延遲 | < 1ms | ~0.5ms |
-| 系統可用性 | > 99.9% | 99.95% |
+| 指標         | 目標值  | 實際值 |
+| ------------ | ------- | ------ |
+| 控制迴圈延遲 | < 10ms  | ~5ms   |
+| API 響應時間 | < 100ms | ~50ms  |
+| 事件處理延遲 | < 1ms   | ~0.5ms |
+| 系統可用性   | > 99.9% | 99.95% |
 
 ---
 
@@ -1140,11 +1147,11 @@ automation/
 
 支援多雲端提供商的智能任務委派：
 
-| 提供商 | 權重 | 主要任務 |
-|--------|------|---------|
-| **AWS** | 40% | 程式碼分析、安全掃描 |
-| **GCP** | 35% | 自動修復、報告生成 |
-| **Azure** | 25% | 性能優化 |
+| 提供商    | 權重 | 主要任務             |
+| --------- | ---- | -------------------- |
+| **AWS**   | 40%  | 程式碼分析、安全掃描 |
+| **GCP**   | 35%  | 自動修復、報告生成   |
+| **Azure** | 25%  | 性能優化             |
 
 ### 任務路由策略
 
@@ -1165,34 +1172,34 @@ task_routing:
 
 ### 第一層：根本法則（不可違反）
 
-| 法則 | 名稱 | 說明 | 違規處理 |
-|------|------|------|---------|
-| **Law Zero** | 存在目的法則 | AI 存在目的是服務人類 | 系統停止 |
-| **Law One** | 不傷害法則 | 不得傷害人類或允許傷害發生 | 立即停止 |
-| **Law Two** | 服從法則 | 遵守有效指令（除非違反更高法則） | 升級處理 |
-| **Law Three** | 自我保護法則 | 保護自身存在與完整性 | 記錄告警 |
+| 法則          | 名稱         | 說明                             | 違規處理 |
+| ------------- | ------------ | -------------------------------- | -------- |
+| **Law Zero**  | 存在目的法則 | AI 存在目的是服務人類            | 系統停止 |
+| **Law One**   | 不傷害法則   | 不得傷害人類或允許傷害發生       | 立即停止 |
+| **Law Two**   | 服從法則     | 遵守有效指令（除非違反更高法則） | 升級處理 |
+| **Law Three** | 自我保護法則 | 保護自身存在與完整性             | 記錄告警 |
 
 ### 護欄系統
 
 ```yaml
 guardrails:
-  safety:     # 有害內容偵測、PII 偵測、危險操作偵測
+  safety: # 有害內容偵測、PII 偵測、危險操作偵測
   compliance: # GDPR、SOC2、HIPAA 合規
-  ethics:     # 偏見偵測、公平性檢查、透明度檢查
+  ethics: # 偏見偵測、公平性檢查、透明度檢查
 ```
 
 ---
 
 ## 📊 能力矩陣總覽
 
-| 能力分類 | 提供者 | 功能 |
-|---------|--------|------|
-| **認知處理** | `core/unified_integration/cognitive_processor.py` | 感知、推理、執行、證明 |
-| **服務管理** | `core/unified_integration/service_registry.py` | 發現、健康監控、依賴解析 |
-| **配置管理** | `core/unified_integration/configuration_optimizer.py` | 驗證、漂移檢測、優化 |
-| **安全合規** | `core/slsa_provenance/`, `core/safety_mechanisms/` | 認證、漏洞偵測、安全檢查 |
-| **程式碼分析** | `mcp-servers/code-analyzer.js` | 靜態分析、架構分析、性能分析 |
-| **代理服務** | `services/agents/` | 自動修復、漏洞偵測、編排 |
+| 能力分類       | 提供者                                                | 功能                         |
+| -------------- | ----------------------------------------------------- | ---------------------------- |
+| **認知處理**   | `core/unified_integration/cognitive_processor.py`     | 感知、推理、執行、證明       |
+| **服務管理**   | `core/unified_integration/service_registry.py`        | 發現、健康監控、依賴解析     |
+| **配置管理**   | `core/unified_integration/configuration_optimizer.py` | 驗證、漂移檢測、優化         |
+| **安全合規**   | `core/slsa_provenance/`, `core/safety_mechanisms/`    | 認證、漏洞偵測、安全檢查     |
+| **程式碼分析** | `mcp-servers/code-analyzer.js`                        | 靜態分析、架構分析、性能分析 |
+| **代理服務**   | `services/agents/`                                    | 自動修復、漏洞偵測、編排     |
 
 ---
 

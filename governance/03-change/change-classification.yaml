@@ -4,7 +4,6 @@ version: "1.0"
 lastUpdated: "2025-12-09"
 
 change_types:
-
   emergency_change:
     name: "緊急變更"
     priority: "critical"

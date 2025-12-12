@@ -14,8 +14,10 @@
 
 > **⚠️ 部署注意事項**
 >
-> - **靜態部署**（前端）：僅需要 Node.js 和 npm，執行 `npm run build` 生成靜態文件到 `dist/` 目錄
-> - **後端服務部署**：需要 Python 3.11+，依賴 `requirements.txt` 中的套件（FastAPI、uvicorn 等）
+> - **靜態部署**（前端）：僅需要 Node.js 和 npm，執行 `npm run build`
+>   生成靜態文件到 `dist/` 目錄
+> - **後端服務部署**：需要 Python 3.11+，依賴 `requirements.txt`
+>   中的套件（FastAPI、uvicorn 等）
 > - 如果只需要靜態前端，不需要安裝 Python 依賴或執行後端服務
 > - 對於完整功能，建議使用「自動擴充」或「預留虛擬機器」部署類型以支持後端 API
 
@@ -27,38 +29,38 @@
 
 ```yaml
 dashboard:
-  route: "/#/language-governance"
-  current_health_score: "85/100 (Grade B)"
-  target_health_score: "90/100 (Grade A-)"
-  
+  route: '/#/language-governance'
+  current_health_score: '85/100 (Grade B)'
+  target_health_score: '90/100 (Grade A-)'
+
 visualizations:
-  - name: "Language Layer Model"
-    type: "Mermaid 流程圖"
+  - name: 'Language Layer Model'
+    type: 'Mermaid 流程圖'
     layers: [L0, L1, L2, L3, L4, L5]
-    description: "六層架構圖：L0 (C++/ROS) → L5 (TypeScript/React)"
-    
-  - name: "Sankey Flow Diagram"
-    type: "Mermaid Sankey"
-    flow: "來源層 → 違規類型 → 修復目標"
+    description: '六層架構圖：L0 (C++/ROS) → L5 (TypeScript/React)'
+
+  - name: 'Sankey Flow Diagram'
+    type: 'Mermaid Sankey'
+    flow: '來源層 → 違規類型 → 修復目標'
     paths: 3
-    
-  - name: "Hotspot Heatmap"
-    type: "Canvas Treemap"
-    algorithm: "(Forbidden×5) + (CrossLayer×3) + (Security×2) + (Repeated×4)"
+
+  - name: 'Hotspot Heatmap'
+    type: 'Canvas Treemap'
+    algorithm: '(Forbidden×5) + (CrossLayer×3) + (Security×2) + (Repeated×4)'
     color_coding:
-      critical: "70-100 (🔴)"
-      high: "40-69 (🟠)"
-      moderate: "1-39 (🟡)"
-    
-  - name: "Migration Flow Model"
-    type: "Mermaid Sankey"
-    flow: "來源叢集:語言 → 目標叢集:語言"
-    types: ["✓ Historical", "→ Suggested"]
+      critical: '70-100 (🔴)'
+      high: '40-69 (🟠)'
+      moderate: '1-39 (🟡)'
+
+  - name: 'Migration Flow Model'
+    type: 'Mermaid Sankey'
+    flow: '來源叢集:語言 → 目標叢集:語言'
+    types: ['✓ Historical', '→ Suggested']
 
 metrics:
   total_violations: 2
   security_findings: 1
-  fix_success_rate: "87%"
+  fix_success_rate: '87%'
   hotspots: 4
   critical_hotspots: 1
   migration_flows: 9
@@ -87,14 +89,14 @@ python api.py
 
 ### 前端組件
 
-| 組件檔案                              | 說明                         | 路徑                                        |
-| ------------------------------------- | ---------------------------- | ------------------------------------------- |
-| `src/pages/LanguageGovernance.tsx`    | 主儀表板頁面                 | `/#/language-governance`                    |
-| `src/components/Mermaid.tsx`          | Mermaid 圖表渲染器           | 用於層級模型                                |
-| `src/components/SankeyDiagram.tsx`    | Sankey 違規流向圖            | 顯示來源→類型→修復                          |
-| `src/components/HotspotHeatmap.tsx`   | Canvas 熱力圖 Treemap        | 互動式違規強度可視化                        |
-| `src/components/MigrationFlow.tsx`    | 叢集遷移流程圖               | 顯示歷史與建議的遷移路徑                    |
-| `src/components/layout/Navbar.tsx`    | 導航列（已更新）             | 新增「語言治理」連結                        |
+| 組件檔案                            | 說明                  | 路徑                     |
+| ----------------------------------- | --------------------- | ------------------------ |
+| `src/pages/LanguageGovernance.tsx`  | 主儀表板頁面          | `/#/language-governance` |
+| `src/components/Mermaid.tsx`        | Mermaid 圖表渲染器    | 用於層級模型             |
+| `src/components/SankeyDiagram.tsx`  | Sankey 違規流向圖     | 顯示來源→類型→修復       |
+| `src/components/HotspotHeatmap.tsx` | Canvas 熱力圖 Treemap | 互動式違規強度可視化     |
+| `src/components/MigrationFlow.tsx`  | 叢集遷移流程圖        | 顯示歷史與建議的遷移路徑 |
+| `src/components/layout/Navbar.tsx`  | 導航列（已更新）      | 新增「語言治理」連結     |
 
 ### 後端 API
 
@@ -150,11 +152,11 @@ python api.py
 
 ### 資料產生器
 
-| 工具                                   | 產出檔案                                                      | 功能                     |
-| -------------------------------------- | ------------------------------------------------------------- | ------------------------ |
-| `tools/generate-sankey-data.py`        | `governance/sankey-data.json`                                 | 違規流向分析             |
-| `tools/generate-hotspot-heatmap.py`    | `governance/hotspot-data.json`, `docs/HOTSPOT_HEATMAP.md`     | 違規強度計算             |
-| `tools/generate-migration-flow.py`     | `governance/migration-flow.json`, `docs/MIGRATION_FLOW.md`    | 叢集遷移追蹤             |
+| 工具                                | 產出檔案                                                   | 功能         |
+| ----------------------------------- | ---------------------------------------------------------- | ------------ |
+| `tools/generate-sankey-data.py`     | `governance/sankey-data.json`                              | 違規流向分析 |
+| `tools/generate-hotspot-heatmap.py` | `governance/hotspot-data.json`, `docs/HOTSPOT_HEATMAP.md`  | 違規強度計算 |
+| `tools/generate-migration-flow.py`  | `governance/migration-flow.json`, `docs/MIGRATION_FLOW.md` | 叢集遷移追蹤 |
 
 ```bash
 # 手動執行產生器
@@ -208,7 +210,8 @@ npm run preview
 
 ### 📋 概述（Phase 2）
 
-這是 SynergyMesh 平台的 Phase 2 核心服務開發，實現了企業級代碼分析服務，支持多語言、多策略的智能代碼分析。
+這是 SynergyMesh 平台的 Phase
+2 核心服務開發，實現了企業級代碼分析服務，支持多語言、多策略的智能代碼分析。
 
 ### 🏗️ 架構
 
@@ -352,20 +355,20 @@ async def main():
     # 創建分析引擎
     config = {'max_workers': 4}
     engine = CodeAnalysisEngine(config)
-    
+
     # 分析代碼庫
     result = await engine.analyze_repository(
         repo_path="/path/to/repo",
         commit_hash="abc123",
         strategy=AnalysisStrategy.STANDARD
     )
-    
+
     # 查看結果
     print(f"Total issues: {result.total_issues}")
     print(f"Critical issues: {result.critical_issues}")
     print(f"Quality score: {result.quality_score}")
     print(f"Risk level: {result.risk_level}")
-    
+
     # 查看問題詳情
     for issue in result.issues:
         print(f"[{issue.severity.value}] {issue.message}")
@@ -388,13 +391,13 @@ from services.code_analyzer import (
 async def analyze_file():
     config = {'max_workers': 2}
     engine = CodeAnalysisEngine(config)
-    
+
     # 分析文件
     issues = await engine.analyze_file(
         file_path="example.py",
         strategy=AnalysisStrategy.DEEP
     )
-    
+
     print(f"Found {len(issues)} issues")
     for issue in issues:
         print(f"- {issue.message}")

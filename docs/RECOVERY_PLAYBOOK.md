@@ -6,12 +6,12 @@
 
 ### Emergency Contacts | 緊急聯絡
 
-| Scenario | Action | Command |
-|----------|--------|---------|
-| Launcher crashed | Auto-recovery by Phoenix | `python emergency_recovery.py` |
-| Phoenix not responding | Manual restart | `python services/agents/recovery/phoenix_agent.py start` |
-| Watchdog not running | Start watchdog | `python services/watchdog/system_watchdog.py start` |
-| Complete system failure | Emergency bootstrap | `python emergency_recovery.py` |
+| Scenario                | Action                   | Command                                                  |
+| ----------------------- | ------------------------ | -------------------------------------------------------- |
+| Launcher crashed        | Auto-recovery by Phoenix | `python emergency_recovery.py`                           |
+| Phoenix not responding  | Manual restart           | `python services/agents/recovery/phoenix_agent.py start` |
+| Watchdog not running    | Start watchdog           | `python services/watchdog/system_watchdog.py start`      |
+| Complete system failure | Emergency bootstrap      | `python emergency_recovery.py`                           |
 
 ## 🔥 Emergency Procedures | 緊急程序
 
@@ -205,12 +205,12 @@ tail -f .automation_logs/*.log
 
 ### Incident Classification | 事件分類
 
-| Level | Description | Response Time | Escalation |
-|-------|-------------|---------------|------------|
-| P1 | System down | Immediate | Auto + Human |
-| P2 | Critical degraded | < 5 min | Auto |
-| P3 | Non-critical issues | < 30 min | Auto |
-| P4 | Minor issues | < 2 hours | Log only |
+| Level | Description         | Response Time | Escalation   |
+| ----- | ------------------- | ------------- | ------------ |
+| P1    | System down         | Immediate     | Auto + Human |
+| P2    | Critical degraded   | < 5 min       | Auto         |
+| P3    | Non-critical issues | < 30 min      | Auto         |
+| P4    | Minor issues        | < 2 hours     | Log only     |
 
 ### Response Workflow | 響應工作流程
 
@@ -251,10 +251,10 @@ Post-Mortem
    ```bash
    # Check Phoenix status
    python services/agents/recovery/phoenix_agent.py status
-   
+
    # Review recent incidents
    tail -100 .automation_logs/incidents.log
-   
+
    # Check system resources
    htop
    df -h
@@ -265,7 +265,7 @@ Post-Mortem
    ```bash
    # Stop auto-recovery temporarily
    pkill -f phoenix_agent.py
-   
+
    # Stop problematic services
    pkill -f automation_launcher.py
    ```
@@ -381,6 +381,8 @@ Based on historical data:
 
 ---
 
-**Remember | 記住:** This playbook is a living document. Update it based on actual incidents and learnings. Phoenix learns from every recovery - so should we.
+**Remember | 記住:** This playbook is a living document. Update it based on
+actual incidents and learnings. Phoenix learns from every recovery - so should
+we.
 
 **Emergency Hotline | 緊急熱線:** `python emergency_recovery.py`

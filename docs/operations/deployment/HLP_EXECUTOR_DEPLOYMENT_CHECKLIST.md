@@ -9,9 +9,12 @@
 
 ## 📋 文件目的 | Document Purpose
 
-本文件提供 HLP Executor Core Plugin 的完整部署檢查清單，確保所有前置條件滿足、部署順利進行，並驗證部署後系統正常運作。
+本文件提供 HLP Executor Core
+Plugin 的完整部署檢查清單，確保所有前置條件滿足、部署順利進行，並驗證部署後系統正常運作。
 
-This document provides a comprehensive deployment checklist for the HLP Executor Core Plugin, ensuring all prerequisites are met, deployment proceeds smoothly, and post-deployment validation confirms system health.
+This document provides a comprehensive deployment checklist for the HLP Executor
+Core Plugin, ensuring all prerequisites are met, deployment proceeds smoothly,
+and post-deployment validation confirms system health.
 
 ---
 
@@ -161,11 +164,11 @@ metadata:
   namespace: unmanned-island-system
 spec:
   hard:
-    requests.cpu: "20"
-    requests.memory: "40Gi"
-    requests.storage: "100Gi"
-    persistentvolumeclaims: "10"
-    pods: "50"
+    requests.cpu: '20'
+    requests.memory: '40Gi'
+    requests.storage: '100Gi'
+    persistentvolumeclaims: '10'
+    pods: '50'
 ```
 
 ```bash
@@ -237,21 +240,21 @@ metadata:
   name: hlp-executor-role
   namespace: unmanned-island-system
 rules:
-  - apiGroups: [""]
-    resources: ["pods", "pods/log", "pods/status"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["configmaps"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "list"]
-  - apiGroups: ["batch"]
-    resources: ["jobs", "cronjobs"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "patch"]
+  - apiGroups: ['']
+    resources: ['pods', 'pods/log', 'pods/status']
+    verbs: ['get', 'list', 'watch']
+  - apiGroups: ['']
+    resources: ['configmaps']
+    verbs: ['get', 'list', 'watch']
+  - apiGroups: ['']
+    resources: ['secrets']
+    verbs: ['get', 'list']
+  - apiGroups: ['batch']
+    resources: ['jobs', 'cronjobs']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch']
+  - apiGroups: ['']
+    resources: ['events']
+    verbs: ['create', 'patch']
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -332,28 +335,28 @@ spec:
               name: kube-system
       ports:
         - protocol: TCP
-          port: 443  # Kubernetes API
+          port: 443 # Kubernetes API
     - to:
         - namespaceSelector:
             matchLabels:
               name: quantum-system
       ports:
         - protocol: TCP
-          port: 8080  # Quantum backend
+          port: 8080 # Quantum backend
     - to:
         - namespaceSelector: {}
       ports:
         - protocol: TCP
-          port: 53   # DNS
+          port: 53 # DNS
         - protocol: UDP
-          port: 53   # DNS
+          port: 53 # DNS
     - to:
         - namespaceSelector:
             matchLabels:
               name: monitoring
       ports:
         - protocol: TCP
-          port: 9090  # Prometheus
+          port: 9090 # Prometheus
 ```
 
 ```bash
@@ -387,7 +390,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: standard  # Adjust based on your cluster
+  storageClassName: standard # Adjust based on your cluster
 ```
 
 ```bash
@@ -569,9 +572,9 @@ spec:
         app: hlp-executor-core
         version: v1.0.0
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+        prometheus.io/path: '/metrics'
     spec:
       serviceAccountName: hlp-executor-sa
       securityContext:
@@ -941,7 +944,7 @@ done
 ```bash
 # Run basic load test
 kubectl run load-test --rm -it --restart=Never --image=busybox -- sh -c \
-  'for i in $(seq 1 100); do 
+  'for i in $(seq 1 100); do
      wget -qO- http://hlp-executor-service.unmanned-island-system.svc.cluster.local:8080/healthz
    done'
 
@@ -1026,11 +1029,11 @@ cat >> /docs/SERVICE_INVENTORY.md <<EOF
 - **Service Name**: hlp-executor-service
 - **Namespace**: unmanned-island-system
 - **Replicas**: 3 (HPA: 3-10)
-- **Endpoints**: 
+- **Endpoints**:
   - HTTP: http://hlp-executor-service:8080
   - Admin: http://hlp-executor-service:8081
 - **Monitoring**: Prometheus ServiceMonitor configured
-- **Runbooks**: 
+- **Runbooks**:
   - [Error Handling](./operations/runbooks/HLP_EXECUTOR_ERROR_HANDLING.md)
   - [Emergency](./operations/runbooks/HLP_EXECUTOR_EMERGENCY.md)
   - [Maintenance](./operations/runbooks/HLP_EXECUTOR_MAINTENANCE.md)
@@ -1132,22 +1135,22 @@ kubectl exec -it -n monitoring prometheus-k8s-0 -- \
 ```yaml
 first_week_metrics:
   availability:
-    target: "> 99.9%"
-    check_frequency: "hourly"
-    
+    target: '> 99.9%'
+    check_frequency: 'hourly'
+
   error_rate:
-    target: "< 1%"
-    check_frequency: "hourly"
-    
+    target: '< 1%'
+    check_frequency: 'hourly'
+
   latency_p95:
-    target: "< 120ms"
-    check_frequency: "every 4 hours"
-    
+    target: '< 120ms'
+    check_frequency: 'every 4 hours'
+
   resource_usage:
-    cpu: "< 80%"
-    memory: "< 85%"
-    disk: "< 70%"
-    check_frequency: "daily"
+    cpu: '< 80%'
+    memory: '< 85%'
+    disk: '< 70%'
+    check_frequency: 'daily'
 ```
 
 ---
@@ -1201,26 +1204,27 @@ kubectl exec -it deployment/hlp-executor-core -n unmanned-island-system -- \
 
 ```yaml
 deployment_signoff:
-  date: "2025-12-07"
+  date: '2025-12-07'
   deployer:
-    name: "<YOUR_NAME>"
-    role: "Platform Engineer"
-    signature: "________"
-    
+    name: '<YOUR_NAME>'
+    role: 'Platform Engineer'
+    signature: '________'
+
   verifier:
-    name: "<VERIFIER_NAME>"
-    role: "SRE"
-    signature: "________"
-    
+    name: '<VERIFIER_NAME>'
+    role: 'SRE'
+    signature: '________'
+
   approval:
-    name: "<PLATFORM_LEAD_NAME>"
-    role: "Platform Engineering Lead"
-    signature: "________"
-    date_approved: "________"
+    name: '<PLATFORM_LEAD_NAME>'
+    role: 'Platform Engineering Lead'
+    signature: '________'
+    date_approved: '________'
 ```
 
 ---
 
 **文件維護者 | Document Maintainer**: Platform Engineering Team  
 **審核週期 | Review Cycle**: After each major deployment  
-**版本控制 | Version Control**: This checklist should be updated based on deployment learnings
+**版本控制 | Version Control**: This checklist should be updated based on
+deployment learnings

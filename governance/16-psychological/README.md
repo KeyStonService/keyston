@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Psychological Governance focuses on behavioral patterns, cognitive models, psychological safety, and human factors in governance systems.
+Psychological Governance focuses on behavioral patterns, cognitive models,
+psychological safety, and human factors in governance systems.
 
 心理治理專注於治理系統中的行為模式、認知模型、心理安全和人為因素。
 

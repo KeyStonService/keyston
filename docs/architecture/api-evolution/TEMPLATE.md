@@ -3,7 +3,8 @@
 ## 文件說明 / Document Purpose
 
 本模板用於記錄每一輪 API 與模組的演化計畫。  
-This template is used to document each round of API and module evolution planning.
+This template is used to document each round of API and module evolution
+planning.
 
 ## 版本資訊 / Version Information
 
@@ -127,7 +128,7 @@ After completing all endpoint implementations, you must perform:
 ## 變更歷史 / Change Log
 
 | 日期 / Date | 版本 / Version | 變更內容 / Changes | 負責人 / Owner |
-|-------------|----------------|-------------------|----------------|
+| ----------- | -------------- | ------------------ | -------------- |
 | [日期]      | [版本]         | [變更描述]         | [負責人]       |
 
 ---

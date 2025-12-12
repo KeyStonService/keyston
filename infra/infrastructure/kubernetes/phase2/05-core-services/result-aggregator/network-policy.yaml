@@ -8,15 +8,15 @@ spec:
     matchLabels:
       app: result-aggregator
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: orchestrator
+    - from:
+        - podSelector:
+            matchLabels:
+              app: orchestrator
   egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: postgres
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres

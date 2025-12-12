@@ -6,11 +6,11 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 16686
-    targetPort: 16686
-    name: ui
-  - port: 14268
-    targetPort: 14268
-    name: collector
+    - port: 16686
+      targetPort: 16686
+      name: ui
+    - port: 14268
+      targetPort: 14268
+      name: collector
   selector:
     app: jaeger

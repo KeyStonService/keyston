@@ -66,8 +66,7 @@ schemas:
       tenancy_isolation:
         type: object
         properties:
-          isolation_level:
-            { enum: ["shared", "semi-isolated", "fully-isolated"] }
+          isolation_level: { enum: ["shared", "semi-isolated", "fully-isolated"] }
           data_segregation_strategy: { type: string }
           blast_radius: { type: string }
           tenant_boundaries: { type: array, items: { type: string } }

@@ -19,14 +19,14 @@ compliance_domains:
       - "Employment laws"
       - "Contract laws"
     monitoring: "Legal team review"
-  
+
   regulatory_compliance:
     regulations:
       - "Industry regulations"
       - "Government requirements"
       - "International standards"
     monitoring: "Automated compliance scans"
-  
+
   policy_compliance:
     policies:
       - "Internal policies"

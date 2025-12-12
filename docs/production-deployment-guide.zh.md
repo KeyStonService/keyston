@@ -284,7 +284,7 @@ cosign verify --key cosign.pub \
 - ✅ 資源限制（requests/limits）
 - ✅ 安全上下文（runAsNonRoot, allowPrivilegeEscalation）
 - ✅ 健康檢查（livenessProbe, readinessProbe）
-- ✅ 標籤規範（namespace.io/*）
+- ✅ 標籤規範（namespace.io/\*）
 - ✅ 映像標籤（禁止 :latest）
 - ✅ 特權容器（禁止）
 - ✅ Port 命名
@@ -585,8 +585,8 @@ kubectl edit hpa contracts-service-hpa
 
 ```yaml
 env:
-- name: NODE_OPTIONS
-  value: "--max-old-space-size=512 --optimize-for-size"
+  - name: NODE_OPTIONS
+    value: '--max-old-space-size=512 --optimize-for-size'
 ```
 
 ## 貢獻指南

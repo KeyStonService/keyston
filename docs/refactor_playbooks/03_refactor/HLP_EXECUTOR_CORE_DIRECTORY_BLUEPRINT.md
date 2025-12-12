@@ -281,50 +281,50 @@ unmanned-island/
 
 ### 新增檔案統計
 
-| 類別 | P0 | P1 | P2 | 總計 |
-|------|----|----|----|----|
-| **配置檔案** | 2 | 5 | 2 | 9 |
-| **Python 模組** | 1 | 2 | 3 | 6 |
-| **K8s 清單** | 4 | 2 | 2 | 8 |
-| **架構文件** | 1 | 2 | 1 | 4 |
-| **運維手冊** | 0 | 7 | 0 | 7 |
-| **監控配置** | 0 | 1 | 3 | 4 |
-| **測試配置** | 0 | 1 | 3 | 4 |
-| **工具腳本** | 0 | 1 | 2 | 3 |
-| **模板** | 0 | 0 | 1 | 1 |
-| **治理檔案** | 1 | 2 | 0 | 3 |
-| **SLSA 目錄** | 1 | 0 | 0 | 1 |
-| **總計** | **10** | **23** | **17** | **50** |
+| 類別            | P0     | P1     | P2     | 總計   |
+| --------------- | ------ | ------ | ------ | ------ |
+| **配置檔案**    | 2      | 5      | 2      | 9      |
+| **Python 模組** | 1      | 2      | 3      | 6      |
+| **K8s 清單**    | 4      | 2      | 2      | 8      |
+| **架構文件**    | 1      | 2      | 1      | 4      |
+| **運維手冊**    | 0      | 7      | 0      | 7      |
+| **監控配置**    | 0      | 1      | 3      | 4      |
+| **測試配置**    | 0      | 1      | 3      | 4      |
+| **工具腳本**    | 0      | 1      | 2      | 3      |
+| **模板**        | 0      | 0      | 1      | 1      |
+| **治理檔案**    | 1      | 2      | 0      | 3      |
+| **SLSA 目錄**   | 1      | 0      | 0      | 1      |
+| **總計**        | **10** | **23** | **17** | **50** |
 
 ### 更新檔案統計
 
-| 檔案 | 優先級 | 變更類型 |
-|------|--------|---------|
-| `config/dependencies.yaml` | P0 | 新增 HLP 依賴條目 |
-| `config/system-module-map.yaml` | P0 | 新增 HLP 模組映射 |
-| `config/unified-config-index.yaml` | P1 | 新增向量配置 |
-| `config/monitoring.yaml` | P1 | 新增日誌配置 |
-| `config/safety-mechanisms.yaml` | P1 | 新增斷路器與回滾配置 |
-| `config/security-network-config.yml` | P2 | 新增量子安全密碼 |
-| `core/safety_mechanisms/retry_policies.py` | P1 | 新增 HLP 重試策略函數 |
-| `docs/DOCUMENTATION_INDEX.md` | P1 | 新增 HLP 文件索引 |
-| `CHANGELOG.md` | P1 | 新增版本變更記錄 |
+| 檔案                                       | 優先級 | 變更類型              |
+| ------------------------------------------ | ------ | --------------------- |
+| `config/dependencies.yaml`                 | P0     | 新增 HLP 依賴條目     |
+| `config/system-module-map.yaml`            | P0     | 新增 HLP 模組映射     |
+| `config/unified-config-index.yaml`         | P1     | 新增向量配置          |
+| `config/monitoring.yaml`                   | P1     | 新增日誌配置          |
+| `config/safety-mechanisms.yaml`            | P1     | 新增斷路器與回滾配置  |
+| `config/security-network-config.yml`       | P2     | 新增量子安全密碼      |
+| `core/safety_mechanisms/retry_policies.py` | P1     | 新增 HLP 重試策略函數 |
+| `docs/DOCUMENTATION_INDEX.md`              | P1     | 新增 HLP 文件索引     |
+| `CHANGELOG.md`                             | P1     | 新增版本變更記錄      |
 
 ---
 
 ## 四、目錄所有權與維護責任
 
-| 目錄 | 負責團隊 | 維護週期 | 變更審批 |
-|------|---------|---------|---------|
-| `config/` | Platform Team | 每次配置變更 | Tech Lead |
-| `core/safety_mechanisms/` | Safety Team | 每次代碼變更 | Security Review |
-| `governance/` | Governance Team | 每季度審查 | Compliance Officer |
-| `infrastructure/kubernetes/` | DevOps Team | 每次部署 | SRE Lead |
-| `infrastructure/monitoring/` | Observability Team | 每月優化 | SRE Lead |
-| `docs/architecture/` | Architecture Team | 每季度更新 | Tech Architect |
-| `docs/operations/` | SRE Team | 每次運維變更 | SRE Lead |
-| `automation/` | Automation Team | 持續改進 | Platform Lead |
-| `tests/` | QA Team | 每次發布 | QA Lead |
+| 目錄                         | 負責團隊           | 維護週期     | 變更審批           |
+| ---------------------------- | ------------------ | ------------ | ------------------ |
+| `config/`                    | Platform Team      | 每次配置變更 | Tech Lead          |
+| `core/safety_mechanisms/`    | Safety Team        | 每次代碼變更 | Security Review    |
+| `governance/`                | Governance Team    | 每季度審查   | Compliance Officer |
+| `infrastructure/kubernetes/` | DevOps Team        | 每次部署     | SRE Lead           |
+| `infrastructure/monitoring/` | Observability Team | 每月優化     | SRE Lead           |
+| `docs/architecture/`         | Architecture Team  | 每季度更新   | Tech Architect     |
+| `docs/operations/`           | SRE Team           | 每次運維變更 | SRE Lead           |
+| `automation/`                | Automation Team    | 持續改進     | Platform Lead      |
+| `tests/`                     | QA Team            | 每次發布     | QA Lead            |
 
 ---
 

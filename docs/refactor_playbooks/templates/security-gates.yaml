@@ -12,7 +12,7 @@ security_gates:
     version: "2.0.0"
     enforcement: "mandatory"
     failure_action: "block_execution"
-    
+
   # --------------------------------------------------------------------------
   # GATE B-01: Zero-Trust Verification
   # --------------------------------------------------------------------------
@@ -22,73 +22,73 @@ security_gates:
     description: "Comprehensive zero-trust identity and access verification"
     enabled: true
     timeout_ms: 1000
-    
+
     rules:
       # Identity Verification
       - rule_id: "B-01-R01"
         name: "identity_authentication"
         type: "authentication"
-        
+
         requirements:
           authentication_methods:
             - type: "oidc"
               required_claims: ["sub", "email", "email_verified"]
               issuer_whitelist: ["${OIDC_ISSUER}"]
-              
+
             - type: "mutual_tls"
               require_client_cert: true
               verify_cert_chain: true
               check_revocation: true
-              
+
           multi_factor:
             required: true
             accepted_factors: ["totp", "webauthn", "sms"]
             minimum_factors: 2
-            
+
         validation:
           token_freshness_seconds: 3600
           session_binding: true
           device_fingerprinting: true
-          
+
       # Authorization Check
       - rule_id: "B-01-R02"
         name: "rbac_abac_authorization"
         type: "authorization"
-        
+
         requirements:
-          policy_engine: "opa"  # Open Policy Agent
+          policy_engine: "opa" # Open Policy Agent
           policy_bundle: "/policies/rbac-abac-hybrid"
-          
+
           rbac_check:
             enabled: true
             role_hierarchy: true
-            
+
           abac_check:
             enabled: true
             attributes:
               user: ["department", "clearance_level", "location"]
               resource: ["classification", "owner", "sensitivity"]
               environment: ["time", "ip_range", "risk_score"]
-              
+
         validation:
           cache_decisions: true
           cache_ttl_seconds: 300
           audit_all_decisions: true
-          
+
       # Continuous Verification
       - rule_id: "B-01-R03"
         name: "continuous_verification"
         type: "behavioral"
-        
+
         requirements:
           verify_every_request: true
           session_monitoring: true
-          
+
           behavioral_biometrics:
             enabled: true
             features: ["typing_pattern", "mouse_dynamics", "session_consistency"]
             anomaly_threshold: 0.85
-            
+
           risk_based_adaptation:
             enabled: true
             risk_factors:
@@ -97,7 +97,7 @@ security_gates:
               - "geographic_anomaly"
               - "velocity_check"
             high_risk_action: "require_step_up_auth"
-            
+
     failure_handling:
       deny_by_default: true
       log_failures: true
@@ -113,52 +113,52 @@ security_gates:
     description: "Verify quantum-resistant cryptographic signatures"
     enabled: true
     timeout_ms: 800
-    
+
     rules:
       # Signature Verification
       - rule_id: "B-02-R01"
         name: "pqc_signature_check"
         type: "cryptographic"
-        
+
         requirements:
           algorithms:
             primary:
               name: "CRYSTALS-Dilithium"
               security_level: 5
-              
+
             fallback:
               name: "EdDSA-Ed25519"
               accept_for_transition: true
-              
+
           signature_format: "DER"
-          
+
         validation:
           verify_certificate_chain: true
           check_signature_timestamp: true
           max_age_hours: 24
-          
+
       # Key Lifecycle Management
       - rule_id: "B-02-R02"
         name: "key_validity_check"
         type: "key_management"
-        
+
         requirements:
           key_rotation:
             max_age_days: 90
             enforce_rotation: true
-            
+
           key_storage:
             hsm_backed: true
             encryption_at_rest: "AES-256-GCM"
-            
+
           key_usage:
             single_purpose: true
             usage_counter_limit: 1000000
-            
+
         validation:
           check_revocation_list: true
           verify_key_escrow: true
-          
+
     failure_handling:
       reject_invalid_signatures: true
       log_verification_attempts: true
@@ -173,74 +173,74 @@ security_gates:
     description: "Real-time threat detection and prevention"
     enabled: true
     timeout_ms: 1200
-    
+
     rules:
       # Input Validation
       - rule_id: "B-03-R01"
         name: "input_sanitization"
         type: "input_validation"
-        
+
         requirements:
           sanitization:
             sql_injection: true
             xss: true
             command_injection: true
             path_traversal: true
-            
+
           validation_rules:
             max_length: 10000
             allowed_characters: "alphanumeric_extended"
             forbidden_patterns:
-              - "\\$\\{.*\\}"  # Template injection
-              - "<script.*?>.*?</script>"  # XSS
-              - "(union|select|insert|update|delete).*from"  # SQLi
-              
+              - "\\$\\{.*\\}" # Template injection
+              - "<script.*?>.*?</script>" # XSS
+              - "(union|select|insert|update|delete).*from" # SQLi
+
         actions:
           reject_malicious: true
-          sanitize_suspicious: false  # Reject rather than sanitize
-          
+          sanitize_suspicious: false # Reject rather than sanitize
+
       # Anomaly Detection
       - rule_id: "B-03-R02"
         name: "behavioral_anomaly_detection"
         type: "ml_detection"
-        
+
         requirements:
           models:
             - name: "request-anomaly-detector"
               type: "isolation_forest"
               threshold: 0.90
-              
+
             - name: "user-behavior-baseline"
               type: "autoencoder"
               threshold: 0.85
-              
+
           features:
             - "request_rate"
             - "resource_access_pattern"
             - "temporal_distribution"
             - "payload_characteristics"
-            
+
         validation:
           real_time_scoring: true
           ensemble_decision: true
           confidence_threshold: 0.85
-          
+
       # Known Threat Signatures
       - rule_id: "B-03-R03"
         name: "signature_based_detection"
         type: "signature_matching"
-        
+
         requirements:
           threat_databases:
             - name: "owasp_top10"
               update_frequency: "daily"
-              
+
             - name: "custom_signatures"
               source: "/etc/ibcs/threat-signatures"
-              
+
           matching_strategy: "multi_pattern"
           performance_mode: "low_latency"
-          
+
     failure_handling:
       block_threats: true
       quarantine_suspicious: true
@@ -256,89 +256,89 @@ security_gates:
     description: "Ensure data confidentiality, integrity, and availability"
     enabled: true
     timeout_ms: 600
-    
+
     rules:
       # Encryption Enforcement
       - rule_id: "B-04-R01"
         name: "encryption_requirements"
         type: "cryptographic"
-        
+
         requirements:
           data_at_rest:
             algorithm: "AES-256-GCM"
             key_management: "aws_kms"
             envelope_encryption: true
-            
+
           data_in_transit:
             tls_version: "1.3"
             cipher_suites:
               - "TLS_AES_256_GCM_SHA384"
               - "TLS_CHACHA20_POLY1305_SHA256"
             certificate_pinning: true
-            
+
           data_in_use:
             memory_encryption: true
             secure_enclaves: "preferred"
-            
+
         validation:
           verify_encryption_metadata: true
           audit_key_usage: true
-          
+
       # Data Classification
       - rule_id: "B-04-R02"
         name: "data_classification_check"
         type: "policy"
-        
+
         requirements:
           classification_levels:
             - level: "public"
               controls: ["integrity"]
-              
+
             - level: "internal"
               controls: ["confidentiality", "integrity"]
-              
+
             - level: "confidential"
               controls: ["confidentiality", "integrity", "availability"]
               encryption_required: true
-              
+
             - level: "restricted"
               controls: ["confidentiality", "integrity", "availability", "non_repudiation"]
               encryption_required: true
               access_logging: true
               dlp_enabled: true
-              
+
           auto_classification:
             enabled: true
             ml_model: "data-classifier-v2"
             confidence_threshold: 0.90
-            
+
         validation:
           enforce_classification: true
           block_unclassified: false
           default_classification: "internal"
-          
+
       # Data Loss Prevention
       - rule_id: "B-04-R03"
         name: "dlp_enforcement"
         type: "content_inspection"
-        
+
         requirements:
           sensitive_patterns:
             - type: "pii"
               patterns: ["ssn", "credit_card", "email", "phone"]
               action: "block_or_redact"
-              
+
             - type: "credentials"
               patterns: ["api_key", "password", "private_key"]
               action: "block"
-              
+
             - type: "proprietary"
               patterns: ["trade_secret", "source_code"]
               action: "alert_and_audit"
-              
+
           inspection_scope: "full_payload"
           performance_mode: "balanced"
-          
+
     failure_handling:
       block_unencrypted_sensitive: true
       alert_dlp_violations: true
@@ -353,13 +353,13 @@ security_gates:
     description: "Network-level security and segmentation"
     enabled: true
     timeout_ms: 500
-    
+
     rules:
       # IP Allowlist/Blocklist
       - rule_id: "B-05-R01"
         name: "ip_access_control"
         type: "network"
-        
+
         requirements:
           allowlist:
             enabled: true
@@ -368,45 +368,45 @@ security_gates:
                 description: "Internal network"
               - cidr: "${TRUSTED_EXTERNAL_IPS}"
                 description: "Trusted partners"
-                
+
           blocklist:
             enabled: true
             sources:
               - threat_feed: "emerging_threats"
                 update_frequency: "hourly"
               - threat_feed: "custom_blocklist"
-                
+
           geofencing:
             enabled: true
             allowed_countries: ["US", "CA", "EU"]
-            
+
         validation:
           check_reputation_score: true
           minimum_reputation: 0.70
-          
+
       # Micro-segmentation
       - rule_id: "B-05-R02"
         name: "network_segmentation"
         type: "segmentation"
-        
+
         requirements:
           segments:
             - name: "public"
               services: ["web", "api_gateway"]
               egress_allowed: ["internet"]
-              
+
             - name: "application"
               services: ["app_servers", "cache"]
               ingress_from: ["public"]
               egress_to: ["data"]
-              
+
             - name: "data"
               services: ["databases", "object_storage"]
               ingress_from: ["application"]
               egress_to: []
-              
+
           enforcement: "strict"
-          
+
     failure_handling:
       deny_unauthorized_networks: true
       log_blocked_attempts: true
@@ -415,11 +415,11 @@ security_gates:
 # GATE EXECUTION ORDER
 # ============================================================================
 execution_order:
-  - zero_trust_verification  # Must pass first
-  - quantum_signature         # Verify integrity
-  - threat_detection          # Check for threats
-  - data_protection           # Enforce data controls
-  - network_security          # Validate network access
+  - zero_trust_verification # Must pass first
+  - quantum_signature # Verify integrity
+  - threat_detection # Check for threats
+  - data_protection # Enforce data controls
+  - network_security # Validate network access
 
 # ============================================================================
 # VALIDATION METADATA
@@ -427,5 +427,5 @@ execution_order:
 metadata:
   version: "2.0.0"
   last_updated: "2024-12-09T00:00:00Z"
-  checksum: ""  # SHA3-512 hash
-  signature: ""  # EdDSA signature
+  checksum: "" # SHA3-512 hash
+  signature: "" # EdDSA signature

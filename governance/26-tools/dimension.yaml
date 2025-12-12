@@ -5,13 +5,13 @@ metadata:
   name: 工具治理
   name_en: Tools Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.933719Z'
-  updated_at: '2025-12-11T22:17:20.933725Z'
+  created_at: "2025-12-11T22:17:20.933719Z"
+  updated_at: "2025-12-11T22:17:20.933725Z"
   owner: governance-bot
   category: policy
   tags:
-  - 26_tools
-  - policy
+    - 26_tools
+    - policy
 spec:
   description: Tools Governance dimension for SynergyMesh governance framework
   schema:
@@ -27,24 +27,24 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
-    - ISO-42001
+      - ISO-42001
     framework_mappings:
+      - framework: ISO-42001
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
+    - ISO-42001
+  framework_mappings:
     - framework: ISO-42001
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-42001
-  framework_mappings:
-  - framework: ISO-42001
-    controls: []
-    compliance_status: in_progress

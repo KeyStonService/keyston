@@ -16,7 +16,9 @@
 
 ### 1.1 Cluster 起源
 
-**core/architecture-stability** cluster 是 Unmanned Island System 的**核心引擎層**,起源於 SynergyMesh 專案初期（約 2023 Q4），目標是建立一個統一的 AI 決策與服務編排平台。
+**core/architecture-stability** cluster 是 Unmanned Island
+System 的**核心引擎層**,起源於 SynergyMesh 專案初期（約 2023
+Q4），目標是建立一個統一的 AI 決策與服務編排平台。
 
 **演化階段**：
 
@@ -187,7 +189,8 @@ core/
    - 建議: 合併或明確分工
 
 3. **配置管理分散**
-   - 問題: `configuration_manager.py` + `configuration_optimizer.py` + `work_configuration_manager.py`
+   - 問題: `configuration_manager.py` + `configuration_optimizer.py` +
+     `work_configuration_manager.py`
    - 建議: 統一介面，分離關注點
 
 #### ❌ Anti-patterns
@@ -213,11 +216,11 @@ core/
 
 ### 3.1 語言治理債
 
-| 項目 | 嚴重性 | 數量 | 檔案範例 | 修復優先級 |
-|------|--------|------|----------|------------|
-| JavaScript 檔案 (應遷移至 TypeScript) | HIGH | 7 | `advisory-database/src/*.js` | P0 |
-| Python 缺乏型別註解 | MEDIUM | ~60% | 多數 core/*.py | P1 |
-| Shell scripts (應遷移至 Python/TS) | LOW | 3 | 構建腳本 | P2 |
+| 項目                                  | 嚴重性 | 數量 | 檔案範例                     | 修復優先級 |
+| ------------------------------------- | ------ | ---- | ---------------------------- | ---------- |
+| JavaScript 檔案 (應遷移至 TypeScript) | HIGH   | 7    | `advisory-database/src/*.js` | P0         |
+| Python 缺乏型別註解                   | MEDIUM | ~60% | 多數 core/\*.py              | P1         |
+| Shell scripts (應遷移至 Python/TS)    | LOW    | 3    | 構建腳本                     | P2         |
 
 **具體問題檔案**：
 
@@ -233,13 +236,13 @@ core/
 
 ### 3.2 架構債
 
-| 項目 | 嚴重性 | 影響範圍 | 修復成本 | 優先級 |
-|------|--------|----------|----------|--------|
-| 頂層檔案組織混亂 | HIGH | 11 個檔案 | 中 | P0 |
-| 缺乏明確 API 邊界 | HIGH | 全域 | 高 | P0 |
-| 循環依賴風險 | MEDIUM | unified_integration ↔ island_ai_runtime | 中 | P1 |
-| 測試覆蓋率不足 | MEDIUM | < 60% | 高 | P1 |
-| 文件過時/缺失 | LOW | 多數模組 | 低 | P2 |
+| 項目              | 嚴重性 | 影響範圍                                | 修復成本 | 優先級 |
+| ----------------- | ------ | --------------------------------------- | -------- | ------ |
+| 頂層檔案組織混亂  | HIGH   | 11 個檔案                               | 中       | P0     |
+| 缺乏明確 API 邊界 | HIGH   | 全域                                    | 高       | P0     |
+| 循環依賴風險      | MEDIUM | unified_integration ↔ island_ai_runtime | 中       | P1     |
+| 測試覆蓋率不足    | MEDIUM | < 60%                                   | 高       | P1     |
+| 文件過時/缺失     | LOW    | 多數模組                                | 低       | P2     |
 
 **詳細分析**：
 
@@ -306,11 +309,11 @@ core/
 
 ### 3.3 安全債
 
-| 項目 | 嚴重性 | 檢測來源 | 狀態 | 優先級 |
-|------|--------|----------|------|--------|
-| 硬編碼密鑰 | CRITICAL | Manual Review | ✅ 未發現 | - |
-| 輸入驗證不足 | MEDIUM | Semgrep | ⚠️ 部分 API | P1 |
-| 依賴版本過舊 | LOW | npm audit | ✅ 定期更新 | P2 |
+| 項目         | 嚴重性   | 檢測來源      | 狀態        | 優先級 |
+| ------------ | -------- | ------------- | ----------- | ------ |
+| 硬編碼密鑰   | CRITICAL | Manual Review | ✅ 未發現   | -      |
+| 輸入驗證不足 | MEDIUM   | Semgrep       | ⚠️ 部分 API | P1     |
+| 依賴版本過舊 | LOW      | npm audit     | ✅ 定期更新 | P2     |
 
 **Semgrep 掃描結果** (2025-12-07):
 
@@ -326,13 +329,13 @@ core/
 
 ### 3.4 測試債
 
-| 模組 | 測試覆蓋率 | 單元測試 | 整合測試 | 目標 |
-|------|------------|----------|----------|------|
-| unified_integration/ | ~55% | 部分 | 無 | 80% |
-| safety_mechanisms/ | ~70% | 良好 | 部分 | 85% |
-| slsa_provenance/ | ~60% | 部分 | 部分 | 80% |
-| island_ai_runtime/ | ~50% | 不足 | 無 | 75% |
-| 頂層 AI engines | ~30% | 不足 | 無 | 70% |
+| 模組                 | 測試覆蓋率 | 單元測試 | 整合測試 | 目標 |
+| -------------------- | ---------- | -------- | -------- | ---- |
+| unified_integration/ | ~55%       | 部分     | 無       | 80%  |
+| safety_mechanisms/   | ~70%       | 良好     | 部分     | 85%  |
+| slsa_provenance/     | ~60%       | 部分     | 部分     | 80%  |
+| island_ai_runtime/   | ~50%       | 不足     | 無       | 75%  |
+| 頂層 AI engines      | ~30%       | 不足     | 無       | 70%  |
 
 **關鍵發現**：
 
@@ -358,41 +361,43 @@ core/
 
 **詳細依賴矩陣**：
 
-| From ↓ To → | unified_integration | island_ai_runtime | safety_mechanisms | slsa_provenance |
-|-------------|---------------------|-------------------|-------------------|-----------------|
-| 頂層 AI engines | ✅ Heavy | ✅ Medium | ❌ None | ❌ None |
-| unified_integration | - | ✅ Heavy | ✅ Light | ✅ Light |
-| island_ai_runtime | ⚠️ Light (circular) | - | ✅ Medium | ❌ None |
-| safety_mechanisms | ✅ Light | ❌ None | - | ❌ None |
-| slsa_provenance | ❌ None | ❌ None | ❌ None | - |
+| From ↓ To →         | unified_integration | island_ai_runtime | safety_mechanisms | slsa_provenance |
+| ------------------- | ------------------- | ----------------- | ----------------- | --------------- |
+| 頂層 AI engines     | ✅ Heavy            | ✅ Medium         | ❌ None           | ❌ None         |
+| unified_integration | -                   | ✅ Heavy          | ✅ Light          | ✅ Light        |
+| island_ai_runtime   | ⚠️ Light (circular) | -                 | ✅ Medium         | ❌ None         |
+| safety_mechanisms   | ✅ Light            | ❌ None           | -                 | ❌ None         |
+| slsa_provenance     | ❌ None             | ❌ None           | ❌ None           | -               |
 
 **循環依賴警告**：
 
 - ⚠️ `unified_integration` ↔ `island_ai_runtime`
-  - 原因: `unified_integration/cognitive_processor.py` 使用 `island_ai_runtime/runtime.py`
-  - 反向: `island_ai_runtime/agent_framework.py` 使用 `unified_integration/service_registry.py`
+  - 原因: `unified_integration/cognitive_processor.py` 使用
+    `island_ai_runtime/runtime.py`
+  - 反向: `island_ai_runtime/agent_framework.py` 使用
+    `unified_integration/service_registry.py`
   - 修復: 引入 `core/interfaces/` 共享契約
 
 ### 4.2 對外依賴（External Dependencies）
 
 **上游依賴** (core 依賴的外部模組):
 
-| 依賴 | 類型 | 用途 | 版本要求 |
-|------|------|------|----------|
-| `infrastructure/` | Internal | 基礎設施服務 | Any |
-| `governance/schemas` | Internal | 型別定義 | v1.x |
-| `shared/utils` | Internal | 共用工具 | Latest |
-| Sigstore | External API | 簽名驗證 | Compatible |
-| OpenAI API | External API | LLM 推理 | v1.x |
+| 依賴                 | 類型         | 用途         | 版本要求   |
+| -------------------- | ------------ | ------------ | ---------- |
+| `infrastructure/`    | Internal     | 基礎設施服務 | Any        |
+| `governance/schemas` | Internal     | 型別定義     | v1.x       |
+| `shared/utils`       | Internal     | 共用工具     | Latest     |
+| Sigstore             | External API | 簽名驗證     | Compatible |
+| OpenAI API           | External API | LLM 推理     | v1.x       |
 
 **下游使用者** (誰依賴 core):
 
-| 使用者 | 依賴類型 | 使用方式 | 風險等級 |
-|--------|----------|----------|----------|
-| `services/agents` | Python Import | 直接呼叫 AI engines | HIGH |
-| `services/mcp` | gRPC/REST | 透過 Contract Service | MEDIUM |
-| `apps/web` | REST API | 前端呼叫分析功能 | MEDIUM |
-| `automation/*` | Direct Import | 自動化腳本 | LOW |
+| 使用者            | 依賴類型      | 使用方式              | 風險等級 |
+| ----------------- | ------------- | --------------------- | -------- |
+| `services/agents` | Python Import | 直接呼叫 AI engines   | HIGH     |
+| `services/mcp`    | gRPC/REST     | 透過 Contract Service | MEDIUM   |
+| `apps/web`        | REST API      | 前端呼叫分析功能      | MEDIUM   |
+| `automation/*`    | Direct Import | 自動化腳本            | LOW      |
 
 **Breaking Change 影響範圍**：
 
@@ -528,13 +533,13 @@ core/
 
 ### 5.3 影響範圍矩陣
 
-| 變更類型 | 影響服務 | 影響團隊 | 部署複雜度 | 回滾難度 |
-|----------|----------|----------|------------|----------|
-| 頂層檔案重組 | 5+ | Core + Services + Automation | HIGH | MEDIUM |
-| API 邊界定義 | 3-4 | Core + Services | MEDIUM | LOW |
-| TS/JS 遷移 | 1-2 | Core | LOW | LOW |
-| 循環依賴打破 | 2-3 | Core | MEDIUM | MEDIUM |
-| 配置管理統一 | 全域 | All | HIGH | HIGH |
+| 變更類型     | 影響服務 | 影響團隊                     | 部署複雜度 | 回滾難度 |
+| ------------ | -------- | ---------------------------- | ---------- | -------- |
+| 頂層檔案重組 | 5+       | Core + Services + Automation | HIGH       | MEDIUM   |
+| API 邊界定義 | 3-4      | Core + Services              | MEDIUM     | LOW      |
+| TS/JS 遷移   | 1-2      | Core                         | LOW        | LOW      |
+| 循環依賴打破 | 2-3      | Core                         | MEDIUM     | MEDIUM   |
+| 配置管理統一 | 全域     | All                          | HIGH       | HIGH     |
 
 ---
 
@@ -653,11 +658,11 @@ class CognitiveProcessor:
 
 ### 7.1 當前語言分佈
 
-| 語言 | 檔案數 | 百分比 | 代碼行數 (估) | 狀態 |
-|------|--------|--------|---------------|------|
-| Python | 116 | 69% | ~15,000 | ✅ 符合策略 |
-| TypeScript | 45 | 27% | ~8,000 | ✅ 符合策略 |
-| JavaScript | 7 | 4% | ~800 | ⚠️ 待遷移 |
+| 語言       | 檔案數 | 百分比 | 代碼行數 (估) | 狀態        |
+| ---------- | ------ | ------ | ------------- | ----------- |
+| Python     | 116    | 69%    | ~15,000       | ✅ 符合策略 |
+| TypeScript | 45     | 27%    | ~8,000        | ✅ 符合策略 |
+| JavaScript | 7      | 4%     | ~800          | ⚠️ 待遷移   |
 
 ### 7.2 語言策略對齊
 
@@ -665,13 +670,13 @@ class CognitiveProcessor:
 
 ```yaml
 preferred_languages:
-  - typescript  # 型別安全、高階邏輯
-  - python      # AI/ML、資料處理
+  - typescript # 型別安全、高階邏輯
+  - python # AI/ML、資料處理
 
 banned_languages:
-  - php         # 全域禁用
-  - perl        # 全域禁用
-  - ruby        # 統一為 Python
+  - php # 全域禁用
+  - perl # 全域禁用
+  - ruby # 統一為 Python
 ```
 
 **當前合規狀態**:
@@ -726,13 +731,13 @@ def process(input):
 # After
 def process(input: Dict[str, Any]) -> ProcessResult:
     """Process input and return result.
-    
+
     Args:
         input: Input data dictionary
-        
+
     Returns:
         Processed result
-        
+
     Raises:
         ValueError: If input is invalid
     """
@@ -753,7 +758,7 @@ def process(input: Dict[str, Any]) -> ProcessResult:
 **Hotspot Score 計算** (假設演算法):
 
 ```
-score = (cyclomatic_complexity * 0.4) 
+score = (cyclomatic_complexity * 0.4)
       + (file_size_kb * 0.2)
       + (change_frequency * 0.3)
       + (bug_density * 0.1)
@@ -761,18 +766,18 @@ score = (cyclomatic_complexity * 0.4)
 
 **Top 10 Hotspot 檔案** (core/ cluster):
 
-| 排名 | 檔案 | Score | 複雜度 | 大小 | 變更頻率 | Bug 密度 |
-|------|------|-------|--------|------|----------|----------|
-| 1 | `unified_integration/cognitive_processor.py` | 92 | 18 | 12KB | 25/月 | 0.02 |
-| 2 | `unified_integration/service_registry.py` | 85 | 16 | 10KB | 20/月 | 0.01 |
-| 3 | `island_ai_runtime/runtime.py` | 82 | 17 | 11KB | 18/月 | 0.02 |
-| 4 | `ai_decision_engine.py` | 78 | 15 | 8KB | 22/月 | 0.03 |
-| 5 | `safety_mechanisms/circuit_breaker.py` | 75 | 14 | 9KB | 12/月 | 0.01 |
-| 6 | `unified_integration/system_orchestrator.py` | 72 | 13 | 10KB | 15/月 | 0.01 |
-| 7 | `context_understanding_engine.py` | 68 | 12 | 7KB | 18/月 | 0.02 |
-| 8 | `slsa_provenance/attestation_manager.py` | 65 | 11 | 8KB | 10/月 | 0.01 |
-| 9 | `hallucination_detector.py` | 62 | 10 | 6KB | 16/月 | 0.02 |
-| 10 | `safety_mechanisms/rollback_system.py` | 60 | 12 | 8KB | 8/月 | 0.01 |
+| 排名 | 檔案                                         | Score | 複雜度 | 大小 | 變更頻率 | Bug 密度 |
+| ---- | -------------------------------------------- | ----- | ------ | ---- | -------- | -------- |
+| 1    | `unified_integration/cognitive_processor.py` | 92    | 18     | 12KB | 25/月    | 0.02     |
+| 2    | `unified_integration/service_registry.py`    | 85    | 16     | 10KB | 20/月    | 0.01     |
+| 3    | `island_ai_runtime/runtime.py`               | 82    | 17     | 11KB | 18/月    | 0.02     |
+| 4    | `ai_decision_engine.py`                      | 78    | 15     | 8KB  | 22/月    | 0.03     |
+| 5    | `safety_mechanisms/circuit_breaker.py`       | 75    | 14     | 9KB  | 12/月    | 0.01     |
+| 6    | `unified_integration/system_orchestrator.py` | 72    | 13     | 10KB | 15/月    | 0.01     |
+| 7    | `context_understanding_engine.py`            | 68    | 12     | 7KB  | 18/月    | 0.02     |
+| 8    | `slsa_provenance/attestation_manager.py`     | 65    | 11     | 8KB  | 10/月    | 0.01     |
+| 9    | `hallucination_detector.py`                  | 62    | 10     | 6KB  | 16/月    | 0.02     |
+| 10   | `safety_mechanisms/rollback_system.py`       | 60    | 12     | 8KB  | 8/月     | 0.01     |
 
 **關鍵發現**:
 
@@ -784,12 +789,12 @@ score = (cyclomatic_complexity * 0.4)
 
 **Cyclomatic Complexity 統計**:
 
-| 複雜度範圍 | 檔案數 | 百分比 | 建議行動 |
-|------------|--------|--------|----------|
-| 1-5 (簡單) | 45 | 38% | ✅ 維持 |
-| 6-10 (中等) | 52 | 44% | ⚠️ 監控 |
-| 11-15 (複雜) | 18 | 15% | 🔴 需重構 |
-| 16+ (非常複雜) | 3 | 3% | 🔴 立即處理 |
+| 複雜度範圍     | 檔案數 | 百分比 | 建議行動    |
+| -------------- | ------ | ------ | ----------- |
+| 1-5 (簡單)     | 45     | 38%    | ✅ 維持     |
+| 6-10 (中等)    | 52     | 44%    | ⚠️ 監控     |
+| 11-15 (複雜)   | 18     | 15%    | 🔴 需重構   |
+| 16+ (非常複雜) | 3      | 3%     | 🔴 立即處理 |
 
 **超過閾值的函式** (complexity > 15):
 
@@ -805,13 +810,13 @@ score = (cyclomatic_complexity * 0.4)
 
 ### 8.3 技術債指標
 
-| 指標 | 當前值 | 目標值 | 差距 |
-|------|--------|--------|------|
-| 平均 Cyclomatic Complexity | 8.5 | ≤ 8.0 | -0.5 |
-| 檔案平均大小 (lines) | 250 | ≤ 300 | ✅ |
-| 最大函式長度 (lines) | 85 | ≤ 50 | -35 |
-| 註解覆蓋率 | 45% | ≥ 60% | +15% |
-| 重複代碼率 | 8% | ≤ 5% | -3% |
+| 指標                       | 當前值 | 目標值 | 差距 |
+| -------------------------- | ------ | ------ | ---- |
+| 平均 Cyclomatic Complexity | 8.5    | ≤ 8.0  | -0.5 |
+| 檔案平均大小 (lines)       | 250    | ≤ 300  | ✅   |
+| 最大函式長度 (lines)       | 85     | ≤ 50   | -35  |
+| 註解覆蓋率                 | 45%    | ≥ 60%  | +15% |
+| 重複代碼率                 | 8%     | ≤ 5%   | -3%  |
 
 ---
 
@@ -824,15 +829,15 @@ score = (cyclomatic_complexity * 0.4)
 #### Asset 1: 頂層散落檔案快照
 
 ```yaml
-asset_id: "core-toplevel-engines-v2.5"
-description: "Core 頂層 AI engines 原始佈局（重組前）"
-source_ref: "refs/tags/core-stable-v2.5.0"
-date_archived: "2025-12-07"
+asset_id: 'core-toplevel-engines-v2.5'
+description: 'Core 頂層 AI engines 原始佈局（重組前）'
+source_ref: 'refs/tags/core-stable-v2.5.0'
+date_archived: '2025-12-07'
 reason: |
   11 個頂層 Python 檔案組織混亂，缺乏清晰分類。
   重組到功能子目錄後，保留此快照供參考。
 related_clusters:
-  - "core/architecture-stability"
+  - 'core/architecture-stability'
 notes: |
   檔案清單:
   - ai_decision_engine.py
@@ -842,28 +847,28 @@ notes: |
   - autonomous_trust_engine.py
   - auto_bug_detector.py
   - (共 11 個)
-  
+
   保留原因: 記錄原始組織方式，幫助理解重組決策。
 ```
 
 #### Asset 2: JavaScript 原始碼
 
 ```yaml
-asset_id: "advisory-db-javascript-legacy"
-description: "Advisory Database JavaScript 實作（TypeScript 遷移前）"
-source_ref: "refs/heads/main@{2025-12-07}"
-date_archived: "2025-12-07"
+asset_id: 'advisory-db-javascript-legacy'
+description: 'Advisory Database JavaScript 實作（TypeScript 遷移前）'
+source_ref: 'refs/heads/main@{2025-12-07}'
+date_archived: '2025-12-07'
 reason: |
   7 個 JavaScript 檔案需遷移至 TypeScript 以符合語言策略。
 related_clusters:
-  - "core/architecture-stability"
-  - "core/advisory-database"
+  - 'core/architecture-stability'
+  - 'core/advisory-database'
 notes: |
   檔案清單:
   - advisory-database/src/index.js
   - advisory-database/src/utils.js
   - (共 7 個 .js 檔案)
-  
+
   遷移要點:
   - 保持 API 相容性
   - 新增型別定義
@@ -873,22 +878,22 @@ notes: |
 #### Asset 3: mind_matrix 舊架構
 
 ```yaml
-asset_id: "mind-matrix-hypergraph-v1"
-description: "Mind Matrix 超圖架構原始設計（已簡化為 cognitive_processor）"
-source_ref: "refs/tags/v1.8.0"
-date_archived: "2024-11-15"
-deprecated_date: "2024-11-01"
+asset_id: 'mind-matrix-hypergraph-v1'
+description: 'Mind Matrix 超圖架構原始設計（已簡化為 cognitive_processor）'
+source_ref: 'refs/tags/v1.8.0'
+date_archived: '2024-11-15'
+deprecated_date: '2024-11-01'
 reason: |
   超圖架構過於複雜，不符合當前系統規模。
   已簡化為四層認知架構。
 related_clusters:
-  - "core/architecture-stability"
-  - "core/unified_integration"
+  - 'core/architecture-stability'
+  - 'core/unified_integration'
 notes: |
   設計文檔: docs/archive/mind-matrix-design-v1.md
-  
+
   保留原因: 超圖設計概念可能在未來大規模系統中復用。
-  
+
   關鍵學習:
   - 抽象層次應與系統規模匹配
   - 簡單設計優於過度設計
@@ -956,4 +961,5 @@ notes: |
 
 ---
 
-*此解構劇本為 core/architecture-stability cluster 重構的知識基礎，供 Integration 與 Refactor 階段參考。*
+_此解構劇本為 core/architecture-stability
+cluster 重構的知識基礎，供 Integration 與 Refactor 階段參考。_

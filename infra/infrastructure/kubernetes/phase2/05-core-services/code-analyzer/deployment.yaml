@@ -28,112 +28,112 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: autofix-sa
-      
+
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
-      
+
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - code-analyzer
-              topologyKey: kubernetes.io/hostname
-      
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - code-analyzer
+                topologyKey: kubernetes.io/hostname
+
       containers:
-      - name: code-analyzer
-        image: autofix/code-analyzer:latest
-        imagePullPolicy: Always
-        
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
-        - name: metrics
-          containerPort: 9090
-          protocol: TCP
-        
-        env:
-        - name: PORT
-          value: "8080"
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: LOG_LEVEL
-        - name: DATABASE_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: DATABASE_HOST
-        - name: DATABASE_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: DATABASE_PORT
-        - name: DATABASE_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: DATABASE_NAME
-        - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: DATABASE_USER
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: DATABASE_PASSWORD
-        - name: REDIS_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: REDIS_HOST
-        - name: REDIS_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: autofix-config
-              key: REDIS_PORT
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: REDIS_PASSWORD
-        
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-        
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 3
-          successThreshold: 1
-      
+        - name: code-analyzer
+          image: autofix/code-analyzer:latest
+          imagePullPolicy: Always
+
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+
+          env:
+            - name: PORT
+              value: "8080"
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: LOG_LEVEL
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: DATABASE_PORT
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: DATABASE_NAME
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: DATABASE_USER
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: DATABASE_PASSWORD
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: autofix-config
+                  key: REDIS_PORT
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: REDIS_PASSWORD
+
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+
       imagePullSecrets:
-      - name: autofix-registry
+        - name: autofix-registry

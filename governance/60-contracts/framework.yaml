@@ -14,7 +14,7 @@ metadata:
 contract_standard:
   format: "yaml"
   schema_version: "1.0"
-  
+
   required_fields:
     - id
     - name
@@ -23,7 +23,7 @@ contract_standard:
     - owner
     - interface
     - behavior
-  
+
   optional_fields:
     - dependencies
     - deprecation_notice
@@ -33,17 +33,17 @@ contract_standard:
 versioning:
   policy: "semantic_versioning"
   format: "MAJOR.MINOR.PATCH"
-  
+
   breaking_changes:
     trigger: "major_version_increment"
     notice_period_days: 180
     migration_support: true
-  
+
   backward_compatibility:
     required_for:
       - minor_versions
       - patch_versions
-    
+
     compatibility_testing:
       enabled: true
       automated: true
@@ -55,21 +55,21 @@ testing:
     - name: "Pact"
       type: "consumer_driven"
       enabled: true
-    
+
     - name: "Spring Cloud Contract"
       type: "producer_driven"
       enabled: true
-    
+
     - name: "OpenAPI Validator"
       type: "schema_validation"
       enabled: true
-  
+
   test_stages:
     - schema_validation
     - behavior_verification
     - compatibility_testing
     - integration_testing
-  
+
   coverage_requirements:
     minimum_coverage: 80
     critical_paths_coverage: 100
@@ -79,22 +79,22 @@ lifecycle:
   states:
     draft:
       allowed_actions: ["edit", "validate", "delete"]
-    
+
     review:
       allowed_actions: ["approve", "reject", "request_changes"]
       approvers_required: 2
-    
+
     approved:
       allowed_actions: ["publish"]
-    
+
     published:
       allowed_actions: ["deprecate", "patch_update"]
       immutable_fields: ["id", "major_version"]
-    
+
     deprecated:
       allowed_actions: ["retire"]
       support_period_days: 365
-    
+
     retired:
       allowed_actions: ["archive"]
       read_only: true
@@ -108,14 +108,14 @@ api_standards:
       - versioning_in_url
       - consistent_naming
       - proper_status_codes
-  
+
   grpc:
     specification: "Protocol Buffers 3"
     conventions:
       - semantic_versioning
       - backward_compatibility
       - proper_error_handling
-  
+
   graphql:
     specification: "GraphQL Schema Definition"
     conventions:
@@ -129,7 +129,7 @@ registry:
     backend: "git"
     path: "governance/60-contracts/registry/"
     versioning: true
-  
+
   indexing:
     enabled: true
     search_fields:
@@ -137,7 +137,7 @@ registry:
       - module_id
       - tags
       - owner
-  
+
   access_control:
     read: "public"
     write: "authenticated"
@@ -148,13 +148,13 @@ compatibility:
   matrix_generation:
     enabled: true
     update_frequency: "on_contract_publish"
-  
+
   compatibility_levels:
     - full_compatible
     - backward_compatible
     - forward_compatible
     - incompatible
-  
+
   conflict_resolution:
     strategy: "explicit_approval"
     notification: true
@@ -168,4 +168,3 @@ integrations:
   self_healing: "40-self-healing"
   audit_system: "70-audit"
   feedback_loop: "80-feedback"
-

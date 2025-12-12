@@ -10,67 +10,67 @@ dimensions:
     description: "Self-Healing and Autonomous Execution Governance Dimension"
     description_zh: "自我修復與自主執行治理維度"
     status: "PRODUCTION_READY"
-    
+
     assets:
       config:
         - path: "governance/40-self-healing/framework.yaml"
           description: "Self-healing framework configuration"
-          
+
       policies:
         - path: "governance/40-self-healing/policies/self-healing-policies.yaml"
           description: "Self-healing governance policies"
-          
+
       monitoring:
         - path: "governance/40-self-healing/monitoring/health-indicators.yaml"
           description: "Health indicators and metrics"
-          
+
       tests:
         - path: "governance/28-tests/self-healing-validation.py"
           description: "Self-healing validation test suite"
         - path: "governance/40-self-healing/tests/validate-framework.sh"
           description: "Framework validation script"
-          
+
       automation:
         - path: "governance/39-automation/self-healing-engine.py"
           description: "Self-healing automation engine"
-          
+
       integration:
         - path: "governance/_legacy/30-integration/self-healing-integration.md"
           description: "Integration manifest (legacy - moved to 30-agents)"
           status: deprecated
         - path: "governance/14-improvement/self-healing-improvement.yaml"
           description: "Improvement policies"
-          
+
       docs:
         - path: "governance/40-self-healing/docs/integration-overview.md"
           description: "Integration overview and guide"
         - path: "governance/40-self-healing/docs/execution-summary.md"
           description: "Execution metrics and summary"
-          
+
     integration_points:
       - dimension: "00-vision-strategy"
         assets:
           - "responsibility-matrix.yaml"
           - "instant-execution.yaml"
           - "AI-BEHAVIOR-CONTRACT.md"
-          
+
       - dimension: "14-improvement"
         assets:
           - "self-healing-improvement.yaml"
-          
+
       - dimension: "28-tests"
         assets:
           - "self-healing-validation.py"
-          
+
       - dimension: "30-agents"
         note: "formerly 30-integration - now handles AI Agent Governance"
         assets:
           - "coordination/self-healing-integration.md"
-          
+
       - dimension: "39-automation"
         assets:
           - "self-healing-engine.py"
-          
+
     capabilities:
       - "AI 100% autonomous operational layer"
       - "Human 100% control strategic layer"

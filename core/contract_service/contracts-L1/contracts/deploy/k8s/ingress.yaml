@@ -18,28 +18,28 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - contracts-l1.synergymesh.com
-    - api.synergymesh.com
-    secretName: contracts-l1-tls
+    - hosts:
+        - contracts-l1.synergymesh.com
+        - api.synergymesh.com
+      secretName: contracts-l1-tls
   rules:
-  - host: contracts-l1.synergymesh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: contracts-l1
-            port:
-              number: 80
-  - host: api.synergymesh.com
-    http:
-      paths:
-      - path: /v1/contracts
-        pathType: Prefix
-        backend:
-          service:
-            name: contracts-l1
-            port:
-              number: 80
+    - host: contracts-l1.synergymesh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: contracts-l1
+                port:
+                  number: 80
+    - host: api.synergymesh.com
+      http:
+        paths:
+          - path: /v1/contracts
+            pathType: Prefix
+            backend:
+              service:
+                name: contracts-l1
+                port:
+                  number: 80

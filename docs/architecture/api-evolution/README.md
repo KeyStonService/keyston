@@ -3,7 +3,8 @@
 ## 📋 目錄概覽 / Directory Overview
 
 本目錄包含 SynergyMesh 系統的 API 演化計畫與標準化文件。  
-This directory contains API evolution plans and standardized documentation for the SynergyMesh system.
+This directory contains API evolution plans and standardized documentation for
+the SynergyMesh system.
 
 ## 📄 文件列表 / Document List
 
@@ -16,7 +17,8 @@ This directory contains API evolution plans and standardized documentation for t
 
 ### 實施計畫 / Implementation Plans
 
-- **[L1_core_and_automation_tasks.md](./L1_core_and_automation_tasks.md)** - L1 Core + Automation 增強計畫
+- **[L1_core_and_automation_tasks.md](./L1_core_and_automation_tasks.md)** - L1
+  Core + Automation 增強計畫
   - 定義 18 個新 API endpoints
   - 覆蓋 6 個核心模組
   - 包含詳細的驗證與測試要求
@@ -50,42 +52,43 @@ This directory contains API evolution plans and standardized documentation for t
 
 ### system-module-map.yaml 整合
 
-每個定義在 API 演化文件中的 endpoint 都應該在 `config/system-module-map.yaml` 中註冊：
+每個定義在 API 演化文件中的 endpoint 都應該在 `config/system-module-map.yaml`
+中註冊：
 
 ```yaml
 modules:
   [module_name]:
-    path: "[module_path]"
-    description: "[description]"
-    
+    path: '[module_path]'
+    description: '[description]'
+
     # API Evolution: [Phase Name]
     api_endpoints:
-      - method: "POST"
-        path: "/endpoint/path"
-        description: "endpoint 功能描述"
-        implemented: false  # 或 true
-    
+      - method: 'POST'
+        path: '/endpoint/path'
+        description: 'endpoint 功能描述'
+        implemented: false # 或 true
+
     preferred_languages:
-      - "typescript"
-      - "python"
-    
+      - 'typescript'
+      - 'python'
+
     integration_references:
-      - "docs/architecture/api-evolution/[document_name].md"
+      - 'docs/architecture/api-evolution/[document_name].md'
 ```
 
 ## 📊 當前狀態 / Current Status
 
 ### L1 Core + Automation Enhancement
 
-| 模組 / Module | Endpoints | 狀態 / Status |
-|--------------|-----------|--------------|
-| automation.hyperautomation | 7 | ⏳ 規劃中 |
-| core.unified_integration | 3 | ⏳ 規劃中 |
-| core.mind_matrix | 3 | ⏳ 規劃中 |
-| automation.autonomous | 2 | ⏳ 規劃中 |
-| services.mcp | 1 | ⏳ 規劃中 |
-| apps.web.ui | 1 | ⏳ 規劃中 |
-| **總計 / Total** | **18** | - |
+| 模組 / Module              | Endpoints | 狀態 / Status |
+| -------------------------- | --------- | ------------- |
+| automation.hyperautomation | 7         | ⏳ 規劃中     |
+| core.unified_integration   | 3         | ⏳ 規劃中     |
+| core.mind_matrix           | 3         | ⏳ 規劃中     |
+| automation.autonomous      | 2         | ⏳ 規劃中     |
+| services.mcp               | 1         | ⏳ 規劃中     |
+| apps.web.ui                | 1         | ⏳ 規劃中     |
+| **總計 / Total**           | **18**    | -             |
 
 ## ✅ 驗證清單 / Validation Checklist
 
@@ -147,8 +150,10 @@ graph TD
 
 如有任何問題或需要協助，請聯繫：
 
-- **Platform Team**: [@core-owners](https://github.com/orgs/SynergyMesh-admin/teams/core-owners)
-- **Automation Team**: [@automation-team](https://github.com/orgs/SynergyMesh-admin/teams/automation-team)
+- **Platform Team**:
+  [@core-owners](https://github.com/orgs/SynergyMesh-admin/teams/core-owners)
+- **Automation Team**:
+  [@automation-team](https://github.com/orgs/SynergyMesh-admin/teams/automation-team)
 
 ---
 

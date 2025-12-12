@@ -27,10 +27,10 @@ automation/intelligent:python,automation/intelligent:python,1
 
 ## Migration Edges
 
-| Source | Target | Count | Type |
-|--------|--------|-------|------|
-| `core/engine:typescript` | `core/engine:typescript` | 1 | history |
-| `automation/intelligent:python` | `automation/intelligent:python` | 1 | history |
+| Source                          | Target                          | Count | Type    |
+| ------------------------------- | ------------------------------- | ----- | ------- |
+| `core/engine:typescript`        | `core/engine:typescript`        | 1     | history |
+| `automation/intelligent:python` | `automation/intelligent:python` | 1     | history |
 
 ---
 

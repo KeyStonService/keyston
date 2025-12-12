@@ -76,8 +76,7 @@ AWS、Azure、GCP等雲端平台都有自己的命名空間概念，用於組織
 
 在沒有命名空間的環境中，所有資源都在同一個全域空間中競爭名稱。這就像是一個城市裡所有的建築物都不能有相同的名字一樣不現實。
 
-**實際案例**：
-假設你的團隊有三個微服務：`user-service`、`order-service`、`payment-service`。同時，你需要部署開發、測試和生產三個環境。如果沒有命名空間，你就需要為每個服務在不同環境中創建不同的名稱：
+**實際案例**：假設你的團隊有三個微服務：`user-service`、`order-service`、`payment-service`。同時，你需要部署開發、測試和生產三個環境。如果沒有命名空間，你就需要為每個服務在不同環境中創建不同的名稱：
 
 ```
 dev-user-service, test-user-service, prod-user-service
@@ -110,7 +109,7 @@ metadata:
     billing: premium
 
 ---
-# 客戶B的資源  
+# 客戶B的資源
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -133,9 +132,9 @@ metadata:
   namespace: development
   name: dev-team-role
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services"]
-  verbs: ["get", "list", "create", "update", "patch", "delete"]
+  - apiGroups: ['']
+    resources: ['pods', 'services']
+    verbs: ['get', 'list', 'create', 'update', 'patch', 'delete']
 ```
 
 ### 資源配額與成本管理
@@ -150,11 +149,11 @@ metadata:
   namespace: development
 spec:
   hard:
-    requests.cpu: "4"
+    requests.cpu: '4'
     requests.memory: 8Gi
-    limits.cpu: "8"
+    limits.cpu: '8'
     limits.memory: 16Gi
-    persistentvolumeclaims: "4"
+    persistentvolumeclaims: '4'
 ```
 
 ### 簡化運維管理
@@ -265,7 +264,7 @@ metadata:
     security-level: high
     access-control: strict
   annotations:
-    security.policy: "production-strict"
+    security.policy: 'production-strict'
 
 ---
 # 開發環境相對寬鬆
@@ -297,9 +296,9 @@ metadata:
     monitoring: enabled
     logging: centralized
   annotations:
-    contact: "backend-team@company.com"
-    oncall: "https://oncall.company.com/backend"
-    runbook: "https://wiki.company.com/user-service"
+    contact: 'backend-team@company.com'
+    oncall: 'https://oncall.company.com/backend'
+    runbook: 'https://wiki.company.com/user-service'
 ```
 
 ### 6. 生命週期管理原則
@@ -313,12 +312,12 @@ metadata:
   name: experimental-ai-service
   labels:
     lifecycle: experimental
-    expiry-date: "2024-12-31"
+    expiry-date: '2024-12-31'
     auto-cleanup: enabled
   annotations:
-    created-by: "john.doe@company.com"
-    created-date: "2024-01-15"
-    review-date: "2024-06-15"
+    created-by: 'john.doe@company.com'
+    created-date: '2024-01-15'
+    review-date: '2024-06-15'
 ```
 
 ### 7. 成本效益原則
@@ -386,9 +385,9 @@ metadata:
     team: backend-team
     cost-center: engineering
   annotations:
-    description: "E-commerce backend services production environment"
-    contact: "backend-team@company.com"
-    created-by: "devops-team"
+    description: 'E-commerce backend services production environment'
+    contact: 'backend-team@company.com'
+    created-by: 'devops-team'
 ```
 
 **3. 使用Helm Charts**：
@@ -418,24 +417,24 @@ metadata:
 spec:
   hard:
     # 計算資源限制
-    requests.cpu: "10"
+    requests.cpu: '10'
     requests.memory: 20Gi
-    limits.cpu: "20"
+    limits.cpu: '20'
     limits.memory: 40Gi
-    
+
     # 儲存資源限制
     requests.storage: 100Gi
-    persistentvolumeclaims: "10"
-    
+    persistentvolumeclaims: '10'
+
     # 物件數量限制
-    pods: "20"
-    services: "10"
-    secrets: "15"
-    configmaps: "15"
-    
+    pods: '20'
+    services: '10'
+    secrets: '15'
+    configmaps: '15'
+
     # 特定資源類型限制
-    services.loadbalancers: "2"
-    services.nodeports: "0"
+    services.loadbalancers: '2'
+    services.nodeports: '0'
 ```
 
 **配額使用情況監控**：
@@ -461,43 +460,43 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  - Egress
-  
+    - Ingress
+    - Egress
+
   ingress:
-  # 只允許來自frontend命名空間的流量
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: production-frontend
-    ports:
-    - protocol: TCP
-      port: 8080
-  
-  # 允許來自monitoring命名空間的健康檢查
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: monitoring
-    ports:
-    - protocol: TCP
-      port: 8081
-  
+    # 只允許來自frontend命名空間的流量
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: production-frontend
+      ports:
+        - protocol: TCP
+          port: 8080
+
+    # 允許來自monitoring命名空間的健康檢查
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+      ports:
+        - protocol: TCP
+          port: 8081
+
   egress:
-  # 允許存取資料庫命名空間
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: production-database
-    ports:
-    - protocol: TCP
-      port: 5432
-  
-  # 允許DNS查詢
-  - to: []
-    ports:
-    - protocol: UDP
-      port: 53
+    # 允許存取資料庫命名空間
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: production-database
+      ports:
+        - protocol: TCP
+          port: 5432
+
+    # 允許DNS查詢
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 53
 ```
 
 ### 服務發現與跨命名空間通信
@@ -512,8 +511,8 @@ metadata:
   name: app-config
   namespace: production-frontend
 data:
-  backend_url: "http://user-service.production-backend.svc.cluster.local:8080"
-  database_url: "postgresql://db-service.production-database.svc.cluster.local:5432"
+  backend_url: 'http://user-service.production-backend.svc.cluster.local:8080'
+  database_url: 'postgresql://db-service.production-database.svc.cluster.local:5432'
 ```
 
 **服務發現的最佳實踐**：
@@ -528,18 +527,18 @@ metadata:
     app: user-service
     version: v1
   annotations:
-    service.discovery/external: "true"
-    service.discovery/health-check: "/health"
+    service.discovery/external: 'true'
+    service.discovery/health-check: '/health'
 spec:
   selector:
     app: user-service
   ports:
-  - name: http
-    port: 8080
-    targetPort: 8080
-  - name: metrics
-    port: 9090
-    targetPort: 9090
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: metrics
+      port: 9090
+      targetPort: 9090
 ```
 
 ### 命名空間級別的RBAC設定
@@ -554,15 +553,15 @@ metadata:
   namespace: development-backend
   name: developer-role
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "configmaps", "secrets"]
-  verbs: ["get", "list", "create", "update", "patch", "delete"]
-- apiGroups: ["apps"]
-  resources: ["deployments", "replicasets"]
-  verbs: ["get", "list", "create", "update", "patch", "delete"]
-- apiGroups: [""]
-  resources: ["pods/log", "pods/exec"]
-  verbs: ["get", "list"]
+  - apiGroups: ['']
+    resources: ['pods', 'services', 'configmaps', 'secrets']
+    verbs: ['get', 'list', 'create', 'update', 'patch', 'delete']
+  - apiGroups: ['apps']
+    resources: ['deployments', 'replicasets']
+    verbs: ['get', 'list', 'create', 'update', 'patch', 'delete']
+  - apiGroups: ['']
+    resources: ['pods/log', 'pods/exec']
+    verbs: ['get', 'list']
 
 ---
 # 角色綁定
@@ -572,12 +571,12 @@ metadata:
   name: developer-binding
   namespace: development-backend
 subjects:
-- kind: User
-  name: developer1@company.com
-  apiGroup: rbac.authorization.k8s.io
-- kind: Group
-  name: development-team
-  apiGroup: rbac.authorization.k8s.io
+  - kind: User
+    name: developer1@company.com
+    apiGroup: rbac.authorization.k8s.io
+  - kind: Group
+    name: development-team
+    apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
   name: developer-role
@@ -596,14 +595,15 @@ metadata:
   labels:
     type: feature-branch
     created-by: ci-cd
-    expiry-date: "2024-02-15"
+    expiry-date: '2024-02-15'
   annotations:
-    auto-cleanup: "true"
-    cleanup-after-days: "7"
-    notification-email: "dev-team@company.com"
+    auto-cleanup: 'true'
+    cleanup-after-days: '7'
+    notification-email: 'dev-team@company.com'
 ```
 
-這樣的設定可以配合自動化腳本或Kubernetes Operator來實現自動清理過期的特性分支環境。
+這樣的設定可以配合自動化腳本或Kubernetes
+Operator來實現自動清理過期的特性分支環境。
 
 ---
 
@@ -643,8 +643,7 @@ docker run -d --name app-server --network my-network node:16-alpine
 docker exec web-server ping app-server
 ```
 
-**3. 檔案系統命名空間（Mount）**
-每個容器都有獨立的檔案系統視圖。
+**3. 檔案系統命名空間（Mount）** 每個容器都有獨立的檔案系統視圖。
 
 ```dockerfile
 # Dockerfile範例：創建多階段建置
@@ -662,8 +661,7 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-**4. UTS命名空間（Unix Timesharing System）**
-容器可以有獨立的主機名稱和域名。
+**4. UTS命名空間（Unix Timesharing System）** 容器可以有獨立的主機名稱和域名。
 
 ```bash
 # 設定容器主機名稱
@@ -674,8 +672,7 @@ hostname  # 輸出：my-app-server
 **5. IPC命名空間（Inter-Process Communication）**
 隔離程序間通信機制，如共享記憶體、訊息佇列等。
 
-**6. User命名空間（User ID）**
-提供使用者和群組ID的映射，增強安全性。
+**6. User命名空間（User ID）** 提供使用者和群組ID的映射，增強安全性。
 
 ```bash
 # 使用user命名空間啟動容器
@@ -733,7 +730,7 @@ networks:
     driver: bridge
   backend-network:
     driver: bridge
-    internal: true  # 僅供內部通信使用
+    internal: true # 僅供內部通信使用
 
 volumes:
   postgres_data:
@@ -912,7 +909,7 @@ metadata:
     cost-center: platform-engineering
 
 ---
-# 訂單處理服務  
+# 訂單處理服務
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -949,28 +946,28 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  - Egress
-  
+    - Ingress
+    - Egress
+
   ingress:
-  # 只允許訂單服務存取支付介面
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          business-domain: order-processing
-          environment: production
-    ports:
-    - protocol: TCP
-      port: 8443  # HTTPS only
-  
+    # 只允許訂單服務存取支付介面
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              business-domain: order-processing
+              environment: production
+      ports:
+        - protocol: TCP
+          port: 8443 # HTTPS only
+
   egress:
-  # 只允許存取外部支付供應商API
-  - to: []
-    ports:
-    - protocol: TCP
-      port: 443
-    - protocol: TCP
-      port: 80
+    # 只允許存取外部支付供應商API
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 80
 ```
 
 **運營效果**：
@@ -992,14 +989,14 @@ kind: Namespace
 metadata:
   name: tenant-acme-corp
   labels:
-    tenant-id: "acme-corp"
+    tenant-id: 'acme-corp'
     subscription-tier: enterprise
     region: us-west
     data-residency: usa
   annotations:
-    tenant.name: "ACME Corporation"
-    billing.contact: "billing@acme-corp.com"
-    data.encryption: "aes-256"
+    tenant.name: 'ACME Corporation'
+    billing.contact: 'billing@acme-corp.com'
+    data.encryption: 'aes-256'
 
 ---
 # 租戶專屬資源配額
@@ -1010,12 +1007,12 @@ metadata:
   namespace: tenant-acme-corp
 spec:
   hard:
-    requests.cpu: "20"
+    requests.cpu: '20'
     requests.memory: 40Gi
-    limits.cpu: "40"
+    limits.cpu: '40'
     limits.memory: 80Gi
-    persistentvolumeclaims: "50"
-    services.loadbalancers: "5"
+    persistentvolumeclaims: '50'
+    services.loadbalancers: '5'
 
 ---
 # 租戶專屬網路策略
@@ -1027,23 +1024,23 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  - Egress
-  
+    - Ingress
+    - Egress
+
   ingress:
-  # 只允許來自共享服務（如API Gateway）的流量
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          component: shared-services
-  
+    # 只允許來自共享服務（如API Gateway）的流量
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              component: shared-services
+
   egress:
-  # 租戶只能存取自己的資料庫和外部API
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          tenant-id: "acme-corp"
-          component: database
+    # 租戶只能存取自己的資料庫和外部API
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              tenant-id: 'acme-corp'
+              component: database
 ```
 
 **自動化租戶建立流程**：
@@ -1059,31 +1056,31 @@ spec:
   template:
     spec:
       containers:
-      - name: tenant-creator
-        image: tenant-provisioner:v1.2
-        env:
-        - name: TENANT_ID
-          value: "xyz-corp"
-        - name: SUBSCRIPTION_TIER
-          value: "professional"
-        - name: REGION
-          value: "eu-west"
-        command:
-        - /bin/sh
-        - -c
-        - |
-          # 建立命名空間
-          kubectl create namespace tenant-${TENANT_ID}
-          kubectl label namespace tenant-${TENANT_ID} tenant-id=${TENANT_ID}
-          
-          # 部署租戶專屬服務
-          helm install ${TENANT_ID}-app ./tenant-app-chart \
-            --namespace tenant-${TENANT_ID} \
-            --set tenant.id=${TENANT_ID} \
-            --set subscription.tier=${SUBSCRIPTION_TIER}
-          
-          # 設定監控和警報
-          kubectl apply -f tenant-monitoring.yaml -n tenant-${TENANT_ID}
+        - name: tenant-creator
+          image: tenant-provisioner:v1.2
+          env:
+            - name: TENANT_ID
+              value: 'xyz-corp'
+            - name: SUBSCRIPTION_TIER
+              value: 'professional'
+            - name: REGION
+              value: 'eu-west'
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # 建立命名空間
+              kubectl create namespace tenant-${TENANT_ID}
+              kubectl label namespace tenant-${TENANT_ID} tenant-id=${TENANT_ID}
+
+              # 部署租戶專屬服務
+              helm install ${TENANT_ID}-app ./tenant-app-chart \
+                --namespace tenant-${TENANT_ID} \
+                --set tenant.id=${TENANT_ID} \
+                --set subscription.tier=${SUBSCRIPTION_TIER}
+
+              # 設定監控和警報
+              kubectl apply -f tenant-monitoring.yaml -n tenant-${TENANT_ID}
       restartPolicy: OnFailure
 ```
 
@@ -1103,12 +1100,12 @@ metadata:
     security-zone: restricted
     compliance: basel-iii
     data-classification: confidential
-    audit-required: "true"
+    audit-required: 'true'
   annotations:
-    regulatory.framework: "MAS Notice 644"
-    business.owner: "core-banking-team@bank.com"
-    security.contact: "security-team@bank.com"
-    audit.retention: "7-years"
+    regulatory.framework: 'MAS Notice 644'
+    business.owner: 'core-banking-team@bank.com'
+    security.contact: 'security-team@bank.com'
+    audit.retention: '7-years'
 
 ---
 # 嚴格的Pod安全標準
@@ -1125,25 +1122,25 @@ spec:
     seccompProfile:
       type: RuntimeDefault
   containers:
-  - name: banking-app
-    image: banking-service:v2.1-secure
-    securityContext:
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      capabilities:
-        drop:
-        - ALL
-    volumeMounts:
-    - name: tmp-volume
-      mountPath: /tmp
-    - name: app-logs
-      mountPath: /var/log/app
+    - name: banking-app
+      image: banking-service:v2.1-secure
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - ALL
+      volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
+        - name: app-logs
+          mountPath: /var/log/app
   volumes:
-  - name: tmp-volume
-    emptyDir: {}
-  - name: app-logs
-    persistentVolumeClaim:
-      claimName: audit-logs-pvc
+    - name: tmp-volume
+      emptyDir: {}
+    - name: app-logs
+      persistentVolumeClaim:
+        claimName: audit-logs-pvc
 ```
 
 **審計和監控配置**：
@@ -1153,13 +1150,13 @@ spec:
 apiVersion: audit.k8s.io/v1
 kind: Policy
 rules:
-- level: Metadata
-  namespaces: ["core-banking-prod", "payment-processing-prod"]
-  resources:
-  - group: ""
-    resources: ["pods", "services", "secrets"]
-  - group: "apps"
-    resources: ["deployments"]
+  - level: Metadata
+    namespaces: ['core-banking-prod', 'payment-processing-prod']
+    resources:
+      - group: ''
+        resources: ['pods', 'services', 'secrets']
+      - group: 'apps'
+        resources: ['deployments']
 
 ---
 # 監控告警規則
@@ -1170,17 +1167,21 @@ metadata:
   namespace: core-banking-prod
 spec:
   groups:
-  - name: security.rules
-    rules:
-    - alert: UnauthorizedPodAccess
-      expr: increase(apiserver_audit_total{objectRef_namespace="core-banking-prod",verb="create"}[5m]) > 0
-      for: 0m
-      labels:
-        severity: critical
-        compliance: security-breach
-      annotations:
-        summary: "Unauthorized pod creation in core banking namespace"
-        description: "Someone attempted to create a pod in the restricted core banking namespace"
+    - name: security.rules
+      rules:
+        - alert: UnauthorizedPodAccess
+          expr:
+            increase(apiserver_audit_total{objectRef_namespace="core-banking-prod",verb="create"}[5m])
+            > 0
+          for: 0m
+          labels:
+            severity: critical
+            compliance: security-breach
+          annotations:
+            summary: 'Unauthorized pod creation in core banking namespace'
+            description:
+              'Someone attempted to create a pod in the restricted core banking
+              namespace'
 ```
 
 ### DevOps流水線中的動態命名空間
@@ -1198,8 +1199,8 @@ stages:
   - cleanup
 
 variables:
-  NAMESPACE_NAME: "feature-${CI_COMMIT_REF_SLUG}"
-  
+  NAMESPACE_NAME: 'feature-${CI_COMMIT_REF_SLUG}'
+
 deploy-feature-environment:
   stage: deploy-feature
   script:
@@ -1220,12 +1221,11 @@ deploy-feature-environment:
           cleanup-after-hours: "72"
           gitlab.merge-request: "${CI_MERGE_REQUEST_IID}"
       EOF
-    
+
     # 部署應用到功能分支環境
-    - helm upgrade --install ${CI_COMMIT_REF_SLUG} ./helm-chart 
-        --namespace ${NAMESPACE_NAME}
-        --set image.tag=${CI_COMMIT_SHA}
-        --set ingress.host=${CI_COMMIT_REF_SLUG}.dev.company.com
+    - helm upgrade --install ${CI_COMMIT_REF_SLUG} ./helm-chart --namespace
+      ${NAMESPACE_NAME} --set image.tag=${CI_COMMIT_SHA} --set
+      ingress.host=${CI_COMMIT_REF_SLUG}.dev.company.com
   environment:
     name: feature/${CI_COMMIT_REF_SLUG}
     url: https://${CI_COMMIT_REF_SLUG}.dev.company.com
@@ -1258,7 +1258,7 @@ spec:
         spec:
           containers:
           - name: cleanup
-          
+
 ---
 
             image: kubectl:latest
@@ -1268,15 +1268,15 @@ spec:
             - |
               # 取得所有功能分支命名空間
               FEATURE_NAMESPACES=$(kubectl get namespaces -l type=feature-branch -o name)
-              
+
               for ns in $FEATURE_NAMESPACES; do
                 NAMESPACE_NAME=$(echo $ns | cut -d'/' -f2)
-                
+
                 # 檢查命名空間年齡
                 CREATED_TIME=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.creationTimestamp}')
                 CLEANUP_HOURS=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.annotations.cleanup-after-hours}')
                 CLEANUP_HOURS=${CLEANUP_HOURS:-72}  # 預設72小時
-                
+
                 # 計算是否過期（這裡簡化處理）
                 if [ $(date -d "$CREATED_TIME + $CLEANUP_HOURS hours" +%s) -lt $(date +%s) ]; then
                   echo "Cleaning up expired namespace: $NAMESPACE_NAME"
@@ -1304,13 +1304,13 @@ spec:
     matchLabels:
       app: kube-state-metrics
   endpoints:
-  - port: http-metrics
-    interval: 30s
-    path: /metrics
-    relabelings:
-    - sourceLabels: [__name__]
-      regex: 'kube_namespace_.*'
-      action: keep
+    - port: http-metrics
+      interval: 30s
+      path: /metrics
+      relabelings:
+        - sourceLabels: [__name__]
+          regex: 'kube_namespace_.*'
+          action: keep
 
 ---
 # Grafana Dashboard配置
@@ -1379,38 +1379,38 @@ spec:
   minReplicas: 3
   maxReplicas: 50
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
-  - type: Pods
-    pods:
-      metric:
-        name: nginx_active_connections
-      target:
-        type: AverageValue
-        averageValue: "100"
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Pods
+      pods:
+        metric:
+          name: nginx_active_connections
+        target:
+          type: AverageValue
+          averageValue: '100'
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
       policies:
-      - type: Percent
-        value: 10
-        periodSeconds: 60
+        - type: Percent
+          value: 10
+          periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 60
       policies:
-      - type: Percent
-        value: 50
-        periodSeconds: 60
+        - type: Percent
+          value: 50
+          periodSeconds: 60
 ```
 
 **垂直Pod自動擴縮容（VPA）配置**：
@@ -1428,17 +1428,17 @@ spec:
     kind: Deployment
     name: database
   updatePolicy:
-    updateMode: "Auto"  # 自動更新Pod
+    updateMode: 'Auto' # 自動更新Pod
   resourcePolicy:
     containerPolicies:
-    - containerName: database
-      maxAllowed:
-        cpu: "4"
-        memory: 8Gi
-      minAllowed:
-        cpu: 100m
-        memory: 128Mi
-      controlledResources: ["cpu", "memory"]
+      - containerName: database
+        maxAllowed:
+          cpu: '4'
+          memory: 8Gi
+        minAllowed:
+          cpu: 100m
+          memory: 128Mi
+        controlledResources: ['cpu', 'memory']
 ```
 
 ### 網路效能最佳化
@@ -1457,30 +1457,30 @@ spec:
     matchLabels:
       app: high-performance-service
   policyTypes:
-  - Ingress
-  - Egress
-  
+    - Ingress
+    - Egress
+
   ingress:
-  # 使用IP區塊而非Pod選擇器，減少規則數量
-  - from:
-    - ipBlock:
-        cidr: 10.0.0.0/8
-        except:
-        - 10.0.1.0/24  # 排除測試網段
-    ports:
-    - protocol: TCP
-      port: 8080
-  
+    # 使用IP區塊而非Pod選擇器，減少規則數量
+    - from:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+            except:
+              - 10.0.1.0/24 # 排除測試網段
+      ports:
+        - protocol: TCP
+          port: 8080
+
   egress:
-  # 允許存取特定服務網段
-  - to:
-    - ipBlock:
-        cidr: 172.16.0.0/12
-    ports:
-    - protocol: TCP
-      port: 5432  # PostgreSQL
-    - protocol: TCP
-      port: 6379  # Redis
+    # 允許存取特定服務網段
+    - to:
+        - ipBlock:
+            cidr: 172.16.0.0/12
+      ports:
+        - protocol: TCP
+          port: 5432 # PostgreSQL
+        - protocol: TCP
+          port: 6379 # Redis
 ```
 
 **服務網格整合**：
@@ -1504,27 +1504,27 @@ metadata:
   namespace: microservices-prod
 spec:
   hosts:
-  - api-service
+    - api-service
   http:
-  - match:
-    - headers:
-        version:
-          exact: v2
-    route:
-    - destination:
-        host: api-service
-        subset: v2
-      weight: 100
-    fault:
-      delay:
-        percentage:
-          value: 0.1
-        fixedDelay: 5s
-  - route:
-    - destination:
-        host: api-service
-        subset: v1
-      weight: 100
+    - match:
+        - headers:
+            version:
+              exact: v2
+      route:
+        - destination:
+            host: api-service
+            subset: v2
+          weight: 100
+      fault:
+        delay:
+          percentage:
+            value: 0.1
+          fixedDelay: 5s
+    - route:
+        - destination:
+            host: api-service
+            subset: v1
+          weight: 100
 
 ---
 # DestinationRule：連線池最佳化
@@ -1552,12 +1552,12 @@ spec:
         interval: 30s
         baseEjectionTime: 30s
   subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
 ```
 
 ## 故障排除與診斷
@@ -1613,7 +1613,7 @@ curl -v http://api-service.production.svc.cluster.local:8080/health
 
 **健康檢查自動化**：
 
-```yaml
+````yaml
 # CronJob：定期檢查命名空間健康狀態
 apiVersion: batch/v1
 kind: CronJob
@@ -1635,13 +1635,13 @@ spec:
             - |
               # 檢查所有生產命名空間
               PROD_NAMESPACES=$(kubectl get namespaces -l environment=production -o name | cut -d'/' -f2)
-              
+
               for ns in $PROD_NAMESPACES; do
                 echo "Checking namespace: $ns"
-                
+
                 # 檢查Pod狀態
                 FAILED_PODS=$(kubectl get pods -n $ns --field-selector=status.phase!=Running,status.phase!=Succeeded -o
-                
+
 ---
 
             image: kubectl:latest
@@ -1651,15 +1651,15 @@ spec:
             - |
               # 取得所有功能分支命名空間
               FEATURE_NAMESPACES=$(kubectl get namespaces -l type=feature-branch -o name)
-              
+
               for ns in $FEATURE_NAMESPACES; do
                 NAMESPACE_NAME=$(echo $ns | cut -d'/' -f2)
-                
+
                 # 檢查命名空間年齡
                 CREATED_TIME=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.creationTimestamp}')
                 CLEANUP_HOURS=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.annotations.cleanup-after-hours}')
                 CLEANUP_HOURS=${CLEANUP_HOURS:-72}  # 預設72小時
-                
+
                 # 計算是否過期（這裡簡化處理）
                 if [ $(date -d "$CREATED_TIME + $CLEANUP_HOURS hours" +%s) -lt $(date +%s) ]; then
                   echo "Cleaning up expired namespace: $NAMESPACE_NAME"
@@ -1674,15 +1674,15 @@ spec:
             - |
               # 取得所有功能分支命名空間
               FEATURE_NAMESPACES=$(kubectl get namespaces -l type=feature-branch -o name)
-              
+
               for ns in $FEATURE_NAMESPACES; do
                 NAMESPACE_NAME=$(echo $ns | cut -d'/' -f2)
-                
+
                 # 檢查命名空間年齡
                 CREATED_TIME=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.creationTimestamp}')
                 CLEANUP_HOURS=$(kubectl get namespace $NAMESPACE_NAME -o jsonpath='{.metadata.annotations.cleanup-after-hours}')
                 CLEANUP_HOURS=${CLEANUP_HOURS:-72}  # 預設72小時
-                
+
                 # 計算是否過期（這裡簡化處理）
                 if [ $(date -d "$CREATED_TIME + $CLEANUP_HOURS hours" +%s) -lt $(date +%s) ]; then
                   echo "Cleaning up expired namespace: $NAMESPACE_NAME"
@@ -1690,7 +1690,7 @@ spec:
                 fi
               done
           restartPolicy: OnFailure
-```
+````
 
 # 彈性命名規範完整學習手冊
 
@@ -1712,11 +1712,11 @@ spec:
 - 不同語言與平台的命名特色
 - 建立個人命名習慣
 
-### 第二階段：工具與平台 (第3-4週)  
+### 第二階段：工具與平台 (第3-4週)
 
 - Git 版本控制命名
 - Docker 容器化命名
-- Kubernetes 雲原生命名  
+- Kubernetes 雲原生命名
 - CI/CD 自動化命名
 
 ### 第三階段：企業級實戰 (第5-6週)
@@ -1735,7 +1735,7 @@ spec:
 1.1 什麼是命名規範？為什麼重要？  
 1.2 命名規範的核心原則  
 1.3 常見的命名災難與解決方案  
-1.4 不同領域的命名特色分析  
+1.4 不同領域的命名特色分析
 
 ### 第二章：程式設計語言命名
 
@@ -1824,7 +1824,7 @@ spec:
 d1 = getUserData()
 tmp = calcPrice(d1)
 
-# ✅ 良好的命名  
+# ✅ 良好的命名
 user_profile = get_user_profile()
 final_price = calculate_discounted_price(user_profile)
 ```
@@ -1937,7 +1937,7 @@ bool isActive;
 # ❌ 文化特定命名
 git branch feature/lunar-new-year-sale
 
-# ✅ 通用命名  
+# ✅ 通用命名
 git branch feature/seasonal-promotion-q1
 ```
 
@@ -1968,7 +1968,7 @@ type UserService interface {
 
 // 資料庫表格命名
 users
-user_profiles  
+user_profiles
 user_authentication_tokens
 ```
 
@@ -2009,14 +2009,14 @@ metadata:
 
 #### 命名風格對照表
 
-| 語言 | 變數/函數 | 類別/結構 | 常數 | 檔案名稱 |
-|------|-----------|-----------|------|----------|
-| Go | camelCase | PascalCase | UPPER_SNAKE | snake_case.go |
-| JavaScript | camelCase | PascalCase | UPPER_SNAKE | kebab-case.js |
-| Python | snake_case | PascalCase | UPPER_SNAKE | snake_case.py |
-| Java | camelCase | PascalCase | UPPER_SNAKE | PascalCase.java |
-| C# | camelCase | PascalCase | PascalCase | PascalCase.cs |
-| Rust | snake_case | PascalCase | UPPER_SNAKE | snake_case.rs |
+| 語言       | 變數/函數  | 類別/結構  | 常數        | 檔案名稱        |
+| ---------- | ---------- | ---------- | ----------- | --------------- |
+| Go         | camelCase  | PascalCase | UPPER_SNAKE | snake_case.go   |
+| JavaScript | camelCase  | PascalCase | UPPER_SNAKE | kebab-case.js   |
+| Python     | snake_case | PascalCase | UPPER_SNAKE | snake_case.py   |
+| Java       | camelCase  | PascalCase | UPPER_SNAKE | PascalCase.java |
+| C#         | camelCase  | PascalCase | PascalCase  | PascalCase.cs   |
+| Rust       | snake_case | PascalCase | UPPER_SNAKE | snake_case.rs   |
 
 ### 2.2 Go 語言命名最佳實踐
 
@@ -2055,7 +2055,7 @@ func (r *userRepository) CreateUser(ctx context.Context, user *UserProfile) erro
     // 區域變數使用 camelCase，首字母小寫
     currentTime := time.Now()
     user.CreatedAt = currentTime
-    
+
     return nil
 }
 ```
@@ -2094,49 +2094,49 @@ const API_BASE_URL = 'https://api.example.com';
 const DEFAULT_TIMEOUT = 5000;
 
 class UserService {
-    constructor(apiClient) {
-        this.apiClient = apiClient;
-        this._cache = new Map(); // 私有屬性前綴 _
+  constructor(apiClient) {
+    this.apiClient = apiClient;
+    this._cache = new Map(); // 私有屬性前綴 _
+  }
+
+  async getUserProfile(userId) {
+    // 使用 camelCase
+    const cacheKey = `user_${userId}`;
+
+    if (this._cache.has(cacheKey)) {
+      return this._cache.get(cacheKey);
     }
-    
-    async getUserProfile(userId) {
-        // 使用 camelCase
-        const cacheKey = `user_${userId}`;
-        
-        if (this._cache.has(cacheKey)) {
-            return this._cache.get(cacheKey);
-        }
-        
-        try {
-            const userProfile = await this.apiClient.get(`/users/${userId}`);
-            this._cache.set(cacheKey, userProfile);
-            return userProfile;
-        } catch (error) {
-            throw new Error(`Failed to fetch user profile: ${error.message}`);
-        }
+
+    try {
+      const userProfile = await this.apiClient.get(`/users/${userId}`);
+      this._cache.set(cacheKey, userProfile);
+      return userProfile;
+    } catch (error) {
+      throw new Error(`Failed to fetch user profile: ${error.message}`);
     }
-    
-    // 事件處理函數以 handle 開頭
-    handleUserLogin(loginData) {
-        return this.validateAndProcessLogin(loginData);
-    }
-    
-    // 布林值函數以 is/has/can 開頭
-    isUserActive(user) {
-        return user.status === 'active' && user.lastLoginAt > Date.now() - 86400000;
-    }
+  }
+
+  // 事件處理函數以 handle 開頭
+  handleUserLogin(loginData) {
+    return this.validateAndProcessLogin(loginData);
+  }
+
+  // 布林值函數以 is/has/can 開頭
+  isUserActive(user) {
+    return user.status === 'active' && user.lastLoginAt > Date.now() - 86400000;
+  }
 }
 
 // 工廠函數以 create 開頭
 function createUserService(apiClient) {
-    return new UserService(apiClient);
+  return new UserService(apiClient);
 }
 
 // 高階函數使用動詞 + 名詞
 const withAuthentication = (component) => {
-    return (props) => {
-        // HOC 實作
-    };
+  return (props) => {
+    // HOC 實作
+  };
 };
 ```
 
@@ -2145,11 +2145,11 @@ const withAuthentication = (component) => {
 ```typescript
 // ✅ TypeScript 命名最佳實踐
 interface UserProfile {
-    readonly id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    isActive: boolean;
+  readonly id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
 }
 
 // 型別別名使用 PascalCase
@@ -2158,21 +2158,25 @@ type CreateUserRequest = Omit<UserProfile, 'id'>;
 
 // 泛型參數使用單個大寫字母
 interface Repository<T, K = string> {
-    findById(id: K): Promise<T | null>;
-    save(entity: T): Promise<T>;
+  findById(id: K): Promise<T | null>;
+  save(entity: T): Promise<T>;
 }
 
 // 裝飾器使用 camelCase
-function logExecutionTime(target: any, propertyName: string, descriptor: PropertyDescriptor) {
-    // 裝飾器實作
+function logExecutionTime(
+  target: any,
+  propertyName: string,
+  descriptor: PropertyDescriptor
+) {
+  // 裝飾器實作
 }
 
 class UserRepository implements Repository<UserProfile> {
-    @logExecutionTime
-    async findById(id: string): Promise<UserProfile | null> {
-        // 實作
-        return null;
-    }
+  @logExecutionTime
+  async findById(id: string): Promise<UserProfile | null> {
+    // 實作
+    return null;
+  }
 }
 ```
 
@@ -2194,27 +2198,27 @@ MAX_RETRY_ATTEMPTS = 3
 
 class UserService:
     """使用者服務類別 - 類別名稱使用 PascalCase"""
-    
+
     def __init__(self, api_client):
         self.api_client = api_client
         self._cache = {}  # 私有屬性以底線開頭
         self.__secret_key = None  # 名稱修飾使用雙底線
-    
+
     def get_user_profile(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         獲取使用者資料 - 函數名稱使用 snake_case
-        
+
         Args:
             user_id: 使用者 ID
-            
+
         Returns:
             使用者資料字典或 None
         """
         cache_key = f"user_{user_id}"
-        
+
         if cache_key in self._cache:
             return self._cache[cache_key]
-            
+
         try:
             user_profile = self.api_client.get(f"/users/{user_id}")
             self._cache[cache_key] = user_profile
@@ -2222,14 +2226,14 @@ class UserService:
         except Exception as error:
             logger.error(f"Failed to fetch user profile: {error}")
             return None
-    
+
     def is_user_active(self, user: Dict[str, Any]) -> bool:
         """布林函數以 is_ 開頭"""
         return (
-            user.get('status') == 'active' 
+            user.get('status') == 'active'
             and user.get('last_login_at', 0) > datetime.now().timestamp() - 86400
         )
-    
+
     @staticmethod
     def validate_email(email: str) -> bool:
         """靜態方法使用 snake_case"""
@@ -2303,17 +2307,17 @@ CREATE INDEX idx_user_profiles_active_created ON user_profiles(is_active, create
 // ❌ 需要改進
 var u = {};
 function getdata(i) {
-    return DB.find(i);
+  return DB.find(i);
 }
 class usrmgr {
-    delUsr(id) {}
+  delUsr(id) {}
 }
 ```
 
 **Python:**
 
 ```python
-# ❌ 需要改進  
+# ❌ 需要改進
 def GetUserData(ID):
     return db.Find(ID)
 
@@ -2437,16 +2441,16 @@ module.exports = {
       2,
       'always',
       [
-        'feat',     // 新功能
-        'fix',      // 錯誤修復
-        'docs',     // 文件更新
-        'style',    // 程式碼格式調整
+        'feat', // 新功能
+        'fix', // 錯誤修復
+        'docs', // 文件更新
+        'style', // 程式碼格式調整
         'refactor', // 重構
-        'perf',     // 效能優化
-        'test',     // 增加測試
-        'chore',    // 建置或輔助工具變動
-        'revert',   // 撤銷先前的 commit
-        'ci',       // CI 相關變動
+        'perf', // 效能優化
+        'test', // 增加測試
+        'chore', // 建置或輔助工具變動
+        'revert', // 撤銷先前的 commit
+        'ci', // CI 相關變動
       ],
     ],
     'subject-max-length': [2, 'always', 100],
@@ -2467,7 +2471,7 @@ module.exports = {
 # 正式版本
 v1.0.0          # 初始版本
 v1.0.1          # 修復版本（向後相容）
-v1.1.0          # 功能版本（向後相容）  
+v1.1.0          # 功能版本（向後相容）
 v2.0.0          # 主要版本（可能不向後相容）
 
 # 預發布版本
@@ -2491,7 +2495,7 @@ git tag -a v1.0.0 -m "Release version 1.0.0
 
 Features:
 - User authentication system
-- Payment integration  
+- Payment integration
 - Mobile responsive design
 
 Bug fixes:
@@ -2517,7 +2521,7 @@ git show v1.0.0
 [FEAT] Add user profile editing functionality (#123)
 [FEAT] Implement real-time notifications (#456)
 
-# 修復 PR  
+# 修復 PR
 [FIX] Resolve login session timeout issue (#789)
 [HOTFIX] Critical security patch for XSS vulnerability (#999)
 
@@ -2539,7 +2543,7 @@ git show v1.0.0
 [CRITICAL] Data corruption in user profiles table
 
 # 功能請求
-[FEATURE] Add export functionality to user dashboard  
+[FEATURE] Add export functionality to user dashboard
 [ENHANCEMENT] Improve loading performance on mobile devices
 [FEATURE REQUEST] Integration with third-party analytics
 
@@ -2561,26 +2565,32 @@ assignees: ''
 ---
 
 ## 🐛 Bug Description
+
 A clear and concise description of what the bug is.
 
 ## 🔄 Steps to Reproduce
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
 ## ✅ Expected Behavior
+
 A clear and concise description of what you expected to happen.
 
 ## 📸 Screenshots
+
 If applicable, add screenshots to help explain your problem.
 
 ## 🌍 Environment
+
 - OS: [e.g. iOS]
 - Browser: [e.g. chrome, safari]
 - Version: [e.g. 22]
 
 ## 📝 Additional Context
+
 Add any other context about the problem here.
 ```
 
@@ -2621,7 +2631,7 @@ Kubernetes 資源命名必須遵循 DNS-1123 標準：
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-auth-api-prod          # 服務-用途-環境
+  name: user-auth-api-prod # 服務-用途-環境
   namespace: authentication-services
   labels:
     app: user-auth-api
@@ -2637,7 +2647,7 @@ spec:
       environment: production
   template:
     metadata:
-      name: user-auth-api-pod       # Pod 名稱模板
+      name: user-auth-api-pod # Pod 名稱模板
       labels:
         app: user-auth-api
         component: backend
@@ -2652,7 +2662,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-auth-api-svc           # 服務名稱 + svc 後綴
+  name: user-auth-api-svc # 服務名稱 + svc 後綴
   namespace: authentication-services
   labels:
     app: user-auth-api
@@ -2661,34 +2671,34 @@ spec:
   selector:
     app: user-auth-api
   ports:
-  - name: http-api                  # 連接埠名稱要有意義
-    port: 80
-    targetPort: 8080
-  - name: health-check
-    port: 8081
-    targetPort: 8081
+    - name: http-api # 連接埠名稱要有意義
+      port: 80
+      targetPort: 8080
+    - name: health-check
+      port: 8081
+      targetPort: 8081
 
 ---
 # Ingress 命名規範
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: user-auth-api-ingress       # 服務名稱 + ingress 後綴
+  name: user-auth-api-ingress # 服務名稱 + ingress 後綴
   namespace: authentication-services
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: auth-api.production.example.com    # 環境.服務.網域
-    http:
-      paths:
-      - path: /api/v1/auth
-        pathType: Prefix
-        backend:
-          service:
-            name: user-auth-api-svc
-            port:
-              number: 80
+    - host: auth-api.production.example.com # 環境.服務.網域
+      http:
+        paths:
+          - path: /api/v1/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: user-auth-api-svc
+                port:
+                  number: 80
 ```
 
 #### ConfigMap 與 Secret 命名
@@ -2698,19 +2708,19 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: user-auth-api-config        # 服務名稱 + config 後綴
+  name: user-auth-api-config # 服務名稱 + config 後綴
   namespace: authentication-services
 data:
-  app.env: "production"
-  log.level: "info"
-  database.host: "postgres.internal.example.com"
+  app.env: 'production'
+  log.level: 'info'
+  database.host: 'postgres.internal.example.com'
 
 ---
 # Secret 命名
 apiVersion: v1
 kind: Secret
 metadata:
-  name: user-auth-api-secrets       # 服務名稱 + secrets 後綴
+  name: user-auth-api-secrets # 服務名稱 + secrets 後綴
   namespace: authentication-services
 type: Opaque
 data:

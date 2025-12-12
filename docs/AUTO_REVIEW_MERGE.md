@@ -2,9 +2,12 @@
 
 ## 📋 概述 (Overview)
 
-自動審核與合併工作流程會自動審核所有 Pull Request，修復常見的代碼問題，並在審核通過後自動合併至 `main` 分支。
+自動審核與合併工作流程會自動審核所有 Pull
+Request，修復常見的代碼問題，並在審核通過後自動合併至 `main` 分支。
 
-This automated review and merge workflow automatically reviews all Pull Requests, fixes common code issues, and automatically merges approved PRs to the `main` branch.
+This automated review and merge workflow automatically reviews all Pull
+Requests, fixes common code issues, and automatically merges approved PRs to the
+`main` branch.
 
 ## ✨ 功能特性 (Features)
 
@@ -79,19 +82,20 @@ graph LR
 
 ```yaml
 merge:
-  method: squash  # 可選: squash, merge, rebase
+  method: squash # 可選: squash, merge, rebase
   target_branches:
     - main
     - master
 ```
 
-**注意：** 合併方式需要在工作流程文件 `.github/workflows/auto-review-merge.yml` 的 `env.AUTO_MERGE_METHOD` 中設置。默認為 `squash`。
+**注意：** 合併方式需要在工作流程文件 `.github/workflows/auto-review-merge.yml`
+的 `env.AUTO_MERGE_METHOD` 中設置。默認為 `squash`。
 
 要更改合併方式，請編輯工作流程文件：
 
 ```yaml
 env:
-  AUTO_MERGE_METHOD: squash  # 或 merge, rebase
+  AUTO_MERGE_METHOD: squash # 或 merge, rebase
 ```
 
 ### 權限要求 (Required Permissions)
@@ -100,10 +104,10 @@ env:
 
 ```yaml
 permissions:
-  contents: write        # 用於合併 PR
-  pull-requests: write   # 用於審核和評論
-  checks: read          # 用於讀取檢查狀態
-  statuses: read        # 用於讀取狀態
+  contents: write # 用於合併 PR
+  pull-requests: write # 用於審核和評論
+  checks: read # 用於讀取檢查狀態
+  statuses: read # 用於讀取狀態
 ```
 
 ### 合併方式 (Merge Method)
@@ -275,4 +279,5 @@ permissions:
 
 **注意：** 此工作流程仍在持續改進中，歡迎提供反饋和建議！
 
-**Note:** This workflow is continuously being improved. Feedback and suggestions are welcome!
+**Note:** This workflow is continuously being improved. Feedback and suggestions
+are welcome!

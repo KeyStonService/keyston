@@ -2,7 +2,8 @@
 
 ## Overview | 概述
 
-This guide provides step-by-step instructions for deploying the SynergyMesh Workflow System in various environments.
+This guide provides step-by-step instructions for deploying the SynergyMesh
+Workflow System in various environments.
 
 本指南提供了在各種環境中部署 SynergyMesh 工作流程系統的分步說明。
 
@@ -245,11 +246,11 @@ core_engine:
   contract_engine:
     registry:
       cache_enabled: true
-      cache_ttl_seconds: 600  # Increase for better performance
+      cache_ttl_seconds: 600 # Increase for better performance
 
 pipeline:
   execution:
-    concurrency: 20  # Increase for higher throughput
+    concurrency: 20 # Increase for higher throughput
 ```
 
 ## Backup & Recovery | 備份與恢復

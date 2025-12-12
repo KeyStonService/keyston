@@ -2,7 +2,9 @@
 
 ## 📋 概述
 
-Auto-Fix Bot 2.0 是 Isynergymesh 專案的自動修復機器人配置系統，整合了深度可驗證模組、Policy Gate 驗證、多層證據生成與審計追蹤功能。
+Auto-Fix Bot
+2.0 是 Isynergymesh 專案的自動修復機器人配置系統，整合了深度可驗證模組、Policy
+Gate 驗證、多層證據生成與審計追蹤功能。
 
 ### 版本資訊
 
@@ -19,16 +21,16 @@ Auto-Fix Bot 2.0 是 Isynergymesh 專案的自動修復機器人配置系統，�
 
 ```yaml
 project_mapping:
-  config_root: ".config"
-  policies_root: "governance/policies/conftest"
-  governance_root: ".governance"
-  evidence_root: "root-evidence"
-  schemas_root: "schemas"
-  scripts_root: "scripts"
-  templates_root: "templates"
-  docs_root: "docs"
-  mcp_servers_root: "mcp-servers"
-  test_vectors_root: "test-vectors"
+  config_root: '.config'
+  policies_root: 'governance/policies/conftest'
+  governance_root: '.governance'
+  evidence_root: 'root-evidence'
+  schemas_root: 'schemas'
+  scripts_root: 'scripts'
+  templates_root: 'templates'
+  docs_root: 'docs'
+  mcp_servers_root: 'mcp-servers'
+  test_vectors_root: 'test-vectors'
 ```
 
 ### 2. Bot 配置範圍
@@ -37,7 +39,8 @@ Bot 支援四個主要驗證範圍：
 
 #### 2.1 Deep YAML 驗證
 
-- 路徑：`templates/**/*.yaml`, `schemas/**/*.json`, `.config/**/*.yaml`, `governance/**/*.yaml`
+- 路徑：`templates/**/*.yaml`, `schemas/**/*.json`, `.config/**/*.yaml`,
+  `governance/**/*.yaml`
 - 功能：深度驗證 YAML 檔案結構和內容
 
 #### 2.2 MCP Servers 驗證
@@ -47,7 +50,8 @@ Bot 支援四個主要驗證範圍：
 
 #### 2.3 Advanced Architecture 同步
 
-- 路徑：`advanced-architecture/**/*`, `advanced-system-src/**/*`, `advanced-system-dist/**/*`
+- 路徑：`advanced-architecture/**/*`, `advanced-system-src/**/*`,
+  `advanced-system-dist/**/*`
 - 功能：同步源碼與建置輸出
 
 #### 2.4 Evidence Chain 驗證
@@ -268,10 +272,10 @@ os.system, subprocess, eval, exec, __import__
 
 ### 同步模式
 
-| 檔案類型 | 轉換方式 | 驗證方式 |
-|---------|---------|---------|
-| `*.py` | 編譯與優化 | 執行單元測試 |
-| `*.yaml` | 驗證與壓縮 | Schema 檢查 |
+| 檔案類型 | 轉換方式   | 驗證方式         |
+| -------- | ---------- | ---------------- |
+| `*.py`   | 編譯與優化 | 執行單元測試     |
+| `*.yaml` | 驗證與壓縮 | Schema 檢查      |
 | `*.json` | 驗證與壓縮 | JSON Schema 驗證 |
 
 ### 同步命令
@@ -377,11 +381,11 @@ os.system, subprocess, eval, exec, __import__
 
 ### 核心指標
 
-| 指標名稱 | 類型 | 閾值 | 告警條件 |
-|---------|-----|------|---------|
-| 修復成功率 | 百分比 | 95% | 低於閾值 |
-| 平均修復時間 | 時長 | 5分鐘 | 超過閾值 |
-| Policy Gate 失敗率 | 百分比 | 5% | 超過閾值 |
+| 指標名稱           | 類型   | 閾值  | 告警條件 |
+| ------------------ | ------ | ----- | -------- |
+| 修復成功率         | 百分比 | 95%   | 低於閾值 |
+| 平均修復時間       | 時長   | 5分鐘 | 超過閾值 |
+| Policy Gate 失敗率 | 百分比 | 5%    | 超過閾值 |
 
 ### 儀表板
 

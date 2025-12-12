@@ -10,7 +10,6 @@ maturity_model_overview:
   application: "Annual assessment with improvement roadmap"
 
 maturity_levels:
-
   level_1_initial:
     name: "初始級 | Initial"
     characteristics:
@@ -104,7 +103,7 @@ assessment_process:
     - "Self-assessment"
     - "Peer review"
     - "External validation"
-  
+
   assessment_criteria:
     - "Process maturity"
     - "Tool sophistication"

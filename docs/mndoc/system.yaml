@@ -63,13 +63,13 @@ meta:
     - id: "autonomous-ops"
       name: "自主運維"
       description: "AI 驅動的自動修復、智能派工、升級管理"
-  
+
   config_refs:
     master: "synergymesh.yaml"
     manifest: "config/system-manifest.yaml"
     modules: "config/system-module-map.yaml"
     index: "config/unified-config-index.yaml"
-  
+
   quality_gates:
     test_coverage: ">= 80%"
     lint_errors: 0

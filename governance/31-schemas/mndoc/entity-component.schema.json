@@ -23,21 +23,7 @@
     },
     "type": {
       "type": "string",
-      "enum": [
-        "processor",
-        "service",
-        "engine",
-        "registry",
-        "validator",
-        "handler",
-        "hub",
-        "detector",
-        "optimizer",
-        "orchestrator",
-        "controller",
-        "manager",
-        "module"
-      ],
+      "enum": ["processor", "service", "engine", "registry", "validator", "handler", "hub", "detector", "optimizer", "orchestrator", "controller", "manager", "module"],
       "description": "Component type"
     },
     "title": {

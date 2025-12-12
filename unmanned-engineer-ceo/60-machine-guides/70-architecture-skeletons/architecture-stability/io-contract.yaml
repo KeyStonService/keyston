@@ -226,12 +226,7 @@ output:
               properties:
                 issue_type:
                   type: "string"
-                  enum:
-                    [
-                      "boundary_violation",
-                      "circular_dependency",
-                      "missing_interface",
-                    ]
+                  enum: ["boundary_violation", "circular_dependency", "missing_interface"]
 
                 severity:
                   type: "string"
@@ -262,8 +257,7 @@ output:
             description: "違反架構規則的清單"
             items:
               type: "object"
-              required:
-                ["rule_id", "severity", "explanation", "related_modules"]
+              required: ["rule_id", "severity", "explanation", "related_modules"]
               properties:
                 rule_id:
                   type: "string"

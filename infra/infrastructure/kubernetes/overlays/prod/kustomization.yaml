@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 bases:
-- ../../
+  - ../../
 
 namespace: autofix-bot
 
@@ -10,18 +10,18 @@ commonLabels:
   env: prod
 
 replicas:
-- name: code-analyzer
-  count: 3
-- name: vulnerability-detector
-  count: 3
-- name: auto-repair
-  count: 2
-- name: orchestrator
-  count: 2
+  - name: code-analyzer
+    count: 3
+  - name: vulnerability-detector
+    count: 3
+  - name: auto-repair
+    count: 2
+  - name: orchestrator
+    count: 2
 
 configMapGenerator:
-- name: autofix-bot-config
-  behavior: merge
-  literals:
-  - LOG_LEVEL=WARN
-  - ENVIRONMENT=prod
+  - name: autofix-bot-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=WARN
+      - ENVIRONMENT=prod

@@ -44,22 +44,22 @@ v2-multi-islands/
 
 ## 🌐 多語言島嶼分工
 
-| 語言 | 島嶼類型 | 功能域 |
-|------|---------|--------|
-| 🦀 Rust | 性能核心島 | 性能監控、安全守護、數據管道 |
-| 🌊 Go | 雲原生服務島 | API 網關、微服務網格、容器管理 |
-| ⚡ TypeScript | 全棧開發島 | Web 儀表板、API 客戶端、實時監控 |
-| 🐍 Python | AI 數據島 | AI 助手、數據分析、機器學習 |
-| ☕ Java | 企業服務島 | 企業整合、消息隊列、批處理 |
+| 語言          | 島嶼類型     | 功能域                           |
+| ------------- | ------------ | -------------------------------- |
+| 🦀 Rust       | 性能核心島   | 性能監控、安全守護、數據管道     |
+| 🌊 Go         | 雲原生服務島 | API 網關、微服務網格、容器管理   |
+| ⚡ TypeScript | 全棧開發島   | Web 儀表板、API 客戶端、實時監控 |
+| 🐍 Python     | AI 數據島    | AI 助手、數據分析、機器學習      |
+| ☕ Java       | 企業服務島   | 企業整合、消息隊列、批處理       |
 
 ## 🔗 與核心系統的映射關係
 
-| v2-multi-islands | .devcontainer/automation | v1-python-drones |
-|------------------|-------------------------|------------------|
-| `orchestrator/island_orchestrator.py` | `drone-coordinator.py` | `coordinator_drone.py` |
-| `islands/python_island.py` | `auto-pilot.js` | `autopilot_drone.py` |
-| `bridges/language_bridge.py` | `code-generator.ts` | - |
-| `config/island_config.py` | `drone-config.yml` | `drone_config.py` |
+| v2-multi-islands                      | .devcontainer/automation | v1-python-drones       |
+| ------------------------------------- | ------------------------ | ---------------------- |
+| `orchestrator/island_orchestrator.py` | `drone-coordinator.py`   | `coordinator_drone.py` |
+| `islands/python_island.py`            | `auto-pilot.js`          | `autopilot_drone.py`   |
+| `bridges/language_bridge.py`          | `code-generator.ts`      | -                      |
+| `config/island_config.py`             | `drone-config.yml`       | `drone_config.py`      |
 
 ## 🚀 使用方式
 

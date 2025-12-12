@@ -2,14 +2,16 @@
 
 # 智能自動化模組
 
-> 產品級 Pipeline 組合，提供多代理 AI 代碼分析系統和自動化工作流。
-> Product-level pipeline composition, providing multi-agent AI code analysis systems and automated workflows.
+> 產品級 Pipeline 組合，提供多代理 AI 代碼分析系統和自動化工作流。Product-level
+> pipeline composition, providing multi-agent AI code analysis systems and
+> automated workflows.
 
 ## 🔷 What This Directory Does 本目錄負責什麼
 
 ### ✅ Responsibilities 職責
 
-- **多代理 AI 代碼分析系統** - 具體 pipeline 組合（code pipeline、review pipeline）
+- **多代理 AI 代碼分析系統** - 具體 pipeline 組合（code pipeline、review
+  pipeline）
 - **SynergyMesh Core 自主協同系統** - 產品級工作流
 - **Pipeline 編排和服務** - 協調多個代理和工具
 
@@ -38,13 +40,16 @@
 
 本模組從 OJ-agent 提取核心商業價值能力，重構並優化用於無人機、無人駕駛和自動化迭代系統的代碼質量保障。
 
-This module extracts core high-value capabilities from OJ-agent, refactored and optimized for autonomous systems including drones, self-driving vehicles, and automated iteration systems.
+This module extracts core high-value capabilities from OJ-agent, refactored and
+optimized for autonomous systems including drones, self-driving vehicles, and
+automated iteration systems.
 
 ## 核心能力 Core Capabilities
 
 ### 🌐 SynergyMesh Core - 無人化自主協同網格系統
 
-SynergyMesh Core 是革命性的完全自主化系統網格，實現「無人機、無人駕駛、自動化迭代升遷」的高階架構願景。
+SynergyMesh
+Core 是革命性的完全自主化系統網格，實現「無人機、無人駕駛、自動化迭代升遷」的高階架構願景。
 
 **設計哲學**: 讓程式服務於人類，而非人類服務於程式
 
@@ -127,7 +132,8 @@ await orchestrator.start()
 
 ### 1. **TaskExecutor (任務執行器)**
 
-- **智能代碼分析** - Intelligent code analysis with security and performance checks
+- **智能代碼分析** - Intelligent code analysis with security and performance
+  checks
 - **自動修復** - Automated fixing of critical issues
 - **實時監控** - Real-time streaming analysis for continuous monitoring
 - **安全關鍵驗證** - Safety-critical validation for autonomous systems
@@ -235,7 +241,8 @@ intelligent-automation/
 - ModelScope API 等服務為**可選**，非必需
 - 依賴管理遵循治理分層原則，避免硬編碼
 
-This module uses a plugin architecture. Core functionality works without external AI/ML services.
+This module uses a plugin architecture. Core functionality works without
+external AI/ML services.
 
 - Python version: >= 3.8 (not hardcoded to 3.10)
 - ModelScope API and similar services are **OPTIONAL**
@@ -300,7 +307,8 @@ $ python auto_upgrade_env.py
 - 無需手動干預，確保最佳功能體驗
 - 支持選擇性升級和批量升級
 
-When missing dependencies are detected, the system **automatically upgrades environment configuration** and installs missing dependencies.
+When missing dependencies are detected, the system **automatically upgrades
+environment configuration** and installs missing dependencies.
 
 - No manual intervention required for optimal functionality
 - Supports selective and batch upgrades
@@ -322,7 +330,7 @@ async def main():
         """,
         analysis_type="security"
     )
-    
+
     print(result)
 
 asyncio.run(main())
@@ -402,7 +410,7 @@ asyncio.run(streaming_example())
 class CustomAgent:
     def __init__(self):
         self.name = "custom_agent"
-    
+
     async def process(self, query: str) -> dict:
         # 實現你的邏輯
         return {"result": "processed"}
@@ -479,4 +487,7 @@ MIT License - 詳見 [LICENSE](../LICENSE)
 
 **設計理念**: 從 OJ-agent 提取最具商業價值的多智能體協同、智能代碼分析和自動化修復能力，重構為適配安全關鍵自動化系統的生產級解決方案。
 
-**Design Philosophy**: Extract the most commercially valuable capabilities from OJ-agent - multi-agent collaboration, intelligent code analysis, and automated fixing - refactored into a production-grade solution for safety-critical autonomous systems.
+**Design Philosophy**: Extract the most commercially valuable capabilities from
+OJ-agent - multi-agent collaboration, intelligent code analysis, and automated
+fixing - refactored into a production-grade solution for safety-critical
+autonomous systems.

@@ -4,7 +4,8 @@
 
 本骨架定義 SLA 目標、容量規劃、故障恢復和災難復原策略，確保系統的高性能和高可用性。
 
-This skeleton defines SLA targets, capacity planning, failure recovery, and disaster recovery strategies to ensure system high performance and availability.
+This skeleton defines SLA targets, capacity planning, failure recovery, and
+disaster recovery strategies to ensure system high performance and availability.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +18,8 @@ This skeleton defines SLA targets, capacity planning, failure recovery, and disa
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/`
 
 ### 指南文件結構
 
@@ -88,7 +90,8 @@ performance-reliability/
    - 斷路器實現
    - 緊急停止機制
 
-3. **Security & Observability** (`automation/autonomous/security-observability/`)
+3. **Security & Observability**
+   (`automation/autonomous/security-observability/`)
    - 分布式追蹤
    - 日誌聚合
 
@@ -100,12 +103,12 @@ performance-reliability/
 
 ### 系統級 SLA / System-Level SLA
 
-| 指標 | 目標值 | 測量方式 | 違約處理 |
-|------|--------|----------|----------|
-| **可用性** | 99.9% | 正常運行時間/總時間 | 事後分析、補償 |
-| **響應時間 (p99)** | < 500ms | API 響應延遲 | 自動擴展 |
-| **錯誤率** | < 0.1% | 錯誤請求數/總請求數 | 降級、回滾 |
-| **吞吐量** | > 1000 TPS | 每秒事務處理數 | 容量擴展 |
+| 指標               | 目標值     | 測量方式            | 違約處理       |
+| ------------------ | ---------- | ------------------- | -------------- |
+| **可用性**         | 99.9%      | 正常運行時間/總時間 | 事後分析、補償 |
+| **響應時間 (p99)** | < 500ms    | API 響應延遲        | 自動擴展       |
+| **錯誤率**         | < 0.1%     | 錯誤請求數/總請求數 | 降級、回滾     |
+| **吞吐量**         | > 1000 TPS | 每秒事務處理數      | 容量擴展       |
 
 ### 服務級 SLA / Service-Level SLA
 
@@ -227,11 +230,11 @@ backoff_multiplier = 2
 
 ### 備份策略 / Backup Strategy
 
-| 資料類型 | 備份頻率 | 保留期限 | 恢復目標 |
-|---------|---------|---------|---------|
-| 關鍵資料 | 每小時 | 30 天 | RTO: 1h, RPO: 1h |
-| 重要資料 | 每日 | 90 天 | RTO: 4h, RPO: 24h |
-| 一般資料 | 每週 | 30 天 | RTO: 24h, RPO: 7d |
+| 資料類型 | 備份頻率 | 保留期限 | 恢復目標          |
+| -------- | -------- | -------- | ----------------- |
+| 關鍵資料 | 每小時   | 30 天    | RTO: 1h, RPO: 1h  |
+| 重要資料 | 每日     | 90 天    | RTO: 4h, RPO: 24h |
+| 一般資料 | 每週     | 30 天    | RTO: 24h, RPO: 7d |
 
 **術語說明**:
 
@@ -280,17 +283,17 @@ backoff_multiplier = 2
 
 ```yaml
 chaos_experiments:
-  - name: "pod-failure"
-    description: "隨機終止 Pod"
-    frequency: "weekly"
-  
-  - name: "network-latency"
-    description: "注入網路延遲"
-    frequency: "bi-weekly"
-  
-  - name: "resource-exhaustion"
-    description: "耗盡 CPU/記憶體"
-    frequency: "monthly"
+  - name: 'pod-failure'
+    description: '隨機終止 Pod'
+    frequency: 'weekly'
+
+  - name: 'network-latency'
+    description: '注入網路延遲'
+    frequency: 'bi-weekly'
+
+  - name: 'resource-exhaustion'
+    description: '耗盡 CPU/記憶體'
+    frequency: 'monthly'
 ```
 
 ## 📈 監控儀表板 / Monitoring Dashboard

@@ -2,13 +2,15 @@
 
 ## 概述
 
-本文檔詳細說明如何在 SynergyMesh 專案中實現企業級 CodeQL 自動化掃描。CodeQL 是 GitHub Advanced Security 的核心組件，提供強大的靜態應用安全測試 (SAST) 功能。
+本文檔詳細說明如何在 SynergyMesh 專案中實現企業級 CodeQL 自動化掃描。CodeQL 是 GitHub
+Advanced Security 的核心組件，提供強大的靜態應用安全測試 (SAST) 功能。
 
 ## Advanced Setup 工作流程配置
 
 ### 基本 CodeQL 工作流程設定
 
-企業級的 CodeQL 掃描工作流程已配置於 `.github/workflows/codeql-advanced.yml`，支援以下功能：
+企業級的 CodeQL 掃描工作流程已配置於
+`.github/workflows/codeql-advanced.yml`，支援以下功能：
 
 - **多語言支援**: JavaScript, Python, Java, C#, C++, Go
 - **自動化觸發**: Push、Pull Request 和定時掃描
@@ -20,20 +22,20 @@
 ```yaml
 on:
   push:
-    branches: ["main", "develop", "release/*"]
+    branches: ['main', 'develop', 'release/*']
   pull_request:
-    branches: ["main", "develop"]
+    branches: ['main', 'develop']
   schedule:
-    - cron: '0 2 * * 1'  # 每週一凌晨 2 點執行
+    - cron: '0 2 * * 1' # 每週一凌晨 2 點執行
 ```
 
 ### 掃描策略
 
-| 觸發方式 | 執行時機 | 用途 |
-|---------|---------|------|
-| Push | 推送到主要分支 | 持續監控主要代碼庫 |
-| Pull Request | 建立或更新 PR | 在合併前檢測問題 |
-| Schedule | 每週一凌晨 2 點 | 定期全面掃描 |
+| 觸發方式     | 執行時機        | 用途               |
+| ------------ | --------------- | ------------------ |
+| Push         | 推送到主要分支  | 持續監控主要代碼庫 |
+| Pull Request | 建立或更新 PR   | 在合併前檢測問題   |
+| Schedule     | 每週一凌晨 2 點 | 定期全面掃描       |
 
 ## 自定義 CodeQL 配置
 
@@ -81,8 +83,7 @@ on:
 - `access_token` - 存取令牌
 - `auth` - 認證資訊
 
-**嚴重程度**: Error (8.0)
-**準確度**: High
+**嚴重程度**: Error (8.0) **準確度**: High
 
 #### 建立自定義查詢的步驟
 
@@ -112,8 +113,8 @@ import javascript
 // Your query logic here
 ```
 
-1. **更新 qlpack.yml**
-確保您的查詢包含在 `.github/codeql/custom-queries/qlpack.yml` 中。
+1. **更新 qlpack.yml** 確保您的查詢包含在
+   `.github/codeql/custom-queries/qlpack.yml` 中。
 
 ## Pull Request 整合機制
 
@@ -129,11 +130,11 @@ PR 安全閘門工作流程位於 `.github/workflows/pr-security-gate.yml`，提
 
 #### 閘門規則
 
-| 條件 | 動作 | 狀態 |
-|------|------|------|
-| Critical > 0 | 阻止合併 | ❌ Blocked |
-| High > 3 | 要求審查 | ⚠️ Review Required |
-| 其他 | 允許合併 | ✅ Passed |
+| 條件         | 動作     | 狀態               |
+| ------------ | -------- | ------------------ |
+| Critical > 0 | 阻止合併 | ❌ Blocked         |
+| High > 3     | 要求審查 | ⚠️ Review Required |
+| 其他         | 允許合併 | ✅ Passed          |
 
 #### PR 評論功能
 
@@ -150,17 +151,18 @@ PR 安全閘門工作流程位於 `.github/workflows/pr-security-gate.yml`，提
 ## 🔐 Security Scan Results
 
 | Severity | Count |
-|----------|--------|
-| Critical | 0 |
-| High     | 2 |
-| Medium   | 5 |
-| Low      | 3 |
+| -------- | ----- |
+| Critical | 0     |
+| High     | 2     |
+| Medium   | 5     |
+| Low      | 3     |
 
 ✅ Security check passed
 
 ---
 
 ### Next Steps:
+
 - Review high severity issues and consider fixing
 - 📋 Consider addressing medium severity issues
 
@@ -190,7 +192,7 @@ For detailed information, check the Security tab.
 - setup.py: `pip install -e .`
 - pyproject.toml: `pip install -e .`
 
-#### C #
+#### C
 
 - `dotnet restore && dotnet build --configuration Release --no-restore`
 
@@ -306,7 +308,7 @@ CodeQL 會定期更新以包含新的安全規則和改進。建議：
 ```yaml
 jobs:
   analyze:
-    timeout-minutes: 480  # 增加到 8 小時
+    timeout-minutes: 480 # 增加到 8 小時
 ```
 
 ## 進階配置
@@ -334,7 +336,8 @@ strategy:
 
 ```yaml
 - name: Perform CodeQL Analysis
-  if: github.event_name == 'push' || github.event.pull_request.base.ref == 'main'
+  if:
+    github.event_name == 'push' || github.event.pull_request.base.ref == 'main'
   uses: github/codeql-action/analyze@v3
 ```
 

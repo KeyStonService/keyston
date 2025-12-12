@@ -21,8 +21,8 @@ rules:
 
   # API Versioning
   versioning:
-    strategy: "url-based"  # /api/v1/, /api/v2/
-    format: "semantic"  # MAJOR.MINOR.PATCH
+    strategy: "url-based" # /api/v1/, /api/v2/
+    format: "semantic" # MAJOR.MINOR.PATCH
     breaking_change_policy: "major_version_required"
     deprecation_period_days: 180
     sunset_header: required

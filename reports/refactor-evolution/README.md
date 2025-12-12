@@ -2,7 +2,8 @@
 
 # 重構與演化報告
 
-This directory contains generated reports from the Auto Refactor & Evolution System.
+This directory contains generated reports from the Auto Refactor & Evolution
+System.
 
 此目錄包含自動重構與演化系統生成的報告。
 
@@ -48,11 +49,10 @@ refactor-evolution/
 
 ## Note / 注意
 
-Generated reports are automatically ignored by git (see `.gitignore`).
-Only the directory structure is tracked.
+Generated reports are automatically ignored by git (see `.gitignore`). Only the
+directory structure is tracked.
 
-生成的報告會自動被 git 忽略（見 `.gitignore`）。
-僅追蹤目錄結構。
+生成的報告會自動被 git 忽略（見 `.gitignore`）。僅追蹤目錄結構。
 
 ## Cleanup / 清理
 

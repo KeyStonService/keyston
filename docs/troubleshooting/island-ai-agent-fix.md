@@ -192,8 +192,8 @@ gh api user
 
 ### Q1: 為什麼我的 Island AI 在其他倉庫可用，但這個不行？
 
-**A:** 這通常是倉庫訪問權限問題。Island AI 需要明確授權才能訪問每個倉庫，
-特別是私有倉庫。
+**A:** 這通常是倉庫訪問權限問題。Island
+AI 需要明確授權才能訪問每個倉庫，特別是私有倉庫。
 
 **解決方法：**
 
@@ -254,10 +254,7 @@ gh auth refresh
    {
      "customizations": {
        "vscode": {
-         "extensions": [
-           "github.island-ai",
-           "github.island-ai-chat"
-         ]
+         "extensions": ["github.island-ai", "github.island-ai-chat"]
        }
      }
    }
@@ -336,5 +333,4 @@ npm run lint:yaml  # 如果有的話
 
 ---
 
-**最後更新:** 2025-12-01
-**文檔版本:** 1.0.0
+**最後更新:** 2025-12-01 **文檔版本:** 1.0.0

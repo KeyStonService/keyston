@@ -2,7 +2,8 @@
 
 ## 🎯 概述
 
-本指南說明如何將任何現有的 CI workflow 升級為具有**動態互動式客服能力**的智能系統。每個 CI 都將成為一個獨立的、靈活的互動式客服代理，能夠：
+本指南說明如何將任何現有的 CI
+workflow 升級為具有**動態互動式客服能力**的智能系統。每個 CI 都將成為一個獨立的、靈活的互動式客服代理，能夠：
 
 - 🤖 自動診斷問題
 - 💬 提供互動式反饋
@@ -56,25 +57,27 @@
 在任何 CI workflow 的 `jobs:` 部分末尾添加：
 
 ```yaml
-  # ==================== 互動式客服整合 ====================
-  interactive-service:
-    name: 🤖 [CI名稱] 互動式客服
-    needs: [job1, job2, job3]  # 列出所有需要等待的 jobs
-    if: always()  # 確保無論成功或失敗都執行
-    uses: ./.github/workflows/interactive-ci-service.yml
-    with:
-      ci-name: "[CI名稱]"  # 例如："Core Services CI"
-      ci-status: ${{ (needs.job1.result == 'success' && needs.job2.result == 'success') && 'success' || 'failure' }}
-      ci-context: |
-        {
-          "job1": "${{ needs.job1.result }}",
-          "job2": "${{ needs.job2.result }}"
-        }
-      error-logs: ${{ needs.job1.result == 'failure' && '檢測到失敗' || '' }}
-    permissions:
-      contents: read
-      pull-requests: write
-      issues: write
+# ==================== 互動式客服整合 ====================
+interactive-service:
+  name: 🤖 [CI名稱] 互動式客服
+  needs: [job1, job2, job3] # 列出所有需要等待的 jobs
+  if: always() # 確保無論成功或失敗都執行
+  uses: ./.github/workflows/interactive-ci-service.yml
+  with:
+    ci-name: '[CI名稱]' # 例如："Core Services CI"
+    ci-status:
+      ${{ (needs.job1.result == 'success' && needs.job2.result == 'success') &&
+      'success' || 'failure' }}
+    ci-context: |
+      {
+        "job1": "${{ needs.job1.result }}",
+        "job2": "${{ needs.job2.result }}"
+      }
+    error-logs: ${{ needs.job1.result == 'failure' && '檢測到失敗' || '' }}
+  permissions:
+    contents: read
+    pull-requests: write
+    issues: write
 ```
 
 ### 步驟 2：確保 Workflow 有正確的權限
@@ -84,9 +87,9 @@
 ```yaml
 permissions:
   contents: read
-  security-events: write  # 如原有
-  pull-requests: write    # 互動式客服需要
-  issues: write          # 互動式客服需要
+  security-events: write # 如原有
+  pull-requests: write # 互動式客服需要
+  issues: write # 互動式客服需要
 ```
 
 ### 步驟 3：測試
@@ -127,7 +130,7 @@ jobs:
       - name: Run tests
         run: npm test
       # ... 其他步驟
-  
+
   mcp-servers-ci:
     name: 🔧 MCP Servers CI
     runs-on: ubuntu-latest
@@ -136,7 +139,7 @@ jobs:
       - name: Run tests
         run: npm test
       # ... 其他步驟
-  
+
   ci-status-report:
     needs: [contracts-l1-ci, mcp-servers-ci]
     runs-on: ubuntu-latest
@@ -144,7 +147,7 @@ jobs:
     steps:
       - name: Generate report
         run: echo "CI completed"
-  
+
   # ==================== 新增：互動式客服 ====================
   interactive-service:
     name: 🤖 Core Services 互動式客服
@@ -152,14 +155,18 @@ jobs:
     if: always()
     uses: ./.github/workflows/interactive-ci-service.yml
     with:
-      ci-name: "Core Services CI"
-      ci-status: ${{ (needs.contracts-l1-ci.result == 'success' && needs.mcp-servers-ci.result == 'success') && 'success' || 'failure' }}
+      ci-name: 'Core Services CI'
+      ci-status:
+        ${{ (needs.contracts-l1-ci.result == 'success' &&
+        needs.mcp-servers-ci.result == 'success') && 'success' || 'failure' }}
       ci-context: |
         {
           "contracts_l1": "${{ needs.contracts-l1-ci.result }}",
           "mcp_servers": "${{ needs.mcp-servers-ci.result }}"
         }
-      error-logs: ${{ needs.ci-status-report.result == 'failure' && '檢測到 CI 失敗' || '' }}
+      error-logs:
+        ${{ needs.ci-status-report.result == 'failure' && '檢測到 CI 失敗' || ''
+        }}
     permissions:
       contents: read
       pull-requests: write
@@ -191,7 +198,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run integration tests
         run: npm run test:integration
-  
+
   deploy:
     name: 🚀 Deploy
     needs: integration-tests
@@ -200,7 +207,7 @@ jobs:
     steps:
       - name: Deploy to staging
         run: echo "Deploying..."
-  
+
   # ==================== 互動式客服 ====================
   interactive-service:
     name: 🤖 Integration & Deployment 互動式客服
@@ -208,8 +215,11 @@ jobs:
     if: always()
     uses: ./.github/workflows/interactive-ci-service.yml
     with:
-      ci-name: "Integration & Deployment"
-      ci-status: ${{ (needs.integration-tests.result == 'success' && (needs.deploy.result == 'success' || needs.deploy.result == 'skipped')) && 'success' || 'failure' }}
+      ci-name: 'Integration & Deployment'
+      ci-status:
+        ${{ (needs.integration-tests.result == 'success' && (needs.deploy.result
+        == 'success' || needs.deploy.result == 'skipped')) && 'success' ||
+        'failure' }}
       ci-context: |
         {
           "integration_tests": "${{ needs.integration-tests.result }}",
@@ -243,7 +253,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run linter
         run: npm run lint
-  
+
   # ==================== 互動式客服 ====================
   interactive-service:
     name: 🤖 Code Quality 互動式客服
@@ -251,9 +261,11 @@ jobs:
     if: always()
     uses: ./.github/workflows/interactive-ci-service.yml
     with:
-      ci-name: "Code Quality Check"
+      ci-name: 'Code Quality Check'
       ci-status: ${{ needs.lint.result }}
-      error-logs: ${{ needs.lint.result == 'failure' && '代碼格式檢查失敗，請運行 npm run lint:fix' || '' }}
+      error-logs:
+        ${{ needs.lint.result == 'failure' && '代碼格式檢查失敗，請運行 npm run
+        lint:fix' || '' }}
     permissions:
       contents: read
       pull-requests: write
@@ -272,40 +284,49 @@ jobs:
 🟢 **狀態**：執行成功
 
 ### 📋 服務摘要
+
 - ✓ 所有檢查項目已完成
 - ✓ 品質標準符合要求
 - ✓ 準備進行下一階段
 
 ### 🤝 互動服務
+
 如需協助，可使用以下命令：
+
 - `@island help Core Services CI` - 獲取此 CI 的詳細說明
 - `@island analyze Core Services CI` - 深度分析執行結果
 - `@island report Core Services CI` - 生成詳細報告
 
 ---
-*此評論由 Core Services CI 互動式客服自動生成*
+
+_此評論由 Core Services CI 互動式客服自動生成_
 ```
 
 #### 失敗時
 
-```markdown
+````markdown
 ## ❌ Core Services CI - 客服報告
 
 🔴 **狀態**：執行失敗
 
 ### 🔍 問題診斷
+
 **錯誤類型**：Node.js/npm 相關問題
 
 ### 💡 修復建議
+
 1. 檢查 package.json 依賴版本
 2. 清理 node_modules：`rm -rf node_modules && npm install`
 3. 檢查 Node.js 版本是否 >= 18
 
 ### ⚡ 快速修復命令
+
 **重新安裝依賴**
+
 ```bash
 npm install
 ```
+````
 
 **修復安全問題**
 
@@ -335,9 +356,10 @@ npm audit fix
 - [環境檢查工具](./scripts/check-env.sh)
 
 ---
-*此評論由 Core Services CI 互動式客服自動生成*
 
-```
+_此評論由 Core Services CI 互動式客服自動生成_
+
+````
 
 ### 支援的互動命令
 
@@ -390,7 +412,7 @@ npm audit fix
      with:
        ci-name: "[CI名稱]"
        ci-status: ${{ ... }}
-   ```
+````
 
 1. **更新權限**
 
@@ -461,7 +483,7 @@ ci-context: |
 確保互動式客服在所有情況下都執行：
 
 ```yaml
-if: always()  # 不要使用 success() 或 failure()
+if: always() # 不要使用 success() 或 failure()
 ```
 
 ## 📊 監控和維護
@@ -520,19 +542,15 @@ gh pr list --label "ci-core-services-ci-failed"
 
 ### 問題：評論重複出現
 
-**可能原因**：
-找不到現有評論進行更新
+**可能原因**：找不到現有評論進行更新
 
-**解決方案**：
-確保 `ci-name` 在每次執行時保持一致
+**解決方案**：確保 `ci-name` 在每次執行時保持一致
 
 ### 問題：標籤沒有正確管理
 
-**可能原因**：
-標籤名稱格式問題
+**可能原因**：標籤名稱格式問題
 
-**解決方案**：
-檢查標籤是否已在 repository 中創建
+**解決方案**：檢查標籤是否已在 repository 中創建
 
 ## 📝 版本歷史
 

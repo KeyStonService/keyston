@@ -4,7 +4,8 @@
 
 本骨架定義資料模式、資料分類、資料流向和隱私合規策略，確保資料的安全性、完整性和合規性。
 
-This skeleton defines data schemas, classification, data flow, and privacy compliance strategies to ensure data security, integrity, and compliance.
+This skeleton defines data schemas, classification, data flow, and privacy
+compliance strategies to ensure data security, integrity, and compliance.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +18,8 @@ This skeleton defines data schemas, classification, data flow, and privacy compl
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/`
 
 ### 指南文件結構
 
@@ -92,7 +94,8 @@ data-governance/
    - API 資料契約
    - 資料格式驗證
 
-4. **Security & Observability** (`automation/autonomous/security-observability/`)
+4. **Security & Observability**
+   (`automation/autonomous/security-observability/`)
    - 資料訪問審計
    - 異常檢測
 
@@ -100,12 +103,12 @@ data-governance/
 
 ### 敏感度級別 / Sensitivity Levels
 
-| 級別 | 描述 | 範例 | 保護要求 |
-|------|------|------|----------|
-| **PUBLIC** | 公開資料 | 產品目錄、公告 | 基本保護 |
-| **INTERNAL** | 內部資料 | 內部文檔、報告 | 訪問控制 |
-| **CONFIDENTIAL** | 機密資料 | 商業策略、財務 | 加密 + 嚴格訪問控制 |
-| **RESTRICTED** | 限制資料 | 個人資料、健康資料 | 強加密 + 審計 + 最小權限 |
+| 級別             | 描述     | 範例               | 保護要求                 |
+| ---------------- | -------- | ------------------ | ------------------------ |
+| **PUBLIC**       | 公開資料 | 產品目錄、公告     | 基本保護                 |
+| **INTERNAL**     | 內部資料 | 內部文檔、報告     | 訪問控制                 |
+| **CONFIDENTIAL** | 機密資料 | 商業策略、財務     | 加密 + 嚴格訪問控制      |
+| **RESTRICTED**   | 限制資料 | 個人資料、健康資料 | 強加密 + 審計 + 最小權限 |
 
 ### 資料類型 / Data Types
 
@@ -189,13 +192,13 @@ data-governance/
 
 ### 關鍵指標
 
-| 指標 | 目標值 | 重要性 |
-|------|--------|--------|
-| 資料分類覆蓋率 | > 95% | 🔴 高 |
-| 未授權訪問嘗試 | 0 | 🔴 高 |
-| 資料洩露事件 | 0 | 🔴 高 |
-| 合規檢查通過率 | 100% | 🔴 高 |
-| 資料保留違規 | 0 | 🟡 中 |
+| 指標           | 目標值 | 重要性 |
+| -------------- | ------ | ------ |
+| 資料分類覆蓋率 | > 95%  | 🔴 高  |
+| 未授權訪問嘗試 | 0      | 🔴 高  |
+| 資料洩露事件   | 0      | 🔴 高  |
+| 合規檢查通過率 | 100%   | 🔴 高  |
+| 資料保留違規   | 0      | 🟡 中  |
 
 ## 📞 支援與參考 / Support and References
 

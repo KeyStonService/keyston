@@ -46,11 +46,11 @@ kind: Namespace
 metadata:
   name: uav-production
   labels:
-    namespace.io/managed-by: "platform-team"
-    namespace.io/domain: "uav"
-    namespace.io/team: "robotics"
-    namespace.io/environment: "production"
-    namespace.io/lifecycle: "stable"
+    namespace.io/managed-by: 'platform-team'
+    namespace.io/domain: 'uav'
+    namespace.io/team: 'robotics'
+    namespace.io/environment: 'production'
+    namespace.io/lifecycle: 'stable'
 ```
 
 ### 3. 啟用地理圍欄
@@ -63,10 +63,10 @@ kind: ConfigMap
 metadata:
   name: uav-geo-config
   labels:
-    uav.io/system: "uav"
+    uav.io/system: 'uav'
 data:
-  geo.fence.enabled: "true"
-  geo.fence.regions: "TW-Taipei, TW-Taichung, TW-Kaohsiung"
+  geo.fence.enabled: 'true'
+  geo.fence.regions: 'TW-Taipei, TW-Taichung, TW-Kaohsiung'
 ```
 
 ### 4. 設置風險等級
@@ -79,9 +79,9 @@ kind: Deployment
 metadata:
   name: uav-controller
   labels:
-    uav.io/system: "uav"
-    uav.io/safety-level: "L4"
-    uav.io/risk-category: "high"
+    uav.io/system: 'uav'
+    uav.io/safety-level: 'L4'
+    uav.io/risk-category: 'high'
 spec:
   # ... deployment spec
 ```
@@ -148,7 +148,7 @@ kubectl apply -f your-deployment.yaml --dry-run=server
 - name: Gatekeeper dry-run
   run: |
     kubectl apply -f policies/gatekeeper/ --dry-run=server
-    
+
 - name: Calculate file hashes
   run: |
     b3sum docs/core-principles.md > hashes.txt

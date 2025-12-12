@@ -25,7 +25,7 @@ tiers:
 
   standard:
     name: Standard
-    price: 99  # USD/month
+    price: 99 # USD/month
     isolation_level: dedicated
     quotas:
       max_users: 50
@@ -73,18 +73,18 @@ quota_enforcement:
       - max_users
       - max_projects
       - max_knowledge_size_gb
-    
-    soft_limit:  # 允許短暫超過,但會警告
+
+    soft_limit: # 允許短暫超過,但會警告
       - max_api_calls_per_month
       - max_agents
-    
-    throttle:  # 限流而非阻斷
+
+    throttle: # 限流而非阻斷
       - api_calls_per_minute
       - concurrent_requests
 
   # 配額重置週期
   reset_periods:
-    max_api_calls_per_month: monthly  # 每月 1 號重置
+    max_api_calls_per_month: monthly # 每月 1 號重置
     api_calls_per_minute: minute
 
   # 警告閾值
@@ -97,6 +97,6 @@ quota_enforcement:
 # 試用期設定
 trial:
   duration_days: 14
-  tier: standard  # 試用期使用 standard 方案
-  auto_downgrade_to: free  # 試用結束後自動降級
-  grace_period_days: 7  # 寬限期
+  tier: standard # 試用期使用 standard 方案
+  auto_downgrade_to: free # 試用結束後自動降級
+  grace_period_days: 7 # 寬限期

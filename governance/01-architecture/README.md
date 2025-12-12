@@ -1,6 +1,7 @@
 # 📦 API Governance
 
-> API Design & Versioning Guidelines - Governance for API contracts, design standards, and backward compatibility
+> API Design & Versioning Guidelines - Governance for API contracts, design
+> standards, and backward compatibility
 
 ## 📋 Overview
 
@@ -60,5 +61,4 @@ This governance domain integrates with:
 
 ---
 
-**Status**: Core Governance Domain
-**Last Updated**: 2025-12-09
+**Status**: Core Governance Domain **Last Updated**: 2025-12-09

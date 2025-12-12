@@ -40,13 +40,7 @@ schemas:
         type: string
       violation_type:
         type: string
-        enum:
-          [
-            layer_violation,
-            circular_dependency,
-            backward_dependency,
-            mixed_data,
-          ]
+        enum: [layer_violation, circular_dependency, backward_dependency, mixed_data]
       severity:
         type: string
         enum: [critical, high, medium, low]

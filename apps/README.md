@@ -4,7 +4,8 @@
 
 `apps/` 目錄包含所有面向用戶的應用程式，包括 Web 前端、移動應用和各種客戶端。
 
-The `apps/` directory contains all user-facing applications, including web frontend, mobile applications, and various client applications.
+The `apps/` directory contains all user-facing applications, including web
+frontend, mobile applications, and various client applications.
 
 ---
 

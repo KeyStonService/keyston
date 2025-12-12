@@ -2,7 +2,9 @@
 
 ## 📋 Overview
 
-This document outlines recommendations for addressing the GitHub Actions cost issues identified in the repository. These are pre-existing infrastructure concerns that should be addressed in a dedicated CI/CD optimization effort.
+This document outlines recommendations for addressing the GitHub Actions cost
+issues identified in the repository. These are pre-existing infrastructure
+concerns that should be addressed in a dedicated CI/CD optimization effort.
 
 **Status**: 🔴 Action Required  
 **Priority**: 🔥 Critical - Cost Impact  
@@ -15,7 +17,8 @@ This document outlines recommendations for addressing the GitHub Actions cost is
 ### 1. Excessive Workflow Count
 
 - **Current**: 47 workflow files
-- **Problem**: Too many workflows increase maintenance burden and trigger complexity
+- **Problem**: Too many workflows increase maintenance burden and trigger
+  complexity
 - **Impact**: High compute minutes consumption
 
 ### 2. Trigger Proliferation
@@ -107,8 +110,8 @@ concurrency:
 jobs:
   job-name:
     runs-on: ubuntu-latest
-    timeout-minutes: 5  # Adjust per job needs
-    
+    timeout-minutes: 5 # Adjust per job needs
+
     steps:
       # ... existing steps
 ```
@@ -180,7 +183,7 @@ name: CI Cost Dashboard
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # Daily at 9 AM
+    - cron: '0 9 * * *' # Daily at 9 AM
   workflow_dispatch:
 
 jobs:
@@ -258,13 +261,13 @@ Set monthly limits in organization settings to prevent runaway costs.
 
 ### Recommended Actions Per Workflow
 
-| Workflow | Current Trigger | Recommended Trigger | Expected Savings |
-|----------|----------------|--------------------|--------------------|
-| codeql.yml | push, pull_request | weekly cron, main only | 90% |
-| project-self-awareness-nightly.yml | daily cron | weekly cron | 85% |
-| osv-scanner.yml | push | pull_request only | 80% |
-| mndoc-knowledge-graph.yml | push | main only, manual | 75% |
-| auto-update-knowledge-graph.yml | push | main only | 70% |
+| Workflow                           | Current Trigger    | Recommended Trigger    | Expected Savings |
+| ---------------------------------- | ------------------ | ---------------------- | ---------------- |
+| codeql.yml                         | push, pull_request | weekly cron, main only | 90%              |
+| project-self-awareness-nightly.yml | daily cron         | weekly cron            | 85%              |
+| osv-scanner.yml                    | push               | pull_request only      | 80%              |
+| mndoc-knowledge-graph.yml          | push               | main only, manual      | 75%              |
+| auto-update-knowledge-graph.yml    | push               | main only              | 70%              |
 
 ---
 
@@ -310,7 +313,7 @@ name: Workflow Name
 on:
   pull_request:
     paths:
-      - 'relevant/**'  # Only trigger on relevant changes
+      - 'relevant/**' # Only trigger on relevant changes
   push:
     branches: [main]
   workflow_dispatch:
@@ -329,10 +332,10 @@ jobs:
   job-name:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Task
         run: |
           set -e  # Fail fast
@@ -342,15 +345,16 @@ jobs:
 ### Conditional Expensive Job
 
 ```yaml
-  expensive-scan:
-    # Only run on main or when manually triggered
-    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    
-    steps:
-      - name: Run Expensive Scan
-        run: ./expensive-scan.sh
+expensive-scan:
+  # Only run on main or when manually triggered
+  if:
+    github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+  runs-on: ubuntu-latest
+  timeout-minutes: 15
+
+  steps:
+    - name: Run Expensive Scan
+      run: ./expensive-scan.sh
 ```
 
 ---

@@ -5,13 +5,7 @@ input:
   schema:
     properties:
       action_type:
-        enum:
-          [
-            "define_workflow",
-            "coordinate_agents",
-            "dispatch_task",
-            "manage_state",
-          ]
+        enum: ["define_workflow", "coordinate_agents", "dispatch_task", "manage_state"]
 
 output:
   schema:

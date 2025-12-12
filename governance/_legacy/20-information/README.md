@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Information Governance manages information architecture, knowledge flows, data governance, and information lifecycle management.
+Information Governance manages information architecture, knowledge flows, data
+governance, and information lifecycle management.
 
 資訊治理管理信息架構、知識流動、數據治理和信息生命週期管理。
 

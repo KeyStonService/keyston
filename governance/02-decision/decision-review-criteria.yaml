@@ -12,7 +12,6 @@ overview:
 
 # 通用審查標準 | General Review Criteria
 general_criteria:
-
   completeness:
     criterion_id: "RC-GEN-001"
     name: "完整性"
@@ -87,7 +86,6 @@ general_criteria:
 
 # 風險評估標準 | Risk Assessment Criteria
 risk_criteria:
-
   risk_identification:
     criterion_id: "RC-RISK-001"
     name: "風險識別"
@@ -150,7 +148,6 @@ risk_criteria:
 
 # 合規性標準 | Compliance Criteria
 compliance_criteria:
-
   regulatory_compliance:
     criterion_id: "RC-COMP-001"
     name: "監管合規"
@@ -191,7 +188,6 @@ compliance_criteria:
 
 # 實施可行性標準 | Implementation Feasibility Criteria
 feasibility_criteria:
-
   technical_feasibility:
     criterion_id: "RC-FEAS-001"
     name: "技術可行性"
@@ -248,7 +244,6 @@ feasibility_criteria:
 
 # 業務價值標準 | Business Value Criteria
 business_value_criteria:
-
   strategic_alignment:
     criterion_id: "RC-BV-001"
     name: "戰略對齊"
@@ -305,7 +300,6 @@ business_value_criteria:
 
 # 審查流程 | Review Process
 review_process:
-
   pre_approval_review:
     name: "批准前審查"
     timing: "Before decision approval"
@@ -316,8 +310,8 @@ review_process:
     criteria_applied: "all"
     pass_score: 75
     mandatory_criteria:
-      - "RC-COMP-001"  # Regulatory compliance
-      - "RC-COMP-002"  # Policy compliance
+      - "RC-COMP-001" # Regulatory compliance
+      - "RC-COMP-002" # Policy compliance
     actions:
       pass: "Forward to approver"
       fail: "Return to decision owner for revision"
@@ -352,7 +346,6 @@ review_process:
 
 # 評分系統 | Scoring System
 scoring_system:
-
   calculation:
     method: "weighted_average"
     formula: "Total Score = Σ(Criterion Score × Weight) / Σ(Weights)"
@@ -363,22 +356,22 @@ scoring_system:
       score_range: "90-100"
       description: "優秀 | Excellent"
       action: "批准且無條件 | Approve without conditions"
-    
+
     good:
       score_range: "80-89"
       description: "良好 | Good"
       action: "批准且有輕微建議 | Approve with minor recommendations"
-    
+
     satisfactory:
       score_range: "70-79"
       description: "滿意 | Satisfactory"
       action: "批准但需改進 | Approve but improvement needed"
-    
+
     needs_improvement:
       score_range: "60-69"
       description: "需要改進 | Needs Improvement"
       action: "有條件批准 | Conditional approval"
-    
+
     unsatisfactory:
       score_range: "0-59"
       description: "不滿意 | Unsatisfactory"
@@ -387,12 +380,11 @@ scoring_system:
   mandatory_pass:
     rule: "All mandatory criteria must pass regardless of overall score"
     mandatory_criteria:
-      - "RC-COMP-001"  # Regulatory compliance
-      - "RC-COMP-002"  # Policy compliance
+      - "RC-COMP-001" # Regulatory compliance
+      - "RC-COMP-002" # Policy compliance
 
 # 審查文檔 | Review Documentation
 review_documentation:
-
   review_report_template:
     sections:
       - "決策摘要 | Decision summary"
@@ -403,7 +395,7 @@ review_documentation:
       - "建議 | Recommendations"
       - "整體評級 | Overall rating"
       - "批准建議 | Approval recommendation"
-    
+
   retention:
     duration: "7 years"
     location: "governance/decisions/reviews/"
@@ -411,7 +403,6 @@ review_documentation:
 
 # 持續改進 | Continuous Improvement
 continuous_improvement:
-
   criteria_review:
     frequency: "annual"
     process:
@@ -420,7 +411,7 @@ continuous_improvement:
       - "識別改進機會 | Identify improvement opportunities"
       - "更新標準 | Update criteria"
       - "培訓審查員 | Train reviewers"
-    
+
   calibration_sessions:
     frequency: "quarterly"
     purpose: "確保審查員之間的一致性 | Ensure consistency across reviewers"

@@ -3,12 +3,12 @@ name: Validate Copilot Instructions
 on:
   pull_request:
     paths:
-      - '.github/copilot-instructions.md'
-      - '.github/workflows/validate-copilot-instructions.yml'
+      - ".github/copilot-instructions.md"
+      - ".github/workflows/validate-copilot-instructions.yml"
   push:
     branches: [main]
     paths:
-      - '.github/copilot-instructions.md'
+      - ".github/copilot-instructions.md"
 
 permissions:
   contents: read
@@ -18,11 +18,11 @@ jobs:
   validate:
     name: Validate Copilot Instructions File
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
-      
+
       - name: Check file exists
         run: |
           if [ ! -f .github/copilot-instructions.md ]; then
@@ -30,42 +30,42 @@ jobs:
             exit 1
           fi
           echo "✅ Instructions file exists"
-      
+
       - name: Check file size
         run: |
           SIZE=$(wc -c < .github/copilot-instructions.md)
           SIZE_KB=$((SIZE / 1024))
           echo "📊 File size: ${SIZE_KB}KB"
-          
+
           if [ $SIZE -gt 50000 ]; then
             echo "⚠️ Warning: Instructions file is large (${SIZE_KB}KB)"
             echo "Consider keeping instructions under 50KB for optimal performance"
           else
             echo "✅ File size is appropriate"
           fi
-      
+
       - name: Check markdown structure
         run: |
           echo "📝 Checking markdown structure..."
-          
+
           # Check for required sections
           if ! grep -q "## 📋 Project Overview" .github/copilot-instructions.md; then
             echo "❌ Missing: Project Overview section"
             exit 1
           fi
-          
+
           if ! grep -q "## 🎯 Code Style and Standards" .github/copilot-instructions.md; then
             echo "❌ Missing: Code Style section"
             exit 1
           fi
-          
+
           if ! grep -q "## 🔒 Security Best Practices" .github/copilot-instructions.md; then
             echo "❌ Missing: Security section"
             exit 1
           fi
-          
+
           echo "✅ All required sections present"
-      
+
       - name: Validate UTF-8 encoding
         run: |
           ENCODING=$(file -i .github/copilot-instructions.md)
@@ -75,7 +75,7 @@ jobs:
             exit 1
           fi
           echo "✅ File encoding is valid ($ENCODING)"
-      
+
       - name: Generate validation report
         if: always()
         run: |
@@ -86,36 +86,36 @@ jobs:
             
             cat > validation-report.md << EOF
           # 📋 Copilot Instructions Validation Report
-          
+
           **Date:** $(date)
           **Status:** ${{ job.status }}
-          
+
           ## File Statistics
           - **Size:** ${SIZE_KB}KB (${SIZE} bytes)
           - **Lines:** ${LINES}
           - **Encoding:** UTF-8
-          
+
           ## Validation Checks
           - ✅ File exists
           - ✅ Proper size (under 50KB)
           - ✅ Required sections present
           - ✅ UTF-8 encoding
-          
+
           All validation checks passed! 🎉
           EOF
           else
             cat > validation-report.md << EOF
           # 📋 Copilot Instructions Validation Report
-          
+
           **Date:** $(date)
           **Status:** ${{ job.status }}
-          
+
           ❌ Validation failed: Instructions file not found
           EOF
           fi
-          
+
           cat validation-report.md
-      
+
       - name: Comment on PR
         if: github.event_name == 'pull_request' && success()
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0

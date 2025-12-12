@@ -1,13 +1,15 @@
 # 風險治理 | Risk Governance
 
-> 風險識別、評估、應對、監控
-> Risk identification, assessment, response, and monitoring
+> 風險識別、評估、應對、監控Risk identification, assessment, response, and
+> monitoring
 
 ## 📋 概述 | Overview
 
 風險治理定義了組織的風險管理框架，包括風險的識別、評估、應對和持續監控機制。
 
-The Risk Governance dimension defines the organization's risk management framework, including identification, assessment, response, and continuous monitoring mechanisms.
+The Risk Governance dimension defines the organization's risk management
+framework, including identification, assessment, response, and continuous
+monitoring mechanisms.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -59,6 +61,5 @@ Impact vs Probability Matrix
 
 ---
 
-**Owner 負責人**: Risk Governance Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Risk Governance Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

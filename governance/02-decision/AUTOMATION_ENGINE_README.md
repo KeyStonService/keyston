@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Decision Governance** dimension.
+This directory contains the autonomous automation engine for the **Decision
+Governance** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = DecisionGovernanceEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: decision_governance
-**Dimension Name**: Decision Governance
+**Dimension ID**: decision_governance **Dimension Name**: Decision Governance
 **Status**: Active

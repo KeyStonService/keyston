@@ -1,4 +1,5 @@
 # Technical Debt Management System
+
 # 專案債務管理系統
 
 > **Version**: 2.0.0 (Instant Execution Edition)  
@@ -10,7 +11,8 @@
 **Traditional Approach (DEPRECATED)**: 3-12 months with manual sprints ❌  
 **Modern AI Approach (CURRENT)**: < 60 seconds, fully automated ✅
 
-Complete technical debt management system for SynergyMesh with **instant, automated** detection and resolution. No timelines, no delays, no manual work.
+Complete technical debt management system for SynergyMesh with **instant,
+automated** detection and resolution. No timelines, no delays, no manual work.
 
 ## 🚀 Quick Start (Instant Execution)
 
@@ -56,6 +58,7 @@ python governance/debt_auto_fix.py --apply
 **Purpose**: Comprehensive debt detection and analysis
 
 **Features**:
+
 - ✅ Automated scanning of Python/Markdown files
 - ✅ Detection of TODO/FIXME/HACK markers
 - ✅ Complexity analysis (cyclomatic complexity)
@@ -66,6 +69,7 @@ python governance/debt_auto_fix.py --apply
 - ✅ JSON export/import
 
 **Usage**:
+
 ```python
 from governance.technical_debt_manager import TechnicalDebtManager
 from pathlib import Path
@@ -81,6 +85,7 @@ plan = manager.generate_remediation_plan()
 **Purpose**: Automated resolution of safe debt items
 
 **Features**:
+
 - ✅ Remove duplicate scripts
 - ✅ Add template docstrings
 - ✅ Format TODO markers
@@ -88,6 +93,7 @@ plan = manager.generate_remediation_plan()
 - ✅ Safe, incremental fixes
 
 **Usage**:
+
 ```bash
 # Preview fixes
 python governance/debt_auto_fix.py
@@ -101,6 +107,7 @@ python governance/debt_auto_fix.py --apply
 **Purpose**: Comprehensive debt analysis report
 
 **Contents**:
+
 - Executive summary
 - Debt breakdown by severity/type
 - Top debt files
@@ -148,6 +155,7 @@ Documentation:    40 items (24%)
 ### Phase 1: Quick Wins (Week 1)
 
 **Automated Fixes**:
+
 ```bash
 # Remove duplicate scripts
 python governance/debt_auto_fix.py --apply
@@ -160,6 +168,7 @@ python governance/debt_auto_fix.py --apply
 ### Phase 2: High Priority (Weeks 2-3)
 
 **Manual Fixes**:
+
 - Refactor high-complexity functions
 - Address FIXME markers
 - Fix deprecated API usage
@@ -170,6 +179,7 @@ python governance/debt_auto_fix.py --apply
 ### Phase 3: Medium Priority (Month 2)
 
 **Systematic Improvement**:
+
 - Break down complex modules
 - Enhance error handling
 - Improve code structure
@@ -180,6 +190,7 @@ python governance/debt_auto_fix.py --apply
 ### Phase 4: Continuous (Ongoing)
 
 **Gradual Enhancement**:
+
 - Add missing documentation
 - Address TODO markers
 - Code cleanup
@@ -203,12 +214,12 @@ python governance/technical_debt_manager.py
 
 ### Key Metrics
 
-| Metric | Current | Target (Q2) | Target (Q4) |
-|--------|---------|-------------|-------------|
-| Total Items | 168 | 100 | 50 |
-| Effort (hours) | 563.5 | 300 | 100 |
-| High Severity | 54 | 25 | 10 |
-| Documentation | 76% | 90% | 100% |
+| Metric         | Current | Target (Q2) | Target (Q4) |
+| -------------- | ------- | ----------- | ----------- |
+| Total Items    | 168     | 100         | 50          |
+| Effort (hours) | 563.5   | 300         | 100         |
+| High Severity  | 54      | 25          | 10          |
+| Documentation  | 76%     | 90%         | 100%        |
 
 ## 🔧 Integration
 
@@ -226,29 +237,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-      
+
       - name: Analyze Debt
         run: |
           python governance/technical_debt_manager.py
-          
+
       - name: Check for Critical Debt
         run: |
           python -c "
           from governance.technical_debt_manager import *
           from pathlib import Path
-          
+
           manager = TechnicalDebtManager(Path.cwd())
           manager.scan_for_debt()
-          
+
           critical = [i for i in manager.debt_items 
                      if i.severity == DebtSeverity.CRITICAL 
                      and not i.resolved]
-          
+
           if critical:
               print(f'❌ {len(critical)} critical debt items!')
               exit(1)
@@ -350,18 +361,21 @@ echo "✅ No critical debt detected"
 ### Debt Types Explained
 
 **Maintenance Debt (87 items)**:
+
 - TODO/FIXME markers without tracking
 - Deprecated API usage
 - HACK workarounds
 - Technical shortcuts
 
 **Code Complexity (41 items)**:
+
 - High cyclomatic complexity (> 10)
 - Long functions (> 100 lines)
 - Deep nesting (> 4 levels)
 - Many parameters (> 5)
 
 **Documentation (40 items)**:
+
 - Missing function docstrings
 - Missing class docstrings
 - Outdated comments
@@ -370,21 +384,25 @@ echo "✅ No critical debt detected"
 ### Severity Levels
 
 **Critical**: System-breaking issues
+
 - Security vulnerabilities
 - Data loss risks
 - Production failures
 
 **High**: Significant impact
+
 - High complexity
 - Deprecated APIs
 - Missing error handling
 
 **Medium**: Moderate impact
+
 - Code duplication
 - Moderate complexity
 - Incomplete documentation
 
 **Low**: Minor issues
+
 - TODO markers
 - Style violations
 - Minor improvements
@@ -408,13 +426,13 @@ def process_data(data, options):
 def process_data(data, options):
     if not data:
         return None
-    
+
     if options.get('validate') and not validate(data):
         return None
-    
+
     if options.get('transform'):
         return transform(data)
-    
+
     return data
 ```
 
@@ -433,11 +451,11 @@ def calculate_metrics(data, threshold):
 def calculate_metrics(data, threshold):
     """
     Filter data items above threshold.
-    
+
     Args:
         data: List of data items with 'value' attribute
         threshold: Minimum value threshold
-    
+
     Returns:
         List of items above threshold
     """
@@ -453,6 +471,7 @@ def calculate_metrics(data, threshold):
 ### Issue: Scan Takes Too Long
 
 **Solution**: Limit scan scope
+
 ```python
 manager.scan_for_debt(['governance/specific_dir'])
 ```
@@ -460,6 +479,7 @@ manager.scan_for_debt(['governance/specific_dir'])
 ### Issue: Too Many False Positives
 
 **Solution**: Adjust thresholds
+
 ```python
 # In technical_debt_manager.py
 # Increase complexity threshold
@@ -470,6 +490,7 @@ if complexity > 15:  # Instead of 10
 ### Issue: Auto-fix Breaks Code
 
 **Solution**: Always use dry-run first
+
 ```bash
 python governance/debt_auto_fix.py  # Preview
 # Review changes
@@ -479,6 +500,7 @@ python governance/debt_auto_fix.py --apply  # Apply
 ## 📞 Support
 
 For issues or questions:
+
 1. Check TECHNICAL_DEBT_REPORT.md
 2. Review technical-debt-report.json
 3. Run analysis with --verbose

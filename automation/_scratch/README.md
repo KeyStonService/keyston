@@ -16,6 +16,7 @@
 - **實際程式碼**: `automation/`
 - **全域草稿**: `docs/scratch/`
 
-使用模板: `cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md automation/_scratch/`
+使用模板:
+`cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md automation/_scratch/`
 
 最後更新：2025-12-06

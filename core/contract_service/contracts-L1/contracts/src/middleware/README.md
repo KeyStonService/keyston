@@ -2,7 +2,9 @@
 
 ## Purpose
 
-Middleware handles **cross-cutting concerns** that apply across multiple routes and controllers. Middleware functions process requests before they reach controllers and responses before they're sent to clients.
+Middleware handles **cross-cutting concerns** that apply across multiple routes
+and controllers. Middleware functions process requests before they reach
+controllers and responses before they're sent to clients.
 
 ## Middleware Components
 
@@ -14,7 +16,11 @@ Middleware handles **cross-cutting concerns** that apply across multiple routes 
 
 ```typescript
 import { auditLogMiddleware } from './middleware/audit-log';
-router.post('/api/v1/critical', auditLogMiddleware('CREATE'), controller.create);
+router.post(
+  '/api/v1/critical',
+  auditLogMiddleware('CREATE'),
+  controller.create
+);
 ```
 
 **Features:**
@@ -34,7 +40,7 @@ import { errorMiddleware, notFoundMiddleware } from './middleware/error';
 
 app.use(routes);
 app.use(notFoundMiddleware); // Handle 404s
-app.use(errorMiddleware);    // Handle all errors
+app.use(errorMiddleware); // Handle all errors
 ```
 
 **Features:**
@@ -53,7 +59,7 @@ app.use(errorMiddleware);    // Handle all errors
     "message": "Resource not found",
     "traceId": "uuid-v4",
     "timestamp": "2024-12-09T00:00:00.000Z",
-    "validationErrors": []  // Optional
+    "validationErrors": [] // Optional
   }
 }
 ```
@@ -97,8 +103,9 @@ import { rateLimitMiddleware } from './middleware/rate-limit';
 app.use(rateLimitMiddleware);
 
 // Per-route rate limiting
-router.post('/api/v1/expensive', 
-  rateLimitMiddleware({ max: 10, windowMs: 60000 }), 
+router.post(
+  '/api/v1/expensive',
+  rateLimitMiddleware({ max: 10, windowMs: 60000 }),
   controller.expensiveOperation
 );
 ```
@@ -117,7 +124,11 @@ router.post('/api/v1/expensive',
 **Usage:**
 
 ```typescript
-import { sendSuccess, sendError, handleControllerError } from './middleware/response';
+import {
+  sendSuccess,
+  sendError,
+  handleControllerError,
+} from './middleware/response';
 
 // Success response
 sendSuccess(res, data, { status: 201 });
@@ -138,7 +149,9 @@ try {
 
 ```json
 {
-  "data": { /* your data */ },
+  "data": {
+    /* your data */
+  },
   "metadata": {
     "timestamp": "2024-12-09T00:00:00.000Z",
     "traceId": "uuid-v4"
@@ -153,7 +166,11 @@ try {
 **Usage:**
 
 ```typescript
-import { validateBody, validateQuery, validateParams } from './middleware/validation';
+import {
+  validateBody,
+  validateQuery,
+  validateParams,
+} from './middleware/validation';
 import { createUserSchema } from './models/user.model';
 
 // Validate request body
@@ -235,9 +252,9 @@ export const loggingMiddleware = (req, res, next) => {
 
 // ❌ BAD: Multiple responsibilities
 export const megaMiddleware = (req, res, next) => {
-  console.log(req.url);        // Logging
-  validateInput(req.body);     // Validation
-  checkAuth(req.headers);      // Authentication
+  console.log(req.url); // Logging
+  validateInput(req.body); // Validation
+  checkAuth(req.headers); // Authentication
   next();
 };
 ```
@@ -279,7 +296,7 @@ export const middleware = (req, res, next) => {
     validate(req.body);
     next();
   } catch (error) {
-    next(error);  // Error middleware will handle it
+    next(error); // Error middleware will handle it
   }
 };
 
@@ -370,7 +387,7 @@ Create middleware factories:
 export const rateLimitMiddleware = (options?: RateLimitOptions) => {
   const max = options?.max || 100;
   const windowMs = options?.windowMs || 60000;
-  
+
   return (req: Request, res: Response, next: NextFunction) => {
     // Implementation using options
     next();
@@ -420,7 +437,7 @@ describe('loggingMiddleware', () => {
 
   it('should log request and call next', () => {
     const consoleSpy = jest.spyOn(console, 'log');
-    
+
     loggingMiddleware(
       mockRequest as Request,
       mockResponse as Response,

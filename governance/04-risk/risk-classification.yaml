@@ -16,7 +16,7 @@ risk_categories:
       - "Competitive landscape"
       - "Strategic execution"
       - "Business model disruption"
-  
+
   operational_risks:
     description: "Risks from operational processes and systems"
     subcategories:
@@ -24,7 +24,7 @@ risk_categories:
       - "System outages"
       - "Human errors"
       - "Supply chain disruptions"
-  
+
   financial_risks:
     description: "Risks affecting financial performance"
     subcategories:
@@ -32,7 +32,7 @@ risk_categories:
       - "Revenue shortfalls"
       - "Cost increases"
       - "Currency fluctuations"
-  
+
   compliance_risks:
     description: "Regulatory and policy compliance risks"
     subcategories:
@@ -40,7 +40,7 @@ risk_categories:
       - "Policy breaches"
       - "Legal disputes"
       - "Audit findings"
-  
+
   technology_risks:
     description: "IT and technology-related risks"
     subcategories:
@@ -48,7 +48,7 @@ risk_categories:
       - "System failures"
       - "Data breaches"
       - "Technology obsolescence"
-  
+
   reputation_risks:
     description: "Risks to organizational reputation"
     subcategories:

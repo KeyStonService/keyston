@@ -6,13 +6,13 @@
 knowledge_graph_integration:
   version: "1.0.0"
   enabled: true
-  
+
   # Knowledge Graph Builder Endpoint
   kg_builder_endpoint: "kg-graph-builder.unmanned-island-system.svc.cluster.local:8890"
-  
+
   # Vector Search Endpoint (Hybrid Search)
   vector_search_endpoint: "kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891"
-  
+
   # Connection Settings
   connection:
     timeout_ms: 3000
@@ -20,43 +20,43 @@ knowledge_graph_integration:
     keepalive: true
     pool_size: 20
     max_idle_connections: 5
-  
+
   # Graph Database Configuration
   graph_database:
-    type: "neo4j"  # or "tigergraph", "janusgraph"
+    type: "neo4j" # or "tigergraph", "janusgraph"
     connection_string: "bolt://neo4j.unmanned-island-system.svc.cluster.local:7687"
-    
+
     authentication:
       enabled: true
       username: "${NEO4J_USERNAME}"
       password: "${NEO4J_PASSWORD}"
-    
+
     pool:
       max_connections: 50
       idle_timeout_ms: 30000
       acquire_timeout_ms: 5000
-  
+
   # Vector Database Configuration
   vector_database:
-    type: "milvus"  # or "pinecone", "weaviate"
+    type: "milvus" # or "pinecone", "weaviate"
     connection_string: "milvus.unmanned-island-system.svc.cluster.local:19530"
-    
+
     collection_config:
       dimension: 1024
-      metric_type: "IP"  # Inner Product (cosine similarity)
+      metric_type: "IP" # Inner Product (cosine similarity)
       index_type: "IVF_FLAT"
       nlist: 1024
-    
+
     search_config:
       top_k: 10
       search_params:
         nprobe: 10
         ef: 64
-  
+
   # Entity Extraction
   entity_extraction:
     enabled: true
-    
+
     entity_types:
       - "Service"
       - "Module"
@@ -68,7 +68,7 @@ knowledge_graph_integration:
       - "Team"
       - "Issue"
       - "Pull Request"
-    
+
     extraction_methods:
       - name: "named_entity_recognition"
         model: "spacy-en_core_web_lg"
@@ -77,11 +77,11 @@ knowledge_graph_integration:
         enabled: true
       - name: "semantic_role_labeling"
         enabled: false
-  
+
   # Relationship Extraction
   relationship_extraction:
     enabled: true
-    
+
     relationship_types:
       - "DEPENDS_ON"
       - "PROVIDES"
@@ -93,7 +93,7 @@ knowledge_graph_integration:
       - "IMPLEMENTS"
       - "RELATES_TO"
       - "REFERENCES"
-    
+
     extraction_methods:
       - name: "rule_based"
         enabled: true
@@ -101,16 +101,16 @@ knowledge_graph_integration:
         enabled: true
       - name: "ml_based"
         enabled: false
-  
+
   # Semantic Search
   semantic_search:
     enabled: true
-    
+
     embedding_model:
       name: "axiom-embed-v2"
       dimension: 1024
       max_sequence_length: 512
-    
+
     search_strategies:
       - name: "vector_similarity"
         weight: 0.6
@@ -121,19 +121,19 @@ knowledge_graph_integration:
       - name: "keyword_matching"
         weight: 0.1
         enabled: true
-    
+
     ranking:
       algorithm: "hybrid_fusion"
       relevance_threshold: 0.7
       max_results: 20
-  
+
   # Graph Construction
   graph_construction:
     enabled: true
-    
+
     incremental_update: true
     batch_size: 100
-    
+
     consistency_check:
       enabled: true
       frequency: "daily"
@@ -141,7 +141,7 @@ knowledge_graph_integration:
         - "detect_orphan_nodes"
         - "validate_relationships"
         - "deduplicate_entities"
-    
+
     graph_enrichment:
       enabled: true
       strategies:
@@ -149,63 +149,63 @@ knowledge_graph_integration:
         - "community_detection"
         - "centrality_analysis"
         - "path_finding"
-  
+
   # Integration with HLP Executor
   hlp_executor:
     enabled: true
-    
+
     use_cases:
       - name: "dependency_resolution"
         description: "Resolve task dependencies using knowledge graph"
         enabled: true
-      
+
       - name: "context_enrichment"
         description: "Enrich execution context with related information"
         enabled: true
-      
+
       - name: "impact_analysis"
         description: "Analyze impact of changes using graph relationships"
         enabled: true
-      
+
       - name: "recommendation"
         description: "Recommend related tasks or resources"
         enabled: true
-    
+
     query_patterns:
       - name: "find_dependencies"
         cypher: "MATCH (t:Task)-[:DEPENDS_ON*]->(d:Task) WHERE t.id = $task_id RETURN d"
-      
+
       - name: "find_related_resources"
         cypher: "MATCH (t:Task)-[:USES]->(r:Resource) WHERE t.id = $task_id RETURN r"
-      
+
       - name: "find_impact_scope"
         cypher: "MATCH (r:Resource)<-[:USES]-(t:Task) WHERE r.id = $resource_id RETURN t"
-  
+
   # Caching
   caching:
     enabled: true
-    
+
     cache_types:
       - name: "query_results"
         ttl_seconds: 300
         max_size: 1000
-      
+
       - name: "embeddings"
         ttl_seconds: 3600
         max_size: 10000
-      
+
       - name: "graph_patterns"
         ttl_seconds: 600
         max_size: 500
-    
+
     invalidation:
       on_update: true
       on_delete: true
-  
+
   # Monitoring
   monitoring:
     enabled: true
-    
+
     metrics:
       - "query_latency"
       - "cache_hit_rate"
@@ -213,37 +213,37 @@ knowledge_graph_integration:
       - "entity_count"
       - "relationship_count"
       - "embedding_generation_time"
-    
+
     alerts:
       - name: "high_query_latency"
         condition: "p95_query_latency > 1000ms"
         severity: "warning"
-      
+
       - name: "low_cache_hit_rate"
         condition: "cache_hit_rate < 0.5"
         severity: "info"
-      
+
       - name: "graph_growth_anomaly"
         condition: "entity_growth_rate > 2x daily_average"
         severity: "warning"
-  
+
   # Data Quality
   data_quality:
     enabled: true
-    
+
     validation_rules:
       - name: "entity_completeness"
         check: "required_fields_present"
         severity: "error"
-      
+
       - name: "relationship_validity"
         check: "both_nodes_exist"
         severity: "error"
-      
+
       - name: "duplicate_detection"
         check: "no_duplicate_entities"
         severity: "warning"
-    
+
     cleanup:
       enabled: true
       frequency: "weekly"

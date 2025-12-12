@@ -178,7 +178,7 @@ usage_examples:
 integration:
   ci_agent_config: "config/ci-agent-config.yaml"
   error_handler: "config/ci-error-handler.yaml"
-  
+
   # 可與 CI Agent 配合使用
   workflow_trigger:
     events:
@@ -200,11 +200,11 @@ risks:
   - id: "token_limit"
     description: "Token 上限"
     mitigation: "如果規格文件非常長，可能需要分拆或使用檔案掃描方式載入"
-    
+
   - id: "implementation_variance"
     description: "實作與預期差異"
     mitigation: "AI 可能對細節做出自己的決定，建議用 Git diff 檢查後再 merge"
-    
+
   - id: "consistency"
     description: "多次疊代時的一致性"
     mitigation: "之後加新規格時要留意舊檔案的同步，可擴充 Prompt 要求先讀既有檔案再更新"

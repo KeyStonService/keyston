@@ -13,7 +13,6 @@ framework:
 
 # 框架原則 | Framework Principles
 principles:
-
   transparency:
     name: "透明性"
     description: "All governance activities and decisions are transparent and traceable"
@@ -82,7 +81,6 @@ principles:
 
 # 框架組件 | Framework Components
 components:
-
   governance_architecture:
     dimension: 1
     name: "治理架構"
@@ -239,7 +237,6 @@ components:
 
 # 框架集成 | Framework Integration
 integration:
-
   horizontal_integration:
     description: "Integration across governance dimensions at the same level"
     mechanisms:
@@ -274,7 +271,6 @@ integration:
 
 # 框架生命週期 | Framework Lifecycle
 lifecycle:
-
   planning:
     activities:
       - "Framework design"

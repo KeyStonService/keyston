@@ -15,13 +15,13 @@ metadata:
 
 spec:
   version: v1.0.0
-  
+
   supported_frameworks:
     soc2_type2:
       enabled: true
       version: "2017"
       description: "SOC 2 Type II - Service Organization Control 2"
-      
+
       controls:
         cc6_1:
           name: "邏輯與實體存取控制 / Logical and Physical Access Controls"
@@ -32,20 +32,20 @@ spec:
             - "Automated deprovisioning within 24 hours"
             - "Role-based access control (RBAC) implemented"
             - "Principle of least privilege enforced"
-          
+
           validation_frequency: "daily"
-          
+
           evidence_collection:
             - "iam-audit-logs"
             - "access-review-reports"
             - "mfa-enrollment-status"
             - "rbac-role-assignments"
-          
+
           automation:
             policy_engine: "OPA Gatekeeper"
             drift_detection: true
             auto_remediation: false
-        
+
         cc7_2:
           name: "系統監控 / System Monitoring"
           category: "Common Criteria"
@@ -55,20 +55,20 @@ spec:
             - "Incident response plan documented and tested"
             - "Log retention for at least 90 days"
             - "SIEM integration for real-time analysis"
-          
+
           validation_frequency: "real-time"
-          
+
           evidence_collection:
             - "security-event-logs"
             - "alert-history"
             - "incident-reports"
             - "siem-integration-status"
-          
+
           automation:
             monitoring_tool: "Prometheus + Grafana"
             alerting_system: "AlertManager"
             incident_tracking: "PagerDuty"
-        
+
         cc7_3:
           name: "系統操作 / System Operations"
           category: "Common Criteria"
@@ -77,76 +77,76 @@ spec:
             - "Backup and recovery procedures tested quarterly"
             - "Capacity planning and monitoring"
             - "Patch management policy enforced"
-          
+
           validation_frequency: "weekly"
-          
+
           evidence_collection:
             - "change-management-logs"
             - "backup-test-reports"
             - "capacity-metrics"
             - "patch-compliance-reports"
-      
+
       audit_requirements:
         retention_years: 7
         annual_assessment: true
         penetration_testing: "quarterly"
         vulnerability_scanning: "weekly"
         external_auditor_required: true
-    
+
     gdpr:
       enabled: true
       version: "2018/679"
       description: "General Data Protection Regulation"
-      
+
       principles:
         data_minimization:
           description: "僅收集必要資料 / Collect only necessary data"
-          
+
           controls:
             - "PII identification and classification"
             - "Data retention policies enforced"
             - "Automated data purging after retention period"
             - "Data inventory maintained"
-          
+
           validation:
             data_discovery_tool: "automated-pii-scanner"
             classification_labels: true
             retention_automation: true
-        
+
         purpose_limitation:
           description: "資料使用限於宣告目的 / Data used only for stated purposes"
-          
+
           controls:
             - "Consent management system implemented"
             - "Purpose tags on all data stores"
             - "Access control based on purpose"
             - "Audit trail for data usage"
-          
+
           validation:
             consent_records: true
             purpose_based_access: true
-        
+
         data_subject_rights:
           description: "資料主體權利 / Data subject rights"
-          
+
           controls:
             - "Right to access automated process"
             - "Right to erasure implemented"
             - "Data portability enabled"
             - "Right to rectification process"
-          
+
           validation:
             self_service_portal: true
             response_time_sla: "30-days"
             deletion_verification: true
-      
+
       breach_notification:
         authority_notification_hours: 72
         data_subject_notification_required: true
         documentation_required: true
         notification_template: "gdpr-breach-notification.yaml"
         incident_severity_assessment: true
-      
+
       data_protection_officer:
         required: true
         contact: "dpo@example.com"
@@ -154,12 +154,12 @@ spec:
           - "Monitor GDPR compliance"
           - "Conduct DPIAs"
           - "Cooperate with supervisory authorities"
-    
+
     pci_dss:
       enabled: true
       version: "4.0"
       description: "Payment Card Industry Data Security Standard"
-      
+
       requirements:
         requirement_1:
           name: "安裝與維護網路安全控制 / Install and Maintain Network Security Controls"
@@ -176,7 +176,7 @@ spec:
                 - "Default deny all policy"
                 - "Explicit allow rules only"
                 - "Traffic monitoring enabled"
-        
+
         requirement_3:
           name: "保護儲存的帳戶資料 / Protect Stored Account Data"
           sub_requirements:
@@ -192,7 +192,7 @@ spec:
                 - "Key generation documented"
                 - "Key distribution secured"
                 - "Key retirement process"
-        
+
         requirement_10:
           name: "記錄並監控所有存取 / Log and Monitor All Access"
           sub_requirements:
@@ -202,32 +202,32 @@ spec:
                 - "Kubernetes audit logs enabled"
                 - "Application-level logging"
                 - "Immutable log storage"
-      
+
       quarterly_scan: true
       annual_assessment: true
       penetration_testing_frequency: "annual"
       qsa_required: true
-    
+
     iso27001:
       enabled: true
       version: "2022"
       description: "Information Security Management System"
-      
+
       annex_a_controls:
         a5_organizational:
           - "A.5.1: Information security policies"
           - "A.5.8: Information security in project management"
-        
+
         a8_asset_management:
           - "A.8.1: Responsibility for assets"
           - "A.8.2: Information classification"
           - "A.8.3: Media handling"
-        
+
         a12_operations_security:
           - "A.12.1: Operational procedures"
           - "A.12.4: Logging and monitoring"
           - "A.12.6: Technical vulnerability management"
-      
+
       isms_scope: "All Kubernetes clusters and workloads"
       certification_body: "ISO Accredited Certifier"
       surveillance_audit_frequency: "annual"
@@ -246,7 +246,7 @@ spec:
       - name: "Kyverno"
         version: "v1.11.0"
         policies: "infrastructure/kubernetes/kyverno-policies/"
-    
+
     validation_mode: "enforce"
     audit_mode: true
 
@@ -260,7 +260,7 @@ spec:
     storage: "s3://compliance-evidence-bucket/attestations/"
 
   evidence_collection:
-    audit_logs_retention_days: 2555  # 7 years
+    audit_logs_retention_days: 2555 # 7 years
     configuration_snapshots: "hourly"
     security_scans: "daily"
     access_reviews: "quarterly"
@@ -287,7 +287,7 @@ spec:
     - rbac-role-matrix
     - pod-security-standards
     - network-segmentation-policy
-  
+
   references:
     - description: "SOC 2 Trust Services Criteria"
       url: "https://www.aicpa.org/soc2"

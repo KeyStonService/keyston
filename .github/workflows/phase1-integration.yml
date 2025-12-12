@@ -25,7 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install validation tools
         run: |
@@ -56,7 +56,7 @@ jobs:
           python3 -c "
           import yaml
           import os
-          
+
           rule_dir = 'config/autofix/rules'
           if os.path.exists(rule_dir):
               for file in os.listdir(rule_dir):
@@ -74,7 +74,7 @@ jobs:
           python3 -c "
           import json
           import os
-          
+
           schema_dir = 'schemas'
           if os.path.exists(schema_dir):
               for file in os.listdir(schema_dir):
@@ -128,7 +128,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -183,7 +183,7 @@ jobs:
             "agent/auto-repair"
             "agent/orchestrator"
           )
-          
+
           for agent_dir in "${agents[@]}"; do
             if [ -d "$agent_dir" ]; then
               echo "✅ $agent_dir exists"
@@ -202,25 +202,25 @@ jobs:
         run: |
           # Check if schemas exist in either root schemas/ or config/agents/schemas/
           schemas_found=0
-          
+
           if [ -d "schemas" ]; then
             echo "✅ schemas directory exists in root"
             schemas_found=$((schemas_found + $(find schemas -name "*.json" | wc -l)))
           fi
-          
+
           if [ -d "config/agents/schemas" ]; then
             echo "✅ config/agents/schemas directory exists"
             schemas_found=$((schemas_found + $(find config/agents/schemas -name "*.json" | wc -l)))
           fi
-          
+
           if [ -d "governance" ]; then
             governance_schemas=$(find governance -type d -name "schemas" | wc -l)
             echo "✅ Found $governance_schemas schema directories in governance/"
             schemas_found=$((schemas_found + $(find governance -name "*.json" -path "*/schemas/*" | wc -l)))
           fi
-          
+
           echo "📊 Total schema files found: $schemas_found"
-          
+
           if [ $schemas_found -gt 0 ]; then
             echo "✅ Schema validation passed"
           else
@@ -230,7 +230,8 @@ jobs:
   integration-test:
     name: "Phase 1 Integration Test"
     runs-on: ubuntu-latest
-    needs: [validate-configuration, validate-scripts, validate-python-code, validate-agent-structure]
+    needs:
+      [validate-configuration, validate-scripts, validate-python-code, validate-agent-structure]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -238,12 +239,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Verify Phase 1 components
         run: |
@@ -299,52 +300,52 @@ jobs:
         run: |
           cat > phase1-integration-report.md << 'EOF'
           # Phase 1 Infrastructure Integration Report
-          
+
           ## Status: ✅ PASSED
-          
+
           ### Components Validated
-          
+
           #### Configuration System
           - ✅ auto-fix-bot.yml (1100+ lines)
           - ✅ config/auto-fix-bot.prompt.yml (600+ lines)
-          
+
           #### Auto-Repair Rules
           - ✅ security-rules.yaml (6 rules)
           - ✅ performance-rules.yaml (6 rules)
-          
+
           #### Code Analysis Engine
           - ✅ Python code quality tools configured
-          
+
           #### Agent Architecture
           - ✅ Code Analyzer Agent
           - ✅ Vulnerability Detector Agent
           - ✅ Auto Repair Agent
           - ✅ Orchestrator Agent
-          
+
           #### JSON Schemas
           - ✅ Schema files distributed across governance/ and config/agents/
-          
+
           #### Automation Scripts
           - ✅ setup.sh
           - ✅ analyze.sh
           - ✅ repair.sh
-          
+
           ### Quality Metrics
           - Configuration: Valid YAML syntax
           - Scripts: Executable and syntax-checked
           - Python Code: Compiles successfully
           - Schemas: Valid JSON format
           - Documentation: Complete README files
-          
+
           ### Next Steps
           - Phase 2: Core Service Development
           - Phase 3: Testing & Validation
           - Phase 4: Deployment & Monitoring
-          
+
           ---
           Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
           EOF
-          
+
           cat phase1-integration-report.md
 
       - name: Upload integration report
@@ -354,12 +355,13 @@ jobs:
           name: phase1-integration-report
           path: phase1-integration-report.md
           retention-days: 30
-  
+
   # ==================== 基礎設施就緒檢查 ====================
   infrastructure-readiness-check:
     name: "Infrastructure Readiness Check"
     runs-on: ubuntu-latest
-    needs: [validate-configuration, validate-scripts, validate-python-code, validate-agent-structure]
+    needs:
+      [validate-configuration, validate-scripts, validate-python-code, validate-agent-structure]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -383,7 +385,7 @@ jobs:
             "config/autofix/rules"
             "agent"
           )
-          
+
           for path in "${critical_paths[@]}"; do
             if [ -e "$path" ]; then
               echo "✅ $path exists"
@@ -392,7 +394,7 @@ jobs:
               exit 1
             fi
           done
-          
+
           echo ""
           echo "✅ All critical paths verified"
 

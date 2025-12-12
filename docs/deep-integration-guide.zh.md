@@ -10,11 +10,11 @@
 
 SynergyMesh 採用 monorepo 架構，包含以下子專案：
 
-| 子專案 | 類型 | 技術棧 | 部署端口 | 團隊 |
-|--------|------|--------|---------|------|
-| **contracts-service** | 後端服務 | TypeScript/Express | 3000 | contracts-team |
-| **mcp-servers** | MCP 伺服器 | JavaScript/Node.js | 3001 | platform-team |
-| **advanced-system** | 前端應用 | React/TypeScript | 3002 | frontend-team |
+| 子專案                | 類型       | 技術棧             | 部署端口 | 團隊           |
+| --------------------- | ---------- | ------------------ | -------- | -------------- |
+| **contracts-service** | 後端服務   | TypeScript/Express | 3000     | contracts-team |
+| **mcp-servers**       | MCP 伺服器 | JavaScript/Node.js | 3001     | platform-team  |
+| **advanced-system**   | 前端應用   | React/TypeScript   | 3002     | frontend-team  |
 
 ### 統一架構特點
 
@@ -115,9 +115,9 @@ monorepo-dispatch.yml
 push:
   branches: [main, develop]
   paths:
-    - 'mcp-servers/**'           # 僅觸發 mcp-servers CD
-    - 'advanced-system-src/**'   # 僅觸發 advanced-system CD
-    - 'core/contract_service/**'        # 僅觸發 contracts CD
+    - 'mcp-servers/**' # 僅觸發 mcp-servers CD
+    - 'advanced-system-src/**' # 僅觸發 advanced-system CD
+    - 'core/contract_service/**' # 僅觸發 contracts CD
 ```
 
 **手動觸發**:
@@ -155,11 +155,11 @@ gh workflow run contracts-cd.yml -f environment=prod
 技術: TypeScript/Express
 端口: 3000
 副本: 3-10 (HPA)
-資源: 
+資源:
   requests: cpu=100m, memory=128Mi
   limits: cpu=500m, memory=512Mi
 健康檢查: /healthz, /readyz
-特點: 
+特點:
   - SLSA 合約管理
   - 構建溯源驗證
   - Sigstore 整合
@@ -285,11 +285,11 @@ strategy:
 
 HPA 配置：
 
-| 服務 | 最小副本 | 最大副本 | CPU 閾值 | 記憶體閾值 |
-|------|---------|---------|---------|-----------|
-| contracts-service | 3 | 10 | 70% | 80% |
-| mcp-servers | 2 | 8 | 70% | 80% |
-| advanced-system | 2 | 6 | 70% | 80% |
+| 服務              | 最小副本 | 最大副本 | CPU 閾值 | 記憶體閾值 |
+| ----------------- | -------- | -------- | -------- | ---------- |
+| contracts-service | 3        | 10       | 70%      | 80%        |
+| mcp-servers       | 2        | 8        | 70%      | 80%        |
+| advanced-system   | 2        | 6        | 70%      | 80%        |
 
 ### 高可用性
 
@@ -334,16 +334,16 @@ labels:
   namespace.io/environment: production|staging|dev
   namespace.io/lifecycle: active|deprecated
   namespace.io/managed-by: gitops
-  version: "x.y.z"
+  version: 'x.y.z'
 ```
 
 ### 團隊映射
 
-| 服務 | 標籤值 | 責任 |
-|------|--------|------|
+| 服務              | 標籤值                              | 責任     |
+| ----------------- | ----------------------------------- | -------- |
 | contracts-service | `namespace.io/team: contracts-team` | 合約管理 |
-| mcp-servers | `namespace.io/team: platform-team` | 平台工具 |
-| advanced-system | `namespace.io/team: frontend-team` | 前端介面 |
+| mcp-servers       | `namespace.io/team: platform-team`  | 平台工具 |
+| advanced-system   | `namespace.io/team: frontend-team`  | 前端介面 |
 
 ## 治理工具
 

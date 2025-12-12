@@ -5,7 +5,8 @@
 - **Leader Election Tiers**：利用 etcd/Consul + Island AI registry 做多層選主。
 - **Command Query Replication**：CQRS + Event Sourcing，對應 core/mind_matrix。
 - **Geo-Sharding Gateway**：根據 config/topology-mind-matrix.yaml 進行地理分片。
-- **Hybrid Clock Reconciliation**：以 HLC 對齊事件順序，連動 docs/knowledge-graph.yaml。
+- **Hybrid Clock
+  Reconciliation**：以 HLC 對齊事件順序，連動 docs/knowledge-graph.yaml。
 
 ## 使用建議
 

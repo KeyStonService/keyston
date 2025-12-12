@@ -110,7 +110,7 @@ monitoring:
   # 健康檢查
   health_check:
     enabled: true
-    interval: 30  # 秒
+    interval: 30 # 秒
     timeout: 10
 
   # 指標收集
@@ -140,7 +140,7 @@ persistence:
   # 檢查點
   checkpoint:
     enabled: true
-    interval: 60  # 秒
+    interval: 60 # 秒
     max_checkpoints: 10
 
   # 日誌

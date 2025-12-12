@@ -102,7 +102,7 @@ spec:
       network_policy: true
       configmap: true
       secret: true
-      
+
       # 資源配置
       resources:
         requests:
@@ -111,7 +111,7 @@ spec:
         limits:
           memory: "512Mi"
           cpu: "500m"
-      
+
       # HPA 配置
       autoscaling:
         min_replicas: 2
@@ -129,10 +129,10 @@ spec:
         - build         # Docker 映像構建
         - deploy-dev    # 部署到開發環境
         - deploy-prod   # 部署到生產環境
-      
+
       # 部署策略
       deployment_strategy: blue-green
-      
+
       # 通知配置
       notifications:
         slack: true
@@ -155,28 +155,28 @@ spec:
       - NIST-AI-RMF        # AI 風險管理框架
       - PCI-DSS            # 支付卡行業資料安全標準
       - GDPR               # 歐盟資料保護條例
-    
+
     # 安全等級
     security_level: high
-    
+
     # 審計追蹤
     audit_trail: true
-    
+
     # 軟體物料清單
     sbom: true
     sbom_format: spdx-2.3
-    
+
     # 供應鏈安全
     provenance: slsa-level-3
-    
+
     # 授權協議
     license: MIT
-    
+
     # 代碼擁有者
     codeowners:
       - "@platform-team"
       - "@security-team"
-    
+
     # 安全聯絡人
     security_contact: "security@synergymesh.io"
 
@@ -187,25 +187,25 @@ dependencies:
     - fastapi>=0.104.0
     - uvicorn[standard]>=0.24.0
     - pydantic>=2.5.0
-    
+
     # 資料庫
     - sqlalchemy>=2.0.0
     - alembic>=1.13.0
     - asyncpg>=0.29.0
-    
+
     # 快取
     - redis>=5.0.0
     - msgpack>=1.0.0
-    
+
     # 訊息佇列
     - aiokafka>=0.10.0
-    
+
     # 可觀測性
     - prometheus-client>=0.19.0
     - opentelemetry-api>=1.21.0
     - opentelemetry-sdk>=1.21.0
     - structlog>=23.2.0
-    
+
     # 測試
     - pytest>=7.4.0
     - pytest-asyncio>=0.21.0
@@ -219,13 +219,13 @@ environment:
     REDIS_URL: "redis://localhost:6379/0"
     KAFKA_BOOTSTRAP_SERVERS: "localhost:9092"
     LOG_LEVEL: "DEBUG"
-  
+
   staging:
     DATABASE_URL: "postgresql://staging_user:staging_pass@db.staging:5432/payment_staging"
     REDIS_URL: "redis://cache.staging:6379/0"
     KAFKA_BOOTSTRAP_SERVERS: "kafka.staging:9092"
     LOG_LEVEL: "INFO"
-  
+
   production:
     DATABASE_URL: "${DATABASE_URL}"  # 從 Secret 注入
     REDIS_URL: "${REDIS_URL}"        # 從 Secret 注入
@@ -236,21 +236,21 @@ environment:
 generation_options:
   # 是否生成範例代碼
   include_examples: true
-  
+
   # 是否生成 seed data
   include_seed_data: true
-  
+
   # 是否生成性能測試
   include_performance_tests: false
-  
+
   # 是否生成 API 用戶端
   generate_api_client: true
-  
+
   # API 用戶端語言
   api_client_languages:
     - python
     - typescript
-  
+
   # 是否生成 Postman collection
   generate_postman_collection: true
 
@@ -261,16 +261,16 @@ metadata:
     - microservice
     - high-security
     - fintech
-  
+
   team: "Platform Team"
   slack_channel: "#payment-service"
   repository: "https://github.com/SynergyMesh-master/demo-payment-service"
-  
+
   # 專案優先級
   priority: high
-  
+
   # 預計流量
   expected_qps: 1000
-  
+
   # 資料敏感度
   data_sensitivity: high

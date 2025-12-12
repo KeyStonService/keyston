@@ -19,23 +19,23 @@ spec:
     spec:
       serviceAccountName: autofix-sa
       containers:
-      - name: result-aggregator
-        image: autofix/result-aggregator:latest
-        ports:
-        - containerPort: 8084
-        envFrom:
-        - configMapRef:
-            name: autofix-config
-        env:
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: DATABASE_PASSWORD
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "500m"
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
+        - name: result-aggregator
+          image: autofix/result-aggregator:latest
+          ports:
+            - containerPort: 8084
+          envFrom:
+            - configMapRef:
+                name: autofix-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: DATABASE_PASSWORD
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"

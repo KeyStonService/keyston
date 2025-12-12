@@ -15,7 +15,7 @@ groups:
         annotations:
           summary: "Critical security vulnerability detected"
           description: "{{ $value }} critical security vulnerabilities found in repository {{ $labels.repository }}"
-          
+
       # High Severity Alerts Threshold
       - alert: HighSeverityAlertsThreshold
         expr: github_security_alerts{severity="high",state="open"} > 5
@@ -26,7 +26,7 @@ groups:
         annotations:
           summary: "High number of high severity alerts"
           description: "{{ $value }} high severity security alerts in repository {{ $labels.repository }}"
-          
+
       # Secret Leaked
       - alert: SecretLeaked
         expr: github_secret_scanning_alerts{state="open"} > 0
@@ -37,7 +37,7 @@ groups:
         annotations:
           summary: "Secret leaked in repository"
           description: "{{ $value }} secrets detected in repository {{ $labels.repository }}"
-          
+
       # Vulnerable Dependencies
       - alert: VulnerableDependencies
         expr: github_dependabot_alerts{severity=~"high|critical",state="open"} > 0
@@ -48,7 +48,7 @@ groups:
         annotations:
           summary: "Vulnerable dependencies detected"
           description: "{{ $value }} vulnerable dependencies in repository {{ $labels.repository }}"
-          
+
       # CodeQL Analysis Failed
       - alert: CodeQLAnalysisFailed
         expr: github_codeql_analysis_status{status="failed"} == 1
@@ -59,7 +59,7 @@ groups:
         annotations:
           summary: "CodeQL analysis failed"
           description: "CodeQL analysis failed for repository {{ $labels.repository }}"
-          
+
       # Alert Response Time
       - alert: SlowAlertResponse
         expr: (time() - github_security_alert_created_timestamp) / 3600 > 24
@@ -84,7 +84,7 @@ groups:
         annotations:
           summary: "GitHub API rate limit usage high"
           description: "GitHub API rate limit is at {{ $value | humanizePercentage }} capacity"
-          
+
       # API Rate Limit Exhausted
       - alert: GitHubAPIRateLimitExhausted
         expr: github_api_remaining == 0
@@ -109,7 +109,7 @@ groups:
         annotations:
           summary: "GitHub runner is offline"
           description: "Runner {{ $labels.instance }} has been offline for more than 5 minutes"
-          
+
       # Runner High CPU
       - alert: GitHubRunnerHighCPU
         expr: rate(process_cpu_seconds_total{job="github-runners"}[5m]) > 0.8
@@ -120,7 +120,7 @@ groups:
         annotations:
           summary: "GitHub runner high CPU usage"
           description: "Runner {{ $labels.instance }} CPU usage is {{ $value | humanizePercentage }}"
-          
+
       # Runner High Memory
       - alert: GitHubRunnerHighMemory
         expr: (process_resident_memory_bytes{job="github-runners"} / node_memory_MemTotal_bytes) > 0.9
@@ -131,7 +131,7 @@ groups:
         annotations:
           summary: "GitHub runner high memory usage"
           description: "Runner {{ $labels.instance }} memory usage is {{ $value | humanizePercentage }}"
-          
+
       # Runner Disk Space Low
       - alert: GitHubRunnerDiskSpaceLow
         expr: (node_filesystem_avail_bytes{job="github-runners"} / node_filesystem_size_bytes) < 0.1
@@ -156,7 +156,7 @@ groups:
         annotations:
           summary: "Security alerts increasing"
           description: "Security alert rate is increasing in repository {{ $labels.repository }}"
-          
+
       # High Alert Dismissal Rate
       - alert: HighAlertDismissalRate
         expr: rate(github_security_alerts_dismissed_total[24h]) / rate(github_security_alerts_total[24h]) > 0.5
@@ -167,7 +167,7 @@ groups:
         annotations:
           summary: "High security alert dismissal rate"
           description: "More than 50% of security alerts are being dismissed in repository {{ $labels.repository }}"
-          
+
       # Slow Fix Time
       - alert: SlowSecurityFixTime
         expr: histogram_quantile(0.95, rate(github_security_alert_fix_duration_seconds_bucket[24h])) > 604800

@@ -8,9 +8,9 @@
 
 ## 📊 Hotspot Intensity Map
 
-| Score | File | Layer | Language | Violations | Security Issues |
-|-------|------|-------|----------|------------|-----------------|
-| 🟡 2 | `apps/web/src/utils/render.ts` | L5: Applications | TypeScript |  | 1 |
+| Score | File                           | Layer            | Language   | Violations | Security Issues |
+| ----- | ------------------------------ | ---------------- | ---------- | ---------- | --------------- |
+| 🟡 2  | `apps/web/src/utils/render.ts` | L5: Applications | TypeScript |            | 1               |
 
 ---
 

@@ -11,22 +11,22 @@ on:
   push:
     branches: [main, develop]
     paths:
-      - 'governance/**'
+      - "governance/**"
   pull_request:
     branches: [main, develop]
     paths:
-      - 'governance/**'
+      - "governance/**"
   workflow_dispatch:
     inputs:
       dimension:
-        description: 'Specific dimension to validate (e.g., 00-vision-strategy)'
+        description: "Specific dimension to validate (e.g., 00-vision-strategy)"
         required: false
         type: string
 
 env:
-  OPA_VERSION: '0.60.0'
-  PYTHON_VERSION: '3.11'
-  NODE_VERSION: '20'
+  OPA_VERSION: "0.60.0"
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
 
 jobs:
   # ===========================================================================
@@ -45,7 +45,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'pip'
+          cache: "pip"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

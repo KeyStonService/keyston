@@ -125,43 +125,43 @@ kubectl apply -f config/rbac-policies.yaml
 ### 2. 配置日誌管道
 
 ```typescript
-import * as fs from 'fs'
-import Ajv from 'ajv'
+import * as fs from 'fs';
+import Ajv from 'ajv';
 
-const schema = JSON.parse(fs.readFileSync('./config/log-schema.json', 'utf8'))
-const ajv = new Ajv()
+const schema = JSON.parse(fs.readFileSync('./config/log-schema.json', 'utf8'));
+const ajv = new Ajv();
 
 const log = {
   timestamp: new Date().toISOString(),
   level: 'info',
   service: 'billing-api',
   message: 'Order processed',
-  trace_id: 'abc123def456'
-}
+  trace_id: 'abc123def456',
+};
 
-const valid = ajv.validate(schema, log)
+const valid = ajv.validate(schema, log);
 if (!valid) {
-  console.error('Log validation failed:', ajv.errors)
+  console.error('Log validation failed:', ajv.errors);
 }
 ```
 
 ### 3. 配置分散式追蹤
 
 ```typescript
-import { NodeSDK } from '@opentelemetry/sdk-node'
-import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node'
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc'
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
 
 const traceExporter = new OTLPTraceExporter({
-  url: 'http://otel-collector:4317'
-})
+  url: 'http://otel-collector:4317',
+});
 
 const sdk = new NodeSDK({
   traceExporter,
-  instrumentations: [getNodeAutoInstrumentations()]
-})
+  instrumentations: [getNodeAutoInstrumentations()],
+});
 
-sdk.start()
+sdk.start();
 ```
 
 ### 4. 運行安全掃描

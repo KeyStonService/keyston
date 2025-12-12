@@ -6,7 +6,9 @@
 
 本骨架定義系統整體架構設計原則、服務邊界劃分標準、模組依賴管理規範。AI 在設計新系統或重構現有系統時應優先查詢此骨架，確保設計符合企業架構標準。
 
-This skeleton defines system-wide architecture design principles, service boundary standards, and module dependency management rules. AI should consult this skeleton first when designing new systems or refactoring existing ones.
+This skeleton defines system-wide architecture design principles, service
+boundary standards, and module dependency management rules. AI should consult
+this skeleton first when designing new systems or refactoring existing ones.
 
 ### 適用場景 / Applicable Scenarios
 
@@ -17,14 +19,14 @@ This skeleton defines system-wide architecture design principles, service bounda
 
 ### 責任矩陣 / Responsibility Matrix
 
-| 項目 | 由本骨架負責 | 由其他骨架負責 |
-|------|-----------|------------|
-| 服務邊界定義 | ✅ | |
-| 模組依賴管理 | ✅ | |
-| API 合約定義 | | ✅ API Governance |
-| 資料模式設計 | | ✅ Data Governance |
-| 安全措施實現 | | ✅ Security & Observability |
-| 監控告警配置 | | ✅ Security & Observability |
+| 項目         | 由本骨架負責 | 由其他骨架負責              |
+| ------------ | ------------ | --------------------------- |
+| 服務邊界定義 | ✅           |                             |
+| 模組依賴管理 | ✅           |                             |
+| API 合約定義 |              | ✅ API Governance           |
+| 資料模式設計 |              | ✅ Data Governance          |
+| 安全措施實現 |              | ✅ Security & Observability |
+| 監控告警配置 |              | ✅ Security & Observability |
 
 ### 與其他骨架的關係 / Relationship with Other Skeletons
 
@@ -81,10 +83,10 @@ This skeleton defines system-wide architecture design principles, service bounda
 ```yaml
 # 示例：按業務能力劃分
 services:
-  user_service:      # 使用者管理
-  order_service:     # 訂單管理
-  payment_service:   # 支付處理
-  notification_srv:  # 通知服務
+  user_service: # 使用者管理
+  order_service: # 訂單管理
+  payment_service: # 支付處理
+  notification_srv: # 通知服務
 ```
 
 ### 依賴規則

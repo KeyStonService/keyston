@@ -11,7 +11,8 @@ Waiting for Code Scanning results. Code Scanning may not be configured for the t
 
 ## 根本原因
 
-這是因為 GitHub Repository Rules（新版規則系統）要求 Code Scanning 結果，但規則配置可能不正確或過於嚴格。
+這是因為 GitHub Repository Rules（新版規則系統）要求 Code
+Scanning 結果，但規則配置可能不正確或過於嚴格。
 
 ## ✅ 解決方案
 
@@ -44,7 +45,8 @@ Waiting for Code Scanning results. Code Scanning may not be configured for the t
    ```
 
 2. **編輯 `main` 分支規則**
-   - 取消勾選 "Require status checks to pass before merging" 中的 Code Scanning 相關項目
+   - 取消勾選 "Require status checks to pass before merging" 中的 Code
+     Scanning 相關項目
    - 或確保所需的狀態檢查名稱正確匹配實際的 workflow
 
 3. **保存變更**

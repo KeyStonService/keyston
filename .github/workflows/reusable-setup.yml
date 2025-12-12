@@ -25,64 +25,64 @@ on:
         required: false
         type: boolean
         default: false
-      
+
       setup-node:
         description: "Setup Node.js runtime"
         required: false
         type: boolean
         default: false
-      
+
       setup-go:
         description: "Setup Go runtime"
         required: false
         type: boolean
         default: false
-      
+
       setup-rust:
         description: "Setup Rust runtime"
         required: false
         type: boolean
         default: false
-      
+
       # Version Configuration
       python-version:
         description: "Python version"
         required: false
         type: string
         default: "3.11"
-      
+
       node-version:
         description: "Node.js version"
         required: false
         type: string
         default: "20"
-      
+
       go-version:
         description: "Go version"
         required: false
         type: string
         default: "1.21"
-      
+
       rust-toolchain:
         description: "Rust toolchain (stable/nightly)"
         required: false
         type: string
         default: "stable"
-      
+
       # Checkout Configuration
       fetch-depth:
         description: "Git fetch depth (0 for full history)"
         required: false
         type: number
         default: 0
-      
+
       # Cache Configuration
       enable-cache:
         description: "Enable dependency caching"
         required: false
         type: boolean
         default: true
-      
+
       # Additional Setup
       install-dependencies:
         description: "Install dependencies automatically"
@@ -93,28 +93,28 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    
+
     steps:
       # ─────────────────────────────────────────────────────────────────────────
       # Checkout Repository
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Python Setup
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Python
         if: inputs.setup-python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ inputs.python-version }}
           cache: ${{ inputs.enable-cache && 'pip' || '' }}
-      
+
       - name: Install Python dependencies
         if: inputs.setup-python && inputs.install-dependencies
         run: |
@@ -122,18 +122,18 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
           if [ -f pyproject.toml ]; then pip install -e .; fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Node.js Setup
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Node.js
         if: inputs.setup-node
         uses: actions/setup-node@v6
         with:
           node-version: ${{ inputs.node-version }}
           cache: ${{ inputs.enable-cache && 'npm' || '' }}
-      
+
       - name: Install Node.js dependencies
         if: inputs.setup-node && inputs.install-dependencies
         run: |
@@ -142,74 +142,74 @@ jobs:
           elif [ -f package.json ]; then
             npm install
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Go Setup
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Go
         if: inputs.setup-go
         uses: actions/setup-go@v5
         with:
           go-version: ${{ inputs.go-version }}
           cache: ${{ inputs.enable-cache }}
-      
+
       - name: Install Go dependencies
         if: inputs.setup-go && inputs.install-dependencies
         run: |
           if [ -f go.mod ]; then
             go mod download
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Rust Setup
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Rust
         if: inputs.setup-rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: ${{ inputs.rust-toolchain }}
           cache: ${{ inputs.enable-cache }}
-      
+
       - name: Install Rust dependencies
         if: inputs.setup-rust && inputs.install-dependencies
         run: |
           if [ -f Cargo.toml ]; then
             cargo fetch
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Summary
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Summary
         run: |
           echo "## 🚀 Setup Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Configured Runtimes:" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ inputs.setup-python }}" == "true" ]; then
             echo "- ✅ Python ${{ inputs.python-version }}" >> $GITHUB_STEP_SUMMARY
             python --version >> $GITHUB_STEP_SUMMARY || true
           fi
-          
+
           if [ "${{ inputs.setup-node }}" == "true" ]; then
             echo "- ✅ Node.js ${{ inputs.node-version }}" >> $GITHUB_STEP_SUMMARY
             node --version >> $GITHUB_STEP_SUMMARY || true
             npm --version >> $GITHUB_STEP_SUMMARY || true
           fi
-          
+
           if [ "${{ inputs.setup-go }}" == "true" ]; then
             echo "- ✅ Go ${{ inputs.go-version }}" >> $GITHUB_STEP_SUMMARY
             go version >> $GITHUB_STEP_SUMMARY || true
           fi
-          
+
           if [ "${{ inputs.setup-rust }}" == "true" ]; then
             echo "- ✅ Rust ${{ inputs.rust-toolchain }}" >> $GITHUB_STEP_SUMMARY
             rustc --version >> $GITHUB_STEP_SUMMARY || true
           fi
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Cache:" >> $GITHUB_STEP_SUMMARY
           echo "- Cache enabled: ${{ inputs.enable-cache }}" >> $GITHUB_STEP_SUMMARY

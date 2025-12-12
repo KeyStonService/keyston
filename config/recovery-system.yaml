@@ -20,12 +20,12 @@ description: "Self-healing system recovery with Dr. Phoenix"
 # ============================================================================
 phoenix_agent:
   enabled: true
-  mode: "autonomous"  # autonomous | supervised | manual
+  mode: "autonomous" # autonomous | supervised | manual
   profile: "config/agents/profiles/recovery_expert.yaml"
-  
+
   # Operating parameters
   parameters:
-    startup_delay: 0  # Start immediately
+    startup_delay: 0 # Start immediately
     always_running: true
     cannot_be_disabled: true
     independent_process: true
@@ -37,31 +37,31 @@ phoenix_agent:
 monitoring:
   # Health check interval in seconds
   health_check_interval: 30
-  
+
   # Heartbeat configuration
   heartbeat:
     enabled: true
-    interval: 20  # Send heartbeat every 20 seconds
-    timeout: 90  # Alert if no heartbeat for 90 seconds
+    interval: 20 # Send heartbeat every 20 seconds
+    timeout: 90 # Alert if no heartbeat for 90 seconds
     file: ".launcher_heartbeat.json"
-  
+
   # Critical components to monitor
   critical_components:
     - name: "automation_launcher"
       pattern: "automation_launcher.py"
       health_check: "process_running"
       critical: true
-      
+
     - name: "master_orchestrator"
       pattern: "master_orchestrator"
       health_check: "api_endpoint"
       critical: true
-      
+
     - name: "core_services"
       pattern: "system_resources"
       health_check: "resource_usage"
       critical: true
-  
+
   # Health thresholds
   thresholds:
     cpu_percent:
@@ -83,13 +83,13 @@ monitoring:
 recovery:
   # Maximum restart attempts before escalation
   max_restart_attempts: 3
-  
+
   # Delay between retry attempts (seconds)
   retry_delay: 5
-  
+
   # Cooldown between restart attempts (seconds)
   restart_cooldown: 60
-  
+
   # Strategy timeouts (seconds)
   strategy_timeout:
     quick_restart: 30
@@ -98,7 +98,7 @@ recovery:
     service_dependency_restart: 600
     backup_restore: 1800
     full_system_bootstrap: 7200
-  
+
   # Recovery strategies in order of preference
   strategies:
     - name: "quick_restart"
@@ -112,7 +112,7 @@ recovery:
         - "wait_5_seconds"
         - "start_process"
       rollback_on_failure: false
-      
+
     - name: "safe_mode_restart"
       priority: 2
       description: "Restart with minimal configuration"
@@ -125,7 +125,7 @@ recovery:
         - "restart_process"
         - "verify_startup"
       rollback_on_failure: true
-      
+
     - name: "configuration_rollback"
       priority: 3
       description: "Rollback to last known good configuration"
@@ -140,7 +140,7 @@ recovery:
         - "verify_system"
       rollback_on_failure: true
       max_rollback_depth: 5
-      
+
     - name: "service_dependency_restart"
       priority: 4
       description: "Restart all dependent services"
@@ -153,7 +153,7 @@ recovery:
         - "restart_in_dependency_order"
         - "verify_all_services"
       rollback_on_failure: true
-      
+
     - name: "backup_restore"
       priority: 5
       description: "Restore from latest backup"
@@ -167,8 +167,8 @@ recovery:
         - "restart_all_services"
         - "verify_system"
       rollback_on_failure: false
-      requires_approval: true  # Requires human approval
-      
+      requires_approval: true # Requires human approval
+
     - name: "full_system_bootstrap"
       priority: 6
       description: "Complete system rebuild from scratch"
@@ -190,39 +190,39 @@ recovery:
 # ============================================================================
 backup:
   enabled: true
-  
+
   # Backup locations
   paths:
     configs: "config/"
     state: ".automation_logs/"
-    data: "data/"  # If exists
-  
+    data: "data/" # If exists
+
   # Backup retention
   retention:
-    hourly: 24  # Keep 24 hourly backups
-    daily: 7    # Keep 7 daily backups
-    weekly: 4   # Keep 4 weekly backups
-    monthly: 3  # Keep 3 monthly backups
-  
+    hourly: 24 # Keep 24 hourly backups
+    daily: 7 # Keep 7 daily backups
+    weekly: 4 # Keep 4 weekly backups
+    monthly: 3 # Keep 3 monthly backups
+
   # Automatic backup triggers
   triggers:
     - "before_recovery_attempt"
     - "configuration_change"
     - "system_upgrade"
     - "manual_request"
-  
+
   # Backup verification
   verification:
     enabled: true
     integrity_check: true
-    test_restore: false  # Disable by default to avoid overhead
+    test_restore: false # Disable by default to avoid overhead
 
 # ============================================================================
 # Escalation Configuration (升級配置)
 # ============================================================================
 escalation:
   enabled: true
-  
+
   # Escalation levels
   levels:
     - level: 1
@@ -232,7 +232,7 @@ escalation:
         - "log_event"
         - "update_metrics"
       notification: false
-      
+
     - level: 2
       name: "warning"
       trigger: "recovery_in_progress"
@@ -241,7 +241,7 @@ escalation:
         - "send_status_update"
         - "update_metrics"
       notification: false
-      
+
     - level: 3
       name: "alert"
       trigger: "multiple_recovery_attempts"
@@ -251,7 +251,7 @@ escalation:
         - "create_incident"
       notification: true
       notify_channels: ["slack"]
-      
+
     - level: 4
       name: "critical"
       trigger: "all_automatic_recovery_failed"
@@ -262,7 +262,7 @@ escalation:
         - "prepare_for_manual_intervention"
       notification: true
       notify_channels: ["slack", "email", "pagerduty"]
-      
+
     - level: 5
       name: "emergency"
       trigger: "system_wide_outage"
@@ -279,39 +279,39 @@ escalation:
 # ============================================================================
 notifications:
   enabled: true
-  
+
   # Notification channels
   channels:
     slack:
-      enabled: false  # Enable when configured
+      enabled: false # Enable when configured
       webhook_url: "${SLACK_WEBHOOK_URL}"
       channel: "#alerts"
-      
+
     email:
-      enabled: false  # Enable when configured
+      enabled: false # Enable when configured
       smtp_server: "${SMTP_SERVER}"
       from_address: "phoenix@synergymesh.ai"
       to_addresses: []
-      
+
     pagerduty:
-      enabled: false  # Enable when configured
+      enabled: false # Enable when configured
       api_key: "${PAGERDUTY_API_KEY}"
       service_id: "${PAGERDUTY_SERVICE_ID}"
-  
+
   # Notification templates
   templates:
     recovery_started:
       title: "🦅 Dr. Phoenix: Recovery Started"
       message: "Recovery initiated for {component} using {strategy}"
-      
+
     recovery_success:
       title: "✅ Dr. Phoenix: Recovery Successful"
       message: "Successfully recovered {component} using {strategy}"
-      
+
     recovery_failed:
       title: "❌ Dr. Phoenix: Recovery Failed"
       message: "Failed to recover {component}. Escalating to level {level}"
-      
+
     escalation:
       title: "🚨 Dr. Phoenix: Escalation Level {level}"
       message: "Incident {incident_id} escalated. {details}"
@@ -322,13 +322,13 @@ notifications:
 watchdog:
   enabled: true
   independent_process: true
-  
+
   # Monitoring parameters
   check_interval: 30
   heartbeat_timeout: 90
   max_restart_attempts: 5
   restart_cooldown: 300
-  
+
   # Monitored processes
   monitored_processes:
     - name: "automation_launcher"
@@ -339,7 +339,7 @@ watchdog:
         - "process_running"
         - "heartbeat_alive"
         - "responding_to_requests"
-      
+
     - name: "phoenix_agent"
       pattern: "phoenix_agent.py"
       critical: true
@@ -352,26 +352,26 @@ watchdog:
 # ============================================================================
 learning:
   enabled: true
-  
+
   # Pattern recognition
   pattern_recognition:
     enabled: true
     min_samples: 10
     confidence_threshold: 0.8
-  
+
   # Strategy optimization
   strategy_optimization:
     enabled: true
     adjustment_frequency: "weekly"
     success_weight: 1.0
     duration_weight: 0.5
-  
+
   # Failure analysis
   failure_analysis:
     enabled: true
     root_cause_detection: true
     correlation_analysis: true
-  
+
   # Recommendation engine
   recommendations:
     enabled: true
@@ -383,21 +383,21 @@ learning:
 # Logging Configuration (日誌配置)
 # ============================================================================
 logging:
-  level: "INFO"  # DEBUG | INFO | WARNING | ERROR | CRITICAL
-  
+  level: "INFO" # DEBUG | INFO | WARNING | ERROR | CRITICAL
+
   # Log files
   files:
     phoenix_agent: ".automation_logs/phoenix.log"
     watchdog: ".automation_logs/watchdog.log"
     emergency_recovery: ".automation_logs/emergency_recovery.log"
     incidents: ".automation_logs/incidents.log"
-  
+
   # Log retention (days)
   retention: 30
-  
+
   # Log format
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  
+
   # Structured logging
   structured: true
   include_context: true
@@ -408,22 +408,22 @@ logging:
 testing:
   # Chaos engineering
   chaos_engineering:
-    enabled: false  # Enable for testing only
+    enabled: false # Enable for testing only
     scenarios:
       - "random_process_kill"
       - "configuration_corruption"
       - "resource_exhaustion"
       - "network_partition"
-  
+
   # Health check validation
   health_check_validation:
     enabled: true
     frequency: "daily"
     verify_all_checks: true
-  
+
   # Recovery drill
   recovery_drill:
-    enabled: false  # Enable for scheduled drills
+    enabled: false # Enable for scheduled drills
     frequency: "monthly"
     scenarios:
       - "launcher_crash"
@@ -436,8 +436,8 @@ testing:
 security:
   # Authentication
   authentication:
-    required: false  # Emergency access doesn't require auth
-    
+    required: false # Emergency access doesn't require auth
+
   # Authorization
   authorization:
     phoenix_agent_permissions:
@@ -446,12 +446,12 @@ security:
       - "write_state"
       - "restart_services"
       - "rollback_configs"
-    
+
     requires_approval:
       - "data_deletion"
       - "major_version_rollback"
       - "infrastructure_changes"
-  
+
   # Audit logging
   audit:
     enabled: true
@@ -468,13 +468,13 @@ performance:
     max_cpu_percent: 10
     max_memory_mb: 256
     max_threads: 4
-  
+
   # Resource limits for Watchdog
   watchdog:
     max_cpu_percent: 5
     max_memory_mb: 128
     max_threads: 2
-  
+
   # Concurrency
   max_concurrent_recoveries: 3
   max_concurrent_health_checks: 10
@@ -487,7 +487,7 @@ metadata:
   created_date: "2025-12-09"
   last_updated: "2025-12-09"
   version: "1.0.0"
-  
+
   related_files:
     - "services/agents/recovery/phoenix_agent.py"
     - "services/watchdog/system_watchdog.py"

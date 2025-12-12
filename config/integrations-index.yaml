@@ -14,12 +14,12 @@
 integrations_index:
   version: "1.0.0"
   last_updated: "2025-12-07"
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Internal System Integrations
   # 內部系統整合
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   internal:
     - name: "knowledge-graph"
       display_name: "Knowledge Graph Integration"
@@ -35,11 +35,11 @@ integrations_index:
         - "kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891"
       health_check: true
       monitoring: true
-    
+
     - name: "quantum-backend"
       display_name: "Quantum Backend Integration"
       config_file: "config/integrations/quantum-integration.yaml"
-      enabled: false  # Experimental
+      enabled: false # Experimental
       priority: "low"
       description: "Quantum computing backend for optimization tasks"
       dependencies:
@@ -51,7 +51,7 @@ integrations_index:
       fallback_mode: "classical"
       health_check: true
       monitoring: true
-    
+
     - name: "matechat"
       display_name: "Matechat Integration"
       config_file: "config/integrations/matechat/config.yaml"
@@ -62,7 +62,7 @@ integrations_index:
       documentation: "docs/architecture/matechat-integration.md"
       health_check: false
       monitoring: false
-    
+
     - name: "sync-refactor"
       display_name: "Sync & Refactor Workflow Integration"
       config_file: "config/sync-refactor-config.yaml"
@@ -78,12 +78,12 @@ integrations_index:
         - "docs/SYNC_REFACTOR_MIGRATION_GUIDE.md"
       health_check: true
       monitoring: true
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # External Service Integrations
   # 外部服務整合
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   external:
     - name: "jira"
       display_name: "Jira Integration"
@@ -95,7 +95,7 @@ integrations_index:
       authentication: "oauth2"
       health_check: true
       monitoring: false
-    
+
     - name: "slack"
       display_name: "Slack Integration"
       config_file: "config/integrations/slack-webhook.sh"
@@ -106,7 +106,7 @@ integrations_index:
       authentication: "webhook_url"
       health_check: false
       monitoring: false
-    
+
     - name: "github"
       display_name: "GitHub Integration"
       enabled: true
@@ -120,12 +120,12 @@ integrations_index:
         - "pages"
       health_check: true
       monitoring: true
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Framework & Library Integrations
   # 框架和類庫整合
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   frameworks:
     - name: "langchain"
       display_name: "LangChain Integration"
@@ -138,7 +138,7 @@ integrations_index:
         - "LLM chaining"
         - "Document processing"
         - "Agent workflows"
-    
+
     - name: "mcp"
       display_name: "MCP (Model Context Protocol) Integration"
       source_file: "core/modules/execution_architecture/mcp_integration.py"
@@ -150,19 +150,19 @@ integrations_index:
         - "Agent communication"
         - "Context sharing"
         - "Tool invocation"
-    
+
     - name: "framework-integrations"
       display_name: "Generic Framework Integrations"
       source_file: "core/modules/tech_stack/framework_integrations.py"
       enabled: true
       priority: "medium"
       description: "Collection of various framework integrations"
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Cross-Platform Integrations
   # 跨平台整合
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   cross_platform:
     - name: "arvr"
       display_name: "AR/VR Integration"
@@ -170,33 +170,33 @@ integrations_index:
       enabled: false
       priority: "low"
       description: "Augmented and virtual reality platform integration"
-    
+
     - name: "iot"
       display_name: "IoT Integration"
       source_file: "services/agents/dependency-manager/src/crossplatform/iot_integration.py"
       enabled: false
       priority: "low"
       description: "Internet of Things device integration"
-    
+
     - name: "web3"
       display_name: "Web3 Integration"
       source_file: "services/agents/dependency-manager/src/crossplatform/web3_integration.py"
       enabled: false
       priority: "low"
       description: "Blockchain and decentralized web integration"
-    
+
     - name: "lowcode"
       display_name: "Low-Code Integration"
       source_file: "services/agents/dependency-manager/src/future/lowcode_integration.py"
       enabled: false
       priority: "low"
       description: "Low-code/no-code platform integration"
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # CI/CD & Workflow Integrations
   # CI/CD 與工作流程整合
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   cicd:
     - name: "integration-deployment"
       display_name: "Integration & Deployment Workflow"
@@ -206,7 +206,7 @@ integrations_index:
       description: "Full system integration testing and deployment"
       trigger: "manual, pull_request"
       timeout: 60
-    
+
     - name: "phase1-integration"
       display_name: "Phase 1 Infrastructure Integration"
       config_file: ".github/workflows/phase1-integration.yml"
@@ -215,111 +215,111 @@ integrations_index:
       description: "Infrastructure and configuration integration testing"
       trigger: "push, pull_request, manual"
       timeout: 30
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Integration Health Status
   # 整合健康狀態
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   health_monitoring:
     enabled: true
     check_interval: "5m"
-    
+
     endpoints:
       - name: "Health Check API"
         url: "/api/health/integrations"
         method: "GET"
-      
+
       - name: "Integration Status Dashboard"
         url: "/dashboard/integrations"
         type: "web"
-    
+
     alerts:
       - condition: "integration_down"
         severity: "high"
         notification: ["slack", "github"]
-      
+
       - condition: "integration_degraded"
         severity: "medium"
         notification: ["github"]
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Integration Governance
   # 整合治理
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   governance:
     policies:
       - name: "integration-policy"
         file: "governance/policies/conftest/matechat-integration/integration-policy.rego"
         description: "Policy for matechat integration compliance"
         enabled: true
-    
+
     contracts:
       - name: "core-unified-integration"
         file: "governance/behavior-contracts/core.unified_integration.yaml"
         description: "Behavior contract for core unified integration"
         enabled: true
-    
+
     modules:
       - name: "core-unified-integration-module"
         file: "governance/modules/core.unified_integration.yaml"
         description: "Module definition for core unified integration"
         enabled: true
-    
+
     validation:
       enabled: true
       pre_commit: true
       pre_merge: true
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Documentation & Resources
   # 文檔與資源
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   documentation:
     guides:
       - title: "Deep Integration Guide"
         file: "docs/deep-integration-guide.zh.md"
         language: "zh-TW"
-      
+
       - title: "Sync & Refactor Optimization"
         file: "docs/SYNC_REFACTOR_OPTIMIZATION.md"
         language: "en"
-      
+
       - title: "Sync & Refactor Migration Guide"
         file: "docs/SYNC_REFACTOR_MIGRATION_GUIDE.md"
         language: "en"
-      
+
       - title: "Repository-Wide Sync Integration Scan"
         file: "docs/REPOSITORY_SYNC_INTEGRATION_SCAN.md"
         language: "en"
-    
+
     architecture:
       - title: "Matechat Integration Architecture"
         file: "docs/architecture/matechat-integration.md"
-    
+
     playbooks:
       - title: "Integration Playbooks"
         directory: "docs/refactor_playbooks/02_integration/"
         description: "Integration strategies for various modules"
-  
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Future Integrations (Planned)
   # 未來整合 (計劃中)
   # ─────────────────────────────────────────────────────────────────────────────
-  
+
   planned:
     - name: "observability-stack"
       description: "Prometheus + Grafana + Loki for full observability"
       priority: "high"
       estimated_completion: "Q1 2026"
-    
+
     - name: "ai-ops"
       description: "AI-powered operations and incident management"
       priority: "medium"
       estimated_completion: "Q2 2026"
-    
+
     - name: "multi-cloud"
       description: "AWS + GCP + Azure multi-cloud deployment"
       priority: "medium"

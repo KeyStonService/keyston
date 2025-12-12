@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@services-platform"
-  
+
   description: |
     MCP Services provide Model Context Protocol implementation for AI model integration,
     context management, and tool/resource exposure to AI systems.
-    
+
     MCP 服務提供模型上下文協議實現，用於 AI 模型整合、上下文管理和向 AI 系統公開工具/資源。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/mcp"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Server Initialization
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Initialize MCP Server"
       method: POST
       path: "/servers/initialize"
-      
+
       description: |
         Initialize MCP server with capabilities and configuration.
         使用能力和配置初始化 MCP 伺服器。
-      
+
       input_schema:
         type: "object"
         required: ["server_name", "protocol_version"]
@@ -50,7 +49,7 @@ api:
           server_name: { type: "string" }
           protocol_version: { type: "string" }
           capabilities: { type: "object" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -58,12 +57,12 @@ api:
           supported_tools: { type: "array" }
           supported_resources: { type: "array" }
           server_info: { type: "object" }
-      
+
       guarantees:
         - "MCP protocol version validated"
         - "Capabilities registered"
         - "Server ID is unique"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 300ms"
@@ -74,11 +73,11 @@ api:
     - name: "Invoke Tool"
       method: POST
       path: "/tools/invoke"
-      
+
       description: |
         Execute MCP tool with provided arguments.
         使用提供的參數執行 MCP 工具。
-      
+
       input_schema:
         type: "object"
         required: ["tool_name", "arguments"]
@@ -86,19 +85,19 @@ api:
           tool_name: { type: "string" }
           arguments: { type: "object" }
           context: { type: "object" }
-      
+
       output_schema:
         type: "object"
         properties:
           result: { type: "object" }
           content: { type: "array" }
           is_error: { type: "boolean" }
-      
+
       guarantees:
         - "Tool execution is sandboxed"
         - "Errors are structured"
         - "Context is preserved"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 1s"
@@ -109,9 +108,9 @@ api:
     - name: "Read Resource"
       method: GET
       path: "/resources/{resource_uri}"
-      
+
       description: "Access MCP resource by URI"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -119,12 +118,12 @@ api:
           content: { type: "string" }
           mime_type: { type: "string" }
           metadata: { type: "object" }
-      
+
       guarantees:
         - "Resource permissions checked"
         - "Content type validated"
         - "URI format validated"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 200ms"
@@ -135,11 +134,11 @@ api:
     - name: "Update Context"
       method: PUT
       path: "/context"
-      
+
       description: |
         Update AI model context.
         更新 AI 模型上下文。
-      
+
       input_schema:
         type: "object"
         required: ["context_id", "updates"]
@@ -147,14 +146,14 @@ api:
           context_id: { type: "string" }
           updates: { type: "object" }
           merge_strategy: { type: "string", enum: ["replace", "merge", "append"] }
-      
+
       output_schema:
         type: "object"
         properties:
           context_id: { type: "string" }
           version: { type: "string" }
           size_bytes: { type: "integer" }
-      
+
       guarantees:
         - "Context size limits enforced"
         - "Version tracking"
@@ -166,9 +165,9 @@ api:
     - name: "Get Prompt"
       method: GET
       path: "/prompts/{prompt_name}"
-      
+
       description: "Retrieve MCP prompt template"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -176,7 +175,7 @@ api:
           description: { type: "string" }
           arguments: { type: "array" }
           messages: { type: "array" }
-      
+
       guarantees:
         - "Prompt templates are validated"
         - "Arguments schema provided"
@@ -187,18 +186,18 @@ api:
     - name: "List Tools"
       method: GET
       path: "/tools"
-      
+
       description: |
         List all available MCP tools and their capabilities.
         列出所有可用的 MCP 工具及其功能。
-      
+
       input_schema:
         type: "object"
         properties:
           category: { type: "string" }
           search: { type: "string" }
           include_deprecated: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -215,12 +214,12 @@ api:
                 deprecated: { type: "boolean" }
                 version: { type: "string" }
           total_count: { type: "integer" }
-      
+
       guarantees:
         - "All registered tools listed"
         - "Schema information complete"
         - "Deprecated tools filtered by default"
-      
+
       performance:
         response_time_p50: "< 30ms"
         response_time_p99: "< 100ms"
@@ -230,10 +229,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "mcp.server_initialized"
     description: "Emitted when MCP server initializes"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -241,17 +239,17 @@ events:
         server_name: { type: "string" }
         capabilities: { type: "object" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "automation.monitoring"
       - "services.audit"
 
   - name: "mcp.tool_invoked"
     description: "Emitted when MCP tool is invoked"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -260,16 +258,16 @@ events:
         duration_ms: { type: "number" }
         success: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "automation.monitoring"
 
   - name: "mcp.resource_accessed"
     description: "Emitted when MCP resource is accessed"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -277,10 +275,10 @@ events:
         server_id: { type: "string" }
         access_granted: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "services.security"
@@ -290,22 +288,21 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Protocol Compliance"
     description: "All interactions follow MCP specification"
     rule: "forall interaction: complies_with(interaction, MCP_spec)"
     enforcement: "pre-condition"
-    
+
   - name: "Tool Sandboxing"
     description: "Tool executions are isolated"
     rule: "forall tool_exec: isolated(tool_exec)"
     enforcement: "runtime"
-    
+
   - name: "Context Size Limit"
     description: "Context size within limits"
     rule: "forall context: context.size <= max_context_size"
     enforcement: "pre-condition"
-    
+
   - name: "Resource Permission"
     description: "Resource access requires permission"
     rule: "forall access: has_permission(access.user, access.resource)"
@@ -316,7 +313,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Tool Execution Failure"
     triggers:
       - "Tool timeout"
@@ -326,7 +322,7 @@ failure_modes:
       - "Log for debugging"
       - "Maintain server state"
     error_code: "ERR_TOOL_FAILED"
-    
+
   - scenario: "Resource Not Found"
     triggers:
       - "Invalid URI"
@@ -335,7 +331,7 @@ failure_modes:
       - "Return 404 with suggestions"
       - "Log access attempt"
     error_code: "ERR_RESOURCE_NOT_FOUND"
-    
+
   - scenario: "Context Overflow"
     triggers:
       - "Context size exceeds limit"
@@ -349,12 +345,11 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "core.safety_mechanisms"
       purpose: "Tool execution safety"
       failure_mode: "critical"
-    
+
     - module: "infrastructure.message_queue"
       purpose: "Event publishing"
       failure_mode: "log-and-continue"
@@ -370,7 +365,7 @@ mcp_compliance:
     - "resources"
     - "prompts"
     - "context"
-  
+
   limits:
     max_context_size: "1MB"
     max_tool_execution_time: "30s"
@@ -394,7 +389,7 @@ observability:
       labels: ["resource_type", "status"]
     - name: "mcp_context_size_bytes"
       type: "histogram"
-  
+
   alerts:
     - condition: "mcp_tool_failure_rate > 10%"
       severity: "high"

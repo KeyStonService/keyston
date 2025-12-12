@@ -42,115 +42,115 @@ spec:
         fsGroup: 1001
         seccompProfile:
           type: RuntimeDefault
-      
+
       # 服務帳戶（最小權限）
       serviceAccountName: contracts-service
       automountServiceAccountToken: false
-      
+
       containers:
-      - name: contracts-service
-        # 注意：實際部署時應使用特定版本標籤或 digest
-        # 例如：ghcr.io/we-can-fix/synergymesh/contracts-service:v1.0.0
-        # 或：ghcr.io/we-can-fix/synergymesh/contracts-service@sha256:...
-        image: ghcr.io/we-can-fix/synergymesh/contracts-service:main-abc123
-        imagePullPolicy: Always
-        
-        ports:
-        - name: http
-          containerPort: 3000
-          protocol: TCP
-        
-        # 環境變數
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: PORT
-          value: "3000"
-        - name: LOG_LEVEL
-          value: "info"
-        - name: SERVICE_NAME
-          value: "contracts-service"
-        
-        # 資源限制
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
-        
-        # 健康檢查
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 3
-        
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 3
-        
-        startupProbe:
-          httpGet:
-            path: /healthz
-            port: http
-            scheme: HTTP
-          initialDelaySeconds: 0
-          periodSeconds: 2
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 30
-        
-        # 容器安全配置
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 1001
-          capabilities:
-            drop:
-            - ALL
-        
-        # 臨時卷掛載（只讀根文件系統需要）
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
-        - name: cache
-          mountPath: /app/.npm
-      
+        - name: contracts-service
+          # 注意：實際部署時應使用特定版本標籤或 digest
+          # 例如：ghcr.io/we-can-fix/synergymesh/contracts-service:v1.0.0
+          # 或：ghcr.io/we-can-fix/synergymesh/contracts-service@sha256:...
+          image: ghcr.io/we-can-fix/synergymesh/contracts-service:main-abc123
+          imagePullPolicy: Always
+
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+
+          # 環境變數
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: SERVICE_NAME
+              value: "contracts-service"
+
+          # 資源限制
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+          # 健康檢查
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 2
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 30
+
+          # 容器安全配置
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
+            capabilities:
+              drop:
+                - ALL
+
+          # 臨時卷掛載（只讀根文件系統需要）
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /app/.npm
+
       volumes:
-      - name: tmp
-        emptyDir: {}
-      - name: cache
-        emptyDir: {}
-      
+        - name: tmp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+
       # Pod 反親和性（避免單點故障）
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - contracts-service
-              topologyKey: kubernetes.io/hostname
-      
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - contracts-service
+                topologyKey: kubernetes.io/hostname
+
       # DNS 配置
       dnsPolicy: ClusterFirst
       restartPolicy: Always

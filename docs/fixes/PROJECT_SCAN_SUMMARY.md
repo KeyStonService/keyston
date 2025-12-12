@@ -2,26 +2,29 @@
 
 **Date**: 2025-12-10  
 **Scope**: Full repository scan for Jest configuration issues  
-**Trigger**: Deep Maintenance Project Fundamental Build Failure (深度維修專案建置根本性失敗問題)
+**Trigger**: Deep Maintenance Project Fundamental Build Failure
+(深度維修專案建置根本性失敗問題)
 
 ## Executive Summary
 
-Conducted comprehensive scan of all workspaces for Jest configuration issues similar to the initial advisory-database problem. Identified and fixed 2 workspaces with Jest configuration/dependency issues.
+Conducted comprehensive scan of all workspaces for Jest configuration issues
+similar to the initial advisory-database problem. Identified and fixed 2
+workspaces with Jest configuration/dependency issues.
 
 ## Scan Results
 
 ### Workspaces Scanned
 
-| Workspace | Jest Config | Status | Action Taken |
-|-----------|-------------|--------|--------------|
-| `core/advisory-database` | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest |
+| Workspace                                      | Jest Config               | Status       | Action Taken                                 |
+| ---------------------------------------------- | ------------------------- | ------------ | -------------------------------------------- |
+| `core/advisory-database`                       | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest             |
 | `core/contract_service/contracts-L1/contracts` | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest + supertest |
-| `island-ai` | `jest.config.js` (ESM) | ✅ **OK** | No action needed |
-| `tests/unit/hlp-executor` | `jest.config.js` | ✅ **OK** | No action needed |
-| Root | `jest.config.js` | ✅ **OK** | No action needed |
-| `mcp-servers` | No Jest | ✅ **OK** | Uses validation scripts |
-| `services/mcp` | No Jest | ✅ **OK** | Uses validation scripts |
-| `tools/cli` | No tests | ✅ **OK** | No action needed |
+| `island-ai`                                    | `jest.config.js` (ESM)    | ✅ **OK**    | No action needed                             |
+| `tests/unit/hlp-executor`                      | `jest.config.js`          | ✅ **OK**    | No action needed                             |
+| Root                                           | `jest.config.js`          | ✅ **OK**    | No action needed                             |
+| `mcp-servers`                                  | No Jest                   | ✅ **OK**    | Uses validation scripts                      |
+| `services/mcp`                                 | No Jest                   | ✅ **OK**    | Uses validation scripts                      |
+| `tools/cli`                                    | No tests                  | ✅ **OK**    | No action needed                             |
 
 ### Issues Found and Fixed
 
@@ -124,7 +127,8 @@ module.exports = config;
 
 ### Contracts L1
 
-- `core/contract_service/contracts-L1/contracts/jest.config.ts` → `jest.config.cjs`
+- `core/contract_service/contracts-L1/contracts/jest.config.ts` →
+  `jest.config.cjs`
 - `core/contract_service/contracts-L1/contracts/package.json`
 
 ### Documentation
@@ -189,7 +193,10 @@ module.exports = config;
 
 ## Conclusion
 
-Successfully identified and fixed all Jest configuration issues in the repository. The systematic scan approach ensures no similar issues remain hidden. Future workspaces should follow the established patterns to avoid these issues.
+Successfully identified and fixed all Jest configuration issues in the
+repository. The systematic scan approach ensures no similar issues remain
+hidden. Future workspaces should follow the established patterns to avoid these
+issues.
 
 **Total Workspaces Fixed**: 2/8  
 **Test Coverage Restored**: 100% of testable workspaces  

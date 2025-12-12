@@ -16,7 +16,8 @@
 
 ## 🎯 Core Concept | 核心概念
 
-**Intent-based Orchestration**: 意圖驅動編排系統，以高階業務或服務意圖為核心，透過 AI 與自動化系統將意圖轉譯為具體配置與操作，實現語意一致、動態調整與自動保障。**立即支援自然語言到技術操作的轉換。**
+**Intent-based
+Orchestration**: 意圖驅動編排系統，以高階業務或服務意圖為核心，透過 AI 與自動化系統將意圖轉譯為具體配置與操作，實現語意一致、動態調整與自動保障。**立即支援自然語言到技術操作的轉換。**
 
 ## 📋 Responsibility | 責任範圍
 
@@ -71,23 +72,23 @@ scope:
 
 ```yaml
 intent:
-  id: "DEPLOY-001"
-  type: "deployment"
-  description: "部署高可用性 Web 服務"
-  business_goal: "確保 99.9% 可用性"
-  
+  id: 'DEPLOY-001'
+  type: 'deployment'
+  description: '部署高可用性 Web 服務'
+  business_goal: '確保 99.9% 可用性'
+
   requirements:
-    availability: "99.9%"
+    availability: '99.9%'
     performance:
-      latency_p95: "<100ms"
-      throughput: ">1000 req/s"
+      latency_p95: '<100ms'
+      throughput: '>1000 req/s'
     scalability:
       min_instances: 3
       max_instances: 10
-    
+
   constraints:
-    budget: "$500/month"
-    region: ["us-west", "us-east"]
+    budget: '$500/month'
+    region: ['us-west', 'us-east']
 ```
 
 ### 2. 語意映射引擎
@@ -96,11 +97,11 @@ AI 模型解析意圖，轉譯為標準化配置：
 
 ```yaml
 semantic_mapping:
-  input: "部署高可用性服務"
+  input: '部署高可用性服務'
   parsed_intent:
-    service_type: "web_service"
-    availability_requirement: "high"
-  
+    service_type: 'web_service'
+    availability_requirement: 'high'
+
   translated_actions:
     - create_load_balancer
     - deploy_multiple_instances
@@ -114,15 +115,15 @@ semantic_mapping:
 
 ```yaml
 closed_loop:
-  intent_id: "DEPLOY-001"
+  intent_id: 'DEPLOY-001'
   kpi_monitoring:
-    - metric: "availability"
+    - metric: 'availability'
       target: 99.9
       current: 98.5
-      status: "deviation_detected"
-  
+      status: 'deviation_detected'
+
   auto_correction:
-    trigger: "availability < 99.0"
+    trigger: 'availability < 99.0'
     actions:
       - increase_instance_count
       - failover_to_backup_region
@@ -134,18 +135,18 @@ closed_loop:
 
 ```yaml
 digital_twin_simulation:
-  intent_id: "DEPLOY-001"
-  scenario: "peak_load"
-  
+  intent_id: 'DEPLOY-001'
+  scenario: 'peak_load'
+
   predictions:
-    latency_p95: "85ms"
-    availability: "99.95%"
-    cost_estimate: "$450/month"
-  
+    latency_p95: '85ms'
+    availability: '99.95%'
+    cost_estimate: '$450/month'
+
   risks:
-    - type: "capacity"
-      probability: "medium"
-      mitigation: "add_buffer_instances"
+    - type: 'capacity'
+      probability: 'medium'
+      mitigation: 'add_buffer_instances'
 ```
 
 ## 🔄 Intent Lifecycle | 意圖生命週期
@@ -153,32 +154,32 @@ digital_twin_simulation:
 ```yaml
 lifecycle_stages:
   1_define:
-    description: "定義高階意圖"
-    output: "Intent specification"
-  
+    description: '定義高階意圖'
+    output: 'Intent specification'
+
   2_validate:
-    description: "驗證意圖可行性"
-    output: "Validation report"
-  
+    description: '驗證意圖可行性'
+    output: 'Validation report'
+
   3_translate:
-    description: "轉譯為具體操作"
-    output: "Action plan"
-  
+    description: '轉譯為具體操作'
+    output: 'Action plan'
+
   4_simulate:
-    description: "數位分身模擬"
-    output: "Simulation results"
-  
+    description: '數位分身模擬'
+    output: 'Simulation results'
+
   5_execute:
-    description: "執行操作"
-    output: "Deployment artifacts"
-  
+    description: '執行操作'
+    output: 'Deployment artifacts'
+
   6_monitor:
-    description: "監控 KPI"
-    output: "Metrics & alerts"
-  
+    description: '監控 KPI'
+    output: 'Metrics & alerts'
+
   7_optimize:
-    description: "持續優化"
-    output: "Optimized configuration"
+    description: '持續優化'
+    output: 'Optimized configuration'
 ```
 
 ## 🔗 Integration | 整合
@@ -214,15 +215,15 @@ metrics:
 ### 電信業: 服務編排
 
 ```yaml
-intent: "提供企業專網服務，保證頻寬 100Mbps，延遲 <10ms"
-result: "自動配置 SDN、QoS、路由優化"
+intent: '提供企業專網服務，保證頻寬 100Mbps，延遲 <10ms'
+result: '自動配置 SDN、QoS、路由優化'
 ```
 
 ### 雲端: 資源管理
 
 ```yaml
-intent: "優化成本，維持效能 SLA"
-result: "自動調整實例大小、region 分布、reserved instances"
+intent: '優化成本，維持效能 SLA'
+result: '自動調整實例大小、region 分布、reserved instances'
 ```
 
 ---

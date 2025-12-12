@@ -15,14 +15,14 @@ lifecycle:
     - APPROVED
     - ACTIVE
     - DEPRECATED
-  
+
   transitions:
     DRAFT: [REVIEW]
     REVIEW: [DRAFT, APPROVED]
     APPROVED: [ACTIVE, DEPRECATED]
     ACTIVE: [DEPRECATED]
     DEPRECATED: []
-  
+
   require_approval:
     REVIEW_to_APPROVED: true
     APPROVED_to_ACTIVE: false
@@ -31,12 +31,12 @@ lifecycle:
 schema_validation:
   enabled: true
   strict_mode: true
-  
+
   supported_drafts:
     - draft-07
     - draft-2019-09
     - draft-2020-12
-  
+
   custom_formats:
     - semver
     - uuid
@@ -46,45 +46,45 @@ schema_validation:
 # Policy Gate (DevSecOps)
 policy_gate:
   enabled: true
-  
+
   categories:
     - SECURITY
     - COMPLIANCE
     - QUALITY
     - PERFORMANCE
     - GOVERNANCE
-  
+
   severity_levels:
     - LOW
     - MEDIUM
     - HIGH
     - CRITICAL
-  
+
   default_rules:
     - id: SEC001
       name: "No hardcoded secrets"
       category: SECURITY
       severity: CRITICAL
       enabled: true
-    
+
     - id: SEC002
       name: "Encryption required"
       category: SECURITY
       severity: HIGH
       enabled: true
-    
+
     - id: COMP001
       name: "Owner required"
       category: COMPLIANCE
       severity: MEDIUM
       enabled: true
-    
+
     - id: QUAL001
       name: "Description required"
       category: QUALITY
       severity: LOW
       enabled: true
-  
+
   enforcement:
     block_on_critical: true
     block_on_high: false
@@ -94,33 +94,33 @@ policy_gate:
 # CI Verification Pipeline
 ci_pipeline:
   enabled: true
-  
+
   stages:
     - name: LINT
       order: 1
       required: true
       timeout_seconds: 60
-    
+
     - name: VALIDATE
       order: 2
       required: true
       timeout_seconds: 120
-    
+
     - name: TEST
       order: 3
       required: true
       timeout_seconds: 300
-    
+
     - name: SECURITY
       order: 4
       required: true
       timeout_seconds: 180
-    
+
     - name: BUILD
       order: 5
       required: false
       timeout_seconds: 600
-  
+
   evidence_collection: true
   report_generation: true
 
@@ -128,16 +128,16 @@ ci_pipeline:
 slsa:
   enabled: true
   level: 3
-  
+
   provenance:
     format: in-toto
     generate: true
     sign: true
-  
+
   artifact_signing:
     enabled: true
     algorithm: ECDSA_P256
-  
+
   sbom:
     enabled: true
     format: CycloneDX
@@ -146,7 +146,7 @@ slsa:
 # Audit Trail
 audit:
   enabled: true
-  
+
   operations:
     - CREATE
     - UPDATE
@@ -154,9 +154,9 @@ audit:
     - APPROVE
     - DEPLOY
     - ROLLBACK
-  
+
   retention_days: 365
-  
+
   include:
     - timestamp
     - user
@@ -164,7 +164,7 @@ audit:
     - resource_id
     - changes
     - metadata
-  
+
   export:
     enabled: true
     formats:

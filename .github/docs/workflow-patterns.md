@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document provides reference patterns for GitHub Actions workflows, extracted from legacy CI/CD configurations and adapted for SynergyMesh practices.
+This document provides reference patterns for GitHub Actions workflows,
+extracted from legacy CI/CD configurations and adapted for SynergyMesh
+practices.
 
 ## PR Validation Pipeline
 
@@ -10,30 +12,30 @@ This document provides reference patterns for GitHub Actions workflows, extracte
 
 ```yaml
 code-quality:
-  name: "🔍 Code Quality & Security"
+  name: '🔍 Code Quality & Security'
   runs-on: ubuntu-latest
   timeout-minutes: 15
   steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    
+
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    
+
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
-    
+
     - name: YAML Validation
       run: |
         echo "🔍 Validating YAML files..."
         find . -name "*.yaml" -o -name "*.yml" | \
           grep -v node_modules | \
           xargs yamllint
-    
+
     - name: Python Code Style
       run: |
         black --check --diff .

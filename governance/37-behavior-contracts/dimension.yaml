@@ -5,13 +5,13 @@ metadata:
   name: 行為契約治理
   name_en: Behavior Contracts Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.949638Z'
-  updated_at: '2025-12-11T22:17:20.949644Z'
+  created_at: "2025-12-11T22:17:20.949638Z"
+  updated_at: "2025-12-11T22:17:20.949644Z"
   owner: governance-bot
   category: execution
   tags:
-  - 37_behavior_contracts
-  - execution
+    - 37_behavior_contracts
+    - execution
 spec:
   description: Behavior Contracts Governance dimension for SynergyMesh governance
     framework
@@ -28,24 +28,24 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
-    - ISO-42001
+      - ISO-42001
     framework_mappings:
+      - framework: ISO-42001
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
+    - ISO-42001
+  framework_mappings:
     - framework: ISO-42001
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-42001
-  framework_mappings:
-  - framework: ISO-42001
-    controls: []
-    compliance_status: in_progress

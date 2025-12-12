@@ -4,7 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-
 # Cost protection: prevent concurrent runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +20,7 @@ jobs:
 
   # 檢測需要執行哪些測試
   detect-changes:
-    timeout-minutes: 10  # Prevent runaway costs
+    timeout-minutes: 10 # Prevent runaway costs
     runs-on: ubuntu-latest
     outputs:
       typescript: ${{ steps.filter.outputs.typescript }}
@@ -65,7 +64,7 @@ jobs:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.typescript == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Fail-fast: prevent runaway tests
+    timeout-minutes: 10 # Fail-fast: prevent runaway tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v6
@@ -79,7 +78,7 @@ jobs:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.rust == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15  # Fail-fast: prevent runaway tests
+    timeout-minutes: 15 # Fail-fast: prevent runaway tests
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -89,7 +88,7 @@ jobs:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.go == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Fail-fast: prevent runaway tests
+    timeout-minutes: 10 # Fail-fast: prevent runaway tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -102,7 +101,7 @@ jobs:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.python == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Fail-fast: prevent runaway tests
+    timeout-minutes: 10 # Fail-fast: prevent runaway tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -121,7 +120,7 @@ jobs:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.java == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15  # Fail-fast: prevent runaway tests
+    timeout-minutes: 15 # Fail-fast: prevent runaway tests
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK

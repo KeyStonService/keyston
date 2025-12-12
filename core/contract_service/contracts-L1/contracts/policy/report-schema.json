@@ -4,13 +4,7 @@
   "title": "策略模擬報告 Schema",
   "description": "機器可讀的策略測試結果格式定義",
   "type": "object",
-  "required": [
-    "simulation_timestamp",
-    "workflow_run_id",
-    "commit_sha",
-    "results",
-    "summary"
-  ],
+  "required": ["simulation_timestamp", "workflow_run_id", "commit_sha", "results", "summary"],
   "properties": {
     "simulation_timestamp": {
       "type": "string",
@@ -89,7 +83,7 @@
                       "oneOf": [
                         {
                           "type": "array",
-                          "items": {"type": "string"}
+                          "items": { "type": "string" }
                         },
                         {
                           "type": "null"

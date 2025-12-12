@@ -4,53 +4,52 @@
 version: "1.0.0"
 
 health_indicators:
-  
   system_availability:
     metric: "uptime_percentage"
     target: ">= 99.99%"
     measurement: "continuous"
-    
+
   mean_time_to_detect:
     metric: "mttr_detection"
     target: "< 1 second"
     measurement: "per_incident"
-    
+
   mean_time_to_heal:
     metric: "mttr_healing"
     target: "< 45 seconds"
     measurement: "per_incident"
-    
+
   human_interventions:
     metric: "manual_operations_count"
     target: "0 per month (operational layer)"
     measurement: "monthly"
-    
+
   false_positive_rate:
     metric: "false_alerts_percentage"
     target: "< 1%"
     measurement: "weekly"
-    
+
   ai_decision_accuracy:
     metric: "correct_decisions_percentage"
     target: ">= 95%"
     measurement: "continuous"
-    
+
   deployment_success_rate:
     metric: "successful_deployments_percentage"
     target: ">= 99%"
     measurement: "per_deployment"
-    
+
   execution_time:
     understanding: "< 1 second"
     deployment: "2-3 minutes"
     healing: "< 45 seconds"
-    
+
 alerting:
   critical:
     - "Availability < 99.9%"
     - "MTTR > 60 seconds"
     - "Human intervention required (operational)"
-    
+
   warning:
     - "False positive rate > 1%"
     - "AI accuracy < 95%"

@@ -2,9 +2,12 @@
 
 ## 概述 (Overview)
 
-HLP (Hard Logic Plugin) Executor Core 是一個高性能的非同步 DAG (Directed Acyclic Graph) 編排引擎，專為複雜的執行流程管理而設計。本文檔描述其核心執行模型、架構決策和實現細節。
+HLP (Hard Logic Plugin) Executor Core 是一個高性能的非同步 DAG (Directed Acyclic
+Graph) 編排引擎，專為複雜的執行流程管理而設計。本文檔描述其核心執行模型、架構決策和實現細節。
 
-The HLP Executor Core is a high-performance asynchronous DAG orchestration engine designed for complex execution flow management. This document describes its core execution model, architectural decisions, and implementation details.
+The HLP Executor Core is a high-performance asynchronous DAG orchestration
+engine designed for complex execution flow management. This document describes
+its core execution model, architectural decisions, and implementation details.
 
 ---
 
@@ -48,16 +51,16 @@ def topological_sort(graph):
     in_degree = calculate_in_degree(graph)
     queue = [node for node in graph if in_degree[node] == 0]
     sorted_nodes = []
-    
+
     while queue:
         node = queue.pop(0)
         sorted_nodes.append(node)
-        
+
         for neighbor in graph[node]:
             in_degree[neighbor] -= 1
             if in_degree[neighbor] == 0:
                 queue.append(neighbor)
-    
+
     return sorted_nodes
 ```
 
@@ -75,7 +78,7 @@ def topological_sort(graph):
 **風險計算公式**:
 
 ```
-Risk Score = (Complexity × 0.3) + (Failure Rate × 0.4) + 
+Risk Score = (Complexity × 0.3) + (Failure Rate × 0.4) +
              (Resource Demand × 0.2) + (Impact Scope × 0.1)
 ```
 
@@ -117,9 +120,9 @@ parallelization:
   max_concurrent_tasks: 100
   max_concurrent_per_phase: 50
   resource_pool:
-    cpu: "100 cores"
-    memory: "500Gi"
-    gpu: "10 GPUs"  # Optional
+    cpu: '100 cores'
+    memory: '500Gi'
+    gpu: '10 GPUs' # Optional
 ```
 
 ### 3.2 動態負載平衡 (Dynamic Load Balancing)
@@ -157,26 +160,26 @@ parallelization:
 
 ```yaml
 ExecutionState:
-  execution_id: "exec-12345"
-  status: "EXECUTING"
-  phase: "phase-2"
-  created_at: "2025-12-07T09:00:00Z"
-  updated_at: "2025-12-07T09:05:00Z"
-  
+  execution_id: 'exec-12345'
+  status: 'EXECUTING'
+  phase: 'phase-2'
+  created_at: '2025-12-07T09:00:00Z'
+  updated_at: '2025-12-07T09:05:00Z'
+
   plan_units:
-    - id: "unit-1"
-      status: "COMPLETED"
-      result: "success"
-    - id: "unit-2"
-      status: "EXECUTING"
-      started_at: "2025-12-07T09:04:00Z"
-  
+    - id: 'unit-1'
+      status: 'COMPLETED'
+      result: 'success'
+    - id: 'unit-2'
+      status: 'EXECUTING'
+      started_at: '2025-12-07T09:04:00Z'
+
   checkpoints:
-    - checkpoint_id: "cp-phase-1"
-      phase_id: "phase-1"
-      timestamp: "2025-12-07T09:02:00Z"
-      state_snapshot: {...}
-  
+    - checkpoint_id: 'cp-phase-1'
+      phase_id: 'phase-1'
+      timestamp: '2025-12-07T09:02:00Z'
+      state_snapshot: { ... }
+
   metrics:
     tasks_total: 50
     tasks_completed: 25
@@ -219,13 +222,13 @@ graph TB
         A[REST API Client]
         B[gRPC Client]
     end
-    
+
     subgraph "API Layer"
         C[HTTP API :8080]
         D[gRPC API :50051]
         E[Metrics API :9090]
     end
-    
+
     subgraph "Core Engine"
         F[Request Handler]
         G[DAG Parser]
@@ -233,26 +236,26 @@ graph TB
         I[State Machine]
         J[Task Executor Pool]
     end
-    
+
     subgraph "Safety Layer"
         K[Partial Rollback Manager]
         L[Checkpoint Manager]
         M[Circuit Breaker]
         N[Retry Policy Engine]
     end
-    
+
     subgraph "Storage Layer"
         O[(Kubernetes etcd)]
         P[(PostgreSQL)]
         Q[PVC State Storage]
     end
-    
+
     subgraph "Integration Layer"
         R[Quantum Scheduler]
         S[Knowledge Graph]
         T[Monitoring Stack]
     end
-    
+
     A --> C
     B --> D
     C --> F
@@ -282,7 +285,7 @@ stateDiagram-v2
     EXECUTING --> VERIFYING: Execution Complete
     VERIFYING --> COMMIT: Validation Pass
     COMMIT --> [*]
-    
+
     SCHEDULING --> FAILED: Parse Error
     EXECUTING --> FAILED: Execution Error
     VERIFYING --> ROLLBACK: Validation Failed
@@ -300,22 +303,22 @@ sequenceDiagram
     participant S as State Machine
     participant SM as Safety Mechanisms
     participant ST as Storage
-    
+
     C->>API: Submit Execution Plan
     API->>E: Create Execution
     E->>S: Initialize State (PENDING)
     S->>ST: Persist State
-    
+
     E->>E: Parse DAG
     E->>S: Transition to SCHEDULING
     E->>E: Schedule Tasks
-    
+
     loop For Each Task
         E->>S: Transition to EXECUTING
         E->>SM: Create Checkpoint
         SM->>ST: Save Checkpoint
         E->>E: Execute Task
-        
+
         alt Success
             E->>S: Update Progress
         else Failure
@@ -324,10 +327,10 @@ sequenceDiagram
             SM->>ST: Restore Checkpoint
         end
     end
-    
+
     E->>S: Transition to VERIFYING
     E->>E: Validate Results
-    
+
     alt Validation Pass
         E->>S: Transition to COMMIT
         S->>ST: Persist Final State
@@ -345,13 +348,13 @@ sequenceDiagram
 
 ### 6.1 SLO 目標
 
-| 指標 | 目標值 | 測量方法 |
-|------|--------|---------|
+| 指標               | 目標值  | 測量方法             |
+| ------------------ | ------- | -------------------- |
 | DAG 解析延遲 (P95) | < 120ms | Prometheus histogram |
-| 狀態轉換延遲 (P90) | < 50ms | Prometheus histogram |
-| 恢復時間目標 (RTO) | < 30s | 手動測試 |
-| 可用性 | > 99.9% | Uptime monitoring |
-| 最大並發執行 | 1000 | 配置限制 |
+| 狀態轉換延遲 (P90) | < 50ms  | Prometheus histogram |
+| 恢復時間目標 (RTO) | < 30s   | 手動測試             |
+| 可用性             | > 99.9% | Uptime monitoring    |
+| 最大並發執行       | 1000    | 配置限制             |
 
 ### 6.2 優化策略
 
@@ -413,11 +416,11 @@ metrics:
 ```yaml
 resources:
   requests:
-    cpu: "500m"
-    memory: "1Gi"
+    cpu: '500m'
+    memory: '1Gi'
   limits:
-    cpu: "2000m"
-    memory: "4Gi"
+    cpu: '2000m'
+    memory: '4Gi'
 ```
 
 **擴展限制**:

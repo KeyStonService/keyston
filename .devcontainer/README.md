@@ -2,7 +2,8 @@
 
 ## 概述
 
-此目錄包含 GitHub Codespaces 和 VS Code Remote Containers 的開發環境配置。配置已經過優化，以防止在 93% 處卡住的問題。
+此目錄包含 GitHub Codespaces 和 VS Code Remote
+Containers 的開發環境配置。配置已經過優化，以防止在 93% 處卡住的問題。
 
 ## 快速開始
 
@@ -277,4 +278,5 @@ sudo apt-get install <tool-name>
 
 ---
 
-**注意**: 這些優化專門針對解決 93% 卡住的問題。如果你遇到其他問題，請查看 [KB.md](./KB.md) 或提交 issue。
+**注意**: 這些優化專門針對解決 93% 卡住的問題。如果你遇到其他問題，請查看
+[KB.md](./KB.md) 或提交 issue。

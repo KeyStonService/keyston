@@ -15,7 +15,7 @@ violation_categories:
       - "Unauthorized access"
       - "Policy bypass"
       - "Process deviation"
-  
+
   regulatory_violations:
     description: "Breaches of regulations"
     examples:
@@ -28,17 +28,17 @@ violation_severity:
     description: "Severe regulatory breach"
     response: "Immediate investigation and remediation"
     reporting: "Board + regulators"
-  
+
   high:
     description: "Significant policy breach"
     response: "Investigation < 24 hours"
     reporting: "Management + board"
-  
+
   medium:
     description: "Moderate compliance issue"
     response: "Investigation < 3 days"
     reporting: "Compliance manager"
-  
+
   low:
     description: "Minor infraction"
     response: "Documented and monitored"

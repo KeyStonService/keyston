@@ -65,7 +65,7 @@ enhanced_integration:
       - "ServiceDiscovery"
       - "HealthMonitoring"
       - "DependencyResolution"
-  
+
   cognitive_processor:
     id: "cognitive_processor"
     module: "core.unified_integration.cognitive_processor"
@@ -81,7 +81,7 @@ enhanced_integration:
       - "L2-Reasoning: 推理層（因果圖構建、風險評分、策略選擇）"
       - "L3-Execution: 執行層（多代理協作、同步屏障、回滾點生成）"
       - "L4-Proof: 證明層（審計鏈固化、SLSA 證據、行為可驗證性）"
-  
+
   configuration_optimizer:
     id: "configuration_optimizer"
     module: "core.unified_integration.configuration_optimizer"
@@ -106,7 +106,8 @@ enhanced_integration:
       - "CapabilityRegistryAlignment"
       - "WorkConfigurationLifecycle"
 
-boot_sequence: ["environment", "dependencies", "constitution", "virtual_experts", "safety", "mind_matrix"]
+boot_sequence:
+  ["environment", "dependencies", "constitution", "virtual_experts", "safety", "mind_matrix"]
 
 # Enhanced Boot Sequence for Full System Integration
 enhanced_boot_sequence:
@@ -115,7 +116,13 @@ enhanced_boot_sequence:
   - phase: "mind_matrix"
     components: ["mind_matrix"]
   - phase: "enhanced_integration"
-    components: ["service_registry", "cognitive_processor", "configuration_optimizer", "work_configuration_manager"]
+    components:
+      [
+        "service_registry",
+        "cognitive_processor",
+        "configuration_optimizer",
+        "work_configuration_manager",
+      ]
   - phase: "services"
     components: ["contracts-l1", "mcp-servers", "slsa-provenance"]
 

@@ -16,11 +16,11 @@ system:
   name: SynergyMesh
   version: "1.0.0"
   description: "無人化自主協同網格系統 - Autonomous Coordination Grid System"
-  environment: development  # development, staging, production
-  
+  environment: development # development, staging, production
+
 # Logging Configuration
 logging:
-  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO # DEBUG, INFO, WARNING, ERROR, CRITICAL
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
   output:
     - console
@@ -124,11 +124,11 @@ phases:
       - PolicyAsPrompt
       - GuardrailSystem
     config:
-      enforcement_mode: strict  # strict, warn, permissive
+      enforcement_mode: strict # strict, warn, permissive
       layers:
-        - FundamentalLaws      # 根本法則
-        - OperationalRules     # 操作規則
-        - AdaptiveGuidelines   # 自適應指南
+        - FundamentalLaws # 根本法則
+        - OperationalRules # 操作規則
+        - AdaptiveGuidelines # 自適應指南
 
   # Phase 7: Knowledge & Skills Training (知識與技能訓練)
   phase_7:

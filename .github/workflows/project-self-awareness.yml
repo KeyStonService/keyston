@@ -9,7 +9,6 @@ on:
       - ready_for_review
   workflow_dispatch:
 
-
 # Cost protection: prevent concurrent runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +16,7 @@ concurrency:
 
 jobs:
   self-awareness-report:
-    timeout-minutes: 10  # Prevent runaway costs
+    timeout-minutes: 10 # Prevent runaway costs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

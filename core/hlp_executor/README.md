@@ -2,7 +2,9 @@
 
 ## 🎯 Overview
 
-The **Hard Logic Plugin (HLP) Executor Core** is an enterprise-grade async DAG orchestration engine designed for mission-critical workflow execution with advanced recovery capabilities.
+The **Hard Logic Plugin (HLP) Executor Core** is an enterprise-grade async DAG
+orchestration engine designed for mission-critical workflow execution with
+advanced recovery capabilities.
 
 ## 🌟 Key Features
 
@@ -66,15 +68,15 @@ kubectl get pods -n unmanned-island-system -l app=hlp-executor-core
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ENVIRONMENT` | Deployment environment | `production` |
-| `LOG_LEVEL` | Logging level | `INFO` |
-| `LOG_FORMAT` | Log format | `json` |
-| `STATE_STORE` | State persistence backend | `kubernetes-etcd` |
-| `PARTIAL_ROLLBACK_ENABLED` | Enable partial rollback | `true` |
-| `QUANTUM_ENABLED` | Enable quantum backend | `false` |
-| `QUANTUM_FALLBACK_MODE` | Fallback mode | `classical` |
+| Variable                   | Description               | Default           |
+| -------------------------- | ------------------------- | ----------------- |
+| `ENVIRONMENT`              | Deployment environment    | `production`      |
+| `LOG_LEVEL`                | Logging level             | `INFO`            |
+| `LOG_FORMAT`               | Log format                | `json`            |
+| `STATE_STORE`              | State persistence backend | `kubernetes-etcd` |
+| `PARTIAL_ROLLBACK_ENABLED` | Enable partial rollback   | `true`            |
+| `QUANTUM_ENABLED`          | Enable quantum backend    | `false`           |
+| `QUANTUM_FALLBACK_MODE`    | Fallback mode             | `classical`       |
 
 ## 🔌 API Endpoints
 
@@ -101,12 +103,12 @@ kubectl get pods -n unmanned-island-system -l app=hlp-executor-core
 
 ## 📊 Performance SLOs
 
-| Metric | Target |
-|--------|--------|
-| DAG Parse Latency (P95) | < 120ms |
-| State Transition Latency (P90) | < 50ms |
-| Recovery Time Objective (RTO) | < 30s |
-| Service Availability | 99.9% |
+| Metric                         | Target  |
+| ------------------------------ | ------- |
+| DAG Parse Latency (P95)        | < 120ms |
+| State Transition Latency (P90) | < 50ms  |
+| Recovery Time Objective (RTO)  | < 30s   |
+| Service Availability           | 99.9%   |
 
 ## 🔒 Security
 
@@ -167,16 +169,16 @@ kubectl get pods -n unmanned-island-system -l app=hlp-executor-core
 
 ## 🔄 Development Status
 
-| Feature | Status | Version |
-|---------|--------|---------|
-| Core DAG Engine | 📋 Planned | 1.0.0 |
-| State Machine | 📋 Planned | 1.0.0 |
-| Partial Rollback | 📋 Planned | 1.0.0 |
-| Retry Policies | 📋 Planned | 1.0.0 |
-| Quantum Integration | 📋 Planned | 1.0.0 |
-| Kubernetes Deployment | ✅ Ready | 1.0.0 |
-| RBAC Configuration | ✅ Ready | 1.0.0 |
-| Monitoring Integration | ✅ Ready | 1.0.0 |
+| Feature                | Status     | Version |
+| ---------------------- | ---------- | ------- |
+| Core DAG Engine        | 📋 Planned | 1.0.0   |
+| State Machine          | 📋 Planned | 1.0.0   |
+| Partial Rollback       | 📋 Planned | 1.0.0   |
+| Retry Policies         | 📋 Planned | 1.0.0   |
+| Quantum Integration    | 📋 Planned | 1.0.0   |
+| Kubernetes Deployment  | ✅ Ready   | 1.0.0   |
+| RBAC Configuration     | ✅ Ready   | 1.0.0   |
+| Monitoring Integration | ✅ Ready   | 1.0.0   |
 
 ## 🚀 Next Steps
 

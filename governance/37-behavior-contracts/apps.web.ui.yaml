@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@frontend-team"
-  
+
   description: |
     Web UI provides user-facing interface for SynergyMesh platform,
     including dashboards, monitoring, configuration, and administration.
-    
+
     Web UI 為 SynergyMesh 平台提供面向使用者的介面，包括儀表板、監控、配置和管理。
 
 # ============================================================================
@@ -29,27 +29,26 @@ contract:
 
 api:
   base_path: "/api/v1/ui"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # User Session Management
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Create Session"
       method: POST
       path: "/sessions"
-      
+
       description: |
         Create authenticated user session.
         創建已驗證的使用者會話。
-      
+
       input_schema:
         type: "object"
         required: ["credentials"]
         properties:
           credentials: { type: "object" }
           remember_me: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -57,12 +56,12 @@ api:
           user: { type: "object" }
           permissions: { type: "array" }
           expires_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Session ID is secure and unique"
         - "Credentials validated"
         - "Permissions loaded"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 500ms"
@@ -73,13 +72,13 @@ api:
     - name: "Get Dashboard Data"
       method: GET
       path: "/dashboard"
-      
+
       description: "Retrieve dashboard metrics and status"
-      
+
       query_parameters:
         time_range: { type: "string" }
         modules: { type: "array" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -87,12 +86,12 @@ api:
           alerts: { type: "array" }
           system_status: { type: "string" }
           last_updated: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Data is fresh (< 5s old)"
         - "Aggregated from all modules"
         - "User permissions respected"
-      
+
       performance:
         response_time_p50: "< 150ms"
         response_time_p99: "< 500ms"
@@ -103,25 +102,25 @@ api:
     - name: "Update Configuration"
       method: PUT
       path: "/config/{module}"
-      
+
       description: |
         Update module configuration through UI.
         透過 UI 更新模組配置。
-      
+
       input_schema:
         type: "object"
         required: ["config_changes"]
         properties:
           config_changes: { type: "object" }
           validate_only: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
           validation_result: { type: "object" }
           applied: { type: "boolean" }
           requires_restart: { type: "boolean" }
-      
+
       guarantees:
         - "Schema validation before apply"
         - "Backup of previous config"
@@ -134,21 +133,21 @@ api:
     - name: "Subscribe to Notifications"
       method: POST
       path: "/notifications/subscribe"
-      
+
       description: "Subscribe to real-time notifications via WebSocket"
-      
+
       input_schema:
         type: "object"
         properties:
           topics: { type: "array" }
           severity_levels: { type: "array" }
-      
+
       output_schema:
         type: "object"
         properties:
           subscription_id: { type: "string" }
           websocket_url: { type: "string" }
-      
+
       guarantees:
         - "WebSocket connection authenticated"
         - "Topic permissions validated"
@@ -160,9 +159,9 @@ api:
     - name: "Update User Preferences"
       method: PUT
       path: "/preferences"
-      
+
       description: "Update user UI preferences"
-      
+
       input_schema:
         type: "object"
         properties:
@@ -170,13 +169,13 @@ api:
           language: { type: "string" }
           dashboard_layout: { type: "object" }
           notification_settings: { type: "object" }
-      
+
       output_schema:
         type: "object"
         properties:
           updated: { type: "boolean" }
           preferences: { type: "object" }
-      
+
       guarantees:
         - "Preferences persisted"
         - "Applied immediately"
@@ -187,11 +186,11 @@ api:
     - name: "Export Data"
       method: POST
       path: "/export"
-      
+
       description: |
         Export dashboard data and reports in various formats.
         以各種格式導出儀表板數據和報告。
-      
+
       input_schema:
         type: "object"
         required: ["export_type", "format"]
@@ -209,7 +208,7 @@ api:
               end: { type: "string", format: "date-time" }
           filters: { type: "object" }
           include_metadata: { type: "boolean", default: true }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -219,13 +218,13 @@ api:
           format: { type: "string" }
           expires_at: { type: "string", format: "date-time" }
           generated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Export includes all requested data"
         - "Format conversion accurate"
         - "Download URL valid for 24 hours"
         - "Large exports handled efficiently"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid date range or filters"
@@ -233,7 +232,7 @@ api:
         - code: 413
           condition: "Export size exceeds limit"
           message: "ERR_EXPORT_TOO_LARGE"
-      
+
       performance:
         response_time_p50: "< 1s"
         response_time_p99: "< 10s"
@@ -243,10 +242,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "ui.session_created"
     description: "Emitted when user session is created"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -254,17 +252,17 @@ events:
         user_id: { type: "string" }
         ip_address: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "services.security"
 
   - name: "ui.config_changed"
     description: "Emitted when configuration is changed through UI"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -272,17 +270,17 @@ events:
         changed_by: { type: "string" }
         changes: { type: "object" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "services.audit"
       - "core.unified_integration"
 
   - name: "ui.critical_action"
     description: "Emitted when user performs critical action"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -290,10 +288,10 @@ events:
         user_id: { type: "string" }
         resource: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "services.audit"
       - "ops.alerting"
@@ -303,22 +301,21 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Authentication Required"
     description: "All UI operations require valid session"
     rule: "forall operation: has_valid_session(operation.user)"
     enforcement: "middleware"
-    
+
   - name: "Permission Enforcement"
     description: "Users can only perform permitted actions"
     rule: "forall action: has_permission(action.user, action.resource, action.operation)"
     enforcement: "authorization-layer"
-    
+
   - name: "Input Validation"
     description: "All user input is validated"
     rule: "forall input: validated(input)"
     enforcement: "pre-condition"
-    
+
   - name: "Audit Trail"
     description: "All critical actions are logged"
     rule: "forall critical_action: exists audit_entry where audit_entry.action = critical_action"
@@ -329,7 +326,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Session Expired"
     triggers:
       - "Session timeout reached"
@@ -340,7 +336,7 @@ failure_modes:
       - "Show session expired message"
     error_code: "SESSION_EXPIRED"
     user_facing: true
-    
+
   - scenario: "API Service Unavailable"
     triggers:
       - "Backend service down"
@@ -351,7 +347,7 @@ failure_modes:
       - "Cache last known state"
     error_code: "SERVICE_UNAVAILABLE"
     user_facing: true
-    
+
   - scenario: "Permission Denied"
     triggers:
       - "User lacks required permission"
@@ -367,16 +363,15 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "services.auth"
       purpose: "Authentication and authorization"
       failure_mode: "critical"
-    
+
     - module: "services.api_gateway"
       purpose: "Backend API access"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.analytics"
       purpose: "User behavior tracking"
@@ -391,17 +386,17 @@ user_experience:
     initial_load: "< 2s"
     page_transition: "< 200ms"
     api_response_feedback: "< 100ms"
-  
+
   accessibility:
     wcag_level: "AA"
     keyboard_navigation: true
     screen_reader_support: true
-  
+
   responsiveness:
     mobile_support: true
     tablet_support: true
     desktop_optimized: true
-  
+
   internationalization:
     supported_languages: ["en", "zh-TW"]
     rtl_support: false
@@ -416,14 +411,14 @@ security:
     httponly: true
     samesite: "strict"
     session_timeout: "30 minutes"
-  
+
   content_security_policy:
     enabled: true
     directives:
       - "default-src 'self'"
       - "script-src 'self'"
       - "style-src 'self' 'unsafe-inline'"
-  
+
   xss_protection: true
   csrf_protection: true
 
@@ -446,13 +441,13 @@ observability:
     - name: "ui_config_changes_total"
       type: "counter"
       labels: ["module", "user"]
-  
+
   logs:
     level: "INFO"
     user_actions: "INFO"
     errors: "ERROR"
     structured: true
-  
+
   alerts:
     - condition: "ui_api_errors_total > 100/hour"
       severity: "high"
@@ -469,20 +464,20 @@ testing:
   unit_tests:
     coverage_min: 70
     framework: "Jest/Vitest"
-  
+
   integration_tests:
     required:
       - "Authentication flow"
       - "Dashboard data loading"
       - "Configuration updates"
-  
+
   e2e_tests:
     required:
       - "User login and logout"
       - "Dashboard navigation"
       - "Critical user workflows"
     framework: "Playwright/Cypress"
-  
+
   accessibility_tests:
     automated: true
     manual_review: true

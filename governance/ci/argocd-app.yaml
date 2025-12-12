@@ -25,8 +25,8 @@ spec:
 
     directory:
       recurse: true
-      include: '*.yaml'
-      exclude: '{ci/**,scripts/**,tests/**}'
+      include: "*.yaml"
+      exclude: "{ci/**,scripts/**,tests/**}"
 
   destination:
     server: https://kubernetes.default.svc
@@ -81,17 +81,17 @@ spec:
 
   template:
     metadata:
-      name: 'dimension-{{path.basename}}'
+      name: "dimension-{{path.basename}}"
       namespace: argocd
       labels:
-        app.kubernetes.io/name: '{{path.basename}}'
+        app.kubernetes.io/name: "{{path.basename}}"
         app.kubernetes.io/part-of: governance-dimensions
     spec:
       project: default
       source:
         repoURL: https://github.com/SynergyMesh-admin/SynergyMesh.git
         targetRevision: HEAD
-        path: '{{path}}'
+        path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: governance

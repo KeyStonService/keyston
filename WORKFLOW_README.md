@@ -2,7 +2,8 @@
 
 # 工作流程系統 v2.0.0
 
-🎉 **Production-Ready Workflow Orchestration Platform** | **生產就緒的工作流程編排平台**
+🎉 **Production-Ready Workflow Orchestration Platform** |
+**生產就緒的工作流程編排平台**
 
 ---
 
@@ -84,13 +85,13 @@ docker-compose -f docker-compose.workflow.yml up -d
 
 ## 📊 Performance | 性能
 
-| Metric | Target | Actual |
-|--------|--------|--------|
-| Analysis | < 300s | 180s |
-| Validation | < 60s | 45s |
-| Build | < 600s | 420s |
-| Deployment | 0s downtime | ✓ 0s |
-| Response Time | ≤ 200ms | 150ms |
+| Metric        | Target      | Actual |
+| ------------- | ----------- | ------ |
+| Analysis      | < 300s      | 180s   |
+| Validation    | < 60s       | 45s    |
+| Build         | < 600s      | 420s   |
+| Deployment    | 0s downtime | ✓ 0s   |
+| Response Time | ≤ 200ms     | 150ms  |
 
 ## 🏗️ Architecture | 架構
 
@@ -248,7 +249,8 @@ pip install synergymesh-workflow
 
 - 📖 Documentation: [docs/](docs/)
 - 🐛 Issues: [GitHub Issues](https://github.com/synergymesh/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/synergymesh/discussions)
+- 💬 Discussions:
+  [GitHub Discussions](https://github.com/synergymesh/discussions)
 
 ## 📄 License | 許可證
 

@@ -2,7 +2,8 @@
 
 ## 🎯 Purpose / 目的
 
-This guide provides instructions for deploying the Governance-as-Code (GaC) resources to a Kubernetes cluster.  
+This guide provides instructions for deploying the Governance-as-Code (GaC)
+resources to a Kubernetes cluster.  
 本指南提供將治理即代碼 (GaC) 資源部署到 Kubernetes 集群的說明。
 
 ---
@@ -274,7 +275,8 @@ echo "Total should be: 9"
 
 ## 🔄 Continuous Deployment / 持續部署
 
-Once deployed with GitOps (Option 2), changes to strategic YAMLs will automatically trigger updates:  
+Once deployed with GitOps (Option 2), changes to strategic YAMLs will
+automatically trigger updates:  
 一旦使用 GitOps（選項 2）部署，對戰略 YAML 的更改將自動觸發更新：
 
 1. **Edit strategic YAML** / 編輯戰略 YAML
@@ -337,7 +339,8 @@ kubectl delete namespace governance --ignore-not-found
 ## 📚 References / 參考資料
 
 - **Phase 3 README**: `governance/00-vision-strategy/PHASE3_README.md`
-- **Architecture Blueprint**: `governance/00-vision-strategy/gac-architecture.yaml`
+- **Architecture Blueprint**:
+  `governance/00-vision-strategy/gac-architecture.yaml`
 - **Project State**: `governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md`
 
 ---

@@ -13,28 +13,27 @@ audit_overview:
 
 # 審計目標 | Audit Objectives
 audit_objectives:
-
   primary_objectives:
     - objective_id: "AO-001"
       name: "流程合規性"
       english_name: "Process Compliance"
       description: "Verify decisions follow established governance processes"
-      
+
     - objective_id: "AO-002"
       name: "政策遵循"
       english_name: "Policy Adherence"
       description: "Ensure decisions comply with organizational policies"
-      
+
     - objective_id: "AO-003"
       name: "文檔完整性"
       english_name: "Documentation Completeness"
       description: "Confirm decision records are complete and accurate"
-      
+
     - objective_id: "AO-004"
       name: "權限適當性"
       english_name: "Authority Appropriateness"
       description: "Validate decisions made by appropriate authority levels"
-      
+
     - objective_id: "AO-005"
       name: "風險管理有效性"
       english_name: "Risk Management Effectiveness"
@@ -45,12 +44,12 @@ audit_objectives:
       name: "決策質量"
       english_name: "Decision Quality"
       description: "Evaluate quality and outcomes of decisions"
-      
+
     - objective_id: "AO-007"
       name: "流程效率"
       english_name: "Process Efficiency"
       description: "Identify opportunities for process improvement"
-      
+
     - objective_id: "AO-008"
       name: "利益相關方參與"
       english_name: "Stakeholder Engagement"
@@ -58,7 +57,6 @@ audit_objectives:
 
 # 審計範圍 | Audit Scope
 audit_scope:
-
   in_scope:
     decision_types:
       - "戰略決策 | Strategic decisions"
@@ -67,7 +65,7 @@ audit_scope:
       - "架構決策 | Architecture decisions"
       - "風險決策 | Risk decisions"
       - "變更決策 | Change decisions"
-    
+
     audit_areas:
       - "決策啟動與批准 | Decision initiation and approval"
       - "分析和評估 | Analysis and evaluation"
@@ -76,7 +74,7 @@ audit_scope:
       - "實施執行 | Implementation execution"
       - "結果審查 | Outcome review"
       - "文檔和記錄 | Documentation and records"
-    
+
     time_periods:
       - "當前季度所有決策 | All decisions in current quarter"
       - "上季度高風險決策 | High-risk decisions from previous quarter"
@@ -89,37 +87,36 @@ audit_scope:
 
 # 審計方法 | Audit Methodology
 audit_methodology:
-
   audit_approach:
     type: "risk_based"
     description: "Focus on high-risk areas and decisions with significant impact"
-    
+
   audit_techniques:
     - technique: "文檔審查"
       english: "Document Review"
       description: "Examine decision records, supporting documents, and audit trails"
       applicability: "all_decisions"
-      
+
     - technique: "訪談"
       english: "Interviews"
       description: "Interview decision owners, approvers, and stakeholders"
       applicability: "selected_decisions"
-      
+
     - technique: "流程追蹤"
       english: "Process Walkthrough"
       description: "Trace decisions through entire lifecycle"
       applicability: "sample_decisions"
-      
+
     - technique: "數據分析"
       english: "Data Analytics"
       description: "Analyze patterns, trends, and anomalies in decision data"
       applicability: "all_decisions"
-      
+
     - technique: "合規性測試"
       english: "Compliance Testing"
       description: "Test adherence to policies and procedures"
       applicability: "risk_based_sample"
-      
+
     - technique: "實質性測試"
       english: "Substantive Testing"
       description: "Verify accuracy and validity of decision information"
@@ -129,7 +126,7 @@ audit_methodology:
     strategic_decisions:
       approach: "100% coverage"
       reason: "High impact and relatively low volume"
-      
+
     tactical_decisions:
       approach: "risk_based_sampling"
       sample_size: "30% or minimum 25 decisions"
@@ -138,7 +135,7 @@ audit_methodology:
         - "高影響決策 | High-impact decisions"
         - "跨部門決策 | Cross-departmental decisions"
         - "創新或首次決策 | Novel or first-time decisions"
-      
+
     operational_decisions:
       approach: "random_sampling"
       sample_size: "10% or minimum 20 decisions"
@@ -148,7 +145,6 @@ audit_methodology:
 
 # 審計計劃 | Audit Plan
 audit_plan:
-
   annual_audit_cycle:
     Q1:
       focus: "上年度決策效果評估 | Prior year decision effectiveness assessment"
@@ -157,7 +153,7 @@ audit_plan:
         - "評估決策成果 | Assess decision outcomes"
         - "識別改進機會 | Identify improvement opportunities"
       deliverable: "年度決策效果報告 | Annual decision effectiveness report"
-      
+
     Q2:
       focus: "流程合規性審計 | Process compliance audit"
       activities:
@@ -165,7 +161,7 @@ audit_plan:
         - "驗證權限矩陣執行 | Verify authority matrix execution"
         - "評估文檔完整性 | Assess documentation completeness"
       deliverable: "流程合規性報告 | Process compliance report"
-      
+
     Q3:
       focus: "風險管理審計 | Risk management audit"
       activities:
@@ -173,7 +169,7 @@ audit_plan:
         - "審查風險緩解措施 | Review risk mitigation measures"
         - "驗證風險監控有效性 | Verify risk monitoring effectiveness"
       deliverable: "風險管理審計報告 | Risk management audit report"
-      
+
     Q4:
       focus: "合規性和政策審計 | Compliance and policy audit"
       activities:
@@ -193,36 +189,35 @@ audit_plan:
 
 # 審計檢查清單 | Audit Checklist
 audit_checklist:
-
   process_compliance_checks:
     - check_id: "PC-001"
       item: "決策按規定流程啟動 | Decision initiated per defined process"
       verification: "檢查決策記錄創建時間和方法 | Check decision record creation time and method"
-      
+
     - check_id: "PC-002"
       item: "利益相關方適當識別和參與 | Stakeholders properly identified and engaged"
       verification: "驗證利益相關方清單和溝通記錄 | Verify stakeholder list and communication records"
-      
+
     - check_id: "PC-003"
       item: "替代方案已充分考慮 | Alternatives adequately considered"
       verification: "審查替代方案分析文檔 | Review alternatives analysis documentation"
-      
+
     - check_id: "PC-004"
       item: "風險評估已執行 | Risk assessment conducted"
       verification: "檢查風險評估報告 | Check risk assessment report"
-      
+
     - check_id: "PC-005"
       item: "合規性檢查已完成 | Compliance check completed"
       verification: "驗證合規性簽核 | Verify compliance sign-off"
-      
+
     - check_id: "PC-006"
       item: "適當權限級別批准 | Approved by appropriate authority level"
       verification: "驗證批准簽名與權限矩陣 | Verify approval signature against authority matrix"
-      
+
     - check_id: "PC-007"
       item: "實施計劃已制定 | Implementation plan developed"
       verification: "審查實施計劃文檔 | Review implementation plan documentation"
-      
+
     - check_id: "PC-008"
       item: "實施結果已審查 | Implementation results reviewed"
       verification: "檢查審查報告 | Check review report"
@@ -231,19 +226,19 @@ audit_checklist:
     - check_id: "DC-001"
       item: "決策記錄完整 | Decision record complete"
       verification: "對照模板檢查所有必填字段 | Check all required fields against template"
-      
+
     - check_id: "DC-002"
       item: "支持文檔充分 | Supporting documentation adequate"
       verification: "驗證所有引用文檔存在 | Verify all referenced documents exist"
-      
+
     - check_id: "DC-003"
       item: "審計追蹤完整 | Audit trail complete"
       verification: "追蹤所有狀態變更和修改 | Trace all status changes and modifications"
-      
+
     - check_id: "DC-004"
       item: "批准證據存在 | Approval evidence exists"
       verification: "檢查批准簽名和日期 | Check approval signatures and dates"
-      
+
     - check_id: "DC-005"
       item: "文檔易於訪問 | Documentation easily accessible"
       verification: "嘗試檢索文檔 | Attempt to retrieve documentation"
@@ -252,45 +247,44 @@ audit_checklist:
     - check_id: "QC-001"
       item: "分析深度充分 | Analysis depth adequate"
       verification: "評估分析報告的全面性 | Assess comprehensiveness of analysis report"
-      
+
     - check_id: "QC-002"
       item: "數據和假設合理 | Data and assumptions reasonable"
       verification: "驗證數據來源和假設合理性 | Verify data sources and reasonableness of assumptions"
-      
+
     - check_id: "QC-003"
       item: "決策理由清晰 | Decision rationale clear"
       verification: "評估理由說明的清晰度 | Assess clarity of rationale explanation"
-      
+
     - check_id: "QC-004"
       item: "預期收益可衡量 | Expected benefits measurable"
       verification: "檢查收益指標定義 | Check benefit metric definitions"
-      
+
     - check_id: "QC-005"
       item: "成功標準明確 | Success criteria clear"
       verification: "審查成功標準文檔 | Review success criteria documentation"
 
 # 審計發現 | Audit Findings
 audit_findings:
-
   finding_classification:
     critical:
       severity: "嚴重 | Critical"
       description: "Major non-compliance or risk to organization"
       response_time: "立即 | Immediate"
       escalation: "governance_board"
-      
+
     high:
       severity: "高 | High"
       description: "Significant process deviation or compliance issue"
       response_time: "7 天內 | Within 7 days"
       escalation: "governance_manager"
-      
+
     medium:
       severity: "中 | Medium"
       description: "Process inefficiency or minor compliance gap"
       response_time: "30 天內 | Within 30 days"
       escalation: "process_owner"
-      
+
     low:
       severity: "低 | Low"
       description: "Best practice opportunity or minor documentation issue"
@@ -308,7 +302,7 @@ audit_findings:
       - "建議 | Recommendation"
       - "負責人 | Responsible party"
       - "截止日期 | Due date"
-    
+
     tracking:
       system: "audit_management_system"
       status_values:
@@ -320,7 +314,6 @@ audit_findings:
 
 # 審計報告 | Audit Reporting
 audit_reporting:
-
   audit_report_structure:
     executive_summary:
       content:
@@ -329,7 +322,7 @@ audit_reporting:
         - "整體評估 | Overall assessment"
         - "主要建議 | Key recommendations"
       audience: "governance_board, executive_team"
-      
+
     detailed_findings:
       content:
         - "發現詳情 | Detailed findings"
@@ -337,7 +330,7 @@ audit_reporting:
         - "影響分析 | Impact analysis"
         - "建議行動 | Recommended actions"
       audience: "governance_manager, process_owners"
-      
+
     management_response:
       content:
         - "管理層回應 | Management response"
@@ -345,7 +338,7 @@ audit_reporting:
         - "負責人 | Responsible parties"
         - "完成日期 | Completion dates"
       required_by: "管理層 | Management"
-      
+
     appendices:
       content:
         - "審計方法 | Audit methodology"
@@ -358,13 +351,13 @@ audit_reporting:
       - "governance_board"
       - "chief_governance_officer"
       - "audit_committee"
-    
+
     secondary_recipients:
       - "governance_manager"
       - "affected_process_owners"
       - "risk_manager"
       - "compliance_manager"
-    
+
     timing: "審計完成後 10 個工作日內 | Within 10 business days of audit completion"
 
   follow_up_audits:
@@ -374,17 +367,16 @@ audit_reporting:
 
 # 審計指標 | Audit Metrics
 audit_metrics:
-
   audit_coverage:
     metric: "審計覆蓋率 | Audit Coverage Rate"
     calculation: "(審計的決策數 / 總決策數) × 100%"
     target: "> 30%"
-    
+
   finding_closure_rate:
     metric: "發現關閉率 | Finding Closure Rate"
     calculation: "(關閉的發現數 / 總發現數) × 100%"
     target: "> 85%"
-    
+
   average_closure_time:
     metric: "平均關閉時間 | Average Closure Time"
     calculation: "總關閉時間 / 關閉的發現數"
@@ -393,12 +385,12 @@ audit_metrics:
       high: "< 30 days"
       medium: "< 60 days"
       low: "< 90 days"
-    
+
   repeat_findings:
     metric: "重複發現率 | Repeat Findings Rate"
     calculation: "(重複發現數 / 總發現數) × 100%"
     target: "< 10%"
-    
+
   audit_satisfaction:
     metric: "審計滿意度 | Audit Satisfaction"
     calculation: "利益相關方調查評分 | Stakeholder survey score"
@@ -406,17 +398,16 @@ audit_metrics:
 
 # 審計質量保證 | Audit Quality Assurance
 audit_quality_assurance:
-
   peer_review:
     frequency: "每次主要審計 | For each major audit"
     reviewer: "senior_auditor"
     scope: "審計程序和發現 | Audit procedures and findings"
-    
+
   supervisory_review:
     frequency: "所有審計報告 | All audit reports"
     reviewer: "audit_director"
     scope: "完整審計工作產品 | Complete audit work product"
-    
+
   external_assessment:
     frequency: "每 3 年 | Every 3 years"
     assessor: "external_audit_firm"
@@ -424,7 +415,6 @@ audit_quality_assurance:
 
 # 持續改進 | Continuous Improvement
 continuous_improvement:
-
   audit_process_review:
     frequency: "annual"
     activities:
@@ -432,7 +422,7 @@ continuous_improvement:
       - "評估審計工具 | Evaluate audit tools"
       - "更新審計檢查清單 | Update audit checklists"
       - "培訓審計人員 | Train audit staff"
-      
+
   lessons_learned:
     capture_timing: "每次審計完成後 | After each audit completion"
     content:
@@ -441,7 +431,7 @@ continuous_improvement:
       - "意外發現 | Unexpected findings"
       - "最佳實踐 | Best practices"
     storage: "audit_knowledge_base"
-    
+
   stakeholder_feedback:
     method: "post_audit_survey"
     frequency: "每次審計後 | After each audit"

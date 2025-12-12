@@ -78,17 +78,17 @@ permissions:
     resource: tenant
     action: create
     description: 建立新租戶
-  
+
   - id: "tenant:read"
     resource: tenant
     action: read
     description: 檢視租戶資訊
-  
+
   - id: "tenant:update"
     resource: tenant
     action: update
     description: 更新租戶設定
-  
+
   - id: "tenant:delete"
     resource: tenant
     action: delete
@@ -99,17 +99,17 @@ permissions:
     resource: project
     action: create
     description: 建立新專案
-  
+
   - id: "project:read"
     resource: project
     action: read
     description: 檢視專案資訊
-  
+
   - id: "project:update"
     resource: project
     action: update
     description: 更新專案設定
-  
+
   - id: "project:delete"
     resource: project
     action: delete
@@ -120,22 +120,22 @@ permissions:
     resource: deployment
     action: create
     description: 建立新部署
-  
+
   - id: "deployment:read"
     resource: deployment
     action: read
     description: 檢視部署狀態
-  
+
   - id: "deployment:update"
     resource: deployment
     action: update
     description: 更新部署配置
-  
+
   - id: "deployment:rollback"
     resource: deployment
     action: rollback
     description: 回滾部署
-  
+
   - id: "deployment:delete"
     resource: deployment
     action: delete
@@ -146,17 +146,17 @@ permissions:
     resource: agent
     action: create
     description: 建立新 Agent
-  
+
   - id: "agent:read"
     resource: agent
     action: read
     description: 檢視 Agent 資訊
-  
+
   - id: "agent:update"
     resource: agent
     action: update
     description: 更新 Agent 配置
-  
+
   - id: "agent:delete"
     resource: agent
     action: delete
@@ -167,12 +167,12 @@ permissions:
     resource: knowledge
     action: read
     description: 查詢知識庫
-  
+
   - id: "knowledge:write"
     resource: knowledge
     action: write
     description: 寫入知識庫
-  
+
   - id: "knowledge:delete"
     resource: knowledge
     action: delete
@@ -183,7 +183,7 @@ permissions:
     resource: billing
     action: read
     description: 檢視帳務資訊
-  
+
   - id: "billing:update"
     resource: billing
     action: update

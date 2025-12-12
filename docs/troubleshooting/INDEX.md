@@ -34,35 +34,35 @@ example, before handing the repo to another agent):
 
 1. Seed the operation catalog once per repo clone:
 
-  ```bash
-  cd tools/cli
-  npm run dev -- automation:setup
-  ```
+```bash
+cd tools/cli
+npm run dev -- automation:setup
+```
 
 1. Run the sample-friendly subset (safe for quick spot checks):
 
-  ```bash
-  npm run dev -- automation:run --sample
-  ```
+```bash
+npm run dev -- automation:run --sample
+```
 
-  This updates `tools/cli/island.automation.json`, records the mode as
-  `sample`, and automatically writes `reports/self-awareness-sample.md` plus
-  `reports/self-awareness-sample.json`.
+This updates `tools/cli/island.automation.json`, records the mode as `sample`,
+and automatically writes `reports/self-awareness-sample.md` plus
+`reports/self-awareness-sample.json`.
 
 1. Omit `--sample` to perform the full automation chain before deployments; the
-  CLI will emit `reports/self-awareness-full.*` with the stricter run.
+   CLI will emit `reports/self-awareness-full.*` with the stricter run.
 
 2. Need to re-run the reporter manually (for ad-hoc debugging)? Execute:
 
-  ```bash
-  python automation/self_awareness_report.py \
-    --lint-cmd "npm run lint --workspaces --if-present" \
-    --test-cmd "npm test --workspaces --if-present" \
-    --automation-cmd "Audit=npm audit --workspaces --include-workspace-root" \
-    --output reports/self-awareness-manual.md \
-    --json-output reports/self-awareness-manual.json \
-    --fail-on-errors
-  ```
+```bash
+python automation/self_awareness_report.py \
+  --lint-cmd "npm run lint --workspaces --if-present" \
+  --test-cmd "npm test --workspaces --if-present" \
+  --automation-cmd "Audit=npm audit --workspaces --include-workspace-root" \
+  --output reports/self-awareness-manual.md \
+  --json-output reports/self-awareness-manual.json \
+  --fail-on-errors
+```
 
 The `--json-output` flag emits a machine-readable report for dashboards, while
 `--fail-on-errors` keeps automation signals red whenever a command exits non-0.

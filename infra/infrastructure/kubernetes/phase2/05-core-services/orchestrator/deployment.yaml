@@ -19,28 +19,28 @@ spec:
     spec:
       serviceAccountName: autofix-sa
       containers:
-      - name: orchestrator
-        image: autofix/orchestrator:latest
-        ports:
-        - containerPort: 8083
-        envFrom:
-        - configMapRef:
-            name: autofix-config
-        env:
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: DATABASE_PASSWORD
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: autofix-secrets
-              key: REDIS_PASSWORD
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
+        - name: orchestrator
+          image: autofix/orchestrator:latest
+          ports:
+            - containerPort: 8083
+          envFrom:
+            - configMapRef:
+                name: autofix-config
+          env:
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: DATABASE_PASSWORD
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autofix-secrets
+                  key: REDIS_PASSWORD
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"

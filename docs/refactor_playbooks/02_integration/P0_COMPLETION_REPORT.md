@@ -8,9 +8,15 @@
 
 ## 📊 Executive Summary / 執行摘要
 
-Successfully completed Phase 0 (P0) of the Baseline YAML integration project. All 8 critical files have been extracted from `_legacy_scratch`, refactored, and integrated into their proper production locations. This establishes the constitutional-level (L-A) governance, security, and compliance foundation for the Unmanned Island System.
+Successfully completed Phase 0 (P0) of the Baseline YAML integration project.
+All 8 critical files have been extracted from `_legacy_scratch`, refactored, and
+integrated into their proper production locations. This establishes the
+constitutional-level (L-A) governance, security, and compliance foundation for
+the Unmanned Island System.
 
-成功完成基線 YAML 整合專案的 P0 階段。所有 8 個關鍵檔案已從 `_legacy_scratch` 提取、重構並整合到正確的生產位置。這為 Unmanned Island 系統建立了憲法級別 (L-A) 的治理、安全和合規基礎。
+成功完成基線 YAML 整合專案的 P0 階段。所有 8 個關鍵檔案已從 `_legacy_scratch`
+提取、重構並整合到正確的生產位置。這為 Unmanned
+Island 系統建立了憲法級別 (L-A) 的治理、安全和合規基礎。
 
 ---
 
@@ -25,7 +31,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 **Key Features:**
 
-- ✅ 5 environment naming patterns (production, staging, development, feature, tenant)
+- ✅ 5 environment naming patterns (production, staging, development, feature,
+  tenant)
 - ✅ Regex validation for each pattern
 - ✅ Forbidden prefix enforcement (kube-, kubernetes-, system-)
 - ✅ Length constraints (3-63 characters)
@@ -47,7 +54,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 **Key Features:**
 
-- ✅ 6-tier RBAC role hierarchy (cluster-admin, platform-operator, developer, viewer, ci-cd-automation, security-auditor)
+- ✅ 6-tier RBAC role hierarchy (cluster-admin, platform-operator, developer,
+  viewer, ci-cd-automation, security-auditor)
 - ✅ Permission definitions with verbs mapping
 - ✅ MFA requirements for privileged roles
 - ✅ Token rotation policies (30 days for ci-cd)
@@ -72,7 +80,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 - ✅ 3-level audit logging (Metadata, Request, RequestResponse)
 - ✅ 7-year log retention for compliance
 - ✅ S3-compatible archive storage with AES-256-GCM encryption
-- ✅ 5 alert types (unauthorized access, privilege escalation, anomalous behavior, secret access, RBAC changes)
+- ✅ 5 alert types (unauthorized access, privilege escalation, anomalous
+  behavior, secret access, RBAC changes)
 - ✅ SIEM integration support
 - ✅ Performance optimization (batching, async processing)
 
@@ -93,7 +102,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 - ✅ 4 compliance frameworks (SOC2 Type II, GDPR, PCI DSS 4.0, ISO27001)
 - ✅ Control mappings (CC6.1, CC7.2, CC7.3 for SOC2)
-- ✅ GDPR principles (data minimization, purpose limitation, data subject rights)
+- ✅ GDPR principles (data minimization, purpose limitation, data subject
+  rights)
 - ✅ PCI DSS requirements (network security, data protection, access logging)
 - ✅ Policy-as-Code integration (OPA Gatekeeper, Kyverno)
 - ✅ Attestation generation every 6 hours
@@ -116,8 +126,10 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 **Key Features:**
 
-- ✅ 10 required labels (app.kubernetes.io/*, environment, owner, cost-center, compliance.level, baseline.level)
-- ✅ 5 optional labels (security.scan.required, backup.enabled, monitoring.tier, network.zone, tenant-id)
+- ✅ 10 required labels (app.kubernetes.io/\*, environment, owner, cost-center,
+  compliance.level, baseline.level)
+- ✅ 5 optional labels (security.scan.required, backup.enabled, monitoring.tier,
+  network.zone, tenant-id)
 - ✅ JSON Schema Draft-07 format
 - ✅ Pattern validation for each label
 - ✅ Enum constraints for categorical labels
@@ -144,7 +156,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 - ✅ Resource quotas per tier (CPU, memory, storage, pods, services)
 - ✅ SLA targets per tier (99.95% for enterprise, 99.0% for development)
 - ✅ Cost model (base monthly fee + usage-based pricing)
-- ✅ Feature matrix (dedicated nodes, GPU access, quantum computing, advanced monitoring)
+- ✅ Feature matrix (dedicated nodes, GPU access, quantum computing, advanced
+  monitoring)
 - ✅ Discount tiers (10% @ $10k, 20% @ $50k, 30% @ $100k monthly spend)
 - ✅ Enforcement policies (hard limits, burst allowance, grace period)
 
@@ -180,7 +193,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 #### 📚 KUBERNETES_BASELINE_GUIDE.md
 
-**Location:** `docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`  
+**Location:**
+`docs/refactor_playbooks/03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md`  
 **Source:** Synthesized from all 6 baseline files
 
 **Key Features:**
@@ -204,18 +218,18 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 ## 📈 Integration Statistics / 整合統計
 
-| Metric | Value |
-|--------|-------|
-| **Files Migrated** | 8 |
-| **Lines of Code** | ~58,000 |
-| **Governance Policies** | 4 |
-| **JSON Schemas** | 1 |
-| **Configuration Files** | 1 |
-| **Documentation Pages** | 2 |
-| **RBAC Roles Defined** | 6 |
-| **Compliance Frameworks** | 4 |
-| **Tenant Tiers** | 4 |
-| **Audit Retention (years)** | 7 |
+| Metric                      | Value   |
+| --------------------------- | ------- |
+| **Files Migrated**          | 8       |
+| **Lines of Code**           | ~58,000 |
+| **Governance Policies**     | 4       |
+| **JSON Schemas**            | 1       |
+| **Configuration Files**     | 1       |
+| **Documentation Pages**     | 2       |
+| **RBAC Roles Defined**      | 6       |
+| **Compliance Frameworks**   | 4       |
+| **Tenant Tiers**            | 4       |
+| **Audit Retention (years)** | 7       |
 
 ---
 
@@ -223,15 +237,20 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 ### ✅ Primary Objectives
 
-1. **Extract Critical Logic:** Successfully extracted governance, security, and compliance logic from 6 baseline YAML files
-2. **Establish Proper Structure:** Integrated into correct repository locations following existing conventions
-3. **Create Reusable Assets:** Policies, schemas, and configurations are now reusable across the system
+1. **Extract Critical Logic:** Successfully extracted governance, security, and
+   compliance logic from 6 baseline YAML files
+2. **Establish Proper Structure:** Integrated into correct repository locations
+   following existing conventions
+3. **Create Reusable Assets:** Policies, schemas, and configurations are now
+   reusable across the system
 4. **Document Thoroughly:** Comprehensive guides enable self-service deployment
-5. **Maintain Compliance:** All content maintains compliance with SOC2, GDPR, PCI-DSS, ISO27001
+5. **Maintain Compliance:** All content maintains compliance with SOC2, GDPR,
+   PCI-DSS, ISO27001
 
 ### ✅ Secondary Objectives
 
-1. **Bilingual Support:** All files include Traditional Chinese + English descriptions
+1. **Bilingual Support:** All files include Traditional Chinese + English
+   descriptions
 2. **Schema Validation:** JSON Schema enables automated validation
 3. **Policy as Code:** Integration with OPA Gatekeeper and Kyverno
 4. **Cost Transparency:** Clear cost model with tiered pricing
@@ -247,16 +266,23 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 **High-Priority Items:**
 
-1. **Capability Registry Schema** - `governance/schemas/capability-registry.schema.json`
+1. **Capability Registry Schema** -
+   `governance/schemas/capability-registry.schema.json`
 2. **State Machine Extension** - Expand `governance/schemas/state-machine.yaml`
-3. **Pod Security Standards** - `governance/policies/security/pod-security-standards.yaml`
+3. **Pod Security Standards** -
+   `governance/policies/security/pod-security-standards.yaml`
 4. **Security Network Config** - Extend `config/security-network-config.yml`
-5. **Resource Quota Templates** - 4 tenant tier templates in `infrastructure/kubernetes/templates/resource-quotas/`
-6. **Network Policy Templates** - Microsegmentation templates in `infrastructure/kubernetes/templates/network-policies/`
-7. **Istio Configuration** - Service mesh policies in `infrastructure/kubernetes/istio/`
+5. **Resource Quota Templates** - 4 tenant tier templates in
+   `infrastructure/kubernetes/templates/resource-quotas/`
+6. **Network Policy Templates** - Microsegmentation templates in
+   `infrastructure/kubernetes/templates/network-policies/`
+7. **Istio Configuration** - Service mesh policies in
+   `infrastructure/kubernetes/istio/`
 8. **Compliance Sub-Frameworks** - SOC2, GDPR, PCI-DSS individual policies
-9. **Drift Detection Rules** - `automation/intelligent/drift-detection-rules.yaml`
-10. **Security Documentation** - Zero Trust, encryption, network segmentation guides
+9. **Drift Detection Rules** -
+   `automation/intelligent/drift-detection-rules.yaml`
+10. **Security Documentation** - Zero Trust, encryption, network segmentation
+    guides
 
 **Expected Outcome:** Complete non-quantum baseline integration
 
@@ -270,11 +296,14 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 **Items:**
 
-1. **Quantum Circuit Library** - 4 circuit definitions in `core/quantum-circuits/`
+1. **Quantum Circuit Library** - 4 circuit definitions in
+   `core/quantum-circuits/`
 2. **Quantum Resource Pool** - `config/quantum-resource-pool.yaml`
-3. **Quantum Workflows** - 2 Argo workflow templates in `automation/quantum-workflows/`
+3. **Quantum Workflows** - 2 Argo workflow templates in
+   `automation/quantum-workflows/`
 4. **Quantum Execution Tools** - 2 Python scripts in `tools/quantum/`
-5. **Quantum Documentation** - `docs/refactor_playbooks/03_refactor/meta/QUANTUM_ORCHESTRATION_GUIDE.md`
+5. **Quantum Documentation** -
+   `docs/refactor_playbooks/03_refactor/meta/QUANTUM_ORCHESTRATION_GUIDE.md`
 
 **Expected Outcome:** Full quantum orchestration capability (optional feature)
 
@@ -293,7 +322,8 @@ Successfully completed Phase 0 (P0) of the Baseline YAML integration project. Al
 
 ### ⏳ Automated Validation Pending
 
-- [ ] `tools/docs/validate_baseline_migration.py --phase P0` (script to be created in P1)
+- [ ] `tools/docs/validate_baseline_migration.py --phase P0` (script to be
+      created in P1)
 - [ ] CI workflow integration
 - [ ] Lint checks (yamllint, markdownlint)
 - [ ] Schema validation tests
@@ -348,7 +378,8 @@ Status: Modular, maintainable, production-ready ✅
 
 **Key Improvements:**
 
-- 📦 **Separation of Concerns:** Policies, schemas, configuration, and documentation are separated
+- 📦 **Separation of Concerns:** Policies, schemas, configuration, and
+  documentation are separated
 - 🔄 **Reusability:** Each component can be reused independently
 - 📈 **Scalability:** Easy to add new policies, schemas, or tenant tiers
 - 🛡️ **Security:** Clear security boundaries with RBAC and audit policies
@@ -362,7 +393,8 @@ Status: Modular, maintainable, production-ready ✅
 
 1. **Comprehensive Planning:** The 25KB integration plan provided clear roadmap
 2. **Prioritization:** P0/P1/P2 breakdown enabled incremental delivery
-3. **Bilingual Documentation:** Traditional Chinese + English improves accessibility
+3. **Bilingual Documentation:** Traditional Chinese + English improves
+   accessibility
 4. **JSON Schema Adoption:** Enables automated validation
 5. **Detailed Guides:** 15KB deployment guide reduces support burden
 
@@ -418,42 +450,43 @@ Status: Modular, maintainable, production-ready ✅
 2. **Zero Trust:** All policies assume breach posture
 3. **Encryption:** AES-256-GCM at rest, TLS 1.3 in transit, post-quantum ready
 4. **Audit Trail:** 7-year retention with immutable storage
-5. **MFA Required:** For all privileged roles (cluster-admin, platform-operator, security-auditor)
+5. **MFA Required:** For all privileged roles (cluster-admin, platform-operator,
+   security-auditor)
 
 ### Compliance Mappings
 
-| Framework | Controls Covered | Evidence | Validation |
-|-----------|------------------|----------|------------|
-| **SOC2 Type II** | CC6.1, CC7.2, CC7.3 | IAM logs, security events, change logs | Daily |
-| **GDPR** | Data minimization, purpose limitation, data subject rights | PII inventory, consent records, deletion logs | Real-time |
-| **PCI DSS 4.0** | Req 1, 3, 10 | Network configs, encryption keys, access logs | Quarterly |
-| **ISO27001** | A.5, A.8, A.12 | Security policies, asset inventory, operation logs | Annual |
+| Framework        | Controls Covered                                           | Evidence                                           | Validation |
+| ---------------- | ---------------------------------------------------------- | -------------------------------------------------- | ---------- |
+| **SOC2 Type II** | CC6.1, CC7.2, CC7.3                                        | IAM logs, security events, change logs             | Daily      |
+| **GDPR**         | Data minimization, purpose limitation, data subject rights | PII inventory, consent records, deletion logs      | Real-time  |
+| **PCI DSS 4.0**  | Req 1, 3, 10                                               | Network configs, encryption keys, access logs      | Quarterly  |
+| **ISO27001**     | A.5, A.8, A.12                                             | Security policies, asset inventory, operation logs | Annual     |
 
 ---
 
 ## 📊 Risk Assessment / 風險評估
 
-| Risk | Severity | Mitigation | Status |
-|------|----------|------------|--------|
-| **Legacy files still in _legacy_scratch** | Low | Will be deleted after P1 validation | Tracked |
-| **No automated validation yet** | Medium | P1 includes validation script creation | Planned |
-| **Team unfamiliarity with new structure** | Medium | Deployment guide + training sessions | In Progress |
-| **Potential performance impact** | Low | Baseline is lightweight, monitoring in place | Monitoring |
-| **Breaking changes in dependencies** | Low | All versions pinned (OPA v3.14.0, Kyverno v1.11.0) | Mitigated |
+| Risk                                       | Severity | Mitigation                                         | Status      |
+| ------------------------------------------ | -------- | -------------------------------------------------- | ----------- |
+| **Legacy files still in \_legacy_scratch** | Low      | Will be deleted after P1 validation                | Tracked     |
+| **No automated validation yet**            | Medium   | P1 includes validation script creation             | Planned     |
+| **Team unfamiliarity with new structure**  | Medium   | Deployment guide + training sessions               | In Progress |
+| **Potential performance impact**           | Low      | Baseline is lightweight, monitoring in place       | Monitoring  |
+| **Breaking changes in dependencies**       | Low      | All versions pinned (OPA v3.14.0, Kyverno v1.11.0) | Mitigated   |
 
 ---
 
 ## 📅 Timeline Summary / 時間軸總結
 
-| Date | Milestone | Status |
-|------|-----------|--------|
-| 2025-12-07 | P0 Planning Complete | ✅ |
-| 2025-12-07 | P0 Implementation Complete | ✅ |
-| 2025-12-07 | P0 Documentation Complete | ✅ |
+| Date                | Milestone                  | Status         |
+| ------------------- | -------------------------- | -------------- |
+| 2025-12-07          | P0 Planning Complete       | ✅             |
+| 2025-12-07          | P0 Implementation Complete | ✅             |
+| 2025-12-07          | P0 Documentation Complete  | ✅             |
 | 2025-12-14 (Target) | P1 Implementation Complete | 🔄 In Progress |
-| 2025-12-21 (Target) | P1 Validation Complete | ⏳ Planned |
-| 2026-01-04 (Target) | P2 Implementation Complete | ⏳ Planned |
-| 2026-01-11 (Target) | Legacy Cleanup Complete | ⏳ Planned |
+| 2025-12-21 (Target) | P1 Validation Complete     | ⏳ Planned     |
+| 2026-01-04 (Target) | P2 Implementation Complete | ⏳ Planned     |
+| 2026-01-11 (Target) | Legacy Cleanup Complete    | ⏳ Planned     |
 
 ---
 
@@ -461,14 +494,14 @@ Status: Modular, maintainable, production-ready ✅
 
 ### Quantitative Metrics
 
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| **Files Migrated (P0)** | 8 | 8 | ✅ 100% |
-| **Documentation Coverage** | 100% | 100% | ✅ |
-| **Schema Validation** | 100% | 100% | ✅ |
-| **Compliance Frameworks** | 4 | 4 | ✅ 100% |
-| **RBAC Roles Defined** | 5+ | 6 | ✅ 120% |
-| **Tenant Tiers** | 4 | 4 | ✅ 100% |
+| Metric                     | Target | Actual | Status  |
+| -------------------------- | ------ | ------ | ------- |
+| **Files Migrated (P0)**    | 8      | 8      | ✅ 100% |
+| **Documentation Coverage** | 100%   | 100%   | ✅      |
+| **Schema Validation**      | 100%   | 100%   | ✅      |
+| **Compliance Frameworks**  | 4      | 4      | ✅ 100% |
+| **RBAC Roles Defined**     | 5+     | 6      | ✅ 120% |
+| **Tenant Tiers**           | 4      | 4      | ✅ 100% |
 
 ### Qualitative Metrics
 
@@ -485,8 +518,10 @@ Status: Modular, maintainable, production-ready ✅
 ### Internal Documentation
 
 - 📋 [Baseline Integration Plan](./BASELINE_YAML_INTEGRATION_PLAN.md)
-- 📖 [Kubernetes Baseline Guide](../03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md)
-- 🏗️ [Infrastructure Baseline README](../../../infrastructure/kubernetes/baseline/README.md)
+- 📖
+  [Kubernetes Baseline Guide](../03_refactor/meta/KUBERNETES_BASELINE_GUIDE.md)
+- 🏗️
+  [Infrastructure Baseline README](../../../infrastructure/kubernetes/baseline/README.md)
 - 🔐 [Governance Policies](../../../governance/policies/)
 - ⚙️ [Configuration Files](../../../config/)
 
@@ -496,7 +531,8 @@ Status: Modular, maintainable, production-ready ✅
 - 🇪🇺 [GDPR Official Text](https://gdpr-info.eu/)
 - 💳 [PCI DSS v4.0](https://www.pcisecuritystandards.org/)
 - 🏅 [ISO/IEC 27001:2022](https://www.iso.org/standard/27001)
-- ☸️ [Kubernetes RBAC Documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+- ☸️
+  [Kubernetes RBAC Documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 
 ---
 

@@ -86,12 +86,12 @@
         "machine_first": {
           "type": "object",
           "properties": {
-            "description": {"type": "string"},
+            "description": { "type": "string" },
             "formats": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             },
-            "validation": {"type": "string"}
+            "validation": { "type": "string" }
           }
         },
         "semantic_consistency": {
@@ -114,11 +114,11 @@
         "instant_standard": {
           "type": "object",
           "properties": {
-            "understanding_time": {"type": "string"},
-            "execution_time": {"type": "string"},
-            "repair_time": {"type": "string"},
-            "human_intervention": {"type": "integer"},
-            "evolution": {"type": "string"}
+            "understanding_time": { "type": "string" },
+            "execution_time": { "type": "string" },
+            "repair_time": { "type": "string" },
+            "human_intervention": { "type": "integer" },
+            "evolution": { "type": "string" }
           }
         },
         "responsibility_boundary": {
@@ -127,15 +127,15 @@
             "ai_autonomous": {
               "type": "object",
               "properties": {
-                "scope": {"type": "array", "items": {"type": "string"}},
-                "autonomy": {"type": "string"}
+                "scope": { "type": "array", "items": { "type": "string" } },
+                "autonomy": { "type": "string" }
               }
             },
             "human_control": {
               "type": "object",
               "properties": {
-                "scope": {"type": "array", "items": {"type": "string"}},
-                "control": {"type": "string"}
+                "scope": { "type": "array", "items": { "type": "string" } },
+                "control": { "type": "string" }
               }
             }
           }
@@ -145,22 +145,22 @@
     "dimensions": {
       "type": "object",
       "properties": {
-        "registry": {"type": "string"},
-        "total_count": {"type": "integer"},
+        "registry": { "type": "string" },
+        "total_count": { "type": "integer" },
         "categories": {
           "type": "object",
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "range": {"type": "string"},
-              "description": {"type": "string"},
+              "range": { "type": "string" },
+              "description": { "type": "string" },
               "dimensions": {
                 "type": "array",
                 "items": {
                   "type": "object",
                   "properties": {
-                    "id": {"type": "string"},
-                    "name": {"type": "string"}
+                    "id": { "type": "string" },
+                    "name": { "type": "string" }
                   }
                 }
               }
@@ -175,36 +175,36 @@
         "packages": {
           "type": "object",
           "properties": {
-            "path": {"type": "string"},
+            "path": { "type": "string" },
             "modules": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             }
           }
         },
         "policies": {
           "type": "object",
           "properties": {
-            "path": {"type": "string"},
-            "engine": {"type": "string"},
-            "format": {"type": "string"}
+            "path": { "type": "string" },
+            "engine": { "type": "string" },
+            "format": { "type": "string" }
           }
         },
         "schemas": {
           "type": "object",
           "properties": {
-            "path": {"type": "string"},
-            "format": {"type": "string"},
-            "registry": {"type": "boolean"}
+            "path": { "type": "string" },
+            "format": { "type": "string" },
+            "registry": { "type": "boolean" }
           }
         },
         "templates": {
           "type": "object",
           "properties": {
-            "path": {"type": "string"},
+            "path": { "type": "string" },
             "formats": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             }
           }
         }
@@ -216,10 +216,10 @@
         "pipelines": {
           "type": "object",
           "properties": {
-            "path": {"type": "string"},
+            "path": { "type": "string" },
             "providers": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             }
           }
         },
@@ -228,10 +228,10 @@
           "items": {
             "type": "object",
             "properties": {
-              "name": {"type": "string"},
+              "name": { "type": "string" },
               "actions": {
                 "type": "array",
-                "items": {"type": "string"}
+                "items": { "type": "string" }
               }
             }
           }
@@ -245,17 +245,17 @@
           "type": "string",
           "enum": ["opa", "kyverno", "gatekeeper"]
         },
-        "version": {"type": "string"},
+        "version": { "type": "string" },
         "features": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "enforcement": {
           "type": "object",
           "properties": {
-            "ci_gate": {"type": "string"},
-            "deployment_gate": {"type": "string"},
-            "runtime_gate": {"type": "string"}
+            "ci_gate": { "type": "string" },
+            "deployment_gate": { "type": "string" },
+            "runtime_gate": { "type": "string" }
           }
         }
       }
@@ -263,22 +263,22 @@
     "audit": {
       "type": "object",
       "properties": {
-        "enabled": {"type": "boolean"},
+        "enabled": { "type": "boolean" },
         "storage": {
           "type": "object",
           "properties": {
-            "hot_days": {"type": "integer"},
-            "warm_days": {"type": "integer"},
-            "cold_years": {"type": "integer"},
-            "archive": {"type": "string"}
+            "hot_days": { "type": "integer" },
+            "warm_days": { "type": "integer" },
+            "cold_years": { "type": "integer" },
+            "archive": { "type": "string" }
           }
         },
         "format": {
           "type": "object",
           "properties": {
-            "standard": {"type": "string"},
-            "trace_id": {"type": "string"},
-            "evidence_chain": {"type": "string"}
+            "standard": { "type": "string" },
+            "trace_id": { "type": "string" },
+            "evidence_chain": { "type": "string" }
           }
         },
         "compliance": {
@@ -286,9 +286,9 @@
           "properties": {
             "frameworks": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             },
-            "auto_report": {"type": "string"}
+            "auto_report": { "type": "string" }
           }
         }
       }
@@ -296,12 +296,12 @@
     "intent": {
       "type": "object",
       "properties": {
-        "enabled": {"type": "boolean"},
+        "enabled": { "type": "boolean" },
         "dsl": {
           "type": "object",
           "properties": {
-            "format": {"type": "string"},
-            "version": {"type": "string"}
+            "format": { "type": "string" },
+            "version": { "type": "string" }
           }
         },
         "engine": {
@@ -318,21 +318,21 @@
     "agents": {
       "type": "object",
       "properties": {
-        "enabled": {"type": "boolean"},
+        "enabled": { "type": "boolean" },
         "lifecycle": {
           "type": "object",
           "properties": {
             "states": {
               "type": "array",
-              "items": {"type": "string"}
+              "items": { "type": "string" }
             }
           }
         },
         "permissions": {
           "type": "object",
           "properties": {
-            "model": {"type": "string"},
-            "fine_grained": {"type": "boolean"}
+            "model": { "type": "string" },
+            "fine_grained": { "type": "boolean" }
           }
         },
         "compliance": {
@@ -346,7 +346,7 @@
     "feedback": {
       "type": "object",
       "properties": {
-        "enabled": {"type": "boolean"},
+        "enabled": { "type": "boolean" },
         "collection": {
           "type": "object"
         },
@@ -356,7 +356,7 @@
         "optimization": {
           "type": "object"
         },
-        "cycle_time": {"type": "string"}
+        "cycle_time": { "type": "string" }
       }
     }
   }

@@ -19,28 +19,28 @@ architecture:
         - intent_dsl
         - natural_language_interface
         - intent_templates
-    
+
     semantic_layer:
       description: "語意層 - 意圖解析與映射"
       components:
         - semantic_parser
         - llm_translator
         - mapping_engine
-    
+
     orchestration_layer:
       description: "編排層 - 操作協調與執行"
       components:
         - action_planner
         - workflow_orchestrator
         - state_machine
-    
+
     execution_layer:
       description: "執行層 - 實際操作執行"
       components:
         - resource_provisioner
         - configuration_manager
         - deployment_engine
-    
+
     assurance_layer:
       description: "保障層 - 閉環監控與優化"
       components:
@@ -58,19 +58,19 @@ intent_dsl:
         - type
         - description
         - business_goal
-      
+
       optional_fields:
         - requirements
         - constraints
         - preferences
-    
+
     intent_types:
       - deployment
       - scaling
       - optimization
       - migration
       - recovery
-    
+
     requirement_categories:
       - performance
       - availability
@@ -81,28 +81,28 @@ intent_dsl:
 # Semantic Mapping Engine
 semantic_mapping:
   nlp_engine:
-    provider: "openai"  # or "azure", "anthropic", "local"
+    provider: "openai" # or "azure", "anthropic", "local"
     model: "gpt-4"
     temperature: 0.1
     max_tokens: 2000
-  
+
   mapping_rules:
     business_to_technical:
       "高可用性": ["load_balancer", "multi_az", "auto_scaling"]
       "低延遲": ["edge_computing", "cdn", "caching"]
       "成本優化": ["spot_instances", "reserved_capacity", "right_sizing"]
-    
+
     natural_language_patterns:
       deployment:
         - "部署.*服務"
         - "deploy.*service"
         - "創建.*應用"
-      
+
       scaling:
         - "擴展.*容量"
         - "scale.*to"
         - "增加.*實例"
-  
+
   validation:
     semantic_consistency_check: true
     ambiguity_detection: true
@@ -114,63 +114,63 @@ lifecycle:
     draft:
       description: "草稿狀態"
       allowed_transitions: ["validating", "archived"]
-    
+
     validating:
       description: "驗證中"
       allowed_transitions: ["validated", "invalid", "draft"]
-    
+
     validated:
       description: "已驗證"
       allowed_transitions: ["translating", "draft"]
-    
+
     translating:
       description: "轉譯中"
       allowed_transitions: ["translated", "failed", "validated"]
-    
+
     translated:
       description: "已轉譯"
       allowed_transitions: ["simulating", "validated"]
-    
+
     simulating:
       description: "模擬中"
       allowed_transitions: ["ready", "failed", "translated"]
-    
+
     ready:
       description: "就緒"
       allowed_transitions: ["executing", "simulating"]
-    
+
     executing:
       description: "執行中"
       allowed_transitions: ["active", "failed", "ready"]
-    
+
     active:
       description: "活動中"
       allowed_transitions: ["monitoring", "decommissioning"]
-    
+
     monitoring:
       description: "監控中"
       allowed_transitions: ["optimizing", "active", "degraded"]
-    
+
     optimizing:
       description: "優化中"
       allowed_transitions: ["monitoring", "active"]
-    
+
     degraded:
       description: "降級"
       allowed_transitions: ["recovering", "failed"]
-    
+
     recovering:
       description: "恢復中"
       allowed_transitions: ["active", "failed"]
-    
+
     failed:
       description: "失敗"
       allowed_transitions: ["draft", "archived"]
-    
+
     decommissioning:
       description: "下線中"
       allowed_transitions: ["archived"]
-    
+
     archived:
       description: "已歸檔"
       allowed_transitions: []
@@ -183,27 +183,27 @@ closed_loop:
       - prometheus
       - cloudwatch
       - custom_exporters
-  
+
   kpi_definitions:
     availability:
       type: "percentage"
       calculation: "uptime / total_time * 100"
       threshold_critical: 99.0
       threshold_warning: 99.5
-    
+
     latency:
       type: "duration"
       measurement: "p95"
       threshold_critical: 200
       threshold_warning: 100
       unit: "milliseconds"
-    
+
     throughput:
       type: "rate"
       measurement: "requests_per_second"
       threshold_critical: 500
       threshold_warning: 1000
-  
+
   deviation_detection:
     algorithm: "statistical"
     sensitivity: "medium"
@@ -211,23 +211,23 @@ closed_loop:
       - slack
       - email
       - pagerduty
-  
+
   auto_correction:
     enabled: true
-    approval_required: false  # for non-critical corrections
+    approval_required: false # for non-critical corrections
     max_attempts: 3
-    
+
     correction_strategies:
       low_availability:
         - increase_instance_count
         - failover_to_backup
         - restart_unhealthy_instances
-      
+
       high_latency:
         - scale_out
         - enable_caching
         - optimize_queries
-      
+
       cost_overrun:
         - scale_in
         - use_spot_instances
@@ -237,29 +237,29 @@ closed_loop:
 digital_twin:
   enabled: true
   simulation_engine: "discrete_event"
-  
+
   scenarios:
     - name: "peak_load"
       description: "Simulate peak traffic conditions"
       load_multiplier: 5.0
-    
+
     - name: "failure_scenario"
       description: "Simulate component failures"
       failure_rate: 0.1
-    
+
     - name: "cost_optimization"
       description: "Optimize for cost"
       optimization_target: "min_cost"
-  
+
   prediction_models:
     performance:
       algorithm: "regression"
       features: ["instance_count", "instance_type", "region"]
-    
+
     cost:
       algorithm: "linear"
       features: ["instance_count", "instance_type", "reserved_capacity"]
-    
+
     availability:
       algorithm: "markov_chain"
       features: ["redundancy", "health_check_interval"]
@@ -271,23 +271,23 @@ api:
     - path: "/submit"
       method: "POST"
       description: "Submit new intent"
-    
+
     - path: "/{intent_id}/status"
       method: "GET"
       description: "Get intent status"
-    
+
     - path: "/{intent_id}/validate"
       method: "POST"
       description: "Validate intent"
-    
+
     - path: "/{intent_id}/simulate"
       method: "POST"
       description: "Run simulation"
-    
+
     - path: "/{intent_id}/execute"
       method: "POST"
       description: "Execute intent"
-    
+
     - path: "/{intent_id}/metrics"
       method: "GET"
       description: "Get intent metrics"
@@ -300,4 +300,3 @@ integrations:
   contracts: "60-contracts"
   audit: "70-audit"
   feedback: "80-feedback"
-

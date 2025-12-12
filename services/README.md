@@ -4,7 +4,8 @@
 
 `services/` 目錄包含所有微服務、代理和 MCP 伺服器，負責各種業務邏輯的實現。
 
-The `services/` directory contains all microservices, agents, and MCP servers, responsible for implementing various business logic.
+The `services/` directory contains all microservices, agents, and MCP servers,
+responsible for implementing various business logic.
 
 ---
 

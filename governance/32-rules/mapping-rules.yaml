@@ -3,7 +3,7 @@
 #                    機器原生映射規則
 # ═══════════════════════════════════════════════════════════════════════════════
 #
-# Purpose: Defines rules for transforming Markdown documentation into 
+# Purpose: Defines rules for transforming Markdown documentation into
 #          machine-consumable knowledge entities.
 #
 # 用途：定義 Markdown 文檔到機器可消費知識實體的轉換規則。
@@ -28,15 +28,15 @@ rule_categories:
   - id: "section-to-entity"
     name: "Section to Entity Rules"
     description: "Rules for converting Markdown sections to machine entities"
-  
+
   - id: "path-to-component"
     name: "Path to Component Rules"
     description: "Rules for converting code paths to component entities"
-  
+
   - id: "list-to-capabilities"
     name: "List to Capabilities Rules"
     description: "Rules for converting Markdown lists/tables to capabilities"
-  
+
   - id: "reference-to-provenance"
     name: "Reference to Provenance Rules"
     description: "Rules for generating provenance hooks from file references"
@@ -295,19 +295,19 @@ transformation_functions:
   - name: "slug"
     description: "Convert string to slug format"
     example: "slug('SynergyMesh Core Engine') → 'synergymesh-core-engine'"
-  
+
   - name: "basename_without_extension"
     description: "Get filename without extension"
     example: "basename_without_extension('core/ai_engine.py') → 'ai_engine'"
-  
+
   - name: "slugify"
     description: "Convert any text to slug"
     example: "slugify('AI 決策引擎') → 'ai-decision-engine'"
-  
+
   - name: "infer_from_parent_or_default"
     description: "Inherit from parent entity or use default"
     example: "infer_from_parent_or_default('platform-team')"
-  
+
   - name: "deep_merge_to_parent"
     description: "Merge parsed content into parent entity"
 
@@ -319,12 +319,12 @@ validation:
     - "Every H2 section must map to an entity"
     - "Every code path must have a component"
     - "Every component must have provenance hooks"
-  
+
   consistency_checks:
     - "Component IDs must be unique"
     - "Subsystem references must be valid"
     - "All capabilities must be defined"
-  
+
   provenance_requirements:
     - "Critical components must have SBOM"
     - "All components should have signature references"
@@ -336,7 +336,7 @@ output_formats:
   - format: "yaml"
     schema: "https://schema.superroot.kn/mndoc/v1"
     extension: ".mndoc.yaml"
-    
+
   - format: "json"
     schema: "https://schema.superroot.kn/mndoc/v1"
     extension: ".mndoc.json"

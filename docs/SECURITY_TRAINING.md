@@ -2,7 +2,8 @@
 
 ## 概述
 
-本指南為團隊成員提供 GitHub Advanced Security (GHAS) 的完整培訓材料，涵蓋從基礎到進階的所有安全實踐。
+本指南為團隊成員提供 GitHub Advanced Security
+(GHAS) 的完整培訓材料，涵蓋從基礎到進階的所有安全實踐。
 
 ## 培訓目標
 
@@ -84,12 +85,12 @@ graph LR
 
 **2.3 告警嚴重程度**
 
-| 級別 | 說明 | 行動 |
-|------|------|------|
-| Critical | 可被直接利用的嚴重漏洞 | 立即修復（4h SLA） |
-| High | 高風險安全問題 | 優先修復（24h SLA） |
-| Medium | 中等風險問題 | 排程修復（1週 SLA） |
-| Low | 低風險或代碼品質問題 | 例行修復（1月 SLA） |
+| 級別     | 說明                   | 行動                |
+| -------- | ---------------------- | ------------------- |
+| Critical | 可被直接利用的嚴重漏洞 | 立即修復（4h SLA）  |
+| High     | 高風險安全問題         | 優先修復（24h SLA） |
+| Medium   | 中等風險問題           | 排程修復（1週 SLA） |
+| Low      | 低風險或代碼品質問題   | 例行修復（1月 SLA） |
 
 **2.4 如何處理 CodeQL 告警**
 
@@ -109,7 +110,7 @@ graph LR
    // ❌ 不安全的代碼
    const userInput = req.query.name;
    db.query(`SELECT * FROM users WHERE name = '${userInput}'`);
-   
+
    // ✅ 安全的代碼
    const userInput = req.query.name;
    db.query('SELECT * FROM users WHERE name = ?', [userInput]);
@@ -143,8 +144,7 @@ graph LR
 
 #### 內容
 
-**3.1 什麼是秘密？**
-秘密是用於認證和授權的敏感信息：
+**3.1 什麼是秘密？** 秘密是用於認證和授權的敏感信息：
 
 - API 金鑰
 - 密碼
@@ -200,8 +200,8 @@ echo ".env" >> .gitignore
 
 ```javascript
 // 不要在代碼中硬編碼秘密
-const apiKey = "sk-1234567890abcdef";
-const dbPassword = "myP@ssw0rd";
+const apiKey = 'sk-1234567890abcdef';
+const dbPassword = 'myP@ssw0rd';
 ```
 
 **3.6 如果意外洩露秘密**
@@ -263,12 +263,12 @@ Dependabot 會：
 
 **4.3 SLA 驅動的修復流程**
 
-| 嚴重度 | SLA | 自動合併 | 策略 |
-|--------|-----|----------|------|
-| Critical | 4 小時 | ✅ | 立即 Hotfix |
-| High | 24 小時 | ❌ | 優先修補 |
-| Moderate | 1 週 | ❌ | 排程更新 |
-| Low | 1 月 | ✅ | 例行維護 |
+| 嚴重度   | SLA     | 自動合併 | 策略        |
+| -------- | ------- | -------- | ----------- |
+| Critical | 4 小時  | ✅       | 立即 Hotfix |
+| High     | 24 小時 | ❌       | 優先修補    |
+| Moderate | 1 週    | ❌       | 排程更新    |
+| Low      | 1 月    | ✅       | 例行維護    |
 
 **4.4 處理 Dependabot PR**
 

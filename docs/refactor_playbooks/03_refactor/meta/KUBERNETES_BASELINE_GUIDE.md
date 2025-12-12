@@ -2,7 +2,9 @@
 
 ## 📋 Purpose / 目的
 
-This guide provides step-by-step instructions for deploying the 6 baseline YAML files to establish constitutional-level (L-A) governance, security, and operational standards for Kubernetes clusters.
+This guide provides step-by-step instructions for deploying the 6 baseline YAML
+files to establish constitutional-level (L-A) governance, security, and
+operational standards for Kubernetes clusters.
 
 本指南提供逐步說明，用於部署 6 個基線 YAML 檔案，為 Kubernetes 集群建立憲法級別 (L-A) 的治理、安全和營運標準。
 
@@ -31,14 +33,14 @@ This guide provides step-by-step instructions for deploying the 6 baseline YAML 
 
 ## 📦 Baseline Components Overview / 基線組件概覽
 
-| Baseline | Priority | Dependencies | Purpose |
-|----------|----------|--------------|---------|
-| **01-namespace-governance** | L-A (1000) | None | Namespace naming, labels, lifecycle, capability registry |
-| **02-security-rbac** | L-A (950) | baseline-01 | Zero Trust, RBAC, encryption, audit |
-| **03-resource-management** | L-A (900) | baseline-01, baseline-02 | Resource quotas, tenant tiers, cost model |
-| **04-network-policy** | L-A (850) | baseline-01, baseline-02, baseline-03 | Network segmentation, service mesh, ingress/egress |
-| **05-compliance-attestation** | L-A (800) | baseline-01~04 | Compliance frameworks, attestation, drift detection |
-| **06-quantum-orchestration** | L-A (750) | baseline-01~05 | Quantum circuits, hybrid workflows (experimental) |
+| Baseline                      | Priority   | Dependencies                          | Purpose                                                  |
+| ----------------------------- | ---------- | ------------------------------------- | -------------------------------------------------------- |
+| **01-namespace-governance**   | L-A (1000) | None                                  | Namespace naming, labels, lifecycle, capability registry |
+| **02-security-rbac**          | L-A (950)  | baseline-01                           | Zero Trust, RBAC, encryption, audit                      |
+| **03-resource-management**    | L-A (900)  | baseline-01, baseline-02              | Resource quotas, tenant tiers, cost model                |
+| **04-network-policy**         | L-A (850)  | baseline-01, baseline-02, baseline-03 | Network segmentation, service mesh, ingress/egress       |
+| **05-compliance-attestation** | L-A (800)  | baseline-01~04                        | Compliance frameworks, attestation, drift detection      |
+| **06-quantum-orchestration**  | L-A (750)  | baseline-01~05                        | Quantum circuits, hybrid workflows (experimental)        |
 
 ---
 
@@ -202,7 +204,9 @@ kubectl describe networkpolicy baseline-allow-same-namespace -n intelligent-hype
 
 **Expected Resources:**
 
-- ✅ NetworkPolicies: `baseline-default-deny-all`, `baseline-allow-same-namespace`, `baseline-allow-dns`, `baseline-api-gateway-ingress`
+- ✅ NetworkPolicies: `baseline-default-deny-all`,
+  `baseline-allow-same-namespace`, `baseline-allow-dns`,
+  `baseline-api-gateway-ingress`
 - ✅ ConfigMaps: `network-segmentation-policy`, `network-observability-config`
 
 **Test Network Isolation:**
@@ -241,7 +245,8 @@ kubectl get clusterrole compliance-attestation-reader
 
 **Expected Resources:**
 
-- ✅ ConfigMaps: `compliance-framework-baseline`, `merkle-tree-attestation-config`
+- ✅ ConfigMaps: `compliance-framework-baseline`,
+  `merkle-tree-attestation-config`
 - ✅ CronJob: `compliance-attestation-job` (runs every 6 hours)
 - ✅ ServiceAccount: `compliance-attestation-sa`
 - ✅ ClusterRole + ClusterRoleBinding
@@ -286,7 +291,8 @@ kubectl get role quantum-job-executor -n intelligent-hyperautomation-baseline
 - ✅ ServiceAccount: `quantum-orchestrator-sa`
 - ✅ Role + RoleBinding
 
-**Note:** Quantum orchestration is experimental and requires external quantum backend access.
+**Note:** Quantum orchestration is experimental and requires external quantum
+backend access.
 
 ---
 
@@ -495,8 +501,10 @@ kubectl apply -f rbac-backup.yaml
 
 ## 📚 Related Documentation / 相關文檔
 
-- 📋 [Baseline Integration Plan](../../02_integration/BASELINE_YAML_INTEGRATION_PLAN.md)
-- 🏗️ [Infrastructure Baseline README](../../../../infrastructure/kubernetes/baseline/README.md)
+- 📋
+  [Baseline Integration Plan](../../02_integration/BASELINE_YAML_INTEGRATION_PLAN.md)
+- 🏗️
+  [Infrastructure Baseline README](../../../../infrastructure/kubernetes/baseline/README.md)
 - 🔐 [Governance Policies](../../../../governance/policies/)
 - ⚙️ [Configuration Files](../../../../config/)
 - 📖 [Documentation Index](../../../../DOCUMENTATION_INDEX.md)

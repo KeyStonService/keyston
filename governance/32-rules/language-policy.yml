@@ -10,8 +10,8 @@ name: Language Governance Policy
 policy:
   enabled: true
   default_language: zh-TW
-  enforcement_level: strict  # strict, moderate, permissive
-  
+  enforcement_level: strict # strict, moderate, permissive
+
   # 強制使用繁體中文的範圍
   enforcement_scope:
     # 文檔文件
@@ -27,9 +27,9 @@ policy:
         - "vendor/**"
         - ".git/**"
       required_language: zh-TW
-      allow_bilingual: true  # 允許雙語（中英並列）
-      minimum_zh_ratio: 0.7  # 中文內容至少佔 70%
-    
+      allow_bilingual: true # 允許雙語（中英並列）
+      minimum_zh_ratio: 0.7 # 中文內容至少佔 70%
+
     # 程式碼註解
     code_comments:
       enabled: true
@@ -40,25 +40,25 @@ policy:
         - "**/*.go"
         - "**/*.java"
       required_language: zh-TW
-      allow_technical_english: true  # 允許技術術語使用英文
-      enforce_function_docs: true    # 強制函數文檔為中文
-    
+      allow_technical_english: true # 允許技術術語使用英文
+      enforce_function_docs: true # 強制函數文檔為中文
+
     # Git 提交訊息
     commit_messages:
       enabled: true
       required_language: zh-TW
-      allow_conventional_commits: true  # 允許 conventional commits 格式
+      allow_conventional_commits: true # 允許 conventional commits 格式
       format: "type(scope): 中文描述"
       min_length: 10
-    
+
     # 配置檔案
     configuration_files:
-      enabled: false  # YAML/JSON 配置檔通常為技術性，不強制中文
+      enabled: false # YAML/JSON 配置檔通常為技術性，不強制中文
       paths:
         - "**/*.yaml"
         - "**/*.yml"
         - "**/*.json"
-    
+
     # Issue 和 PR
     issues_and_prs:
       enabled: true
@@ -66,19 +66,19 @@ policy:
       issue_body: zh-TW
       pr_title: zh-TW
       pr_description: zh-TW
-      allow_bilingual_summary: true  # 允許雙語摘要
-  
+      allow_bilingual_summary: true # 允許雙語摘要
+
   # 檢查規則
   checks:
     # 檢查中文字符比例
     - name: chinese_character_ratio
       description: 檢查文件中中文字符的比例
       enabled: true
-      min_ratio: 0.3  # 至少 30% 為中文字符
+      min_ratio: 0.3 # 至少 30% 為中文字符
       applicable_to:
         - documentation
         - code_comments
-    
+
     # 檢查關鍵詞翻譯
     - name: keyword_translation
       description: 確保重要技術術語有中文翻譯
@@ -91,7 +91,7 @@ policy:
         - security: 安全
         - authentication: 認證
         - authorization: 授權
-    
+
     # 檢查提交訊息格式
     - name: commit_message_format
       description: 驗證提交訊息符合中文格式
@@ -101,7 +101,7 @@ policy:
         - "feat(auth): 添加 OAuth2 認證支援"
         - "fix(api): 修復使用者資料查詢錯誤"
         - "docs(readme): 更新安裝指南"
-    
+
     # 檢查函數文檔
     - name: function_documentation
       description: 確保函數有中文文檔
@@ -110,50 +110,50 @@ policy:
         - public_functions
         - exported_functions
         - api_endpoints
-      format: jsdoc  # 或 pydoc, javadoc 等
-  
+      format: jsdoc # 或 pydoc, javadoc 等
+
   # 自動修正
   auto_fix:
-    enabled: false  # 語言修正不建議自動化
-    suggestions: true  # 提供修正建議
-  
+    enabled: false # 語言修正不建議自動化
+    suggestions: true # 提供修正建議
+
   # 違規處理
   violations:
     # 阻斷合併
     block_merge:
       enabled: true
       severity: ["critical"]
-    
+
     # 產生警告
     warning:
       enabled: true
       severity: ["high", "medium"]
-    
+
     # 僅通知
     notify_only:
       enabled: true
       severity: ["low"]
-  
+
   # 嚴重度定義
   severity_levels:
     critical:
       - commit_message_not_chinese
       - readme_not_chinese
       - public_api_docs_not_chinese
-    
+
     high:
       - code_comments_not_chinese
       - pr_description_not_chinese
       - changelog_not_chinese
-    
+
     medium:
       - issue_description_not_chinese
       - inline_comments_not_chinese
-    
+
     low:
       - technical_terms_not_translated
       - bilingual_ratio_low
-  
+
   # 例外規則
   exceptions:
     # 允許英文的情況
@@ -161,7 +161,7 @@ policy:
       - file_paths: ["LICENSE", "node_modules/**", "vendor/**"]
       - content_types: ["code", "json", "yaml"]
       - contexts: ["technical_terms", "variable_names", "function_names"]
-    
+
     # 完全豁免的文件
     exempted_files:
       - ".gitignore"
@@ -169,20 +169,20 @@ policy:
       - "yarn.lock"
       - "*.min.js"
       - "*.bundle.js"
-  
+
   # 報告設定
   reporting:
     enabled: true
     format: json
     output_path: reports/language-compliance.json
-    
+
     metrics:
       - total_files_checked
       - files_compliant
       - files_with_violations
       - compliance_rate
       - violations_by_severity
-    
+
     generate_summary: true
     summary_language: zh-TW
 

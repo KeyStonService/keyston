@@ -1,13 +1,15 @@
 # 治理文化與能力 | Governance Culture and Capability
 
-> 文化建設、能力建設、培訓、成熟度
-> Culture development, capability building, training, and maturity
+> 文化建設、能力建設、培訓、成熟度Culture development, capability building,
+> training, and maturity
 
 ## 📋 概述 | Overview
 
 治理文化與能力維度定義了組織文化建設、人員能力提升、培訓體系和成熟度評估框架。
 
-The Governance Culture and Capability dimension defines organizational culture development, personnel capability enhancement, training systems, and maturity assessment frameworks.
+The Governance Culture and Capability dimension defines organizational culture
+development, personnel capability enhancement, training systems, and maturity
+assessment frameworks.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -66,6 +68,5 @@ governance-culture/
 
 ---
 
-**Owner 負責人**: Governance Culture and Capability Team
-**Last Updated 最後更新**: 2025-12-09
-**Status 狀態**: Active
+**Owner 負責人**: Governance Culture and Capability Team **Last
+Updated 最後更新**: 2025-12-09 **Status 狀態**: Active

@@ -5,13 +5,13 @@ metadata:
   name: 自我修復治理
   name_en: Self-Healing Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.953626Z'
-  updated_at: '2025-12-11T22:17:20.953632Z'
+  created_at: "2025-12-11T22:17:20.953626Z"
+  updated_at: "2025-12-11T22:17:20.953632Z"
   owner: governance-bot
   category: execution
   tags:
-  - 40_self_healing
-  - execution
+    - 40_self_healing
+    - execution
 spec:
   description: Self-Healing Governance dimension for SynergyMesh governance framework
   schema:
@@ -27,32 +27,32 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
+      - ISO-22301
+      - SRE-Principles
+    framework_mappings:
+      - framework: ISO-22301
+        controls: []
+        compliance_status: in_progress
+      - framework: SRE-Principles
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
     - ISO-22301
     - SRE-Principles
-    framework_mappings:
+  framework_mappings:
     - framework: ISO-22301
       controls: []
       compliance_status: in_progress
     - framework: SRE-Principles
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-22301
-  - SRE-Principles
-  framework_mappings:
-  - framework: ISO-22301
-    controls: []
-    compliance_status: in_progress
-  - framework: SRE-Principles
-    controls: []
-    compliance_status: in_progress

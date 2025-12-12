@@ -6,7 +6,9 @@
 
 本文件提供詳細的監控系統部署指引與工作人員提示詞範本，確保 SynergyMesh 專案的關鍵目錄與檔案能被有效監控。
 
-This document provides detailed monitoring system deployment guidelines and worker prompt templates to ensure effective monitoring of critical directories and files in the SynergyMesh project.
+This document provides detailed monitoring system deployment guidelines and
+worker prompt templates to ensure effective monitoring of critical directories
+and files in the SynergyMesh project.
 
 ---
 
@@ -45,7 +47,8 @@ This document provides detailed monitoring system deployment guidelines and work
 
 FIM 透過建立檔案基線並定期比對，偵測未授權的檔案變更。適合用於靜態檔案監控。
 
-FIM detects unauthorized file changes by creating file baselines and performing periodic comparisons. Suitable for static file monitoring.
+FIM detects unauthorized file changes by creating file baselines and performing
+periodic comparisons. Suitable for static file monitoring.
 
 ### 支援工具 | Supported Tools
 
@@ -69,7 +72,7 @@ FIM detects unauthorized file changes by creating file baselines and performing 
    # OSSEC 安裝範例（Ubuntu/Debian）
    wget -q -O - https://updates.atomicorp.com/installers/atomic | sudo bash
    sudo apt-get install ossec-hids-server -y
-   
+
    # 或 Tripwire 安裝範例
    sudo apt-get install tripwire -y
 
@@ -114,7 +117,7 @@ FIM detects unauthorized file changes by creating file baselines and performing 
   <syscheck>
     <!-- 設定掃描頻率：每 6 小時 -->
     <frequency>21600</frequency>
-    
+
     <!-- 監控目錄設定 -->
     <directories check_all="yes" realtime="yes" report_changes="yes">
       /srv/repo/config
@@ -131,7 +134,7 @@ FIM detects unauthorized file changes by creating file baselines and performing 
     <directories check_all="yes" realtime="yes" report_changes="yes">
       /srv/repo/scripts
     </directories>
-    
+
     <!-- 忽略特定檔案類型 -->
     <ignore>/srv/repo/node_modules</ignore>
     <ignore>/srv/repo/.git</ignore>
@@ -148,7 +151,8 @@ FIM detects unauthorized file changes by creating file baselines and performing 
 
 auditd 是 Linux 核心層級的稽核工具，能記錄所有檔案存取與系統呼叫，提供更細緻的追蹤能力。
 
-auditd is a kernel-level Linux audit tool that records all file access and system calls, providing more granular tracking capabilities.
+auditd is a kernel-level Linux audit tool that records all file access and
+system calls, providing more granular tracking capabilities.
 
 ---
 
@@ -167,22 +171,22 @@ auditd is a kernel-level Linux audit tool that records all file access and syste
 2. 新增監控規則：
    # 監控 config 目錄的寫入與屬性變更
    sudo auditctl -w /srv/repo/config -p wa -k repoconfig_watch
-   
+
    # 監控 scripts 目錄
    sudo auditctl -w /srv/repo/scripts -p wa -k reposcripts_watch
-   
+
    # 監控核心程式碼目錄
    sudo auditctl -w /srv/repo/core/contract_service -p wa -k repocore_watch
-   
+
    # 監控進階系統原始碼
    sudo auditctl -w /srv/repo/advanced-system-src -p wa -k reposrc_watch
-   
+
    # 監控 MCP servers
    sudo auditctl -w /srv/repo/mcp-servers -p wa -k repomcp_watch
-   
+
    # 監控政策檔案
    sudo auditctl -w /srv/repo/.config/conftest/policies -p wa -k repopolicy_watch
-   
+
    # 監控 schemas
    sudo auditctl -w /srv/repo/schemas -p wa -k reposchema_watch
 
@@ -197,7 +201,7 @@ auditd is a kernel-level Linux audit tool that records all file access and syste
    -w /srv/repo/.config/conftest/policies -p wa -k repopolicy_watch
    -w /srv/repo/schemas -p wa -k reposchema_watch
    EOF
-   
+
    # 方法 2：備份當前規則到檔案
    sudo sh -c 'auditctl -l > /etc/audit/rules.d/synergymesh-monitoring-backup.txt'
 
@@ -273,7 +277,9 @@ sudo ausearch -f /srv/repo/config/prometheus-config.yml
 
 inotify 是 Linux 核心的檔案系統事件監控機制，能提供即時的檔案變更通知。適合用於開發與測試環境的快速驗證。
 
-inotify is a Linux kernel filesystem event monitoring mechanism that provides real-time file change notifications. Suitable for quick validation in development and testing environments.
+inotify is a Linux kernel filesystem event monitoring mechanism that provides
+real-time file change notifications. Suitable for quick validation in
+development and testing environments.
 
 ---
 
@@ -289,7 +295,7 @@ inotify is a Linux kernel filesystem event monitoring mechanism that provides re
 1. 安裝 inotify-tools：
    # Ubuntu/Debian
    sudo apt-get install inotify-tools -y
-   
+
    # CentOS/RHEL
    sudo yum install inotify-tools -y
 
@@ -352,7 +358,8 @@ done
 
 SIEM 負責聚合來自各監控工具的日誌，執行關聯分析，並觸發自動化回應。
 
-SIEM aggregates logs from various monitoring tools, performs correlation analysis, and triggers automated responses.
+SIEM aggregates logs from various monitoring tools, performs correlation
+analysis, and triggers automated responses.
 
 ---
 
@@ -367,38 +374,38 @@ SIEM aggregates logs from various monitoring tools, performs correlation analysi
 
 1. 建立關聯規則（Correlation Rule）：
    名稱：SynergyMesh Repo Unauthorized Change
-   
+
    觸發條件：
    - 事件來源：FIM alert 或 auditd (key: repo*_watch)
    - 觸發者帳號：不在白名單中
    - 變更路徑：監控目錄列表
    - 變更類型：modify, delete, permission
-   
+
    白名單帳號範例：
    - jenkins-deploy
    - github-actions
    - approved-devops-team
 
 2. 執行 Playbook 步驟：
-   
+
    步驟 1：隔離主機
    - 將該主機標記為 quarantine
    - 更新防火牆規則，限制該主機的網路存取
-   
+
    步驟 2：暫停帳號
    - 暫時停用觸發 alert 的帳號
    - 撤銷該帳號的 SSH 金鑰
-   
+
    步驟 3：通知相關人員
    - 發送通知到 Slack #security-alerts
    - 發送郵件給 security@synergymesh.example.com
    - 觸發 PagerDuty alert（如為高嚴重性）
-   
+
    步驟 4：收集證據
    - 收集完整稽核日誌
    - 擷取變更前後的檔案內容差異
    - 記錄帳號最近的所有活動
-   
+
    步驟 5：建立事件工單
    - 在 ITSM 系統建立事件工單
    - 包含：時間、帳號、變更路徑、變更內容
@@ -452,15 +459,11 @@ index=linux_audit key=repo*_watch earliest=-24h
 {
   "query": {
     "bool": {
-      "must": [
-        { "match": { "key": "repo*_watch" } }
-      ],
+      "must": [{ "match": { "key": "repo*_watch" } }],
       "must_not": [
         { "terms": { "user": ["jenkins-deploy", "github-actions"] } }
       ],
-      "filter": [
-        { "range": { "@timestamp": { "gte": "now-24h" } } }
-      ]
+      "filter": [{ "range": { "@timestamp": { "gte": "now-24h" } } }]
     }
   }
 }
@@ -513,7 +516,7 @@ index=linux_audit key=repo*_watch earliest=-24h
 2. CHANGELOG.md
    格式範例：
    YYYY-MM-DD | username | path | change_type | reason
-   
+
    範例記錄：
    2025-11-24 | john.doe | config/prometheus-config.yml | modify | Update retention policy
    2025-11-24 | jane.smith | scripts/build-matrix.sh | add | Add new build target for ARM64
@@ -603,7 +606,7 @@ All worker reports should follow this unified format:
 
 執行指令 | Commands Executed：
   [貼上實際執行的命令，每行一個]
-  
+
   例如：
   sudo apt-get install ossec-hids-server -y
   sudo systemctl start ossec
@@ -611,7 +614,7 @@ All worker reports should follow this unified format:
 
 結果摘要 | Result Summary：
   狀態：✅ 成功 / ❌ 失敗 / ⚠️ 部分成功
-  
+
   [簡述執行結果，包含關鍵輸出或錯誤訊息]
 
 證據 | Evidence：

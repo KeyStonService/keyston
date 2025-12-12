@@ -23,12 +23,12 @@
 
 ## 技術選型
 
-| 層級 | 技術 |
-|------|------|
-| 基礎設施 | Rust + Tokio、OpenTelemetry、NATS |
-| 服務層 | Go + gRPC、Envoy、Kubernetes |
-| 應用層 | TypeScript + Next.js、FastAPI、GraphQL |
-| 治理層 | Rego (OPA)、SLSA、Sigstore |
+| 層級     | 技術                                   |
+| -------- | -------------------------------------- |
+| 基礎設施 | Rust + Tokio、OpenTelemetry、NATS      |
+| 服務層   | Go + gRPC、Envoy、Kubernetes           |
+| 應用層   | TypeScript + Next.js、FastAPI、GraphQL |
+| 治理層   | Rego (OPA)、SLSA、Sigstore             |
 
 ## 關鍵模組
 

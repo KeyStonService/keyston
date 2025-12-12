@@ -24,11 +24,7 @@ schemas:
           test_types:
             {
               type: array,
-              items:
-                {
-                  enum:
-                    ["unit", "integration", "e2e", "performance", "security"],
-                },
+              items: { enum: ["unit", "integration", "e2e", "performance", "security"] },
             }
           areas_of_focus: { type: array, items: { type: string } }
           risk_level: { enum: ["low", "medium", "high", "critical"] }

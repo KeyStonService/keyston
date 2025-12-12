@@ -4,9 +4,9 @@ metadata:
   name: autofix-bot-rolebinding
   namespace: autofix-bot
 subjects:
-- kind: ServiceAccount
-  name: autofix-bot
-  namespace: autofix-bot
+  - kind: ServiceAccount
+    name: autofix-bot
+    namespace: autofix-bot
 roleRef:
   kind: Role
   name: autofix-bot-role

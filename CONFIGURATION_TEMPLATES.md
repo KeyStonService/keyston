@@ -4,7 +4,8 @@
 
 本目錄包含完整的系統配置範本，可直接複製使用或作為參考。
 
-This directory contains complete system configuration templates that can be copied directly or used as reference.
+This directory contains complete system configuration templates that can be
+copied directly or used as reference.
 
 ---
 
@@ -21,7 +22,7 @@ app:
   version: 4.0.0
   environment: development
   port: 3000
-  
+
 # 日誌配置
 logging:
   level: INFO
@@ -34,7 +35,7 @@ database:
   host: localhost
   port: 5432
   name: synergymesh
-  
+
 # 快取配置
 cache:
   type: redis
@@ -64,29 +65,29 @@ spec:
         app: synergymesh
     spec:
       containers:
-      - name: synergymesh
-        image: synergymesh:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: ENVIRONMENT
-          valueFrom:
-            configMapKeyRef:
-              name: synergymesh-config
-              key: environment
-        resources:
-          requests:
-            cpu: 250m
-            memory: 256Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        - name: synergymesh
+          image: synergymesh:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: synergymesh-config
+                  key: environment
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
 ```
 
 ### 3. Docker Compose 範本 / Docker Compose Template
@@ -100,7 +101,7 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - ENVIRONMENT=development
       - DATABASE_URL=postgresql://user:password@db:5432/synergymesh
@@ -121,7 +122,7 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
 
 volumes:
   db_data:
@@ -135,15 +136,15 @@ volumes:
 # Prometheus 配置
 prometheus:
   scrape_configs:
-  - job_name: 'synergymesh'
-    static_configs:
-    - targets: ['localhost:3000']
+    - job_name: 'synergymesh'
+      static_configs:
+        - targets: ['localhost:3000']
 
 # Alerting 配置
 alerting:
   alertmanagers:
-  - static_configs:
-    - targets: ['localhost:9093']
+    - static_configs:
+        - targets: ['localhost:9093']
 
 # 告警規則
 rule_files:
@@ -165,7 +166,7 @@ jwt:
 auth:
   enabled: true
   provider: jwt
-  
+
 # CORS 配置
 cors:
   enabled: true

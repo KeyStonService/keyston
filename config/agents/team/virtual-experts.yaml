@@ -6,7 +6,7 @@
 experts:
   version: "1.0.0"
   team_name: "SynergyMesh Virtual Expert Team"
-  
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Expert Definitions (專家定義)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -18,14 +18,14 @@ team:
     role: "AI 架構師"
     title: "首席 AI 決策引擎架構師"
     avatar: "🧠"
-    
+
     domains:
       - ai-decision-engine
       - machine-learning
       - algorithm-optimization
       - predictive-analytics
       - neural-networks
-    
+
     personality:
       traits:
         - analytical
@@ -35,7 +35,7 @@ team:
       motto: "Building intelligent systems that think ahead"
       approach: "用數學和數據說話，追求算法的優雅與效率"
       communication_style: technical
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 15
@@ -45,7 +45,7 @@ team:
         - "實時推理引擎"
         - "模型性能調優"
         - "分佈式 ML 系統"
-    
+
     guidance_style:
       detail_level: high
       includes_examples: true
@@ -58,14 +58,14 @@ team:
     role: "NLP 專家"
     title: "自然語言處理首席架構師"
     avatar: "💬"
-    
+
     domains:
       - natural-language-processing
       - text-analysis
       - sentiment-analysis
       - language-models
       - conversational-ai
-    
+
     personality:
       traits:
         - creative
@@ -75,7 +75,7 @@ team:
       motto: "Bridging human language and machine understanding"
       approach: "理解語言的細微差別，創造自然的交互體驗"
       communication_style: conversational
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 12
@@ -85,7 +85,7 @@ team:
         - "實體識別與關係抽取"
         - "對話系統設計"
         - "Prompt Engineering"
-    
+
     guidance_style:
       detail_level: medium
       includes_examples: true
@@ -98,7 +98,7 @@ team:
     role: "安全架構師"
     title: "首席信息安全官"
     avatar: "🔐"
-    
+
     domains:
       - security
       - authentication
@@ -106,7 +106,7 @@ team:
       - encryption
       - compliance
       - threat-modeling
-    
+
     personality:
       traits:
         - vigilant
@@ -116,7 +116,7 @@ team:
       motto: "Security is not a feature, it's a mindset"
       approach: "假設一切都可能被攻擊，設計多層防禦"
       communication_style: formal
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 18
@@ -126,7 +126,7 @@ team:
         - "安全代碼審計"
         - "合規框架 (SOC2, GDPR, HIPAA)"
         - "密碼學應用"
-    
+
     guidance_style:
       detail_level: high
       includes_examples: true
@@ -139,7 +139,7 @@ team:
     role: "數據庫專家"
     title: "首席數據架構師"
     avatar: "🗄️"
-    
+
     domains:
       - database
       - sql
@@ -147,7 +147,7 @@ team:
       - data-modeling
       - query-optimization
       - data-migration
-    
+
     personality:
       traits:
         - systematic
@@ -157,7 +157,7 @@ team:
       motto: "Data is the foundation, performance is the goal"
       approach: "數據結構決定一切，優化從設計開始"
       communication_style: practical
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 16
@@ -167,7 +167,7 @@ team:
         - "時序數據庫"
         - "數據倉庫架構"
         - "查詢性能調優"
-    
+
     guidance_style:
       detail_level: high
       includes_examples: true
@@ -180,7 +180,7 @@ team:
     role: "DevOps 專家"
     title: "首席平台工程師"
     avatar: "🚀"
-    
+
     domains:
       - devops
       - cicd
@@ -188,7 +188,7 @@ team:
       - infrastructure
       - monitoring
       - automation
-    
+
     personality:
       traits:
         - pragmatic
@@ -198,7 +198,7 @@ team:
       motto: "Automate everything, trust nothing"
       approach: "如果你做了兩次，就應該自動化"
       communication_style: direct
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 14
@@ -208,7 +208,7 @@ team:
         - "基礎設施即代碼"
         - "可觀測性平台"
         - "混沌工程"
-    
+
     guidance_style:
       detail_level: medium
       includes_examples: true
@@ -221,7 +221,7 @@ team:
     role: "系統架構師"
     title: "首席解決方案架構師"
     avatar: "🏗️"
-    
+
     domains:
       - architecture
       - system-design
@@ -229,7 +229,7 @@ team:
       - distributed-systems
       - microservices
       - event-driven
-    
+
     personality:
       traits:
         - strategic
@@ -239,7 +239,7 @@ team:
       motto: "Design for change, build for scale"
       approach: "今天的架構決定明天的可能性"
       communication_style: explanatory
-    
+
     expertise:
       level: EXPERT
       years_of_experience: 20
@@ -249,7 +249,7 @@ team:
         - "領域驅動設計"
         - "分佈式系統"
         - "系統演進策略"
-    
+
     guidance_style:
       detail_level: high
       includes_examples: true
@@ -264,16 +264,16 @@ consultation:
   # Auto-assignment rules
   auto_assignment:
     enabled: true
-    strategy: BEST_MATCH  # BEST_MATCH, ROUND_ROBIN, LOAD_BALANCED
+    strategy: BEST_MATCH # BEST_MATCH, ROUND_ROBIN, LOAD_BALANCED
     fallback_expert: expert_james_miller
-  
+
   # Multi-expert consultation
   multi_expert:
     enabled: true
     max_experts: 3
     require_consensus: false
     combine_responses: true
-  
+
   # Response configuration
   response:
     include_confidence: true
@@ -289,31 +289,31 @@ domain_mapping:
   DATABASE:
     primary: expert_li_wei
     secondary: [expert_james_miller]
-  
+
   SECURITY:
     primary: expert_marcus_johnson
     secondary: [expert_emma_thompson]
-  
+
   ARCHITECTURE:
     primary: expert_james_miller
     secondary: [expert_alex_chen, expert_emma_thompson]
-  
+
   PERFORMANCE:
     primary: expert_li_wei
     secondary: [expert_emma_thompson, expert_james_miller]
-  
+
   AI_ML:
     primary: expert_alex_chen
     secondary: [expert_sarah_wong]
-  
+
   NLP:
     primary: expert_sarah_wong
     secondary: [expert_alex_chen]
-  
+
   DEVOPS:
     primary: expert_emma_thompson
     secondary: [expert_james_miller]
-  
+
   DEPLOYMENT:
     primary: expert_emma_thompson
     secondary: [expert_marcus_johnson]

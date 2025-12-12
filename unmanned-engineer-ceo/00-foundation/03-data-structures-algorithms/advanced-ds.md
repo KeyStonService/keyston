@@ -2,7 +2,8 @@
 
 ## Storage-Oriented
 
-- **B-Tree/B+Tree**：適用於 transactional state；對應 PostgreSQL/SQLite 嵌入式模組。
+- **B-Tree/B+Tree**：適用於 transactional
+  state；對應 PostgreSQL/SQLite 嵌入式模組。
 - **LSM Tree**：寫優化儲存（e.g., RocksDB）；建議用於 event log。
 - **Skip List**：核心 registry 的內存索引，簡化複製。
 

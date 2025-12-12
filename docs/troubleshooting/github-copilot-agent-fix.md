@@ -36,8 +36,8 @@ This avoids `npx` permission errors such as
 tsc -b tsconfig.json
 ```
 
-Run this from `/workspaces/unmanned-island` to confirm the solution-style
-config still compiles.
+Run this from `/workspaces/unmanned-island` to confirm the solution-style config
+still compiles.
 
 ### 5. Run the shared test suite
 

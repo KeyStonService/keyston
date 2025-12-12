@@ -11,9 +11,13 @@
 
 ## 1. 概述 (Overview)
 
-本文檔定義了 Unmanned Island System 的通用插件架構模式。插件架構是系統擴展性的基礎，允許動態註冊、依賴管理和能力擴展，同時保持系統核心的穩定性和安全性。
+本文檔定義了 Unmanned Island
+System 的通用插件架構模式。插件架構是系統擴展性的基礎，允許動態註冊、依賴管理和能力擴展，同時保持系統核心的穩定性和安全性。
 
-This document defines the generic plugin architecture pattern for the Unmanned Island System. The plugin architecture is the foundation of system extensibility, enabling dynamic registration, dependency management, and capability extension while maintaining core system stability and security.
+This document defines the generic plugin architecture pattern for the Unmanned
+Island System. The plugin architecture is the foundation of system
+extensibility, enabling dynamic registration, dependency management, and
+capability extension while maintaining core system stability and security.
 
 ### 關鍵特性 (Key Features)
 
@@ -31,30 +35,30 @@ This document defines the generic plugin architecture pattern for the Unmanned I
 
 ```yaml
 plugin_specification:
-  id: "plugin-identifier"                    # 唯一識別符
-  name: "Plugin Display Name"                # 顯示名稱
-  version: "1.0.0"                           # 語義化版本
-  kind: ["category1", "category2"]           # 插件類別
-  priority: 80                               # 優先級 (0-100)
-  author: "Team Name"                        # 作者
-  license: "License Type"                    # 授權類型
-  
-  provides:                                  # 提供的能力
-    - "capability-1"
-    - "capability-2"
-  
-  requires:                                  # 依賴的能力
-    - "required-capability-1"
-    - "required-capability-2"
-  
-  dependencies:                              # 依賴插件
-    hard_dependencies:                       # 硬依賴（必須）
-      - plugin_id: "core-plugin"
-        version_constraint: ">= 1.0.0"
-    
-    soft_dependencies:                       # 軟依賴（可選）
-      - plugin_id: "optional-plugin"
-        version_constraint: ">= 0.9.0"
+  id: 'plugin-identifier' # 唯一識別符
+  name: 'Plugin Display Name' # 顯示名稱
+  version: '1.0.0' # 語義化版本
+  kind: ['category1', 'category2'] # 插件類別
+  priority: 80 # 優先級 (0-100)
+  author: 'Team Name' # 作者
+  license: 'License Type' # 授權類型
+
+  provides: # 提供的能力
+    - 'capability-1'
+    - 'capability-2'
+
+  requires: # 依賴的能力
+    - 'required-capability-1'
+    - 'required-capability-2'
+
+  dependencies: # 依賴插件
+    hard_dependencies: # 硬依賴（必須）
+      - plugin_id: 'core-plugin'
+        version_constraint: '>= 1.0.0'
+
+    soft_dependencies: # 軟依賴（可選）
+      - plugin_id: 'optional-plugin'
+        version_constraint: '>= 0.9.0'
         graceful_degradation: true
 ```
 
@@ -71,14 +75,14 @@ stateDiagram-v2
     Suspended --> Active: 恢復
     Active --> Deactivated: 停用
     Deactivated --> [*]
-    
+
     note right of Validated
       檢查：
       - 規範語法
       - 版本約束
       - 能力聲明
     end note
-    
+
     note right of DependencyResolved
       解析：
       - 硬依賴必須滿足
@@ -117,13 +121,13 @@ stateDiagram-v2
 ```yaml
 vector_alignment_map:
   semantic_vectors:
-    - intent: "entity-extraction"           # 意圖類型
-      embedding_model: "system-embed-v2"    # 嵌入模型引用
-      dimension: 1024                       # 向量維度
-      similarity_threshold: 0.75            # 相似度閾值
-    
-    - intent: "relation-classification"
-      embedding_model: "relation-embed"
+    - intent: 'entity-extraction' # 意圖類型
+      embedding_model: 'system-embed-v2' # 嵌入模型引用
+      dimension: 1024 # 向量維度
+      similarity_threshold: 0.75 # 相似度閾值
+
+    - intent: 'relation-classification'
+      embedding_model: 'relation-embed'
       dimension: 768
       similarity_threshold: 0.70
 ```
@@ -179,10 +183,10 @@ vector_alignment_map:
 
 ### 4.1 權衡
 
-| 權衡項 | 選擇 | 代價 |
-|--------|------|------|
-| **性能 vs 隔離性** | 優先隔離性 | 插件間通信開銷 |
-| **靈活性 vs 穩定性** | 優先穩定性 | 需嚴格版本管理 |
+| 權衡項               | 選擇       | 代價             |
+| -------------------- | ---------- | ---------------- |
+| **性能 vs 隔離性**   | 優先隔離性 | 插件間通信開銷   |
+| **靈活性 vs 穩定性** | 優先穩定性 | 需嚴格版本管理   |
 | **易用性 vs 安全性** | 優先安全性 | 插件開發門檻較高 |
 
 ### 4.2 限制

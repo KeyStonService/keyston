@@ -23,13 +23,13 @@
 access_token:
   lifetime: 1h
   refresh: true
-  
+
 refresh_token:
   lifetime: 30d
-  rotation: true  # 每次使用後輪換
-  
+  rotation: true # 每次使用後輪換
+
 api_key:
-  lifetime: never  # 不過期，但可撤銷
+  lifetime: never # 不過期，但可撤銷
 ```
 
 ## 授權 (Authorization)
@@ -40,19 +40,19 @@ api_key:
 roles:
   - id: admin
     permissions:
-      - "*"  # 所有權限
-  
+      - '*' # 所有權限
+
   - id: developer
     permissions:
-      - "project:read"
-      - "project:write"
-      - "deployment:read"
-      - "deployment:create"
-  
+      - 'project:read'
+      - 'project:write'
+      - 'deployment:read'
+      - 'deployment:create'
+
   - id: viewer
     permissions:
-      - "project:read"
-      - "deployment:read"
+      - 'project:read'
+      - 'deployment:read'
 ```
 
 ### ABAC (Attribute-Based Access Control)
@@ -63,7 +63,7 @@ policies:
     description: 用戶只能存取自己租戶的資源
     condition: |
       resource.tenant_id == user.tenant_id
-  
+
   - name: project-member
     description: 只有專案成員可以存取專案資源
     condition: |

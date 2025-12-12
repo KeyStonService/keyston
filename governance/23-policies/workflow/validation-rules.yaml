@@ -11,7 +11,7 @@ validation_rules:
       - name: "pep8_compliance"
         severity: "medium"
         enabled: true
-    
+
   semantic:
     - name: "type_consistency"
       severity: "high"
@@ -19,7 +19,7 @@ validation_rules:
     - name: "scope_validation"
       severity: "high"
       enabled: true
-  
+
   security:
     - name: "no_hardcoded_secrets"
       pattern: "(password|api_key|secret)\\s*=\\s*['\"]\\w+"

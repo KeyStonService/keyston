@@ -2,14 +2,17 @@
 
 # MCP 服務器
 
-Enterprise-grade Model Context Protocol (MCP) servers for the AutoExecutionEngine Agent.
+Enterprise-grade Model Context Protocol (MCP) servers for the
+AutoExecutionEngine Agent.
 
-> LLM 工具端點，提供 MCP 協議的工具供 LLM 調用。
-> LLM tool endpoints, providing MCP protocol tools for LLM invocation.
+> LLM 工具端點，提供 MCP 協議的工具供 LLM 調用。LLM tool endpoints, providing
+> MCP protocol tools for LLM invocation.
 
 ## 🎯 Overview 概述
 
-This directory contains specialized MCP servers that provide advanced capabilities for code analysis, testing, documentation, SLSA validation, security scanning, and performance optimization.
+This directory contains specialized MCP servers that provide advanced
+capabilities for code analysis, testing, documentation, SLSA validation,
+security scanning, and performance optimization.
 
 本目錄包含專門的 MCP 服務器，提供代碼分析、測試、文檔、SLSA 驗證、安全掃描和性能優化等高級功能。
 
@@ -32,17 +35,17 @@ This directory contains specialized MCP servers that provide advanced capabiliti
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `core/` | 調用平台級 AI 能力 |
-| `shared/` | 共用工具和配置 |
+| Dependency 依賴 | Purpose 用途       |
+| --------------- | ------------------ |
+| `core/`         | 調用平台級 AI 能力 |
+| `shared/`       | 共用工具和配置     |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `agent/` | MCP 端點不應依賴業務代理 |
-| `automation/intelligent/` | MCP 端點不應依賴 pipeline |
+| Should NOT depend on 不應依賴 | Reason 原因               |
+| ----------------------------- | ------------------------- |
+| `agent/`                      | MCP 端點不應依賴業務代理  |
+| `automation/intelligent/`     | MCP 端點不應依賴 pipeline |
 
 ---
 
@@ -185,12 +188,16 @@ npm run check:strict
 
 #### 2. **Logic Validator**
 
-- ✅ **Authenticity checks**: Detects suspicious patterns (eval, dynamic functions)
+- ✅ **Authenticity checks**: Detects suspicious patterns (eval, dynamic
+  functions)
 - ✅ **Obfuscation detection**: Identifies potentially obfuscated code
 - ✅ **Integrity hashing**: SHA-256 hash for code verification
-- ✅ **Logic validation**: Detects unreachable code, infinite loops, empty catch blocks
-- ✅ **Consistency checks**: Validates indentation, naming conventions, quote styles
-- ✅ **Pattern validation**: Checks error handling, async/await usage, resource cleanup
+- ✅ **Logic validation**: Detects unreachable code, infinite loops, empty catch
+  blocks
+- ✅ **Consistency checks**: Validates indentation, naming conventions, quote
+  styles
+- ✅ **Pattern validation**: Checks error handling, async/await usage, resource
+  cleanup
 - ✅ **Dependency analysis**: Validates import/require statements
 
 #### 3. **Comprehensive Validator**
@@ -255,13 +262,14 @@ export LOG_LEVEL="info"
 
 ### Integration with Agent
 
-The MCP servers are automatically configured in `.github/agents/my-agent.agent.md`:
+The MCP servers are automatically configured in
+`.github/agents/my-agent.agent.md`:
 
 ```yaml
 mcp-servers:
   - name: code-analyzer
     command: node
-    args: ["./mcp-servers/code-analyzer.js"]
+    args: ['./mcp-servers/code-analyzer.js']
     capabilities:
       - analyze-code
       - detect-issues

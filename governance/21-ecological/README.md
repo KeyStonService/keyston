@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Ecological Governance addresses environmental sustainability, ecosystem health, resource conservation, and ecological balance.
+Ecological Governance addresses environmental sustainability, ecosystem health,
+resource conservation, and ecological balance.
 
 生態治理處理環境可持續性、生態系統健康、資源保護和生態平衡。
 

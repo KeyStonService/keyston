@@ -2,7 +2,9 @@
 
 ## Overview
 
-Successfully implemented **Phase 5: CI Cost Dashboard** - a comprehensive monitoring and alerting system for GitHub Actions costs with automated weekly reports, anomaly detection, and proactive cost management.
+Successfully implemented **Phase 5: CI Cost Dashboard** - a comprehensive
+monitoring and alerting system for GitHub Actions costs with automated weekly
+reports, anomaly detection, and proactive cost management.
 
 **Implementation Date**: 2025-12-05  
 **Phase**: 5 of 5 (All CI/CD Hardening Phases Complete)  
@@ -87,13 +89,13 @@ Successfully implemented **Phase 5: CI Cost Dashboard** - a comprehensive monito
 **Example Summary Table**:
 
 ```markdown
-| Metric | Value |
-|--------|-------|
-| Total Workflow Runs | 234 |
-| Total Minutes Used | 1,547 min |
-| Estimated Cost | $12.38 |
-| Average Cost per Run | $0.053 |
-| Estimated Monthly Cost | $53.05 |
+| Metric                 | Value     |
+| ---------------------- | --------- |
+| Total Workflow Runs    | 234       |
+| Total Minutes Used     | 1,547 min |
+| Estimated Cost         | $12.38    |
+| Average Cost per Run   | $0.053    |
+| Estimated Monthly Cost | $53.05    |
 ```
 
 ---
@@ -137,13 +139,13 @@ Successfully implemented **Phase 5: CI Cost Dashboard** - a comprehensive monito
 
 ### Cost Visibility
 
-| Visibility Level | Before | After |
-|------------------|--------|-------|
-| **Current spend** | None | Real-time |
-| **Projected monthly** | Unknown | Estimated weekly |
+| Visibility Level       | Before  | After            |
+| ---------------------- | ------- | ---------------- |
+| **Current spend**      | None    | Real-time        |
+| **Projected monthly**  | Unknown | Estimated weekly |
 | **Per-workflow costs** | Unknown | Tracked & ranked |
-| **Anomaly detection** | Manual | Automated |
-| **Historical data** | None | Git history |
+| **Anomaly detection**  | Manual  | Automated        |
+| **Historical data**    | None    | Git history      |
 
 ### Time Savings
 
@@ -166,7 +168,8 @@ macos-latest: $0.08/minute
 windows-latest: $0.016/minute
 ```
 
-**Accuracy**: ±10% (actual billing may vary based on runner availability and queuing)
+**Accuracy**: ±10% (actual billing may vary based on runner availability and
+queuing)
 
 ### 2. Top 10 Most Expensive Workflows
 
@@ -181,10 +184,10 @@ Automatically ranks workflows by:
 **Example**:
 
 ```markdown
-| Rank | Workflow | Runs | Minutes | Cost | Avg Duration | Success Rate |
-|------|----------|------|---------|------|--------------|--------------|
-| 1 | CodeQL | 4 | 120 | $0.96 | 30.0 min | 100% |
-| 2 | Test Suite | 87 | 435 | $3.48 | 5.0 min | 95% |
+| Rank | Workflow   | Runs | Minutes | Cost  | Avg Duration | Success Rate |
+| ---- | ---------- | ---- | ------- | ----- | ------------ | ------------ |
+| 1    | CodeQL     | 4    | 120     | $0.96 | 30.0 min     | 100%         |
+| 2    | Test Suite | 87   | 435     | $3.48 | 5.0 min      | 95%          |
 ```
 
 ### 3. Detailed Per-Workflow Statistics
@@ -252,7 +255,8 @@ python3 tools/ci-cost-dashboard.py --check-anomalies --days 7
 
 1. **Latest dashboard**: `docs/CI_COST_DASHBOARD.md` in main branch
 2. **Historical reports**: Git history of `CI_COST_DASHBOARD.md`
-3. **Workflow artifacts**: Actions → CI Cost Dashboard → Artifacts (30-day retention)
+3. **Workflow artifacts**: Actions → CI Cost Dashboard → Artifacts (30-day
+   retention)
 4. **Summary**: Workflow run summary when triggered manually
 
 ---
@@ -309,10 +313,10 @@ Edit `.github/workflows/ci-cost-dashboard.yml`:
 schedule:
   # Daily at midnight
   - cron: '0 0 * * *'
-  
+
   # Twice weekly (Monday & Thursday)
   - cron: '0 9 * * 1,4'
-  
+
   # Monthly (first of month)
   - cron: '0 9 1 * *'
 ```
@@ -360,13 +364,13 @@ Default: 7 days
 
 ### Cost Reduction Summary
 
-| Phase | Focus | Savings | Cumulative |
-|-------|-------|---------|------------|
-| Phase 1 | High-cost workflows | 80-90% | 80-90% |
-| Phase 2 | Batch hardening | 30-50% | 85-92% |
-| Phase 3 | Trigger optimization | 5-10% | 87-93% |
-| Phase 4 | Fail-fast rules | 2-3% | 88-94% |
-| Phase 5 | Cost monitoring | Proactive | **88-94%** |
+| Phase   | Focus                | Savings   | Cumulative |
+| ------- | -------------------- | --------- | ---------- |
+| Phase 1 | High-cost workflows  | 80-90%    | 80-90%     |
+| Phase 2 | Batch hardening      | 30-50%    | 85-92%     |
+| Phase 3 | Trigger optimization | 5-10%     | 87-93%     |
+| Phase 4 | Fail-fast rules      | 2-3%      | 88-94%     |
+| Phase 5 | Cost monitoring      | Proactive | **88-94%** |
 
 **Final Expected Savings**: **88-94% reduction**  
 **From**: $500/month (baseline)  
@@ -375,15 +379,15 @@ Default: 7 days
 
 ### Quality Improvements
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **Cost visibility** | 0% | 100% | ∞ |
-| **Test failure detection** | 0% | 100% | 100% |
-| **Security issue blocking** | 50% | 100% | +50% |
-| **Workflow timeouts** | 0% | 100% | 100% |
-| **Concurrency control** | 0% | 100% | 100% |
-| **Anomaly detection** | Manual | Automated | 100% |
-| **Cost reporting** | Monthly | Weekly | 4x |
+| Metric                      | Before  | After     | Improvement |
+| --------------------------- | ------- | --------- | ----------- |
+| **Cost visibility**         | 0%      | 100%      | ∞           |
+| **Test failure detection**  | 0%      | 100%      | 100%        |
+| **Security issue blocking** | 50%     | 100%      | +50%        |
+| **Workflow timeouts**       | 0%      | 100%      | 100%        |
+| **Concurrency control**     | 0%      | 100%      | 100%        |
+| **Anomaly detection**       | Manual  | Automated | 100%        |
+| **Cost reporting**          | Monthly | Weekly    | 4x          |
 
 ---
 
@@ -429,12 +433,8 @@ Default: 7 days
 **Workflow validation**:
 
 ```yaml
-✅ YAML syntax valid
-✅ Permissions configured
-✅ Concurrency control active
-✅ Timeout set (10 minutes)
-✅ Manual trigger works
-✅ Schedule configured
+✅ YAML syntax valid ✅ Permissions configured ✅ Concurrency control active ✅
+Timeout set (10 minutes) ✅ Manual trigger works ✅ Schedule configured
 ```
 
 ### Quality Assurance

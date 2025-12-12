@@ -10,7 +10,6 @@ reporting_overview:
   frequency: "Multiple levels of reporting"
 
 report_types:
-  
   daily_compliance_alert:
     frequency: "Daily"
     audience: "Compliance team"
@@ -19,7 +18,7 @@ report_types:
       - "Critical compliance issues"
       - "Urgent actions required"
     format: "Email alert"
-  
+
   weekly_compliance_summary:
     frequency: "Weekly"
     audience: "Management"
@@ -29,7 +28,7 @@ report_types:
       - "Remediation progress"
       - "Upcoming audits"
     format: "Dashboard + email"
-  
+
   monthly_compliance_report:
     frequency: "Monthly"
     audience: "Governance Board"
@@ -40,7 +39,7 @@ report_types:
       - "Improvement initiatives"
       - "Regulatory updates"
     format: "Executive report"
-  
+
   quarterly_compliance_review:
     frequency: "Quarterly"
     audience: "Board + stakeholders"
@@ -51,7 +50,7 @@ report_types:
       - "Strategic recommendations"
       - "Benchmark comparisons"
     format: "Formal presentation"
-  
+
   annual_compliance_report:
     frequency: "Annual"
     audience: "All stakeholders"

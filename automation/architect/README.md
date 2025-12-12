@@ -6,7 +6,10 @@
 
 本系統是一個企業級自動化代碼分析與修復平台，專為無人機、無人駕駛和自動化迭代系統設計，提供多維度代碼質量保障和智能修復能力。
 
-This is an enterprise-grade automated code analysis and repair platform designed for drone systems, autonomous vehicles, and automated iteration systems, providing multi-dimensional code quality assurance and intelligent repair capabilities.
+This is an enterprise-grade automated code analysis and repair platform designed
+for drone systems, autonomous vehicles, and automated iteration systems,
+providing multi-dimensional code quality assurance and intelligent repair
+capabilities.
 
 ## 核心能力 Core Capabilities
 
@@ -208,4 +211,5 @@ MIT License - 詳見 [LICENSE](../LICENSE)
 
 ---
 
-**設計理念 Design Philosophy**: 企業級自動化代碼分析與修復系統，專為安全關鍵自動化系統 (無人機/無人駕駛/自動化迭代) 設計，提供生產級代碼質量保障。
+**設計理念 Design
+Philosophy**: 企業級自動化代碼分析與修復系統，專為安全關鍵自動化系統 (無人機/無人駕駛/自動化迭代) 設計，提供生產級代碼質量保障。

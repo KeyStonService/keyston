@@ -77,28 +77,28 @@ autofix analyze --cloud
 
 ### 基本命令
 
-| 命令 | 說明 | 示例 |
-|------|------|------|
-| `autofix analyze` | 分析代碼 | `autofix analyze ./src` |
-| `autofix fix` | 修復問題 | `autofix fix --auto` |
-| `autofix watch` | 監控模式 | `autofix watch --auto-fix` |
-| `autofix report` | 生成報告 | `autofix report --format html` |
+| 命令              | 說明     | 示例                           |
+| ----------------- | -------- | ------------------------------ |
+| `autofix analyze` | 分析代碼 | `autofix analyze ./src`        |
+| `autofix fix`     | 修復問題 | `autofix fix --auto`           |
+| `autofix watch`   | 監控模式 | `autofix watch --auto-fix`     |
+| `autofix report`  | 生成報告 | `autofix report --format html` |
 
 ### 雲端委派命令
 
-| 命令 | 說明 | 示例 |
-|------|------|------|
-| `autofix delegate` | 委派任務 | `autofix delegate --task analyze` |
-| `autofix cloud status` | 查看雲端狀態 | `autofix cloud status` |
-| `autofix cloud agents` | 查看代理程式 | `autofix cloud agents --active` |
+| 命令                   | 說明         | 示例                              |
+| ---------------------- | ------------ | --------------------------------- |
+| `autofix delegate`     | 委派任務     | `autofix delegate --task analyze` |
+| `autofix cloud status` | 查看雲端狀態 | `autofix cloud status`            |
+| `autofix cloud agents` | 查看代理程式 | `autofix cloud agents --active`   |
 
 ### 配置命令
 
-| 命令 | 說明 | 示例 |
-|------|------|------|
-| `autofix config` | 查看配置 | `autofix config list` |
-| `autofix config set` | 設置配置 | `autofix config set rules.autoFix true` |
-| `autofix config reset` | 重置配置 | `autofix config reset` |
+| 命令                   | 說明     | 示例                                    |
+| ---------------------- | -------- | --------------------------------------- |
+| `autofix config`       | 查看配置 | `autofix config list`                   |
+| `autofix config set`   | 設置配置 | `autofix config set rules.autoFix true` |
+| `autofix config reset` | 重置配置 | `autofix config reset`                  |
 
 ## 💡 實用技巧
 
@@ -120,12 +120,7 @@ autofix analyze --cloud
 ```json
 {
   "rules": {
-    "excludePatterns": [
-      "node_modules/**",
-      "dist/**",
-      "*.min.js",
-      "vendor/**"
-    ]
+    "excludePatterns": ["node_modules/**", "dist/**", "*.min.js", "vendor/**"]
   }
 }
 ```
@@ -202,10 +197,7 @@ npx husky add .husky/pre-commit "autofix fix --staged"
   "rules": {
     "autoFix": true,
     "severity": "warning",
-    "excludePatterns": [
-      "node_modules/**",
-      "dist/**"
-    ]
+    "excludePatterns": ["node_modules/**", "dist/**"]
   },
   "languages": {
     "javascript": {
@@ -316,7 +308,8 @@ A: 基本功能完全免費。雲端委派功能需要訂閱，提供免費試�
 
 ### Q: 支援哪些程式語言？
 
-A: 支援 15+ 種語言，包括 JavaScript, TypeScript, Python, Java, Go, C++, Rust 等。
+A: 支援 15+ 種語言，包括 JavaScript, TypeScript, Python, Java, Go, C++,
+Rust 等。
 
 ### Q: 雲端委派安全嗎？
 
@@ -328,13 +321,14 @@ A: 可以，基本功能支援完全離線使用。雲端委派需要網絡連�
 
 ### Q: 如何取得支援？
 
-A: 訪問 [supportconfig/autofix-bot.com](https://supportconfig/autofix-bot.com) 或發送郵件至 <support@autofix-bot.com>
+A: 訪問 [supportconfig/autofix-bot.com](https://supportconfig/autofix-bot.com)
+或發送郵件至 <support@autofix-bot.com>
 
 ## 🚀 下一步
 
 1. ✅ 完成快速開始
 2. 📚 閱讀[完整文檔](../AUTO_FIX_BOT.md)
-3. ☁️  了解[雲端委派](./CLOUD_DELEGATION.md)
+3. ☁️ 了解[雲端委派](./CLOUD_DELEGATION.md)
 4. 🎨 查看[視覺元素指南](./VISUAL_ELEMENTS.md)
 5. 🔌 探索[整合選項](./INTEGRATION_GUIDE.md)
 

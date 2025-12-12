@@ -12,13 +12,13 @@ metrics:
   enabled: true
   collection_interval_seconds: 30
   retention_days: 90
-  
+
   types:
     - COUNTER
     - GAUGE
     - HISTOGRAM
     - SUMMARY
-  
+
   exporters:
     prometheus:
       enabled: true
@@ -34,7 +34,7 @@ anomaly_detection:
     - THRESHOLD
     - PATTERN
     - HYBRID
-  
+
   thresholds:
     low: 0.3
     medium: 0.5
@@ -49,7 +49,7 @@ auto_diagnosis:
     - metrics
     - traces
     - events
-  
+
   root_cause_analysis: true
   recommendation_generation: true
 
@@ -58,7 +58,7 @@ auto_remediation:
   enabled: true
   require_approval: false
   max_auto_fixes_per_hour: 10
-  
+
   playbooks:
     - name: restart_service
       trigger: service_unhealthy
@@ -66,14 +66,14 @@ auto_remediation:
         - check_health
         - graceful_restart
         - verify_health
-    
+
     - name: scale_up
       trigger: high_load
       actions:
         - check_resources
         - add_instances
         - rebalance_load
-    
+
     - name: clear_cache
       trigger: memory_pressure
       actions:
@@ -95,12 +95,12 @@ observability:
     enabled: true
     level: INFO
     retention_days: 30
-  
+
   traces:
     enabled: true
     sampling_rate: 0.1
     retention_days: 7
-  
+
   dashboards:
     enabled: true
     auto_generate: true

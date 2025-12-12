@@ -131,7 +131,7 @@ import asyncio
 
 async def analyze_code():
     client = httpx.AsyncClient()
-    
+
     # 提交分析任務
     response = await client.post(
         "http://localhost:8000/api/v1/analyze",
@@ -142,25 +142,25 @@ async def analyze_code():
             "strategy": "STANDARD"
         }
     )
-    
+
     analysis_id = response.json()["analysis_id"]
     print(f"Analysis ID: {analysis_id}")
-    
+
     # 等待分析完成
     while True:
         response = await client.get(
             f"http://localhost:8000/api/v1/analyze/{analysis_id}"
         )
         result = response.json()
-        
+
         if result["status"] == "completed":
             print("分析完成！")
             print(f"質量分數: {result['result']['quality_score']}")
             print(f"問題總數: {result['result']['total_issues']}")
             break
-        
+
         await asyncio.sleep(5)
-    
+
     await client.aclose()
 
 asyncio.run(analyze_code())

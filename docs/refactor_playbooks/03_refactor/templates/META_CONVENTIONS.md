@@ -1,6 +1,7 @@
 # Meta Conventions - 重構劇本命名與結構規範
 
-本文件定義 `03_refactor/` 中所有重構劇本的命名規則、檔案結構與約定，確保系統一致性。
+本文件定義 `03_refactor/`
+中所有重構劇本的命名規則、檔案結構與約定，確保系統一致性。
 
 ---
 
@@ -15,7 +16,8 @@
 ### 規則說明
 
 - **domain**：對應 repo 的頂層目錄或子系統名稱
-  - 有效值：`core`, `services`, `automation`, `apps`, `governance`, `infra`, `knowledge`
+  - 有效值：`core`, `services`, `automation`, `apps`, `governance`, `infra`,
+    `knowledge`
   - 使用小寫，單字間用底線分隔（snake_case）
 
 - **cluster**：目標群集或模組的具體名稱
@@ -26,13 +28,13 @@
 
 ### 命名範例
 
-| 檔名 | Cluster Path | 說明 |
-|------|--------------|------|
-| `core__architecture_refactor.md` | `core/architecture-stability` | Core 架構穩定性重構 |
-| `services__gateway_refactor.md` | `services/gateway` | Gateway 服務重構 |
-| `automation__autonomous_refactor.md` | `automation/autonomous` | 自主系統重構 |
-| `apps__web_refactor.md` | `apps/web` | Web 應用重構 |
-| `governance__schemas_refactor.md` | `governance/schemas` | Schema 治理重構 |
+| 檔名                                 | Cluster Path                  | 說明                |
+| ------------------------------------ | ----------------------------- | ------------------- |
+| `core__architecture_refactor.md`     | `core/architecture-stability` | Core 架構穩定性重構 |
+| `services__gateway_refactor.md`      | `services/gateway`            | Gateway 服務重構    |
+| `automation__autonomous_refactor.md` | `automation/autonomous`       | 自主系統重構        |
+| `apps__web_refactor.md`              | `apps/web`                    | Web 應用重構        |
+| `governance__schemas_refactor.md`    | `governance/schemas`          | Schema 治理重構     |
 
 ---
 
@@ -56,13 +58,13 @@ Cluster ID 是機器可讀索引中使用的標準識別符。
 
 ```yaml
 clusters:
-  - cluster_id: "core/architecture-stability"
-    domain: "core"
-    refactor_file: "core/core__architecture_refactor.md"
-  
-  - cluster_id: "services/agents"
-    domain: "services"
-    refactor_file: "services/services__agents_refactor.md"
+  - cluster_id: 'core/architecture-stability'
+    domain: 'core'
+    refactor_file: 'core/core__architecture_refactor.md'
+
+  - cluster_id: 'services/agents'
+    domain: 'services'
+    refactor_file: 'services/services__agents_refactor.md'
 ```
 
 ---
@@ -145,13 +147,13 @@ clusters:
 
 ```yaml
 clusters:
-  - cluster_id: "{domain}/{module}"
-    domain: "{domain}"
-    refactor_file: "{domain}/{domain}__{cluster}_refactor.md"
-    deconstruction_file: "../01_deconstruction/{domain}__{cluster}_deconstruction.md"
-    integration_file: "../02_integration/{domain}__{cluster}_integration.md"
+  - cluster_id: '{domain}/{module}'
+    domain: '{domain}'
+    refactor_file: '{domain}/{domain}__{cluster}_refactor.md'
+    deconstruction_file: '../01_deconstruction/{domain}__{cluster}_deconstruction.md'
+    integration_file: '../02_integration/{domain}__{cluster}_integration.md'
     legacy_assets:
-      - "{asset_id}"
+      - '{asset_id}'
 ```
 
 ### INDEX.md 更新
@@ -248,7 +250,7 @@ python tools/generate-refactor-playbook.py \
 ### 格式化
 
 - 使用 Markdown 標準格式
-- 程式碼區塊使用語法高亮（```yaml,```bash 等）
+- 程式碼區塊使用語法高亮（`yaml,`bash 等）
 - 清單使用一致的縮排（2 空格）
 
 ### 一致性
@@ -264,17 +266,20 @@ python tools/generate-refactor-playbook.py \
 ### 1. 03_refactor 層（重構劇本）
 
 - 使用 `*.md` 作為主要載體（重構劇本、說明、程式碼範例）。
-- 可以在檔頭使用 YAML front-matter 承載結構化欄位（cluster_id、legacy_assets、P0/P1/P2 等）。
+- 可以在檔頭使用 YAML
+  front-matter 承載結構化欄位（cluster_id、legacy_assets、P0/P1/P2 等）。
 - 不使用 `*.txt` 作為正式劇本格式。
 - 不在 `03_refactor/` 內放可執行程式碼檔案（.ts / .py / .go / .sh ...）。
-  - 實際實作一律回寫到 `core/`, `services/`, `apps/`, `automation/`, `tools/` 等主目錄。
+  - 實際實作一律回寫到 `core/`, `services/`, `apps/`, `automation/`, `tools/`
+    等主目錄。
 
 ### 2. 實際執行程式碼
 
 - 一律放在專案根下的主目錄中：
   - `core/`, `services/`, `apps/`, `automation/`, `tools/`, `mcp-servers/` 等。
 - 使用對應語言的副檔名（`.ts`, `.py`, `.go`, `.cpp`, ...）。
-- CI / build / deploy 只對這些目錄中的程式碼負責，不會直接執行 `docs/refactor_playbooks/` 內的內容。
+- CI / build / deploy 只對這些目錄中的程式碼負責，不會直接執行
+  `docs/refactor_playbooks/` 內的內容。
 
 ### 3. 暫存筆記（notes）與 scratch（草稿 / 思考過程）
 
@@ -282,11 +287,10 @@ python tools/generate-refactor-playbook.py \
 
 - **檔案類型**：
   - 可使用 `*.md`, `*.txt`, `*.drawio`, `*.mermaid`, `*.ipynb` 等。
-  
 - **允許放置位置**（範圍擴大）：
-  - `docs/refactor_playbooks/_legacy_scratch/`          # 舊程式碼與重構相關的暫存區（重點給 01/02/03 用）
-  - `docs/scratch/`                                     # 全域架構/流程的草稿、比較方案、設計日誌
-  - `experiments/`                                      # 原型程式、試驗性腳本（可選擇是否進 git）
+  - `docs/refactor_playbooks/_legacy_scratch/` # 舊程式碼與重構相關的暫存區（重點給 01/02/03 用）
+  - `docs/scratch/` # 全域架構/流程的草稿、比較方案、設計日誌
+  - `experiments/` # 原型程式、試驗性腳本（可選擇是否進 git）
   - 各 domain 專屬 `_scratch/` 目錄，例如：
     - `core/_scratch/`
     - `services/_scratch/`
@@ -299,9 +303,9 @@ python tools/generate-refactor-playbook.py \
 - **命名建議**（便於識別、日後清理）：
   - 前綴：`scratch-*.md`、`notes-*.md`
   - 或後綴：`*.scratch.md`、`*.notes.md`
-  
 - **規則**：
-  - 這些檔案**不作為 CI / 語言治理的正式輸入來源**（除非在未來某個流程中明確指定）。
+  - 這些檔案**不作為 CI
+    / 語言治理的正式輸入來源**（除非在未來某個流程中明確指定）。
   - 可以 commit，但預設不視為「系統事實來源」，而是「思考/設計痕跡」。
   - 若 scratch 演化成熟、內容穩定，應：
     - 升級為正式文件（移到 `docs/` 正式路徑），或
@@ -313,14 +317,14 @@ python tools/generate-refactor-playbook.py \
 
 - **實際暫存目錄**：
   - `docs/refactor_playbooks/_legacy_scratch/`
-  
 - **規則**：
   - `_legacy_scratch/` 應在 `.gitignore` 中排除，只保留 `.gitkeep`。
   - 舊程式檔案僅在重構期間暫存，完成集成與新實作後，必須刪除。
   - 舊資產的「知識層」透過：
-    - `01_deconstruction/legacy_assets_index.yaml`（定義 legacy_asset_id → 來源 repo / ref / 描述）
-    - `03_refactor/*_refactor.md` 檔頭中的 `legacy_assets` 欄位
-    來保留，而不是靠原始檔案本身。
+    - `01_deconstruction/legacy_assets_index.yaml`（定義 legacy_asset_id
+      → 來源 repo / ref / 描述）
+    - `03_refactor/*_refactor.md` 檔頭中的 `legacy_assets`
+      欄位來保留，而不是靠原始檔案本身。
 
 ### 5. Scratch 空間管理建議
 

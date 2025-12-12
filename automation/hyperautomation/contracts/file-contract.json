@@ -39,12 +39,7 @@
   "compliance": {
     "kubernetes_version": "1.30.0",
     "slsa_level": "SLSA Level 2 compatible",
-    "standards": [
-      "Platform-neutral",
-      "Kubernetes 1.30 aligned",
-      "No unknown fields",
-      "Strict validation"
-    ]
+    "standards": ["Platform-neutral", "Kubernetes 1.30 aligned", "No unknown fields", "Strict validation"]
   },
   "license": "MIT",
   "maintainers": [

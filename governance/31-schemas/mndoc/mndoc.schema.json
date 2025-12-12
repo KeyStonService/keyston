@@ -32,29 +32,12 @@
     },
     "layer": {
       "type": "string",
-      "enum": [
-        "documentation",
-        "control-plane",
-        "data-plane",
-        "governance",
-        "automation",
-        "infrastructure",
-        "observability"
-      ],
+      "enum": ["documentation", "control-plane", "data-plane", "governance", "automation", "infrastructure", "observability"],
       "description": "System architecture layer"
     },
     "type": {
       "type": "string",
-      "enum": [
-        "overview",
-        "subsystem",
-        "component",
-        "concept",
-        "guide",
-        "api-reference",
-        "configuration",
-        "governance-pipeline"
-      ],
+      "enum": ["overview", "subsystem", "component", "concept", "guide", "api-reference", "configuration", "governance-pipeline"],
       "description": "Document/entity type"
     },
     "owner": {

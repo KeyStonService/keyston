@@ -10,7 +10,7 @@ framework:
   name: "Self-Healing Without Automatic Repair"
   principle: "Prevention over Cure, INSTANT over Delayed"
   philosophy: "Event-driven, Zero-wait, Always-on"
-  
+
   layers:
     preventive_design:
       enabled: true
@@ -20,7 +20,7 @@ framework:
         - stateless_services
         - fail_safe_defaults
         - circuit_breakers
-        
+
     continuous_awareness:
       enabled: true
       interval: "1s"
@@ -30,7 +30,7 @@ framework:
         - memory_usage
         - request_latency
         - error_rate
-        
+
     proactive_adaptation:
       enabled: true
       execution: "EVENT_DRIVEN"
@@ -59,7 +59,7 @@ integration:
     count: 7
     coordination: "automatic"
     startup_time: "< 0.01s"
-  
+
 deployment_model:
   type: "INSTANT_ALWAYS_READY"
   no_waiting: true

@@ -22,7 +22,6 @@ description: "Architectural layer and domain definitions for SynergyMesh"
 # Layers define vertical organization with clear dependency rules
 
 layers:
-  
   # ─────────────────────────────────────────────────────────────────────────
   # Infrastructure Layer | 基礎設施層
   # ─────────────────────────────────────────────────────────────────────────
@@ -30,7 +29,7 @@ layers:
     order: 1
     description: "Infrastructure primitives and low-level components"
     description_zh: "基礎設施原語和底層組件"
-    
+
     responsibilities:
       - "Provide hardware abstraction"
       - "Container orchestration (Kubernetes)"
@@ -40,7 +39,7 @@ layers:
       - "容器編排 (Kubernetes)"
       - "網路原語"
       - "儲存原語"
-    
+
     restrictions:
       - "CANNOT depend on any other layer"
       - "CANNOT contain business logic"
@@ -48,17 +47,17 @@ layers:
       - "不能依賴任何其他層"
       - "不能包含業務邏輯"
       - "必須盡可能無狀態"
-    
+
     examples:
       - "k8s/ - Kubernetes manifests"
       - "Dockerfile - Container definitions"
       - "docker-compose.yml - Local infrastructure"
-    
+
     allowed_languages:
       - yaml
       - json
       - shell
-    
+
     dependencies:
       allowed: []
       prohibited: ["core", "runtime", "services", "apps", "automation", "governance"]
@@ -70,7 +69,7 @@ layers:
     order: 2
     description: "Policies, rules, schemas, and compliance definitions"
     description_zh: "策略、規則、模式定義和合規性定義"
-    
+
     responsibilities:
       - "Define architectural policies"
       - "Maintain data schemas"
@@ -80,7 +79,7 @@ layers:
       - "維護資料模式"
       - "記錄治理規則"
       - "提供合規框架"
-    
+
     restrictions:
       - "CANNOT depend on any implementation"
       - "MUST be declarative only"
@@ -88,18 +87,18 @@ layers:
       - "不能依賴任何實現"
       - "必須僅為聲明式"
       - "不能包含可執行代碼（除了驗證器）"
-    
+
     examples:
       - "governance/23-policies/ - OPA/Rego policies"
       - "governance/31-schemas/ - JSON schemas"
       - "governance/rules/ - Governance rules"
-    
+
     allowed_languages:
       - yaml
       - json
       - rego
-      - python  # For validation scripts only
-    
+      - python # For validation scripts only
+
     dependencies:
       allowed: []
       prohibited: ["core", "runtime", "services", "apps", "automation", "infrastructure"]
@@ -111,7 +110,7 @@ layers:
     order: 3
     description: "Execution environment and runtime systems"
     description_zh: "執行環境和運行時系統"
-    
+
     responsibilities:
       - "Provide execution context"
       - "Manage process lifecycle"
@@ -119,7 +118,7 @@ layers:
       - "提供執行上下文"
       - "管理進程生命週期"
       - "處理資源分配"
-    
+
     restrictions:
       - "CANNOT depend on core or higher layers"
       - "CANNOT contain business logic"
@@ -127,15 +126,15 @@ layers:
       - "不能依賴核心層或更高層"
       - "不能包含業務邏輯"
       - "必須盡可能語言無關"
-    
+
     examples:
       - "runtime/mind_matrix/ - Cognitive runtime"
-    
+
     allowed_languages:
       - python
       - typescript
       - go
-    
+
     dependencies:
       allowed: ["infrastructure"]
       prohibited: ["core", "services", "apps", "automation"]
@@ -147,7 +146,7 @@ layers:
     order: 4
     description: "Core platform modules and fundamental capabilities"
     description_zh: "核心平台模組和基本能力"
-    
+
     responsibilities:
       - "Provide platform fundamentals"
       - "Implement system orchestration"
@@ -157,7 +156,7 @@ layers:
       - "實現系統編排"
       - "管理配置和註冊表"
       - "處理安全和合規"
-    
+
     restrictions:
       - "CANNOT depend on services or apps"
       - "SHOULD minimize external dependencies"
@@ -165,18 +164,18 @@ layers:
       - "不能依賴服務層或應用層"
       - "應最小化外部依賴"
       - "必須保持向後兼容"
-    
+
     examples:
       - "core/unified_integration/ - Integration hub"
       - "core/contract_service/ - Contract management"
       - "core/slsa_provenance/ - Provenance attestation"
       - "core/safety_mechanisms/ - Safety checks"
-    
+
     allowed_languages:
       - python
       - typescript
       - go
-    
+
     dependencies:
       allowed: ["infrastructure", "runtime"]
       prohibited: ["services", "apps"]
@@ -188,7 +187,7 @@ layers:
     order: 5
     description: "Automation, orchestration, and intelligent agents"
     description_zh: "自動化、編排和智能代理"
-    
+
     responsibilities:
       - "Orchestrate workflows"
       - "Manage intelligent automation"
@@ -198,7 +197,7 @@ layers:
       - "管理智能自動化"
       - "協調多代理系統"
       - "處理自主操作"
-    
+
     restrictions:
       - "CANNOT depend on apps"
       - "SHOULD use services as primary integration point"
@@ -206,18 +205,18 @@ layers:
       - "不能依賴應用層"
       - "應使用服務作為主要整合點"
       - "必須遵守安全邊界"
-    
+
     examples:
       - "automation/intelligent/ - Intelligent automation"
       - "automation/architect/ - Architecture analysis"
       - "automation/autonomous/ - Autonomous systems"
-    
+
     allowed_languages:
       - python
       - typescript
       - go
-      - cpp  # For performance-critical automation
-    
+      - cpp # For performance-critical automation
+
     dependencies:
       allowed: ["core", "runtime", "services", "infrastructure"]
       prohibited: ["apps"]
@@ -229,7 +228,7 @@ layers:
     order: 6
     description: "Business services and domain logic"
     description_zh: "業務服務和領域邏輯"
-    
+
     responsibilities:
       - "Implement business capabilities"
       - "Provide domain services"
@@ -239,7 +238,7 @@ layers:
       - "提供領域服務"
       - "暴露 API 和整合"
       - "處理橫切關注點"
-    
+
     restrictions:
       - "CANNOT depend on apps"
       - "SHOULD minimize direct core dependencies"
@@ -247,16 +246,16 @@ layers:
       - "不能依賴應用層"
       - "應最小化直接核心層依賴"
       - "必須暴露定義明確的 API"
-    
+
     examples:
       - "services/mcp/ - MCP protocol services"
       - "services/agents/ - Agent services"
-    
+
     allowed_languages:
       - typescript
       - python
       - go
-    
+
     dependencies:
       allowed: ["core", "runtime", "infrastructure"]
       prohibited: ["apps"]
@@ -268,7 +267,7 @@ layers:
     order: 7
     description: "User-facing applications and UIs"
     description_zh: "面向用戶的應用程式和使用者界面"
-    
+
     responsibilities:
       - "Provide user interfaces"
       - "Implement user workflows"
@@ -278,7 +277,7 @@ layers:
       - "實現用戶工作流"
       - "處理用戶交互"
       - "組合服務能力"
-    
+
     restrictions:
       - "CAN depend on all lower layers"
       - "SHOULD prefer services over direct core access"
@@ -286,16 +285,16 @@ layers:
       - "可以依賴所有下層"
       - "應優先使用服務而非直接訪問核心"
       - "不能被其他層依賴"
-    
+
     examples:
       - "apps/web/ - Web applications"
       - "apps/cli/ - Command-line tools"
-    
+
     allowed_languages:
       - typescript
       - python
       - go
-    
+
     dependencies:
       allowed: ["services", "core", "runtime", "infrastructure"]
       prohibited: []
@@ -306,26 +305,25 @@ layers:
 # Domains define horizontal organization by business capability
 
 domains:
-  
   # ─────────────────────────────────────────────────────────────────────────
   # Contract Management Domain | 合約管理領域
   # ─────────────────────────────────────────────────────────────────────────
   contract:
     description: "Contract lifecycle and provenance management"
     description_zh: "合約生命週期和溯源管理"
-    
+
     capabilities:
       - "Contract creation and validation"
       - "Signature verification"
       - "Provenance attestation"
       - "Contract storage and retrieval"
-    
+
     modules:
       - "core.contract_service.L1"
       - "core.slsa_provenance"
-    
+
     owner: "@core-platform-team"
-    
+
     cross_domain_interfaces:
       - domain: "security"
         integration: "Signature verification and attestation"
@@ -338,19 +336,19 @@ domains:
   autonomous:
     description: "Autonomous drone and UAV operations"
     description_zh: "自主無人機和 UAV 操作"
-    
+
     capabilities:
       - "Drone control and coordination"
       - "Path planning and navigation"
       - "Safety monitoring"
       - "Mission management"
-    
+
     modules:
       - "automation.autonomous"
       - "automation.hyperautomation"
-    
+
     owner: "@automation-team"
-    
+
     cross_domain_interfaces:
       - domain: "security"
         integration: "Safety boundary enforcement"
@@ -363,20 +361,20 @@ domains:
   security:
     description: "Security, safety, and compliance"
     description_zh: "安全、防護和合規"
-    
+
     capabilities:
       - "Vulnerability scanning"
       - "Safety mechanism enforcement"
       - "Compliance validation"
       - "Access control"
-    
+
     modules:
       - "core.safety_mechanisms"
       - "core.slsa_provenance"
       - "services.security_scanner"
-    
+
     owner: "@security-team"
-    
+
     cross_domain_interfaces:
       - domain: "contract"
         integration: "Contract signature verification"
@@ -389,19 +387,19 @@ domains:
   language_governance:
     description: "Multi-language policy and code quality"
     description_zh: "多語言策略和代碼質量"
-    
+
     capabilities:
       - "Language boundary enforcement"
       - "Code quality validation"
       - "Style guide enforcement"
       - "Dependency management"
-    
+
     modules:
       - "governance.policies"
       - "governance.rules"
-    
+
     owner: "@architecture-team"
-    
+
     cross_domain_interfaces:
       - domain: "quality"
         integration: "Code quality metrics"
@@ -412,19 +410,19 @@ domains:
   monitoring:
     description: "System monitoring and observability"
     description_zh: "系統監控和可觀測性"
-    
+
     capabilities:
       - "Metrics collection"
       - "Log aggregation"
       - "Alerting and notifications"
       - "Performance tracking"
-    
+
     modules:
       - "core.monitoring_system"
       - "ops.monitoring"
-    
+
     owner: "@ops-team"
-    
+
     cross_domain_interfaces:
       - domain: "autonomous"
         integration: "Drone telemetry"
@@ -437,18 +435,18 @@ domains:
   billing:
     description: "Billing, payments, and financial operations"
     description_zh: "計費、支付和財務操作"
-    
+
     capabilities:
       - "Usage metering"
       - "Invoice generation"
       - "Payment processing"
       - "Cost allocation"
-    
+
     modules:
       - "services.billing"
-    
+
     owner: "@business-team"
-    
+
     cross_domain_interfaces:
       - domain: "contract"
         integration: "Contract-based billing"
@@ -468,7 +466,7 @@ layer_domain_matrix:
       - "security"
       - "monitoring"
       - "language_governance"
-  
+
   # Services layer typically contains business domain logic
   services:
     allowed_domains:
@@ -476,14 +474,14 @@ layer_domain_matrix:
       - "security"
       - "billing"
       - "monitoring"
-  
+
   # Automation layer for automation-related domains
   automation:
     allowed_domains:
       - "autonomous"
       - "monitoring"
       - "language_governance"
-  
+
   # Governance layer is domain-agnostic
   governance:
     allowed_domains:
@@ -498,15 +496,15 @@ validation:
   layer_dependency_check:
     enabled: true
     description: "Verify that layer dependencies follow the defined hierarchy"
-  
+
   domain_isolation_check:
     enabled: true
     description: "Ensure cross-domain communication goes through defined interfaces"
-  
+
   language_policy_check:
     enabled: true
     description: "Validate that modules use allowed languages for their layer"
-  
+
   circular_dependency_check:
     enabled: true
     description: "Detect and prohibit circular dependencies"
@@ -521,7 +519,7 @@ evolution:
     - "New domains should be additive, not breaking"
     - "Layer boundaries are architectural invariants"
     - "Domain boundaries can be refactored with care"
-  
+
   deprecation_process:
     - "Mark domain/layer as deprecated in this file"
     - "Update ownership-map.yaml with migration path"

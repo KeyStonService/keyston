@@ -1,6 +1,7 @@
 # 🔧 Common Governance Resources
 
-> Shared governance policies, schemas, and tools used across all 14 governance dimensions and 9 meta-governance domains
+> Shared governance policies, schemas, and tools used across all 14 governance
+> dimensions and 9 meta-governance domains
 
 ## 📋 Overview
 
@@ -85,12 +86,12 @@ common/
   "type": "object",
   "required": ["name", "description", "rules"],
   "properties": {
-    "name": {"type": "string"},
-    "description": {"type": "string"},
-    "version": {"type": "string"},
-    "rules": {"type": "array"},
-    "dependencies": {"type": "array"},
-    "enforcement": {"enum": ["strict", "warning", "advisory"]}
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "version": { "type": "string" },
+    "rules": { "type": "array" },
+    "dependencies": { "type": "array" },
+    "enforcement": { "enum": ["strict", "warning", "advisory"] }
   }
 }
 ```
@@ -127,7 +128,8 @@ common/
 
 **validate_governance_matrix.py**
 
-- Master validator ensuring all 14 dimensions comply with all 9 meta-governance domains
+- Master validator ensuring all 14 dimensions comply with all 9 meta-governance
+  domains
 - Generates comprehensive compliance matrix
 - Identifies gaps and conflicts
 - Produces cross-dimensional reports
@@ -189,12 +191,12 @@ common/ (foundation)
 
 This resource enables the master governance matrix:
 
-| Dimension | Arch | API | Data | Testing | Identity | Perf/Rel | Cost | Docs | Common |
-|-----------|------|-----|------|---------|----------|----------|------|------|--------|
-| governance-architecture | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| decision-governance | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| change-governance | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| ... (all 14 dimensions) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Dimension               | Arch | API | Data | Testing | Identity | Perf/Rel | Cost | Docs | Common |
+| ----------------------- | ---- | --- | ---- | ------- | -------- | -------- | ---- | ---- | ------ |
+| governance-architecture | ✅   | ✅  | ✅   | ✅      | ✅       | ✅       | ✅   | ✅   | ✅     |
+| decision-governance     | ✅   | ✅  | ✅   | ✅      | ✅       | ✅       | ✅   | ✅   | ✅     |
+| change-governance       | ✅   | ✅  | ✅   | ✅      | ✅       | ✅       | ✅   | ✅   | ✅     |
+| ... (all 14 dimensions) | ✅   | ✅  | ✅   | ✅      | ✅       | ✅       | ✅   | ✅   | ✅     |
 
 Legend: ✅ = Uses common resources and must comply with governance
 
@@ -236,6 +238,5 @@ python3 dependency_analyzer.py --governance-root ../
 
 ---
 
-**Status**: Foundation Governance Resources
-**Last Updated**: 2025-12-09
-**Used By**: 14 dimensions + 9 meta-governance domains
+**Status**: Foundation Governance Resources **Last Updated**: 2025-12-09 **Used
+By**: 14 dimensions + 9 meta-governance domains

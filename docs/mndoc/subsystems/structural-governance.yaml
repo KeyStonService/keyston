@@ -31,16 +31,16 @@ capabilities:
 
 # Ten-stage governance pipeline stages
 pipelines:
-  - lint            # YAML/JSON 語法檢查
-  - format          # 格式化規則驗證
-  - schema          # JSON Schema 驗證
-  - vector-test     # 測試向量驗證
-  - policy-gate     # OPA/Conftest 策略檢查
-  - k8s-validation  # Kubernetes 清單驗證
-  - sbom            # 軟體物料清單生成
-  - provenance      # SLSA 證據注入
-  - sign            # Sigstore 無密鑰簽名
-  - audit           # 審計事件記錄
+  - lint # YAML/JSON 語法檢查
+  - format # 格式化規則驗證
+  - schema # JSON Schema 驗證
+  - vector-test # 測試向量驗證
+  - policy-gate # OPA/Conftest 策略檢查
+  - k8s-validation # Kubernetes 清單驗證
+  - sbom # 軟體物料清單生成
+  - provenance # SLSA 證據注入
+  - sign # Sigstore 無密鑰簽名
+  - audit # 審計事件記錄
 
 # Components
 components:
@@ -93,7 +93,7 @@ meta:
     - signature
     - links
     - meta
-  
+
   tools:
     validate_index: "tools/docs/validate_index.py"
     scan_repo: "tools/docs/scan_repo_generate_index.py"

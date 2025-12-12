@@ -10,11 +10,11 @@ spec:
       template:
         spec:
           containers:
-          - name: trivy
-            image: aquasec/trivy:latest
-            command:
-            - trivy
-            - image
-            - --severity=HIGH,CRITICAL
-            - autofix/code-analyzer:latest
+            - name: trivy
+              image: aquasec/trivy:latest
+              command:
+                - trivy
+                - image
+                - --severity=HIGH,CRITICAL
+                - autofix/code-analyzer:latest
           restartPolicy: OnFailure

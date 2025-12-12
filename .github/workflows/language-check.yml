@@ -3,10 +3,10 @@ name: Language Compliance Check
 "on":
   pull_request:
     paths:
-      - '**.md'
-      - '**.yml'
-      - '**.yaml'
-      - 'docs/**'
+      - "**.md"
+      - "**.yml"
+      - "**.yaml"
+      - "docs/**"
 
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: 🔍 Check language compliance
         run: |
@@ -36,7 +36,7 @@ jobs:
           echo "## 🌐 語言合規性檢查報告" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ 語言檢查已執行" >> $GITHUB_STEP_SUMMARY
-  
+
   # ==================== 互動式客服整合 ====================
   # Note: 全時反饋型 - 在所有事件都提供互動式反饋
   interactive-service:

@@ -9,27 +9,27 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  - name: ai_predictions
-    interval: 10s  # Real-time, not periodic
-    rules:
-    # AI prediction: Resource exhaustion
-    - alert: PredictedResourceExhaustion
-      expr: predict_linear(governance_resources_total[1h], 3600) > 1000
-      for: 0s  # INSTANT alert
-      labels:
-        severity: warning
-        ai_generated: "true"
-      annotations:
-        summary: "AI predicts resource exhaustion in 1 hour"
-        action: "AUTO_SCALE"
-        
-    # AI prediction: Compliance drift
-    - alert: PredictedComplianceDrift
-      expr: rate(governance_policy_violations_total[5m]) > 0.1
-      for: 0s  # INSTANT alert
-      labels:
-        severity: critical
-        ai_generated: "true"
-      annotations:
-        summary: "AI detects increasing compliance violations"
-        action: "AUTO_REMEDIATE"
+    - name: ai_predictions
+      interval: 10s # Real-time, not periodic
+      rules:
+        # AI prediction: Resource exhaustion
+        - alert: PredictedResourceExhaustion
+          expr: predict_linear(governance_resources_total[1h], 3600) > 1000
+          for: 0s # INSTANT alert
+          labels:
+            severity: warning
+            ai_generated: "true"
+          annotations:
+            summary: "AI predicts resource exhaustion in 1 hour"
+            action: "AUTO_SCALE"
+
+        # AI prediction: Compliance drift
+        - alert: PredictedComplianceDrift
+          expr: rate(governance_policy_violations_total[5m]) > 0.1
+          for: 0s # INSTANT alert
+          labels:
+            severity: critical
+            ai_generated: "true"
+          annotations:
+            summary: "AI detects increasing compliance violations"
+            action: "AUTO_REMEDIATE"

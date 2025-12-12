@@ -2,7 +2,10 @@
 
 ## 📊 Overview
 
-The Architecture Optimization Dashboard provides real-time visibility into the Unmanned Island System's global health metrics, optimization progress, and governance compliance. It serves as the primary interface for the Architecture Reasoner agent and human reviewers to monitor system-wide quality.
+The Architecture Optimization Dashboard provides real-time visibility into the
+Unmanned Island System's global health metrics, optimization progress, and
+governance compliance. It serves as the primary interface for the Architecture
+Reasoner agent and human reviewers to monitor system-wide quality.
 
 ---
 
@@ -10,7 +13,8 @@ The Architecture Optimization Dashboard provides real-time visibility into the U
 
 ### Definition
 
-The dashboard tracks **optimization toward ideal state** across multiple dimensions. Each objective function defines:
+The dashboard tracks **optimization toward ideal state** across multiple
+dimensions. Each objective function defines:
 
 - **Current State**: Measured from live system
 - **Ideal State**: Theoretical optimum based on architecture principles
@@ -21,13 +25,14 @@ The dashboard tracks **optimization toward ideal state** across multiple dimensi
 
 #### 1. Language Stack Convergence（語言堆疊收斂）
 
-**Objective**: Minimize language diversity while maintaining necessary polyglotism
+**Objective**: Minimize language diversity while maintaining necessary
+polyglotism
 
 ```yaml
 objective_function:
   name: "language_stack_convergence"
   formula: "1 - (actual_language_diversity / baseline_diversity)"
-  
+
   ideal_state:
     primary_languages: ["TypeScript"]
     secondary_languages: ["Python", "Go", "C++", "Rust"]
@@ -39,7 +44,7 @@ objective_function:
       C++: 5%
       Rust: 5%
     forbidden_count: 0
-    
+
   current_state:
     actual_languages: ["TypeScript", "JavaScript", "Python", "Go", "C++", "Rust", "Shell", "PHP"]
     language_count: 8
@@ -53,14 +58,14 @@ objective_function:
       Shell: 4%
       PHP: 1%
     forbidden_count: 1  # PHP
-    
+
   gap_analysis:
     excess_languages: ["JavaScript", "Shell", "PHP"]
     missing_distribution:
       TypeScript: "Need +25% (from 45% to 70%)"
       Python: "Need +3% (from 12% to 15%)"
     convergence_score: 0.625  # 62.5% toward ideal
-    
+
   improvement_targets:
     P0: "Remove PHP (1% of codebase) → +5% convergence"
     P1: "Migrate 15% of JavaScript to TypeScript → +15% convergence"
@@ -97,39 +102,39 @@ Gap: 37.5% | Trend: ↗ Improving (+5% last 30 days)
 
 ```yaml
 objective_function:
-  name: "architecture_compliance"
-  formula: "1 - (violation_count / total_possible_violations)"
-  
+  name: 'architecture_compliance'
+  formula: '1 - (violation_count / total_possible_violations)'
+
   ideal_state:
     reverse_dependencies: 0
     circular_dependencies: 0
     skeleton_violations: 0
     forbidden_patterns: 0
-    compliance_score: 1.0  # 100%
-    
+    compliance_score: 1.0 # 100%
+
   current_state:
-    reverse_dependencies: 3  # apps → core violations
-    circular_dependencies: 1  # core modules circular
-    skeleton_violations: 2  # architecture-stability rules
+    reverse_dependencies: 3 # apps → core violations
+    circular_dependencies: 1 # core modules circular
+    skeleton_violations: 2 # architecture-stability rules
     forbidden_patterns: 0
-    compliance_score: 0.88  # 88%
-    
+    compliance_score: 0.88 # 88%
+
   gap_analysis:
     total_violations: 6
     by_severity:
-      CRITICAL: 3  # reverse dependencies
-      HIGH: 1      # circular dependency
-      MEDIUM: 2    # skeleton violations
+      CRITICAL: 3 # reverse dependencies
+      HIGH: 1 # circular dependency
+      MEDIUM: 2 # skeleton violations
     by_module:
-      "apps/web": 2 violations
-      "core/unified_integration": 2 violations
-      "core/mind_matrix": 1 violation
-      "services/gateway": 1 violation
-      
+      'apps/web': 2 violations
+      'core/unified_integration': 2 violations
+      'core/mind_matrix': 1 violation
+      'services/gateway': 1 violation
+
   improvement_targets:
-    P0: "Fix 3 reverse dependencies → +50% compliance"
-    P1: "Break circular dependency → +17% compliance"
-    P2: "Fix skeleton violations → +33% compliance"
+    P0: 'Fix 3 reverse dependencies → +50% compliance'
+    P1: 'Break circular dependency → +17% compliance'
+    P2: 'Fix skeleton violations → +33% compliance'
 ```
 
 **Visualization**:
@@ -159,13 +164,13 @@ Target: 100% | Gap: 12% | Trend: ↗ (+3% last 14 days)
 
 ```yaml
 objective_function:
-  name: "security_posture"
-  formula: "1 - (weighted_findings / max_weighted_score)"
+  name: 'security_posture'
+  formula: '1 - (weighted_findings / max_weighted_score)'
   weights:
     HIGH: 100
     MEDIUM: 10
     LOW: 1
-    
+
   ideal_state:
     semgrep_high: 0
     semgrep_medium: 0
@@ -173,25 +178,25 @@ objective_function:
     codeql_high: 0
     codeql_medium: 0
     security_score: 1.0
-    
+
   current_state:
     semgrep_high: 3
     semgrep_medium: 8
     semgrep_low: 15
     codeql_high: 0
     codeql_medium: 2
-    weighted_score: 315  # (3*100 + 8*10 + 15*1 + 2*10)
-    security_score: 0.685  # 68.5%
-    
+    weighted_score: 315 # (3*100 + 8*10 + 15*1 + 2*10)
+    security_score: 0.685 # 68.5%
+
   gap_analysis:
-    critical_gap: "3 HIGH findings blocking 100% score"
-    medium_gap: "10 MEDIUM findings"
-    acceptable_risk: "15 LOW findings (within tolerance)"
-    
+    critical_gap: '3 HIGH findings blocking 100% score'
+    medium_gap: '10 MEDIUM findings'
+    acceptable_risk: '15 LOW findings (within tolerance)'
+
   improvement_targets:
-    P0: "Fix 3 HIGH findings → +30% security score"
-    P1: "Fix 5 critical MEDIUM findings → +5% score"
-    P2: "Fix remaining MEDIUM → +5% score"
+    P0: 'Fix 3 HIGH findings → +30% security score'
+    P1: 'Fix 5 critical MEDIUM findings → +5% score'
+    P2: 'Fix remaining MEDIUM → +5% score'
 ```
 
 #### 4. Refactor Progress Index（重構進度指數）
@@ -200,55 +205,55 @@ objective_function:
 
 ```yaml
 objective_function:
-  name: "refactor_progress"
-  formula: "completed_items / total_planned_items"
-  
+  name: 'refactor_progress'
+  formula: 'completed_items / total_planned_items'
+
   ideal_state:
     all_clusters_complete: true
     p0_completion: 100%
     p1_completion: 100%
     p2_completion: 100%
-    
+
   current_state:
     total_clusters: 12
     completed_clusters: 3
     in_progress_clusters: 5
     not_started_clusters: 4
-    
+
     p0_items:
       total: 45
       completed: 38
       completion: 84.4%
-      
+
     p1_items:
       total: 78
       completed: 22
       completion: 28.2%
-      
+
     p2_items:
       total: 134
       completed: 8
       completion: 6.0%
-      
+
   gap_analysis:
-    immediate_blockers: "7 P0 items remaining"
+    immediate_blockers: '7 P0 items remaining'
     estimated_completion:
-      P0: "2 days"
-      P1: "3 weeks"
-      P2: "8 weeks"
-      
+      P0: '2 days'
+      P1: '3 weeks'
+      P2: '8 weeks'
+
   by_cluster:
-    "core/architecture-stability":
+    'core/architecture-stability':
       status: IN_PROGRESS
-      p0: "100% (12/12)"
-      p1: "60% (6/10)"
-      p2: "10% (2/20)"
-      
-    "services/gateway":
+      p0: '100% (12/12)'
+      p1: '60% (6/10)'
+      p2: '10% (2/20)'
+
+    'services/gateway':
       status: NOT_STARTED
-      p0: "0% (0/5)"
-      p1: "0% (0/8)"
-      p2: "0% (0/15)"
+      p0: '0% (0/5)'
+      p1: '0% (0/8)'
+      p2: '0% (0/15)'
 ```
 
 #### 5. Test Coverage Momentum（測試覆蓋率動量）
@@ -257,33 +262,33 @@ objective_function:
 
 ```yaml
 objective_function:
-  name: "test_coverage_momentum"
-  formula: "current_coverage - baseline_coverage"
-  
+  name: 'test_coverage_momentum'
+  formula: 'current_coverage - baseline_coverage'
+
   ideal_state:
     system_coverage: 85%
     no_module_below: 75%
-    trend: "increasing"
-    
+    trend: 'increasing'
+
   current_state:
     system_coverage: 76.3%
     modules:
-      "core/": 82.1%
-      "services/": 74.8%
-      "apps/": 68.2%
-      "automation/": 79.5%
-      
+      'core/': 82.1%
+      'services/': 74.8%
+      'apps/': 68.2%
+      'automation/': 79.5%
+
   gap_analysis:
-    system_gap: "-8.7% from ideal"
+    system_gap: '-8.7% from ideal'
     critical_modules:
-      "apps/web": "68.2% (needs +6.8%)"
-      "services/gateway": "72.1% (needs +2.9%)"
-      
+      'apps/web': '68.2% (needs +6.8%)'
+      'services/gateway': '72.1% (needs +2.9%)'
+
   trend_analysis:
-    last_7_days: "+0.3%"
-    last_30_days: "+1.2%"
-    last_90_days: "-0.5%"
-    momentum: "SHORT_TERM_POSITIVE"
+    last_7_days: '+0.3%'
+    last_30_days: '+1.2%'
+    last_90_days: '-0.5%'
+    momentum: 'SHORT_TERM_POSITIVE'
 ```
 
 #### 6. Cyclomatic Complexity Trend（圈複雜度趨勢）
@@ -292,36 +297,36 @@ objective_function:
 
 ```yaml
 objective_function:
-  name: "complexity_reduction"
-  formula: "(baseline_complexity - current_complexity) / baseline_complexity"
-  
+  name: 'complexity_reduction'
+  formula: '(baseline_complexity - current_complexity) / baseline_complexity'
+
   ideal_state:
     system_avg_complexity: 10
     no_function_above: 15
     no_file_above: 20
-    
+
   current_state:
     system_avg_complexity: 13.2
-    hotspot_functions: 23  # above 15
-    hotspot_files: 8  # avg above 20
-    
+    hotspot_functions: 23 # above 15
+    hotspot_files: 8 # avg above 20
+
     by_module:
-      "core/": 14.8
-      "services/": 12.1
-      "apps/": 11.9
-      "automation/": 16.3
-      
+      'core/': 14.8
+      'services/': 12.1
+      'apps/': 11.9
+      'automation/': 16.3
+
   gap_analysis:
-    avg_gap: "+3.2 (24% above ideal)"
+    avg_gap: '+3.2 (24% above ideal)'
     critical_hotspots:
-      - file: "core/unified_integration/processor.ts"
+      - file: 'core/unified_integration/processor.ts'
         avg_complexity: 28.5
         worst_function: 45
-        
+
   improvement_targets:
-    P0: "Refactor 5 worst functions → -1.2 avg complexity"
-    P1: "Break down hotspot files → -1.5 avg complexity"
-    P2: "Systematic simplification → -0.5 avg complexity"
+    P0: 'Refactor 5 worst functions → -1.2 avg complexity'
+    P1: 'Break down hotspot files → -1.5 avg complexity'
+    P2: 'Systematic simplification → -0.5 avg complexity'
 ```
 
 ---
@@ -334,71 +339,78 @@ Generated daily, provides comprehensive gap analysis across all dimensions:
 
 ```markdown
 # System Optimization Gap Report
-**Generated**: 2025-12-06 22:00:00 UTC
-**Reporting Period**: Last 30 days
+
+**Generated**: 2025-12-06 22:00:00 UTC **Reporting Period**: Last 30 days
 
 ## Executive Summary
 
-| Dimension | Current | Ideal | Gap | Trend | Status |
-|-----------|---------|-------|-----|-------|--------|
-| Language Convergence | 62.5% | 100% | 37.5% | ↗ +5% | 🟡 IMPROVING |
-| Architecture Compliance | 88% | 100% | 12% | ↗ +3% | 🟡 IMPROVING |
-| Security Posture | 68.5% | 100% | 31.5% | → 0% | 🟠 STAGNANT |
-| Refactor Progress | 38.4% | 100% | 61.6% | ↗ +8% | 🟢 ON_TRACK |
-| Test Coverage | 76.3% | 85% | 8.7% | ↗ +1.2% | 🟢 ON_TRACK |
-| Complexity Reduction | 13.2 | 10.0 | 24% | ↘ -0.3 | 🔴 WORSENING |
+| Dimension               | Current | Ideal | Gap   | Trend   | Status       |
+| ----------------------- | ------- | ----- | ----- | ------- | ------------ |
+| Language Convergence    | 62.5%   | 100%  | 37.5% | ↗ +5%   | 🟡 IMPROVING |
+| Architecture Compliance | 88%     | 100%  | 12%   | ↗ +3%   | 🟡 IMPROVING |
+| Security Posture        | 68.5%   | 100%  | 31.5% | → 0%    | 🟠 STAGNANT  |
+| Refactor Progress       | 38.4%   | 100%  | 61.6% | ↗ +8%   | 🟢 ON_TRACK  |
+| Test Coverage           | 76.3%   | 85%   | 8.7%  | ↗ +1.2% | 🟢 ON_TRACK  |
+| Complexity Reduction    | 13.2    | 10.0  | 24%   | ↘ -0.3  | 🔴 WORSENING |
 
 **Overall System Health**: 🟡 71.6% toward ideal state
 
 ## Critical Gaps (Blocking 100% Health)
 
 ### 1. Security - 3 HIGH Severity Findings (Priority: P0)
-**Impact**: Blocks production readiness
-**Affected Modules**: core/unified_integration (2), services/gateway (1)
-**Remediation**: 
+
+**Impact**: Blocks production readiness **Affected Modules**:
+core/unified_integration (2), services/gateway (1) **Remediation**:
+
 - `SEMGREP-001`: SQL injection risk in `core/unified_integration/db.ts:45`
 - `SEMGREP-002`: Unsafe deserialization in `core/unified_integration/api.ts:128`
 - `SEMGREP-003`: Missing authentication check in `services/gateway/router.ts:89`
 
-**Estimated Fix Time**: 16 hours
-**Blocking**: Phase 3 completion, production deployment
+**Estimated Fix Time**: 16 hours **Blocking**: Phase 3 completion, production
+deployment
 
 ### 2. Architecture - 3 Reverse Dependencies (Priority: P0)
-**Impact**: Violates layering principles, increases coupling
-**Violations**:
+
+**Impact**: Violates layering principles, increases coupling **Violations**:
+
 1. `apps/web/src/utils/core-helpers.ts` → imports `core/unified_integration`
 2. `apps/web/src/services/processor.ts` → imports `core/mind_matrix`
-3. `services/mcp/client.ts` → imports `core/safety_mechanisms` (should go through API)
+3. `services/mcp/client.ts` → imports `core/safety_mechanisms` (should go
+   through API)
 
 **Remediation Plan**:
+
 - Create `services/api/core-facade.ts` for apps to use
 - Move `core-helpers.ts` logic to services layer
 - Update imports in 23 files
 
-**Estimated Fix Time**: 3 days
-**Blocking**: Architecture certification, modularity goals
+**Estimated Fix Time**: 3 days **Blocking**: Architecture certification,
+modularity goals
 
 ### 3. Language - 1 Forbidden Language (PHP, 1%) (Priority: P0)
-**Impact**: Violates language policy, security risk
-**Files**: 
+
+**Impact**: Violates language policy, security risk **Files**:
+
 - `automation/legacy/backup-script.php` (127 lines)
 
-**Remediation**: Rewrite in Python, estimated 4 hours
-**Blocking**: Language governance compliance
+**Remediation**: Rewrite in Python, estimated 4 hours **Blocking**: Language
+governance compliance
 
 ## Moderate Gaps (Impact Quality Metrics)
 
 ### Cyclomatic Complexity Worsening (-0.3 trend)
-**Root Cause**: New feature additions without refactoring
-**Hotspots**: 
+
+**Root Cause**: New feature additions without refactoring **Hotspots**:
+
 - `core/unified_integration/processor.ts` (avg 28.5, 8 functions > 20)
 - `automation/autonomous/controller.cpp` (avg 24.1, 12 functions > 20)
 
 **Recommended Action**: Schedule P1 refactoring sprints
 
 ### Test Coverage Stagnant in Apps (68.2%)
-**Gap from Target**: -6.8%
-**Missing Coverage**: 
+
+**Gap from Target**: -6.8% **Missing Coverage**:
+
 - `apps/web/src/components/` (42% coverage)
 - `apps/web/src/utils/` (55% coverage)
 
@@ -407,15 +419,18 @@ Generated daily, provides comprehensive gap analysis across all dimensions:
 ## Progress Toward Ideal State
 
 **Modules at Ideal State**: 2/12 (17%)
+
 - ✅ `infrastructure/kubernetes` (100% compliant)
 - ✅ `governance/schemas` (100% compliant)
 
 **Modules Close to Ideal (>90%)**: 3/12 (25%)
+
 - 🟢 `automation/autonomous` (94%)
 - 🟢 `core/safety_mechanisms` (92%)
 - 🟢 `services/mcp` (91%)
 
 **Modules Needing Attention (<70%)**: 4/12 (33%)
+
 - 🔴 `apps/web` (62%)
 - 🔴 `services/gateway` (68%)
 - 🟠 `core/unified_integration` (69%)
@@ -426,12 +441,14 @@ Generated daily, provides comprehensive gap analysis across all dimensions:
 **Current Velocity**: +2.3% system health per week
 
 **Projected Milestones**:
+
 - 80% Health: 4 weeks (2025-01-03)
 - 90% Health: 9 weeks (2025-02-07)
 - 95% Health: 14 weeks (2025-03-14)
 - 100% Health: 18+ weeks (requires sustained effort)
 
 **Risk Factors**:
+
 - New feature development may slow refactoring
 - Security findings may increase before decreasing
 - Team capacity constraints
@@ -560,57 +577,57 @@ Submit architecture decision for evaluation by Architecture Reasoner.
 
 ```yaml
 alerts:
-  - id: "ARCH-001"
-    name: "HIGH Security Finding Detected"
-    condition: "semgrep_high_count > 0 OR codeql_high_count > 0"
+  - id: 'ARCH-001'
+    name: 'HIGH Security Finding Detected'
+    condition: 'semgrep_high_count > 0 OR codeql_high_count > 0'
     severity: CRITICAL
-    action: 
-      - "Block all merges"
-      - "Notify: @security-team, @architecture-team"
-      - "Create incident ticket"
-    sla: "4 hours to resolution"
-    
-  - id: "ARCH-002"
-    name: "Architecture Violation Introduced"
-    condition: "architecture_violations > baseline"
+    action:
+      - 'Block all merges'
+      - 'Notify: @security-team, @architecture-team'
+      - 'Create incident ticket'
+    sla: '4 hours to resolution'
+
+  - id: 'ARCH-002'
+    name: 'Architecture Violation Introduced'
+    condition: 'architecture_violations > baseline'
     severity: HIGH
     action:
-      - "Reject PR"
-      - "Notify: proposer, @architecture-team"
-      - "Require Architecture Reasoner approval"
-    sla: "Same day resolution"
-    
-  - id: "ARCH-003"
-    name: "Forbidden Language Detected"
-    condition: "forbidden_language_file_count > 0"
+      - 'Reject PR'
+      - 'Notify: proposer, @architecture-team'
+      - 'Require Architecture Reasoner approval'
+    sla: 'Same day resolution'
+
+  - id: 'ARCH-003'
+    name: 'Forbidden Language Detected'
+    condition: 'forbidden_language_file_count > 0'
     severity: HIGH
     action:
-      - "Block PR merge"
-      - "Notify: @language-governance-team"
-      - "Require immediate remediation plan"
-    sla: "24 hours to removal"
+      - 'Block PR merge'
+      - 'Notify: @language-governance-team'
+      - 'Require immediate remediation plan'
+    sla: '24 hours to removal'
 ```
 
 ### Warning Alerts (Attention Needed)
 
 ```yaml
 alerts:
-  - id: "ARCH-004"
-    name: "Test Coverage Declining"
-    condition: "test_coverage_delta < -2.0"
+  - id: 'ARCH-004'
+    name: 'Test Coverage Declining'
+    condition: 'test_coverage_delta < -2.0'
     severity: MEDIUM
     action:
-      - "Warn reviewers in PR"
-      - "Require justification or additional tests"
-    
-  - id: "ARCH-005"
-    name: "Complexity Increasing"
-    condition: "complexity_trend > 0 for 7 days"
+      - 'Warn reviewers in PR'
+      - 'Require justification or additional tests'
+
+  - id: 'ARCH-005'
+    name: 'Complexity Increasing'
+    condition: 'complexity_trend > 0 for 7 days'
     severity: MEDIUM
     action:
-      - "Notify: @tech-lead"
-      - "Schedule refactoring review"
-      - "Enable complexity gates"
+      - 'Notify: @tech-lead'
+      - 'Schedule refactoring review'
+      - 'Enable complexity gates'
 ```
 
 ---
@@ -666,7 +683,8 @@ decision = architecture_reasoner.evaluate_proposal(
 
 - **Architecture Reasoner**: `services/agents/architecture-reasoner/README.md`
 - **AI Behavior Contract**: `.github/AI-BEHAVIOR-CONTRACT.md` (Section 9)
-- **Refactor Playbook Template**: `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md`
+- **Refactor Playbook Template**:
+  `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md`
 - **System Module Map**: `config/system-module-map.yaml`
 
 ---

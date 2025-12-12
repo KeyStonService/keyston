@@ -13,22 +13,22 @@ spec:
     matchLabels:
       app: contracts-service
   endpoints:
-  - port: http
-    interval: 30s
-    path: /metrics
-    scheme: http
-    scrapeTimeout: 10s
-    honorLabels: true
-    relabelings:
-    - sourceLabels: [__meta_kubernetes_pod_name]
-      targetLabel: pod
-    - sourceLabels: [__meta_kubernetes_pod_node_name]
-      targetLabel: node
-    - sourceLabels: [__meta_kubernetes_namespace]
-      targetLabel: namespace
+    - port: http
+      interval: 30s
+      path: /metrics
+      scheme: http
+      scrapeTimeout: 10s
+      honorLabels: true
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: node
+        - sourceLabels: [__meta_kubernetes_namespace]
+          targetLabel: namespace
   namespaceSelector:
     matchNames:
-    - default  # 根據實際命名空間調整
+      - default # 根據實際命名空間調整
 
 ---
 # PodMonitor (替代方案)
@@ -44,7 +44,7 @@ spec:
     matchLabels:
       app: contracts-service
   podMetricsEndpoints:
-  - port: http
-    interval: 30s
-    path: /metrics
-    scheme: http
+    - port: http
+      interval: 30s
+      path: /metrics
+      scheme: http

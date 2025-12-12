@@ -107,11 +107,11 @@
 
 系統會自動管理以下標籤：
 
-| 標籤 | 說明 | 添加時機 | 移除時機 |
-|------|------|---------|---------|
-| `ci-failed` | CI 整體失敗 | 任何階段失敗 | 所有檢查通過 |
-| `env-error` | 環境錯誤 | 環境檢查失敗 | 環境檢查通過 |
-| `build-failed` | 構建失敗 | 構建失敗 | 構建成功 |
+| 標籤           | 說明        | 添加時機     | 移除時機     |
+| -------------- | ----------- | ------------ | ------------ |
+| `ci-failed`    | CI 整體失敗 | 任何階段失敗 | 所有檢查通過 |
+| `env-error`    | 環境錯誤    | 環境檢查失敗 | 環境檢查通過 |
+| `build-failed` | 構建失敗    | 構建失敗     | 構建成功     |
 
 **特點**：
 
@@ -205,7 +205,7 @@ bash scripts/check-env.sh
 jobs:
   setup:
     uses: ./.github/workflows/setup-ci-env.yml
-  
+
   main-job:
     needs: setup
     if: needs.setup.outputs.env_ready == 'true'

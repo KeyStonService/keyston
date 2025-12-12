@@ -132,12 +132,12 @@
 ```yaml
 metadata:
   labels:
-    namespace.io/managed-by: "platform-team"
-    namespace.io/domain: "uav" # 或 "ad"
-    namespace.io/team: "robotics"
-    namespace.io/environment: "production"
-    namespace.io/region: "asia-east1"
-    namespace.io/lifecycle: "stable"
+    namespace.io/managed-by: 'platform-team'
+    namespace.io/domain: 'uav' # 或 "ad"
+    namespace.io/team: 'robotics'
+    namespace.io/environment: 'production'
+    namespace.io/region: 'asia-east1'
+    namespace.io/lifecycle: 'stable'
 ```
 
 #### UAV/AD 特定標籤
@@ -145,11 +145,11 @@ metadata:
 ```yaml
 metadata:
   labels:
-    uav.io/system: "uav"              # 或 "ad"
-    uav.io/safety-level: "L4"         # L0-L5 自動化等級
-    uav.io/risk-category: "high"      # low/medium/high
-    uav.io/geo-fence-enabled: "true"
-    uav.io/emergency-stop: "enabled"
+    uav.io/system: 'uav' # 或 "ad"
+    uav.io/safety-level: 'L4' # L0-L5 自動化等級
+    uav.io/risk-category: 'high' # low/medium/high
+    uav.io/geo-fence-enabled: 'true'
+    uav.io/emergency-stop: 'enabled'
 ```
 
 ### 準入控制

@@ -1,6 +1,7 @@
 # Scripts Directory
 
-本目錄包含 SynergyMesh 專案的自動化腳本，主要用於 GitHub Advanced Security (GHAS) 功能的實施和管理。
+本目錄包含 SynergyMesh 專案的自動化腳本，主要用於 GitHub Advanced Security
+(GHAS) 功能的實施和管理。
 
 ## 📋 腳本清單
 
@@ -51,17 +52,18 @@
 # SynergyMesh 專案目錄結構圖譜
 
 ## 📂 完整目錄結構 / Complete Directory Structure
+
 ...
 
 ## 📋 特殊目錄說明 / Special Directories
+
 - `.git/`: Git 版本控制目錄
-- `.github/`: GitHub 設定與工作流程
-...
+- `.github/`: GitHub 設定與工作流程 ...
 
 ## 📊 專案統計 / Project Statistics
+
 - 總檔案數: 828
-- 總目錄數: 222
-...
+- 總目錄數: 222 ...
 ```
 
 ---
@@ -228,18 +230,18 @@ export GITHUB_TOKEN="your_github_token"
 
 #### 命令行參數
 
-| 參數 | 說明 | 必需 |
-|------|------|------|
-| `action` | 操作類型 (list/create/update/delete/deploy/export/import) | 是 |
-| `--org` | GitHub 組織名稱 | 是 |
-| `--token` | GitHub Token (或使用 GITHUB_TOKEN 環境變數) | 否* |
-| `--pattern-id` | 模式 ID (用於 update/delete) | 條件 |
-| `--name` | 模式名稱 | 條件 |
-| `--regex` | 正則表達式模式 | 條件 |
-| `--secret-type` | 秘密類型標識 | 條件 |
-| `--file` | 文件路徑 (用於 export/import) | 條件 |
+| 參數            | 說明                                                      | 必需 |
+| --------------- | --------------------------------------------------------- | ---- |
+| `action`        | 操作類型 (list/create/update/delete/deploy/export/import) | 是   |
+| `--org`         | GitHub 組織名稱                                           | 是   |
+| `--token`       | GitHub Token (或使用 GITHUB_TOKEN 環境變數)               | 否\* |
+| `--pattern-id`  | 模式 ID (用於 update/delete)                              | 條件 |
+| `--name`        | 模式名稱                                                  | 條件 |
+| `--regex`       | 正則表達式模式                                            | 條件 |
+| `--secret-type` | 秘密類型標識                                              | 條件 |
+| `--file`        | 文件路徑 (用於 export/import)                             | 條件 |
 
-*如果未提供 `--token`，將使用 `GITHUB_TOKEN` 環境變數
+\*如果未提供 `--token`，將使用 `GITHUB_TOKEN` 環境變數
 
 **企業級模式範例**:
 
@@ -511,7 +513,8 @@ grep "detected" scan.log
 
 ### 編碼規範
 
-- Bash: 遵循 [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- Bash: 遵循
+  [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
 - Python: 遵循 [PEP 8](https://www.python.org/dev/peps/pep-0008/)
 - 添加適當的錯誤處理
 - 包含使用範例和註釋

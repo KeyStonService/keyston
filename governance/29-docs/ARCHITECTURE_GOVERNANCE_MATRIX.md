@@ -9,7 +9,10 @@
 
 ## 📋 Overview | 概述
 
-The Architecture Governance Matrix is a comprehensive framework that defines how the SynergyMesh system is structured, managed, and evolved. It extends beyond simple directory mapping to include behavioral contracts, ownership, policies, and quality metrics.
+The Architecture Governance Matrix is a comprehensive framework that defines how
+the SynergyMesh system is structured, managed, and evolved. It extends beyond
+simple directory mapping to include behavioral contracts, ownership, policies,
+and quality metrics.
 
 架構治理矩陣是一個全面的框架，定義了 SynergyMesh 系統如何被構建、管理和演化。它超越了簡單的目錄映射，包含了行為契約、所有權、策略和品質指標。
 
@@ -17,37 +20,49 @@ The Architecture Governance Matrix is a comprehensive framework that defines how
 
 ## 🎯 The Nine Governance Dimensions | 九個治理維度
 
-This matrix consists of **three core structural contracts** and **six extended governance dimensions**:
+This matrix consists of **three core structural contracts** and **six extended
+governance dimensions**:
 
 本矩陣由 **三個核心結構契約** 和 **六個延伸治理維度** 組成：
 
 ### Core Structural Contracts | 核心結構契約
 
-1. **[Namespace](#1-namespace--命名空間)** - Define logical boundaries and layers
-2. **[Module Mapping](#2-module-mapping--模組映射)** - Map logical IDs to physical paths
-3. **[Dependency Rules](#3-dependency-rules--引用規則)** - Control who can call whom
+1. **[Namespace](#1-namespace--命名空間)** - Define logical boundaries and
+   layers
+2. **[Module Mapping](#2-module-mapping--模組映射)** - Map logical IDs to
+   physical paths
+3. **[Dependency Rules](#3-dependency-rules--引用規則)** - Control who can call
+   whom
 
 ### Extended Governance Dimensions | 延伸治理維度
 
-1. **[Layers & Domains](#4-layers--domains--層級與領域)** - Semantic definitions for each layer
-2. **[Roles & Capabilities](#5-roles--capabilities--模組角色與能力)** - What each module does
-3. **[Behavior Contracts](#6-behavior-contracts--行為契約)** - Expected behaviors (API/events)
-4. **[Lifecycle & Ownership](#7-lifecycle--ownership--生命週期與所有權)** - Responsibility and state
-5. **[Policies & Constraints](#8-policies--constraints--策略與約束)** - Executable governance rules
-6. **[Quality & Metrics](#9-quality--metrics--品質與指標)** - Health and evolution tracking
+1. **[Layers & Domains](#4-layers--domains--層級與領域)** - Semantic definitions
+   for each layer
+2. **[Roles & Capabilities](#5-roles--capabilities--模組角色與能力)** - What
+   each module does
+3. **[Behavior Contracts](#6-behavior-contracts--行為契約)** - Expected
+   behaviors (API/events)
+4. **[Lifecycle & Ownership](#7-lifecycle--ownership--生命週期與所有權)** -
+   Responsibility and state
+5. **[Policies & Constraints](#8-policies--constraints--策略與約束)** -
+   Executable governance rules
+6. **[Quality & Metrics](#9-quality--metrics--品質與指標)** - Health and
+   evolution tracking
 
 ---
 
 ## 1. Namespace | 命名空間
 
-**Purpose**: Define the logical naming scheme that tells everyone "which layer/domain does this belong to".
+**Purpose**: Define the logical naming scheme that tells everyone "which
+layer/domain does this belong to".
 
 **用途**: 定義邏輯命名方案，告訴大家「這個東西屬於哪一層/哪個域」。
 
 ### Location | 位置
 
 - **Primary**: `synergymesh.yaml` - System-wide namespace definitions
-- **Module-level**: `config/system-module-map.yaml` - Module namespace assignments
+- **Module-level**: `config/system-module-map.yaml` - Module namespace
+  assignments
 
 ### Namespace Structure | 命名空間結構
 
@@ -99,12 +114,12 @@ Each module mapping includes:
 ```yaml
 core_platform:
   unified_integration:
-    path: "core/unified_integration/"
-    description: "統一系統整合層"
+    path: 'core/unified_integration/'
+    description: '統一系統整合層'
     components:
-      - id: "service_registry"
-        file: "service_registry.py"
-        provides: ["ServiceDiscovery", "HealthMonitoring"]
+      - id: 'service_registry'
+        file: 'service_registry.py'
+        provides: ['ServiceDiscovery', 'HealthMonitoring']
 ```
 
 ### Related Files | 相關檔案
@@ -115,7 +130,8 @@ core_platform:
 
 ## 3. Dependency Rules | 引用規則
 
-**Purpose**: Control dependency relationships - who can call whom, preventing circular dependencies and layering violations.
+**Purpose**: Control dependency relationships - who can call whom, preventing
+circular dependencies and layering violations.
 
 **用途**: 限制「誰可以叫誰」，避免亂引用和循環依賴。
 
@@ -127,7 +143,8 @@ core_platform:
 ### Dependency Principles | 依賴原則
 
 1. **Layer Rules**: Higher layers can depend on lower layers, not vice versa
-2. **Domain Isolation**: Cross-domain dependencies must go through well-defined interfaces
+2. **Domain Isolation**: Cross-domain dependencies must go through well-defined
+   interfaces
 3. **No Circular Dependencies**: Strictly prohibited at all levels
 
 ### Example Rules | 規則範例
@@ -135,12 +152,12 @@ core_platform:
 ```yaml
 architecture_constraints:
   allowed_dependencies:
-    - "core/*"
-    - "runtime/*"
+    - 'core/*'
+    - 'runtime/*'
   banned_dependencies:
-    - "apps/**"
-    - "services/**"
-  dependency_direction: "downstream_only"
+    - 'apps/**'
+    - 'services/**'
+  dependency_direction: 'downstream_only'
 ```
 
 ### Related Files | 相關檔案
@@ -152,7 +169,8 @@ architecture_constraints:
 
 ## 4. Layers & Domains | 層級與領域
 
-**Purpose**: Give semantic meaning to namespaces - not just strings, but clear responsibilities and boundaries.
+**Purpose**: Give semantic meaning to namespaces - not just strings, but clear
+responsibilities and boundaries.
 
 **用途**: 讓「命名空間」不只是字串，而是有明確語意、責任與邊界。
 
@@ -162,15 +180,15 @@ architecture_constraints:
 
 ### Layer Definitions | 層級定義
 
-| Layer | Responsibility | Can Depend On | Cannot Depend On |
-|-------|---------------|---------------|------------------|
-| **core** | Platform fundamentals | runtime, infrastructure | apps, services |
-| **runtime** | Execution environment | infrastructure | core, apps, services |
-| **services** | Business services | core, runtime | apps |
-| **apps** | User-facing applications | services, core, runtime | - |
-| **automation** | Automation & orchestration | core, services, runtime | apps |
-| **governance** | Policies & rules | None (config only) | All |
-| **infrastructure** | Infrastructure primitives | None | All |
+| Layer              | Responsibility             | Can Depend On           | Cannot Depend On     |
+| ------------------ | -------------------------- | ----------------------- | -------------------- |
+| **core**           | Platform fundamentals      | runtime, infrastructure | apps, services       |
+| **runtime**        | Execution environment      | infrastructure          | core, apps, services |
+| **services**       | Business services          | core, runtime           | apps                 |
+| **apps**           | User-facing applications   | services, core, runtime | -                    |
+| **automation**     | Automation & orchestration | core, services, runtime | apps                 |
+| **governance**     | Policies & rules           | None (config only)      | All                  |
+| **infrastructure** | Infrastructure primitives  | None                    | All                  |
 
 ### Domain Definitions | 領域定義
 
@@ -190,7 +208,8 @@ Domains are orthogonal to layers and represent functional areas:
 
 ## 5. Roles & Capabilities | 模組角色與能力
 
-**Purpose**: Extend module mapping with behavioral intent - what is this module for?
+**Purpose**: Extend module mapping with behavioral intent - what is this module
+for?
 
 **用途**: 在「映射名稱」上再加一層：這個模組是幹嘛的？有什麼能力？
 
@@ -224,14 +243,16 @@ capabilities:
 
 ### Related Files | 相關檔案
 
-- [`config/system-module-map.yaml`](../config/system-module-map.yaml) (capability_matrix section)
+- [`config/system-module-map.yaml`](../config/system-module-map.yaml)
+  (capability_matrix section)
 - [`governance/36-modules/`](./modules/) (detailed specs)
 
 ---
 
 ## 6. Behavior Contracts | 行為契約
 
-**Purpose**: Define expected behaviors - not just "who can call whom", but "what happens when you call it".
+**Purpose**: Define expected behaviors - not just "who can call whom", but "what
+happens when you call it".
 
 **用途**: 讓「引用規則」不只是誰可以叫誰，而是：「叫了之後、可以期待什麼行為」。
 
@@ -250,15 +271,15 @@ capabilities:
 
 ```yaml
 module: core.contract_service.L1
-version: "1.0.0"
+version: '1.0.0'
 
 api:
   - endpoint: POST /contracts
     input_schema: ContractCreateRequest
     output_schema: ContractCreateResponse
     guarantees:
-      - "Contract ID is unique"
-      - "Timestamp is monotonic"
+      - 'Contract ID is unique'
+      - 'Timestamp is monotonic'
 
 events:
   - topic: contract.created
@@ -266,13 +287,13 @@ events:
     delivery: at-least-once
 
 invariants:
-  - "Never modifies final settlement state"
-  - "Always validates signatures before storage"
+  - 'Never modifies final settlement state'
+  - 'Always validates signatures before storage'
 
 failure_modes:
   - code: ERR_INVALID_SIGNATURE
-    condition: "Signature verification fails"
-    recovery: "Return 400 with details"
+    condition: 'Signature verification fails'
+    recovery: 'Return 400 with details'
 ```
 
 ### Related Files | 相關檔案
@@ -283,7 +304,8 @@ failure_modes:
 
 ## 7. Lifecycle & Ownership | 生命週期與所有權
 
-**Purpose**: Associate modules with responsible teams and track their lifecycle state.
+**Purpose**: Associate modules with responsible teams and track their lifecycle
+state.
 
 **用途**: 讓命名空間/模組，不只是技術物件，而是有「責任人與狀態」。
 
@@ -304,13 +326,13 @@ failure_modes:
 
 ```yaml
 module: core.contract_service.L1
-owner: "@core-platform-team"
-backup_owner: "@security-team"
+owner: '@core-platform-team'
+backup_owner: '@security-team'
 lifecycle: active
 sla:
-  availability: "99.9%"
-  response_time: "< 100ms p99"
-  upgrade_cadence: "quarterly"
+  availability: '99.9%'
+  response_time: '< 100ms p99'
+  upgrade_cadence: 'quarterly'
 ```
 
 ### Related Files | 相關檔案
@@ -322,7 +344,8 @@ sla:
 
 ## 8. Policies & Constraints | 策略與約束
 
-**Purpose**: Make dependency rules and architecture constraints machine-checkable.
+**Purpose**: Make dependency rules and architecture constraints
+machine-checkable.
 
 **用途**: 把「命名空間+映射+引用規則」上升為「可執行/可驗證的架構 policy」。
 
@@ -347,11 +370,11 @@ package architecture.layers
 violation[msg] {
     module := input.modules[_]
     dependency := module.dependencies[_]
-    
+
     # Apps cannot depend on core directly
     startswith(module.id, "apps.")
     startswith(dependency, "core.")
-    
+
     msg := sprintf("Module %s cannot directly depend on %s", [module.id, dependency])
 }
 ```
@@ -398,12 +421,12 @@ violation[msg] {
 
 ```yaml
 thresholds:
-  dependency_violations: 0        # Zero tolerance
-  undefined_namespaces: 0         # All must be defined
-  missing_contracts: 10           # Gradual improvement
-  missing_owners: 5               # Critical modules first
-  test_coverage_min: 70           # 70% minimum
-  complexity_max: 15              # Per function
+  dependency_violations: 0 # Zero tolerance
+  undefined_namespaces: 0 # All must be defined
+  missing_contracts: 10 # Gradual improvement
+  missing_owners: 5 # Critical modules first
+  test_coverage_min: 70 # 70% minimum
+  complexity_max: 15 # Per function
 ```
 
 ### Related Files | 相關檔案
@@ -466,7 +489,7 @@ make policy-check
 ✅ **Clarity**: Architecture governance is explicit, not implicit  
 ✅ **Onboarding**: New AI agents/developers understand the system quickly  
 ✅ **Evolution**: Automated decision-making for refactoring  
-✅ **Quality**: Measurable architecture health  
+✅ **Quality**: Measurable architecture health
 
 ### Trade-offs | 代價
 
@@ -484,9 +507,9 @@ make policy-check
 
 ## 📝 Version History | 版本歷史
 
-| Date | Version | Changes |
-|------|---------|---------|
-| 2025-12-07 | 1.0.0 | Initial Architecture Governance Matrix |
+| Date       | Version | Changes                                |
+| ---------- | ------- | -------------------------------------- |
+| 2025-12-07 | 1.0.0   | Initial Architecture Governance Matrix |
 
 ---
 

@@ -84,13 +84,13 @@ Stage 3: Deployment (< 30min)
 
 ## 📁 Key Files
 
-| File | Purpose |
-|------|---------|
-| `scripts/run-instant-execution.sh` | Main entry point |
+| File                                                 | Purpose               |
+| ---------------------------------------------------- | --------------------- |
+| `scripts/run-instant-execution.sh`                   | Main entry point      |
 | `automation/pipelines/instant_execution_pipeline.py` | Pipeline orchestrator |
-| `tools/ai/governance_engine.py` | AI decision engine |
-| `config/instant-execution-pipeline.yaml` | Configuration |
-| `docs/INSTANT_EXECUTION_INTEGRATION_MAP.md` | Full documentation |
+| `tools/ai/governance_engine.py`                      | AI decision engine    |
+| `config/instant-execution-pipeline.yaml`             | Configuration         |
+| `docs/INSTANT_EXECUTION_INTEGRATION_MAP.md`          | Full documentation    |
 
 ---
 
@@ -119,9 +119,11 @@ export PYTHONPATH="$PWD:$PWD/tools:$PWD/tools/automation/engines:$PWD/tests/auto
 
 ## 📖 More Information
 
-- **Full Documentation:** [docs/INSTANT_EXECUTION_INTEGRATION_MAP.md](docs/INSTANT_EXECUTION_INTEGRATION_MAP.md)
+- **Full Documentation:**
+  [docs/INSTANT_EXECUTION_INTEGRATION_MAP.md](docs/INSTANT_EXECUTION_INTEGRATION_MAP.md)
 - **Summary:** [INSTANT_EXECUTION_SUMMARY.md](INSTANT_EXECUTION_SUMMARY.md)
-- **Pipeline README:** [automation/pipelines/README.md](automation/pipelines/README.md)
+- **Pipeline README:**
+  [automation/pipelines/README.md](automation/pipelines/README.md)
 
 ---
 

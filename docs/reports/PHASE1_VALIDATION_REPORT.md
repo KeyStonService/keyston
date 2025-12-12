@@ -8,7 +8,8 @@
 
 ## Executive Summary
 
-Phase 1 基礎設施建設已完成全面真實檢測，所有核心組件通過驗證測試。系統已達到生產就緒狀態。
+Phase
+1 基礎設施建設已完成全面真實檢測，所有核心組件通過驗證測試。系統已達到生產就緒狀態。
 
 ### Overall Metrics
 
@@ -82,7 +83,8 @@ Phase 1 基礎設施建設已完成全面真實檢測，所有核心組件通過
 - ✅ Valid JSON
 - ✅ JSON Schema Draft-07 compliant
 - ✅ Required properties defined
-- ✅ Issue types: SECURITY, PERFORMANCE, CODE_QUALITY, MAINTAINABILITY, DEPENDENCY
+- ✅ Issue types: SECURITY, PERFORMANCE, CODE_QUALITY, MAINTAINABILITY,
+  DEPENDENCY
 - ✅ Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFO
 - ✅ Evidence hash (SHA256) support
 - ✅ SLSA compliance fields
@@ -263,11 +265,11 @@ Phase 1 基礎設施建設已完成全面真實檢測，所有核心組件通過
 
 - ✅ YAML syntax valid
 - ✅ Path exclusions added:
-  - venv/**
-  - backups/**
-  - reports/**
-  - logs/**
-  - evidence/**
+  - venv/\*\*
+  - backups/\*\*
+  - reports/\*\*
+  - logs/\*\*
+  - evidence/\*\*
 - **Status**: PRODUCTION READY
 
 ---
@@ -389,7 +391,8 @@ Based on the user's advanced requirements, consider implementing:
    - Extend governance/registry/ structure
    - Add module metadata (owner, semantic-version, governance-hooks)
    - Create registry/schema.json
-   - **Rationale**: Machine-readable governance metadata for automated decision-making
+   - **Rationale**: Machine-readable governance metadata for automated
+     decision-making
 
 4. **Behavioral Contracts & External Dependency SLAs** 🎯
    - Create contracts/external-api.json
@@ -397,7 +400,7 @@ Based on the user's advanced requirements, consider implementing:
    - **Rationale**: Contract-based testing for external dependencies
 
 5. **Machine-Readable Runbooks with Auto-Repair Hooks** 🎯
-   - Implement runbooks/*.json (machine-readable format)
+   - Implement runbooks/\*.json (machine-readable format)
    - Create agent/runbook-executor.sh
    - **Rationale**: Automated failure diagnosis and repair
 
@@ -476,7 +479,7 @@ Status: ALL TESTS PASSED ✅
 
 ### phase1-integration.yml
 
-- Push to: main, develop, island/**
+- Push to: main, develop, island/\*\*
 - Pull request to: main, develop
 - Manual: workflow_dispatch
 
@@ -488,8 +491,8 @@ Status: ALL TESTS PASSED ✅
 
 ### validate-yaml.yml
 
-- Pull request to: main, develop, island/**
-- Push to: island/**
+- Pull request to: main, develop, island/\*\*
+- Push to: island/\*\*
 
 ---
 

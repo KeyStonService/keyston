@@ -4,7 +4,8 @@
 
 ### 症狀
 
-CI 機器人報告「✅ CI 檢查全部通過！」，但實際上仍有檢查失敗（例如 Language Compliance Check）。
+CI 機器人報告「✅ CI 檢查全部通過！」，但實際上仍有檢查失敗（例如 Language
+Compliance Check）。
 
 ### 根本原因分析
 
@@ -42,11 +43,11 @@ CI 機器人報告「✅ CI 檢查全部通過！」，但實際上仍有檢查�
 ```yaml
 workflow_run:
   workflows:
-    - "Core Services CI"
-    - "Integration & Deployment"
-    - "Auto-Fix Bot"
-    - "Compliance Report Generator"
-    - "Stage 1: Basic CI"  # 僅 5 個
+    - 'Core Services CI'
+    - 'Integration & Deployment'
+    - 'Auto-Fix Bot'
+    - 'Compliance Report Generator'
+    - 'Stage 1: Basic CI' # 僅 5 個
 ```
 
 **修改後**：
@@ -54,45 +55,47 @@ workflow_run:
 ```yaml
 workflow_run:
   workflows:
-    - "Core Services CI"
-    - "Integration & Deployment"
-    - "Auto-Fix Bot"
-    - "Compliance Report Generator"
-    - "Stage 1: Basic CI"
-    - "Language Compliance Check"           # ✅ 新增
-    - "CodeQL Advanced Security Scan"       # ✅ 新增
-    - "Phase 1 Infrastructure Integration"  # ✅ 新增
+    - 'Core Services CI'
+    - 'Integration & Deployment'
+    - 'Auto-Fix Bot'
+    - 'Compliance Report Generator'
+    - 'Stage 1: Basic CI'
+    - 'Language Compliance Check' # ✅ 新增
+    - 'CodeQL Advanced Security Scan' # ✅ 新增
+    - 'Phase 1 Infrastructure Integration' # ✅ 新增
 ```
 
 ### 2. 全局狀態驗證
 
-**關鍵改進**：在發布成功評論前，使用 GitHub API 檢查 **PR 的所有 checks**，而非僅依賴局部狀態。
+**關鍵改進**：在發布成功評論前，使用 GitHub API 檢查
+**PR 的所有 checks**，而非僅依賴局部狀態。
 
 ```javascript
 // 🔍 重要：再次檢查 ALL checks 的狀態，避免「部分成功」誤報
 const { data: pr } = await github.rest.pulls.get({
   owner: context.repo.owner,
   repo: context.repo.repo,
-  pull_number: prNumber
+  pull_number: prNumber,
 });
 
 const { data: checks } = await github.rest.checks.listForRef({
   owner: context.repo.owner,
   repo: context.repo.repo,
   ref: pr.head.sha,
-  per_page: 100
+  per_page: 100,
 });
 
 // 檢查是否所有 checks 都已完成
-const pendingChecks = checks.check_runs.filter(check => 
-  check.status !== 'completed'
+const pendingChecks = checks.check_runs.filter(
+  (check) => check.status !== 'completed'
 );
 
 // 檢查是否有任何失敗
-const failedChecks = checks.check_runs.filter(check => 
-  check.conclusion === 'failure' || 
-  check.conclusion === 'timed_out' ||
-  check.conclusion === 'cancelled'
+const failedChecks = checks.check_runs.filter(
+  (check) =>
+    check.conclusion === 'failure' ||
+    check.conclusion === 'timed_out' ||
+    check.conclusion === 'cancelled'
 );
 
 // 🚨 關鍵：只有在所有檢查都完成且全部成功時才發布成功評論
@@ -109,8 +112,7 @@ if (failedChecks.length > 0) {
 
 ### 3. 設計決策：移除成功通知（v2.1）
 
-**原始設計**（已廢棄）：
-在發布成功評論前，使用全局狀態驗證確保所有 checks 真正通過。
+**原始設計**（已廢棄）：在發布成功評論前，使用全局狀態驗證確保所有 checks 真正通過。
 
 **最終決策**（v2.1）：
 
@@ -133,6 +135,7 @@ if (failedChecks.length > 0) {
 
 ```markdown
 ## ✅ CI 檢查全部通過！
+
 恭喜！所有 CI 檢查已成功完成。
 ```
 
@@ -140,16 +143,18 @@ if (failedChecks.length > 0) {
 
 ```markdown
 ## ✅ CI 檢查全部通過！
+
 恭喜！所有 **15 個** CI 檢查已成功完成。
 
 ### 📋 通過的檢查
+
 - ✅ Core Services CI
 - ✅ Language Compliance Check
-- ✅ CodeQL Advanced Security Scan
-... 以及其他 12 個檢查
+- ✅ CodeQL Advanced Security Scan ... 以及其他 12 個檢查
 
 ---
-*此評論由動態 CI 助手自動生成 | ✅ 已驗證全局狀態*
+
+_此評論由動態 CI 助手自動生成 | ✅ 已驗證全局狀態_
 ```
 
 > **此功能已移除**：v2.1 版本不再發布成功評論。
@@ -158,21 +163,21 @@ if (failedChecks.length > 0) {
 
 ### 修復前（有問題）
 
-| 檢查維度 | 機器人報告 | 實際狀態 | 問題 |
-|---------|----------|---------|-----|
-| 整體狀態 | ✅ 全部通過 | ❌ 1 個失敗 | **誤報** |
-| 監控範圍 | 5 個 workflows | 15+ 個 checks | **範圍不足** |
-| 驗證方式 | 局部（needs） | - | **無全局驗證** |
-| 時間點 | 部分完成即報告 | - | **時間差問題** |
+| 檢查維度 | 機器人報告     | 實際狀態      | 問題           |
+| -------- | -------------- | ------------- | -------------- |
+| 整體狀態 | ✅ 全部通過    | ❌ 1 個失敗   | **誤報**       |
+| 監控範圍 | 5 個 workflows | 15+ 個 checks | **範圍不足**   |
+| 驗證方式 | 局部（needs）  | -             | **無全局驗證** |
+| 時間點   | 部分完成即報告 | -             | **時間差問題** |
 
 ### 修復後（v2.1 設計）
 
-| 檢查維度 | 機器人行為 | 實際效果 | 改善 |
-|---------|-----------|---------|-----|
-| 整體狀態 | 不發布成功評論 | 專注失敗診斷 | ✅ **消除誤報** |
-| 監控範圍 | 8 個 workflows | 涵蓋關鍵 CI | ✅ **範圍擴大** |
-| 驗證方式 | 僅清理標籤 | 資源高效 | ✅ **減少通知疲勞** |
-| 時間點 | 成功時不打擾開發者 | 準確時機 | ✅ **提升開發體驗** |
+| 檢查維度 | 機器人行為         | 實際效果     | 改善                |
+| -------- | ------------------ | ------------ | ------------------- |
+| 整體狀態 | 不發布成功評論     | 專注失敗診斷 | ✅ **消除誤報**     |
+| 監控範圍 | 8 個 workflows     | 涵蓋關鍵 CI  | ✅ **範圍擴大**     |
+| 驗證方式 | 僅清理標籤         | 資源高效     | ✅ **減少通知疲勞** |
+| 時間點   | 成功時不打擾開發者 | 準確時機     | ✅ **提升開發體驗** |
 
 ## 🎯 修復邏輯流程圖（v2.1 版本）
 
@@ -207,7 +212,7 @@ if (failedChecks.length > 0) {
 1. **獲取 PR 資訊**
 
    ```javascript
-   github.rest.pulls.get({ owner, repo, pull_number })
+   github.rest.pulls.get({ owner, repo, pull_number });
    ```
 
    - 取得 PR 的 head SHA
@@ -215,7 +220,7 @@ if (failedChecks.length > 0) {
 2. **列出所有 Check Runs**
 
    ```javascript
-   github.rest.checks.listForRef({ owner, repo, ref: pr.head.sha })
+   github.rest.checks.listForRef({ owner, repo, ref: pr.head.sha });
    ```
 
    - 取得該 commit 的所有檢查
@@ -223,7 +228,8 @@ if (failedChecks.length > 0) {
 
 3. **狀態判斷**
    - `status`: 'completed' | 'in_progress' | 'queued'
-   - `conclusion`: 'success' | 'failure' | 'timed_out' | 'cancelled' | 'neutral' | 'skipped'
+   - `conclusion`: 'success' | 'failure' | 'timed_out' | 'cancelled' | 'neutral'
+     | 'skipped'
 
 ### 防護機制
 
@@ -273,11 +279,13 @@ if (failedChecks.length > 0) {
 這個修復徹底解決了 CI「說謊機器人」問題：
 
 **修復前（v1.0）**：
+
 > 機器人：「✅ 所有檢查通過！」  
 > 實際：「❌ Language Check 失敗」  
 > 結果：❌ **誤導開發者**
 
 **修復後（v2.1）**：
+
 > 機器人：查詢全局狀態 → 發現失敗 → 提供智能診斷  
 > 或  
 > 機器人：查詢全局狀態 → 全部成功 → 僅清理標籤（不發布評論）  

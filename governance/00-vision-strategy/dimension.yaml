@@ -5,13 +5,13 @@ metadata:
   name: 願景策略治理
   name_en: Vision Strategy Governance
   version: 1.0.0
-  created_at: '2025-12-11T22:17:20.895729Z'
-  updated_at: '2025-12-11T22:17:20.895773Z'
+  created_at: "2025-12-11T22:17:20.895729Z"
+  updated_at: "2025-12-11T22:17:20.895773Z"
   owner: governance-bot
   category: strategic
   tags:
-  - 00_vision_strategy
-  - strategic
+    - 00_vision_strategy
+    - strategic
 spec:
   description: Vision Strategy Governance dimension for SynergyMesh governance framework
   schema:
@@ -27,32 +27,32 @@ spec:
     optional: []
   interface:
     inputs:
-    - name: config
-      type: object
-      required: true
+      - name: config
+        type: object
+        required: true
     outputs:
-    - name: result
-      type: object
+      - name: result
+        type: object
   status: active
   compliance:
     frameworks:
+      - ISO-42001
+      - NIST-AI-RMF
+    framework_mappings:
+      - framework: ISO-42001
+        controls: []
+        compliance_status: in_progress
+      - framework: NIST-AI-RMF
+        controls: []
+        compliance_status: in_progress
+compliance:
+  frameworks:
     - ISO-42001
     - NIST-AI-RMF
-    framework_mappings:
+  framework_mappings:
     - framework: ISO-42001
       controls: []
       compliance_status: in_progress
     - framework: NIST-AI-RMF
       controls: []
       compliance_status: in_progress
-compliance:
-  frameworks:
-  - ISO-42001
-  - NIST-AI-RMF
-  framework_mappings:
-  - framework: ISO-42001
-    controls: []
-    compliance_status: in_progress
-  - framework: NIST-AI-RMF
-    controls: []
-    compliance_status: in_progress

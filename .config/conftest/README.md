@@ -12,7 +12,8 @@ This directory contains the Conftest framework configuration.
 
 ## Usage
 
-Conftest policies are centralized in `.meta/policies/`. This directory only contains framework configuration.
+Conftest policies are centralized in `.meta/policies/`. This directory only
+contains framework configuration.
 
 ## Running Policy Checks
 

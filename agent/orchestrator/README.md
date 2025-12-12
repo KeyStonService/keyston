@@ -2,7 +2,8 @@
 
 ## 概述
 
-編排器代理 (Orchestrator Agent) 是整個自動化系統的指揮中心，負責協調各個代理的工作，管理工作流程，並確保整個系統高效運行。
+編排器代理 (Orchestrator
+Agent) 是整個自動化系統的指揮中心，負責協調各個代理的工作，管理工作流程，並確保整個系統高效運行。
 
 ## 功能特性
 
@@ -62,19 +63,19 @@ orchestrator/
 
 ```yaml
 # analysis_workflow.yaml
-name: "Code Analysis Workflow"
-version: "1.0.0"
+name: 'Code Analysis Workflow'
+version: '1.0.0'
 trigger:
   - on: push
   - on: pull_request
   - on: schedule
-    cron: "0 2 * * *"
+    cron: '0 2 * * *'
 
 steps:
   - id: checkout
     agent: git
     action: checkout
-  
+
   - id: analyze
     agent: code-analyzer
     action: analyze
@@ -82,14 +83,14 @@ steps:
       scan_type: full
       parallel: true
     depends_on: [checkout]
-  
+
   - id: detect_vulnerabilities
     agent: vulnerability-detector
     action: scan
     params:
       severity_threshold: HIGH
     depends_on: [analyze]
-  
+
   - id: generate_report
     agent: reporter
     action: generate
@@ -106,17 +107,17 @@ on_failure:
 
 ```yaml
 # repair_workflow.yaml
-name: "Auto Repair Workflow"
-version: "1.0.0"
+name: 'Auto Repair Workflow'
+version: '1.0.0'
 trigger:
   - on: analysis_complete
-    condition: "critical_issues > 0"
+    condition: 'critical_issues > 0'
 
 steps:
   - id: prioritize
     agent: orchestrator
     action: prioritize_issues
-  
+
   - id: repair
     agent: auto-repair
     action: repair_batch
@@ -124,7 +125,7 @@ steps:
       auto_apply: false
       strategy: rule_based
     depends_on: [prioritize]
-  
+
   - id: validate
     agent: validator
     action: validate_repairs
@@ -132,15 +133,15 @@ steps:
       run_tests: true
       security_scan: true
     depends_on: [repair]
-  
+
   - id: create_pr
     agent: git
     action: create_pull_request
     params:
-      title: "🤖 Auto-fix: {issue_count} issues"
+      title: '🤖 Auto-fix: {issue_count} issues'
       reviewers: [security-team, tech-lead]
     depends_on: [validate]
-    condition: "validation.passed"
+    condition: 'validation.passed'
 
 on_success:
   - notify: [github]
@@ -151,29 +152,29 @@ on_success:
 
 ```yaml
 # monitoring_workflow.yaml
-name: "Continuous Monitoring Workflow"
-version: "1.0.0"
+name: 'Continuous Monitoring Workflow'
+version: '1.0.0'
 trigger:
   - on: schedule
-    cron: "*/15 * * * *"  # 每 15 分鐘
+    cron: '*/15 * * * *' # 每 15 分鐘
 
 steps:
   - id: health_check
     agent: monitor
     action: check_health
-  
+
   - id: collect_metrics
     agent: monitor
     action: collect_metrics
     depends_on: [health_check]
-  
+
   - id: analyze_trends
     agent: analyzer
     action: analyze_trends
     params:
       window: 24h
     depends_on: [collect_metrics]
-  
+
   - id: alert_if_needed
     agent: alerter
     action: check_thresholds
@@ -254,25 +255,25 @@ agents:
   code-analyzer:
     enabled: true
     max_instances: 4
-    endpoint: "http://code-analyzer:8001"
-  
+    endpoint: 'http://code-analyzer:8001'
+
   vulnerability-detector:
     enabled: true
     max_instances: 2
-    endpoint: "http://vuln-detector:8002"
-  
+    endpoint: 'http://vuln-detector:8002'
+
   auto-repair:
     enabled: true
     max_instances: 4
-    endpoint: "http://auto-repair:8003"
+    endpoint: 'http://auto-repair:8003'
 
 policies:
   auto_approval:
     enabled: false
     conditions:
       - severity: LOW
-      - test_coverage: "> 0.9"
-  
+      - test_coverage: '> 0.9'
+
   escalation:
     enabled: true
     thresholds:
@@ -283,12 +284,12 @@ policies:
 notifications:
   slack:
     enabled: true
-    webhook: "${SLACK_WEBHOOK}"
-  
+    webhook: '${SLACK_WEBHOOK}'
+
   email:
     enabled: true
-    recipients: ["platform@synergymesh.com"]
-  
+    recipients: ['platform@synergymesh.com']
+
   github:
     enabled: true
     create_issues: true
@@ -301,11 +302,11 @@ notifications:
 ```python
 class PriorityEngine:
     """優先級決策引擎"""
-    
+
     def calculate_priority(self, task: Task) -> int:
         """
         計算任務優先級
-        
+
         優先級因素：
         1. 嚴重程度 (40%)
         2. 業務影響 (30%)
@@ -316,16 +317,16 @@ class PriorityEngine:
         impact_score = self._impact_score(task.impact)
         difficulty_score = self._difficulty_score(task.difficulty)
         urgency_score = self._urgency_score(task.created_at)
-        
+
         priority = (
             severity_score * 0.4 +
             impact_score * 0.3 +
             difficulty_score * 0.2 +
             urgency_score * 0.1
         )
-        
+
         return int(priority * 100)
-    
+
     def _severity_score(self, severity: str) -> float:
         """嚴重程度評分"""
         scores = {
@@ -342,7 +343,7 @@ class PriorityEngine:
 ```python
 class ResourceAllocator:
     """資源分配器"""
-    
+
     def allocate_resources(
         self,
         tasks: List[Task],
@@ -350,33 +351,33 @@ class ResourceAllocator:
     ) -> Dict[str, int]:
         """
         智能分配資源
-        
+
         策略：
         1. 高優先級任務優先
         2. 平衡各類型任務
         3. 考慮任務依賴
         """
         allocation = {}
-        
+
         # 按優先級排序
         sorted_tasks = sorted(
             tasks,
             key=lambda t: t.priority,
             reverse=True
         )
-        
+
         # 分配 workers
         remaining_workers = available_workers
         for task in sorted_tasks:
             if remaining_workers <= 0:
                 break
-            
+
             required = task.estimated_workers
             allocated = min(required, remaining_workers)
-            
+
             allocation[task.id] = allocated
             remaining_workers -= allocated
-        
+
         return allocation
 ```
 
@@ -387,7 +388,7 @@ class ResourceAllocator:
 ```python
 class MetricsCollector:
     """指標收集器"""
-    
+
     def collect_metrics(self) -> Dict[str, Any]:
         """收集系統指標"""
         return {
@@ -420,9 +421,9 @@ class MetricsCollector:
 ```python
 async def health_check() -> HealthStatus:
     """系統健康檢查"""
-    
+
     status = HealthStatus()
-    
+
     # 檢查各個代理
     for agent_name, agent in agents.items():
         try:
@@ -431,7 +432,7 @@ async def health_check() -> HealthStatus:
         except Exception as e:
             status.agents[agent_name] = "unhealthy"
             status.errors.append(f"{agent_name}: {e}")
-    
+
     # 檢查數據庫連接
     try:
         await db.execute("SELECT 1")
@@ -439,7 +440,7 @@ async def health_check() -> HealthStatus:
     except Exception as e:
         status.database = "unhealthy"
         status.errors.append(f"Database: {e}")
-    
+
     # 檢查消息隊列
     try:
         await queue.ping()
@@ -447,9 +448,9 @@ async def health_check() -> HealthStatus:
     except Exception as e:
         status.queue = "unhealthy"
         status.errors.append(f"Queue: {e}")
-    
+
     status.overall = "healthy" if not status.errors else "unhealthy"
-    
+
     return status
 ```
 
@@ -460,7 +461,7 @@ async def health_check() -> HealthStatus:
 ```python
 class RetryStrategy:
     """重試策略"""
-    
+
     def __init__(
         self,
         max_retries: int = 3,
@@ -468,7 +469,7 @@ class RetryStrategy:
     ):
         self.max_retries = max_retries
         self.backoff = backoff
-    
+
     async def execute_with_retry(
         self,
         func: Callable,
@@ -476,18 +477,18 @@ class RetryStrategy:
         **kwargs
     ) -> Any:
         """執行函數，失敗時重試"""
-        
+
         for attempt in range(self.max_retries):
             try:
                 return await func(*args, **kwargs)
             except Exception as e:
                 if attempt == self.max_retries - 1:
                     raise
-                
+
                 # 計算等待時間
                 wait_time = self._calculate_wait_time(attempt)
                 await asyncio.sleep(wait_time)
-    
+
     def _calculate_wait_time(self, attempt: int) -> float:
         """計算退避時間"""
         if self.backoff == "exponential":
@@ -505,13 +506,13 @@ class RetryStrategy:
 ```python
 async def execute_parallel_tasks(tasks: List[Task]) -> List[Result]:
     """並行執行任務"""
-    
+
     # 分析任務依賴
     dependency_graph = build_dependency_graph(tasks)
-    
+
     # 拓撲排序
     sorted_tasks = topological_sort(dependency_graph)
-    
+
     # 按層級並行執行
     results = []
     for level in sorted_tasks:
@@ -519,7 +520,7 @@ async def execute_parallel_tasks(tasks: List[Task]) -> List[Result]:
             execute_task(task) for task in level
         ])
         results.extend(level_results)
-    
+
     return results
 ```
 
@@ -540,7 +541,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Run Orchestrator
         run: |
           python agent/orchestrator/src/engine.py \

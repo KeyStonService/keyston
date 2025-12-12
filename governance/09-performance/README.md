@@ -1,6 +1,7 @@
 # ⚡ Performance & Reliability Governance
 
-> SLA, DR & Resilience Rules - Governance for performance budgets, SLAs, disaster recovery, and reliability
+> SLA, DR & Resilience Rules - Governance for performance budgets, SLAs,
+> disaster recovery, and reliability
 
 ## 📋 Overview
 
@@ -75,5 +76,4 @@ This governance domain integrates with:
 
 ---
 
-**Status**: Core Governance Domain
-**Last Updated**: 2025-12-09
+**Status**: Core Governance Domain **Last Updated**: 2025-12-09

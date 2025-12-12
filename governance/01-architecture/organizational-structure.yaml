@@ -5,7 +5,6 @@ lastUpdated: "2025-12-09"
 
 # 組織層級 | Organizational Levels
 organizational_structure:
-
   board_level:
     name: "董事會層"
     description: "Strategic governance and oversight"
@@ -58,14 +57,13 @@ organizational_structure:
       - "執行個人任務 | Execute individual tasks"
       - "提出改進建議 | Suggest improvements"
       - "遵守政策和規則 | Follow policies and rules"
-    authority_level: "none"  # No approval authority
+    authority_level: "none" # No approval authority
     decision_types:
       - "Task execution"
       - "Technical implementation"
 
 # 組織單位 | Organizational Units
 organizational_units:
-
   governance_office:
     name: "治理辦公室"
     level: "management"

@@ -84,21 +84,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "system",
-            "subsystem",
-            "component",
-            "module",
-            "file",
-            "directory",
-            "config",
-            "document",
-            "workflow",
-            "schema",
-            "capability",
-            "feature",
-            "tag"
-          ],
+          "enum": ["system", "subsystem", "component", "module", "file", "directory", "config", "document", "workflow", "schema", "capability", "feature", "tag"],
           "description": "Node type"
         },
         "label": {
@@ -139,20 +125,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "contains",
-            "depends_on",
-            "references",
-            "implements",
-            "extends",
-            "configures",
-            "documents",
-            "provides",
-            "consumes",
-            "triggers",
-            "validates",
-            "tagged_with"
-          ],
+          "enum": ["contains", "depends_on", "references", "implements", "extends", "configures", "documents", "provides", "consumes", "triggers", "validates", "tagged_with"],
           "description": "Relationship type"
         },
         "label": {

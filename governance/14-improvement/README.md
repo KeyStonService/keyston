@@ -1,13 +1,15 @@
 # 治理持續改進 | Governance Continuous Improvement
 
-> 改進識別、計劃、實施、知識積累
-> Improvement identification, planning, implementation, and knowledge accumulation
+> 改進識別、計劃、實施、知識積累Improvement identification, planning,
+> implementation, and knowledge accumulation
 
 ## 📋 概述 | Overview
 
 治理持續改進維度定義了組織的改進識別、計劃制定、實施跟蹤和知識積累機制，形成閉環改進循環。
 
-The Governance Continuous Improvement dimension defines the organization's improvement identification, planning, implementation tracking, and knowledge accumulation mechanisms, forming a closed-loop improvement cycle.
+The Governance Continuous Improvement dimension defines the organization's
+improvement identification, planning, implementation tracking, and knowledge
+accumulation mechanisms, forming a closed-loop improvement cycle.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -86,6 +88,5 @@ governance-improvement/
 
 ---
 
-**Owner 負責人**: Governance Continuous Improvement Team
-**Last Updated 最後更新**: 2025-12-09
-**Status 狀態**: Active
+**Owner 負責人**: Governance Continuous Improvement Team **Last
+Updated 最後更新**: 2025-12-09 **Status 狀態**: Active

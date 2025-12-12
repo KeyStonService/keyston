@@ -4,20 +4,7 @@
   "title": "Auto-Fix Bot Configuration Schema v2.0",
   "description": "Schema for validating Auto-Fix Bot 2.0 configuration files",
   "type": "object",
-  "required": [
-    "name",
-    "id",
-    "version",
-    "owner",
-    "metadata",
-    "project_mapping",
-    "bot_config",
-    "fix_rules",
-    "policy_gates",
-    "evidence_generation",
-    "notifications",
-    "audit"
-  ],
+  "required": ["name", "id", "version", "owner", "metadata", "project_mapping", "bot_config", "fix_rules", "policy_gates", "evidence_generation", "notifications", "audit"],
   "properties": {
     "name": {
       "type": "string",
@@ -106,14 +93,7 @@
     },
     "project_mapping": {
       "type": "object",
-      "required": [
-        "config_root",
-        "policies_root",
-        "governance_root",
-        "evidence_root",
-        "schemas_root",
-        "scripts_root"
-      ],
+      "required": ["config_root", "policies_root", "governance_root", "evidence_root", "schemas_root", "scripts_root"],
       "properties": {
         "config_root": {
           "type": "string",

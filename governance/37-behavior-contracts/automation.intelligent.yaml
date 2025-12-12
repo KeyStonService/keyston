@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@automation-team"
-  
+
   description: |
     Intelligent automation provides AI-powered workflow orchestration, task automation,
     and adaptive process optimization across the SynergyMesh platform.
-    
+
     智能自動化提供 AI 驅動的工作流編排、任務自動化和跨 SynergyMesh 平台的自適應流程優化。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/intelligent-automation"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Workflow Orchestration
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Create Workflow"
       method: POST
       path: "/workflows"
-      
+
       description: |
         Create intelligent workflow with AI-powered optimization.
         創建具有 AI 優化的智能工作流。
-      
+
       input_schema:
         type: "object"
         required: ["workflow_type", "tasks"]
@@ -53,7 +52,7 @@ api:
           tasks: { type: "array" }
           optimization_goals: { type: "array" }
           constraints: { type: "object" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -61,12 +60,12 @@ api:
           optimized_plan: { type: "object" }
           estimated_duration: { type: "number" }
           estimated_cost: { type: "number" }
-      
+
       guarantees:
         - "Workflow validated before creation"
         - "Dependencies resolved"
         - "Optimization applied"
-      
+
       performance:
         response_time_p50: "< 150ms"
         response_time_p99: "< 500ms"
@@ -77,22 +76,22 @@ api:
     - name: "Execute Workflow"
       method: POST
       path: "/workflows/{workflow_id}/execute"
-      
+
       description: "Execute intelligent workflow with monitoring"
-      
+
       input_schema:
         type: "object"
         properties:
           parameters: { type: "object" }
           priority: { type: "string", enum: ["low", "normal", "high"] }
-      
+
       output_schema:
         type: "object"
         properties:
           execution_id: { type: "string" }
           status: { type: "string" }
           started_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Execution tracked end-to-end"
         - "Automatic retry on transient failures"
@@ -104,24 +103,24 @@ api:
     - name: "Optimize Workflow"
       method: POST
       path: "/workflows/{workflow_id}/optimize"
-      
+
       description: |
         AI-powered workflow optimization based on historical data.
         基於歷史數據的 AI 驅動工作流優化。
-      
+
       input_schema:
         type: "object"
         properties:
           optimization_criteria: { type: "array" }
           constraints: { type: "object" }
-      
+
       output_schema:
         type: "object"
         properties:
           optimization_id: { type: "string" }
           improvements: { type: "array" }
           projected_gains: { type: "object" }
-      
+
       guarantees:
         - "Optimization is non-destructive"
         - "Previous version preserved"
@@ -132,10 +131,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "automation.workflow_started"
     description: "Emitted when workflow execution starts"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -143,17 +141,17 @@ events:
         execution_id: { type: "string" }
         workflow_type: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "automation.monitoring"
       - "services.audit"
 
   - name: "automation.workflow_completed"
     description: "Emitted when workflow completes"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -162,13 +160,13 @@ events:
         tasks_completed: { type: "integer" }
         status: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
 
   - name: "automation.optimization_applied"
     description: "Emitted when AI optimization is applied"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -176,7 +174,7 @@ events:
         optimization_id: { type: "string" }
         improvements: { type: "array" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
 
@@ -185,17 +183,16 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Task Dependency Integrity"
     description: "Task dependencies are acyclic"
     rule: "forall workflow: is_acyclic(workflow.task_graph)"
     enforcement: "pre-condition"
-    
+
   - name: "Optimization Non-Destructive"
     description: "Optimization preserves workflow semantics"
     rule: "forall optimization: equivalent(original, optimized)"
     enforcement: "validation"
-    
+
   - name: "Execution Idempotency"
     description: "Multiple executions with same input produce same result"
     rule: "execute(w, params) = execute(w, params)"
@@ -206,7 +203,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Task Failure"
     triggers:
       - "Individual task fails"
@@ -216,7 +212,7 @@ failure_modes:
       - "Skip if non-critical"
       - "Rollback if critical"
     error_code: "ERR_TASK_FAILED"
-    
+
   - scenario: "Resource Exhaustion"
     triggers:
       - "Too many concurrent workflows"
@@ -232,12 +228,11 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "core.mind_matrix"
       purpose: "AI-powered optimization"
       failure_mode: "graceful-degradation"
-    
+
     - module: "infrastructure.workflow_engine"
       purpose: "Workflow execution"
       failure_mode: "critical"
@@ -257,7 +252,7 @@ observability:
       type: "histogram"
     - name: "optimization_improvements_percent"
       type: "histogram"
-  
+
   alerts:
     - condition: "workflow_failure_rate > 10%"
       severity: "high"

@@ -6,7 +6,9 @@
 
 自動化專責負責人員系統提供智慧化的問題分派與責任管理功能，支援多維度分析、負載平衡、SLA 監控與自動升級機制。
 
-The Auto-Assignment System provides intelligent problem assignment and responsibility management with multi-dimensional analysis, load balancing, SLA monitoring, and automatic escalation.
+The Auto-Assignment System provides intelligent problem assignment and
+responsibility management with multi-dimensional analysis, load balancing, SLA
+monitoring, and automatic escalation.
 
 ## 基礎 URL (Base URL)
 
@@ -18,7 +20,8 @@ http://localhost:3000/api/v1/assignment
 
 目前版本不需要認證。未來版本將支援 JWT 令牌認證。
 
-Current version does not require authentication. Future versions will support JWT token authentication.
+Current version does not require authentication. Future versions will support
+JWT token authentication.
 
 ---
 
@@ -46,13 +49,13 @@ Automatically analyzes the incident and assigns to the most suitable owner.
 
 **參數說明 (Parameters):**
 
-| 參數 (Field) | 類型 (Type) | 必填 (Required) | 說明 (Description) |
-|-------------|------------|----------------|-------------------|
-| `type` | `ProblemType` | Yes | 問題類型：`FRONTEND_ERROR`, `BACKEND_API`, `DATABASE_ISSUE`, `PERFORMANCE`, `SECURITY`, `INFRASTRUCTURE` |
-| `priority` | `Priority` | Yes | 優先級：`CRITICAL`, `HIGH`, `MEDIUM`, `LOW` |
-| `description` | `string` | Yes | 問題描述 (Incident description) |
-| `errorMessage` | `string` | No | 錯誤訊息 (Error message) |
-| `affectedFiles` | `string[]` | No | 受影響的檔案 (Affected files) |
+| 參數 (Field)    | 類型 (Type)   | 必填 (Required) | 說明 (Description)                                                                                       |
+| --------------- | ------------- | --------------- | -------------------------------------------------------------------------------------------------------- |
+| `type`          | `ProblemType` | Yes             | 問題類型：`FRONTEND_ERROR`, `BACKEND_API`, `DATABASE_ISSUE`, `PERFORMANCE`, `SECURITY`, `INFRASTRUCTURE` |
+| `priority`      | `Priority`    | Yes             | 優先級：`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`                                                              |
+| `description`   | `string`      | Yes             | 問題描述 (Incident description)                                                                          |
+| `errorMessage`  | `string`      | No              | 錯誤訊息 (Error message)                                                                                 |
+| `affectedFiles` | `string[]`    | No              | 受影響的檔案 (Affected files)                                                                            |
 
 **回應 (Response):**
 
@@ -100,11 +103,11 @@ Automatically analyzes the incident and assigns to the most suitable owner.
 **SLA 目標時間 (SLA Target Times):**
 
 | 優先級 (Priority) | 回應時間 (Response Time) | 解決時間 (Resolution Time) |
-|------------------|------------------------|--------------------------|
-| CRITICAL | 5 分鐘 | 60 分鐘 |
-| HIGH | 15 分鐘 | 240 分鐘 |
-| MEDIUM | 60 分鐘 | 480 分鐘 |
-| LOW | 240 分鐘 | 1440 分鐘 |
+| ----------------- | ------------------------ | -------------------------- |
+| CRITICAL          | 5 分鐘                   | 60 分鐘                    |
+| HIGH              | 15 分鐘                  | 240 分鐘                   |
+| MEDIUM            | 60 分鐘                  | 480 分鐘                   |
+| LOW               | 240 分鐘                 | 1440 分鐘                  |
 
 ---
 
@@ -367,13 +370,13 @@ Get overall performance statistics report.
 
 **指標說明 (Metrics Description):**
 
-| 指標 (Metric) | 說明 (Description) |
-|--------------|-------------------|
-| `totalAssignments` | 總分派數量 (Total number of assignments) |
-| `resolved` | 已解決數量 (Number of resolved assignments) |
-| `averageResponseTime` | 平均回應時間（分鐘）(Average response time in minutes) |
+| 指標 (Metric)           | 說明 (Description)                                       |
+| ----------------------- | -------------------------------------------------------- |
+| `totalAssignments`      | 總分派數量 (Total number of assignments)                 |
+| `resolved`              | 已解決數量 (Number of resolved assignments)              |
+| `averageResponseTime`   | 平均回應時間（分鐘）(Average response time in minutes)   |
 | `averageResolutionTime` | 平均解決時間（分鐘）(Average resolution time in minutes) |
-| `slaCompliance` | SLA 達成率（%）(SLA compliance percentage) |
+| `slaCompliance`         | SLA 達成率（%）(SLA compliance percentage)               |
 
 ---
 
@@ -390,11 +393,11 @@ Get overall performance statistics report.
 
 ### 常見錯誤碼 (Common Error Codes)
 
-| 狀態碼 (Status Code) | 說明 (Description) |
-|---------------------|-------------------|
-| 400 | 驗證錯誤或參數錯誤 (Validation error or invalid parameters) |
-| 404 | 找不到指定的資源 (Resource not found) |
-| 500 | 伺服器內部錯誤 (Internal server error) |
+| 狀態碼 (Status Code) | 說明 (Description)                                          |
+| -------------------- | ----------------------------------------------------------- |
+| 400                  | 驗證錯誤或參數錯誤 (Validation error or invalid parameters) |
+| 404                  | 找不到指定的資源 (Resource not found)                       |
+| 500                  | 伺服器內部錯誤 (Internal server error)                      |
 
 ---
 
@@ -516,8 +519,8 @@ const response = await fetch('http://localhost:3000/api/v1/assignment/assign', {
     priority: 'HIGH',
     description: 'Build pipeline failure',
     errorMessage: error.message,
-    affectedFiles: changedFiles
-  })
+    affectedFiles: changedFiles,
+  }),
 });
 ```
 
@@ -530,9 +533,9 @@ const createAssignmentFromAlert = async (alert) => {
     type: mapAlertToType(alert.type),
     priority: mapSeverityToPriority(alert.severity),
     description: alert.message,
-    errorMessage: alert.details
+    errorMessage: alert.details,
   };
-  
+
   return await assignmentClient.create(incident);
 };
 ```

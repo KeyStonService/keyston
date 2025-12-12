@@ -1,6 +1,6 @@
 # 03_refactor Machine-Readable Index
 # This file is used by CI/tools/agents to map cluster IDs to refactor playbooks
-# 
+#
 # Based on the three-phase refactor system architecture:
 # 01_deconstruction → 02_integration → 03_refactor
 #
@@ -16,26 +16,26 @@ last_updated: "2025-12-06T19:35:00Z"
 clusters:
   - cluster_id: "core/architecture-stability"
     domain: "core"
-    priority: "P0"                          # P0/P1/P2
-    status: "draft"                         # draft/in_progress/completed/blocked
-    
+    priority: "P0" # P0/P1/P2
+    status: "draft" # draft/in_progress/completed/blocked
+
     refactor_file: "core/core__architecture_refactor.md"
     deconstruction_file: "../01_deconstruction/core__architecture_deconstruction.md"
     integration_file: "../02_integration/core__architecture_integration.md"
-    
+
     legacy_assets:
       - "core-v1-legacy-modules"
-    
+
     involved_dirs:
       - "core/unified_integration/"
       - "core/mind_matrix/"
       - "core/architecture-stability/"
-    
+
     governance_status:
       violations: 0
       threshold: 5
       auto_fixable: 0
-    
+
     last_updated: "2025-12-06"
 
   - cluster_id: "automation/autonomous"

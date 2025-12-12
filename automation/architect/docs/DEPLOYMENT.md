@@ -224,10 +224,10 @@ metadata:
   name: automation-architect-config
   namespace: automation-architect
 data:
-  ENVIRONMENT: "production"
-  LOG_LEVEL: "INFO"
-  REDIS_HOST: "redis-service"
-  POSTGRES_HOST: "postgres-service"
+  ENVIRONMENT: 'production'
+  LOG_LEVEL: 'INFO'
+  REDIS_HOST: 'redis-service'
+  POSTGRES_HOST: 'postgres-service'
 ```
 
 #### secret.yaml
@@ -240,8 +240,8 @@ metadata:
   namespace: automation-architect
 type: Opaque
 stringData:
-  POSTGRES_PASSWORD: "your_password_here"
-  API_TOKEN: "your_api_token_here"
+  POSTGRES_PASSWORD: 'your_password_here'
+  API_TOKEN: 'your_api_token_here'
 ```
 
 #### deployment.yaml
@@ -263,46 +263,46 @@ spec:
         app: automation-architect
     spec:
       containers:
-      - name: automation-architect
-        image: automation-architect:latest
-        ports:
-        - containerPort: 8000
-        envFrom:
-        - configMapRef:
-            name: automation-architect-config
-        - secretRef:
-            name: automation-architect-secret
-        resources:
-          requests:
-            cpu: "500m"
-            memory: "1Gi"
-          limits:
-            cpu: "2000m"
-            memory: "4Gi"
-        volumeMounts:
-        - name: logs
-          mountPath: /app/logs
-        - name: reports
-          mountPath: /app/reports
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: automation-architect
+          image: automation-architect:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: automation-architect-config
+            - secretRef:
+                name: automation-architect-secret
+          resources:
+            requests:
+              cpu: '500m'
+              memory: '1Gi'
+            limits:
+              cpu: '2000m'
+              memory: '4Gi'
+          volumeMounts:
+            - name: logs
+              mountPath: /app/logs
+            - name: reports
+              mountPath: /app/reports
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: logs
-        persistentVolumeClaim:
-          claimName: logs-pvc
-      - name: reports
-        persistentVolumeClaim:
-          claimName: reports-pvc
+        - name: logs
+          persistentVolumeClaim:
+            claimName: logs-pvc
+        - name: reports
+          persistentVolumeClaim:
+            claimName: reports-pvc
 ```
 
 #### service.yaml
@@ -317,9 +317,9 @@ spec:
   selector:
     app: automation-architect
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8000
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
   type: LoadBalancer
 ```
 
@@ -444,10 +444,10 @@ server {
 
     ssl_certificate /etc/nginx/ssl/cert.pem;
     ssl_certificate_key /etc/nginx/ssl/key.pem;
-    
+
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
-    
+
     location / {
         proxy_pass http://localhost:8000;
         proxy_set_header Host $host;
@@ -523,15 +523,15 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "High CPU usage detected"
-          
+          summary: 'High CPU usage detected'
+
       - alert: HighSecurityIssues
         expr: security_issues_detected > 10
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "High number of security issues"
+          summary: 'High number of security issues'
 ```
 
 ---

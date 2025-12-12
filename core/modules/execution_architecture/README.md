@@ -2,14 +2,17 @@
 
 # 執行架構
 
-> 執行拓撲與設計定義層，定義 agent 編排、工具系統整合和執行流程架構。
-> Execution topology and design definition layer, defining agent orchestration, tool system integration, and execution flow architecture.
+> 執行拓撲與設計定義層，定義 agent 編排、工具系統整合和執行流程架構。Execution
+> topology and design definition layer, defining agent orchestration, tool
+> system integration, and execution flow architecture.
 
 ## 📋 Overview 概述
 
 本目錄定義了執行架構的設計，包括 agent 編排、LangChain 整合、MCP 整合和工具系統的架構設計。
 
-This directory defines the execution architecture design, including agent orchestration, LangChain integration, MCP integration, and tool system architecture.
+This directory defines the execution architecture design, including agent
+orchestration, LangChain integration, MCP integration, and tool system
+architecture.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -77,11 +80,11 @@ execution_architecture/
 └─────────────────────────┘   └─────────────────────────┘
 ```
 
-| 組件 Component | 角色 Role | 關注點 Focus |
-|----------------|----------|--------------|
-| `execution_architecture/` | 架構師 | HOW - 如何設計、編排、整合 |
-| `execution_engine/` | 實作者 | WHAT - 提供什麼能力、介面 |
-| `runtime/` | 運維 | WHERE - 在哪裡、如何運行 |
+| 組件 Component            | 角色 Role | 關注點 Focus               |
+| ------------------------- | --------- | -------------------------- |
+| `execution_architecture/` | 架構師    | HOW - 如何設計、編排、整合 |
+| `execution_engine/`       | 實作者    | WHAT - 提供什麼能力、介面  |
+| `runtime/`                | 運維      | WHERE - 在哪裡、如何運行   |
 
 ## 📦 Key Modules 關鍵模組
 
@@ -137,19 +140,19 @@ system_design = ToolSystemDesign(
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `shared/` | 共用工具和配置 |
-| `config/` | 架構配置 |
+| Dependency 依賴 | Purpose 用途   |
+| --------------- | -------------- |
+| `shared/`       | 共用工具和配置 |
+| `config/`       | 架構配置       |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `execution_engine/` | 架構定義不應依賴具體實作 |
-| `runtime/` | 架構定義不應依賴運行時 |
-| `agent/` | 架構定義不應依賴具體 agent |
-| `mcp-servers/` | 架構定義不應依賴具體工具 |
+| Should NOT depend on 不應依賴 | Reason 原因                |
+| ----------------------------- | -------------------------- |
+| `execution_engine/`           | 架構定義不應依賴具體實作   |
+| `runtime/`                    | 架構定義不應依賴運行時     |
+| `agent/`                      | 架構定義不應依賴具體 agent |
+| `mcp-servers/`                | 架構定義不應依賴具體工具   |
 
 ## 📖 Related Documentation 相關文檔
 
@@ -160,9 +163,9 @@ system_design = ToolSystemDesign(
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README with boundary definitions |
+| Date 日期  | Version 版本 | Changes 變更                             |
+| ---------- | ------------ | ---------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial README with boundary definitions |
 
 ---
 

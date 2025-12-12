@@ -13,13 +13,15 @@ We provide security updates for the following versions:
 
 ### 🔒 How to Report Security Vulnerabilities
 
-We take security issues seriously. If you discover a security vulnerability, please **DO NOT** report it through public Issues.
+We take security issues seriously. If you discover a security vulnerability,
+please **DO NOT** report it through public Issues.
 
 #### Reporting Channels
 
 **Preferred Method**: Use GitHub Security Advisories
 
-1. Go to [Security Advisories](https://github.com/SynergyMesh/SynergyMesh/security/advisories)
+1. Go to
+   [Security Advisories](https://github.com/SynergyMesh/SynergyMesh/security/advisories)
 2. Click "Report a vulnerability"
 3. Fill in the detailed information
 4. Submit the report
@@ -39,12 +41,12 @@ Please include the following in your report:
 
 ### ⏱️ Response Timeline
 
-| Stage | Timeframe |
-|-------|-----------|
-| Initial Acknowledgment | Within 24 hours |
-| Vulnerability Assessment | Within 72 hours |
-| Fix Plan | Within 7 days |
-| Patch Release | Based on severity |
+| Stage                    | Timeframe         |
+| ------------------------ | ----------------- |
+| Initial Acknowledgment   | Within 24 hours   |
+| Vulnerability Assessment | Within 72 hours   |
+| Fix Plan                 | Within 7 days     |
+| Patch Release            | Based on severity |
 
 **Severity and Fix Timeline**:
 
@@ -115,9 +117,11 @@ We use the following tools to monitor security status:
 
 We follow responsible disclosure principles:
 
-1. **Confidentiality Period**: We require confidentiality until fix release (usually 90 days)
+1. **Confidentiality Period**: We require confidentiality until fix release
+   (usually 90 days)
 2. **Coordinated Disclosure**: We coordinate disclosure timing with reporters
-3. **Acknowledgment**: We publicly thank reporters when fixes are released (if agreed)
+3. **Acknowledgment**: We publicly thank reporters when fixes are released (if
+   agreed)
 4. **CVE Assignment**: For qualifying vulnerabilities, we apply for CVE numbers
 
 ### 📚 Security Resources

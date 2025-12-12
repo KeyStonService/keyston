@@ -15,7 +15,7 @@ metadata:
 
 spec:
   version: v1.0.0
-  
+
   audit_levels:
     metadata:
       description: "記錄請求元數據 / Log request metadata"
@@ -37,7 +37,7 @@ spec:
         - "get"
         - "list"
         - "watch"
-    
+
     request:
       description: "記錄請求主體 / Log request body"
       level: "Request"
@@ -63,7 +63,7 @@ spec:
         - "update"
         - "patch"
         - "delete"
-    
+
     request_response:
       description: "記錄請求與回應 / Log request and response"
       level: "RequestResponse"
@@ -89,11 +89,11 @@ spec:
         - "update"
         - "patch"
         - "delete"
-  
+
   omit_stages:
     # Don't log these stages to reduce noise
     - "RequestReceived"
-  
+
   retention:
     log_rotation_days: 90
     archive_storage: "s3-compliant"
@@ -102,7 +102,7 @@ spec:
     encryption_algorithm: "AES-256-GCM"
     compression: true
     immutable_storage: true
-  
+
   alerting:
     unauthorized_access:
       severity: "critical"
@@ -113,7 +113,7 @@ spec:
         - "status_code: 403"
         - "verb: create,update,delete"
         - "resource: secrets,rbac"
-    
+
     privileged_escalation:
       severity: "high"
       notification:
@@ -123,7 +123,7 @@ spec:
         - "verb: create,update"
         - "resource: clusterrolebindings"
         - "requesting_user: !cluster-admin"
-    
+
     anomalous_behavior:
       severity: "medium"
       notification:
@@ -132,7 +132,7 @@ spec:
         - "request_rate: >100/minute"
         - "failed_auth_attempts: >10/hour"
         - "unusual_api_access_pattern: true"
-    
+
     secret_access:
       severity: "high"
       notification:
@@ -141,7 +141,7 @@ spec:
         - "resource: secrets"
         - "verb: get,list"
         - "user: !service-account"
-    
+
     rbac_changes:
       severity: "high"
       notification:
@@ -160,7 +160,7 @@ spec:
       - "security"
     log_level: "RequestResponse"
     alert_all_changes: true
-  
+
   exemptions:
     # System processes that generate high-volume logs
     users:
@@ -174,7 +174,7 @@ spec:
         verbs:
           - "create"
           - "patch"
-  
+
   integration:
     siem:
       enabled: true
@@ -182,7 +182,7 @@ spec:
       format: "json"
       batch_size: 100
       flush_interval_seconds: 30
-    
+
     compliance_platforms:
       - name: "SOC2"
         enabled: true
@@ -196,12 +196,12 @@ spec:
     max_batch_wait_seconds: 30
     buffer_size_mb: 100
     async_processing: true
-  
+
   related_policies:
     - rbac-role-matrix
     - zero-trust-principles
     - compliance-standards
-  
+
   references:
     - description: "Kubernetes Audit Policy"
       url: "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"

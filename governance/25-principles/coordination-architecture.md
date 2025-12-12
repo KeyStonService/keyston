@@ -2,13 +2,17 @@
 
 ## Overview
 
-This document defines the core coordination and governance principles for SynergyMesh, establishing the foundation for system-wide decision making and conflict resolution. Extracted from L1 constitutional principles and adapted for the SynergyMesh platform.
+This document defines the core coordination and governance principles for
+SynergyMesh, establishing the foundation for system-wide decision making and
+conflict resolution. Extracted from L1 constitutional principles and adapted for
+the SynergyMesh platform.
 
 ## Core Design Philosophy
 
 ### 1. Absolute Independence
 
-**Definition:** The coordination layer acts as a cross-layer supervisor, not merely another architectural layer.
+**Definition:** The coordination layer acts as a cross-layer supervisor, not
+merely another architectural layer.
 
 **Implementation:**
 
@@ -24,7 +28,8 @@ This document defines the core coordination and governance principles for Synerg
 
 ### 2. Machine-First, Code-as-Law
 
-**Definition:** All governance rules must exist in machine-readable, executable format.
+**Definition:** All governance rules must exist in machine-readable, executable
+format.
 
 **Implementation:**
 
@@ -142,23 +147,23 @@ state_transitions:
   DECLARED -> REGISTERED:
     trigger: successful_registration
     approval_required: true
-    
+
   REGISTERED -> COORDINATED:
     trigger: conflict_resolution_complete
     validation: conflict_free
-    
+
   COORDINATED -> ACTIVE:
     trigger: startup_complete
     health_check: passed
-    
+
   ACTIVE -> CONFLICTED:
     trigger: conflict_detected
     action: automatic_isolation
-    
+
   CONFLICTED -> ACTIVE:
     trigger: conflict_resolved
     approval_required: true
-    
+
   ACTIVE -> DEGRADED:
     trigger: partial_failure
     action: reduce_functionality
@@ -223,12 +228,12 @@ state_transitions:
 
 ### Key Success Metrics
 
-| Metric | Target | Description |
-|--------|--------|-------------|
-| Module conflict auto-resolution rate | > 95% | Percentage of conflicts resolved automatically |
-| State transition response time | < 30s | Time to complete state transitions |
-| System availability | > 99.9% | Overall system uptime |
-| Configuration drift detection | < 5min | Time to detect and remediate drift |
+| Metric                               | Target  | Description                                    |
+| ------------------------------------ | ------- | ---------------------------------------------- |
+| Module conflict auto-resolution rate | > 95%   | Percentage of conflicts resolved automatically |
+| State transition response time       | < 30s   | Time to complete state transitions             |
+| System availability                  | > 99.9% | Overall system uptime                          |
+| Configuration drift detection        | < 5min  | Time to detect and remediate drift             |
 
 ## Integration with SynergyMesh
 
@@ -261,7 +266,7 @@ state_transitions:
 coordination:
   enabled: true
   mode: autonomous
-  
+
   governance_agent:
     legislative:
       enabled: true
@@ -272,18 +277,18 @@ coordination:
     executive:
       enabled: true
       enforcement_mode: automatic
-  
+
   capability_registry:
     storage: etcd
     sync_interval: 30s
     conflict_detection: realtime
-  
+
   state_machine:
     default_timeout: 300s
     retry_policy:
       max_attempts: 3
       backoff: exponential
-  
+
   emergency:
     circuit_breaker_enabled: true
     safe_mode_threshold: 0.5

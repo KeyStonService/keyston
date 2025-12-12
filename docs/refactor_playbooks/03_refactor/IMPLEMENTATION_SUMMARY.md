@@ -8,7 +8,8 @@
 
 ## 📋 Executive Summary
 
-本次實作完整建立了 Unmanned Island System 的三層重構劇本系統（Three-Layer Refactor Playbook System），包含：
+本次實作完整建立了 Unmanned Island System 的三層重構劇本系統（Three-Layer
+Refactor Playbook System），包含：
 
 - **01_deconstruction**：解構層（分析舊世界）
 - **02_integration**：集成層（設計新世界）
@@ -22,17 +23,17 @@
 
 ### ✅ 已完成項目
 
-| 項目 | 狀態 | 說明 |
-|------|------|------|
-| 目錄結構建立 | ✅ | 三層結構完整建立，包含所有 domain 子目錄 |
-| .gitignore 更新 | ✅ | Legacy scratch 檔案正確被排除 |
-| 模板系統 | ✅ | 3 個模板檔案（Playbook、Snippets、Conventions） |
-| 索引系統 | ✅ | 人類可讀（INDEX.md）+ 機器可讀（index.yaml） |
-| 文件系統 | ✅ | 所有層級都有完整的 README.md |
-| CI 整合指南 | ✅ | CI_INTEGRATION.md 含工作流程範例 |
-| AI 提示詞 | ✅ | AI_PROMPTS.md 含系統/使用者提示詞 |
-| 示範劇本 | ✅ | 2 個完整的劇本範例（core, automation） |
-| 舊資產追蹤 | ✅ | legacy_assets_index.yaml + _legacy_scratch/ |
+| 項目            | 狀態 | 說明                                            |
+| --------------- | ---- | ----------------------------------------------- |
+| 目錄結構建立    | ✅   | 三層結構完整建立，包含所有 domain 子目錄        |
+| .gitignore 更新 | ✅   | Legacy scratch 檔案正確被排除                   |
+| 模板系統        | ✅   | 3 個模板檔案（Playbook、Snippets、Conventions） |
+| 索引系統        | ✅   | 人類可讀（INDEX.md）+ 機器可讀（index.yaml）    |
+| 文件系統        | ✅   | 所有層級都有完整的 README.md                    |
+| CI 整合指南     | ✅   | CI_INTEGRATION.md 含工作流程範例                |
+| AI 提示詞       | ✅   | AI_PROMPTS.md 含系統/使用者提示詞               |
+| 示範劇本        | ✅   | 2 個完整的劇本範例（core, automation）          |
+| 舊資產追蹤      | ✅   | legacy_assets_index.yaml + \_legacy_scratch/    |
 
 ---
 
@@ -172,7 +173,7 @@ docs/refactor_playbooks/
 # 範例：自動更新劇本
 on:
   schedule:
-    - cron: '0 0 * * 1'  # 每週一
+    - cron: '0 0 * * 1' # 每週一
 
 jobs:
   update-playbooks:
@@ -193,32 +194,32 @@ jobs:
 
 ### 每層都有完整說明
 
-| 層級 | README | 說明內容 |
-|------|--------|----------|
-| 01_deconstruction | ✅ | 角色、與其他層關係、舊資產管理、最佳實踐 |
-| 02_integration | ✅ | 角色、介面設計原則、集成策略、範例結構 |
-| 03_refactor | ✅ | 角色、索引結構、必備內容、新增流程、CI 關係 |
+| 層級              | README | 說明內容                                    |
+| ----------------- | ------ | ------------------------------------------- |
+| 01_deconstruction | ✅     | 角色、與其他層關係、舊資產管理、最佳實踐    |
+| 02_integration    | ✅     | 角色、介面設計原則、集成策略、範例結構      |
+| 03_refactor       | ✅     | 角色、索引結構、必備內容、新增流程、CI 關係 |
 
 ### 模板與規範
 
-| 檔案 | 用途 |
-|------|------|
-| REFRACTOR_PLAYBOOK_TEMPLATE.md | 標準劇本結構 |
-| SECTION_SNIPPETS.md | 常用章節範本（P0/P1/P2、Auto-Fix 等） |
-| META_CONVENTIONS.md | 命名規則、檔案格式、驗證清單 |
+| 檔案                           | 用途                                  |
+| ------------------------------ | ------------------------------------- |
+| REFRACTOR_PLAYBOOK_TEMPLATE.md | 標準劇本結構                          |
+| SECTION_SNIPPETS.md            | 常用章節範本（P0/P1/P2、Auto-Fix 等） |
+| META_CONVENTIONS.md            | 命名規則、檔案格式、驗證清單          |
 
 ### 整合指南
 
-| 檔案 | 說明 |
-|------|------|
+| 檔案              | 說明                                   |
+| ----------------- | -------------------------------------- |
 | CI_INTEGRATION.md | CI/CD 整合方式、工作流程範例、工具腳本 |
-| AI_PROMPTS.md | LLM 提示詞、系統角色定義、使用範例 |
+| AI_PROMPTS.md     | LLM 提示詞、系統角色定義、使用範例     |
 
 ---
 
 ## 🎓 示範劇本品質
 
-### core__architecture_refactor.md
+### core\_\_architecture_refactor.md
 
 - **行數**：405 行
 - **大小**：12.4 KB
@@ -233,7 +234,7 @@ jobs:
   - 詳細的檔案結構圖
   - 集成對齊與回滾策略
 
-### automation__autonomous_refactor.md
+### automation\_\_autonomous_refactor.md
 
 - **行數**：468 行
 - **大小**：14.7 KB
@@ -370,7 +371,8 @@ jobs:
 
 ## 🎉 結論
 
-本次實作成功建立了一個完整、結構化、可擴充的重構劇本系統，為 Unmanned Island System 的持續重構與語言治理提供了堅實的基礎。
+本次實作成功建立了一個完整、結構化、可擴充的重構劇本系統，為 Unmanned Island
+System 的持續重構與語言治理提供了堅實的基礎。
 
 系統特點：
 

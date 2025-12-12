@@ -4,10 +4,10 @@
 
 ## 🔄 支援的遷移路徑
 
-| 遷移方向 | 說明 | 狀態 |
-|---------|------|------|
-| v1 → v2 | Python 無人機 → 多語言島嶼 | ✅ 支援 |
-| v2 → v1 | 多語言島嶼 → Python 無人機 (降級) | ✅ 支援 |
+| 遷移方向 | 說明                              | 狀態    |
+| -------- | --------------------------------- | ------- |
+| v1 → v2  | Python 無人機 → 多語言島嶼        | ✅ 支援 |
+| v2 → v1  | 多語言島嶼 → Python 無人機 (降級) | ✅ 支援 |
 
 ## 📁 目錄結構
 
@@ -68,13 +68,13 @@ result = migrator.migrate_v2_to_v1()
 
 ### v1-python-drones → v2-multi-islands
 
-| v1 組件 | v2 組件 | 說明 |
-|--------|--------|------|
-| `drones/coordinator_drone.py` | `orchestrator/island_orchestrator.py` | 協調器 |
-| `drones/autopilot_drone.py` | `islands/python_island.py` | Python 功能 |
-| `drones/deployment_drone.py` | `islands/*.py` | 部署功能分散到各島嶼 |
-| `config/drone_config.py` | `config/island_config.py` | 配置載入 |
-| `utils/helpers.py` | `utils/helpers.py` | 工具函數 |
+| v1 組件                       | v2 組件                               | 說明                 |
+| ----------------------------- | ------------------------------------- | -------------------- |
+| `drones/coordinator_drone.py` | `orchestrator/island_orchestrator.py` | 協調器               |
+| `drones/autopilot_drone.py`   | `islands/python_island.py`            | Python 功能          |
+| `drones/deployment_drone.py`  | `islands/*.py`                        | 部署功能分散到各島嶼 |
+| `config/drone_config.py`      | `config/island_config.py`             | 配置載入             |
+| `utils/helpers.py`            | `utils/helpers.py`                    | 工具函數             |
 
 ## ⚠️ 注意事項
 

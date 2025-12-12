@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Process Governance** dimension.
+This directory contains the autonomous automation engine for the **Process
+Governance** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = ProcessGovernanceEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: process_governance
-**Dimension Name**: Process Governance
+**Dimension ID**: process_governance **Dimension Name**: Process Governance
 **Status**: Active

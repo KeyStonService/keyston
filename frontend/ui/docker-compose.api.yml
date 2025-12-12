@@ -4,7 +4,7 @@
 # 用於本地開發和測試的 Docker Compose 配置
 # ============================================================================
 
-version: '3.8'
+version: "3.8"
 
 services:
   # Code Analysis API Service
@@ -83,8 +83,8 @@ services:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     ports:
       - "9090:9090"
     networks:

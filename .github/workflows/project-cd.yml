@@ -5,50 +5,50 @@ on:
   workflow_call:
     inputs:
       working-directory:
-        description: '專案工作目錄'
+        description: "專案工作目錄"
         required: true
         type: string
       service-name:
-        description: '服務名稱'
+        description: "服務名稱"
         required: true
         type: string
       image-name:
-        description: 'Docker 映像名稱'
+        description: "Docker 映像名稱"
         required: false
         type: string
-        default: ''
+        default: ""
       registry:
-        description: '容器登錄位址'
+        description: "容器登錄位址"
         required: false
         type: string
-        default: 'ghcr.io'
+        default: "ghcr.io"
       environment:
-        description: '部署環境 (dev/staging/prod)'
+        description: "部署環境 (dev/staging/prod)"
         required: false
         type: string
-        default: 'dev'
+        default: "dev"
       enable-cosign:
-        description: '啟用 Cosign 簽章'
+        description: "啟用 Cosign 簽章"
         required: false
         type: boolean
         default: true
       enable-sbom:
-        description: '啟用 SBOM 生成'
+        description: "啟用 SBOM 生成"
         required: false
         type: boolean
         default: true
       enable-policy-check:
-        description: '啟用政策檢查'
+        description: "啟用政策檢查"
         required: false
         type: boolean
         default: true
       deploy-to-k8s:
-        description: '部署到 Kubernetes'
+        description: "部署到 Kubernetes"
         required: false
         type: boolean
         default: false
       has-kubeconfig:
-        description: '是否提供 KUBECONFIG（用於條件判斷）'
+        description: "是否提供 KUBECONFIG（用於條件判斷）"
         required: false
         type: boolean
         default: false
@@ -65,10 +65,10 @@ on:
         required: false
     outputs:
       image-digest:
-        description: '映像 digest'
+        description: "映像 digest"
         value: ${{ jobs.build-and-push.outputs.image-digest }}
       image-tag:
-        description: '映像標籤'
+        description: "映像標籤"
         value: ${{ jobs.build-and-push.outputs.image-tag }}
 
 jobs:
@@ -77,30 +77,30 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write  # 用於 Cosign keyless signing
+      id-token: write # 用於 Cosign keyless signing
       security-events: write
-    
+
     outputs:
       image-digest: ${{ steps.build.outputs.digest }}
       image-tag: ${{ steps.meta.outputs.tags }}
-    
+
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
-      
+
       - name: 🔧 Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           driver-opts: |
             image=moby/buildkit:latest
             network=host
-      
+
       - name: 📝 Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -120,7 +120,7 @@ jobs:
             namespace.io/team=contracts-team
             namespace.io/environment=${{ inputs.environment }}
             namespace.io/lifecycle=active
-      
+
       - name: 🔐 Login to Container Registry
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
@@ -128,7 +128,7 @@ jobs:
           registry: ${{ inputs.registry }}
           username: ${{ secrets.REGISTRY_USERNAME || github.actor }}
           password: ${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}
-      
+
       - name: 🏗️ Build and push Docker image
         id: build
         uses: docker/build-push-action@v6
@@ -146,7 +146,7 @@ jobs:
           build-args: |
             BUILD_SHA=${{ github.sha }}
             BUILD_VERSION=${{ github.ref_name }}
-      
+
       - name: 📋 Generate SBOM
         if: inputs.enable-sbom && github.event_name != 'pull_request'
         run: |
@@ -160,16 +160,16 @@ jobs:
             anchore/syft:latest \
             "$IMAGE_REF" \
             -o cyclonedx-json=sbom.json || echo "⚠️ SBOM 生成失敗（非阻斷）"
-          
+
           if [ -f "sbom.json" ]; then
             echo "✅ SBOM 生成成功"
             ls -lh sbom.json
           fi
-      
+
       - name: 🔏 Install Cosign
         if: inputs.enable-cosign && github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3
-      
+
       - name: ✍️ Sign image with Cosign
         if: inputs.enable-cosign && github.event_name != 'pull_request'
         env:
@@ -191,7 +191,7 @@ jobs:
               ${{ steps.meta.outputs.tags }}@${{ steps.build.outputs.digest }} || \
             echo "⚠️ Cosign 簽章失敗（需配置密鑰或 OIDC）"
           fi
-      
+
       - name: 📤 Upload SBOM artifact
         if: inputs.enable-sbom
         uses: actions/upload-artifact@v4
@@ -200,7 +200,7 @@ jobs:
           path: ${{ inputs.working-directory }}/sbom.json
           if-no-files-found: warn
           retention-days: 90
-      
+
       - name: 📊 Build Summary
         run: |
           echo "## 🎯 映像構建完成" >> $GITHUB_STEP_SUMMARY
@@ -212,28 +212,28 @@ jobs:
           echo "| Digest | \`${{ steps.build.outputs.digest }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| SBOM | ${{ inputs.enable-sbom && '✅' || '⏭️' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Cosign | ${{ inputs.enable-cosign && '✅' || '⏭️' }} |" >> $GITHUB_STEP_SUMMARY
-  
+
   policy-check:
     needs: build-and-push
     if: inputs.enable-policy-check
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    
+
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 📥 Download SBOM
         uses: actions/download-artifact@v6
         with:
           name: sbom-${{ inputs.service-name }}-${{ github.sha }}
           path: ${{ inputs.working-directory }}
-      
+
       - name: 🔍 Install Conftest
         run: |
           wget -O conftest.tar.gz https://github.com/open-policy-agent/conftest/releases/download/v0.54.0/conftest_0.54.0_Linux_x86_64.tar.gz
@@ -241,7 +241,7 @@ jobs:
           chmod +x conftest
           sudo mv conftest /usr/local/bin/
           conftest --version
-      
+
       - name: 🔐 Policy check - Kubernetes manifests
         if: hashFiles(format('{0}/deploy/*.yaml', inputs.working-directory)) != ''
         run: |
@@ -253,14 +253,14 @@ jobs:
           else
             echo "⏭️ 未找到政策檔案，跳過檢查"
           fi
-      
+
       - name: 📊 Policy Summary
         if: always()
         run: |
           echo "## 🛡️ 政策檢查完成" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ 政策驗證已執行" >> $GITHUB_STEP_SUMMARY
-  
+
   deploy:
     needs: [build-and-push, policy-check]
     if: inputs.deploy-to-k8s && github.event_name != 'pull_request'
@@ -268,32 +268,32 @@ jobs:
     environment: ${{ inputs.environment }}
     permissions:
       contents: read
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔧 Setup kubectl
         uses: azure/setup-kubectl@v4
         with:
-          version: 'v1.30.0'
-      
+          version: "v1.30.0"
+
       - name: 🔐 Setup Kubeconfig
         if: inputs.has-kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
-      
+
       - name: 🚀 Deploy to Kubernetes
         if: inputs.has-kubeconfig
         run: |
           echo "🚀 部署到 ${{ inputs.environment }} 環境..."
           cd ${{ inputs.working-directory }}/deploy
-          
+
           # 更新映像標籤
           export IMAGE_TAG="${{ needs.build-and-push.outputs.image-tag }}"
-          
+
           # 應用 manifests
           kubectl apply -f rbac.yaml || echo "⚠️ RBAC 應用失敗"
           kubectl apply -f service.yaml
@@ -301,13 +301,13 @@ jobs:
           kubectl apply -f hpa.yaml || echo "⚠️ HPA 應用失敗"
           kubectl apply -f pdb.yaml || echo "⚠️ PDB 應用失敗"
           kubectl apply -f networkpolicy.yaml || echo "⚠️ NetworkPolicy 應用失敗"
-          
+
           echo "✅ 部署完成"
-          
+
           # 等待 rollout
           kubectl rollout status deployment/${{ inputs.service-name }} --timeout=5m || \
             echo "⚠️ Rollout 狀態檢查逾時"
-      
+
       - name: 📊 Deployment Summary
         if: always()
         run: |

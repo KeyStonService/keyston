@@ -31,11 +31,11 @@ review:
   # Wait time for checks to complete (in milliseconds)
   # 等待檢查完成的時間（毫秒）
   check_wait_time: 5000
-  
+
   # Auto-approve PRs that pass all checks
   # 自動批准通過所有檢查的 PR
   auto_approve: true
-  
+
   # Require all CI checks to pass before merging
   # 合併前要求所有 CI 檢查通過
   require_checks_pass: true
@@ -46,11 +46,11 @@ merge:
   # Merge method: squash, merge, rebase
   # 合併方式：squash（壓縮）、merge（合併）、rebase（變基）
   method: squash
-  
+
   # Auto-merge enabled
   # 啟用自動合併
   enabled: true
-  
+
   # Target branches for auto-merge
   # 自動合併的目標分支
   target_branches:
@@ -63,7 +63,7 @@ auto_fix:
   # Enable auto-fix
   # 啟用自動修復
   enabled: true
-  
+
   # Types of issues to auto-fix
   # 要自動修復的問題類型
   fix_types:
@@ -77,11 +77,11 @@ notifications:
   # Comment on PR after review
   # 審核後在 PR 上評論
   comment_on_review: true
-  
+
   # Comment on successful merge
   # 成功合併後評論
   comment_on_merge: true
-  
+
   # Comment on merge failure
   # 合併失敗後評論
   comment_on_failure: true

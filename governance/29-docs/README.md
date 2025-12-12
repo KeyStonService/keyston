@@ -1,12 +1,14 @@
 # 📚 Documentation Governance
 
-> Documentation Standards & Knowledge Management - Governance for documentation quality, consistency, and accessibility
+> Documentation Standards & Knowledge Management - Governance for documentation
+> quality, consistency, and accessibility
 
 ## 📋 Overview
 
 Documentation Governance ensures:
 
-- Consistent documentation structure and format across all 14 governance dimensions
+- Consistent documentation structure and format across all 14 governance
+  dimensions
 - Knowledge base organization and discoverability
 - Language and naming consistency (multilingual support)
 - Documentation standards and style guides
@@ -78,7 +80,8 @@ docs-governance/
 
 This governance domain integrates with:
 
-- **All 14 dimensions**: Each dimension must maintain documentation per these standards
+- **All 14 dimensions**: Each dimension must maintain documentation per these
+  standards
 - **api-governance**: API documentation consistency
 - **architecture-governance**: Architecture documentation and ADRs
 - **data-governance**: Data schema documentation
@@ -86,5 +89,4 @@ This governance domain integrates with:
 
 ---
 
-**Status**: Core Governance Domain
-**Last Updated**: 2025-12-09
+**Status**: Core Governance Domain **Last Updated**: 2025-12-09

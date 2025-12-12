@@ -15,7 +15,7 @@ metadata:
 
 spec:
   version: v1.0.0
-  
+
   roles:
     cluster-admin:
       level: L0-CONSTITUTIONAL
@@ -34,7 +34,7 @@ spec:
           - "security-team-lead"
           - "cto"
         approval_count: 2
-    
+
     platform-operator:
       level: L1-GOVERNANCE
       description: "平台操作員 / Platform operator"
@@ -56,7 +56,7 @@ spec:
       audit:
         log_all_actions: true
         alert_on_sensitive_operations: true
-    
+
     developer:
       level: L2-APPLICATION
       description: "應用程式開發者 / Application developer"
@@ -76,7 +76,7 @@ spec:
       resource_limits:
         max_cpu: "4000m"
         max_memory: "8Gi"
-    
+
     viewer:
       level: L3-READONLY
       description: "唯讀檢視者 / Read-only viewer"
@@ -89,7 +89,7 @@ spec:
         no_port_forward: true
         no_secret_access: true
       default_role: true
-    
+
     ci-cd-automation:
       level: L2-AUTOMATION
       description: "CI/CD 自動化服務帳戶 / CI/CD automation service account"
@@ -111,7 +111,7 @@ spec:
       automation:
         max_deployments_per_hour: 50
         rollback_on_failure: true
-    
+
     security-auditor:
       level: L1-GOVERNANCE
       description: "安全審計員 / Security auditor"
@@ -158,7 +158,7 @@ spec:
     webhook_endpoint: "/validate/rbac/assignment"
     deny_by_default: true
     explicit_allow_only: true
-  
+
   review_process:
     access_review_frequency: "quarterly"
     automated_deprovisioning:
@@ -175,7 +175,7 @@ spec:
     - zero-trust-principles
     - audit-policy
     - pod-security-standards
-  
+
   references:
     - description: "Kubernetes RBAC Documentation"
       url: "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"

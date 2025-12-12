@@ -32,7 +32,7 @@ validation:
       tools:
         - "yamllint"
         - "jsonlint"
-    
+
     # Stage 2: Format - 格式規範
     - name: "format"
       description: "格式規範（縮排、引號、排序）"
@@ -42,7 +42,7 @@ validation:
         indent: 2
         lineWidth: 120
         quotingType: "single"
-    
+
     # Stage 3: Schema - 結構驗證
     - name: "schema"
       description: "JSON Schema 結構驗證"
@@ -53,7 +53,7 @@ validation:
           applies_to: ["docs/knowledge_index.yaml", "docs/docs-index.json"]
         - path: "governance/31-schemas/policy.schema.json"
           applies_to: ["governance/23-policies/*.yaml"]
-    
+
     # Stage 4: Vector Test - 向量測試
     - name: "vector-test"
       description: "測試向量驗證"
@@ -63,7 +63,7 @@ validation:
       includePatterns:
         - "*.valid.yaml"
         - "*.invalid.yaml"
-    
+
     # Stage 5: Policy Gate - 策略閘
     - name: "policy-gate"
       description: "OPA/Conftest 策略驗證"
@@ -72,7 +72,7 @@ validation:
       policyPath: "governance/23-policies/"
       rules:
         - "manifest-policies.rego"
-    
+
     # Stage 6: SBOM - 供應鏈清單
     - name: "sbom"
       description: "SBOM 完整性檢查"
@@ -84,11 +84,11 @@ validation:
       requiredFields:
         - "packages"
         - "relationships"
-    
+
     # Stage 7: Signature - 簽名驗證
     - name: "signature"
       description: "簽名驗證（可選）"
-      enabled: false  # 待 cosign 整合後啟用
+      enabled: false # 待 cosign 整合後啟用
       failOn: "invalid"
       verifier: "cosign"
       publicKeyPath: "governance/keys/public.pem"
@@ -104,13 +104,13 @@ rules:
       pattern: "^[a-z0-9]+([a-z0-9-_]*[a-z0-9])?$"
       maxLength: 64
       description: "ID 必須為小寫字母數字，允許中線和底線"
-    
+
     path:
       pattern: "^(?:[A-Za-z0-9._\\-/]+)$"
       noSpaces: true
       noSpecialChars: true
       description: "路徑不可包含空白或特殊字元"
-  
+
   # 必填欄位
   required_fields:
     docs_index:
@@ -124,7 +124,7 @@ rules:
       - "owner"
       - "status"
       - "description"
-  
+
   # 受控詞彙
   controlled_vocabulary:
     domain:
@@ -149,7 +149,7 @@ rules:
       - "architecture"
       - "security"
       - "guides"
-    
+
     layer:
       - "coordination"
       - "execution"
@@ -168,14 +168,14 @@ rules:
       - "ai-automation"
       - "enablement"
       - "governance-ops"
-    
+
     status:
       - "draft"
       - "stable"
       - "deprecated"
       - "archived"
       - "experimental"
-    
+
     type:
       - "markdown"
       - "yaml"
@@ -209,7 +209,7 @@ autofix:
     - "policy_gate_violation"
     - "sbom_missing"
     - "naming_rule_mismatch"
-  
+
   behavior:
     createBranch: true
     branchPrefix: "autofix/"
@@ -220,7 +220,7 @@ autofix:
     labels:
       - "autofix"
       - "governance"
-  
+
   limits:
     maxFilesPerPR: 10
     maxPRsPerDay: 5
@@ -232,7 +232,7 @@ autofix:
 # =============================================================================
 audit:
   enabled: true
-  
+
   events:
     - "validation.started"
     - "validation.passed"
@@ -243,7 +243,7 @@ audit:
     - "sbom.generated"
     - "provenance.injected"
     - "signature.verified"
-  
+
   output:
     format: "jsonl"
     path: "governance/audit/events.jsonl"
@@ -251,10 +251,10 @@ audit:
       maxSize: "10MB"
       maxAge: "90d"
       compress: true
-  
+
   integrity:
     algorithm: "sha256"
-    chainEvents: true  # 每個事件包含前一事件的 hash
+    chainEvents: true # 每個事件包含前一事件的 hash
 
 # =============================================================================
 # 供應鏈配置
@@ -271,7 +271,7 @@ supplyChain:
       - "source_available"
       - "build_service"
       - "non_falsifiable"
-  
+
   sbom:
     format: "spdx-json"
     version: "2.3"
@@ -282,7 +282,7 @@ supplyChain:
       - "packages"
       - "relationships"
       - "checksums"
-  
+
   provenance:
     enabled: true
     generateOn:
@@ -306,11 +306,11 @@ exceptions:
     - "__pycache__/**"
     - "*.lock"
     - "*.log"
-  
+
   # 允許額外欄位的路徑
   allowAdditionalFields:
     - "test-vectors/**"
     - "examples/**"
-  
+
   # 暫時停用的規則
   disabledRules: []

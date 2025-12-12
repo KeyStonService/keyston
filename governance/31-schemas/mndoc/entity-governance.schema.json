@@ -122,18 +122,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "lint",
-            "format",
-            "schema",
-            "vector-test",
-            "policy-gate",
-            "k8s-validation",
-            "sbom",
-            "provenance",
-            "sign",
-            "audit"
-          ],
+          "enum": ["lint", "format", "schema", "vector-test", "policy-gate", "k8s-validation", "sbom", "provenance", "sign", "audit"],
           "description": "Stage type"
         },
         "description": {

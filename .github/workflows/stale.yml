@@ -13,7 +13,7 @@ name: Close stale PRs
 
 on:
   schedule:
-  - cron: '00 0 * * *'  # runs at 00:00 daily
+    - cron: "00 0 * * *" # runs at 00:00 daily
 
 jobs:
   stale:
@@ -23,23 +23,23 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/stale@v9.0.0
-      name: Clean up stale PRs
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        stale-pr-message: >
-          👋 This pull request has been marked as stale because it has been open with no activity.
-          
-          You can:
-          - Comment on the issue or remove the stale label to hold stale off for a while
-          - Add the `Keep` label to hold stale off permanently
-          - Do nothing - this pull request will be closed eventually
-          
-          Please see CONTRIBUTING.md for more policy details.
-        stale-pr-label: 'Stale'
-        exempt-pr-labels: 'Keep'
-        days-before-pr-stale: 15
-        days-before-pr-close: 15
-        days-before-issue-stale: -1  # prevents issues from being tagged by the bot
-        days-before-issue-close: -1  # prevents issues from being closed by the bot
-        ascending: true
+      - uses: actions/stale@v9.0.0
+        name: Clean up stale PRs
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          stale-pr-message: >
+            👋 This pull request has been marked as stale because it has been open with no activity.
+
+            You can:
+            - Comment on the issue or remove the stale label to hold stale off for a while
+            - Add the `Keep` label to hold stale off permanently
+            - Do nothing - this pull request will be closed eventually
+
+            Please see CONTRIBUTING.md for more policy details.
+          stale-pr-label: "Stale"
+          exempt-pr-labels: "Keep"
+          days-before-pr-stale: 15
+          days-before-pr-close: 15
+          days-before-issue-stale: -1 # prevents issues from being tagged by the bot
+          days-before-issue-close: -1 # prevents issues from being closed by the bot
+          ascending: true

@@ -19,7 +19,7 @@ responsibility_matrix:
       - safety_monitor
     api_version: "2.0"
     language: "C++"
-    
+
   sensor_fusion:
     owner: "perception_team"
     maintainers: ["charlie@company.com"]
@@ -31,7 +31,7 @@ responsibility_matrix:
     dependencies: []
     api_version: "1.5"
     language: "C++"
-    
+
   safety_monitor:
     owner: "safety_team"
     maintainers: ["diana@company.com", "eve@company.com"]
@@ -75,7 +75,7 @@ api_boundaries:
         error_codes:
           400: "Invalid input parameters"
           503: "Service unavailable"
-          
+
   safety_monitor_api:
     endpoint: "/api/v3/safety/check"
     methods:
@@ -103,13 +103,13 @@ error_handling:
     action: "fallback_to_last_known_state"
     retry_policy: "exponential_backoff"
     max_retries: 3
-    
+
   control_error:
     severity: "CRITICAL"
     action: "emergency_landing"
     retry_policy: "none"
     max_retries: 0
-    
+
   safety_violation:
     severity: "CRITICAL"
     action: "trigger_emergency_protocol"
@@ -128,7 +128,7 @@ test_requirements:
   unit_test_coverage: ">= 80%"
   integration_test_coverage: ">= 70%"
   safety_critical_coverage: ">= 95%"
-  
+
 # 安全與審計
 security_requirements:
   authentication: "OAuth2"

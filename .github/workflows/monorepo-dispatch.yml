@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔍 Detect changed paths
         uses: dorny/paths-filter@v3
         id: filter
@@ -40,7 +40,7 @@ jobs:
     with:
       working-directory: mcp-servers
       service-name: mcp-servers
-      node-version: '20'
+      node-version: "20"
       enable-docker-build: false
       enable-sbom: true
 
@@ -51,7 +51,7 @@ jobs:
     with:
       working-directory: core/contract_service/contracts-L1/contracts
       service-name: contracts-service
-      node-version: '20'
+      node-version: "20"
       enable-docker-build: true
       enable-sbom: true
 

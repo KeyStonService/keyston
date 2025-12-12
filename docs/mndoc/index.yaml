@@ -56,17 +56,17 @@ entities:
     path: "docs/mndoc/system.yaml"
     id: "unmanned-island"
     schema: "$ref:entity_system"
-    
+
   # Subsystem Entities
   subsystems:
     - path: "docs/mndoc/subsystems/synergymesh-core.yaml"
       id: "synergymesh-core"
       schema: "$ref:entity_subsystem"
-      
+
     - path: "docs/mndoc/subsystems/structural-governance.yaml"
       id: "structural-governance"
       schema: "$ref:entity_subsystem"
-      
+
     - path: "docs/mndoc/subsystems/autonomous-framework.yaml"
       id: "autonomous-framework"
       schema: "$ref:entity_subsystem"
@@ -98,13 +98,13 @@ entities:
 cross_references:
   # Maps to existing knowledge_index.yaml
   knowledge_index: "docs/knowledge_index.yaml"
-  
+
   # Maps to synergymesh.yaml
   master_config: "synergymesh.yaml"
-  
+
   # Maps to system-module-map.yaml
   module_map: "config/system-module-map.yaml"
-  
+
   # Maps to unified-config-index.yaml
   config_index: "config/unified-config-index.yaml"
 
@@ -117,12 +117,12 @@ provenance:
     level: "L3"
     generator: "slsa-generator-generic"
     attestation_path: ".slsa/provenance/"
-  
+
   # SBOM configuration
   sbom:
     format: "cyclonedx-json"
     output_path: "governance/sbom/"
-  
+
   # Signature configuration
   signature:
     provider: "sigstore"
@@ -135,13 +135,13 @@ provenance:
 validation:
   # Validate all entities against their schemas
   validate_schemas: true
-  
+
   # Ensure all component paths exist
   validate_paths: true
-  
+
   # Ensure all cross-references are valid
   validate_references: true
-  
+
   # Required entity fields (from MN-DOC schema)
   required_fields:
     system:

@@ -6,7 +6,9 @@
 
 專為自動化迭代系統設計的代碼分析與修復解決方案，優化 CI/CD 管線、自動化腳本和工作流的質量與性能。
 
-Code analysis and repair solution specifically designed for automation iteration systems, optimizing CI/CD pipelines, automation scripts, and workflow quality and performance.
+Code analysis and repair solution specifically designed for automation iteration
+systems, optimizing CI/CD pipelines, automation scripts, and workflow quality
+and performance.
 
 ## 核心關注點 Focus Areas
 
@@ -58,10 +60,10 @@ Code analysis and repair solution specifically designed for automation iteration
 
 ```yaml
 analysis_priority:
-  security: high         # 安全性重要
-  performance: medium    # 性能適度關注
-  quality: high         # 代碼質量重要
-  architecture: medium  # 架構適度關注
+  security: high # 安全性重要
+  performance: medium # 性能適度關注
+  quality: high # 代碼質量重要
+  architecture: medium # 架構適度關注
 ```
 
 ## 典型問題檢測 Common Issues Detected
@@ -245,23 +247,23 @@ print(f"Security vulnerabilities: {issues.vulnerabilities}")
 ```yaml
 tech_debt:
   high_priority:
-    - type: "circular-dependency"
-      components: ["module-a", "module-b"]
-      impact: "high"
-      effort: "medium"
-    
+    - type: 'circular-dependency'
+      components: ['module-a', 'module-b']
+      impact: 'high'
+      effort: 'medium'
+
   medium_priority:
-    - type: "code-duplication"
-      files: ["script1.py", "script2.py"]
+    - type: 'code-duplication'
+      files: ['script1.py', 'script2.py']
       lines: 150
-      impact: "medium"
-      effort: "low"
-    
+      impact: 'medium'
+      effort: 'low'
+
   low_priority:
-    - type: "missing-docs"
+    - type: 'missing-docs'
       functions: 25
-      impact: "low"
-      effort: "medium"
+      impact: 'low'
+      effort: 'medium'
 ```
 
 ## 集成與部署 Integration & Deployment
@@ -284,13 +286,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Analyze Automation Code
         run: |
           python automation-architect/scenarios/automation-iteration/analyze.py \
             --generate-report \
             --suggest-optimizations
-      
+
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:

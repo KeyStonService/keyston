@@ -2,7 +2,8 @@
 
 ## 📋 概述
 
-本文檔說明 Unmanned Island 系統的 GitHub Actions 工作流程架構和協調策略，以優化 CI/CD 效率並降低成本。
+本文檔說明 Unmanned Island 系統的 GitHub
+Actions 工作流程架構和協調策略，以優化 CI/CD 效率並降低成本。
 
 ## 🎯 工作流程層級
 
@@ -14,7 +15,8 @@
 
 **觸發條件**:
 
-- 每次 push 或 PR 影響 `mcp-servers/**` 或 `core/contract_service/contracts-L1/contracts/**`
+- 每次 push 或 PR 影響 `mcp-servers/**` 或
+  `core/contract_service/contracts-L1/contracts/**`
 
 **執行內容**:
 
@@ -100,15 +102,15 @@ graph TD
     B -->|基本代碼| C[monorepo-dispatch.yml]
     B -->|Docker相關| D[core-services-ci.yml]
     B -->|完整整合| E[integration-deployment.yml]
-    
+
     C --> F[快速反饋 ~5min]
     D --> G[Docker驗證 ~10min]
     E --> H[完整驗證 ~30min]
-    
+
     F --> I{通過?}
     G --> I
     H --> I
-    
+
     I -->|是| J[合併/部署]
     I -->|否| K[修復問題]
     K --> A
@@ -156,7 +158,7 @@ jobs:
 jobs:
   activation-gate:
     # 決定是否執行重量級作業
-  
+
   heavy-job:
     needs: activation-gate
     if: needs.activation-gate.outputs['run-heavy'] == 'true'
@@ -262,7 +264,8 @@ jobs:
 - [Stage 1 - 基礎 CI](./stage-1-basic-ci.md) - 第一階段基礎 CI 自動評論機制的實施和使用
 - [CI 故障排除](../ci-troubleshooting.md) - CI/CD 常見問題診斷和解決方案
 - [自主 CI 合規性](../autonomous-ci-compliance.md) - 自主 CI 系統的合規性要求和驗證
-- [GitHub Actions 最佳實踐](https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions) - GitHub 官方的 Actions 最佳實踐指南
+- [GitHub Actions 最佳實踐](https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions) -
+  GitHub 官方的 Actions 最佳實踐指南
 
 ## 🔄 維護指南
 

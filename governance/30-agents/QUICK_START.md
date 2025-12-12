@@ -5,7 +5,9 @@
 
 ## 🎯 Overview
 
-This guide provides step-by-step instructions for launching the SynergyMesh agent governance framework and deploying the unmanned-island-agent with full compliance and automation.
+This guide provides step-by-step instructions for launching the SynergyMesh
+agent governance framework and deploying the unmanned-island-agent with full
+compliance and automation.
 
 ## 📋 Prerequisites
 
@@ -59,10 +61,10 @@ cat .github/agents/my-agent.agent.md
 ```yaml
 # File: governance/30-agents/registry/agent-catalog.yaml
 agents:
-  - agent_id: "unmanned-island-agent"
-    status: "active"
+  - agent_id: 'unmanned-island-agent'
+    status: 'active'
     lifecycle:
-      stage: "production"
+      stage: 'production'
 ```
 
 ### 2. Verify Compliance
@@ -102,10 +104,10 @@ Location: `governance/30-agents/registry/agent-catalog.yaml`
 
 ```yaml
 agents:
-  - agent_id: "unmanned-island-agent"
-    name: "Unmanned Island Agent"
-    version: "2.0.0"
-    status: "active"
+  - agent_id: 'unmanned-island-agent'
+    name: 'Unmanned Island Agent'
+    version: '2.0.0'
+    status: 'active'
     capabilities:
       - intelligent_automation
       - platform_integration
@@ -121,9 +123,9 @@ Location: `governance/30-agents/permissions/rbac-policies.yaml`
 agent_assignments:
   unmanned-island-agent:
     roles:
-      - "agent_autonomous"
+      - 'agent_autonomous'
     custom_permissions:
-      - "governance:validate"
+      - 'governance:validate'
 ```
 
 ### Health Monitoring
@@ -135,8 +137,8 @@ agents:
   unmanned-island-agent:
     enabled: true
     liveness:
-      - name: "agent_responsive"
-        endpoint: "/health"
+      - name: 'agent_responsive'
+        endpoint: '/health'
         interval: 30s
 ```
 
@@ -166,9 +168,9 @@ expected: 200 OK
 ### Log Locations
 
 ```yaml
-audit_logs: "governance/70-audit/logs/"
-health_logs: "governance/30-agents/monitoring/logs/"
-performance_logs: "governance/30-agents/monitoring/metrics/"
+audit_logs: 'governance/70-audit/logs/'
+health_logs: 'governance/30-agents/monitoring/logs/'
+performance_logs: 'governance/30-agents/monitoring/metrics/'
 ```
 
 ## 🔄 Continuous Evolution
@@ -216,17 +218,17 @@ curl -X PUT http://localhost:8080/agents/unmanned-island-agent/config \
 
 ```yaml
 # Least Privilege (RBAC)
-role: "agent_autonomous"
-permissions: "minimal_required"
+role: 'agent_autonomous'
+permissions: 'minimal_required'
 
 # Audit Logging
-retention: "90 days"
-completeness: "100%"
+retention: '90 days'
+completeness: '100%'
 
 # Resource Limits
-memory: "2GB"
-cpu: "1 core"
-network: "50 Mbps"
+memory: '2GB'
+cpu: '1 core'
+network: '50 Mbps'
 ```
 
 ## 🔗 Integration Points
@@ -234,12 +236,12 @@ network: "50 Mbps"
 ### Governance Layers
 
 ```yaml
-10-policy:    Policy as Code Framework
-20-intent:    Intent-based Orchestration
-30-agents:    AI Agent Governance (THIS LAYER)
+10-policy: Policy as Code Framework
+20-intent: Intent-based Orchestration
+30-agents: AI Agent Governance (THIS LAYER)
 60-contracts: Contract Registry
-70-audit:     Audit & Traceability
-80-feedback:  Closed-Loop Feedback
+70-audit: Audit & Traceability
+80-feedback: Closed-Loop Feedback
 ```
 
 ### Data Flow
@@ -333,7 +335,8 @@ cat governance/30-agents/registry/dependency-map.yaml
 - **Technical Guidelines:** `.github/copilot-instructions.md`
 - **Code Standards:** `.github/island-ai-instructions.md`
 - **Governance Framework:** `governance/30-agents/README.md`
-- **Integration Architecture:** `governance/GOVERNANCE_INTEGRATION_ARCHITECTURE.md`
+- **Integration Architecture:**
+  `governance/GOVERNANCE_INTEGRATION_ARCHITECTURE.md`
 
 ## 🎉 Success Criteria
 

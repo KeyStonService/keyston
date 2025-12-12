@@ -2,7 +2,8 @@
 
 ## 🎉 實施完成
 
-本文檔總結了在 SynergyMesh 專案中實施的完整 GitHub Advanced Security (GHAS) 解決方案。
+本文檔總結了在 SynergyMesh 專案中實施的完整 GitHub Advanced Security
+(GHAS) 解決方案。
 
 ## 📊 實施概覽
 

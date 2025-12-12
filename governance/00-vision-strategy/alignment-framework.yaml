@@ -17,12 +17,12 @@ purpose:
   statement: |
     本框架確保戰略目標與治理活動的對齊，
     使每個治理決策都能支撐組織的願景與戰略目標。
-  
+
   statement_en: |
     This framework ensures alignment between strategic objectives and
     governance activities, making every governance decision support
     organizational vision and strategic goals.
-  
+
   key_principles:
     - "戰略引領治理 (Strategy Leads Governance)"
     - "治理支持戰略 (Governance Supports Strategy)"
@@ -37,7 +37,7 @@ alignment_layers:
   layer_1:
     name: "Vision → Strategic Objectives"
     description: "願景聲明到戰略目標的對齊"
-    
+
     mappings:
       - vision_outcome: "Zero-Touch Operations"
         strategic_objectives:
@@ -47,11 +47,11 @@ alignment_layers:
             metrics:
               - "自動化率 ≥ 95%"
               - "MTTR ≤ 5分鐘"
-        
+
         validation:
           method: "Quarterly OKR Review"
           criteria: "Automation rate trend upward"
-      
+
       - vision_outcome: "AI-Driven Governance"
         strategic_objectives:
           - id: "OBJ-03"
@@ -60,11 +60,11 @@ alignment_layers:
             metrics:
               - "23 維度全部實施"
               - "架構合規率 100%"
-        
+
         validation:
           method: "Architecture Governance Review"
           criteria: "All dimensions operational"
-      
+
       - vision_outcome: "Autonomous Framework"
         strategic_objectives:
           - id: "OBJ-02"
@@ -73,11 +73,11 @@ alignment_layers:
           - id: "OBJ-03"
             title: "建立完整的 23 維度治理矩陣"
             contribution: "Supporting"
-        
+
         validation:
           method: "Five-Skeleton Health Check"
           criteria: "All skeletons operational with >99% uptime"
-      
+
       - vision_outcome: "Enterprise-Grade Reliability"
         strategic_objectives:
           - id: "OBJ-01"
@@ -89,16 +89,16 @@ alignment_layers:
           - id: "OBJ-05"
             title: "建立市場領導地位"
             contribution: "Supporting"
-        
+
         validation:
           method: "SLA Monitoring Dashboard"
           criteria: "Sustained 99.99% uptime for 3 months"
-  
+
   # Layer 2: Strategic Objectives to Governance Dimensions
   layer_2:
     name: "Strategic Objectives → Governance Dimensions"
     description: "戰略目標到治理維度的對齊"
-    
+
     mappings:
       - objective_id: "OBJ-01"
         title: "建立世界級智能自動化平台"
@@ -109,21 +109,21 @@ alignment_layers:
               - "Architecture patterns definition"
               - "Technology stack governance"
               - "Performance standards"
-          
+
           - dimension: "06-security"
             role: "Primary"
             activities:
               - "SLSA L3 provenance"
               - "Security scanning automation"
               - "Zero-trust architecture"
-          
+
           - dimension: "09-performance"
             role: "Primary"
             activities:
               - "Performance benchmarking"
               - "Load testing standards"
               - "Optimization guidelines"
-      
+
       - objective_id: "OBJ-02"
         title: "實現 95%+ 運維自動化"
         governance_dimensions:
@@ -132,21 +132,21 @@ alignment_layers:
             activities:
               - "Automation-first architecture"
               - "Agent orchestration patterns"
-          
+
           - dimension: "03-change"
             role: "Primary"
             activities:
               - "Automated change deployment"
               - "Rollback automation"
               - "Change impact analysis"
-          
+
           - dimension: "08-process"
             role: "Primary"
             activities:
               - "Process automation"
               - "Workflow orchestration"
               - "SOP documentation"
-      
+
       - objective_id: "OBJ-03"
         title: "建立完整的 23 維度治理矩陣"
         governance_dimensions:
@@ -155,14 +155,14 @@ alignment_layers:
             activities:
               - "Vision alignment verification"
               - "Strategic goal tracking"
-          
+
           - dimension: "01-23"
             role: "Primary"
             activities:
               - "All dimension implementation"
               - "Cross-dimension coordination"
               - "Governance automation"
-      
+
       - objective_id: "OBJ-04"
         title: "提供世界級開發者體驗"
         governance_dimensions:
@@ -172,20 +172,20 @@ alignment_layers:
               - "Developer tools governance"
               - "CLI standardization"
               - "IDE integration"
-          
+
           - dimension: "29-docs"
             role: "Primary"
             activities:
               - "Documentation standards"
               - "Knowledge base management"
               - "Tutorial creation"
-          
+
           - dimension: "12-culture-capability"
             role: "Supporting"
             activities:
               - "Developer training"
               - "Best practice sharing"
-      
+
       - objective_id: "OBJ-05"
         title: "建立市場領導地位"
         governance_dimensions:
@@ -195,19 +195,19 @@ alignment_layers:
               - "Customer success tracking"
               - "Stakeholder engagement"
               - "Feedback loops"
-          
+
           - dimension: "05-compliance"
             role: "Primary"
             activities:
               - "SOC 2 certification"
               - "ISO 27001 compliance"
               - "GDPR readiness"
-  
+
   # Layer 3: Governance Dimensions to Initiatives
   layer_3:
     name: "Governance Dimensions → Initiatives"
     description: "治理維度到具體計劃的對齊"
-    
+
     mappings:
       - dimension: "00-vision-strategy"
         initiatives:
@@ -222,7 +222,7 @@ alignment_layers:
             next_steps:
               - "Quarterly vision review process"
               - "Strategy dashboard implementation"
-      
+
       - dimension: "01-architecture"
         initiatives:
           - initiative: "Architecture Governance Matrix Enhancement"
@@ -232,26 +232,26 @@ alignment_layers:
               - "ARCHITECTURE_GOVERNANCE_MATRIX.md"
               - "layers-domains.yaml"
               - "behavior-contracts/"
-          
+
           - initiative: "Global Optimization Reasoning System"
             status: "Planning"
             completion: "30%"
             deliverables:
               - "Architecture Reasoner Agent MVP"
               - "Veto mechanism implementation"
-      
+
       - dimension: "02-decision"
         initiatives:
           - initiative: "ADR Process Automation"
             status: "Planning"
             completion: "20%"
-      
+
       - dimension: "03-change"
         initiatives:
           - initiative: "Automated Change Pipeline"
             status: "Ongoing"
             completion: "70%"
-      
+
       - dimension: "29-docs"
         initiatives:
           - initiative: "docs/ Structure Fix"
@@ -274,7 +274,7 @@ verification_mechanisms:
       - "Executive Governance Team"
       - "Architecture Review Board"
       - "Initiative Owners"
-    
+
     agenda:
       - "Vision & Mission review (任何需要調整？)"
       - "Strategic Objectives progress (OKRs status)"
@@ -282,13 +282,13 @@ verification_mechanisms:
       - "Initiatives alignment check (是否支持戰略？)"
       - "Risks & Mitigation review"
       - "Resource allocation adjustment"
-    
+
     outputs:
       - "Alignment scorecard"
       - "Strategic adjustments (if needed)"
       - "Next quarter priorities"
       - "Resource reallocation decisions"
-  
+
   # Monthly ARB Alignment Check
   monthly_arb_check:
     name: "Monthly Architecture Alignment Check"
@@ -296,36 +296,36 @@ verification_mechanisms:
     participants:
       - "Architecture Review Board"
       - "Domain Architects"
-    
+
     focus_areas:
       - "Recent architecture decisions vs strategy"
       - "Technical debt vs strategic goals"
       - "Technology choices alignment"
       - "Cross-team dependencies"
-    
+
     metrics:
       - "Architecture compliance rate"
       - "Governance violations count"
       - "Strategic initiative progress %"
-  
+
   # Continuous Automated Checks
   automated_checks:
     name: "Continuous Alignment Monitoring"
     frequency: "Real-time"
-    
+
     checks:
       - check: "OKR Progress Tracking"
         tool: "OKR Dashboard"
         alert_threshold: "< 70% quarterly target"
-      
+
       - check: "Architecture Compliance"
         tool: "Architecture Linter"
         alert_threshold: "< 95% compliance"
-      
+
       - check: "Governance Dimension Coverage"
         tool: "Governance Health Dashboard"
         alert_threshold: "Any dimension < 50% complete"
-      
+
       - check: "Initiative Delivery"
         tool: "GitHub Projects"
         alert_threshold: "Initiative delayed > 2 weeks"
@@ -340,12 +340,12 @@ alignment_metrics:
     formula: "Weighted average of layer scores"
     target: "> 85%"
     current: "78% (as of 2025-12-10)"
-    
+
     weights:
       layer_1_vision_to_objectives: 40%
       layer_2_objectives_to_dimensions: 35%
       layer_3_dimensions_to_initiatives: 25%
-  
+
   # Layer-specific Metrics
   layer_metrics:
     - layer: "Vision → Objectives"
@@ -354,21 +354,21 @@ alignment_metrics:
       target: "100%"
       current: "100%"
       status: "✓ On Track"
-    
+
     - layer: "Objectives → Dimensions"
       metric: "Dimension Activation"
       description: "戰略目標涵蓋的治理維度數"
       target: "≥ 15 dimensions"
       current: "12 dimensions"
       status: "⚠ Needs Attention"
-    
+
     - layer: "Dimensions → Initiatives"
       metric: "Initiative Effectiveness"
       description: "計劃完成率與質量"
       target: "≥ 80% on time, high quality"
       current: "75% on time"
       status: "⚠ Needs Improvement"
-  
+
   # Health Indicators
   health_indicators:
     - indicator: "Vision Drift"
@@ -377,14 +377,14 @@ alignment_metrics:
       target: "< 10% perceive drift"
       current: "8%"
       status: "✓ Healthy"
-    
+
     - indicator: "Strategic Debt"
       description: "未對齊的戰略決策累積"
       measurement: "Unaligned decisions count"
       target: "0 major decisions"
       current: "2 decisions (under review)"
       status: "⚠ Monitor"
-    
+
     - indicator: "Governance Coverage"
       description: "治理框架覆蓋戰略需求的程度"
       measurement: "Dimension completeness"
@@ -399,7 +399,7 @@ alignment_metrics:
 feedback_loops:
   baseline_standard: "Replit/Claude/GPT: Instant full-project analysis"
   scope: "Entire large-scale enterprise project"
-  
+
   # Strategy to Governance
   strategy_to_governance:
     name: "Strategic Intent → Governance Actions (Project-Scale)"
@@ -407,7 +407,7 @@ feedback_loops:
       - "戰略目標變更 → 整個治理框架即時重新評估"
       - "新戰略計劃 → 自動生成對應的完整治理維度"
       - "OKR 調整 → 全專案優先級即時重新排序"
-    
+
     cycle_time: "Instant (< 30 seconds for entire project analysis)"
     automation: "AI agents simultaneously analyze entire project structure"
     scope_capability:
@@ -415,7 +415,7 @@ feedback_loops:
       - "Generates complete governance framework updates in < 30 seconds"
       - "Parallel analysis of thousands of files for strategic alignment"
     owner: "VP Architecture (AI-automated oversight)"
-  
+
   # Governance to Strategy
   governance_to_strategy:
     name: "Governance Insights → Strategic Adjustments (Real-Time)"
@@ -423,7 +423,7 @@ feedback_loops:
       - "治理違規模式 → 即時戰略可行性分析（整個專案）"
       - "技術約束 → 自動生成戰略調整建議（全面評估）"
       - "市場反饋 → 即時優先級調整（跨所有模組）"
-    
+
     cycle_time: "Real-time (< 5 seconds continuous monitoring)"
     automation: "Continuous full-project monitoring + instant AI insights"
     scope_capability:
@@ -431,7 +431,7 @@ feedback_loops:
       - "Instant pattern detection across all modules"
       - "Automated strategy proposal generation (< 10 seconds)"
     owner: "Executive Governance Team (AI-driven alerts)"
-  
+
   # Execution to Both
   execution_to_both:
     name: "Execution Learnings → Strategy & Governance (Instant Learning)"
@@ -439,7 +439,7 @@ feedback_loops:
       - "實施困難 → 即時戰略/治理調整（全專案範圍）"
       - "成功模式 → 自動化最佳實踐提取與傳播"
       - "失敗案例 → 即時流程改進建議（系統級）"
-    
+
     cycle_time: "Continuous real-time (< 1 second event detection)"
     automation: "AI agents auto-detect patterns across entire project + instant proposals"
     scope_capability:
@@ -447,14 +447,14 @@ feedback_loops:
       - "Instant best practice extraction from entire project history"
       - "Automated system-wide process improvements (< 30 seconds)"
     owner: "Implementation Teams (fully AI-driven)"
-  
+
   project_scale_optimization:
     principle: |
       反饋不是逐個文件或逐個模組，而是整個專案同時分析。
       AI 可並行處理整個企業級專案的所有數據。
       Feedback is not file-by-file or module-by-module, but entire project simultaneously.
       AI can process all data from entire enterprise project in parallel.
-    
+
     capabilities:
       - "Full project scan: < 5 seconds"
       - "Cross-module impact analysis: < 10 seconds"
@@ -468,7 +468,7 @@ feedback_loops:
 misalignment_resolution:
   baseline: "Replit/Claude/GPT: Instant project-wide issue detection & resolution"
   scope: "Entire enterprise project (thousands of files, hundreds of modules)"
-  
+
   detection:
     method: "Continuous real-time monitoring (entire project)"
     mechanisms:
@@ -476,18 +476,18 @@ misalignment_resolution:
       - "Automated metric alerts (project-wide, < 5 seconds)"
       - "AI-generated stakeholder insights (full project analysis, < 10 seconds)"
       - "Continuous architecture compliance scanning (< 5 seconds full scan)"
-    
+
     capability:
       - "Monitors 1,000+ files simultaneously"
       - "Detects cross-module misalignments instantly"
       - "Identifies system-wide pattern violations in < 5 seconds"
-  
+
   assessment:
     instant_severity_analysis:
       method: "AI-powered full-project impact assessment"
       duration: "< 5 seconds (regardless of project size)"
       scope: "Complete dependency graph + all 23 governance dimensions"
-    
+
     severity_levels:
       critical:
         description: "嚴重偏離戰略，影響願景實現（專案級）"
@@ -495,7 +495,7 @@ misalignment_resolution:
           - "重大架構決策違反全局優化（影響整個專案）"
           - "關鍵 OKR 低於 50%（跨所有維度）"
           - "系統級安全漏洞（全專案受影響）"
-        
+
         response_time: "Instant (< 30 seconds complete remediation)"
         resolution_scope: "Entire project-wide fix"
         automation: |
@@ -505,14 +505,14 @@ misalignment_resolution:
           - Automated implementation (< 10 seconds)
           - Verification across all modules (< 5 seconds)
         escalation: "CEO + Executive Team (instant AI-generated executive summary)"
-      
+
       high:
         description: "明顯不對齊（子專案或多模組級）"
         examples:
           - "計劃進度嚴重落後（影響多個子專案）"
           - "治理維度缺失（影響相關所有模組）"
           - "跨模組架構不一致"
-        
+
         response_time: "Instant (< 20 seconds sub-project fix)"
         resolution_scope: "Sub-project or multi-module fix"
         automation: |
@@ -521,14 +521,14 @@ misalignment_resolution:
           - Multi-module fix generation (< 10 seconds)
           - Automated deployment (< 5 seconds)
         escalation: "VP Architecture + ARB (instant AI analysis + recommendations)"
-      
+
       medium:
         description: "部分不對齊（單一模組或小範圍）"
         examples:
           - "次要計劃優先級錯誤"
           - "單一模組文檔過時"
           - "局部配置不一致"
-        
+
         response_time: "Instant (< 10 seconds module-level fix)"
         resolution_scope: "Single module or component"
         automation: |
@@ -537,14 +537,14 @@ misalignment_resolution:
           - Fix generation (< 5 seconds)
           - Automated testing (< 3 seconds)
         escalation: "Initiative Owner (instant AI-generated recommendations)"
-      
+
       low:
         description: "輕微偏差（單一文件或配置）"
         examples:
           - "實施細節差異"
           - "非關鍵路徑延遲"
           - "格式化問題"
-        
+
         response_time: "Instant (< 5 seconds auto-fix)"
         resolution_scope: "Single file or configuration"
         automation: |
@@ -553,41 +553,41 @@ misalignment_resolution:
           - Automated deployment (< 2 seconds)
           - Verification (< 1 second)
         escalation: "Auto-resolved (AI dashboard logging only)"
-  
+
   project_scale_resolution:
     principle: |
       解決方案應匹配問題規模，但所有規模均應即時完成。
       AI 可並行生成整個專案的修復方案。
       Resolution should match problem scale, but all scales should be instant.
       AI can generate fixes for entire projects in parallel.
-    
+
     capabilities:
       full_project_fix: "< 30 seconds (thousands of files)"
       sub_project_fix: "< 20 seconds (hundreds of files)"
       module_fix: "< 10 seconds (tens of files)"
       file_fix: "< 5 seconds (single file)"
-    
+
     modern_ai_baseline:
       - "✅ Project-scale instant resolution (not incremental)"
       - "✅ Parallel processing of all affected components"
       - "✅ Atomic deployment (all-or-nothing)"
       - "✅ Instant rollback capability (< 10 seconds)"
       - "✅ Zero manual intervention required"
-  
+
   resolution_process:
     steps:
       - step: "1. Identification"
         action: "識別不對齊情況"
         responsible: "Anyone"
-      
+
       - step: "2. Assessment"
         action: "評估嚴重程度"
         responsible: "VP Architecture or Initiative Owner"
-      
+
       - step: "3. Root Cause Analysis"
         action: "找出根本原因"
         responsible: "Assigned team"
-      
+
       - step: "4. Resolution Options"
         action: "提出解決方案"
         options:
@@ -595,15 +595,15 @@ misalignment_resolution:
           - "調整治理（如治理過於僵化）"
           - "調整執行（如執行方向錯誤）"
           - "接受偏差（如影響可控）"
-      
+
       - step: "5. Decision"
         action: "決定解決方案"
         responsible: "根據嚴重程度決定層級"
-      
+
       - step: "6. Implementation"
         action: "執行修正"
         responsible: "Assigned owner"
-      
+
       - step: "7. Verification"
         action: "驗證是否對齊"
         responsible: "VP Architecture"
@@ -616,21 +616,21 @@ continuous_improvement:
     - mechanism: "Retrospectives"
       frequency: "After each major initiative"
       focus: "What worked, what didn't, how to improve"
-    
+
     - mechanism: "Case Studies"
       frequency: "Quarterly"
       focus: "Document successful alignments and failures"
-    
+
     - mechanism: "Benchmarking"
       frequency: "Semi-annually"
       focus: "Compare with industry best practices"
-  
+
   adaptation:
     - "Update alignment framework based on learnings"
     - "Refine metrics and thresholds"
     - "Adjust governance processes"
     - "Improve automation and tooling"
-  
+
   knowledge_sharing:
     - "Alignment best practices documentation"
     - "Template library for future initiatives"
@@ -645,17 +645,17 @@ tools:
     purpose: "Track strategic objectives and key results"
     integration: "Jira, GitHub Projects"
     metrics: "Real-time OKR progress"
-  
+
   - tool: "Architecture Linter"
     purpose: "Automated architecture compliance checking"
     integration: "CI/CD pipelines"
     metrics: "Compliance rate, violation count"
-  
+
   - tool: "Governance Health Dashboard"
     purpose: "23-dimension coverage and health"
     integration: "Custom dashboard"
     metrics: "Dimension completeness, activity"
-  
+
   - tool: "Alignment Scorecard Generator"
     purpose: "Automated quarterly alignment report"
     integration: "All above tools"

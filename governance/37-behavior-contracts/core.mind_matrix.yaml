@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@ai-research-team"
-  
+
   description: |
     Mind Matrix is the AI cognitive processing core providing decision making,
     pattern recognition, learning, and reasoning capabilities for autonomous systems.
-    
+
     思維矩陣是 AI 認知處理核心，為自主系統提供決策制定、模式識別、學習和推理能力。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/mind-matrix"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Decision Making
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Make Decision"
       method: POST
       path: "/decisions"
-      
+
       description: |
         Request AI decision making based on context and constraints.
         根據上下文和約束請求 AI 決策。
-      
+
       input_schema:
         type: "object"
         required: ["decision_type", "context"]
@@ -58,7 +57,7 @@ api:
               preferences: { type: "object" }
           confidence_threshold: { type: "number", minimum: 0, maximum: 1 }
           explain: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -68,13 +67,13 @@ api:
           reasoning: { type: "array" }
           alternatives: { type: "array" }
           timestamp: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Confidence score is always provided"
         - "Reasoning is explainable when requested"
         - "Decisions respect safety constraints"
         - "Response time bounded"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid context or decision type"
@@ -85,7 +84,7 @@ api:
         - code: 503
           condition: "AI model unavailable"
           message: "ERR_MODEL_UNAVAILABLE"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 1s"
@@ -96,11 +95,11 @@ api:
     - name: "Recognize Pattern"
       method: POST
       path: "/patterns/recognize"
-      
+
       description: |
         Identify patterns in data using AI models.
         使用 AI 模型識別數據中的模式。
-      
+
       input_schema:
         type: "object"
         required: ["data"]
@@ -108,14 +107,14 @@ api:
           data: { type: "object" }
           pattern_types: { type: "array" }
           sensitivity: { type: "number", minimum: 0, maximum: 1 }
-      
+
       output_schema:
         type: "object"
         properties:
           patterns: { type: "array" }
           confidence_scores: { type: "object" }
           anomalies_detected: { type: "array" }
-      
+
       guarantees:
         - "All pattern types checked"
         - "Anomalies flagged if detected"
@@ -127,11 +126,11 @@ api:
     - name: "Update Learning"
       method: POST
       path: "/learning/update"
-      
+
       description: |
         Update AI models with new training data or feedback.
         使用新訓練數據或反饋更新 AI 模型。
-      
+
       input_schema:
         type: "object"
         required: ["model_id", "feedback"]
@@ -143,14 +142,14 @@ api:
               decision_id: { type: "string" }
               actual_outcome: { type: "object" }
               correctness: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
           update_id: { type: "string" }
           model_version: { type: "string" }
           improvement_metrics: { type: "object" }
-      
+
       guarantees:
         - "Model version tracked"
         - "Updates are atomic"
@@ -162,9 +161,9 @@ api:
     - name: "Get Cognitive State"
       method: GET
       path: "/state"
-      
+
       description: "Retrieve current cognitive processing state"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -172,7 +171,7 @@ api:
           processing_load: { type: "number" }
           learning_rate: { type: "number" }
           knowledge_version: { type: "string" }
-      
+
       guarantees:
         - "Real-time state reflection"
         - "Performance metrics included"
@@ -183,11 +182,11 @@ api:
     - name: "Run Inference"
       method: POST
       path: "/inference"
-      
+
       description: |
         Run inference using trained AI models.
         使用訓練好的 AI 模型運行推理。
-      
+
       input_schema:
         type: "object"
         required: ["model_id", "input_data"]
@@ -196,7 +195,7 @@ api:
           input_data: { type: "object" }
           batch_size: { type: "integer", minimum: 1, maximum: 100, default: 1 }
           return_embeddings: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -206,12 +205,12 @@ api:
           embeddings: { type: "array" }
           inference_time_ms: { type: "number" }
           model_version: { type: "string" }
-      
+
       guarantees:
         - "Model version logged"
         - "Inference is deterministic with same input"
         - "Batching optimizes throughput"
-      
+
       error_responses:
         - code: 404
           condition: "Model not found"
@@ -219,7 +218,7 @@ api:
         - code: 413
           condition: "Batch size exceeds limit"
           message: "ERR_BATCH_TOO_LARGE"
-      
+
       performance:
         response_time_p50: "< 150ms"
         response_time_p99: "< 800ms"
@@ -231,11 +230,11 @@ api:
     - name: "Query Knowledge Base"
       method: POST
       path: "/knowledge/query"
-      
+
       description: |
         Query the AI knowledge base for information retrieval.
         查詢 AI 知識庫以檢索信息。
-      
+
       input_schema:
         type: "object"
         required: ["query"]
@@ -247,7 +246,7 @@ api:
           max_results: { type: "integer", minimum: 1, maximum: 50, default: 10 }
           similarity_threshold: { type: "number", minimum: 0, maximum: 1, default: 0.7 }
           include_sources: { type: "boolean", default: true }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -263,13 +262,13 @@ api:
                 metadata: { type: "object" }
           total_results: { type: "integer" }
           query_time_ms: { type: "number" }
-      
+
       guarantees:
         - "Results ordered by similarity score"
         - "Threshold filtering applied"
         - "Source attribution when available"
         - "Query embedding cached"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 500ms"
@@ -280,11 +279,11 @@ api:
     - name: "Evaluate Model"
       method: POST
       path: "/models/{model_id}/evaluate"
-      
+
       description: |
         Evaluate model performance on test dataset.
         在測試數據集上評估模型性能。
-      
+
       input_schema:
         type: "object"
         required: ["test_data"]
@@ -298,7 +297,7 @@ api:
             type: "array"
             items: { type: "string", enum: ["accuracy", "precision", "recall", "f1", "auc-roc"] }
             default: ["accuracy", "precision", "recall"]
-      
+
       output_schema:
         type: "object"
         properties:
@@ -317,13 +316,13 @@ api:
           test_samples: { type: "integer" }
           evaluation_time_seconds: { type: "number" }
           evaluated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "All requested metrics calculated"
         - "Test data not leaked into training"
         - "Evaluation is reproducible"
         - "Results logged for tracking"
-      
+
       error_responses:
         - code: 400
           condition: "Test data format invalid"
@@ -331,7 +330,7 @@ api:
         - code: 404
           condition: "Model not found"
           message: "ERR_MODEL_NOT_FOUND"
-      
+
       performance:
         response_time_p99: "< 30s"
 
@@ -340,10 +339,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "mind_matrix.decision_made"
     description: "Emitted when AI makes a decision"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -351,17 +349,17 @@ events:
         decision_type: { type: "string" }
         confidence: { type: "number" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "services.audit"
       - "automation.monitoring"
 
   - name: "mind_matrix.low_confidence"
     description: "Emitted when decision confidence is below threshold"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -370,17 +368,17 @@ events:
         threshold: { type: "number" }
         requires_human_review: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "ops.alerting"
       - "services.human_review"
 
   - name: "mind_matrix.model_updated"
     description: "Emitted when AI model is updated"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -389,10 +387,10 @@ events:
         new_version: { type: "string" }
         improvement_metrics: { type: "object" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "services.audit"
       - "ops.ml_ops"
@@ -402,22 +400,21 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Explainable Decisions"
     description: "All decisions must be explainable"
     rule: "forall decision: exists reasoning where reasoning.explains(decision)"
     enforcement: "application-logic"
-    
+
   - name: "Confidence Bounds"
     description: "Confidence scores are between 0 and 1"
     rule: "forall decision: 0 <= decision.confidence <= 1"
     enforcement: "pre-condition"
-    
+
   - name: "Safety Constraints Respected"
     description: "Decisions never violate safety constraints"
     rule: "forall decision: satisfies(decision, safety_constraints)"
     enforcement: "pre-condition"
-    
+
   - name: "Model Versioning"
     description: "All model changes are versioned"
     rule: "forall update: update.old_version != update.new_version"
@@ -428,7 +425,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Model Unavailable"
     triggers:
       - "Model loading failure"
@@ -439,7 +435,7 @@ failure_modes:
       - "Alert ML ops team"
     error_code: "ERR_MODEL_UNAVAILABLE"
     degraded_mode: true
-    
+
   - scenario: "Low Confidence Decision"
     triggers:
       - "Confidence below threshold"
@@ -449,7 +445,7 @@ failure_modes:
       - "Flag for human review"
       - "Log for model improvement"
     error_code: "WARN_LOW_CONFIDENCE"
-    
+
   - scenario: "Model Drift Detected"
     triggers:
       - "Accuracy degradation"
@@ -465,16 +461,15 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "infrastructure.ml_platform"
       purpose: "Model hosting and inference"
       failure_mode: "critical"
-    
+
     - module: "core.safety_mechanisms"
       purpose: "Decision validation"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.audit"
       purpose: "Decision logging"
@@ -489,7 +484,7 @@ performance:
     p50: "< 200ms"
     p99: "< 1s"
     throughput: "> 1000 decisions/s"
-    
+
   learning_update:
     p50: "< 500ms"
     p99: "< 2s"
@@ -511,7 +506,7 @@ observability:
       type: "counter"
     - name: "model_updates_total"
       type: "counter"
-  
+
   alerts:
     - condition: "low_confidence_decisions > 20%"
       severity: "warning"
@@ -529,7 +524,7 @@ ml_governance:
   explainability: "LIME or SHAP"
   fairness_monitoring: true
   bias_detection: true
-  
+
   retraining_policy:
     frequency: "weekly"
     trigger_conditions:

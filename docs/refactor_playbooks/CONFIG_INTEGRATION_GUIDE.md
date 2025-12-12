@@ -10,7 +10,9 @@
 
 ## 📋 概述
 
-重構劇本系統完全整合到既有的 `config/system-module-map.yaml` 和 `config/unified-config-index.yaml` 中，**不新增額外的配置檔案**。所有路徑決策和權限管理都通過現有配置系統進行。
+重構劇本系統完全整合到既有的 `config/system-module-map.yaml` 和
+`config/unified-config-index.yaml`
+中，**不新增額外的配置檔案**。所有路徑決策和權限管理都通過現有配置系統進行。
 
 ---
 
@@ -39,7 +41,8 @@
 
 ### 2. 預設禁止新建目錄
 
-除非 module 明確設置 `allow_new_subdirs: true`，否則所有重構都只能在現有目錄中進行。
+除非 module 明確設置
+`allow_new_subdirs: true`，否則所有重構都只能在現有目錄中進行。
 
 ---
 
@@ -80,26 +83,26 @@ refactor_config = find_refactor_config('core/architecture-stability', module_map
 ```python
 def validate_refactor_operation(file_path, refactor_config):
     """驗證重構操作是否在允許的路徑範圍內"""
-    
+
     # 檢查是否在 target_roots 內
     in_target = any(
-        file_path.startswith(root) 
+        file_path.startswith(root)
         for root in refactor_config['target_roots']
     )
-    
+
     if not in_target:
         raise ValueError(f"File {file_path} not in target_roots")
-    
+
     # 檢查是否被排除
     for exclude in refactor_config.get('exclude_globs', []):
         if fnmatch.fnmatch(file_path, exclude):
             raise ValueError(f"File {file_path} matches exclude pattern")
-    
+
     # 如果是新目錄，檢查是否允許
     if is_new_directory(file_path):
         if not refactor_config.get('allow_new_subdirs', False):
             raise ValueError(f"New subdirectories not allowed in this module")
-    
+
     return True
 ```
 
@@ -108,17 +111,17 @@ def validate_refactor_operation(file_path, refactor_config):
 ```python
 def create_refactor_pr(changes, refactor_config):
     """創建重構 PR 並自動分配審查者"""
-    
+
     # 從 config 獲取 owners
     reviewers = refactor_config.get('owners', [])
-    
+
     # 創建 PR
     pr = github.create_pull_request(
         title=f"Refactor: {refactor_config['cluster_id']}",
         body=f"Automated refactor following playbook for {refactor_config['cluster_id']}",
         reviewers=reviewers
     )
-    
+
     return pr
 ```
 
@@ -194,70 +197,70 @@ python3 tools/validate-refactor-index.py
 
 ```yaml
 module_name:
-  path: "path/to/module/"
-  description: "模組說明"
-  provides: ["Capability1", "Capability2"]
-  
-  refactor:                              # 重構治理設定
-    cluster_id: "domain/cluster-name"    # 對應的 cluster ID (必填)
-    target_roots:                        # 允許修改的目錄列表 (必填)
-      - "path/to/dir1/"
-      - "path/to/dir2/"
-    allow_new_subdirs: false             # 是否允許創建新子目錄 (預設: false)
-    allowed_new_paths:                   # 如果 allow_new_subdirs: true，可指定模式
-      - "path/to/dir/new-*/"
-    include_globs:                       # 包含的檔案模式
-      - "path/**/*.ts"
-      - "path/**/*.py"
-    exclude_globs:                       # 排除的檔案模式
-      - "**/tests/**"
-      - "**/__pycache__/**"
-      - "**/node_modules/**"
-    owners:                              # 審查者團隊
-      - "@team-name"
-    
+  path: 'path/to/module/'
+  description: '模組說明'
+  provides: ['Capability1', 'Capability2']
+
+  refactor: # 重構治理設定
+    cluster_id: 'domain/cluster-name' # 對應的 cluster ID (必填)
+    target_roots: # 允許修改的目錄列表 (必填)
+      - 'path/to/dir1/'
+      - 'path/to/dir2/'
+    allow_new_subdirs: false # 是否允許創建新子目錄 (預設: false)
+    allowed_new_paths: # 如果 allow_new_subdirs: true，可指定模式
+      - 'path/to/dir/new-*/'
+    include_globs: # 包含的檔案模式
+      - 'path/**/*.ts'
+      - 'path/**/*.py'
+    exclude_globs: # 排除的檔案模式
+      - '**/tests/**'
+      - '**/__pycache__/**'
+      - '**/node_modules/**'
+    owners: # 審查者團隊
+      - '@team-name'
+
     # 架構約束 (從 architecture skeletons)
     architecture_constraints:
-      allowed_dependencies:              # 允許的依賴模式
-        - "core/*"
-        - "runtime/*"
-      banned_dependencies:               # 禁止的依賴模式
-        - "apps/**"
-      dependency_direction: "downstream_only"
-      skeleton_rules:                    # 必須遵守的骨架規則
-        - "architecture-stability"
-        - "api-governance"
-    
+      allowed_dependencies: # 允許的依賴模式
+        - 'core/*'
+        - 'runtime/*'
+      banned_dependencies: # 禁止的依賴模式
+        - 'apps/**'
+      dependency_direction: 'downstream_only'
+      skeleton_rules: # 必須遵守的骨架規則
+        - 'architecture-stability'
+        - 'api-governance'
+
     # 語言策略
-    preferred_languages:                 # 優先使用的語言
-      - "typescript"
-      - "python"
-    banned_languages:                    # 禁止的語言
-      - "php"
-      - "perl"
-    
+    preferred_languages: # 優先使用的語言
+      - 'typescript'
+      - 'python'
+    banned_languages: # 禁止的語言
+      - 'php'
+      - 'perl'
+
     # 品質指標閾值
     quality_thresholds:
-      language_violations_max: 5         # 最大語言違規數
-      semgrep_high_max: 0                # 最大 HIGH severity 數
-      semgrep_medium_max: 3              # 最大 MEDIUM severity 數
-      cyclomatic_complexity_max: 15      # 最大複雜度
-      test_coverage_min: 75              # 最小測試覆蓋率 (%)
+      language_violations_max: 5 # 最大語言違規數
+      semgrep_high_max: 0 # 最大 HIGH severity 數
+      semgrep_medium_max: 3 # 最大 MEDIUM severity 數
+      cyclomatic_complexity_max: 15 # 最大複雜度
+      test_coverage_min: 75 # 最小測試覆蓋率 (%)
 ```
 
 ### unified-config-index.yaml 中的 refactor_playbooks 區塊
 
 ```yaml
 refactor_playbooks:
-  - id: "refactor-03-domain-name"        # 唯一識別碼
-    file: "path/to/playbook.md"          # 劇本檔案路徑
-    domain: "domain"                     # 系統領域
-    cluster_id: "domain/cluster"         # Cluster ID
-    module_id: "module_name"             # 對應的 module (在 module map 中)
-    type: "refactor-playbook"            # 文件類型
-    status: "draft"                      # 狀態
-    references:                          # 相關引用
-      module_map: "config/system-module-map.yaml#path.to.refactor"
+  - id: 'refactor-03-domain-name' # 唯一識別碼
+    file: 'path/to/playbook.md' # 劇本檔案路徑
+    domain: 'domain' # 系統領域
+    cluster_id: 'domain/cluster' # Cluster ID
+    module_id: 'module_name' # 對應的 module (在 module map 中)
+    type: 'refactor-playbook' # 文件類型
+    status: 'draft' # 狀態
+    references: # 相關引用
+      module_map: 'config/system-module-map.yaml#path.to.refactor'
 ```
 
 ---
@@ -266,12 +269,13 @@ refactor_playbooks:
 
 ### 範例 1：Core Architecture 重構
 
-**劇本**: `docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
+**劇本**:
+`docs/refactor_playbooks/03_refactor/core/core__architecture_refactor.md`
 
 ```yaml
 ---
-cluster_id: "core/architecture-stability"
-module_id: "unified_integration"
+cluster_id: 'core/architecture-stability'
+module_id: 'unified_integration'
 ---
 ```
 
@@ -282,13 +286,13 @@ core_platform:
   modules:
     unified_integration:
       refactor:
-        cluster_id: "core/architecture-stability"
+        cluster_id: 'core/architecture-stability'
         target_roots:
-          - "core/unified_integration/"
-          - "core/mind_matrix/"
+          - 'core/unified_integration/'
+          - 'core/mind_matrix/'
         allow_new_subdirs: false
         owners:
-          - "@core-owners"
+          - '@core-owners'
 ```
 
 **結果**：
@@ -299,12 +303,13 @@ core_platform:
 
 ### 範例 2：Automation Autonomous 重構
 
-**劇本**: `docs/refactor_playbooks/03_refactor/automation/automation__autonomous_refactor.md`
+**劇本**:
+`docs/refactor_playbooks/03_refactor/automation/automation__autonomous_refactor.md`
 
 ```yaml
 ---
-cluster_id: "automation/autonomous"
-module_id: "autonomous_system"
+cluster_id: 'automation/autonomous'
+module_id: 'autonomous_system'
 ---
 ```
 
@@ -315,12 +320,12 @@ automation:
   modules:
     autonomous_system:
       refactor:
-        cluster_id: "automation/autonomous"
+        cluster_id: 'automation/autonomous'
         target_roots:
-          - "automation/autonomous/"
+          - 'automation/autonomous/'
         allow_new_subdirs: false
         owners:
-          - "@automation-team"
+          - '@automation-team'
 ```
 
 **結果**：
@@ -351,16 +356,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install dependencies
         run: pip install pyyaml
-      
+
       - name: Validate refactor paths
         run: |
           python3 tools/validate-refactor-paths.py \
             --changes ${{ github.event.pull_request.changed_files }} \
             --module-map config/system-module-map.yaml
-      
+
       - name: Check new directories
         run: |
           python3 tools/check-new-directories.py \
@@ -435,7 +440,8 @@ fi
 - [PROPOSER_CRITIC_WORKFLOW.md](./03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md) - 雙層 AI 重構工作流程 ⭐
 - [config/system-module-map.yaml](../../config/system-module-map.yaml) - 模組映射（包含架構約束）
 - [config/unified-config-index.yaml](../../config/unified-config-index.yaml) - 統一配置索引
-- [automation/architecture-skeletons/](../../automation/architecture-skeletons/) - 11 個架構骨架規則
+- [automation/architecture-skeletons/](../../automation/architecture-skeletons/) -
+  11 個架構骨架規則
 
 ---
 

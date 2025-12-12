@@ -1,13 +1,14 @@
 # 治理工具與系統 | Governance Tools and Systems
 
-> 信息系統、工具、數據管理
-> Information systems, tools, and data management
+> 信息系統、工具、數據管理Information systems, tools, and data management
 
 ## 📋 概述 | Overview
 
 治理工具與系統維度定義了支持所有治理活動的信息系統、工具和數據管理基礎設施。
 
-The Governance Tools and Systems dimension defines the information systems, tools, and data management infrastructure that support all governance activities.
+The Governance Tools and Systems dimension defines the information systems,
+tools, and data management infrastructure that support all governance
+activities.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -82,6 +83,5 @@ governance-tools/
 
 ---
 
-**Owner 負責人**: Governance Tools Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Governance Tools Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

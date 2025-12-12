@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Complex Systems Governance addresses emergence, non-linear dynamics, system interactions, and adaptive behaviors in complex organizational systems.
+Complex Systems Governance addresses emergence, non-linear dynamics, system
+interactions, and adaptive behaviors in complex organizational systems.
 
 複雜系統治理處理複雜組織系統中的湧現、非線性動態、系統交互和自適應行為。
 

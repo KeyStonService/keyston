@@ -29,7 +29,7 @@ spec:
     file: "change-management-protocol.yaml"
     path: "governance/00-vision-strategy/change-management-protocol.yaml"
     format: "yaml"
-  
+
 status:
   lastUpdated: "2025-12-11T02:43:43Z"
   validatedBy:

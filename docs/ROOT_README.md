@@ -6,7 +6,10 @@
 
 本文件為 SynergyMesh 專案的監控系統參照指南，提供給所有工作人員、代理駕駛、智能體使用。目的是確保關鍵目錄與檔案的變更都能被追蹤、審核與管理。
 
-This document serves as the monitoring system reference guide for the SynergyMesh project, providing guidance for all workers, agents, and intelligent systems. The goal is to ensure that changes to critical directories and files are tracked, audited, and managed.
+This document serves as the monitoring system reference guide for the
+SynergyMesh project, providing guidance for all workers, agents, and intelligent
+systems. The goal is to ensure that changes to critical directories and files
+are tracked, audited, and managed.
 
 ---
 
@@ -14,7 +17,8 @@ This document serves as the monitoring system reference guide for the SynergyMes
 
 以下目錄按重要性與敏感度排序，建議依序部署監控機制：
 
-The following directories are sorted by importance and sensitivity. It is recommended to deploy monitoring mechanisms in this order:
+The following directories are sorted by importance and sensitivity. It is
+recommended to deploy monitoring mechanisms in this order:
 
 ### 1. `config/` - 設定檔與部署參數
 
@@ -147,7 +151,8 @@ All PRs affecting monitored directories must include:
 
 基線是系統檔案在特定時間點的「可信狀態快照」，用於偵測未授權變更。
 
-A baseline is a "trusted state snapshot" of system files at a specific point in time, used to detect unauthorized changes.
+A baseline is a "trusted state snapshot" of system files at a specific point in
+time, used to detect unauthorized changes.
 
 ### 基線建立流程 | Baseline Creation Process
 
@@ -195,7 +200,8 @@ A baseline is a "trusted state snapshot" of system files at a specific point in 
 
 請參閱 `MONITORING_GUIDE.md` 獲取完整的設定指引與工作人員提示詞。
 
-For complete configuration guides and worker prompts, please refer to `MONITORING_GUIDE.md`.
+For complete configuration guides and worker prompts, please refer to
+`MONITORING_GUIDE.md`.
 
 ---
 
@@ -203,7 +209,8 @@ For complete configuration guides and worker prompts, please refer to `MONITORIN
 
 所有對監控目錄的變更必須在 `CHANGELOG.md` 中記錄，格式如下：
 
-All changes to monitored directories must be recorded in `CHANGELOG.md` with the following format:
+All changes to monitored directories must be recorded in `CHANGELOG.md` with the
+following format:
 
 ```
 YYYY-MM-DD | <username> | <path> | <change_type> | <reason>

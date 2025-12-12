@@ -97,10 +97,10 @@ directory_optimizer:
         style: "kebab-case"
         allowed_patterns:
           - "^[a-z][a-z0-9-]*$"
-          - "^[a-z][a-z0-9_]*$"  # 允許底線（Python 慣例）
+          - "^[a-z][a-z0-9_]*$" # 允許底線（Python 慣例）
         forbidden_patterns:
-          - "^[A-Z]"  # 不允許大寫開頭
-          - "\\s"     # 不允許空格
+          - "^[A-Z]" # 不允許大寫開頭
+          - "\\s" # 不允許空格
 
       file_naming:
         styles:
@@ -153,17 +153,17 @@ directory_mapper:
       format: "yaml"
       attributes:
         - "path"
-        - "type"          # directory | file
-        - "category"      # core | config | doc | template
-        - "status"        # active | deprecated | new | modified
-        - "owner"         # team/person responsible
-        - "dependencies"  # list of dependent paths
+        - "type" # directory | file
+        - "category" # core | config | doc | template
+        - "status" # active | deprecated | new | modified
+        - "owner" # team/person responsible
+        - "dependencies" # list of dependent paths
 
   # 圖譜生成配置
   generation_config:
     include_hidden: false
     max_depth: 5
-    file_count_threshold: 100  # 超過此數量使用摘要
+    file_count_threshold: 100 # 超過此數量使用摘要
     annotation_rules:
       - pattern: "README.md"
         annotation: "# 入口說明"
@@ -303,7 +303,7 @@ batch_processor:
   # 批量操作配置
   batch_config:
     max_parallel_operations: 5
-    checkpoint_interval: 10  # 每 10 個操作建立檢查點
+    checkpoint_interval: 10 # 每 10 個操作建立檢查點
     retry_on_failure: true
     max_retries: 3
 
@@ -403,7 +403,7 @@ index_updater:
     readme:
       file: "README.md"
       format: "markdown"
-      auto_update: false  # 需要手動確認
+      auto_update: false # 需要手動確認
       sections_to_update:
         - "目錄結構"
         - "相關文件連結"
@@ -537,12 +537,12 @@ safety:
   checkpoints:
     enabled: true
     location: "_legacy_scratch/_checkpoints/"
-    auto_save_interval: 5  # 每 5 分鐘
+    auto_save_interval: 5 # 每 5 分鐘
 
   # 回滾支援
   rollback:
     enabled: true
-    max_rollback_depth: 10  # 最多回滾 10 步
+    max_rollback_depth: 10 # 最多回滾 10 步
     preserve_backup_after_success: true
 
 # ============================================================================

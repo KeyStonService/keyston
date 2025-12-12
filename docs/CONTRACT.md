@@ -4,7 +4,8 @@
 > **最後更新**: 2025-12-02  
 > **維護者**: SynergyMesh Documentation Team
 
-本文件定義了 Unmanned Island System 專案中所有文檔的規範、結構與治理規則。此契約確保 Copilot、自動化工具和開發人員能夠一致地理解和操作文檔系統。
+本文件定義了 Unmanned Island
+System 專案中所有文檔的規範、結構與治理規則。此契約確保 Copilot、自動化工具和開發人員能夠一致地理解和操作文檔系統。
 
 ---
 
@@ -76,20 +77,20 @@ docs/
 
 ### 必要文件
 
-| 項目 | 說明 | 範例 |
-|------|------|------|
-| **概覽文件** | 功能的高層次描述 | `overview.md` 或 `README.md` |
-| **入口點說明** | 如何開始使用 | `QUICKSTART.md` 或在概覽中包含 |
-| **API/CLI 說明** | 接口文檔 | `API.md` 或 `CLI.md` |
-| **索引註冊** | 加入 `knowledge_index.yaml` | 見下方格式 |
+| 項目             | 說明                        | 範例                           |
+| ---------------- | --------------------------- | ------------------------------ |
+| **概覽文件**     | 功能的高層次描述            | `overview.md` 或 `README.md`   |
+| **入口點說明**   | 如何開始使用                | `QUICKSTART.md` 或在概覽中包含 |
+| **API/CLI 說明** | 接口文檔                    | `API.md` 或 `CLI.md`           |
+| **索引註冊**     | 加入 `knowledge_index.yaml` | 見下方格式                     |
 
 ### 建議文件
 
-| 項目 | 說明 |
-|------|------|
-| 架構圖 | Mermaid 或 ASCII 圖 |
+| 項目     | 說明                |
+| -------- | ------------------- |
+| 架構圖   | Mermaid 或 ASCII 圖 |
 | 範例代碼 | 放在 `examples/` 下 |
-| 故障排除 | 常見問題與解決方案 |
+| 故障排除 | 常見問題與解決方案  |
 
 ---
 
@@ -98,17 +99,17 @@ docs/
 每個文檔項目必須包含以下欄位：
 
 ```yaml
-- id: "unique_document_id"           # 唯一識別符 (snake_case)
-  path: "docs/path/to/document.md"   # 相對路徑
-  title: "文檔標題 Document Title"   # 雙語標題
-  domain: "architecture"             # 領域分類
-  layer: "platform-core"             # 架構層級
-  type: "guide"                      # 文檔類型
-  tags: ["tag1", "tag2"]             # 標籤陣列
-  owner: "team-name"                 # 負責團隊
-  status: "stable"                   # 狀態
-  last_reviewed: "2025-12-02"        # 最後審閱日期
-  description: "Brief description"   # 簡短描述
+- id: 'unique_document_id' # 唯一識別符 (snake_case)
+  path: 'docs/path/to/document.md' # 相對路徑
+  title: '文檔標題 Document Title' # 雙語標題
+  domain: 'architecture' # 領域分類
+  layer: 'platform-core' # 架構層級
+  type: 'guide' # 文檔類型
+  tags: ['tag1', 'tag2'] # 標籤陣列
+  owner: 'team-name' # 負責團隊
+  status: 'stable' # 狀態
+  last_reviewed: '2025-12-02' # 最後審閱日期
+  description: 'Brief description' # 簡短描述
 ```
 
 ### 有效的 domain 值
@@ -202,11 +203,11 @@ python tools/docs/validate_index.py --verbose
 
 目標指標：
 
-| 指標 | 目標 |
-|------|------|
-| 索引覆蓋率 | ≥ 90% 的 .md 文件已註冊 |
-| 孤兒文檔 | 0 個未被引用的文檔 |
-| 過期文檔 | 0 個超過 90 天未審閱的穩定文檔 |
+| 指標       | 目標                           |
+| ---------- | ------------------------------ |
+| 索引覆蓋率 | ≥ 90% 的 .md 文件已註冊        |
+| 孤兒文檔   | 0 個未被引用的文檔             |
+| 過期文檔   | 0 個超過 90 天未審閱的穩定文檔 |
 
 ---
 

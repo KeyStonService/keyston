@@ -16,9 +16,9 @@
 
 ## Roles and Responsibilities
 
-| Role | Responsibilities |
-|------|------------------|
-| Owner | [Responsibilities] |
+| Role     | Responsibilities   |
+| -------- | ------------------ |
+| Owner    | [Responsibilities] |
 | Approver | [Responsibilities] |
 
 ## Inputs and Outputs

@@ -4,7 +4,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 #
 # 此配置提供 SynergyMesh 統一系統的完整目錄映射與元件引用
-# This configuration provides the complete directory mapping and component 
+# This configuration provides the complete directory mapping and component
 # references for the SynergyMesh unified system.
 #
 # Purpose:
@@ -32,7 +32,6 @@ phase2_consolidation:
 # Directory Categories (目錄分類)
 # ============================================================================
 directory_categories:
-  
   # ─────────────────────────────────────────────────────────────────────────
   # Core Platform (核心平台)
   # ─────────────────────────────────────────────────────────────────────────
@@ -68,122 +67,128 @@ directory_categories:
             provides: ["ConfigValidation", "DriftDetection", "Recommendations"]
           - id: "work_configuration_manager"
             file: "work_configuration_manager.py"
-            provides: ["ModuleMappingIntegration", "StrategyPolicyManagement", "CrossReferenceValidation", "CapabilityRegistryAlignment"]
-      
+            provides:
+              [
+                "ModuleMappingIntegration",
+                "StrategyPolicyManagement",
+                "CrossReferenceValidation",
+                "CapabilityRegistryAlignment",
+              ]
+
       # AI Constitution Layer
       ai_constitution:
         path: "core/ai_constitution/"
         description: "AI 治理憲章"
         provides: ["GovernancePolicies", "EthicalGuidelines"]
-      
+
       # Contracts L1
       contracts_l1:
         path: "core/contract_service/contracts-L1/"
         description: "L1 合約管理服務"
         provides: ["ContractManagement", "ProvenanceAttestation"]
-      
+
       # Execution Engine
       execution_engine:
         path: "core/execution_engine/"
         description: "執行引擎"
         provides: ["ActionExecution", "Rollback"]
-      
+
       # Execution Architecture
       execution_architecture:
         path: "core/execution_architecture/"
         description: "完整執行架構"
         provides: ["FullExecutionPipeline"]
-      
+
       # Safety Mechanisms
       safety_mechanisms:
         path: "core/safety_mechanisms/"
         description: "安全機制"
         provides: ["SafetyChecks", "RiskMitigation"]
-      
+
       # Monitoring System
       monitoring_system:
         path: "core/monitoring_system/"
         description: "監控系統"
         provides: ["MetricsCollection", "AlertManagement"]
-      
+
       # SLSA Provenance
       slsa_provenance:
         path: "core/slsa_provenance/"
         description: "SLSA 溯源認證"
         provides: ["Attestation", "SignatureVerification"]
-      
+
       # Cloud Agent Delegation
       cloud_agent_delegation:
         path: "core/cloud_agent_delegation/"
         description: "雲代理委派"
         provides: ["AgentDelegation", "CloudIntegration"]
-      
+
       # MCP Servers Enhanced
       mcp_servers_enhanced:
         path: "core/mcp_servers_enhanced/"
         description: "增強型 MCP 伺服器"
         provides: ["MCPProtocol", "ServerCapabilities"]
-      
+
       # Virtual Experts
       virtual_experts:
         path: "core/virtual_experts/"
         description: "虛擬專家系統"
         provides: ["ExpertKnowledge", "DomainAnalysis"]
-      
+
       # Training System
       training_system:
         path: "core/training_system/"
         description: "訓練系統"
         provides: ["KnowledgeTraining", "SkillDevelopment"]
-      
+
       # AI Decision Engine
       ai_decision_engine:
         path: "core/ai_decision_engine.py"
         description: "AI 決策引擎"
         provides: ["DecisionMaking", "PolicyEnforcement"]
-      
+
       # CI Error Handler
       ci_error_handler:
         path: "core/ci_error_handler/"
         description: "CI 錯誤處理器"
         provides: ["ErrorDetection", "AutoRemediation"]
-      
+
       # YAML Module System
       yaml_module_system:
         path: "core/yaml_module_system/"
         description: "YAML 模組系統"
         provides: ["YAMLValidation", "SchemaEnforcement"]
-      
+
       # Tech Stack
       tech_stack:
         path: "core/tech_stack/"
         description: "技術棧定義"
         provides: ["StackConfiguration", "ToolIntegration"]
-      
+
       # Autonomous Trust Engine
       autonomous_trust_engine:
         path: "core/autonomous_trust_engine.py"
         description: "自主信任引擎"
         provides: ["TrustManagement", "GovernanceValidation"]
-      
+
       # Auto Bug Detector
       auto_bug_detector:
         path: "core/auto_bug_detector.py"
         description: "自動缺陷偵測"
         provides: ["BugDetection", "QualityAssurance"]
-      
+
       # Auto Governance Hub
       auto_governance_hub:
         path: "core/auto_governance_hub.py"
         description: "自動治理中心"
         provides: ["GovernanceOrchestration", "PolicyManagement"]
-      
+
       # Context Understanding Engine
       context_understanding_engine:
         path: "core/context_understanding_engine.py"
         description: "上下文理解引擎"
         provides: ["ContextAnalysis", "SemanticUnderstanding"]
-      
+
       # Hallucination Detector
       hallucination_detector:
         path: "core/hallucination_detector.py"
@@ -213,14 +218,14 @@ directory_categories:
         path: "k8s/"
         description: "Kubernetes 部署配置"
         provides: ["Deployment", "Services", "Monitoring"]
-      
+
       docker:
         root_files:
           - "Dockerfile"
           - "docker-compose.yml"
           - "docker-compose.dev.yml"
         description: "Docker 容器配置"
-      
+
       ci_cd:
         path: ".github/workflows/"
         description: "CI/CD 工作流程"
@@ -235,17 +240,17 @@ directory_categories:
         path: "automation/intelligent/"
         description: "智能自動化"
         provides: ["TaskOrchestration", "IntentUnderstanding"]
-      
+
       intelligent_hyperautomation:
         path: "automation/hyperautomation/"
         description: "智能超自動化"
         provides: ["HyperautomationPolicies", "UAVGovernance"]
-      
+
       automation_architect:
         path: "automation/architect/"
         description: "自動化架構師"
         provides: ["ArchitectureAnalysis", "RepairEngine"]
-      
+
       autonomous_system:
         path: "automation/autonomous/"
         description: "自主系統"
@@ -261,7 +266,7 @@ directory_categories:
         path: "mcp-servers/"
         description: "MCP 伺服器實作"
         provides: ["CodeAnalyzer", "SecurityScanner", "TestGenerator"]
-      
+
       agent:
         path: "agent/"
         description: "代理程式"
@@ -277,15 +282,15 @@ directory_categories:
       system_manifest:
         file: "system-manifest.yaml"
         description: "系統宣告清單"
-      
+
       environment:
         file: "environment.yaml"
         description: "環境配置"
-      
+
       dependencies:
         file: "dependencies.yaml"
         description: "依賴配置"
-      
+
       module_map:
         file: "system-module-map.yaml"
         description: "模組映射"
@@ -301,7 +306,7 @@ directory_categories:
         description: "統一前端UI套件 - 架構視覺化與系統UI"
         provides: ["ArchitectureVisualization", "SystemUI", "CodeAnalyzerAPI"]
         note: "Consolidated from frontend/architecture and frontend/system-ui"
-      
+
       dist:
         path: "frontend/dist/"
         description: "進階系統編譯產出"
@@ -316,7 +321,7 @@ directory_categories:
       docs:
         path: "docs/"
         description: "主要文件目錄"
-      
+
       root_docs:
         description: "根目錄文件"
         files:
@@ -336,11 +341,11 @@ directory_categories:
       tests:
         path: "tests/unit/"
         description: "測試套件"
-      
+
       test_vectors:
         path: "tests/vectors/"
         description: "測試向量"
-      
+
       performance_tests:
         path: "tests/performance/"
         description: "性能測試"
@@ -354,11 +359,11 @@ directory_categories:
       governance:
         path: "governance/rules/"
         description: "治理規則"
-      
+
       policy:
         path: "governance/policies/"
         description: "政策定義"
-      
+
       schemas:
         path: "governance/schemas/"
         description: "資料結構定義"
@@ -372,11 +377,11 @@ directory_categories:
       scripts:
         path: "tools/scripts/"
         description: "自動化腳本"
-      
+
       tools:
         path: "tools/utilities/"
         description: "工具程式"
-      
+
       ci:
         path: "tools/ci/"
         description: "CI 輔助工具"
@@ -391,7 +396,7 @@ directory_categories:
         path: "attest-build-provenance-main/"
         description: "建置認證主程式"
         type: "external_dependency"
-      
+
       bridges:
         path: "bridges/"
         description: "系統橋接"
@@ -410,7 +415,7 @@ capability_matrix:
       - "reasoning"
       - "execution"
       - "proof"
-  
+
   service_discovery:
     description: "服務發現能力"
     providers:
@@ -419,7 +424,7 @@ capability_matrix:
       - "discovery"
       - "health_monitoring"
       - "dependency_resolution"
-  
+
   configuration_management:
     description: "配置管理能力"
     providers:
@@ -429,7 +434,7 @@ capability_matrix:
       - "config_validation"
       - "drift_detection"
       - "optimization_recommendations"
-  
+
   workflow_orchestration:
     description: "工作流編排能力"
     providers:
@@ -439,7 +444,7 @@ capability_matrix:
       - "workflow_management"
       - "task_scheduling"
       - "intent_understanding"
-  
+
   # NEW: Work Configuration (工作配置能力)
   work_configuration:
     description: "工作配置能力 - 統一工作流程與策略整合"
@@ -451,7 +456,7 @@ capability_matrix:
       - "cross_reference_validation"
       - "capability_registry_alignment"
       - "work_configuration_lifecycle"
-  
+
   security_compliance:
     description: "安全合規能力"
     providers:
@@ -462,7 +467,7 @@ capability_matrix:
       - "attestation"
       - "vulnerability_detection"
       - "safety_checks"
-  
+
   code_analysis:
     description: "程式碼分析能力"
     providers:
@@ -472,7 +477,7 @@ capability_matrix:
       - "static_analysis"
       - "architecture_analysis"
       - "performance_analysis"
-  
+
   deployment_automation:
     description: "部署自動化能力"
     providers:
@@ -502,7 +507,7 @@ root_directory_guidelines:
       - ".eslintrc.yaml"
       - ".prettierrc"
       - "jest.config.js"
-  
+
   documentation_to_consolidate:
     description: "應移至 docs/ 的文件"
     current_files:
@@ -520,7 +525,7 @@ root_directory_guidelines:
       - "ROOT_README.md"
       - "SECURITY_SUMMARY.md"
     target: "docs/"
-  
+
   config_to_consolidate:
     description: "應移至 config/ 的配置"
     current_files:
@@ -531,7 +536,7 @@ root_directory_guidelines:
       - "island-control.yml"
       - "synergymesh.config.yaml"
     target: "config/"
-  
+
   hidden_directories:
     description: "隱藏目錄（應保留）"
     directories:
@@ -557,7 +562,7 @@ cross_references:
     - "config/agents/team/virtual-experts.yaml"
     - "config/safety-mechanisms.yaml"
     - "core/unified_integration/"
-  
+
   # Service Registry references
   service_registry_integrations:
     - "core/contract_service/contracts-L1/"
@@ -565,13 +570,13 @@ cross_references:
     - "core/slsa_provenance/"
     - "core/execution_engine/"
     - "core/monitoring_system/"
-  
+
   # Configuration references
   configuration_hierarchy:
-    - "config/system-manifest.yaml"      # Root manifest
-    - "config/system-module-map.yaml"    # Module mapping
-    - "config/environment.yaml"          # Environment config
-    - "config/dependencies.yaml"         # Dependencies config
+    - "config/system-manifest.yaml" # Root manifest
+    - "config/system-module-map.yaml" # Module mapping
+    - "config/environment.yaml" # Environment config
+    - "config/dependencies.yaml" # Dependencies config
 
 # ============================================================================
 # Validation Rules (驗證規則)
@@ -580,15 +585,15 @@ validation_rules:
   no_duplicate_providers:
     description: "確保同一能力只有一個主要提供者"
     severity: "error"
-  
+
   all_capabilities_covered:
     description: "確保所有必要能力都有提供者"
     severity: "error"
-  
+
   consistent_naming:
     description: "確保命名一致性"
     severity: "warning"
-  
+
   documentation_exists:
     description: "確保每個模組都有文件"
     severity: "warning"

@@ -17,9 +17,9 @@ All upgraded CI workflows follow the principle of least privilege:
 
 ```yaml
 permissions:
-  contents: read      # Read-only access to repository
-  pull-requests: write  # Write access to PR comments (required for interactive service)
-  issues: write       # Write access to labels (required for label management)
+  contents: read # Read-only access to repository
+  pull-requests: write # Write access to PR comments (required for interactive service)
+  issues: write # Write access to labels (required for label management)
 ```
 
 **Justification**:
@@ -44,9 +44,12 @@ No workflows were given excessive permissions such as:
 
 **GitHub Actions Used**:
 
-- `actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683` # v4.2.2 (SHA pinned, 已驗證對應)
-- `actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af` # v4.1.0 (SHA pinned, 已驗證對應)
-- `actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea` # v7.0.1 (SHA pinned, 已驗證對應)
+- `actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683` # v4.2.2 (SHA
+  pinned, 已驗證對應)
+- `actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af` # v4.1.0 (SHA
+  pinned, 已驗證對應)
+- `actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea` # v7.0.1 (SHA
+  pinned, 已驗證對應)
 
 All actions are:
 
@@ -62,7 +65,8 @@ All uses of context variables in workflow expressions are safe:
 
 - ✅ `${{ needs.*.result }}` - Safe (enum values)
 - ✅ `${{ github.event_name }}` - Safe (enum values)
-- ✅ `${{ github.event.inputs.* }}` - User input, but not evaluated in shell context
+- ✅ `${{ github.event.inputs.* }}` - User input, but not evaluated in shell
+  context
 
 **No vulnerable patterns found**:
 
@@ -120,7 +124,7 @@ if: always() && github.event_name == 'pull_request'
    - Mitigation: Bot account with limited permissions
    - Impact: Cannot modify code or secrets
 
-2. **Workflow Manipulation** - Low Risk  
+2. **Workflow Manipulation** - Low Risk
    - Mitigation: Protected branch rules on workflow files
    - Impact: Requires repository write access
 
@@ -130,13 +134,13 @@ if: always() && github.event_name == 'pull_request'
 
 #### Security Controls
 
-| Control | Status | Notes |
-|---------|--------|-------|
-| SHA-pinned actions | ✅ Implemented | All external actions pinned |
-| Least privilege | ✅ Implemented | Minimal permissions granted |
-| Input validation | ✅ Implemented | Via Zod in reusable workflow |
-| Secrets management | ✅ Implemented | No hardcoded secrets |
-| Code review | ✅ Implemented | Automated + manual review |
+| Control            | Status         | Notes                        |
+| ------------------ | -------------- | ---------------------------- |
+| SHA-pinned actions | ✅ Implemented | All external actions pinned  |
+| Least privilege    | ✅ Implemented | Minimal permissions granted  |
+| Input validation   | ✅ Implemented | Via Zod in reusable workflow |
+| Secrets management | ✅ Implemented | No hardcoded secrets         |
+| Code review        | ✅ Implemented | Automated + manual review    |
 
 ### Compliance
 
@@ -174,7 +178,9 @@ if: always() && github.event_name == 'pull_request'
 
 **Overall Security Rating: ⭐⭐⭐⭐⭐ (5/5)**
 
-All 7 upgraded CI workflows pass security review with **no vulnerabilities identified**. The implementation follows security best practices and poses **minimal security risk**.
+All 7 upgraded CI workflows pass security review with **no vulnerabilities
+identified**. The implementation follows security best practices and poses
+**minimal security risk**.
 
 Key strengths:
 

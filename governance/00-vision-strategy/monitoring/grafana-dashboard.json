@@ -35,14 +35,14 @@
             "thresholds": {
               "mode": "absolute",
               "steps": [
-                {"value": 0, "color": "red"},
-                {"value": 8, "color": "yellow"},
-                {"value": 9, "color": "green"}
+                { "value": 0, "color": "red" },
+                { "value": 8, "color": "yellow" },
+                { "value": 9, "color": "green" }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0}
+        "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 }
       },
       {
         "id": 2,
@@ -63,14 +63,14 @@
             "thresholds": {
               "mode": "absolute",
               "steps": [
-                {"value": 0, "color": "red"},
-                {"value": 80, "color": "yellow"},
-                {"value": 95, "color": "green"}
+                { "value": 0, "color": "red" },
+                { "value": 80, "color": "yellow" },
+                { "value": 95, "color": "green" }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0}
+        "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 }
       },
       {
         "id": 3,
@@ -83,7 +83,7 @@
             "legendFormat": "Synced Apps"
           }
         ],
-        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0}
+        "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 }
       },
       {
         "id": 4,
@@ -101,14 +101,14 @@
             "thresholds": {
               "mode": "absolute",
               "steps": [
-                {"value": 0, "color": "green"},
-                {"value": 1, "color": "yellow"},
-                {"value": 5, "color": "red"}
+                { "value": 0, "color": "green" },
+                { "value": 1, "color": "yellow" },
+                { "value": 5, "color": "red" }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0}
+        "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 }
       },
       {
         "id": 5,
@@ -121,7 +121,7 @@
             "legendFormat": "{{customresource_kind}}"
           }
         ],
-        "gridPos": {"h": 12, "w": 12, "x": 0, "y": 8}
+        "gridPos": { "h": 12, "w": 12, "x": 0, "y": 8 }
       },
       {
         "id": 6,
@@ -134,10 +134,8 @@
             "legendFormat": "Enforcement Rate"
           }
         ],
-        "yaxes": [
-          {"format": "ops", "label": "Rate"}
-        ],
-        "gridPos": {"h": 12, "w": 12, "x": 12, "y": 8}
+        "yaxes": [{ "format": "ops", "label": "Rate" }],
+        "gridPos": { "h": 12, "w": 12, "x": 12, "y": 8 }
       },
       {
         "id": 7,
@@ -165,7 +163,7 @@
             }
           }
         ],
-        "gridPos": {"h": 12, "w": 24, "x": 0, "y": 20}
+        "gridPos": { "h": 12, "w": 24, "x": 0, "y": 20 }
       }
     ]
   }

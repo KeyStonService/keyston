@@ -11,11 +11,7 @@
   },
   "bootstrap_contract": {
     "description": "入口協定 - 強制代理讀取事件",
-    "required_context": [
-      "events/registry.json",
-      "events/vector-index.json",
-      "events/current-session.json"
-    ],
+    "required_context": ["events/registry.json", "events/vector-index.json", "events/current-session.json"],
     "validation": {
       "ci_gate": true,
       "block_on_missing": true,
@@ -42,35 +38,18 @@
     "flow_patterns": [
       {
         "id": "policy-flow",
-        "chain": [
-          "policy.created",
-          "policy.validated",
-          "policy.enforced",
-          "audit.logged"
-        ],
+        "chain": ["policy.created", "policy.validated", "policy.enforced", "audit.logged"],
         "closes_at": "feedback.collected"
       },
       {
         "id": "agent-flow",
-        "chain": [
-          "agent.registered",
-          "agent.deployed",
-          "agent.monitored"
-        ],
-        "on_failure": [
-          "healing.triggered",
-          "healing.completed"
-        ],
+        "chain": ["agent.registered", "agent.deployed", "agent.monitored"],
+        "on_failure": ["healing.triggered", "healing.completed"],
         "closes_at": "audit.logged"
       },
       {
         "id": "decision-flow",
-        "chain": [
-          "intent.received",
-          "intent.mapped",
-          "automation.started",
-          "automation.completed"
-        ],
+        "chain": ["intent.received", "intent.mapped", "automation.started", "automation.completed"],
         "closes_at": "feedback.analyzed"
       }
     ]

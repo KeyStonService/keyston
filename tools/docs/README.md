@@ -1,6 +1,7 @@
 # Documentation Tools
 
-This directory contains automated tools for generating and analyzing documentation in the SynergyMesh repository.
+This directory contains automated tools for generating and analyzing
+documentation in the SynergyMesh repository.
 
 ## Available Tools
 
@@ -8,7 +9,9 @@ This directory contains automated tools for generating and analyzing documentati
 
 Analyze root-level reports to generate consolidated analysis and health metrics.
 
-**Purpose**: Scans all report files in `/reports/` and `/docs/reports/`, extracts key metrics, findings, and recommendations, then generates consolidated analysis in multiple formats.
+**Purpose**: Scans all report files in `/reports/` and `/docs/reports/`,
+extracts key metrics, findings, and recommendations, then generates consolidated
+analysis in multiple formats.
 
 **Usage**:
 
@@ -34,7 +37,8 @@ python tools/docs/analyze_root_reports.py \
 
 **Outputs**:
 
-- **Markdown**: Human-readable analysis report with executive summary, inventory, findings, and action items
+- **Markdown**: Human-readable analysis report with executive summary,
+  inventory, findings, and action items
 - **JSON**: Structured data for programmatic access and integration
 - **YAML**: Alternative structured format (requires PyYAML)
 
@@ -184,7 +188,8 @@ Optional dependencies:
 
 These tools are integrated into GitHub Actions workflows:
 
-- `.github/workflows/knowledge-graph-drift.yml`: Checks for drift in generated docs
+- `.github/workflows/knowledge-graph-drift.yml`: Checks for drift in generated
+  docs
 - `.github/workflows/project-self-awareness.yml`: Runs self-awareness reports
 
 ---

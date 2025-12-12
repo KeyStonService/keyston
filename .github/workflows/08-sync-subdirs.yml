@@ -4,13 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'templates/**'
-      - 'island.bootstrap.stage0.yaml'
-      - 'config/sync-refactor-config.yaml'
+      - "templates/**"
+      - "island.bootstrap.stage0.yaml"
+      - "config/sync-refactor-config.yaml"
   schedule:
-    - cron: '0 * * * *'
+    - cron: "0 * * * *"
   workflow_dispatch:
-
 
 # Cost protection: prevent concurrent runs
 concurrency:
@@ -19,7 +18,7 @@ concurrency:
 
 jobs:
   sync:
-    timeout-minutes: 10  # Prevent runaway costs
+    timeout-minutes: 10 # Prevent runaway costs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

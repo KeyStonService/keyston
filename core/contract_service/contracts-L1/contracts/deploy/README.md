@@ -58,7 +58,7 @@ deploy/
 
    ```bash
    kubectl apply -f k8s/namespace.yaml
-   
+
    # 創建實際的密鑰（不要使用範例值！）
    kubectl create secret generic contracts-l1-secrets \
      --from-literal=API_KEY_SECRET=your-strong-secret-here \

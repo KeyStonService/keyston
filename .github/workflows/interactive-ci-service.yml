@@ -6,28 +6,28 @@ on:
   workflow_call:
     inputs:
       ci-name:
-        description: 'CI 工作流程名稱'
+        description: "CI 工作流程名稱"
         required: true
         type: string
       ci-status:
-        description: 'CI 執行狀態（success/failure）'
+        description: "CI 執行狀態（success/failure）"
         required: true
         type: string
       ci-context:
-        description: 'CI 執行上下文資訊（JSON 格式）'
+        description: "CI 執行上下文資訊（JSON 格式）"
         required: false
         type: string
-        default: '{}'
+        default: "{}"
       error-logs:
-        description: '錯誤日誌（如有）'
+        description: "錯誤日誌（如有）"
         required: false
         type: string
-        default: ''
+        default: ""
       pr-number:
-        description: 'PR 編號'
+        description: "PR 編號"
         required: false
         type: string
-        default: ''
+        default: ""
     outputs:
       service-response:
         description: "客服回應內容"
@@ -44,26 +44,26 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       response: ${{ steps.generate-response.outputs.response }}
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      
+
       - name: 🔍 獲取 PR 編號
         id: get-pr
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             let prNumber = '${{ inputs.pr-number }}';
-            
+
             if (!prNumber && context.payload.pull_request) {
               prNumber = context.payload.pull_request.number;
             }
-            
+
             console.log(`PR Number: ${prNumber}`);
             core.setOutput('pr_number', prNumber);
             return prNumber;
-      
+
       - name: 🤖 生成互動式回應
         id: generate-response
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
@@ -73,16 +73,16 @@ jobs:
             const ciStatus = '${{ inputs.ci-status }}';
             const errorLogs = `${{ inputs.error-logs }}`;
             const prNumber = '${{ steps.get-pr.outputs.pr_number }}';
-            
+
             if (!prNumber) {
               console.log('無 PR 編號，跳過評論');
               return;
             }
-            
+
             let response = '';
             let emoji = '';
             let color = '';
-            
+
             if (ciStatus === 'success') {
               emoji = '✅';
               color = '🟢';
@@ -202,9 +202,9 @@ jobs:
               *此評論由 ${ciName} 互動式客服自動生成*
               `;
             }
-            
+
             core.setOutput('response', response);
-            
+
             // 發布或更新評論
             try {
               const { data: comments } = await github.rest.issues.listComments({
@@ -240,9 +240,9 @@ jobs:
             } catch (error) {
               console.error('評論操作失敗：', error.message);
             }
-            
+
             return response;
-      
+
       - name: 🏷️ 管理標籤
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
@@ -250,12 +250,12 @@ jobs:
             const ciName = '${{ inputs.ci-name }}';
             const ciStatus = '${{ inputs.ci-status }}';
             const prNumber = '${{ steps.get-pr.outputs.pr_number }}';
-            
+
             if (!prNumber) return;
-            
+
             // 清理 CI 名稱作為標籤
             const labelName = `ci-${ciName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-            
+
             try {
               if (ciStatus === 'failure') {
                 // 添加失敗標籤
@@ -283,20 +283,20 @@ jobs:
             } catch (error) {
               console.error('標籤管理失敗：', error.message);
             }
-      
+
       - name: 📊 生成服務摘要
         run: |
           cat >> $GITHUB_STEP_SUMMARY << EOF
           ## 🤖 ${{ inputs.ci-name }} 互動式客服報告
-          
+
           **狀態**: ${{ inputs.ci-status == 'success' && '✅ 成功' || '❌ 失敗' }}
-          
+
           **服務功能**:
           - ✓ 自動診斷問題
           - ✓ 提供修復建議
           - ✓ 互動式命令支援
           - ✓ 智能標籤管理
-          
+
           **互動命令**:
           - \`@copilot analyze ${{ inputs.ci-name }}\`
           - \`@copilot fix ${{ inputs.ci-name }}\`

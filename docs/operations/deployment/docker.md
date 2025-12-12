@@ -24,7 +24,7 @@ services:
   control-plane:
     build: .
     ports:
-      - "8080:8080"
+      - '8080:8080'
     env_file: .env
   workflow:
     image: island-ai/workflow:latest

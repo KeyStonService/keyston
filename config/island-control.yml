@@ -22,7 +22,7 @@ islands:
     runtime:
       tool: rustc
       min_version: "1.70.0"
-    
+
   go:
     name: "🌊 Go 雲原生服務島"
     enabled: true
@@ -35,7 +35,7 @@ islands:
     runtime:
       tool: go
       min_version: "1.20.0"
-    
+
   typescript:
     name: "⚡ TypeScript 全棧開發島"
     enabled: true
@@ -48,7 +48,7 @@ islands:
     runtime:
       tool: tsc
       min_version: "5.0.0"
-    
+
   python:
     name: "🐍 Python AI 數據島"
     enabled: true
@@ -61,7 +61,7 @@ islands:
     runtime:
       tool: python3
       min_version: "3.10.0"
-    
+
   java:
     name: "☕ Java 企業服務島"
     enabled: true
@@ -78,12 +78,12 @@ islands:
 # 🎛️ 協調器配置
 orchestrator:
   auto_start: true
-  health_check_interval: 30  # 秒
+  health_check_interval: 30 # 秒
   max_concurrent_islands: 5
   failover:
     enabled: true
     max_retries: 3
-    retry_delay: 5  # 秒
+    retry_delay: 5 # 秒
 
 # 🌉 橋接配置
 bridges:
@@ -93,7 +93,7 @@ bridges:
     - rest
     - websocket
     - message_queue
-  timeout: 30  # 秒
+  timeout: 30 # 秒
   retry_policy:
     max_retries: 3
     backoff_multiplier: 2
@@ -129,12 +129,12 @@ security:
 # 🔄 生命週期配置
 lifecycle:
   startup_order:
-    - rust      # 高性能核心先啟動
-    - python    # AI 功能
-    - go        # 雲原生服務
-    - typescript  # 前端服務
-    - java      # 企業服務
-  shutdown_timeout: 30  # 秒
+    - rust # 高性能核心先啟動
+    - python # AI 功能
+    - go # 雲原生服務
+    - typescript # 前端服務
+    - java # 企業服務
+  shutdown_timeout: 30 # 秒
   graceful_shutdown: true
 
 # 📁 路徑配置

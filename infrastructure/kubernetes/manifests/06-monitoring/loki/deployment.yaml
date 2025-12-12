@@ -14,28 +14,28 @@ spec:
         app: loki
     spec:
       containers:
-      - name: loki
-        image: grafana/loki:latest
-        ports:
-        - containerPort: 3100
-        args:
-        - '-config.file=/etc/loki/loki.yaml'
-        volumeMounts:
-        - name: config
-          mountPath: /etc/loki
-        - name: data
-          mountPath: /loki
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
+        - name: loki
+          image: grafana/loki:latest
+          ports:
+            - containerPort: 3100
+          args:
+            - "-config.file=/etc/loki/loki.yaml"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/loki
+            - name: data
+              mountPath: /loki
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
       volumes:
-      - name: config
-        configMap:
-          name: loki-config
-      - name: data
-        persistentVolumeClaim:
-          claimName: loki-data-pvc
+        - name: config
+          configMap:
+            name: loki-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: loki-data-pvc

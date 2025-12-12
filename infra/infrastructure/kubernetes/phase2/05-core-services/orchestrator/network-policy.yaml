@@ -8,27 +8,27 @@ spec:
     matchLabels:
       app: orchestrator
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
   egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: code-analyzer
-  - to:
-    - podSelector:
-        matchLabels:
-          app: vulnerability-detector
-  - to:
-    - podSelector:
-        matchLabels:
-          app: auto-repair
-  - to:
-    - podSelector:
-        matchLabels:
-          app: result-aggregator
+    - to:
+        - podSelector:
+            matchLabels:
+              app: code-analyzer
+    - to:
+        - podSelector:
+            matchLabels:
+              app: vulnerability-detector
+    - to:
+        - podSelector:
+            matchLabels:
+              app: auto-repair
+    - to:
+        - podSelector:
+            matchLabels:
+              app: result-aggregator

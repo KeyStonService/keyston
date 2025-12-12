@@ -49,7 +49,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # 依專案 engines 要求 (>=18.0.0)，使用 Node 20
-          node-version: '20'
+          node-version: "20"
           # 根據偵測到的套件管理器設定快取
           cache: ${{ steps.detect-pm.outputs.manager }}
 
@@ -76,7 +76,7 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: 📦 Install Python dependencies if requirements.txt exists
         run: |

@@ -11,7 +11,7 @@ metadata:
     governance.kai/phase: "5"
     governance.kai/feature: "compliance-reporting"
 spec:
-  schedule: "0 */6 * * *"  # Every 6 hours
+  schedule: "0 */6 * * *" # Every 6 hours
   concurrencyPolicy: Replace
   jobTemplate:
     spec:
@@ -22,18 +22,18 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-          - name: report-generator
-            image: governance-ai-reporter:latest
-            env:
-            - name: EXECUTION_MODE
-              value: "AUTONOMOUS"
-            - name: OUTPUT_FORMATS
-              value: "JSON,YAML,PDF,HTML"
-            - name: AUTO_DISTRIBUTE
-              value: "true"
-            - name: DISTRIBUTION_CHANNELS
-              value: "slack,email,s3"
-            - name: HUMAN_APPROVAL
-              value: "NOT_REQUIRED"
-            - name: REPORT_TYPES
-              value: "compliance,health,optimization,predictions"
+            - name: report-generator
+              image: governance-ai-reporter:latest
+              env:
+                - name: EXECUTION_MODE
+                  value: "AUTONOMOUS"
+                - name: OUTPUT_FORMATS
+                  value: "JSON,YAML,PDF,HTML"
+                - name: AUTO_DISTRIBUTE
+                  value: "true"
+                - name: DISTRIBUTION_CHANNELS
+                  value: "slack,email,s3"
+                - name: HUMAN_APPROVAL
+                  value: "NOT_REQUIRED"
+                - name: REPORT_TYPES
+                  value: "compliance,health,optimization,predictions"

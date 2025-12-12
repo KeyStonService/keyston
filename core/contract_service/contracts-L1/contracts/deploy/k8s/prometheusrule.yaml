@@ -9,37 +9,37 @@ metadata:
     prometheus: kube-prometheus
 spec:
   groups:
-  - name: contracts-l1
-    interval: 30s
-    rules:
-    - alert: ContractsL1HighErrorRate
-      expr: |
-        rate(http_requests_total{app="contracts-l1",status=~"5.."}[5m]) > 0.05
-      for: 5m
-      labels:
-        severity: critical
-        service: contracts-l1
-      annotations:
-        summary: "High error rate detected in Contracts L1 Service"
-        description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
-    
-    - alert: ContractsL1SlowResponseTime
-      expr: |
-        histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{app="contracts-l1"}[5m])) > 0.1
-      for: 5m
-      labels:
-        severity: warning
-        service: contracts-l1
-      annotations:
-        summary: "Slow response time in Contracts L1 Service"
-        description: "95th percentile response time is {{ $value }}s (threshold: 0.1s)"
-    
-    - alert: ContractsL1ServiceDown
-      expr: up{job="contracts-l1"} == 0
-      for: 1m
-      labels:
-        severity: critical
-        service: contracts-l1
-      annotations:
-        summary: "Contracts L1 Service is down"
-        description: "Service has been unavailable for more than 1 minute"
+    - name: contracts-l1
+      interval: 30s
+      rules:
+        - alert: ContractsL1HighErrorRate
+          expr: |
+            rate(http_requests_total{app="contracts-l1",status=~"5.."}[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: critical
+            service: contracts-l1
+          annotations:
+            summary: "High error rate detected in Contracts L1 Service"
+            description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+        - alert: ContractsL1SlowResponseTime
+          expr: |
+            histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{app="contracts-l1"}[5m])) > 0.1
+          for: 5m
+          labels:
+            severity: warning
+            service: contracts-l1
+          annotations:
+            summary: "Slow response time in Contracts L1 Service"
+            description: "95th percentile response time is {{ $value }}s (threshold: 0.1s)"
+
+        - alert: ContractsL1ServiceDown
+          expr: up{job="contracts-l1"} == 0
+          for: 1m
+          labels:
+            severity: critical
+            service: contracts-l1
+          annotations:
+            summary: "Contracts L1 Service is down"
+            description: "Service has been unavailable for more than 1 minute"

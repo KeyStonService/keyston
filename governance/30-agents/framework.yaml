@@ -18,24 +18,24 @@ lifecycle:
       - training
       - testing
       - validation
-    
+
     deployment:
       approval_required: true
       source_verification: true
       permission_assignment: true
       health_check: true
-    
+
     operation:
       continuous_monitoring: true
       performance_tracking: true
       behavior_analysis: true
       auto_scaling: true
-    
+
     maintenance:
       version_updates: true
       retraining: true
       configuration_tuning: true
-    
+
     retirement:
       data_deletion: true
       permission_revocation: true
@@ -45,22 +45,22 @@ lifecycle:
 permission_model:
   type: "least_privilege"
   enforcement: "mandatory"
-  
+
   capabilities:
     read:
       scope: "defined_resources_only"
       audit: true
-    
+
     write:
       scope: "restricted"
       approval_required: true
       audit: true
-    
+
     execute:
       scope: "approved_operations_only"
       rate_limiting: true
       audit: true
-  
+
   resource_limits:
     memory: "configurable"
     cpu: "configurable"
@@ -70,7 +70,7 @@ permission_model:
 # Version Control
 versioning:
   policy: "semantic_versioning"
-  
+
   rollback:
     auto_rollback: true
     trigger_conditions:
@@ -78,7 +78,7 @@ versioning:
       - latency_p95_threshold_ms: 500
       - accuracy_threshold: 0.90
     rollback_to: "previous_stable"
-  
+
   canary_deployment:
     enabled: true
     initial_traffic_percentage: 5
@@ -91,13 +91,13 @@ monitoring:
     interval_seconds: 60
     timeout_seconds: 10
     failure_threshold: 3
-  
+
   performance_metrics:
     - latency
     - throughput
     - error_rate
     - resource_utilization
-  
+
   behavior_tracking:
     enabled: true
     anomaly_detection: true
@@ -109,15 +109,15 @@ compliance:
     - name: "ISO/IEC 42001"
       enabled: true
       audit_frequency: "quarterly"
-    
+
     - name: "NIST AI RMF"
       enabled: true
       audit_frequency: "monthly"
-    
+
     - name: "EU AI Act"
       enabled: true
       audit_frequency: "monthly"
-  
+
   documentation_requirements:
     - data_sheets
     - model_cards
@@ -129,17 +129,17 @@ responsibility:
   ownership:
     assignment_required: true
     contact_info_required: true
-  
+
   approval_chain:
     deployment:
       - team_lead
       - security_team
       - compliance_officer
-    
+
     capability_change:
       - team_lead
       - oversight_committee
-    
+
     production_release:
       - team_lead
       - ops_team
@@ -154,4 +154,3 @@ integrations:
   contract_registry: "60-contracts"
   audit_system: "70-audit"
   feedback_loop: "80-feedback"
-

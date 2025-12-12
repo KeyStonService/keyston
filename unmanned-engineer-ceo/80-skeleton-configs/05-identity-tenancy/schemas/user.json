@@ -2,13 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "User Schema",
   "type": "object",
-  "required": [
-    "id",
-    "email",
-    "display_name",
-    "tenant_id",
-    "status"
-  ],
+  "required": ["id", "email", "display_name", "tenant_id", "status"],
   "properties": {
     "id": {
       "type": "string",

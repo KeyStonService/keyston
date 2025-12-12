@@ -154,18 +154,18 @@ from pathlib import Path
 
 def check_language_policy():
     """檢查語言使用是否符合策略"""
-    
+
     # 載入語言策略
     with open('config/language-policy.yaml') as f:
         policy = yaml.safe_load(f)
-    
+
     violations = []
-    
+
     # 檢查每個目錄
     for directory, rules in policy['directory_rules'].items():
         allowed = rules['allowed_languages']
         forbidden = rules.get('forbidden_patterns', [])
-        
+
         # 掃描檔案
         for file in Path(directory).rglob('*'):
             if file.is_file():
@@ -177,7 +177,7 @@ def check_language_policy():
                         'violation': f'Not allowed in {directory}',
                         'extension': ext
                     })
-    
+
     return violations
 
 def is_allowed_extension(ext, allowed_languages):
@@ -190,7 +190,7 @@ def is_allowed_extension(ext, allowed_languages):
         'Rust': ['.rs'],
         'Rego': ['.rego'],
     }
-    
+
     for lang in allowed_languages:
         if ext in language_extensions.get(lang, []):
             return True
@@ -259,31 +259,38 @@ def is_allowed_extension(ext, allowed_languages):
 # Language Exception Request
 
 ## 基本資訊
+
 - **申請者**：[姓名]
 - **日期**：[YYYY-MM-DD]
 - **PR**：[PR 連結]
 
 ## 例外請求
+
 - **語言**：[要使用的語言]
 - **位置**：[目錄路徑]
 - **範圍**：[影響的檔案/模組]
 
 ## 理由說明
+
 [詳細說明為何需要這個例外]
 
 ## 替代方案
+
 [說明為何現有語言無法滿足需求]
 
 ## 影響評估
+
 - **技術影響**：[對系統架構的影響]
 - **維護影響**：[對團隊維護的影響]
 - **性能影響**：[性能相關的考量]
 
 ## 時間範圍
+
 - [ ] 永久例外
 - [ ] 臨時例外（預計移除時間：[YYYY-MM-DD]）
 
 ## 審查意見
+
 [架構師或委員會的審查意見]
 ```
 
@@ -318,7 +325,8 @@ def is_allowed_extension(ext, allowed_languages):
 1. **語言掃描器**：`tools/governance/check-language-policy.py`
 2. **依賴分析器**：`tools/governance/analyze-dependencies.py`
 3. **報告生成器**：`tools/governance/generate-language-report.py`
-4. **AI Refactor Playbook Generator** ⭐ **NEW**：`tools/generate-refactor-playbook.py`
+4. **AI Refactor Playbook Generator** ⭐
+   **NEW**：`tools/generate-refactor-playbook.py`
    - 自動生成每個 cluster 的重構 playbook
    - 包含 P0/P1/P2 優先級計畫
    - 提供檔案與目錄結構交付視圖
@@ -370,7 +378,8 @@ python3 tools/generate-refactor-playbook.py --use-llm
 - [Language Stack](./language-stack.md) - 語言堆疊文檔
 - [Language Policy Config](../../config/language-policy.yaml) - 策略配置
 - [System Architecture](./SYSTEM_ARCHITECTURE.md) - 系統架構
-- [Refactor Playbooks](../refactor_playbooks/README.md) - 重構 Playbook 系統 ⭐ **NEW**
+- [Refactor Playbooks](../refactor_playbooks/README.md) - 重構 Playbook 系統 ⭐
+  **NEW**
 
 ### 相關連結
 

@@ -8,15 +8,15 @@
 
 ## 📊 倉庫統計概覽
 
-| 指標 | 數值 |
-|------|------|
-| 總目錄數 | 222 |
-| 總檔案數 | 828+ |
-| TypeScript 檔案 | 263 |
-| Python 檔案 | 150 |
-| YAML 配置檔 | 223 |
-| GitHub Workflows | 57 |
-| package.json 模組 | 8 |
+| 指標              | 數值 |
+| ----------------- | ---- |
+| 總目錄數          | 222  |
+| 總檔案數          | 828+ |
+| TypeScript 檔案   | 263  |
+| Python 檔案       | 150  |
+| YAML 配置檔       | 223  |
+| GitHub Workflows  | 57   |
+| package.json 模組 | 8    |
 
 ---
 
@@ -229,7 +229,8 @@
 #### 8.2 schemas/
 
 - **狀態**: ✅ 完整
-- **內容**: JSON Schema 定義（auto-fix-bot, code-analysis, vulnerability, repair）
+- **內容**: JSON Schema 定義（auto-fix-bot, code-analysis, vulnerability,
+  repair）
 - **整合評估**: 保留
 
 #### 8.3 test-vectors/
@@ -244,12 +245,12 @@
 
 ### 1. UI 組件重複 (高優先級)
 
-| 位置 | 組件數量 | 狀態 |
-|------|---------|------|
-| advanced-architecture/src/components/ui/ | 48 | 舊版本 |
-| advanced-system-src/src/components/ui/ | 48 | 新版本 |
-| core/contract_service/contracts-L1/contracts/web/src/components/ui/ | 48 | 複製 |
-| core/contract_service/contracts-L1/contracts/web/components/ui/ | 48 | 複製 |
+| 位置                                                                | 組件數量 | 狀態   |
+| ------------------------------------------------------------------- | -------- | ------ |
+| advanced-architecture/src/components/ui/                            | 48       | 舊版本 |
+| advanced-system-src/src/components/ui/                              | 48       | 新版本 |
+| core/contract_service/contracts-L1/contracts/web/src/components/ui/ | 48       | 複製   |
+| core/contract_service/contracts-L1/contracts/web/components/ui/     | 48       | 複製   |
 
 **整合建議**:
 
@@ -259,16 +260,16 @@
 
 ### 2. package.json 版本差異
 
-| 套件 | advanced-architecture | advanced-system-src | 建議 |
-|------|----------------------|---------------------|------|
-| @radix-ui/react-label | ^2.1.4 | ^2.1.8 | 升級至 ^2.1.8 |
-| @radix-ui/react-separator | ^1.1.4 | ^1.1.8 | 升級至 ^1.1.8 |
-| i18next | ^25.1.2 | ^25.6.3 | 升級至 ^25.6.3 |
-| lucide-react | ^0.503.0 | ^0.555.0 | 升級至 ^0.555.0 |
-| react-router | ^7.5.3 | ^7.9.6 | 升級至 ^7.9.6 |
-| tailwind-merge | ^3.2.0 | ^3.4.0 | 升級至 ^3.4.0 |
-| esbuild | 0.25.4 | 0.27.0 | 升級至 0.27.0 |
-| tailwindcss | ^3.4.17 | ^3.4.18 | 升級至 ^3.4.18 |
+| 套件                      | advanced-architecture | advanced-system-src | 建議            |
+| ------------------------- | --------------------- | ------------------- | --------------- |
+| @radix-ui/react-label     | ^2.1.4                | ^2.1.8              | 升級至 ^2.1.8   |
+| @radix-ui/react-separator | ^1.1.4                | ^1.1.8              | 升級至 ^1.1.8   |
+| i18next                   | ^25.1.2               | ^25.6.3             | 升級至 ^25.6.3  |
+| lucide-react              | ^0.503.0              | ^0.555.0            | 升級至 ^0.555.0 |
+| react-router              | ^7.5.3                | ^7.9.6              | 升級至 ^7.9.6   |
+| tailwind-merge            | ^3.2.0                | ^3.4.0              | 升級至 ^3.4.0   |
+| esbuild                   | 0.25.4                | 0.27.0              | 升級至 0.27.0   |
+| tailwindcss               | ^3.4.17               | ^3.4.18             | 升級至 ^3.4.18  |
 
 ### 3. Python 依賴差異
 
@@ -312,22 +313,22 @@
 
 ### 保留的功能（100%）
 
-| 模組 | 功能 | 狀態 |
-|------|------|------|
-| core/contract_service-L1 | 合約管理服務 | ✅ 保留 |
-| core/advisory-database | 安全諮詢資料庫 | ✅ 保留 |
-| mcp-servers | MCP 伺服器 | ✅ 保留 |
-| advanced-system-src | 主前端系統 | ✅ 保留 |
-| advanced-architecture | UI 演示 | ✅ 保留 |
-| intelligent-automation | 智能自動化 | ✅ 保留 |
-| automation-architect | 自動化架構 | ✅ 保留 |
-| agent/dependency-manager | 依賴管理 | ✅ 保留 |
-| autonomous-system | 自主系統框架 | ✅ 保留 |
-| v1-python-drones | 無人機系統 v1 | ✅ 保留 |
-| v2-multi-islands | 多島嶼系統 v2 | ✅ 保留 |
-| k8s | Kubernetes 配置 | ✅ 保留 |
-| monitoring | 監控配置 | ✅ 保留 |
-| .github/workflows | CI/CD 工作流程 | ✅ 保留 |
+| 模組                     | 功能            | 狀態    |
+| ------------------------ | --------------- | ------- |
+| core/contract_service-L1 | 合約管理服務    | ✅ 保留 |
+| core/advisory-database   | 安全諮詢資料庫  | ✅ 保留 |
+| mcp-servers              | MCP 伺服器      | ✅ 保留 |
+| advanced-system-src      | 主前端系統      | ✅ 保留 |
+| advanced-architecture    | UI 演示         | ✅ 保留 |
+| intelligent-automation   | 智能自動化      | ✅ 保留 |
+| automation-architect     | 自動化架構      | ✅ 保留 |
+| agent/dependency-manager | 依賴管理        | ✅ 保留 |
+| autonomous-system        | 自主系統框架    | ✅ 保留 |
+| v1-python-drones         | 無人機系統 v1   | ✅ 保留 |
+| v2-multi-islands         | 多島嶼系統 v2   | ✅ 保留 |
+| k8s                      | Kubernetes 配置 | ✅ 保留 |
+| monitoring               | 監控配置        | ✅ 保留 |
+| .github/workflows        | CI/CD 工作流程  | ✅ 保留 |
 
 ### 升級項目
 

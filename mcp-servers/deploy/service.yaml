@@ -14,8 +14,8 @@ spec:
   selector:
     app: mcp-servers
   ports:
-  - name: http
-    port: 80
-    targetPort: http
-    protocol: TCP
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
   sessionAffinity: None

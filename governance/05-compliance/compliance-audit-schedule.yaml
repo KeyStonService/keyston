@@ -15,34 +15,34 @@ annual_audit_plan:
       scope: "GDPR compliance review"
       duration: "2 weeks"
       auditor: "Internal audit team"
-    
+
     - audit: "Security Controls"
       scope: "ISO 27001 controls"
       duration: "3 weeks"
       auditor: "External auditor"
-  
+
   Q2_2025:
     - audit: "Policy Compliance"
       scope: "Internal policy adherence"
       duration: "2 weeks"
       auditor: "Compliance team"
-    
+
     - audit: "Financial Controls"
       scope: "SOX compliance"
       duration: "4 weeks"
       auditor: "External auditor"
-  
+
   Q3_2025:
     - audit: "Process Compliance"
       scope: "Process adherence check"
       duration: "2 weeks"
       auditor: "Internal audit"
-    
+
     - audit: "Vendor Compliance"
       scope: "Third-party compliance"
       duration: "2 weeks"
       auditor: "Compliance team"
-  
+
   Q4_2025:
     - audit: "Year-end Review"
       scope: "Comprehensive compliance review"
@@ -53,11 +53,11 @@ audit_types:
   scheduled_audits:
     frequency: "Quarterly"
     notification: "30 days advance"
-  
+
   surprise_audits:
     frequency: "As needed"
     notification: "None"
-  
+
   follow_up_audits:
     frequency: "After major findings"
     timing: "Within 90 days"

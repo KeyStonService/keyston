@@ -1,6 +1,7 @@
 # System Watchdog | 系統看門狗
 
-Independent monitoring service that watches critical processes and triggers Phoenix Agent when needed.
+Independent monitoring service that watches critical processes and triggers
+Phoenix Agent when needed.
 
 ## Files
 

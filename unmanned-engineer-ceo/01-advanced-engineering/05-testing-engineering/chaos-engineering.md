@@ -2,7 +2,8 @@
 
 ## 目標
 
-- 驗證核心工作流（contract service、autonomous stack、knowledge base）在失效條件下的穩健度。
+- 驗證核心工作流（contract service、autonomous stack、knowledge
+  base）在失效條件下的穩健度。
 
 ## 框架
 

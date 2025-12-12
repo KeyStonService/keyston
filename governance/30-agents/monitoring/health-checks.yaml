@@ -15,7 +15,7 @@ global_settings:
   timeout_seconds: 10
   failure_threshold: 3
   success_threshold: 2
-  
+
   retry_policy:
     max_retries: 3
     retry_delay_seconds: 5
@@ -23,10 +23,9 @@ global_settings:
 
 # Agent Health Checks
 agents:
-  
   unmanned-island-agent:
     enabled: true
-    
+
     # Liveness Checks
     liveness:
       - name: "agent_process"
@@ -34,14 +33,14 @@ agents:
         check_interval_seconds: 30
         command: "ps aux | grep unmanned-island-agent"
         expected_status: "running"
-      
+
       - name: "agent_responsive"
         type: "http"
         endpoint: "/health"
         method: "GET"
         expected_status_code: 200
         timeout_seconds: 5
-    
+
     # Readiness Checks
     readiness:
       - name: "dependencies_available"
@@ -51,38 +50,38 @@ agents:
           - "Governance Framework"
           - "Automation Framework"
         all_required: true
-      
+
       - name: "configuration_valid"
         type: "config"
         check_config_files:
           - ".github/agents/my-agent.agent.md"
           - "governance/30-agents/framework.yaml"
         all_required: true
-    
+
     # Performance Checks
     performance:
       - name: "response_time"
         type: "latency"
         endpoint: "/health"
         max_latency_ms: 100
-      
+
       - name: "memory_usage"
         type: "resource"
         metric: "memory"
-        max_value: "1.8GB"  # 90% of 2GB limit
-      
+        max_value: "1.8GB" # 90% of 2GB limit
+
       - name: "cpu_usage"
         type: "resource"
         metric: "cpu"
-        max_value: "90%"  # 90% of 1 core
-    
+        max_value: "90%" # 90% of 1 core
+
     # Functional Checks
     functional:
       - name: "automation_capability"
         type: "functional"
         test_endpoint: "/test/automation"
         expected_result: "success"
-      
+
       - name: "compliance_check"
         type: "functional"
         test_endpoint: "/test/compliance"
@@ -90,7 +89,6 @@ agents:
 
 # Health Check Actions
 actions:
-  
   on_failure:
     # Alert Actions
     - type: "alert"
@@ -99,7 +97,7 @@ actions:
         - "slack://platform-alerts"
         - "email://governance@synergymesh.io"
       message_template: "Agent {agent_id} health check {check_name} failed: {error_message}"
-    
+
     # Auto-Recovery Actions
     - type: "auto_recovery"
       enabled: true
@@ -108,27 +106,27 @@ actions:
         - "restart_agent"
         - "clear_cache"
         - "reset_connections"
-    
+
     # Escalation Actions
     - type: "escalate"
       after_failures: 3
       escalate_to: "on_call_team"
-  
+
   on_degraded:
     - type: "log"
       severity: "warning"
       message: "Agent {agent_id} performance degraded"
-    
+
     - type: "scale_resources"
       enabled: true
       action: "increase"
       percentage: 20
-  
+
   on_recovery:
     - type: "log"
       severity: "info"
       message: "Agent {agent_id} recovered from failure"
-    
+
     - type: "notify"
       channels:
         - "slack://platform-alerts"
@@ -138,21 +136,21 @@ health_status:
   healthy:
     description: "All checks passing"
     color: "green"
-    
+
   degraded:
     description: "Some non-critical checks failing"
     color: "yellow"
     conditions:
       - "performance checks failing"
       - "warning threshold exceeded"
-    
+
   unhealthy:
     description: "Critical checks failing"
     color: "red"
     conditions:
       - "liveness checks failing"
       - "readiness checks failing"
-    
+
   unknown:
     description: "Health status cannot be determined"
     color: "gray"
@@ -171,7 +169,7 @@ monitoring:
       - "health_check_failure_count"
       - "health_check_duration_seconds"
       - "agent_uptime_seconds"
-  
+
   dashboards:
     - name: "Agent Health Overview"
       type: "grafana"
@@ -180,12 +178,12 @@ monitoring:
         - "Check Success Rate"
         - "Response Time Trends"
         - "Resource Usage"
-  
+
   alerts:
     - name: "Agent Down"
       condition: "health_status == 'unhealthy' for 5 minutes"
       severity: "critical"
-    
+
     - name: "Agent Degraded"
       condition: "health_status == 'degraded' for 15 minutes"
       severity: "warning"

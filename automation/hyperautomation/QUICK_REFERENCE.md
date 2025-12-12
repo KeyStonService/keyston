@@ -5,32 +5,32 @@
 ### 標準命名空間標籤
 
 ```yaml
-namespace.io/managed-by: "platform-team"
-namespace.io/domain: "uav" # 或 "ad"
-namespace.io/team: "your-team"
-namespace.io/environment: "production" # dev/staging/production
-namespace.io/region: "asia-east1"
-namespace.io/lifecycle: "stable" # experimental/stable/deprecated
+namespace.io/managed-by: 'platform-team'
+namespace.io/domain: 'uav' # 或 "ad"
+namespace.io/team: 'your-team'
+namespace.io/environment: 'production' # dev/staging/production
+namespace.io/region: 'asia-east1'
+namespace.io/lifecycle: 'stable' # experimental/stable/deprecated
 ```
 
 ### UAV/AD 特定標籤（Deployment）
 
 ```yaml
-uav.io/system: "uav" # 或 "ad"
-uav.io/safety-level: "L4" # L0-L5
-uav.io/risk-category: "high" # low/medium/high (L4-L5 必須)
+uav.io/system: 'uav' # 或 "ad"
+uav.io/safety-level: 'L4' # L0-L5
+uav.io/risk-category: 'high' # low/medium/high (L4-L5 必須)
 ```
 
 ## 🎯 安全等級對照表
 
-| 等級 | 說明 | 風險 | 範例 |
-|------|------|------|------|
-| L0 | 無自動化 | low | 完全手動控制 |
-| L1 | 輔助系統 | low | 定速巡航 |
-| L2 | 部分自動化 | low | 車道保持 + ACC |
-| L3 | 有條件自動化 | medium | 特定場景自動 |
-| L4 | 高度自動化 | high | 大部分場景自動 |
-| L5 | 完全自動化 | high | 完全無人 |
+| 等級 | 說明         | 風險   | 範例           |
+| ---- | ------------ | ------ | -------------- |
+| L0   | 無自動化     | low    | 完全手動控制   |
+| L1   | 輔助系統     | low    | 定速巡航       |
+| L2   | 部分自動化   | low    | 車道保持 + ACC |
+| L3   | 有條件自動化 | medium | 特定場景自動   |
+| L4   | 高度自動化   | high   | 大部分場景自動 |
+| L5   | 完全自動化   | high   | 完全無人       |
 
 ## 🌍 地理圍欄配置（UAV 必須）
 
@@ -40,10 +40,10 @@ kind: ConfigMap
 metadata:
   name: uav-geo-config
   labels:
-    uav.io/system: "uav"
+    uav.io/system: 'uav'
 data:
-  geo.fence.enabled: "true" # 或 "false"
-  geo.fence.regions: "TW-Taipei, TW-Taichung, JP-Tokyo"
+  geo.fence.enabled: 'true' # 或 "false"
+  geo.fence.regions: 'TW-Taipei, TW-Taichung, JP-Tokyo'
 ```
 
 **區域格式**: `XX-RegionName`
@@ -59,11 +59,11 @@ data:
 ```yaml
 resources:
   requests:
-    cpu: "500m"
-    memory: "256Mi"
+    cpu: '500m'
+    memory: '256Mi'
   limits:
-    cpu: "1"
-    memory: "512Mi"
+    cpu: '1'
+    memory: '512Mi'
 ```
 
 ### AD 系統
@@ -71,11 +71,11 @@ resources:
 ```yaml
 resources:
   requests:
-    cpu: "1"
-    memory: "1Gi"
+    cpu: '1'
+    memory: '1Gi'
   limits:
-    cpu: "2"
-    memory: "2Gi"
+    cpu: '2'
+    memory: '2Gi'
 ```
 
 ## 🔒 安全最佳實踐
@@ -100,7 +100,7 @@ securityContext:
   readOnlyRootFilesystem: true
   capabilities:
     drop:
-    - ALL
+      - ALL
 ```
 
 ## 🔍 驗證命令
@@ -238,15 +238,15 @@ spec:
 
 ## 📚 文檔索引
 
-| 文檔 | 說明 | 路徑 |
-|------|------|------|
-| 核心理念 | 技術助手能力框架 | docs/core-principles.md |
-| UAV/AD 治理 | 安全與合規規範 | docs/uav-autonomous-driving-governance.md |
-| 使用說明 | 詳細使用指南 | docs/usage-notes.md |
-| CI/CD 策略 | 自動化流程 | docs/ci-cd-strategy.md |
-| 範例說明 | 模板使用指南 | templates/impl/examples/README.md |
-| 變更日誌 | 版本歷史 | CHANGELOG.md |
-| 快速參考 | 本文件 | QUICK_REFERENCE.md |
+| 文檔        | 說明             | 路徑                                      |
+| ----------- | ---------------- | ----------------------------------------- |
+| 核心理念    | 技術助手能力框架 | docs/core-principles.md                   |
+| UAV/AD 治理 | 安全與合規規範   | docs/uav-autonomous-driving-governance.md |
+| 使用說明    | 詳細使用指南     | docs/usage-notes.md                       |
+| CI/CD 策略  | 自動化流程       | docs/ci-cd-strategy.md                    |
+| 範例說明    | 模板使用指南     | templates/impl/examples/README.md         |
+| 變更日誌    | 版本歷史         | CHANGELOG.md                              |
+| 快速參考    | 本文件           | QUICK_REFERENCE.md                        |
 
 ## 🆘 獲取協助
 
@@ -261,7 +261,7 @@ spec:
 💡 啟用 GitOps 自動同步以簡化部署  
 💡 使用 Kustomize overlays 管理多環境  
 💡 定期更新 SBOM 以追蹤依賴變化  
-💡 在 CI 中計算雜湊確保檔案完整性  
+💡 在 CI 中計算雜湊確保檔案完整性
 
 ---
 

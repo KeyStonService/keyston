@@ -26,7 +26,7 @@ language_dimensions:
       Generate governance automation code primarily in Python/Go, covering module responsibility matrix,
       error classification, and event tracking. Ensure code can execute directly in CI/CD pipeline,
       and provide TypeScript examples for frontend governance support.
-  
+
   server_side_languages:
     languages: ["java", "csharp", "nodejs", "kotlin", "scala"]
     use_case: "Backend API, microservices governance, enterprise systems"
@@ -34,7 +34,7 @@ language_dimensions:
       Generate server-side governance code primarily in Java/C#, defining API boundaries,
       error tolerance strategies, and security modules. Ensure code integrates with microservices
       architecture and supports event-driven governance.
-  
+
   web_languages:
     languages: ["javascript", "typescript", "html", "css"]
     use_case: "UI governance observation, frontend SDK encapsulation, governance visualization"
@@ -42,7 +42,7 @@ language_dimensions:
       Generate Web governance code primarily in TypeScript/HTML, transforming PR/Workflow views
       into governance observability dashboards. Code must display module status, role interactions,
       error classification, and enforce language boundary consistency.
-  
+
   mobile_languages:
     languages: ["swift", "kotlin", "dart", "react-native"]
     use_case: "Mobile governance SDK, observation modules, cross-platform tools"
@@ -50,7 +50,7 @@ language_dimensions:
       Generate mobile governance code primarily in Swift/Kotlin, encapsulating SDK modules
       with cross-platform support. Code must include Quickstart examples and enforce
       language boundary consistency.
-  
+
   data_representation_languages:
     languages: ["json", "yaml", "xml", "protobuf"]
     use_case: "Governance boundary documents, responsibility matrix, event logs, config management"
@@ -58,7 +58,7 @@ language_dimensions:
       Generate governance data representation files primarily in JSON/YAML, defining module
       responsibility matrix, API specs, and event tracking logs. Files must be parseable by
       automation tools and support version compatibility verification.
-  
+
   other_languages:
     languages: ["cpp", "c", "haskell", "elixir", "zig"]
     use_case: "High-performance governance modules, security hardening, functional governance logic"
@@ -80,7 +80,7 @@ modules:
     deployment_conditions:
       - "requires_nodejs: true"
       - "requires_python: false"
-  
+
   # Contracts Service (TypeScript)
   "core/contract_service":
     primary_language: "typescript"
@@ -91,12 +91,12 @@ modules:
     deployment_conditions:
       - "requires_nodejs: true"
       - "requires_python: false"
-  
+
   # Intelligent Automation (Python - Optional)
   "intelligent-automation":
     primary_language: "python"
     language_dimension: "popular_languages"
-    runtime: "python >= 3.8"  # Flexible, not hardcoded to 3.10
+    runtime: "python >= 3.8" # Flexible, not hardcoded to 3.10
     package_manager: "pip"
     optional_dependencies:
       - "python-dotenv: for environment configuration"
@@ -105,12 +105,12 @@ modules:
     deployment_conditions:
       - "requires_python: true"
       - "requires_nodejs: false"
-      - "optional_ai_ml: true"  # Can work without AI/ML dependencies
+      - "optional_ai_ml: true" # Can work without AI/ML dependencies
     notes: |
       This module uses a plugin architecture. Core functionality works without
       external AI/ML dependencies. ModelScope API and similar services are
       OPTIONAL and should not be hardcoded in deployment scripts.
-  
+
   # MCP Servers (TypeScript)
   "mcp-servers":
     primary_language: "typescript"
@@ -121,7 +121,7 @@ modules:
     deployment_conditions:
       - "requires_nodejs: true"
       - "requires_python: false"
-  
+
   # Advanced System (TypeScript/Mixed)
   "advanced-system-src":
     primary_language: "typescript"
@@ -132,7 +132,7 @@ modules:
     deployment_conditions:
       - "requires_nodejs: true"
       - "requires_python: false"
-  
+
   # Scripts and Automation (Shell/Python/Mixed)
   scripts:
     primary_language: "shell"
@@ -141,8 +141,8 @@ modules:
     secondary_languages: ["python", "javascript"]
     deployment_conditions:
       - "requires_shell: true"
-      - "requires_python: conditional"  # Only if script uses Python
-      - "requires_nodejs: conditional"  # Only if script uses Node.js
+      - "requires_python: conditional" # Only if script uses Python
+      - "requires_nodejs: conditional" # Only if script uses Node.js
     notes: |
       Deployment scripts should check for language requirements dynamically
       and only install dependencies when needed.
@@ -157,7 +157,7 @@ deployment_strategy:
     - "Use module-environment-matrix to determine requirements"
     - "Fail gracefully if optional dependencies are missing"
     - "Provide clear error messages for missing required dependencies"
-  
+
   implementation:
     ci_cd_check: |
       # Example CI/CD conditional check
@@ -165,12 +165,12 @@ deployment_strategy:
         echo "Python module detected, installing Python dependencies"
         pip install -r intelligent-automation/requirements.txt
       fi
-      
+
       if [ -f "package.json" ]; then
         echo "Node.js project detected, installing npm dependencies"
         npm install
       fi
-    
+
     fallback_strategy: |
       # If module-specific requirements are missing, use default minimal set
       # Do NOT fallback to a template that includes unneeded dependencies
@@ -182,15 +182,15 @@ validation:
     - name: "No hardcoded Python version in deployment"
       rule: "Deployment scripts must not hardcode Python 3.10"
       action: "Use module-environment-matrix to determine Python version"
-    
+
     - name: "No hardcoded ModelScope API requirement"
       rule: "ModelScope API is OPTIONAL for intelligent-automation"
       action: "Check for optional dependencies before requiring them"
-    
+
     - name: "Language boundary enforcement"
       rule: "Each module declares its language requirements"
       action: "Deployment validates language compatibility"
-    
+
     - name: "Conditional dependency loading"
       rule: "Install dependencies only when module requires them"
       action: "Use module type detection in CI/CD"
@@ -204,7 +204,7 @@ language_boundaries:
     - External integration or third-party deliverables: English (when required)
     - API examples: Bilingual (Chinese primary, English optional)
     - Error messages: Bilingual
-  
+
   transition_points:
     - "Public API documentation: Add English translation"
     - "Third-party integration: Provide English version"

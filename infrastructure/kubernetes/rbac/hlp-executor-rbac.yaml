@@ -25,33 +25,33 @@ rules:
   - apiGroups: [""]
     resources: ["pods", "services", "configmaps", "secrets"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  
+
   - apiGroups: [""]
     resources: ["persistentvolumeclaims"]
     verbs: ["get", "list", "watch"]
-  
+
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["create", "patch"]
-  
+
   # Apps API resources
   - apiGroups: ["apps"]
     resources: ["deployments", "replicasets", "statefulsets"]
     verbs: ["get", "list", "watch", "create", "update", "patch"]
-  
+
   - apiGroups: ["apps"]
     resources: ["deployments/status", "replicasets/status", "statefulsets/status"]
     verbs: ["get", "list", "watch"]
-  
+
   # Batch API resources
   - apiGroups: ["batch"]
     resources: ["jobs", "cronjobs"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  
+
   - apiGroups: ["batch"]
     resources: ["jobs/status", "cronjobs/status"]
     verbs: ["get", "list", "watch"]
-  
+
   # Custom resources (if needed for future)
   # Uncomment and adjust when unmanned-island.io CRDs are defined
   # - apiGroups: ["unmanned-island.io"]
@@ -72,9 +72,9 @@ roleRef:
   kind: ClusterRole
   name: hlp-executor-role
 subjects:
-- kind: ServiceAccount
-  name: hlp-executor-sa
-  namespace: unmanned-island-system
+  - kind: ServiceAccount
+    name: hlp-executor-sa
+    namespace: unmanned-island-system
 
 ---
 # Optional: Role for namespace-scoped operations
@@ -91,7 +91,7 @@ rules:
   - apiGroups: [""]
     resources: ["pods/log", "pods/exec"]
     verbs: ["get", "list"]
-  
+
   - apiGroups: [""]
     resources: ["configmaps"]
     verbs: ["get", "list", "watch", "create", "update", "patch"]
@@ -112,6 +112,6 @@ roleRef:
   kind: Role
   name: hlp-executor-namespace-role
 subjects:
-- kind: ServiceAccount
-  name: hlp-executor-sa
-  namespace: unmanned-island-system
+  - kind: ServiceAccount
+    name: hlp-executor-sa
+    namespace: unmanned-island-system

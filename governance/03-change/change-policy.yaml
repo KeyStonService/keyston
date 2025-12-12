@@ -16,23 +16,23 @@ policy_overview:
 policy_principles:
   - principle: "受控變更"
     description: "所有變更必須經過正式的變更管理流程 | All changes must go through formal change management process"
-    
+
   - principle: "風險為本"
     description: "變更管理的嚴格程度與風險水平相稱 | Rigor of change management proportionate to risk level"
-    
+
   - principle: "透明溝通"
     description: "所有利益相關方及時知情變更 | All stakeholders informed of changes in timely manner"
-    
+
   - principle: "可回滾性"
     description: "所有變更必須有回滾計劃 | All changes must have rollback plan"
-    
+
   - principle: "持續改進"
     description: "從變更結果中學習和改進 | Learn and improve from change outcomes"
 
 # 變更定義 | Change Definition
 change_definition:
   what_is_change: "Any addition, modification, or removal to anything that could affect IT services or business processes"
-  
+
   includes:
     - "系統代碼變更 | System code changes"
     - "基礎設施變更 | Infrastructure changes"
@@ -40,14 +40,13 @@ change_definition:
     - "流程變更 | Process changes"
     - "組織變更 | Organizational changes"
     - "政策變更 | Policy changes"
-    
+
   excludes:
     - "預先批准的標準操作 | Pre-approved standard operations"
     - "緊急安全補丁（需追溯記錄）| Emergency security patches (requires retrospective recording)"
 
 # 角色與職責 | Roles and Responsibilities
 roles_responsibilities:
-
   change_manager:
     responsibilities:
       - "管理變更流程 | Manage change process"
@@ -87,7 +86,6 @@ roles_responsibilities:
 
 # 變更類型 | Change Types
 change_types:
-
   standard_change:
     definition: "Pre-approved, low-risk, well-understood changes"
     characteristics:
@@ -140,7 +138,6 @@ change_types:
 
 # 變更流程 | Change Process
 change_process:
-
   step_1_request:
     name: "變更請求"
     activities:
@@ -232,37 +229,36 @@ change_process:
 
 # 變更批准授權矩陣 | Change Approval Authority Matrix
 approval_authority:
-  
   standard_change:
     risk_level: "低 | Low"
     impact: "最小 | Minimal"
     approver: "change_manager"
     approval_time: "自動 | Automatic"
-    
+
   normal_change_low:
     risk_level: "低 | Low"
     impact: "中等 | Medium"
     approver: "CAB"
     approval_time: "< 3 天 | < 3 days"
-    
+
   normal_change_medium:
     risk_level: "中 | Medium"
     impact: "中等 | Medium"
     approver: "CAB"
     approval_time: "< 5 天 | < 5 days"
-    
+
   normal_change_high:
     risk_level: "高 | High"
     impact: "高 | High"
     approver: "CAB + Governance Manager"
     approval_time: "< 7 天 | < 7 days"
-    
+
   major_change:
     risk_level: "高 | High"
     impact: "非常高 | Very High"
     approver: "Governance Board"
     approval_time: "< 14 天 | < 14 days"
-    
+
   emergency_change:
     risk_level: "變化 | Variable"
     impact: "關鍵 | Critical"
@@ -272,19 +268,18 @@ approval_authority:
 
 # 變更窗口 | Change Windows
 change_windows:
-
   standard_window:
     schedule: "週二至週四 22:00-02:00"
     description: "Standard maintenance window for routine changes"
     availability_requirement: "Normal"
     approval_required: "Yes"
-    
+
   emergency_window:
     schedule: "任何時間 | Anytime"
     description: "For critical emergency changes only"
     availability_requirement: "As needed"
     approval_required: "Emergency approval"
-    
+
   blackout_periods:
     - period: "月末最後 3 天 | Last 3 days of month"
       reason: "Financial closing"
@@ -295,32 +290,30 @@ change_windows:
 
 # 變更凍結 | Change Freeze
 change_freeze:
-  
   definition: "Period during which only emergency changes are permitted"
-  
+
   triggers:
     - "重大事件或危機 | Major incidents or crises"
     - "關鍵業務期間 | Critical business periods"
     - "系統不穩定 | System instability"
     - "監管審計 | Regulatory audits"
-    
+
   approval: "只允許緊急變更，需執行贊助人批准 | Only emergency changes allowed, requires Executive Sponsor approval"
-  
+
   communication: "至少提前 7 天通知所有利益相關方 | Notify all stakeholders at least 7 days in advance"
 
 # 回滾程序 | Rollback Procedures
 rollback_procedures:
-
   rollback_triggers:
     - "變更未通過驗證測試 | Change fails validation testing"
     - "出現關鍵錯誤 | Critical errors occur"
     - "系統性能嚴重下降 | System performance severely degrades"
     - "業務功能受損 | Business functionality impaired"
-    
+
   rollback_authority:
     decision_maker: "change_manager 或 incident_manager | change_manager or incident_manager"
     escalation: "governance_manager（如需要）| governance_manager (if needed)"
-    
+
   rollback_steps:
     - "聲明回滾決定 | Declare rollback decision"
     - "通知利益相關方 | Notify stakeholders"
@@ -331,7 +324,6 @@ rollback_procedures:
 
 # 變更溝通 | Change Communication
 change_communication:
-
   communication_plan:
     before_change:
       audience: "all_affected_stakeholders"
@@ -341,7 +333,7 @@ change_communication:
         - "實施時間 | Implementation time"
         - "預期影響 | Expected impact"
         - "聯繫信息 | Contact information"
-      
+
     during_change:
       audience: "all_affected_stakeholders"
       timing: "實時更新 | Real-time updates"
@@ -349,7 +341,7 @@ change_communication:
         - "進度狀態 | Progress status"
         - "問題報告 | Issue reports"
         - "預計完成時間 | Estimated completion"
-      
+
     after_change:
       audience: "all_affected_stakeholders"
       timing: "完成後 24 小時內 | Within 24 hours of completion"
@@ -360,22 +352,21 @@ change_communication:
 
 # 變更指標 | Change Metrics
 change_metrics:
-
   success_rate:
     metric: "成功率 | Success Rate"
     calculation: "(成功的變更 / 總變更) × 100%"
     target: "> 95%"
-    
+
   emergency_change_rate:
     metric: "緊急變更率 | Emergency Change Rate"
     calculation: "(緊急變更 / 總變更) × 100%"
     target: "< 5%"
-    
+
   unauthorized_change_rate:
     metric: "未授權變更率 | Unauthorized Change Rate"
     calculation: "(未授權變更 / 總變更) × 100%"
     target: "0%"
-    
+
   average_approval_time:
     metric: "平均批准時間 | Average Approval Time"
     calculation: "總批准時間 / 變更數量"
@@ -386,36 +377,34 @@ change_metrics:
 
 # 合規性要求 | Compliance Requirements
 compliance_requirements:
-
   documentation:
     - "所有變更必須記錄 | All changes must be documented"
     - "保留變更記錄至少 7 年 | Retain change records for at least 7 years"
     - "審計追蹤必須完整 | Audit trail must be complete"
-    
+
   approval:
     - "所有變更必須獲得適當批准 | All changes must be appropriately approved"
     - "緊急變更需要追溯審查 | Emergency changes require retrospective review"
-    
+
   testing:
     - "重大變更需要測試環境驗證 | Major changes require testing environment validation"
     - "所有變更需要驗收測試 | All changes require acceptance testing"
-    
+
   communication:
     - "利益相關方必須及時通知 | Stakeholders must be notified in timely manner"
     - "維護變更日曆 | Maintain change calendar"
 
 # 違規後果 | Non-Compliance Consequences
 non_compliance_consequences:
-
   unauthorized_changes:
     - "第一次: 警告和強制培訓 | First time: Warning and mandatory training"
     - "第二次: 正式懲戒行動 | Second time: Formal disciplinary action"
     - "重複: 可能終止訪問權限 | Repeat: Possible access termination"
-    
+
   inadequate_documentation:
     - "變更可能被回滾 | Change may be rolled back"
     - "需要完整文檔追溯 | Require complete retrospective documentation"
-    
+
   bypassing_approval:
     - "嚴重違規 | Severe violation"
     - "立即升級至治理委員會 | Immediate escalation to Governance Board"

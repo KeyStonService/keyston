@@ -43,7 +43,7 @@ tech_stack:
   framework: Express.js 4.x
   build_tool: npm
   package_manager: npm
-  
+
 dependencies:
   production:
     - name: express
@@ -52,10 +52,10 @@ dependencies:
     - name: zod
       version: ^3.22.4
       critical: true
-    - name: '@sigstore/sign'
+    - name: "@sigstore/sign"
       version: ^2.2.0
       critical: true
-    - name: '@sigstore/verify'
+    - name: "@sigstore/verify"
       version: ^1.0.0
       critical: true
 
@@ -66,27 +66,27 @@ governance_hooks:
       command: npm run test:compatibility
       required: true
       timeout: 5m
-    
+
     - type: security_scan
       command: npm audit --production
       required: true
       fail_on: high
-    
+
     - type: policy_simulation
       command: opa eval --data policy/manifest-policies.rego
       required: true
-      
+
   post_upgrade:
     - type: smoke_test
       command: npm run test:smoke
       required: true
       timeout: 2m
-    
+
     - type: integration_test
       command: npm run test:integration
       required: false
       timeout: 10m
-    
+
     - type: generate_sbom
       command: syft packages . -o spdx-json
       required: true
@@ -102,15 +102,15 @@ migration_hooks:
       - step: 備份現有資料
         command: scripts/backup.sh
         rollback: scripts/restore.sh
-      
+
       - step: 執行資料庫遷移
         command: npm run migrate:up
         rollback: npm run migrate:down
-      
+
       - step: 更新設定檔
         command: scripts/update-config.sh
         rollback: scripts/revert-config.sh
-    
+
     validation:
       - type: api_compatibility
         command: npm run test:api-compat
@@ -123,13 +123,13 @@ compliance:
     - SLSA Level 3
     - in-toto
     - audit-trail
-  
+
   security_requirements:
     - deterministic_builds: true
     - signed_sbom: true
     - signed_artifacts: true
     - vulnerability_scanning: true
-  
+
   audit:
     enabled: true
     retention_days: 365
@@ -142,16 +142,16 @@ policy_hints:
     cpu_limit: 500m
     memory_request: 256Mi
     memory_limit: 512Mi
-  
+
   scaling:
     min_replicas: 3
     max_replicas: 10
     target_cpu_utilization: 70
-  
+
   availability:
     slo_target: 99.9
     max_downtime_per_month: 43m
-  
+
   performance:
     response_time_p95: 100ms
     response_time_p99: 200ms
@@ -164,18 +164,18 @@ service_contracts:
       version: v1
       protocol: REST
       endpoint: /api/v1/provenance
-      
+
     - name: attestation_api
       version: v1
       protocol: REST
       endpoint: /api/v1/attestation
-  
+
   consumes:
     - name: sigstore_api
       provider: Sigstore
       required: true
       contract_ref: contracts/external-api.json#sigstore
-    
+
     - name: github_api
       provider: GitHub
       required: false
@@ -187,12 +187,12 @@ monitoring:
     enabled: true
     endpoint: /metrics
     format: prometheus
-  
+
   health_checks:
     liveness: /healthz
     readiness: /healthz
     startup: /healthz
-  
+
   logging:
     level: info
     format: json
@@ -208,7 +208,7 @@ changelog:
       - SLSA Level 3 合規
       - Sigstore 整合
       - Provenance 管理
-  
+
   - version: 0.9.0
     date: 2025-11-20
     author: platform@isynergymesh.com

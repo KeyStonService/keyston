@@ -8,7 +8,9 @@
 
 ## 📋 Overview | 概述
 
-This guide provides a quick start for using the SynergyMesh Governance Framework, a comprehensive 23-dimension governance system for enterprise AI and autonomous systems.
+This guide provides a quick start for using the SynergyMesh Governance
+Framework, a comprehensive 23-dimension governance system for enterprise AI and
+autonomous systems.
 
 本指南提供使用 SynergyMesh 治理框架的快速入門，這是一個適用於企業 AI 和自主系統的全面 23 維治理系統。
 
@@ -57,7 +59,8 @@ python tools/governance-cli.py init
 
 ### 2. Explore the 23 Dimensions
 
-The governance framework consists of 23 interconnected dimensions organized in layers:
+The governance framework consists of 23 interconnected dimensions organized in
+layers:
 
 **戰略層 | Strategic Layer (00-01)**
 
@@ -121,13 +124,13 @@ python tools/governance-cli.py report --type metrics
 
 ## 📚 Key Files | 關鍵文件
 
-| File | Purpose |
-|------|---------|
+| File                        | Purpose                               |
+| --------------------------- | ------------------------------------- |
 | `IMPLEMENTATION-ROADMAP.md` | Implementation roadmap and milestones |
-| `README.md` | Comprehensive project documentation |
-| `requirements.txt` | Python dependencies |
-| `docker-compose.yml` | Docker orchestration configuration |
-| `Makefile` | Build automation commands |
+| `README.md`                 | Comprehensive project documentation   |
+| `requirements.txt`          | Python dependencies                   |
+| `docker-compose.yml`        | Docker orchestration configuration    |
+| `Makefile`                  | Build automation commands             |
 
 ## 🔧 Common Tasks | 常見任務
 
@@ -170,7 +173,8 @@ make deploy
 
 ## 📝 License
 
-This governance framework is part of the SynergyMesh project and is licensed under the MIT License.
+This governance framework is part of the SynergyMesh project and is licensed
+under the MIT License.
 
 ---
 

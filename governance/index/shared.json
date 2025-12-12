@@ -132,16 +132,7 @@
   ],
   "dependency_injection": {
     "description": "共享資源的依賴注入配置",
-    "injection_order": [
-      "events",
-      "schemas",
-      "policies",
-      "dimensions",
-      "index",
-      "ci",
-      "scripts",
-      "packages"
-    ],
+    "injection_order": ["events", "schemas", "policies", "dimensions", "index", "ci", "scripts", "packages"],
     "lazy_load": ["packages", "scripts"],
     "eager_load": ["events", "schemas", "policies", "index"],
     "bootstrap_first": ["events"]
@@ -164,8 +155,8 @@
       "on_config_change": true
     },
     "cache_layers": [
-      {"layer": "memory", "size": "100MB", "ttl": "60s"},
-      {"layer": "disk", "size": "1GB", "ttl": "3600s"}
+      { "layer": "memory", "size": "100MB", "ttl": "60s" },
+      { "layer": "disk", "size": "1GB", "ttl": "3600s" }
     ]
   }
 }

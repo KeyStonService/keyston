@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # SonarQube服務
@@ -19,7 +19,7 @@ services:
       - postgres
     networks:
       - code-quality-network
-    
+
   # PostgreSQL數據庫
   postgres:
     image: postgres:13

@@ -4,11 +4,13 @@
 
 ### What is the SynergyMesh Governance Framework?
 
-A comprehensive 23-dimension enterprise governance system designed for AI and autonomous systems.
+A comprehensive 23-dimension enterprise governance system designed for AI and
+autonomous systems.
 
 ### Who should use this framework?
 
-Organizations implementing AI governance, enterprise architects, compliance teams, and system administrators.
+Organizations implementing AI governance, enterprise architects, compliance
+teams, and system administrators.
 
 ### How do I get started?
 

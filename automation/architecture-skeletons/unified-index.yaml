@@ -16,7 +16,7 @@ skeletons:
     name: "架構穩定性骨架 / Architecture Stability Skeleton"
     priority: "critical"
     status: "production"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/"
       files:
@@ -25,7 +25,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/architecture-stability/"
       tech_stack: ["C++", "ROS 2"]
@@ -38,13 +38,13 @@ skeletons:
         - "100Hz 控制迴圈"
         - "IMU 感測器融合"
         - "PID 控制器"
-    
+
     use_cases:
       - "設計新系統架構"
       - "劃分服務邊界"
       - "重構架構"
       - "即時控制系統"
-    
+
     key_concepts:
       - "服務邊界"
       - "模組依賴"
@@ -56,7 +56,7 @@ skeletons:
     name: "安全與可觀測性骨架 / Security & Observability Skeleton"
     priority: "critical"
     status: "production"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/security-observability/"
       files:
@@ -65,7 +65,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/security-observability/"
       tech_stack: ["Go"]
@@ -78,13 +78,13 @@ skeletons:
         - "分布式事件日誌"
         - "安全監控"
         - "追蹤 ID 支援"
-    
+
     use_cases:
       - "設計安全策略"
       - "配置監控"
       - "實現可觀測性"
       - "審計日誌"
-    
+
     key_concepts:
       - "安全機制"
       - "監控告警"
@@ -96,7 +96,7 @@ skeletons:
     name: "身份與多租戶骨架 / Identity & Tenancy Skeleton"
     priority: "critical"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/"
       files:
@@ -105,7 +105,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/identity-tenancy/"
       tech_stack: ["Python", "planned"]
@@ -116,13 +116,13 @@ skeletons:
         - "RBAC / ABAC"
         - "租戶隔離"
         - "審計追蹤"
-    
+
     use_cases:
       - "實現認證"
       - "設計授權"
       - "管理多租戶"
       - "資料分離"
-    
+
     key_concepts:
       - "認證授權"
       - "RBAC/ABAC"
@@ -134,7 +134,7 @@ skeletons:
     name: "API 治理骨架 / API Governance Skeleton"
     priority: "high"
     status: "production"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/api-governance/"
       files:
@@ -143,7 +143,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/api-governance/"
       tech_stack: ["Python"]
@@ -155,13 +155,13 @@ skeletons:
         - "API 契約驗證"
         - "循環依賴檢測"
         - "模組責任矩陣"
-    
+
     use_cases:
       - "設計 API"
       - "管理 API 生命週期"
       - "版本控制"
       - "契約驗證"
-    
+
     key_concepts:
       - "API 設計標準"
       - "版本管理"
@@ -173,7 +173,7 @@ skeletons:
     name: "資料治理骨架 / Data Governance Skeleton"
     priority: "critical"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/"
       files:
@@ -182,7 +182,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/data-governance/"
       tech_stack: ["Python", "planned"]
@@ -193,13 +193,13 @@ skeletons:
         - "資料分類"
         - "隱私合規"
         - "GDPR/CCPA"
-    
+
     use_cases:
       - "設計資料架構"
       - "處理隱私"
       - "資料治理"
       - "合規管理"
-    
+
     key_concepts:
       - "資料模式"
       - "資料分類"
@@ -211,7 +211,7 @@ skeletons:
     name: "測試治理骨架 / Testing Governance Skeleton"
     priority: "high"
     status: "production"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/"
       files:
@@ -220,7 +220,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/testing-compatibility/"
       tech_stack: ["Python", "YAML"]
@@ -234,13 +234,13 @@ skeletons:
         - "版本兼容性測試"
         - "測試報告生成"
       note: "實現目錄名稱為 testing-compatibility，建議統一為 testing-governance"
-    
+
     use_cases:
       - "設計測試計劃"
       - "改進測試流程"
       - "品質保證"
       - "兼容性測試"
-    
+
     key_concepts:
       - "測試策略"
       - "覆蓋率標準"
@@ -252,7 +252,7 @@ skeletons:
     name: "性能與可靠性骨架 / Performance & Reliability Skeleton"
     priority: "high"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/"
       files:
@@ -261,7 +261,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/performance-reliability/"
       tech_stack: ["Python", "planned"]
@@ -272,13 +272,13 @@ skeletons:
         - "容量規劃"
         - "故障恢復"
         - "災難復原"
-    
+
     use_cases:
       - "優化性能"
       - "規劃容量"
       - "設計高可用"
       - "故障處理"
-    
+
     key_concepts:
       - "SLA 目標"
       - "容量規劃"
@@ -290,7 +290,7 @@ skeletons:
     name: "成本管理骨架 / Cost Management Skeleton"
     priority: "medium"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/"
       files:
@@ -299,7 +299,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/cost-management/"
       tech_stack: ["Python", "planned"]
@@ -310,13 +310,13 @@ skeletons:
         - "預算規劃"
         - "資源優化"
         - "成本預測"
-    
+
     use_cases:
       - "成本優化"
       - "預算規劃"
       - "投資決策"
       - "資源優化"
-    
+
     key_concepts:
       - "成本監控"
       - "預算規劃"
@@ -328,7 +328,7 @@ skeletons:
     name: "文檔治理骨架 / Documentation Governance Skeleton"
     priority: "medium"
     status: "production"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/"
       files:
@@ -337,7 +337,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/docs-examples/"
       tech_stack: ["YAML", "Markdown"]
@@ -351,13 +351,13 @@ skeletons:
         - "API 文檔"
         - "快速指南"
       note: "實現目錄名稱為 docs-examples，建議統一為 docs-governance"
-    
+
     use_cases:
       - "撰寫文檔"
       - "維護知識庫"
       - "自動化文檔"
       - "標準化"
-    
+
     key_concepts:
       - "文檔標準"
       - "更新流程"
@@ -369,7 +369,7 @@ skeletons:
     name: "知識庫骨架 / Knowledge Base Skeleton"
     priority: "critical"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/"
       files:
@@ -378,7 +378,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/knowledge-base/"
       tech_stack: ["Python", "planned"]
@@ -389,13 +389,13 @@ skeletons:
         - "語義搜索"
         - "AI 上下文管理"
         - "自動更新"
-    
+
     use_cases:
       - "查詢系統知識"
       - "更新知識庫"
       - "AI 上下文"
       - "語義搜索"
-    
+
     key_concepts:
       - "知識組織"
       - "查詢介面"
@@ -407,7 +407,7 @@ skeletons:
     name: "核心編排骨架 / Nucleus Orchestrator Skeleton"
     priority: "critical"
     status: "design"
-    
+
     guide:
       path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/"
       files:
@@ -416,7 +416,7 @@ skeletons:
         - io-contract.yaml
         - guardrails.md
         - checklists.md
-    
+
     implementation:
       path: "automation/autonomous/nucleus-orchestrator/"
       tech_stack: ["Python", "planned"]
@@ -427,13 +427,13 @@ skeletons:
         - "代理協調"
         - "任務分派"
         - "狀態管理"
-    
+
     use_cases:
       - "設計工作流"
       - "協調代理"
       - "編排任務"
       - "狀態管理"
-    
+
     key_concepts:
       - "工作流編排"
       - "代理協調"
@@ -448,7 +448,7 @@ dependencies:
       - api-governance
       - data-governance
       - security-observability
-  
+
   security-observability:
     depends_on:
       - architecture-stability
@@ -456,58 +456,58 @@ dependencies:
       - identity-tenancy
       - testing-governance
       - performance-reliability
-  
+
   identity-tenancy:
     depends_on:
       - security-observability
       - data-governance
     depended_by:
       - api-governance
-  
+
   api-governance:
     depends_on:
       - architecture-stability
       - identity-tenancy
     depended_by:
       - testing-governance
-  
+
   data-governance:
     depends_on:
       - architecture-stability
     depended_by:
       - identity-tenancy
       - security-observability
-  
+
   testing-governance:
     depends_on:
       - api-governance
       - security-observability
     depended_by: []
-  
+
   performance-reliability:
     depends_on:
       - architecture-stability
       - security-observability
     depended_by:
       - cost-management
-  
+
   cost-management:
     depends_on:
       - performance-reliability
     depended_by: []
-  
+
   docs-governance:
     depends_on:
       - architecture-stability
     depended_by:
       - knowledge-base
-  
+
   knowledge-base:
     depends_on:
       - docs-governance
     depended_by:
       - nucleus-orchestrator
-  
+
   nucleus-orchestrator:
     depends_on:
       - knowledge-base
@@ -522,7 +522,7 @@ usage_guide:
     - "閱讀 guide 路徑中的指南文件"
     - "參考 implementation 路徑中的實現代碼"
     - "使用 guardrails 和 checklists 進行驗證"
-  
+
   for_engineers:
     - "根據任務類型選擇骨架"
     - "閱讀骨架的 README.md"
@@ -548,11 +548,11 @@ maintenance:
   owners:
     - name: "SynergyMesh Architecture Guild"
       contact: "governance@unmanned.island"
-  
+
   update_frequency: "quarterly"
   last_review: "2025-12-05"
   next_review: "2026-03-05"
-  
+
   related_files:
     - "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/skeletons-index.yaml"
     - "automation/autonomous/README.md"

@@ -34,17 +34,17 @@ metadata:
   namespace: autofix-bot
 spec:
   limits:
-  - max:
-      cpu: "4"
-      memory: "8Gi"
-    min:
-      cpu: "100m"
-      memory: "128Mi"
-    type: Container
-  - max:
-      cpu: "8"
-      memory: "16Gi"
-    min:
-      cpu: "200m"
-      memory: "256Mi"
-    type: Pod
+    - max:
+        cpu: "4"
+        memory: "8Gi"
+      min:
+        cpu: "100m"
+        memory: "128Mi"
+      type: Container
+    - max:
+        cpu: "8"
+        memory: "16Gi"
+      min:
+        cpu: "200m"
+        memory: "256Mi"
+      type: Pod

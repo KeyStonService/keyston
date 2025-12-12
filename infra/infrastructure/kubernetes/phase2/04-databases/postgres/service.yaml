@@ -12,11 +12,11 @@ metadata:
     tier: database
 spec:
   type: ClusterIP
-  clusterIP: None  # Headless service
+  clusterIP: None # Headless service
   ports:
-  - port: 5432
-    targetPort: 5432
-    protocol: TCP
-    name: postgresql
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+      name: postgresql
   selector:
     app: postgres

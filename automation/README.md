@@ -2,9 +2,12 @@
 
 ## 概述 / Overview
 
-`automation/` 目錄包含所有自動化邏輯，從智能自動化、自主系統、建築分析到超自動化策略。
+`automation/`
+目錄包含所有自動化邏輯，從智能自動化、自主系統、建築分析到超自動化策略。
 
-The `automation/` directory contains all automation logic, from intelligent automation, autonomous systems, architectural analysis to hyperautomation strategies.
+The `automation/` directory contains all automation logic, from intelligent
+automation, autonomous systems, architectural analysis to hyperautomation
+strategies.
 
 ---
 

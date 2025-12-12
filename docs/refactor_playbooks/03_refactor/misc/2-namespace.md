@@ -18,11 +18,11 @@
 - 不同語言與平台的命名特色
 - 建立個人命名習慣
 
-### 第二階段：工具與平台 (第3-4週)  
+### 第二階段：工具與平台 (第3-4週)
 
 - Git 版本控制命名
 - Docker 容器化命名
-- Kubernetes 雲原生命名  
+- Kubernetes 雲原生命名
 - CI/CD 自動化命名
 
 ### 第三階段：企業級實戰 (第5-6週)
@@ -41,7 +41,7 @@
 1.1 什麼是命名規範？為什麼重要？  
 1.2 命名規範的核心原則  
 1.3 常見的命名災難與解決方案  
-1.4 不同領域的命名特色分析  
+1.4 不同領域的命名特色分析
 
 ### 第二章：程式設計語言命名
 
@@ -130,7 +130,7 @@
 d1 = getUserData()
 tmp = calcPrice(d1)
 
-# ✅ 良好的命名  
+# ✅ 良好的命名
 user_profile = get_user_profile()
 final_price = calculate_discounted_price(user_profile)
 ```
@@ -243,7 +243,7 @@ bool isActive;
 # ❌ 文化特定命名
 git branch feature/lunar-new-year-sale
 
-# ✅ 通用命名  
+# ✅ 通用命名
 git branch feature/seasonal-promotion-q1
 ```
 
@@ -274,7 +274,7 @@ type UserService interface {
 
 // 資料庫表格命名
 users
-user_profiles  
+user_profiles
 user_authentication_tokens
 ```
 
@@ -315,14 +315,14 @@ metadata:
 
 #### 命名風格對照表
 
-| 語言 | 變數/函數 | 類別/結構 | 常數 | 檔案名稱 |
-|------|-----------|-----------|------|----------|
-| Go | camelCase | PascalCase | UPPER_SNAKE | snake_case.go |
-| JavaScript | camelCase | PascalCase | UPPER_SNAKE | kebab-case.js |
-| Python | snake_case | PascalCase | UPPER_SNAKE | snake_case.py |
-| Java | camelCase | PascalCase | UPPER_SNAKE | PascalCase.java |
-| C# | camelCase | PascalCase | PascalCase | PascalCase.cs |
-| Rust | snake_case | PascalCase | UPPER_SNAKE | snake_case.rs |
+| 語言       | 變數/函數  | 類別/結構  | 常數        | 檔案名稱        |
+| ---------- | ---------- | ---------- | ----------- | --------------- |
+| Go         | camelCase  | PascalCase | UPPER_SNAKE | snake_case.go   |
+| JavaScript | camelCase  | PascalCase | UPPER_SNAKE | kebab-case.js   |
+| Python     | snake_case | PascalCase | UPPER_SNAKE | snake_case.py   |
+| Java       | camelCase  | PascalCase | UPPER_SNAKE | PascalCase.java |
+| C#         | camelCase  | PascalCase | PascalCase  | PascalCase.cs   |
+| Rust       | snake_case | PascalCase | UPPER_SNAKE | snake_case.rs   |
 
 ### 2.2 Go 語言命名最佳實踐
 
@@ -361,7 +361,7 @@ func (r *userRepository) CreateUser(ctx context.Context, user *UserProfile) erro
     // 區域變數使用 camelCase，首字母小寫
     currentTime := time.Now()
     user.CreatedAt = currentTime
-    
+
     return nil
 }
 ```
@@ -400,49 +400,49 @@ const API_BASE_URL = 'https://api.example.com';
 const DEFAULT_TIMEOUT = 5000;
 
 class UserService {
-    constructor(apiClient) {
-        this.apiClient = apiClient;
-        this._cache = new Map(); // 私有屬性前綴 _
+  constructor(apiClient) {
+    this.apiClient = apiClient;
+    this._cache = new Map(); // 私有屬性前綴 _
+  }
+
+  async getUserProfile(userId) {
+    // 使用 camelCase
+    const cacheKey = `user_${userId}`;
+
+    if (this._cache.has(cacheKey)) {
+      return this._cache.get(cacheKey);
     }
-    
-    async getUserProfile(userId) {
-        // 使用 camelCase
-        const cacheKey = `user_${userId}`;
-        
-        if (this._cache.has(cacheKey)) {
-            return this._cache.get(cacheKey);
-        }
-        
-        try {
-            const userProfile = await this.apiClient.get(`/users/${userId}`);
-            this._cache.set(cacheKey, userProfile);
-            return userProfile;
-        } catch (error) {
-            throw new Error(`Failed to fetch user profile: ${error.message}`);
-        }
+
+    try {
+      const userProfile = await this.apiClient.get(`/users/${userId}`);
+      this._cache.set(cacheKey, userProfile);
+      return userProfile;
+    } catch (error) {
+      throw new Error(`Failed to fetch user profile: ${error.message}`);
     }
-    
-    // 事件處理函數以 handle 開頭
-    handleUserLogin(loginData) {
-        return this.validateAndProcessLogin(loginData);
-    }
-    
-    // 布林值函數以 is/has/can 開頭
-    isUserActive(user) {
-        return user.status === 'active' && user.lastLoginAt > Date.now() - 86400000;
-    }
+  }
+
+  // 事件處理函數以 handle 開頭
+  handleUserLogin(loginData) {
+    return this.validateAndProcessLogin(loginData);
+  }
+
+  // 布林值函數以 is/has/can 開頭
+  isUserActive(user) {
+    return user.status === 'active' && user.lastLoginAt > Date.now() - 86400000;
+  }
 }
 
 // 工廠函數以 create 開頭
 function createUserService(apiClient) {
-    return new UserService(apiClient);
+  return new UserService(apiClient);
 }
 
 // 高階函數使用動詞 + 名詞
 const withAuthentication = (component) => {
-    return (props) => {
-        // HOC 實作
-    };
+  return (props) => {
+    // HOC 實作
+  };
 };
 ```
 
@@ -451,11 +451,11 @@ const withAuthentication = (component) => {
 ```typescript
 // ✅ TypeScript 命名最佳實踐
 interface UserProfile {
-    readonly id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    isActive: boolean;
+  readonly id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
 }
 
 // 型別別名使用 PascalCase
@@ -464,21 +464,25 @@ type CreateUserRequest = Omit<UserProfile, 'id'>;
 
 // 泛型參數使用單個大寫字母
 interface Repository<T, K = string> {
-    findById(id: K): Promise<T | null>;
-    save(entity: T): Promise<T>;
+  findById(id: K): Promise<T | null>;
+  save(entity: T): Promise<T>;
 }
 
 // 裝飾器使用 camelCase
-function logExecutionTime(target: any, propertyName: string, descriptor: PropertyDescriptor) {
-    // 裝飾器實作
+function logExecutionTime(
+  target: any,
+  propertyName: string,
+  descriptor: PropertyDescriptor
+) {
+  // 裝飾器實作
 }
 
 class UserRepository implements Repository<UserProfile> {
-    @logExecutionTime
-    async findById(id: string): Promise<UserProfile | null> {
-        // 實作
-        return null;
-    }
+  @logExecutionTime
+  async findById(id: string): Promise<UserProfile | null> {
+    // 實作
+    return null;
+  }
 }
 ```
 
@@ -500,27 +504,27 @@ MAX_RETRY_ATTEMPTS = 3
 
 class UserService:
     """使用者服務類別 - 類別名稱使用 PascalCase"""
-    
+
     def __init__(self, api_client):
         self.api_client = api_client
         self._cache = {}  # 私有屬性以底線開頭
         self.__secret_key = None  # 名稱修飾使用雙底線
-    
+
     def get_user_profile(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         獲取使用者資料 - 函數名稱使用 snake_case
-        
+
         Args:
             user_id: 使用者 ID
-            
+
         Returns:
             使用者資料字典或 None
         """
         cache_key = f"user_{user_id}"
-        
+
         if cache_key in self._cache:
             return self._cache[cache_key]
-            
+
         try:
             user_profile = self.api_client.get(f"/users/{user_id}")
             self._cache[cache_key] = user_profile
@@ -528,14 +532,14 @@ class UserService:
         except Exception as error:
             logger.error(f"Failed to fetch user profile: {error}")
             return None
-    
+
     def is_user_active(self, user: Dict[str, Any]) -> bool:
         """布林函數以 is_ 開頭"""
         return (
-            user.get('status') == 'active' 
+            user.get('status') == 'active'
             and user.get('last_login_at', 0) > datetime.now().timestamp() - 86400
         )
-    
+
     @staticmethod
     def validate_email(email: str) -> bool:
         """靜態方法使用 snake_case"""
@@ -609,17 +613,17 @@ CREATE INDEX idx_user_profiles_active_created ON user_profiles(is_active, create
 // ❌ 需要改進
 var u = {};
 function getdata(i) {
-    return DB.find(i);
+  return DB.find(i);
 }
 class usrmgr {
-    delUsr(id) {}
+  delUsr(id) {}
 }
 ```
 
 **Python:**
 
 ```python
-# ❌ 需要改進  
+# ❌ 需要改進
 def GetUserData(ID):
     return db.Find(ID)
 
@@ -743,16 +747,16 @@ module.exports = {
       2,
       'always',
       [
-        'feat',     // 新功能
-        'fix',      // 錯誤修復
-        'docs',     // 文件更新
-        'style',    // 程式碼格式調整
+        'feat', // 新功能
+        'fix', // 錯誤修復
+        'docs', // 文件更新
+        'style', // 程式碼格式調整
         'refactor', // 重構
-        'perf',     // 效能優化
-        'test',     // 增加測試
-        'chore',    // 建置或輔助工具變動
-        'revert',   // 撤銷先前的 commit
-        'ci',       // CI 相關變動
+        'perf', // 效能優化
+        'test', // 增加測試
+        'chore', // 建置或輔助工具變動
+        'revert', // 撤銷先前的 commit
+        'ci', // CI 相關變動
       ],
     ],
     'subject-max-length': [2, 'always', 100],
@@ -773,7 +777,7 @@ module.exports = {
 # 正式版本
 v1.0.0          # 初始版本
 v1.0.1          # 修復版本（向後相容）
-v1.1.0          # 功能版本（向後相容）  
+v1.1.0          # 功能版本（向後相容）
 v2.0.0          # 主要版本（可能不向後相容）
 
 # 預發布版本
@@ -797,7 +801,7 @@ git tag -a v1.0.0 -m "Release version 1.0.0
 
 Features:
 - User authentication system
-- Payment integration  
+- Payment integration
 - Mobile responsive design
 
 Bug fixes:
@@ -823,7 +827,7 @@ git show v1.0.0
 [FEAT] Add user profile editing functionality (#123)
 [FEAT] Implement real-time notifications (#456)
 
-# 修復 PR  
+# 修復 PR
 [FIX] Resolve login session timeout issue (#789)
 [HOTFIX] Critical security patch for XSS vulnerability (#999)
 
@@ -845,7 +849,7 @@ git show v1.0.0
 [CRITICAL] Data corruption in user profiles table
 
 # 功能請求
-[FEATURE] Add export functionality to user dashboard  
+[FEATURE] Add export functionality to user dashboard
 [ENHANCEMENT] Improve loading performance on mobile devices
 [FEATURE REQUEST] Integration with third-party analytics
 
@@ -867,26 +871,32 @@ assignees: ''
 ---
 
 ## 🐛 Bug Description
+
 A clear and concise description of what the bug is.
 
 ## 🔄 Steps to Reproduce
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
 ## ✅ Expected Behavior
+
 A clear and concise description of what you expected to happen.
 
 ## 📸 Screenshots
+
 If applicable, add screenshots to help explain your problem.
 
 ## 🌍 Environment
+
 - OS: [e.g. iOS]
 - Browser: [e.g. chrome, safari]
 - Version: [e.g. 22]
 
 ## 📝 Additional Context
+
 Add any other context about the problem here.
 ```
 
@@ -927,7 +937,7 @@ Kubernetes 資源命名必須遵循 DNS-1123 標準：
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-auth-api-prod          # 服務-用途-環境
+  name: user-auth-api-prod # 服務-用途-環境
   namespace: authentication-services
   labels:
     app: user-auth-api
@@ -943,7 +953,7 @@ spec:
       environment: production
   template:
     metadata:
-      name: user-auth-api-pod       # Pod 名稱模板
+      name: user-auth-api-pod # Pod 名稱模板
       labels:
         app: user-auth-api
         component: backend
@@ -958,7 +968,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-auth-api-svc           # 服務名稱 + svc 後綴
+  name: user-auth-api-svc # 服務名稱 + svc 後綴
   namespace: authentication-services
   labels:
     app: user-auth-api
@@ -967,34 +977,34 @@ spec:
   selector:
     app: user-auth-api
   ports:
-  - name: http-api                  # 連接埠名稱要有意義
-    port: 80
-    targetPort: 8080
-  - name: health-check
-    port: 8081
-    targetPort: 8081
+    - name: http-api # 連接埠名稱要有意義
+      port: 80
+      targetPort: 8080
+    - name: health-check
+      port: 8081
+      targetPort: 8081
 
 ---
 # Ingress 命名規範
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: user-auth-api-ingress       # 服務名稱 + ingress 後綴
+  name: user-auth-api-ingress # 服務名稱 + ingress 後綴
   namespace: authentication-services
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: auth-api.production.example.com    # 環境.服務.網域
-    http:
-      paths:
-      - path: /api/v1/auth
-        pathType: Prefix
-        backend:
-          service:
-            name: user-auth-api-svc
-            port:
-              number: 80
+    - host: auth-api.production.example.com # 環境.服務.網域
+      http:
+        paths:
+          - path: /api/v1/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: user-auth-api-svc
+                port:
+                  number: 80
 ```
 
 #### ConfigMap 與 Secret 命名
@@ -1004,19 +1014,19 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: user-auth-api-config        # 服務名稱 + config 後綴
+  name: user-auth-api-config # 服務名稱 + config 後綴
   namespace: authentication-services
 data:
-  app.env: "production"
-  log.level: "info"
-  database.host: "postgres.internal.example.com"
+  app.env: 'production'
+  log.level: 'info'
+  database.host: 'postgres.internal.example.com'
 
 ---
 # Secret 命名
 apiVersion: v1
 kind: Secret
 metadata:
-  name: user-auth-api-secrets       # 服務名稱 + secrets 後綴
+  name: user-auth-api-secrets # 服務名稱 + secrets 後綴
   namespace: authentication-services
 type: Opaque
 data:
@@ -1229,7 +1239,7 @@ user_service_cpu_usage_percent
 
 #### GitHub Actions Workflow 命名
 
-```yaml
+````yaml
 # .github/workflows/user-service-ci-cd.yml
 name: User Service CI/CD Pipeline
 
@@ -1248,16 +1258,16 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-      
+
       - name: Install Dependencies
         run: npm ci
-      
+
       - name: Run Unit Tests with Coverage
         run: npm run test:coverage
 
@@ -1277,20 +1287,20 @@ jobs:
 // Jenkinsfile
 pipeline {
     agent any
-    
+
     environment {
         DOCKER_REGISTRY = 'registry.company.com'
         IMAGE_NAME = 'platform/user-auth-api'
         KUBECONFIG_CREDENTIAL = 'k8s-prod-config'
     }
-    
+
     stages {
         stage('Checkout Source Code') {
             steps {
                 checkout scm
             }
         }
-        
+
         stage('Run Code Quality Checks') {
             parallel {
                 stage('ESLint Code Analysis') {
@@ -1305,7 +1315,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Execute Unit Tests') {
             steps {
                 sh 'npm run test:unit'
@@ -1317,7 +1327,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -1326,7 +1336,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy to Staging Environment') {
             when {
                 branch 'develop'
@@ -1335,7 +1345,7 @@ pipeline {
                 sh './scripts/deploy-to-staging.sh'
             }
         }
-        
+
         stage('Deploy to Production Environment') {
             when {
                 branch 'main'
@@ -1346,7 +1356,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         failure {
             slackSend(
@@ -1364,7 +1374,7 @@ pipeline {
         }
     }
 }
-```
+````
 
 #### GitLab CI/CD Pipeline 命名
 
@@ -1454,7 +1464,8 @@ deploy-to-staging:
   image: kubectl:latest
   script:
     - kubectl config use-context staging-cluster
-    - kubectl set image deployment/user-auth-api-staging user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - kubectl set image deployment/user-auth-api-staging
+      user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - kubectl rollout status deployment/user-auth-api-staging
   environment:
     name: staging
@@ -1467,7 +1478,8 @@ deploy-to-production:
   image: kubectl:latest
   script:
     - kubectl config use-context production-cluster
-    - kubectl set image deployment/user-auth-api-prod user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - kubectl set image deployment/user-auth-api-prod
+      user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - kubectl rollout status deployment/user-auth-api-prod
   environment:
     name: production
@@ -1489,7 +1501,7 @@ resource "aws_vpc" "main_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  
+
   tags = {
     Name        = "vpc-user-service-prod"
     Environment = "production"
@@ -1503,9 +1515,9 @@ resource "aws_subnet" "public_subnet_1a" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "us-west-2a"
-  
+
   map_public_ip_on_launch = true
-  
+
   tags = {
     Name = "subnet-public-1a-user-service-prod"
     Type = "public"
@@ -1517,7 +1529,7 @@ resource "aws_subnet" "private_subnet_1a" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.10.0/24"
   availability_zone = "us-west-2a"
-  
+
   tags = {
     Name = "subnet-private-1a-user-service-prod"
     Type = "private"
@@ -1530,7 +1542,7 @@ resource "aws_security_group" "web_server_sg" {
   name_prefix = "sg-web-server-"
   description = "Security group for web servers"
   vpc_id      = aws_vpc.main_vpc.id
-  
+
   ingress {
     description = "HTTPS traffic"
     from_port   = 443
@@ -1538,7 +1550,7 @@ resource "aws_security_group" "web_server_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     description = "HTTP traffic"
     from_port   = 80
@@ -1546,14 +1558,14 @@ resource "aws_security_group" "web_server_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   tags = {
     Name = "sg-web-server-user-service-prod"
   }
@@ -1562,15 +1574,15 @@ resource "aws_security_group" "web_server_sg" {
 # EC2 Instance 命名
 resource "aws_instance" "web_server" {
   count = 2
-  
+
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t3.medium"
-  
+
   subnet_id              = aws_subnet.public_subnet_1a.id
   vpc_security_group_ids = [aws_security_group.web_server_sg.id]
-  
+
   user_data = file("${path.module}/scripts/install-web-server.sh")
-  
+
   tags = {
     Name = "ec2-web-server-${count.index + 1}-user-service-prod"
     Role = "web-server"
@@ -1581,30 +1593,30 @@ resource "aws_instance" "web_server" {
 # RDS Instance 命名
 resource "aws_db_instance" "postgres_primary" {
   identifier = "rds-postgres-user-service-prod-primary"
-  
+
   engine         = "postgres"
   engine_version = "15.3"
   instance_class = "db.t3.medium"
-  
+
   allocated_storage     = 100
   max_allocated_storage = 1000
   storage_type         = "gp2"
   storage_encrypted    = true
-  
+
   db_name  = "userservice"
   username = "dbadmin"
   password = var.db_password
-  
+
   vpc_security_group_ids = [aws_security_group.database_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.main.name
-  
+
   backup_retention_period = 7
   backup_window          = "03:00-04:00"
   maintenance_window     = "sun:04:00-sun:05:00"
-  
+
   skip_final_snapshot = false
   final_snapshot_identifier = "rds-postgres-user-service-prod-final-snapshot"
-  
+
   tags = {
     Name = "rds-postgres-user-service-prod-primary"
   }
@@ -1617,9 +1629,9 @@ resource "aws_lb" "application_load_balancer" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.public_subnet_1a.id, aws_subnet.public_subnet_1b.id]
-  
+
   enable_deletion_protection = true
-  
+
   tags = {
     Name = "alb-user-service-prod"
   }
@@ -1628,7 +1640,7 @@ resource "aws_lb" "application_load_balancer" {
 # S3 Bucket 命名
 resource "aws_s3_bucket" "user_uploads" {
   bucket = "company-user-uploads-prod-${random_string.bucket_suffix.result}"
-  
+
   tags = {
     Name        = "s3-user-uploads-prod"
     Purpose     = "user-file-storage"
@@ -1645,7 +1657,7 @@ resource "random_string" "bucket_suffix" {
 
 #### Ansible Playbook 命名
 
-```yaml
+````yaml
 # playbooks/deploy-user-service.yml
 ---
 - name: Deploy User Service to Production Servers
@@ -1659,20 +1671,20 @@ resource "random_string" "bucket_suffix" {
 // Jenkinsfile
 pipeline {
     agent any
-    
+
     environment {
         DOCKER_REGISTRY = 'registry.company.com'
         IMAGE_NAME = 'platform/user-auth-api'
         KUBECONFIG_CREDENTIAL = 'k8s-prod-config'
     }
-    
+
     stages {
         stage('Checkout Source Code') {
             steps {
                 checkout scm
             }
         }
-        
+
         stage('Run Code Quality Checks') {
             parallel {
                 stage('ESLint Code Analysis') {
@@ -1687,7 +1699,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Execute Unit Tests') {
             steps {
                 sh 'npm run test:unit'
@@ -1699,7 +1711,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -1708,7 +1720,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy to Staging Environment') {
             when {
                 branch 'develop'
@@ -1717,7 +1729,7 @@ pipeline {
                 sh './scripts/deploy-to-staging.sh'
             }
         }
-        
+
         stage('Deploy to Production Environment') {
             when {
                 branch 'main'
@@ -1728,7 +1740,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         failure {
             slackSend(
@@ -1746,7 +1758,7 @@ pipeline {
         }
     }
 }
-```
+````
 
 #### GitLab CI/CD Pipeline 命名
 
@@ -1836,7 +1848,8 @@ deploy-to-staging:
   image: kubectl:latest
   script:
     - kubectl config use-context staging-cluster
-    - kubectl set image deployment/user-auth-api-staging user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - kubectl set image deployment/user-auth-api-staging
+      user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - kubectl rollout status deployment/user-auth-api-staging
   environment:
     name: staging
@@ -1849,7 +1862,8 @@ deploy-to-production:
   image: kubectl:latest
   script:
     - kubectl config use-context production-cluster
-    - kubectl set image deployment/user-auth-api-prod user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - kubectl set image deployment/user-auth-api-prod
+      user-auth-api=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - kubectl rollout status deployment/user-auth-api-prod
   environment:
     name: production
@@ -1871,7 +1885,7 @@ resource "aws_vpc" "main_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  
+
   tags = {
     Name        = "vpc-user-service-prod"
     Environment = "production"
@@ -1885,9 +1899,9 @@ resource "aws_subnet" "public_subnet_1a" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "us-west-2a"
-  
+
   map_public_ip_on_launch = true
-  
+
   tags = {
     Name = "subnet-public-1a-user-service-prod"
     Type = "public"
@@ -1899,7 +1913,7 @@ resource "aws_subnet" "private_subnet_1a" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = "10.0.10.0/24"
   availability_zone = "us-west-2a"
-  
+
   tags = {
     Name = "subnet-private-1a-user-service-prod"
     Type = "private"
@@ -1912,7 +1926,7 @@ resource "aws_security_group" "web_server_sg" {
   name_prefix = "sg-web-server-"
   description = "Security group for web servers"
   vpc_id      = aws_vpc.main_vpc.id
-  
+
   ingress {
     description = "HTTPS traffic"
     from_port   = 443
@@ -1920,7 +1934,7 @@ resource "aws_security_group" "web_server_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     description = "HTTP traffic"
     from_port   = 80
@@ -1928,14 +1942,14 @@ resource "aws_security_group" "web_server_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   tags = {
     Name = "sg-web-server-user-service-prod"
   }
@@ -1944,15 +1958,15 @@ resource "aws_security_group" "web_server_sg" {
 # EC2 Instance 命名
 resource "aws_instance" "web_server" {
   count = 2
-  
+
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t3.medium"
-  
+
   subnet_id              = aws_subnet.public_subnet_1a.id
   vpc_security_group_ids = [aws_security_group.web_server_sg.id]
-  
+
   user_data = file("${path.module}/scripts/install-web-server.sh")
-  
+
   tags = {
     Name = "ec2-web-server-${count.index + 1}-user-service-prod"
     Role = "web-server"
@@ -1963,30 +1977,30 @@ resource "aws_instance" "web_server" {
 # RDS Instance 命名
 resource "aws_db_instance" "postgres_primary" {
   identifier = "rds-postgres-user-service-prod-primary"
-  
+
   engine         = "postgres"
   engine_version = "15.3"
   instance_class = "db.t3.medium"
-  
+
   allocated_storage     = 100
   max_allocated_storage = 1000
   storage_type         = "gp2"
   storage_encrypted    = true
-  
+
   db_name  = "userservice"
   username = "dbadmin"
   password = var.db_password
-  
+
   vpc_security_group_ids = [aws_security_group.database_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.main.name
-  
+
   backup_retention_period = 7
   backup_window          = "03:00-04:00"
   maintenance_window     = "sun:04:00-sun:05:00"
-  
+
   skip_final_snapshot = false
   final_snapshot_identifier = "rds-postgres-user-service-prod-final-snapshot"
-  
+
   tags = {
     Name = "rds-postgres-user-service-prod-primary"
   }
@@ -1999,9 +2013,9 @@ resource "aws_lb" "application_load_balancer" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.public_subnet_1a.id, aws_subnet.public_subnet_1b.id]
-  
+
   enable_deletion_protection = true
-  
+
   tags = {
     Name = "alb-user-service-prod"
   }
@@ -2010,7 +2024,7 @@ resource "aws_lb" "application_load_balancer" {
 # S3 Bucket 命名
 resource "aws_s3_bucket" "user_uploads" {
   bucket = "company-user-uploads-prod-${random_string.bucket_suffix.result}"
-  
+
   tags = {
     Name        = "s3-user-uploads-prod"
     Purpose     = "user-file-storage"
@@ -2027,7 +2041,7 @@ resource "random_string" "bucket_suffix" {
 
 #### Ansible Playbook 命名
 
-```yaml
+````yaml
 # playbooks/deploy-user-service.yml
 ---
 - name: Deploy
@@ -2045,7 +2059,7 @@ resource "random_string" "bucket_suffix" {
     service_name: user-auth-api
     service_version: "{{ ansible_service_version | default('latest') }}"
     deployment_environment: production
-    
+
   tasks:
     - name: Create service directory structure
       file:
@@ -2054,7 +2068,7 @@ resource "random_string" "bucket_suffix" {
         owner: app
         group: app
         mode: '0755'
-    
+
     - name: Download service configuration files
       template:
         src: "{{ item.src }}"
@@ -2065,13 +2079,13 @@ resource "random_string" "bucket_suffix" {
       loop:
         - { src: 'config.production.yml.j2', dest: 'config.yml' }
         - { src: 'docker-compose.yml.j2', dest: 'docker-compose.yml' }
-    
+
     - name: Pull latest docker image
       docker_image:
         name: "registry.company.com/platform/{{ service_name }}"
         tag: "{{ service_version }}"
         source: pull
-    
+
     - name: Start service containers
       docker_compose:
         project_src: "/opt/{{ service_name }}"
@@ -2089,18 +2103,18 @@ resource "random_string" "bucket_suffix" {
   vars:
     prometheus_version: "2.40.0"
     grafana_version: "9.3.0"
-    
+
   roles:
     - role: prometheus-server
       vars:
         prometheus_config_file: prometheus.production.yml
         prometheus_data_dir: /opt/prometheus/data
-    
+
     - role: grafana-server
       vars:
         grafana_config_file: grafana.production.ini
         grafana_data_dir: /opt/grafana/data
-```
+````
 
 #### Helm Chart 命名
 
@@ -2325,12 +2339,12 @@ metadata:
   name: user-service-dr-plan
   namespace: disaster-recovery
 data:
-  recovery-time-objective: "4h"
-  recovery-point-objective: "1h"
-  primary-region: "us-west-2"
-  secondary-region: "us-east-1"
-  backup-schedule: "0 3 * * *"  # 每日凌晨 3 點
-  
+  recovery-time-objective: '4h'
+  recovery-point-objective: '1h'
+  primary-region: 'us-west-2'
+  secondary-region: 'us-east-1'
+  backup-schedule: '0 3 * * *' # 每日凌晨 3 點
+
   restoration-steps: |
     1. Verify secondary region infrastructure
     2. Restore database from latest backup
@@ -2360,7 +2374,7 @@ nacl-database-subnet-prod         # 資料庫子網路 ACL
 
 #### 憑證與金鑰管理命名
 
-```bash
+````bash
 # SSL/TLS 憑證命名
 cert-api-company-com-prod         # API 域名憑證
 cert-admin-company-com-prod       # 管理介
@@ -2378,7 +2392,7 @@ cert-admin-company-com-prod       # 管理介
     service_name: user-auth-api
     service_version: "{{ ansible_service_version | default('latest') }}"
     deployment_environment: production
-    
+
   tasks:
     - name: Create service directory structure
       file:
@@ -2387,7 +2401,7 @@ cert-admin-company-com-prod       # 管理介
         owner: app
         group: app
         mode: '0755'
-    
+
     - name: Download service configuration files
       template:
         src: "{{ item.src }}"
@@ -2398,13 +2412,13 @@ cert-admin-company-com-prod       # 管理介
       loop:
         - { src: 'config.production.yml.j2', dest: 'config.yml' }
         - { src: 'docker-compose.yml.j2', dest: 'docker-compose.yml' }
-    
+
     - name: Pull latest docker image
       docker_image:
         name: "registry.company.com/platform/{{ service_name }}"
         tag: "{{ service_version }}"
         source: pull
-    
+
     - name: Start service containers
       docker_compose:
         project_src: "/opt/{{ service_name }}"
@@ -2422,18 +2436,18 @@ cert-admin-company-com-prod       # 管理介
   vars:
     prometheus_version: "2.40.0"
     grafana_version: "9.3.0"
-    
+
   roles:
     - role: prometheus-server
       vars:
         prometheus_config_file: prometheus.production.yml
         prometheus_data_dir: /opt/prometheus/data
-    
+
     - role: grafana-server
       vars:
         grafana_config_file: grafana.production.ini
         grafana_data_dir: /opt/grafana/data
-```
+````
 
 #### Helm Chart 命名
 
@@ -2444,7 +2458,7 @@ name: user-service
 description: User authentication and management service
 type: application
 version: 1.2.3
-appVersion: "v1.2.3"
+appVersion: 'v1.2.3'
 keywords:
   - authentication
   - user-management
@@ -2458,13 +2472,13 @@ maintainers:
 
 # charts/user-service/values.yaml
 # 預設值配置
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 image:
   repository: registry.company.com/platform/user-auth-api
   pullPolicy: IfNotPresent
-  tag: "v1.2.3"
+  tag: 'v1.2.3'
 
 service:
   type: ClusterIP
@@ -2474,10 +2488,10 @@ service:
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: 'nginx'
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
   hosts:
     - host: api.company.com
       paths:
@@ -2611,12 +2625,12 @@ metadata:
   name: user-service-dr-plan
   namespace: disaster-recovery
 data:
-  recovery-time-objective: "4h"
-  recovery-point-objective: "1h"
-  primary-region: "us-west-2"
-  secondary-region: "us-east-1"
-  backup-schedule: "0 3 * * *"  # 每日凌晨 3 點
-  
+  recovery-time-objective: '4h'
+  recovery-point-objective: '1h'
+  primary-region: 'us-west-2'
+  secondary-region: 'us-east-1'
+  backup-schedule: '0 3 * * *' # 每日凌晨 3 點
+
   restoration-steps: |
     1. Verify secondary region infrastructure
     2. Restore database from latest backup
@@ -2673,7 +2687,8 @@ secret-user-service-jwt-signing-key-prod
 
 ### 5.1 IaC 命名原則與重要性
 
-在現代 DevOps 實踐中，「基礎設施即程式碼（Infrastructure as Code, IaC）」已成為管理與部署雲端基礎設施的標準手段。IaC 使得基礎設施的定義、部署和變更都能像傳統應用程式碼一樣，接受版本控制、審查、重複執行與自動化部署[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ithelp.ithome.com.tw/articles/10387507?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")。然而，隨著 IaC 規模擴大，資源命名不當會導致資源混淆、權限配置錯誤、狀態檔案損毀等嚴重後果。因此，命名規範直接影響到自動化與基礎設施的可維護性。
+在現代 DevOps 實踐中，「基礎設施即程式碼（Infrastructure as Code,
+IaC）」已成為管理與部署雲端基礎設施的標準手段。IaC 使得基礎設施的定義、部署和變更都能像傳統應用程式碼一樣，接受版本控制、審查、重複執行與自動化部署[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ithelp.ithome.com.tw/articles/10387507?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '1')。然而，隨著 IaC 規模擴大，資源命名不當會導致資源混淆、權限配置錯誤、狀態檔案損毀等嚴重後果。因此，命名規範直接影響到自動化與基礎設施的可維護性。
 
 一套良好的命名規範須兼顧以下原則：
 
@@ -2683,24 +2698,26 @@ secret-user-service-jwt-signing-key-prod
 - **可擴充性與可適應性**：預留必要的維度（如專案、環境、層級等），便於組織未來擴增。
 - **可自動化性**：便於自動化腳本處理、校驗或生成。
 
-針對實務，知名開發者 Devin Liu 在 HackMD 章節中推薦類別、屬性、常數等均以 PascalCase 命名，參數與欄位採用 camelCase，資料庫與底層資源可用 snake_case，而網址等場合則採 kebab-case，以便與現代語言和工具鏈一致。
+針對實務，知名開發者 Devin
+Liu 在 HackMD 章節中推薦類別、屬性、常數等均以 PascalCase 命名，參數與欄位採用 camelCase，資料庫與底層資源可用 snake_case，而網址等場合則採 kebab-case，以便與現代語言和工具鏈一致。
 
 ### 5.2 Terraform 資源與模組命名慣例
 
-Terraform 廣泛用於跨雲端平台的 IaC。有效的命名慣例可降低重構、環境隔離及多團隊協作的風險[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.terraform-best-practices.com/zh/naming?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/gitblog_00673/article/details/151257639?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")。
+Terraform 廣泛用於跨雲端平台的 IaC。有效的命名慣例可降低重構、環境隔離及多團隊協作的風險[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.terraform-best-practices.com/zh/naming?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '2')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/gitblog_00673/article/details/151257639?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '3')。
 
 **Terraform 命名實踐建議**：
 
 - **資源塊名稱（Resource Name）**：
   - 格式：`resource "<provider>_<type>" "<logical_name>" { ... }`
   - `<provider>_<type>`一律用小寫底線，如`aws_s3_bucket`。
-  - `<logical_name>`可用 single, plural, concise，建議不可冗餘（如`public`、`db`、`web` 而非`public_s3_bucket`）。
+  - `<logical_name>`可用 single, plural,
+    concise，建議不可冗餘（如`public`、`db`、`web` 而非`public_s3_bucket`）。
   - **範例**：
 
-      ```hcl
-      resource "aws_route_table" "public" { ... }
-      resource "aws_nat_gateway" "this" { ... }
-      ```
+    ```hcl
+    resource "aws_route_table" "public" { ... }
+    resource "aws_nat_gateway" "this" { ... }
+    ```
 
 - **變數/輸出/資料源命名**：
   - 變數名若型別為 list/map 要用複數。
@@ -2711,9 +2728,9 @@ Terraform 廣泛用於跨雲端平台的 IaC。有效的命名慣例可降低重
   - AWS 支援時，統一在 blocks 最後，用 Name 與更具備分群、清理便捷性之標籤（可 include 環境、功能）。
   - 範例：
 
-      ```hcl
-      tags = { Name = "web-prod-api" }
-      ```
+    ```hcl
+    tags = { Name = "web-prod-api" }
+    ```
 
 - **name vs name_prefix 的使用**：
   - `name`：用於需穩定唯一名之永久資源（如 S3）。
@@ -2721,16 +2738,18 @@ Terraform 廣泛用於跨雲端平台的 IaC。有效的命名慣例可降低重
   - 不可同時指定兩者，否則編譯失敗。
 
 - **模組（Module）命名**：
-  - 標準為 `module "<logical_name>" { source = ... }`，命名建議帶上功能與環境，如 `vpc_prod`。
+  - 標準為
+    `module "<logical_name>" { source = ... }`，命名建議帶上功能與環境，如
+    `vpc_prod`。
   - 內部資源命名則帶入模組名，利於追蹤。
   - **結構示例**：
 
-      ```
-      main.tf
-      ├── resource "aws_nat_gateway" "this" {...}
-      ├── resource "aws_route_table" "private" {...}
-      └── resource "aws_instance" "bastion" {...}
-      ```
+    ```
+    main.tf
+    ├── resource "aws_nat_gateway" "this" {...}
+    ├── resource "aws_route_table" "private" {...}
+    └── resource "aws_instance" "bastion" {...}
+    ```
 
 - **專案與環境前綴**：
   - 建議明示專案、功能、環境：
@@ -2745,32 +2764,34 @@ Terraform 廣泛用於跨雲端平台的 IaC。有效的命名慣例可降低重
 
 ### 5.3 AWS CloudFormation 與 CDK 命名策略
 
-AWS CloudFormation 與 CDK 均可管理 AWS 基礎設施，命名規範有助於避免資源重覆、運維混淆及版本管理難題[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docs.aws.amazon.com/zh_tw/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docs.aws.amazon.com/zh_tw/cdk/v2/guide/projects.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "5")。
+AWS
+CloudFormation 與 CDK 均可管理 AWS 基礎設施，命名規範有助於避免資源重覆、運維混淆及版本管理難題[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docs.aws.amazon.com/zh_tw/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '4')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docs.aws.amazon.com/zh_tw/cdk/v2/guide/projects.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '5')。
 
 - **CloudFormation 命名特點**：
   - 大多數資源可自訂名稱，預設則自動生成（如`Stack-Resource-randomid`）。
   - 若自訂，需於範本中明確指定且不可重複；命名僅可用 ASCII 字母數字與中橫線，不可以中橫線結尾，且 63 字元內。
   - yaml/json property 需要類似：
 
-      ```yaml
-      Properties:
-        TableName: "orders-prod-v1"
-      ```
+    ```yaml
+    Properties:
+      TableName: 'orders-prod-v1'
+    ```
 
 - **CDK 命名與專案結構**：
   - 建議文件結構以專案為頂層 + stack 名稱，例如：
 
-      ```
-      /lib/my-cdk-ts-project-stack.ts
-      /bin/my-cdk-ts-project.ts
-      ```
+    ```
+    /lib/my-cdk-ts-project-stack.ts
+    /bin/my-cdk-ts-project.ts
+    ```
 
   - 二次開發時，Stack id 應明確列出如`MyCdkProdStack`。
   - CDK 程式碼內資源識別通常帶有 stack/cluster/功能，便於 versioning 及資源查找。
 
 - **環境維度標註**：
   - 利用 Stack 變數與 tags，在全區管理下可依照不同 Project/Env/System 維護資源唯一性。
-  - 建議所有重要資源皆加 `Environment`、`Project`、`Module` 標籤，提升搜尋與後期維護效率。
+  - 建議所有重要資源皆加 `Environment`、`Project`、`Module`
+    標籤，提升搜尋與後期維護效率。
 
 ### 5.4 實務建議與落地範例
 
@@ -2786,7 +2807,8 @@ AWS CloudFormation 與 CDK 均可管理 AWS 基礎設施，命名規範有助於
 
 ### 6.1 CI/CD 流水線命名的價值與原則
 
-CI/CD（Continuous Integration/Continuous Delivery）流水線貫穿於現代開發到部署的每個環節，良好的命名規範對於代碼回溯、異常定位、任務自動調度極為關鍵。命名隨著自動化深度提升，直接關係到團隊溝通、監控可追蹤性與流程治理效率。
+CI/CD（Continuous Integration/Continuous
+Delivery）流水線貫穿於現代開發到部署的每個環節，良好的命名規範對於代碼回溯、異常定位、任務自動調度極為關鍵。命名隨著自動化深度提升，直接關係到團隊溝通、監控可追蹤性與流程治理效率。
 
 最核心原則有：
 
@@ -2797,12 +2819,14 @@ CI/CD（Continuous Integration/Continuous Delivery）流水線貫穿於現代開
 
 ### 6.2 Jenkins Pipeline 命名規範
 
-Jenkins 是主流的自動化流程引擎，支持 declarative pipeline 及 scripted pipeline[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.jenkins.io/zh/doc/book/pipeline/syntax/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "6")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/583812704?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "7")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/zero_open/article/details/137816238?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "8")。
+Jenkins 是主流的自動化流程引擎，支持 declarative pipeline 及 scripted
+pipeline[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.jenkins.io/zh/doc/book/pipeline/syntax/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '6')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/583812704?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '7')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/zero_open/article/details/137816238?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '8')。
 
 **命名規範建議**：
 
 - pipeline 名稱與專案或產品線一致（如 `AI Search API - Staging - Release`）。
-- stage：以動作為主語，首字大寫，明確說明功能，例如 `Build`、`Unit Test`、`Deploy to Prod`。
+- stage：以動作為主語，首字大寫，明確說明功能，例如
+  `Build`、`Unit Test`、`Deploy to Prod`。
 - job 名稱遵從「動作-對象-環境」結構，如 `publish-image-dev`。
 - agent 標籤（如 `docker-maven`、`nodejs-14`）須描述性，清楚反映運作平台或用途。
 - parameters/environment 參數（例：`DEPLOY_ENV`、`DEBUG_ENABLE`）必用全大寫 undeline 分隔。
@@ -2827,23 +2851,33 @@ pipeline {
 }
 ```
 
-- 建議利用 `input`、`triggers` 等指令時，對每個自動或手動執行條件明確命名，如 `cron('H 4 * * 1-5')`。
+- 建議利用 `input`、`triggers` 等指令時，對每個自動或手動執行條件明確命名，如
+  `cron('H 4 * * 1-5')`。
 
 ### 6.3 GitLab CI/CD 與 GitHub Actions 工作流程命名
 
-**GitLab CI/CD**（`.gitlab-ci.yml`）規則建議[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://hackmd.io/@CloudyWing/Hym3ZoBT1g?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "9")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ithelp.ithome.com.tw/articles/10344451?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "10")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/weixin_47877869/article/details/145616371?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "11")：
+**GitLab
+CI/CD**（`.gitlab-ci.yml`）規則建議[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://hackmd.io/@CloudyWing/Hym3ZoBT1g?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '9')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ithelp.ithome.com.tw/articles/10344451?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '10')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/weixin_47877869/article/details/145616371?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '11')：
 
-- pipeline/workflow: 可定義整體標題，參數如 `workflow: name: "deploy-main-production"`。
-- stage: 推薦採用 `build`、`test`、`deploy`、`quality`、`notify` 等動詞性名稱，便於橫向比較及自動化擴展。
-- job: 跟 Jenkins 的 `動作-對象-環境`，如 `build-backend-image`、`test-e2e-staging`、`deploy-prod`.
+- pipeline/workflow: 可定義整體標題，參數如
+  `workflow: name: "deploy-main-production"`。
+- stage: 推薦採用 `build`、`test`、`deploy`、`quality`、`notify`
+  等動詞性名稱，便於橫向比較及自動化擴展。
+- job: 跟 Jenkins 的 `動作-對象-環境`，如
+  `build-backend-image`、`test-e2e-staging`、`deploy-prod`.
 - 變數名稱全大寫底線分隔（`DOCKER_IMAGE_NAME`）。
-- 多環境可用 `deploy-dev`、`deploy-staging`、`deploy-prod` 等明確區分，避免重覆。
+- 多環境可用 `deploy-dev`、`deploy-staging`、`deploy-prod`
+  等明確區分，避免重覆。
 - artifacts/cache:
-  - 名稱應與工作階段關聯，如 `build` 階段產出 `build_artifacts`，快取鍵帶 pipeline id 或 commit hash 防止覆蓋衝突。
-- 檔案命名支援 include/inherit，如 `.gitlab-ci-build.yml`、`.gitlab-ci-test.yml`.
+  - 名稱應與工作階段關聯，如 `build` 階段產出
+    `build_artifacts`，快取鍵帶 pipeline id 或 commit hash 防止覆蓋衝突。
+- 檔案命名支援 include/inherit，如
+  `.gitlab-ci-build.yml`、`.gitlab-ci-test.yml`.
 - template/template yaml 用 `_template`、`.` 前綴標明不可直接執行，僅供引用。
 
-**GitHub Actions** 工作流命名規則相似，建議 workflows 以產品模組 + 流水線功能描述，如 `build-and-release-python-sdk.yml`；jobs 及 steps 也採直譯式語意。
+**GitHub Actions**
+工作流命名規則相似，建議 workflows 以產品模組 + 流水線功能描述，如
+`build-and-release-python-sdk.yml`；jobs 及 steps 也採直譯式語意。
 
 ### 6.4 命名規範保障實務
 
@@ -2860,7 +2894,7 @@ pipeline {
 
 ### 7.1 企業命名治理的挑戰
 
-企業在大規模 DevOps、雲端、微服務與資料治理背景下，命名規範必須升級為全組織協作框架。一旦命名混亂將造成以下問題[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/502755740?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "12")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.esensoft.com/industry-news/dx-51865.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "13")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/qq_20245171/article/details/145456548?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "14")：
+企業在大規模 DevOps、雲端、微服務與資料治理背景下，命名規範必須升級為全組織協作框架。一旦命名混亂將造成以下問題[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/502755740?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '12')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.esensoft.com/industry-news/dx-51865.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '13')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/qq_20245171/article/details/145456548?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '14')：
 
 - 多團隊導致命名標準分歧，產生跨部門溝通失靈。
 - 自動化串接、資源掃描腳本與監控混亂，導致維護與查錯成本浮增。
@@ -2870,21 +2904,23 @@ pipeline {
 
 **命名治理策略包含**：
 
-- **標準化框架（如 DAMA, DCMM）**：主框架需包括標準、流程、組織、工具與監督等機制。
+- **標準化框架（如 DAMA,
+  DCMM）**：主框架需包括標準、流程、組織、工具與監督等機制。
 - **命名規範委員會**：包含開發、維運、資訊安全、合規與產品經理共同參與，定期審查並修訂規範。
 - **策略文件化**：所有命名規範皆需以規章、章則、實作建議文檔明文化，並加入知識庫。
-- **自動化與工具支持**：導入靜態檢查、模板驗證、Policy as Code（如 Open Policy Agent）支援持續治理。
+- **自動化與工具支持**：導入靜態檢查、模板驗證、Policy as Code（如 Open Policy
+  Agent）支援持續治理。
 - **版本管理制度**：定期評估、發布與公告規則變動，並保持所有開發及維運文件一致同步（見下節）。
 
 **企業命名治理框架表（示意）**：
 
-| 維度      | 具體措施與工具範例     | 推行要點                |
-|--|--|--|
-| 組織   | 設專責團隊，制定與稽核   | 決策權限明確化，定時培訓 |
-| 流程   | Pull Request 檢查、CI 命名 Lint | 無通過不得合併 |
-| 工具鏈 | GitLab/Jenkins pre-hook、命名檢查腳本 | 自動偵錯與即時回饋 |
-| 文檔   | 規範文件、命名查詢平台   | 保證知識傳承、查找便利   |
-| 持續改善 | 收集反饋定期盤點         | 迭代調整策略             |
+| 維度     | 具體措施與工具範例                    | 推行要點                 |
+| -------- | ------------------------------------- | ------------------------ |
+| 組織     | 設專責團隊，制定與稽核                | 決策權限明確化，定時培訓 |
+| 流程     | Pull Request 檢查、CI 命名 Lint       | 無通過不得合併           |
+| 工具鏈   | GitLab/Jenkins pre-hook、命名檢查腳本 | 自動偵錯與即時回饋       |
+| 文檔     | 規範文件、命名查詢平台                | 保證知識傳承、查找便利   |
+| 持續改善 | 收集反饋定期盤點                      | 迭代調整策略             |
 
 ### 7.3 命名策略文件化與版本管理
 
@@ -2898,7 +2934,7 @@ pipeline {
 
 ### 7.4 行業框架與最佳實踐
 
-- DAMA、CMMI、ITSS、DCMM 等指引資產命名規範、資料質量標準、數據治理架構[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/502755740?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "12")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.esensoft.com/industry-news/dx-51865.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "13")。
+- DAMA、CMMI、ITSS、DCMM 等指引資產命名規範、資料質量標準、數據治理架構[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://zhuanlan.zhihu.com/p/502755740?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '12')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.esensoft.com/industry-news/dx-51865.html?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '13')。
 - 國際組織多重視從策略到落地工具鏈整合，建議在本地導入時先小規模試行，逐步推廣至全公司。
 - 實際案例顯示，專門設定命名稽核指標能抑制命名品質劣化，亦易自動產生全域資源圖、有助後續資安追查。
 
@@ -2908,7 +2944,8 @@ pipeline {
 
 ### 8.1 微服務專案命名演練
 
-以微服務架構為例，微服務名、API endpoint、Database table、消息佇列等命名都應一致遵循組織規範，以利日後運維、部署與異常追蹤[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/fwk19840301/article/details/79488507?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "15")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://developer.aliyun.com/article/1279379?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "16")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blogs.vmware.com/vmware-taiwan/2022/12/15/%e9%9b%b2%e5%8e%9f%e7%94%9f%e6%99%82%e4%bb%a3%e4%b8%8b%e5%be%ae%e6%9c%8d%e5%8b%99%e6%9e%b6%e6%a7%8b%e6%bc%94%e9%80%b2%e4%b9%8b%e8%b7%af-10/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "17")。
+以微服務架構為例，微服務名、API endpoint、Database
+table、消息佇列等命名都應一致遵循組織規範，以利日後運維、部署與異常追蹤[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/fwk19840301/article/details/79488507?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '15')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://developer.aliyun.com/article/1279379?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '16')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blogs.vmware.com/vmware-taiwan/2022/12/15/%e9%9b%b2%e5%8e%9f%e7%94%9f%e6%99%82%e4%bb%a3%e4%b8%8b%e5%be%ae%e6%9c%8d%e5%8b%99%e6%9e%b6%e6%a7%8b%e6%bc%94%e9%80%b2%e4%b9%8b%e8%b7%af-10/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '17')。
 
 #### 實務建議
 
@@ -2927,7 +2964,8 @@ mq-topic: ai-finance-billing-payments
 
 ### 8.2 雲原生環境命名實作
 
-雲原生（Cloud Native）環境下所有資源如 Cluster、Pod、Ingress、Service、容器映像都應有命名準則[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://s.itho.me/ccms_slides/2024/7/8/d52ab517-6cbf-4bec-af58-4f59b0501487.pdf?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "18")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://carger.tips/%e9%9b%b2%e5%8e%9f%e7%94%9f%e6%87%89%e7%94%a8%e9%96%8b%e7%99%bc%e5%85%a5%e9%96%80%e6%8c%87%e5%8d%97-docker-k8s-%e5%92%8c-service-mesh-%e6%9e%b6%e6%a7%8b%e8%a7%a3%e6%9e%90?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "19")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docker.robertchang.me/images/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "20")。
+雲原生（Cloud
+Native）環境下所有資源如 Cluster、Pod、Ingress、Service、容器映像都應有命名準則[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://s.itho.me/ccms_slides/2024/7/8/d52ab517-6cbf-4bec-af58-4f59b0501487.pdf?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '18')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://carger.tips/%e9%9b%b2%e5%8e%9f%e7%94%9f%e6%87%89%e7%94%a8%e9%96%8b%e7%99%bc%e5%85%a5%e9%96%80%e6%8c%87%e5%8d%97-docker-k8s-%e5%92%8c-service-mesh-%e6%9e%b6%e6%a7%8b%e8%a7%a3%e6%9e%90?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '19')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://docker.robertchang.me/images/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '20')。
 
 #### Kubernetes 資源命名範例
 
@@ -2955,7 +2993,8 @@ mq-topic: ai-finance-billing-payments
 ### 8.4 命名規範推行與落地經驗
 
 - 定期組織跨部門命名規範工作坊，從典型失敗案例（如名稱重複、未明示環境）反推調整。
-- 提供自動化命名生成模組（如 Spinnaker/Argo/Harness pipeline templates），避免手動疏漏[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/gitblog_00606/article/details/152004810?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "21")。
+- 提供自動化命名生成模組（如 Spinnaker/Argo/Harness pipeline
+  templates），避免手動疏漏[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://blog.csdn.net/gitblog_00606/article/details/152004810?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '21')。
 - 結合 PR review、CI 檢查與 README 強化新成員 onboarding 成功率。
 - 推動文檔化與查詢工具，加速命名規範應用與問題自查。
 
@@ -2965,9 +3004,11 @@ mq-topic: ai-finance-billing-payments
 
 ### 9.1 工具鏈整合命名策略
 
-現代 DevOps 工具鏈包括 Git、Jenkins、GitHub Actions、GitLab CI/CD、Docker、Kubernetes、Terraform、Ansible、Prometheus、Grafana 等[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://carger.tips/%e7%b0%a1%e5%96%ae%e6%98%93%e6%87%82%e7%9a%84-devops-%e8%87%aa%e5%8b%95%e5%8c%96%e5%b7%a5%e5%85%b7%e9%8f%88%e5%85%a5%e9%96%80%e6%8c%87%e5%8d%97?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "22")。命名策略須橫跨所有工具與自動化流程。
+現代 DevOps 工具鏈包括 Git、Jenkins、GitHub Actions、GitLab
+CI/CD、Docker、Kubernetes、Terraform、Ansible、Prometheus、Grafana 等[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://carger.tips/%e7%b0%a1%e5%96%ae%e6%98%93%e6%87%82%e7%9a%84-devops-%e8%87%aa%e5%8b%95%e5%8c%96%e5%b7%a5%e5%85%b7%e9%8f%88%e5%85%a5%e9%96%80%e6%8c%87%e5%8d%97?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '22')。命名策略須橫跨所有工具與自動化流程。
 
-- **自動化檢查工具**：開發封裝命名 lint module，如 terraform-lint、yamllint、GitHub Super-Linter。
+- **自動化檢查工具**：開發封裝命名 lint
+  module，如 terraform-lint、yamllint、GitHub Super-Linter。
 - **命名規範即程式碼**：用 Policy as Code/OPA 解決複雜資源的命名規則驗證。
 - **跨工具鏈成本控管**：透過 tags/labels/命名模板規範，配合可視化儀表板（如 ELK、Prometheus/Grafana）一致追蹤、審計資源。
 
@@ -2975,7 +3016,8 @@ mq-topic: ai-finance-billing-payments
 
 - **靜態程式掃描器**：CI 觸發時，以定制 regex 、語法樹解析檢查資源/流水線是否符合命名需求。
 - **命名生成工具**：輸入專案、模組、環境、功能參數，自動 output 統一格式名稱。
-- **自動審查 CLI/IDE 插件**：如 VSCode、JetBrains Linter，不通過則拒絕 push/merge。
+- **自動審查 CLI/IDE 插件**：如 VSCode、JetBrains
+  Linter，不通過則拒絕 push/merge。
 - **企業級命名管理平台**：集中式管理所有命名規則、範本、範例、API 查詢，降低 onboarding 成本。
 - **比對篩檢腳本範例**（以 Bash for Kubernetes + Spinnaker）：
 
@@ -2990,14 +3032,14 @@ mq-topic: ai-finance-billing-payments
 
 ### 9.3 工具與命名規範對應表
 
-| 工具         | 支援命名規範方式            | 實踐建議                           |
-|--------------|------------------------|------------------------------|
-| Terraform    | 模組/資源名稱、tags   | 全小寫底線，專案-環境-類型      |
-| Jenkins CI/CD| pipeline/stage/job 名   | 動作-對象-環境，流水線模板繼承   |
-| GitLab CI    | stage, job, artifacts | yml include 與名稱前綴統一     |
-| Kubernetes   | cluster、namespace、pod/service | rfc1123 格式、小寫 + `-`         |
-| Docker       | 映像檔/volume/container| `project-service-env:tag`     |
-| AWS CDK      | stack id/bucket name   | PascalCase 及大寫環境 tag       |
+| 工具          | 支援命名規範方式                | 實踐建議                       |
+| ------------- | ------------------------------- | ------------------------------ |
+| Terraform     | 模組/資源名稱、tags             | 全小寫底線，專案-環境-類型     |
+| Jenkins CI/CD | pipeline/stage/job 名           | 動作-對象-環境，流水線模板繼承 |
+| GitLab CI     | stage, job, artifacts           | yml include 與名稱前綴統一     |
+| Kubernetes    | cluster、namespace、pod/service | rfc1123 格式、小寫 + `-`       |
+| Docker        | 映像檔/volume/container         | `project-service-env:tag`      |
+| AWS CDK       | stack id/bucket name            | PascalCase 及大寫環境 tag      |
 
 ### 9.4 自動化推進關鍵步驟
 
@@ -3012,7 +3054,7 @@ mq-topic: ai-finance-billing-payments
 
 ### 10.1 持續改進理念與流程
 
-命名規範不可能一次到位，其最佳實踐來自持續優化迭代[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ahaslides.com/zh-TW/blog/continuous-improvement-examples/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "23")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.managertoday.com.tw/articles/view/55730?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "24")。企業/團隊應參考 PDCA(R)（Plan-Do-Check-Act-Record）循環：
+命名規範不可能一次到位，其最佳實踐來自持續優化迭代[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://ahaslides.com/zh-TW/blog/continuous-improvement-examples/?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '23')[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://www.managertoday.com.tw/articles/view/55730?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 '24')。企業/團隊應參考 PDCA(R)（Plan-Do-Check-Act-Record）循環：
 
 - **Plan**：擬定命名規範、實作方案、驗證目標。
 - **Do**：落地執行、產出樣本、啟動自動化腳本。
@@ -3023,13 +3065,16 @@ mq-topic: ai-finance-billing-payments
 ### 10.2 命名維護週期與知識傳承
 
 - **定期審核與盤點**：如每季進行命名規範大盤點，搭配報表工具分析出現頻率最高的潛在規範問題（如重名、命名過長、未明示環境等）。
-- **知識報告/回饋機制**：設置回饋頻道（例：Confluence comment、內部工單系統），讓所有開發/運維成員主動回報疑義。
+- **知識報告/回饋機制**：設置回饋頻道（例：Confluence
+  comment、內部工單系統），讓所有開發/運維成員主動回報疑義。
 - **培訓與溝通**：新規則施行時，必須以線上/線下培訓、視頻教學、標準作業手冊(SoP)加快全員熟悉與接受。
 - **自動提醒與預警**：利用自動腳本抓取違規命名，自動回報管理員或責任團隊。
 
 ### 10.3 命名規範持續迭代機制實例
 
-- **範例**：某大型金融機構在2019年導入命名規範時，先以 pre-commit linter 監管所有 IaC、Jenkinsfile、Kubernetes yaml 檔案。每回季度由架構委員會召開命名品質回顧會，根據異常案例修訂策略，並於 README.md 及內部 wiki 公告新規定。團隊可於 Slack/Teams 上提交建議，經審核納入下期回顧。
+- **範例**：某大型金融機構在2019年導入命名規範時，先以 pre-commit
+  linter 監管所有 IaC、Jenkinsfile、Kubernetes
+  yaml 檔案。每回季度由架構委員會召開命名品質回顧會，根據異常案例修訂策略，並於 README.md 及內部 wiki 公告新規定。團隊可於 Slack/Teams 上提交建議，經審核納入下期回顧。
 
 ### 10.4 未來展望與建議
 

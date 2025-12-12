@@ -300,56 +300,56 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: core/contract_service/contracts-L1/contracts/package-lock.json
-      
+
       - name: Install Dependencies
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm ci
-      
+
       - name: Lint & Test
         working-directory: core/contract_service/contracts-L1/contracts
         run: |
           npm run lint
           npm run test
-      
+
       - name: Build
         working-directory: core/contract_service/contracts-L1/contracts
         run: npm run build
-      
+
       - name: Generate SBOM
         working-directory: core/contract_service/contracts-L1/contracts
         run: |
           npm install -g @cyclonedx/cyclonedx-npm
           cyclonedx-npm --output-file sbom.json
-      
+
       - name: Build Docker Image
         working-directory: core/contract_service/contracts-L1/contracts
         run: |
           docker build -t ghcr.io/${{ github.repository }}/contracts-l1:${{ github.sha }} .
           docker build -t ghcr.io/${{ github.repository }}/contracts-l1:latest .
-      
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Push Docker Image
         run: |
           docker push ghcr.io/${{ github.repository }}/contracts-l1:${{ github.sha }}
           docker push ghcr.io/${{ github.repository }}/contracts-l1:latest
-      
+
       - name: Generate Provenance
         uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.9.0
         with:
@@ -397,35 +397,35 @@ spec:
         tier: core
     spec:
       containers:
-      - name: contracts-l1
-        image: ghcr.io/your-org/synergymesh/contracts-l1:1.0.0
-        ports:
-        - containerPort: 3000
-          name: http
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: PORT
-          value: "3000"
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 3000
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: contracts-l1
+          image: ghcr.io/your-org/synergymesh/contracts-l1:1.0.0
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: PORT
+              value: '3000'
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
@@ -437,9 +437,9 @@ spec:
   selector:
     app: contracts-l1
   ports:
-  - port: 80
-    targetPort: 3000
-    name: http
+    - port: 80
+      targetPort: 3000
+      name: http
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -451,20 +451,20 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - contracts-l1.synergymesh.com
-    secretName: contracts-l1-tls
+    - hosts:
+        - contracts-l1.synergymesh.com
+      secretName: contracts-l1-tls
   rules:
-  - host: contracts-l1.synergymesh.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: contracts-l1
-            port:
-              number: 80
+    - host: contracts-l1.synergymesh.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: contracts-l1
+                port:
+                  number: 80
 ```
 
 部署命令:
@@ -561,26 +561,28 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "高錯誤率檢測"
-          description: "Contracts L1 服務錯誤率超過 5%"
-      
+          summary: '高錯誤率檢測'
+          description: 'Contracts L1 服務錯誤率超過 5%'
+
       - alert: SlowResponseTime
-        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.1
+        expr:
+          histogram_quantile(0.95,
+          rate(http_request_duration_seconds_bucket[5m])) > 0.1
         for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "回應時間過慢"
-          description: "95% 回應時間超過 100ms"
-      
+          summary: '回應時間過慢'
+          description: '95% 回應時間超過 100ms'
+
       - alert: ServiceDown
         expr: up{job="contracts-l1"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "服務停止"
-          description: "Contracts L1 服務無法訪問"
+          summary: '服務停止'
+          description: 'Contracts L1 服務無法訪問'
 ```
 
 #### 成功標準

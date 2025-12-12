@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "description": "SynergyMesh - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration",
   "private": true,
-  "workspaces": [
-    "mcp-servers",
-    "core/contract_service/contracts-L1/contracts",
-    "core/advisory-database",
-    "frontend/ui"
-  ],
+  "workspaces": ["mcp-servers", "core/contract_service/contracts-L1/contracts", "core/advisory-database", "frontend/ui"],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
@@ -17,16 +12,7 @@
     "docs:lint": "markdownlint \"**/*.md\"",
     "clean": "npm run clean --workspaces --if-present && rm -rf node_modules"
   },
-  "keywords": [
-    "enterprise-integration",
-    "cloud-native",
-    "ai-automation",
-    "data-orchestration",
-    "slsa",
-    "provenance",
-    "security",
-    "sigstore"
-  ],
+  "keywords": ["enterprise-integration", "cloud-native", "ai-automation", "data-orchestration", "slsa", "provenance", "security", "sigstore"],
   "author": "SynergyMesh Team",
   "license": "MIT",
   "repository": {

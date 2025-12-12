@@ -4,51 +4,50 @@
 version: "1.0.0"
 
 responsibility_boundaries:
-  
   strategic_layer:
     control: "100% HUMAN"
     responsibilities:
       - name: "Vision Definition"
         owner: "Leadership Team"
         authority: "FINAL_DECISION"
-        
+
       - name: "Policy Approval"
         owner: "Governance Board"
         authority: "VETO_POWER"
-        
+
       - name: "Budget Allocation"
         owner: "Finance Team"
         authority: "RESOURCE_CONTROL"
-        
+
       - name: "Risk Acceptance"
         owner: "Risk Committee"
         authority: "GO_NO_GO"
-        
+
   operational_layer:
     control: "100% AI_AUTONOMOUS"
     responsibilities:
       - name: "Real-time Monitoring"
         executor: "AI Monitoring Agent"
         authority: "READ_ONLY"
-        
+
       - name: "Auto Scaling"
         executor: "AI DevOps Agent"
         authority: "EXECUTE"
-        
+
       - name: "Performance Optimization"
         executor: "AI Architect Agent"
         authority: "EXECUTE"
-        
+
       - name: "Incident Response"
         executor: "AI Security Agent"
         authority: "EXECUTE_THEN_REPORT"
-        
+
   escalation_rules:
     - trigger: "Budget exceeded by > 20%"
       action: "ESCALATE_TO_HUMAN"
-      
+
     - trigger: "Security breach detected"
       action: "AUTO_RESPOND_AND_ALERT"
-      
+
     - trigger: "Performance degradation > 50%"
       action: "AUTO_HEAL_AND_LOG"

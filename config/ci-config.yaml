@@ -13,7 +13,7 @@
 
 ci_configuration:
   version: "1.0.0"
-  
+
   # Runtime Versions
   # 運行時版本
   runtimes:
@@ -21,152 +21,152 @@ ci_configuration:
       default: "3.11"
       supported: ["3.10", "3.11", "3.12"]
       setup_action: "actions/setup-python@v5"
-    
+
     node:
       default: "20"
       supported: ["18", "20", "21"]
       setup_action: "actions/setup-node@v6"
-    
+
     go:
       default: "1.21"
       supported: ["1.20", "1.21", "1.22"]
       setup_action: "actions/setup-go@v5"
-    
+
     rust:
       default: "stable"
       supported: ["stable", "nightly"]
       setup_action: "actions-rust-lang/setup-rust-toolchain@v1"
-    
+
     java:
       default: "17"
       supported: ["11", "17", "21"]
       setup_action: "actions/setup-java@v4"
       distribution: "temurin"
-  
+
   # Workflow Timeouts
   # 工作流程超時設置
   timeouts:
-    default: 10  # minutes
+    default: 10 # minutes
     validation: 5
     test: 15
     build: 20
     integration: 30
     deployment: 60
     security_scan: 30
-  
+
   # Concurrency Settings
   # 並發設置
   concurrency:
     cancel_in_progress: true
     group_pattern: "${{ github.workflow }}-${{ github.ref }}"
-  
+
   # Checkout Settings
   # 代碼檢出設置
   checkout:
     default_action: "actions/checkout@v4"
-    fetch_depth: 0  # Full history for proper analysis
+    fetch_depth: 0 # Full history for proper analysis
     submodules: false
-  
+
   # Cache Settings
   # 緩存設置
   cache:
     enabled: true
-    
+
     npm:
       key: "npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}"
       paths:
         - "~/.npm"
         - "node_modules"
-    
+
     pip:
       key: "pip-${{ runner.os }}-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml') }}"
       paths:
         - "~/.cache/pip"
         - ".venv"
-    
+
     go:
       key: "go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}"
       paths:
         - "~/go/pkg/mod"
         - "~/.cache/go-build"
-    
+
     cargo:
       key: "cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}"
       paths:
         - "~/.cargo/registry"
         - "~/.cargo/git"
         - "target"
-  
+
   # Validation Rules
   # 驗證規則
   validation:
     yaml:
       enabled: true
-      tool: "python3 -c 'import yaml; yaml.safe_load(open(\"$file\"))'"
+      tool: 'python3 -c ''import yaml; yaml.safe_load(open("$file"))'''
       extensions: [".yaml", ".yml"]
-    
+
     json:
       enabled: true
-      tool: "python3 -c 'import json; json.load(open(\"$file\"))'"
+      tool: 'python3 -c ''import json; json.load(open("$file"))'''
       extensions: [".json"]
-    
+
     markdown:
       enabled: true
       tool: "markdownlint"
       config: ".markdownlint.json"
-    
+
     python:
       enabled: true
       linter: "ruff"
       formatter: "black"
       type_checker: "mypy"
-    
+
     typescript:
       enabled: true
       linter: "eslint"
       formatter: "prettier"
       type_checker: "tsc"
-  
+
   # Test Settings
   # 測試設置
   testing:
     unit:
       timeout: 10
       coverage_threshold: 80
-    
+
     integration:
       timeout: 20
       coverage_threshold: 70
-    
+
     e2e:
       timeout: 30
       coverage_threshold: 60
-    
+
     frameworks:
       python: "pytest"
       typescript: "jest"
       go: "go test"
       rust: "cargo test"
-  
+
   # Build Settings
   # 構建設置
   build:
     npm:
       command: "npm run build"
       output_dir: "dist"
-    
+
     python:
       command: "python -m build"
       output_dir: "dist"
-    
+
     go:
       command: "go build"
       output_dir: "bin"
-    
+
     rust:
       command: "cargo build --release"
       output_dir: "target/release"
-  
+
   # Deployment Settings
   # 部署設置
   deployment:
@@ -174,27 +174,27 @@ ci_configuration:
       - name: "development"
         auto_deploy: true
         approval_required: false
-      
+
       - name: "staging"
         auto_deploy: true
         approval_required: true
         approvers: ["SynergyMesh-admin"]
-      
+
       - name: "production"
         auto_deploy: false
         approval_required: true
         approvers: ["SynergyMesh-admin"]
         requires_tests: true
-    
+
     docker:
       registry: "ghcr.io"
       image_prefix: "synergymesh-admin"
       tag_strategy: "git-sha"
-    
+
     kubernetes:
       enabled: true
       namespace_pattern: "unmanned-island-${{ environment }}"
-  
+
   # Security Settings
   # 安全設置
   security:
@@ -202,21 +202,21 @@ ci_configuration:
       enabled: true
       languages: ["python", "javascript-typescript", "go"]
       queries: "security-and-quality"
-    
+
     dependency_scan:
       enabled: true
       tools: ["dependabot", "snyk"]
       auto_fix: true
-    
+
     secret_scan:
       enabled: true
       tool: "gitleaks"
-    
+
     container_scan:
       enabled: true
       tool: "trivy"
       severity_threshold: "HIGH"
-  
+
   # Notification Settings
   # 通知設置
   notifications:
@@ -227,12 +227,12 @@ ci_configuration:
         success: "#ci-success"
         failure: "#ci-failures"
         security: "#security-alerts"
-    
+
     github:
       enabled: true
       create_issue_on_failure: true
       auto_assign: true
-  
+
   # Cost Optimization
   # 成本優化
   cost_optimization:
@@ -240,55 +240,55 @@ ci_configuration:
     max_concurrent_jobs: 10
     prefer_cache: true
     skip_redundant_builds: true
-    
+
     rules:
       - condition: "github.event_name == 'pull_request' && github.event.pull_request.draft == true"
         action: "skip_expensive_checks"
-      
+
       - condition: "contains(github.event.head_commit.message, '[skip ci]')"
         action: "skip_all"
-      
+
       - condition: "github.event_name == 'push' && startsWith(github.ref, 'refs/heads/docs/')"
         action: "docs_only"
-  
+
   # Monitoring
   # 監控
   monitoring:
     enabled: true
-    
+
     metrics:
       - "workflow_duration"
       - "job_duration"
       - "cache_hit_rate"
       - "test_success_rate"
       - "deployment_frequency"
-    
+
     dashboards:
       - name: "CI Cost Dashboard"
         url: "https://github.com/${{ github.repository }}/actions/workflows/ci-cost-dashboard.yml"
-      
+
       - name: "Security Dashboard"
         url: "https://github.com/${{ github.repository }}/security"
-  
+
   # Reusable Workflows
   # 可重用工作流程
   reusable_workflows:
     setup:
       path: ".github/workflows/reusable-setup.yml"
       description: "Common setup steps (checkout, cache, install)"
-    
+
     validation:
       path: ".github/workflows/reusable-validation.yml"
       description: "Validation steps (YAML, JSON, Markdown)"
-    
+
     test:
       path: ".github/workflows/reusable-test.yml"
       description: "Test execution with coverage"
-    
+
     build:
       path: ".github/workflows/reusable-build.yml"
       description: "Build artifacts"
-    
+
     docker:
       path: ".github/workflows/reusable-docker-build.yml"
       description: "Docker image build and push"

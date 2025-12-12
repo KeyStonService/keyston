@@ -31,15 +31,15 @@ compliance:
   gdpr:
     enabled: true
     version: "2018"
-    
+
     # Data retention
     data_retention:
       execution_logs: "7d"
       checkpoint_data: "7d"
       audit_logs: "90d"
       metrics_data: "30d"
-      pii_data: "not_applicable"  # No PII stored
-    
+      pii_data: "not_applicable" # No PII stored
+
     # Data portability
     data_portability:
       enabled: true
@@ -47,25 +47,25 @@ compliance:
         - "JSON"
         - "CSV"
       request_processing_time: "30d"
-    
+
     # Lawful basis for processing
     lawfulness:
       basis: "legitimate-interest"
       description: "Processing necessary for system operation and security"
       documented: true
-    
+
     # Right to erasure
     right_to_erasure:
       enabled: true
       retention_exception: "legal_obligations"
       automated: true
-    
+
     # Data minimization
     data_minimization:
       enabled: true
       collect_only_necessary: true
       regular_review: "quarterly"
-    
+
     # Privacy by design
     privacy_by_design:
       enabled: true
@@ -78,14 +78,14 @@ compliance:
   soc2_type2:
     enabled: true
     version: "2017"
-    
+
     # Trust Service Categories
     categories:
       - security
       - availability
       - processing_integrity
       - confidentiality
-    
+
     # Security Controls
     security_controls:
       # Access Controls
@@ -93,66 +93,66 @@ compliance:
         description: "Log all access attempts"
         implemented: true
         tested: true
-      
+
       - name: "authentication"
         description: "Multi-factor authentication required"
         implemented: true
         tested: true
-      
+
       - name: "authorization"
         description: "Role-based access control"
         implemented: true
         tested: true
-      
+
       - name: "encryption-at-rest"
         description: "Data encrypted at rest"
         implemented: true
         algorithm: "AES-256-GCM"
-      
+
       - name: "encryption-in-transit"
         description: "Data encrypted in transit"
         implemented: true
         protocol: "TLS 1.3"
-      
+
       # Monitoring Controls
       - name: "security-monitoring"
         description: "Continuous security monitoring"
         implemented: true
         tool: "prometheus"
-      
+
       - name: "intrusion-detection"
         description: "Intrusion detection system"
         implemented: true
         type: "network-based"
-      
+
       - name: "vulnerability-scanning"
         description: "Regular vulnerability scanning"
         implemented: true
         frequency: "weekly"
-    
+
     # Availability Controls
     availability_controls:
       - name: "multi-az-deployment"
         description: "Deploy across multiple availability zones"
         implemented: true
         min_zones: 3
-      
+
       - name: "automated-failover"
         description: "Automatic failover to healthy instances"
         implemented: true
         rto: "30s"
-      
+
       - name: "backup-and-recovery"
         description: "Regular backups and recovery procedures"
         implemented: true
         frequency: "daily"
         retention: "7d"
-      
+
       - name: "load-balancing"
         description: "Distribute load across instances"
         implemented: true
         type: "round-robin"
-    
+
     # Audit and Compliance
     audit:
       enabled: true
@@ -166,7 +166,7 @@ compliance:
   # ═══════════════════════════════════════════════════════════════════════════════
   quantum_safe:
     enabled: true
-    
+
     # NIST Post-Quantum Cryptography Standards
     algorithms:
       # Key Encapsulation Mechanism (KEM)
@@ -178,7 +178,7 @@ compliance:
         use_case:
           - "key-exchange"
           - "session-establishment"
-      
+
       # Digital Signature Algorithm (DSA)
       - name: "ML-DSA-65"
         type: "digital-signature"
@@ -189,20 +189,20 @@ compliance:
           - "authentication"
           - "code-signing"
           - "certificate-signing"
-      
+
       # Backup classical algorithms (for hybrid mode)
       - name: "ECDSA-P384"
         type: "digital-signature"
         standard: "FIPS 186-4"
         use_case:
           - "hybrid-signature"
-      
+
       - name: "ECDH-P384"
         type: "key-exchange"
         standard: "NIST SP 800-56A"
         use_case:
           - "hybrid-key-exchange"
-    
+
     # Transition Plan
     transition_plan:
       strategy: "hybrid-classical-pq"
@@ -212,42 +212,42 @@ compliance:
           name: "Assessment"
           status: "completed"
           description: "Assess cryptographic inventory"
-        
+
         - phase: 2
           name: "Hybrid Deployment"
           status: "in-progress"
           description: "Deploy hybrid classical-PQ cryptography"
           target_date: "2025-Q4"
-        
+
         - phase: 3
           name: "Full PQ Migration"
           status: "planned"
           description: "Migrate to pure post-quantum cryptography"
           target_date: "2026-Q2"
-      
+
       backward_compatibility: true
       deprecation_timeline:
         rsa_2048: "2026-Q4"
         ecdsa_p256: "2027-Q2"
-    
+
     # Implementation Details
     implementation:
       libraries:
         - name: "liboqs"
           version: "0.9.0+"
           description: "Open Quantum Safe library"
-        
+
         - name: "boringssl"
           version: "latest"
           description: "Google's fork of OpenSSL with PQ support"
-      
+
       key_management:
         hybrid_keys: true
         key_rotation_period: "90d"
         key_size_minimum:
           classical: 256
           post_quantum: 768
-      
+
       certificate_management:
         hybrid_certificates: true
         ca_algorithm: "ML-DSA-65"
@@ -263,14 +263,14 @@ authentication:
     - "mutual-tls"
     - "service-account-token"
     - "oauth2"
-  
+
   multi_factor: true
   session_timeout: "24h"
   token_rotation: "1h"
 
 authorization:
-  model: "rbac"  # Role-Based Access Control
-  
+  model: "rbac" # Role-Based Access Control
+
   roles:
     - name: "hlp-executor-admin"
       permissions:
@@ -278,20 +278,20 @@ authorization:
         - "rollback:*"
         - "checkpoint:*"
         - "config:write"
-    
+
     - name: "hlp-executor-operator"
       permissions:
         - "execute:read"
         - "execute:write"
         - "rollback:read"
         - "checkpoint:read"
-    
+
     - name: "hlp-executor-viewer"
       permissions:
         - "execute:read"
         - "rollback:read"
         - "checkpoint:read"
-  
+
   principle_of_least_privilege: true
   regular_access_review: "quarterly"
 
@@ -301,15 +301,15 @@ network_security:
   protocols:
     - "TLS 1.3"
     - "mTLS"
-  
+
   network_policies:
     enabled: true
     default_deny: true
-    
+
     ingress_rules:
       - from: "self-healing-system"
         ports: [8080, 9090, 50051]
-    
+
     egress_rules:
       - to: "self-healing-system"
         ports: [443, 8443]
@@ -320,7 +320,7 @@ network_security:
 data_security:
   encryption_at_rest: "required"
   algorithm: "AES-256-GCM"
-  
+
   classification:
     - level: "public"
       handling: "no_special_handling"
@@ -330,7 +330,7 @@ data_security:
       handling: "encryption_required + access_logging"
     - level: "restricted"
       handling: "encryption_required + access_logging + approval_required"
-  
+
   data_lifecycle:
     - stage: "creation"
       controls: ["classification", "encryption"]
@@ -344,19 +344,19 @@ data_security:
 # Security Monitoring and Incident Response
 security_monitoring:
   enabled: true
-  
+
   monitoring_scope:
     - "authentication_events"
     - "authorization_failures"
     - "unusual_access_patterns"
     - "security_policy_violations"
     - "encryption_failures"
-  
+
   alert_thresholds:
     failed_auth_attempts: 5
     unusual_access_pattern_score: 0.8
     policy_violation_count: 1
-  
+
   incident_response:
     enabled: true
     response_time_target: "15m"
@@ -364,7 +364,7 @@ security_monitoring:
       - "security-team"
       - "platform-lead"
       - "ciso"
-    
+
     automated_response:
       enabled: true
       actions:
@@ -376,7 +376,7 @@ security_monitoring:
 reporting:
   enabled: true
   frequency: "monthly"
-  
+
   reports:
     - name: "security-compliance-report"
       recipients: ["security-team", "compliance-officer"]
@@ -384,5 +384,5 @@ reporting:
       recipients: ["security-team"]
     - name: "vulnerability-assessment"
       recipients: ["security-team", "engineering-lead"]
-  
+
   retention: "2y"

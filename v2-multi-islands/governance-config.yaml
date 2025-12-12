@@ -14,17 +14,17 @@ lifecycle:
   stage: "production"
   auto_register: true
   catalog_path: "../governance/30-agents/registry/agent-catalog.yaml"
-  
+
   hooks:
     on_start:
       - validate_compliance
       - perform_health_check
       - log_audit_event
-    
+
     on_stop:
       - log_audit_event
       - cleanup_resources
-    
+
     on_error:
       - alert_governance_team
       - log_incident
@@ -35,24 +35,24 @@ monitoring:
   health_checks:
     enabled: true
     interval_seconds: 60
-    
+
     checks:
       - name: "liveness"
         type: "process"
         enabled: true
-      
+
       - name: "readiness"
         type: "dependency"
         enabled: true
-      
+
       - name: "performance"
         type: "metrics"
         enabled: true
-  
+
   metrics:
     enabled: true
     collect_interval_seconds: 30
-    
+
     tracked_metrics:
       - "uptime_seconds"
       - "compliance_score"
@@ -65,18 +65,18 @@ compliance:
     - name: "ISO/IEC 42001"
       enabled: true
       validation_frequency: "on_start"
-    
+
     - name: "NIST AI RMF"
       enabled: true
       validation_frequency: "on_start"
-    
+
     - name: "AI Behavior Contract"
       enabled: true
       validation_frequency: "continuous"
-  
+
   auto_validation: true
-  fail_on_non_compliance: false  # Warning mode for now
-  
+  fail_on_non_compliance: false # Warning mode for now
+
   required_checks:
     - agent_catalog_registration
     - health_check_configuration
@@ -86,13 +86,13 @@ compliance:
 permissions:
   role: "agent_autonomous"
   enforce_rbac: true
-  
+
   allowed_operations:
     - "automation.deploy"
     - "automation.monitor"
     - "automation.heal"
     - "governance.validate"
-  
+
   resource_limits:
     memory: "2GB"
     cpu: "1 core"
@@ -103,7 +103,7 @@ audit:
   enabled: true
   log_all_events: true
   retention_days: 90
-  
+
   event_types:
     - "orchestrator_started"
     - "orchestrator_stopped"
@@ -116,12 +116,12 @@ audit:
 # Integration Points
 integrations:
   governance_framework: "governance/30-agents"
-  
+
   modules:
     orchestrator: "v2-multi-islands/orchestrator/island_orchestrator.py"
     governance_integration: "v2-multi-islands/governance_integration.py"
     validation_script: "v2-multi-islands/validate_governance.py"
-  
+
   dependencies:
     - "SynergyMesh Core"
     - "Governance Framework 30-agents"
@@ -132,12 +132,12 @@ integrations:
 deployment:
   method: "instant"
   deployment_time_target_seconds: 30
-  
+
   pre_deployment_checks:
     - validate_governance_compliance
     - check_dependencies
     - verify_permissions
-  
+
   post_deployment_hooks:
     - perform_health_check
     - log_deployment_event
@@ -148,12 +148,12 @@ self_healing:
   enabled: true
   max_retry_attempts: 3
   retry_delay_seconds: 5
-  
+
   recovery_actions:
     - restart_orchestrator
     - clear_cache
     - reset_island_states
-  
+
   escalation:
     after_failures: 3
     notify: ["governance_team", "platform_team"]
@@ -162,26 +162,26 @@ self_healing:
 evolution:
   enabled: true
   mode: "event_driven"
-  
+
   triggers:
     - performance_degradation
     - compliance_violation
     - security_alert
-  
-  auto_update: false  # Requires approval
+
+  auto_update: false # Requires approval
   rollback_on_failure: true
 
 # Alerting Configuration
 alerting:
   channels:
     slack:
-      enabled: false  # Configure webhook in production
+      enabled: false # Configure webhook in production
       channel: "#platform-alerts"
-    
+
     email:
-      enabled: false  # Configure SMTP in production
+      enabled: false # Configure SMTP in production
       recipients: ["governance@synergymesh.io"]
-  
+
   severity_levels:
     critical: ["compliance_violation", "security_alert"]
     warning: ["performance_degradation", "health_degraded"]

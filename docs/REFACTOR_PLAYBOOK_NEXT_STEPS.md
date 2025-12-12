@@ -24,7 +24,8 @@
    - 受影響目錄清單
 
 4. **8 Cluster Playbooks**
-   - core/, services/, automation/, autonomous/, governance/, apps/, tools/, infrastructure/
+   - core/, services/, automation/, autonomous/, governance/, apps/, tools/,
+     infrastructure/
    - 7 個完整章節（概覽、問題盤點、策略、P0/P1/P2 計畫、自動化範圍、驗收條件、結構視圖）
 
 5. **CI/CD Automation**
@@ -72,7 +73,8 @@
 
 **預期成果：**
 
-- 訪問 `http://localhost:3000/language-governance-dashboard` 即可查看所有 playbooks
+- 訪問 `http://localhost:3000/language-governance-dashboard`
+  即可查看所有 playbooks
 - 互動式介面，點擊 cluster 查看詳細重構計畫
 - 實時數據展示（從 CI 自動更新）
 
@@ -190,7 +192,6 @@
 - **Interactive Sankey Diagram**
   - 語言遷移流向動態視覺化
   - D3.js / Mermaid 進階圖表
-  
 - **Hotspot Heatmap**
   - 檔案風險熱力圖
   - 可點擊查看詳細 playbook
@@ -225,7 +226,6 @@
 - **Predictive Analysis**
   - 預測未來可能的語言違規
   - 技術債趨勢分析
-  
 - **ROI Metrics**
   - 重構投資回報率計算
   - 時間節省統計
@@ -236,7 +236,6 @@
 - **Slack/Teams Notifications**
   - Playbook 更新通知
   - P0 項目提醒
-  
 - **JIRA/Linear Integration**
   - 自動建立 tickets from playbooks
   - P0/P1/P2 自動排程
@@ -247,22 +246,22 @@
 
 ### Phase 3 驗收標準
 
-| 指標 | 目標 | 測量方式 |
-|------|------|---------|
-| Web Dashboard 上線 | 100% | 可訪問並顯示所有 8 clusters |
-| Auto-Fix Bot 整合 | 80% | 至少 4/8 clusters 支援自動修復 |
-| Living Knowledge Base 整合 | 100% | Knowledge graph 包含所有 playbooks |
-| 測試覆蓋率 | > 70% | pytest coverage report |
-| Playbook 品質分數 | > 85/100 | 自定義 quality metrics |
+| 指標                       | 目標     | 測量方式                           |
+| -------------------------- | -------- | ---------------------------------- |
+| Web Dashboard 上線         | 100%     | 可訪問並顯示所有 8 clusters        |
+| Auto-Fix Bot 整合          | 80%      | 至少 4/8 clusters 支援自動修復     |
+| Living Knowledge Base 整合 | 100%     | Knowledge graph 包含所有 playbooks |
+| 測試覆蓋率                 | > 70%    | pytest coverage report             |
+| Playbook 品質分數          | > 85/100 | 自定義 quality metrics             |
 
 ### Phase 4 驗收標準
 
-| 指標 | 目標 | 測量方式 |
-|------|------|---------|
-| 進階視覺化 | 3+ 圖表類型 | Sankey, Heatmap, Timeline |
+| 指標         | 目標         | 測量方式                  |
+| ------------ | ------------ | ------------------------- |
+| 進階視覺化   | 3+ 圖表類型  | Sankey, Heatmap, Timeline |
 | LLM API 整合 | 成功率 > 90% | 生成完整 playbooks 準確度 |
-| 多語言支援 | 2+ 語言 | 英文 + 中文 |
-| 第三方整合 | 2+ 平台 | Slack + JIRA |
+| 多語言支援   | 2+ 語言      | 英文 + 中文               |
+| 第三方整合   | 2+ 平台      | Slack + JIRA              |
 
 ---
 
@@ -284,7 +283,8 @@
 ### CI/CD
 
 - **GitHub Actions**: 現有 workflows 擴展
-- **Deployment**: Self-hosted on Unmanned Island infrastructure (primary), Vercel (alternative for frontend)
+- **Deployment**: Self-hosted on Unmanned Island infrastructure (primary),
+  Vercel (alternative for frontend)
 
 ### Testing
 

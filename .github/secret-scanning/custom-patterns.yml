@@ -9,155 +9,155 @@ patterns:
     confidence: "high"
     severity: "critical"
     description: "Enterprise database connection string with embedded credentials"
-    
+
   - name: "Database Password Pattern"
     pattern: "(?i)db_pass(?:word)?['\"]?\\s*[:=]\\s*['\"]?[a-zA-Z0-9!@#$%^&*]{12,}"
     confidence: "medium"
     severity: "high"
     description: "Database password in configuration files"
-  
+
   # Internal API tokens
   - name: "Internal API Token"
     pattern: "int_[0-9a-f]{40}"
     confidence: "high"
     severity: "high"
     description: "Internal service API token"
-    
+
   - name: "Legacy API Key"
     pattern: "legacy_api_[A-Za-z0-9]{32}"
     confidence: "high"
     severity: "medium"
     description: "Legacy system API key"
-  
+
   # Service account credentials
   - name: "Service Account Key"
     pattern: "sa_[A-Za-z0-9+/]{64}="
     confidence: "medium"
     severity: "high"
     description: "Service account authentication key"
-    
+
   - name: "Service Principal Secret"
     pattern: "sp_secret_[0-9a-zA-Z_-]{43}"
     confidence: "high"
     severity: "critical"
     description: "Azure Service Principal secret"
-  
+
   # Encryption keys
   - name: "Encryption Master Key"
     pattern: "emk_[0-9A-Fa-f]{128}"
     confidence: "high"
     severity: "critical"
     description: "Master encryption key for data at rest"
-    
+
   - name: "AES Encryption Key"
     pattern: "aes_key_[0-9A-Fa-f]{64}"
     confidence: "high"
     severity: "critical"
     description: "AES-256 encryption key"
-  
+
   # JWT and session secrets
   - name: "JWT Signing Secret"
     pattern: "jwt_secret_[A-Za-z0-9_-]{43}"
     confidence: "high"
     severity: "high"
     description: "JWT token signing secret"
-    
+
   - name: "Session Secret"
     pattern: "session_secret['\"]?\\s*[:=]\\s*['\"]?[a-zA-Z0-9]{32,}"
     confidence: "medium"
     severity: "medium"
     description: "Session management secret"
-  
+
   # Cloud provider credentials
   - name: "Enterprise AWS Credentials"
     pattern: "(?i)aws_(?:access_key_id|secret_access_key)\\s*[:=]\\s*['\"]?[A-Z0-9]{20}['\"]?"
     confidence: "high"
     severity: "critical"
     description: "AWS IAM credentials"
-    
+
   - name: "Azure Connection String"
     pattern: "DefaultEndpointsProtocol=https;AccountName=[^;]+;AccountKey=[A-Za-z0-9+/=]{88}"
     confidence: "high"
     severity: "critical"
     description: "Azure Storage connection string"
-    
+
   - name: "GCP Service Account"
     pattern: '\"type\":\s*\"service_account\",\s*\"project_id\":'
     confidence: "high"
     severity: "critical"
     description: "GCP service account JSON key"
-  
+
   # OAuth and authentication
   - name: "OAuth Client Secret"
     pattern: "oauth_client_secret['\"]?\\s*[:=]\\s*['\"]?[a-zA-Z0-9_-]{32,}"
     confidence: "high"
     severity: "high"
     description: "OAuth 2.0 client secret"
-    
+
   - name: "Bearer Token"
     pattern: "Bearer\\s+[A-Za-z0-9_-]{20,}"
     confidence: "medium"
     severity: "medium"
     description: "HTTP Bearer authentication token"
-  
+
   # Private keys
   - name: "RSA Private Key"
     pattern: "-----BEGIN RSA PRIVATE KEY-----[\\s\\S]*-----END RSA PRIVATE KEY-----"
     confidence: "high"
     severity: "critical"
     description: "RSA private key in PEM format"
-    
+
   - name: "SSH Private Key"
     pattern: "-----BEGIN OPENSSH PRIVATE KEY-----[\\s\\S]*-----END OPENSSH PRIVATE KEY-----"
     confidence: "high"
     severity: "critical"
     description: "OpenSSH private key"
-  
+
   # Webhook secrets
   - name: "Webhook Secret"
     pattern: "webhook_secret['\"]?\\s*[:=]\\s*['\"]?[a-zA-Z0-9]{32,}"
     confidence: "medium"
     severity: "medium"
     description: "Webhook validation secret"
-  
+
   # Database connection strings
   - name: "MongoDB Connection String"
     pattern: "mongodb(?:\\+srv)?://[^:]+:[^@]+@[^/]+"
     confidence: "high"
     severity: "high"
     description: "MongoDB connection string with credentials"
-    
+
   - name: "PostgreSQL Connection"
     pattern: "postgres(?:ql)?://[^:]+:[^@]+@[^/]+"
     confidence: "high"
     severity: "high"
     description: "PostgreSQL connection string with credentials"
-    
+
   - name: "MySQL Connection"
     pattern: "mysql://[^:]+:[^@]+@[^/]+"
     confidence: "high"
     severity: "high"
     description: "MySQL connection string with credentials"
-  
+
   # API keys from popular services
   - name: "Slack Token"
     pattern: "xox[baprs]-[0-9]{10,13}-[0-9]{10,13}-[a-zA-Z0-9]{24,}"
     confidence: "high"
     severity: "medium"
     description: "Slack API token or webhook URL"
-    
+
   - name: "Stripe API Key"
     pattern: "sk_(?:live|test)_[0-9a-zA-Z]{24,}"
     confidence: "high"
     severity: "critical"
     description: "Stripe API secret key"
-    
+
   - name: "SendGrid API Key"
     pattern: "SG\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9_-]{43}"
     confidence: "high"
     severity: "medium"
     description: "SendGrid API key"
-    
+
   - name: "Twilio API Key"
     pattern: "SK[0-9a-f]{32}"
     confidence: "medium"
@@ -175,7 +175,7 @@ categories:
     - "Azure Connection String"
     - "GCP Service Account"
     - "Stripe API Key"
-    
+
   high:
     - "Enterprise Database Connection"
     - "Internal API Token"
@@ -185,7 +185,7 @@ categories:
     - "MongoDB Connection String"
     - "PostgreSQL Connection"
     - "MySQL Connection"
-    
+
   medium:
     - "Legacy API Key"
     - "Session Secret"

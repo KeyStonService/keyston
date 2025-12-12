@@ -53,10 +53,7 @@
             "description": "Metric name"
           },
           "threshold": {
-            "oneOf": [
-              {"type": "number"},
-              {"type": "string"}
-            ],
+            "oneOf": [{ "type": "number" }, { "type": "string" }],
             "description": "Compliance threshold value"
           },
           "frequency": {

@@ -13,64 +13,63 @@ max_tokens: 4096
 # ============================================================================
 
 system_prompts:
-  
   primary_role: |
     你是 SynergyMesh 的高級自動化架構師與代碼智能工程師。
     你的核心職責是：
-    
+
     1. **代碼分析專家**: 深度分析代碼質量、安全漏洞、性能問題
     2. **自動修復引擎**: 智能修復代碼缺陷，確保修復的正確性與安全性
     3. **治理架構師**: 建立並維護企業級代碼治理體系
     4. **SLSA 合規專家**: 確保所有修復符合 SLSA Level 3 標準
     5. **多語言精通**: 支援 Python, TypeScript, Go, Rust, Java 等多種語言
-    
+
     你的工作必須符合以下標準：
     - 代碼修復必須通過所有測試
     - 安全修復優先級最高
     - 修復必須可追溯、可驗證
     - 生成完整的證據鏈和審計日誌
     - 遵循最小修改原則
-  
+
   technical_principles: |
     ## 技術原則
-    
+
     ### 代碼分析原則
     - 使用多層次分析：靜態分析、動態分析、性能分析
     - 優先檢測 OWASP Top 10 安全問題
     - 使用 AST (抽象語法樹) 進行精確分析
     - 結合上下文理解代碼意圖
-    
+
     ### 修復原則
     - 最小侵入：只修改必要的代碼
     - 向後兼容：確保不破壞現有功能
     - 測試驅動：修復前後都要測試
     - 文檔同步：更新相關文檔
-    
+
     ### 安全原則
     - 零容忍硬編碼密鑰
     - 防止 SQL 注入、XSS、CSRF
     - 使用參數化查詢
     - 實施最小權限原則
-    
+
     ### 性能原則
     - 識別並優化 N+1 查詢
     - 減少不必要的計算
     - 使用適當的數據結構
     - 實施緩存策略
-  
+
   governance_principles: |
     ## 治理原則
-    
+
     ### 責任矩陣
     - 明確定義模組責任邊界
     - 建立角色與權限映射
     - 實施審批流程
-    
+
     ### 證據鏈管理
     - 每次修復生成證據鏈
     - 記錄修復前後狀態
     - 提供可驗證的審計日誌
-    
+
     ### 合規性
     - 符合 SLSA Level 3 標準
     - 使用 Sigstore 簽名
@@ -82,17 +81,16 @@ system_prompts:
 # ============================================================================
 
 analysis_prompts:
-  
   security_analysis: |
     分析以下代碼的安全問題：
-    
+
     語言: {language}
     文件: {file_path}
-    
+
     ```{language}
     {code}
     ```
-    
+
     請檢測：
     1. 硬編碼密鑰或敏感信息
     2. SQL 注入風險
@@ -102,23 +100,23 @@ analysis_prompts:
     6. 路徑遍歷漏洞
     7. 命令注入
     8. 不安全的依賴項
-    
+
     對每個問題提供：
     - 嚴重程度 (CRITICAL/HIGH/MEDIUM/LOW)
     - 問題位置 (行號)
     - 問題描述
     - 修復建議
-  
+
   performance_analysis: |
     分析以下代碼的性能問題：
-    
+
     語言: {language}
     文件: {file_path}
-    
+
     ```{language}
     {code}
     ```
-    
+
     請檢測：
     1. N+1 查詢問題
     2. 不必要的循環嵌套
@@ -126,23 +124,23 @@ analysis_prompts:
     4. 記憶體洩漏風險
     5. 過度的對象創建
     6. 未優化的演算法
-    
+
     對每個問題提供：
     - 性能影響程度
     - 問題位置
     - 優化建議
     - 預期性能提升
-  
+
   code_quality_analysis: |
     分析以下代碼的質量問題：
-    
+
     語言: {language}
     文件: {file_path}
-    
+
     ```{language}
     {code}
     ```
-    
+
     請檢測：
     1. 圈複雜度過高
     2. 代碼重複
@@ -151,7 +149,7 @@ analysis_prompts:
     5. 不一致的命名
     6. 缺少錯誤處理
     7. 缺少文檔註釋
-    
+
     對每個問題提供：
     - 嚴重程度
     - 問題位置
@@ -163,80 +161,79 @@ analysis_prompts:
 # ============================================================================
 
 repair_prompts:
-  
   security_fix: |
     修復以下安全問題：
-    
+
     問題類型: {issue_type}
     嚴重程度: {severity}
     文件: {file_path}
     位置: 第 {line_number} 行
-    
+
     原始代碼：
     ```{language}
     {original_code}
     ```
-    
+
     問題描述: {description}
-    
+
     請提供：
     1. 修復後的代碼
     2. 修復說明
     3. 驗證方法
     4. 測試案例
-    
+
     修復要求：
     - 確保修復完全解決安全問題
     - 不引入新的問題
     - 保持代碼可讀性
     - 添加必要的註釋
     - 符合語言最佳實務
-  
+
   performance_fix: |
     優化以下代碼性能：
-    
+
     問題類型: {issue_type}
     文件: {file_path}
     位置: 第 {line_number} 行
-    
+
     原始代碼：
     ```{language}
     {original_code}
     ```
-    
+
     問題描述: {description}
-    
+
     請提供：
     1. 優化後的代碼
     2. 優化說明
     3. 性能對比
     4. 基準測試代碼
-    
+
     優化要求：
     - 確保功能不變
     - 提升性能至少 20%
     - 不犧牲代碼可讀性
     - 使用合適的數據結構和算法
-  
+
   code_quality_fix: |
     改進以下代碼質量：
-    
+
     問題類型: {issue_type}
     文件: {file_path}
     位置: 第 {line_number} 行
-    
+
     原始代碼：
     ```{language}
     {original_code}
     ```
-    
+
     問題描述: {description}
-    
+
     請提供：
     1. 改進後的代碼
     2. 改進說明
     3. 質量指標對比
-    
+
     改進要求：
     - 遵循語言風格指南
     - 提高代碼可讀性
@@ -248,54 +245,53 @@ repair_prompts:
 # ============================================================================
 
 verification_prompts:
-  
   pre_fix_validation: |
     在修復前驗證問題：
-    
+
     文件: {file_path}
     問題類型: {issue_type}
-    
+
     請確認：
     1. 問題是否真實存在
     2. 問題的根本原因
     3. 修復的必要性
     4. 潛在影響範圍
     5. 修復優先級
-  
+
   post_fix_validation: |
     驗證修復結果：
-    
+
     文件: {file_path}
     修復類型: {fix_type}
-    
+
     原始代碼：
     ```{language}
     {original_code}
     ```
-    
+
     修復後代碼：
     ```{language}
     {fixed_code}
     ```
-    
+
     請驗證：
     1. 問題是否已解決
     2. 是否引入新問題
     3. 測試是否全部通過
     4. 代碼風格是否一致
     5. 文檔是否已更新
-  
+
   security_validation: |
     安全驗證：
-    
+
     修復類型: {fix_type}
     文件: {file_path}
-    
+
     修復後代碼：
     ```{language}
     {fixed_code}
     ```
-    
+
     請執行：
     1. 靜態安全掃描
     2. 依賴漏洞檢查
@@ -308,70 +304,69 @@ verification_prompts:
 # ============================================================================
 
 report_prompts:
-  
   analysis_report: |
     生成分析報告：
-    
+
     項目: {project_name}
     分析時間: {timestamp}
     分析範圍: {scope}
-    
+
     請生成包含以下內容的報告：
-    
+
     ## 執行摘要
     - 分析總覽
     - 關鍵發現
     - 優先建議
-    
+
     ## 問題統計
     - 按嚴重程度分類
     - 按問題類型分類
     - 趨勢分析
-    
+
     ## 詳細發現
     - 安全問題列表
     - 性能問題列表
     - 質量問題列表
-    
+
     ## 修復建議
     - 優先修復項目
     - 修復計劃
     - 預期效果
-    
+
     ## 附錄
     - 掃描工具列表
     - 配置信息
     - 證據鏈
-  
+
   fix_report: |
     生成修復報告：
-    
+
     項目: {project_name}
     修復時間: {timestamp}
     修復範圍: {scope}
-    
+
     請生成包含以下內容的報告：
-    
+
     ## 修復摘要
     - 修復數量
     - 成功率
     - 關鍵成果
-    
+
     ## 修復詳情
     - 安全修復列表
     - 性能優化列表
     - 質量改進列表
-    
+
     ## 驗證結果
     - 測試結果
     - 性能對比
     - 安全掃描結果
-    
+
     ## 影響分析
     - 代碼變更量
     - 功能影響
     - 風險評估
-    
+
     ## 後續行動
     - 待辦事項
     - 監控建議
@@ -382,7 +377,6 @@ report_prompts:
 # ============================================================================
 
 prompt_parameters:
-  
   # 語言特定參數
   language_configs:
     python:
@@ -390,23 +384,23 @@ prompt_parameters:
       type_system: "mypy"
       linter: "pylint"
       formatter: "black"
-    
+
     typescript:
       style_guide: "Airbnb"
       type_system: "strict"
       linter: "eslint"
       formatter: "prettier"
-    
+
     go:
       style_guide: "Effective Go"
       linter: "golangci-lint"
       formatter: "gofmt"
-    
+
     rust:
       style_guide: "Rust Style Guide"
       linter: "clippy"
       formatter: "rustfmt"
-  
+
   # 嚴重程度映射
   severity_mapping:
     CRITICAL:
@@ -414,37 +408,37 @@ prompt_parameters:
       sla_hours: 4
       auto_fix: false
       require_review: true
-    
+
     HIGH:
       priority: 2
       sla_hours: 24
       auto_fix: false
       require_review: true
-    
+
     MEDIUM:
       priority: 3
       sla_hours: 72
       auto_fix: true
       require_review: false
-    
+
     LOW:
       priority: 4
       sla_hours: 168
       auto_fix: true
       require_review: false
-  
+
   # 修復策略
   repair_strategies:
     conservative:
       description: "保守修復，最小變更"
       risk_level: "low"
       auto_apply: false
-    
+
     balanced:
       description: "平衡修復，合理變更"
       risk_level: "medium"
       auto_apply: true
-    
+
     aggressive:
       description: "積極修復，重構優化"
       risk_level: "high"
@@ -455,7 +449,6 @@ prompt_parameters:
 # ============================================================================
 
 output_formats:
-  
   json_output:
     schema_version: "1.0"
     required_fields:
@@ -467,28 +460,28 @@ output_formats:
       - description
       - fix_suggestion
       - evidence_hash
-  
+
   markdown_output:
     template: |
       # 代碼分析報告
-      
+
       ## 項目信息
       - 項目: {project_name}
       - 分析時間: {timestamp}
       - 分析版本: {version}
-      
+
       ## 問題統計
       - 嚴重: {critical_count}
       - 高: {high_count}
       - 中: {medium_count}
       - 低: {low_count}
-      
+
       ## 詳細問題
       {issue_details}
-      
+
       ## 修復建議
       {fix_suggestions}
-  
+
   html_output:
     include_css: true
     include_charts: true
@@ -499,48 +492,46 @@ output_formats:
 # ============================================================================
 
 quality_standards:
-  
   code_coverage:
     minimum: 0.85
     target: 0.95
     critical_paths: 1.0
-  
+
   cyclomatic_complexity:
     maximum: 10
     warning: 8
-  
+
   duplication:
     maximum: 0.05
     warning: 0.03
-  
+
   security:
     zero_critical: true
     zero_high: true
     max_medium: 5
-  
+
   performance:
-    max_response_time: 200  # ms
-    max_memory_usage: 512  # MB
-    min_throughput: 1000  # requests/sec
+    max_response_time: 200 # ms
+    max_memory_usage: 512 # MB
+    min_throughput: 1000 # requests/sec
 
 # ============================================================================
 # 學習與改進 (Learning & Improvement)
 # ============================================================================
 
 learning_config:
-  
   feedback_loop:
     enabled: true
     collect_metrics: true
     analyze_patterns: true
     update_models: true
-  
+
   continuous_improvement:
     review_fixes: true
     measure_effectiveness: true
     update_rules: true
     share_knowledge: true
-  
+
   knowledge_base:
     store_solutions: true
     index_patterns: true

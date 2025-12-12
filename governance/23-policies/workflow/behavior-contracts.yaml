@@ -23,18 +23,18 @@ ai_governance_contracts:
     version: "1.0.0"
     type: "workflow"
     description: "Behavior contract for AI analysis phase"
-    
+
     preconditions:
       - name: "input_data_available"
         description: "Analysis input data must be available"
         rule: "input.code_changes is not null"
         severity: "critical"
-        
+
       - name: "analysis_context_valid"
         description: "Analysis context must be valid"
         rule: "context.repository_info is not null"
         severity: "high"
-    
+
     behavior:
       # Structural Analysis | 結構分析
       structural_analysis:
@@ -49,12 +49,12 @@ ai_governance_contracts:
         should:
           - "Cache parsed AST for reuse"
           - "Provide detailed metrics"
-        
+
         guarantees:
           - "Analysis completes within 60 seconds"
           - "No side effects on input data"
           - "Thread-safe execution"
-      
+
       # Semantic Analysis | 語義分析
       semantic_analysis:
         must:
@@ -68,11 +68,11 @@ ai_governance_contracts:
         should:
           - "Use ML models for intent detection"
           - "Leverage historical data"
-        
+
         guarantees:
           - "Confidence score >= 0.80 for recommendations"
           - "Explainable results with evidence"
-      
+
       # Dependency Analysis | 依賴分析
       dependency_analysis:
         must:
@@ -86,11 +86,11 @@ ai_governance_contracts:
         should:
           - "Suggest dependency upgrades"
           - "Identify unused dependencies"
-        
+
         guarantees:
           - "Graph completeness >= 95%"
           - "Vulnerability detection accuracy >= 98%"
-      
+
       # Pattern Recognition | 模式識別
       pattern_recognition:
         must:
@@ -104,11 +104,11 @@ ai_governance_contracts:
         should:
           - "Learn from historical corrections"
           - "Suggest refactoring patterns"
-        
+
         guarantees:
           - "Pattern database coverage: 500+ patterns"
           - "False negative rate < 2%"
-      
+
       # Conflict Detection | 衝突檢測
       conflict_detection:
         must:
@@ -122,11 +122,11 @@ ai_governance_contracts:
         should:
           - "Prioritize conflicts by impact"
           - "Suggest automatic resolutions"
-        
+
         guarantees:
           - "Conflict detection recall >= 90%"
           - "Resolution suggestions provided for all conflicts"
-      
+
       # Risk Assessment | 風險評估
       risk_assessment:
         must:
@@ -140,22 +140,22 @@ ai_governance_contracts:
         should:
           - "Use historical incident data"
           - "Consider blast radius"
-        
+
         guarantees:
           - "Risk assessment accuracy >= 85%"
           - "Critical risks always flagged"
-    
+
     postconditions:
       - name: "analysis_report_generated"
         description: "Complete analysis report must be generated"
         rule: "output.analysis_report is not null"
         severity: "critical"
-        
+
       - name: "recommendations_provided"
         description: "Actionable recommendations must be provided"
         rule: "output.recommendations.length > 0"
         severity: "high"
-    
+
     performance:
       max_execution_time_seconds: 300
       max_memory_mb: 512
@@ -170,13 +170,13 @@ validation_contracts:
     version: "1.0.0"
     type: "validation"
     description: "Behavior contract for syntax validation"
-    
+
     preconditions:
       - name: "code_parseable"
         description: "Code must be parseable"
         rule: "input.code is not null"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Parse all supported languages (Python, TypeScript, YAML)"
@@ -189,34 +189,34 @@ validation_contracts:
       should:
         - "Provide auto-fix suggestions"
         - "Support multiple language versions"
-      
+
       guarantees:
         - "Validation completes in < 10 seconds"
         - "100% syntax error detection"
         - "Line-accurate error reporting"
-    
+
     postconditions:
       - name: "validation_result_complete"
         description: "Validation result must be complete"
         rule: "output.is_valid is not null"
         severity: "critical"
-    
+
     performance:
       max_execution_time_seconds: 10
       max_memory_mb: 256
-  
+
   # Semantic Validation Contract | 語義驗證契約
   - name: "semantic_validation_contract"
     version: "1.0.0"
     type: "validation"
     description: "Behavior contract for semantic validation"
-    
+
     preconditions:
       - name: "syntax_valid"
         description: "Syntax validation must pass first"
         rule: "context.syntax_validation.is_valid == true"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Validate variable scope"
@@ -229,34 +229,34 @@ validation_contracts:
       should:
         - "Use AI for intent understanding"
         - "Leverage codebase knowledge"
-      
+
       guarantees:
         - "Validation accuracy >= 85%"
         - "False positive rate <= 10%"
         - "Context-aware validation"
-    
+
     postconditions:
       - name: "semantic_errors_reported"
         description: "All semantic errors must be reported"
         rule: "output.errors is not null"
         severity: "high"
-    
+
     performance:
       max_execution_time_seconds: 30
       max_memory_mb: 512
-  
+
   # Security Validation Contract | 安全驗證契約
   - name: "security_validation_contract"
     version: "1.0.0"
     type: "validation"
     description: "Behavior contract for security validation"
-    
+
     preconditions:
       - name: "code_available"
         description: "Code must be available for scanning"
         rule: "input.code is not null"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Scan for OWASP Top 10 vulnerabilities"
@@ -271,23 +271,23 @@ validation_contracts:
       should:
         - "Suggest remediation steps"
         - "Provide vulnerability context"
-      
+
       guarantees:
         - "CVE detection rate >= 98%"
         - "Critical vulnerability detection = 100%"
         - "No false negatives for known patterns"
-    
+
     postconditions:
       - name: "security_report_complete"
         description: "Complete security report must be generated"
         rule: "output.security_report is not null"
         severity: "critical"
-        
+
       - name: "critical_vulns_flagged"
         description: "All critical vulnerabilities must be flagged"
         rule: "output.critical_count >= 0"
         severity: "critical"
-    
+
     performance:
       max_execution_time_seconds: 60
       max_memory_mb: 1024
@@ -301,18 +301,18 @@ deployment_contracts:
     version: "1.0.0"
     type: "deployment"
     description: "Behavior contract for build phase"
-    
+
     preconditions:
       - name: "validation_passed"
         description: "All validations must pass"
         rule: "context.validation.all_passed == true"
         severity: "critical"
-        
+
       - name: "dependencies_available"
         description: "All dependencies must be available"
         rule: "context.dependencies.resolved == true"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Build from source consistently"
@@ -328,39 +328,39 @@ deployment_contracts:
         - "Cache build layers"
         - "Optimize artifact size"
         - "Generate SBOM"
-      
+
       guarantees:
         - "Build reproducibility = 100%"
         - "Artifact signing = 100%"
         - "Build time < 10 minutes"
-    
+
     postconditions:
       - name: "artifact_generated"
         description: "Build artifact must be generated"
         rule: "output.artifact is not null"
         severity: "critical"
-        
+
       - name: "artifact_signed"
         description: "Artifact must be signed"
         rule: "output.signature is not null"
         severity: "critical"
-    
+
     performance:
       max_execution_time_seconds: 600
       max_memory_mb: 2048
-  
+
   # Test Contract | 測試契約
   - name: "test_contract"
     version: "1.0.0"
     type: "deployment"
     description: "Behavior contract for test phase"
-    
+
     preconditions:
       - name: "build_successful"
         description: "Build must be successful"
         rule: "context.build.success == true"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Run all unit tests"
@@ -374,44 +374,44 @@ deployment_contracts:
       should:
         - "Run tests in parallel"
         - "Generate test reports"
-      
+
       guarantees:
         - "Test coverage >= 80%"
         - "All tests executed"
         - "Flaky test rate <= 1%"
-    
+
     postconditions:
       - name: "tests_passed"
         description: "All tests must pass"
         rule: "output.all_passed == true"
         severity: "critical"
-        
+
       - name: "coverage_acceptable"
         description: "Code coverage must meet threshold"
         rule: "output.coverage >= 80"
         severity: "high"
-    
+
     performance:
       max_execution_time_seconds: 1800
       max_memory_mb: 1024
-  
+
   # Deploy Contract | 部署契約
   - name: "deploy_contract"
     version: "1.0.0"
     type: "deployment"
     description: "Behavior contract for deployment phase"
-    
+
     preconditions:
       - name: "tests_passed"
         description: "All tests must pass"
         rule: "context.test.all_passed == true"
         severity: "critical"
-        
+
       - name: "security_approved"
         description: "Security validation must pass"
         rule: "context.security.approved == true"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Deploy to correct environment"
@@ -427,39 +427,39 @@ deployment_contracts:
         - "Use blue-green deployment"
         - "Gradually shift traffic"
         - "Monitor metrics during deployment"
-      
+
       guarantees:
         - "Zero-downtime deployment"
         - "Rollback capability maintained"
         - "Health check success = 100%"
-    
+
     postconditions:
       - name: "deployment_successful"
         description: "Deployment must be successful"
         rule: "output.status == 'deployed'"
         severity: "critical"
-        
+
       - name: "health_checks_passing"
         description: "All health checks must pass"
         rule: "output.health_checks.all_passed == true"
         severity: "critical"
-    
+
     performance:
       max_execution_time_seconds: 900
       max_memory_mb: 512
-  
+
   # Monitor Contract | 監控契約
   - name: "monitor_contract"
     version: "1.0.0"
     type: "deployment"
     description: "Behavior contract for monitoring phase"
-    
+
     preconditions:
       - name: "deployment_complete"
         description: "Deployment must be complete"
         rule: "context.deployment.status == 'deployed'"
         severity: "critical"
-    
+
     behavior:
       must:
         - "Collect all defined metrics"
@@ -474,18 +474,18 @@ deployment_contracts:
         - "Use distributed tracing"
         - "Correlate logs and metrics"
         - "Predict issues before they occur"
-      
+
       guarantees:
         - "Metric collection rate = 100%"
         - "Alert latency < 30 seconds"
         - "Data retention >= 15 days"
-    
+
     postconditions:
       - name: "monitoring_active"
         description: "Monitoring must be active"
         rule: "output.monitoring.active == true"
         severity: "critical"
-    
+
     performance:
       max_execution_time_seconds: 60
       max_memory_mb: 256
@@ -499,7 +499,7 @@ plugin_contracts:
     version: "1.0.0"
     type: "plugin"
     description: "Behavior contract for plugin lifecycle"
-    
+
     behavior:
       initialization:
         must:
@@ -513,7 +513,7 @@ plugin_contracts:
         guarantees:
           - "Initialization time < 5 seconds"
           - "Safe failure on invalid plugins"
-      
+
       execution:
         must:
           - "Run in sandboxed environment"
@@ -526,7 +526,7 @@ plugin_contracts:
         guarantees:
           - "Resource isolation = 100%"
           - "No privilege escalation"
-      
+
       termination:
         must:
           - "Release all resources"
@@ -546,7 +546,7 @@ self_improvement_contracts:
     version: "1.0.0"
     type: "self_improvement"
     description: "Behavior contract for learning system"
-    
+
     behavior:
       must:
         - "Collect feedback from all sources"
@@ -561,7 +561,7 @@ self_improvement_contracts:
       should:
         - "Use A/B testing for new models"
         - "Validate improvements before deployment"
-      
+
       guarantees:
         - "Model accuracy improvement >= 2% per cycle"
         - "No regression in critical metrics"
@@ -573,29 +573,29 @@ self_improvement_contracts:
 enforcement:
   # Enforcement Policy | 執行策略
   policy:
-    mode: "strict"  # strict | permissive | audit
-    
+    mode: "strict" # strict | permissive | audit
+
     on_violation:
       critical:
         action: "block"
         notify: ["security_team", "team_lead"]
         create_incident: true
-      
+
       high:
         action: "block"
         notify: ["team_lead"]
         create_incident: true
-      
+
       medium:
         action: "warn"
         notify: ["developer"]
         create_incident: false
-      
+
       low:
         action: "log"
         notify: []
         create_incident: false
-  
+
   # Monitoring | 監控
   monitoring:
     enabled: true
@@ -604,7 +604,7 @@ enforcement:
       - "contract_executions_total"
       - "contract_execution_duration"
       - "contract_validation_errors"
-    
+
     alerts:
       - name: "high_violation_rate"
         condition: "violation_rate > 5%"

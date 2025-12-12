@@ -5,51 +5,51 @@ on:
   workflow_call:
     inputs:
       working-directory:
-        description: 'Working directory for the project'
+        description: "Working directory for the project"
         required: true
         type: string
       service-name:
-        description: 'Service name for identification'
+        description: "Service name for identification"
         required: true
         type: string
       node-version:
-        description: 'Node.js version'
+        description: "Node.js version"
         required: false
         type: string
-        default: '18'
+        default: "18"
       enable-docker-build:
-        description: 'Enable Docker image build'
+        description: "Enable Docker image build"
         required: false
         type: boolean
         default: false
       enable-sbom:
-        description: 'Enable SBOM generation'
+        description: "Enable SBOM generation"
         required: false
         type: boolean
         default: true
       enable-security-scan:
-        description: 'Enable security scanning'
+        description: "Enable security scanning"
         required: false
         type: boolean
         default: true
       enable-coverage-upload:
-        description: 'Enable coverage upload as artifact'
+        description: "Enable coverage upload as artifact"
         required: false
         type: boolean
         default: false
       coverage-path:
-        description: 'Path to coverage folder (relative to working-directory)'
+        description: "Path to coverage folder (relative to working-directory)"
         required: false
         type: string
-        default: 'coverage/'
+        default: "coverage/"
       custom-scripts:
-        description: 'Comma-separated list of custom npm scripts to run after standard CI steps'
+        description: "Comma-separated list of custom npm scripts to run after standard CI steps"
         required: false
         type: string
-        default: ''
+        default: ""
     outputs:
       result:
-        description: 'CI pipeline result'
+        description: "CI pipeline result"
         value: ${{ jobs.ci-pipeline.result }}
     secrets:
       REGISTRY_USERNAME:
@@ -70,11 +70,11 @@ jobs:
   ci-pipeline:
     runs-on: ubuntu-latest
     # 注意：不在此處設定 permissions，由調用方 workflow 繼承
-    
+
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -86,20 +86,20 @@ jobs:
         run: |
           echo "service=${{ inputs.service-name }}" >> $GITHUB_OUTPUT
           echo "working_dir=${{ inputs.working-directory }}" >> $GITHUB_OUTPUT
-          
+
           # 檢查必要檔案
           if [ -f "package.json" ]; then
             echo "has_package_json=true" >> $GITHUB_OUTPUT
           else
             echo "has_package_json=false" >> $GITHUB_OUTPUT
           fi
-          
+
           if [ -f "Dockerfile" ]; then
             echo "has_dockerfile=true" >> $GITHUB_OUTPUT
           else
             echo "has_dockerfile=false" >> $GITHUB_OUTPUT
           fi
-          
+
           # 檢查 package-lock.json 位置（支援 monorepo/workspace）
           # 注意：cache-dependency-path 需要從 repository root 開始的路徑
           if [ -f "package-lock.json" ]; then
@@ -182,7 +182,7 @@ jobs:
         if: inputs.enable-sbom == true && steps.check-structure.outputs.has_package_json == 'true'
         run: |
           npx @cyclonedx/cyclonedx-npm --output-file sbom.json || echo "⚠️ SBOM 生成失敗"
-          
+
       - name: 🔒 Security scan
         if: inputs.enable-security-scan == true && steps.check-structure.outputs.has_package_json == 'true'
         run: |

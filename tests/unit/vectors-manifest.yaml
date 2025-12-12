@@ -9,31 +9,31 @@ test_suites:
     vectors_dir: test-vectors/cloud-agent-delegation/
     total_vectors: 3
     coverage_target: 95%
-    
+
     categories:
       - name: valid_minimal
         count: 1
         description: Minimal viable configuration
-        
+
       - name: valid_full
         count: 1
         description: Complete configuration with all features
-        
+
       - name: invalid_schema
         count: 1
         description: Schema validation failures
-  
+
   - name: auto-fix-bot
     schema_file: schemas/.auto-fix-bot.schema.json
     vectors_dir: test-vectors/auto-fix-bot/
     total_vectors: 2
     coverage_target: 90%
-    
+
     categories:
       - name: valid_minimal
         count: 1
         description: Minimal viable bot configuration
-        
+
       - name: invalid_schema
         count: 1
         description: Schema validation failures
@@ -43,16 +43,16 @@ test_suites:
     vectors_dir: test-vectors/osv-advisory/
     total_vectors: 3
     coverage_target: 95%
-    
+
     categories:
       - name: valid_minimal
         count: 1
         description: Minimal valid OSV advisory (required fields only)
-        
+
       - name: valid_full
         count: 1
         description: Complete advisory with all optional fields
-        
+
       - name: invalid_schema
         count: 1
         description: Invalid advisory for schema validation testing
@@ -61,11 +61,11 @@ validation_rules:
   - rule_id: schema-strict
     description: All vectors must pass JSON Schema validation
     severity: critical
-    
+
   - rule_id: evidence-chain
     description: All vectors must include complete test metadata
     severity: high
-    
+
   - rule_id: audit-trail
     description: All vectors must have creation timestamp
     severity: high

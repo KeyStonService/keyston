@@ -6,7 +6,8 @@
 
 ## 📋 概述 (Overview)
 
-Closed-loop feedback, continuous improvement cycles, and optimization loops governance
+Closed-loop feedback, continuous improvement cycles, and optimization loops
+governance
 
 ## 🎯 目標 (Objectives)
 
@@ -22,4 +23,4 @@ Closed-loop feedback, continuous improvement cycles, and optimization loops gove
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

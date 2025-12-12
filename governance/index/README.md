@@ -6,14 +6,14 @@
 
 這個 Index 系統是**完整的生產系統**，不是藍圖或計畫：
 
-| 傳統思維 ❌ | 本系統 ✅ |
-|------------|----------|
-| 短期/中期/長期 | **現在就能用** |
+| 傳統思維 ❌           | 本系統 ✅             |
+| --------------------- | --------------------- |
+| 短期/中期/長期        | **現在就能用**        |
 | `execution: optional` | `execution: required` |
-| 分階段交付 | **即時完整** |
-| RAG 是「未來」 | **RAG 現在可用** |
-| 向量是「計畫」 | **向量已生成** |
-| 代理失憶 | **事件持久化** |
+| 分階段交付            | **即時完整**          |
+| RAG 是「未來」        | **RAG 現在可用**      |
+| 向量是「計畫」        | **向量已生成**        |
+| 代理失憶              | **事件持久化**        |
 
 ---
 
@@ -72,7 +72,8 @@ Index 是整個系統的「**單一真相來源 (SSOT)**」。機器讀取 Index
 
 ### 2. 依賴解析 (Dependency Resolution)
 
-81 個維度的 **DAG (Directed Acyclic Graph)** 已驗證無循環依賴，可直接用於拓撲排序。
+81 個維度的 **DAG (Directed Acyclic Graph)**
+已驗證無循環依賴，可直接用於拓撲排序。
 
 ### 3. 策略執行 (Execution Control)
 
@@ -198,35 +199,35 @@ python governance/index/scripts/index-validator.py
 
 ## 📊 索引檔案狀態
 
-| 檔案 | 狀態 | 說明 |
-|------|------|------|
-| `governance-index.json` | ✅ Production | Root SSOT |
-| `dimensions.json` | ✅ Production | 81 維度 DAG，無循環 |
-| `shared.json` | ✅ Production | 8 個共享資源 (含 events) |
-| `compliance.json` | ✅ Production | 6 個合規框架 |
-| `events.json` | ✅ Production | 8 類事件，32+ 事件定義 |
-| `tech-debt.json` | ✅ Production | 債務追蹤，CI 閘門就緒 |
-| `vectors.json` | ✅ Production | 嵌入已生成，RAG 可用 |
-| `observability.json` | ✅ Production | 指標、SLO、告警 |
-| `events/registry.json` | ✅ Production | 事件索引 |
-| `events/current-session.json` | ✅ Production | 當前會話上下文 |
-| `events/vector-index.json` | ✅ Production | 事件向量索引 |
-| `events/bootstrap-contract.json` | ✅ Production | 入口協定 |
+| 檔案                             | 狀態          | 說明                     |
+| -------------------------------- | ------------- | ------------------------ |
+| `governance-index.json`          | ✅ Production | Root SSOT                |
+| `dimensions.json`                | ✅ Production | 81 維度 DAG，無循環      |
+| `shared.json`                    | ✅ Production | 8 個共享資源 (含 events) |
+| `compliance.json`                | ✅ Production | 6 個合規框架             |
+| `events.json`                    | ✅ Production | 8 類事件，32+ 事件定義   |
+| `tech-debt.json`                 | ✅ Production | 債務追蹤，CI 閘門就緒    |
+| `vectors.json`                   | ✅ Production | 嵌入已生成，RAG 可用     |
+| `observability.json`             | ✅ Production | 指標、SLO、告警          |
+| `events/registry.json`           | ✅ Production | 事件索引                 |
+| `events/current-session.json`    | ✅ Production | 當前會話上下文           |
+| `events/vector-index.json`       | ✅ Production | 事件向量索引             |
+| `events/bootstrap-contract.json` | ✅ Production | 入口協定                 |
 
 ---
 
 ## ⚡ 性能指標
 
-| 操作 | 延遲限制 |
-|------|---------|
-| 事件讀取 (Bootstrap) | <=5s |
-| 事件寫入 | <=1s |
-| Policy 驗證 | <=5s |
-| Intent 映射 | <=10s |
-| Agent 部署 | <=30s |
-| 事件處理 | <=1s (critical) |
-| RAG 查詢 | <=1s |
-| 完整部署 | <=180s |
+| 操作                 | 延遲限制        |
+| -------------------- | --------------- |
+| 事件讀取 (Bootstrap) | <=5s            |
+| 事件寫入             | <=1s            |
+| Policy 驗證          | <=5s            |
+| Intent 映射          | <=10s           |
+| Agent 部署           | <=30s           |
+| 事件處理             | <=1s (critical) |
+| RAG 查詢             | <=1s            |
+| 完整部署             | <=180s          |
 
 ---
 

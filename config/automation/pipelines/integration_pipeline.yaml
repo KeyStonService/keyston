@@ -10,7 +10,7 @@ enabled: true
 
 triggers:
   - type: cron
-    schedule: "0 */12 * * *"  # 每12小時
+    schedule: "0 */12 * * *" # 每12小時
 
   - type: event
     event: "asset.added"

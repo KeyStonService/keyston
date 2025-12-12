@@ -227,19 +227,24 @@ PENDING → SCHEDULING → EXECUTING → VERIFYING → COMMIT
 
 ### 6.1 Quantum Integration
 
-- **Scheduler Endpoint**: `quantum-scheduler.unmanned-island-system.svc.cluster.local:8888`
-- **Circuit Optimizer**: `quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889`
+- **Scheduler Endpoint**:
+  `quantum-scheduler.unmanned-island-system.svc.cluster.local:8888`
+- **Circuit Optimizer**:
+  `quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889`
 
 ### 6.2 Knowledge Graph
 
-- **KG Builder**: `kg-graph-builder.unmanned-island-system.svc.cluster.local:8890`
-- **Vector Search**: `kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891`
+- **KG Builder**:
+  `kg-graph-builder.unmanned-island-system.svc.cluster.local:8890`
+- **Vector Search**:
+  `kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891`
 
 ### 6.3 Observability Stack
 
 - **Prometheus**: `prometheus.unmanned-island-system.svc.cluster.local:9090`
 - **Grafana**: `grafana.unmanned-island-system.svc.cluster.local:3000`
-- **Trace Collector**: `axiom-trace-collector.unmanned-island-system.svc.cluster.local:14268`
+- **Trace Collector**:
+  `axiom-trace-collector.unmanned-island-system.svc.cluster.local:14268`
 
 ---
 

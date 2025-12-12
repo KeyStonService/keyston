@@ -13,52 +13,52 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
 spec:
   tls:
-  - hosts:
-    - autofix-bot.example.com
-    secretName: autofix-bot-tls
+    - hosts:
+        - autofix-bot.example.com
+      secretName: autofix-bot-tls
   rules:
-  - host: autofix-bot.example.com
-    http:
-      paths:
-      - path: /api/analyze
-        pathType: Prefix
-        backend:
-          service:
-            name: code-analyzer
-            port:
-              number: 8080
-      - path: /api/scan
-        pathType: Prefix
-        backend:
-          service:
-            name: vulnerability-detector
-            port:
-              number: 8081
-      - path: /api/repair
-        pathType: Prefix
-        backend:
-          service:
-            name: auto-repair
-            port:
-              number: 8082
-      - path: /api/orchestrate
-        pathType: Prefix
-        backend:
-          service:
-            name: orchestrator
-            port:
-              number: 8083
-      - path: /grafana
-        pathType: Prefix
-        backend:
-          service:
-            name: grafana
-            port:
-              number: 3000
-      - path: /prometheus
-        pathType: Prefix
-        backend:
-          service:
-            name: prometheus
-            port:
-              number: 9090
+    - host: autofix-bot.example.com
+      http:
+        paths:
+          - path: /api/analyze
+            pathType: Prefix
+            backend:
+              service:
+                name: code-analyzer
+                port:
+                  number: 8080
+          - path: /api/scan
+            pathType: Prefix
+            backend:
+              service:
+                name: vulnerability-detector
+                port:
+                  number: 8081
+          - path: /api/repair
+            pathType: Prefix
+            backend:
+              service:
+                name: auto-repair
+                port:
+                  number: 8082
+          - path: /api/orchestrate
+            pathType: Prefix
+            backend:
+              service:
+                name: orchestrator
+                port:
+                  number: 8083
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090

@@ -16,20 +16,20 @@ drone_fleet:
     v1_module: "v1_python_drones.drones.coordinator_drone"
     priority: 1
     auto_start: true
-    
+
   autopilot:
     name: "自動駕駛"
     script: ".devcontainer/automation/auto-pilot.js"
     v1_module: "v1_python_drones.drones.autopilot_drone"
     priority: 2
     auto_start: true
-    
+
   code_generator:
     name: "代碼生成器"
     script: ".devcontainer/automation/code-generator.ts"
     priority: 3
     auto_start: false
-    
+
   deployment_drone:
     name: "部署無人機"
     script: ".devcontainer/automation/deployment-drone.sh"
@@ -55,7 +55,7 @@ v2_multi_islands:
   enabled: true
   base_path: "v2-multi-islands"
   main_entry: "v2_multi_islands.main"
-  
+
   # 島嶼配置
   islands:
     rust:
@@ -67,7 +67,7 @@ v2_multi_islands:
         - security_guardian
         - data_pipeline
         - system_orchestrator
-      
+
     go:
       name: "🌊 Go 雲原生服務島"
       enabled: true
@@ -77,7 +77,7 @@ v2_multi_islands:
         - microservice_mesh
         - container_manager
         - distributed_cache
-      
+
     typescript:
       name: "⚡ TypeScript 全棧開發島"
       enabled: true
@@ -87,7 +87,7 @@ v2_multi_islands:
         - api_client_generator
         - real_time_monitor
         - dev_tools_suite
-      
+
     python:
       name: "🐍 Python AI 數據島"
       enabled: true
@@ -97,7 +97,7 @@ v2_multi_islands:
         - data_analysis
         - ml_pipeline
         - automation_scripts
-      
+
     java:
       name: "☕ Java 企業服務島"
       enabled: true
@@ -107,13 +107,13 @@ v2_multi_islands:
         - message_queue_manager
         - batch_processing
         - legacy_system_bridge
-  
+
   # 協調器配置
   orchestrator:
     auto_start: true
     health_check_interval: 30
     max_concurrent_islands: 5
-  
+
   # 橋接配置
   bridges:
     enabled: true
@@ -121,7 +121,7 @@ v2_multi_islands:
       - grpc
       - rest
       - websocket
-  
+
   # 模組列表
   modules:
     - config.island_config
@@ -142,13 +142,13 @@ automation:
     templates_path: ".devcontainer/templates"
     output_path: "./generated"
     auto_format: true
-    
+
   deployment:
     enabled: true
     environments: ["development", "staging", "production"]
     auto_rollback: true
     health_checks: true
-    
+
   monitoring:
     enabled: true
     metrics_port: 9090
@@ -161,12 +161,12 @@ environments:
     auto_reload: true
     debug_mode: true
     port_range: "8000-8999"
-    
+
   staging:
     auto_reload: false
     debug_mode: false
     port_range: "9000-9999"
-    
+
   production:
     auto_reload: false
     debug_mode: false
@@ -185,12 +185,12 @@ integrations:
     extensions_sync: true
     settings_sync: true
     tasks_auto_generate: true
-    
+
   docker:
     auto_build: true
     multi_stage_build: true
     health_checks: true
-    
+
   git:
     auto_commit: false
     branch_protection: true
@@ -198,7 +198,7 @@ integrations:
 
 # 📊 監控與警報
 monitoring:
-  health_check_interval: 30  # 秒
+  health_check_interval: 30 # 秒
   performance_metrics: true
   resource_usage_alerts: true
   error_rate_threshold: 0.05

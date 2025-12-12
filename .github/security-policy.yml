@@ -9,19 +9,19 @@ security_and_analysis:
   # Enable GitHub Advanced Security for all repositories
   advanced_security:
     status: enabled
-  
+
   # Enable secret scanning to detect secrets in code
   secret_scanning:
     status: enabled
-  
+
   # Enable push protection to prevent secrets from being committed
   secret_scanning_push_protection:
     status: enabled
-  
+
   # Enable dependency graph to track dependencies
   dependency_graph:
     status: enabled
-  
+
   # Enable Dependabot security updates for automatic security patches
   dependabot_security_updates:
     status: enabled
@@ -40,10 +40,10 @@ security_scanning:
       - csharp
     schedule:
       # Run CodeQL analysis on a schedule
-      - cron: "0 0 * * 0"  # Weekly on Sunday at midnight
+      - cron: "0 0 * * 0" # Weekly on Sunday at midnight
     on_push: true
     on_pull_request: true
-  
+
   # Secret scanning configuration
   secret_scanning:
     enabled: true
@@ -51,7 +51,7 @@ security_scanning:
     push_protection: true
     # Scan historical commits
     scan_history: true
-  
+
   # Dependency scanning configuration
   dependency_scanning:
     enabled: true
@@ -76,7 +76,7 @@ branch_protection:
     require_linear_history: true
     allow_force_pushes: false
     allow_deletions: false
-  
+
   # Protect release branches
   release/*:
     required_reviews: 2
@@ -92,12 +92,12 @@ security_policies:
   vulnerability_disclosure:
     enabled: true
     contact: "security@example.com"
-    
+
   # Security advisory policy
   security_advisory:
     enabled: true
     auto_publish: false
-    
+
   # Compliance requirements
   compliance:
     - "GDPR"
@@ -110,7 +110,7 @@ alert_management:
   auto_dismiss:
     # Dismiss alerts older than 90 days if no action taken
     stale_alerts_days: 90
-    
+
   # Notification settings
   notifications:
     # Send notifications to security team
@@ -119,7 +119,7 @@ alert_management:
     slack:
       webhook_url: "${SLACK_WEBHOOK_URL}"
       channel: "#security-alerts"
-    
+
   # Alert severity levels
   severity_levels:
     critical:
@@ -142,22 +142,22 @@ access_control:
       repositories: "all"
       can_create_repos: true
       can_delete_repos: false
-    
+
     development-team:
       permission: "write"
       repositories: ["dev/*", "staging/*"]
       can_create_repos: true
       can_delete_repos: false
-    
+
     operations-team:
       permission: "read"
       repositories: ["prod/*"]
       can_create_repos: false
       can_delete_repos: false
-  
+
   # Two-factor authentication
   require_2fa: true
-  
+
   # SSO enforcement
   sso:
     enabled: true
@@ -182,7 +182,7 @@ compliance_scanning:
     - "OWASP Top 10"
     - "CWE Top 25"
     - "SANS Top 25"
-  
+
   # Custom rules
   custom_rules:
     enabled: true
@@ -195,7 +195,7 @@ integrations:
     enabled: true
     provider: "elasticsearch"
     endpoint: "${ELASTICSEARCH_ENDPOINT}"
-  
+
   # Ticketing system integration
   ticketing:
     enabled: true

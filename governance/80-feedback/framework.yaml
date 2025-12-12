@@ -14,28 +14,28 @@ metadata:
 closed_loop:
   cycle_time_target: "24 hours"
   automation_level: "high"
-  
+
   stages:
     strategy:
       inputs: ["business_requirements", "compliance_standards"]
       outputs: ["governance_policies", "intent_definitions"]
       responsible: "governance_committee"
-    
+
     execution:
       inputs: ["policies", "intents", "contracts"]
       outputs: ["deployed_systems", "active_agents"]
       responsible: "automation_engine"
-    
+
     monitoring:
       inputs: ["system_metrics", "audit_logs"]
       outputs: ["health_status", "alerts", "reports"]
       responsible: "observability_platform"
-    
+
     feedback:
       inputs: ["metrics", "logs", "user_feedback"]
       outputs: ["analysis", "recommendations", "triggers"]
       responsible: "feedback_system"
-    
+
     optimization:
       inputs: ["recommendations", "approvals"]
       outputs: ["updated_policies", "refined_intents"]
@@ -51,7 +51,7 @@ data_collection:
       - intent_orchestrator
       - agent_platform
       - contract_registry
-  
+
   event_streaming:
     enabled: true
     event_bus: "kafka"
@@ -60,7 +60,7 @@ data_collection:
       - governance.intent.events
       - governance.agent.events
       - governance.contract.events
-  
+
   user_feedback:
     enabled: true
     channels: ["surveys", "tickets", "reviews"]
@@ -73,23 +73,23 @@ analysis:
     algorithm: "isolation_forest"
     sensitivity: "medium"
     alert_threshold: 0.8
-  
+
   trend_analysis:
     enabled: true
     lookback_period_days: 30
     forecast_horizon_days: 7
-  
+
   root_cause_analysis:
     enabled: true
     method: "causal_inference"
     max_depth: 5
-  
+
   ml_models:
     - name: "violation_predictor"
       type: "classification"
       algorithm: "xgboost"
       retrain_frequency: "weekly"
-    
+
     - name: "performance_forecaster"
       type: "time_series"
       algorithm: "prophet"
@@ -101,13 +101,13 @@ optimization:
     enabled: true
     min_confidence: 0.7
     approval_required_threshold: "medium_risk"
-  
+
   recommendation_types:
     - policy_simplification
     - intent_refinement
     - agent_tuning
     - contract_evolution
-  
+
   ab_testing:
     enabled: true
     default_duration_days: 14
@@ -120,14 +120,14 @@ approval:
     low_risk:
       approvers: ["team_lead"]
       auto_approve_after_hours: 24
-    
+
     medium_risk:
       approvers: ["team_lead", "architect"]
       auto_approve_after_hours: 48
-    
+
     high_risk:
       approvers: ["team_lead", "architect", "governance_committee"]
-      auto_approve_after_hours: null  # requires manual approval
+      auto_approve_after_hours: null # requires manual approval
 
 # Integration Points
 integrations:
@@ -138,4 +138,3 @@ integrations:
   self_healing: "40-self-healing"
   contract_registry: "60-contracts"
   audit_system: "70-audit"
-

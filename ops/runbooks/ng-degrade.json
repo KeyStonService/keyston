@@ -7,7 +7,7 @@
   "lastUpdated": "2025-11-25T00:00:00Z",
   "severity": "high",
   "estimatedDuration": "15-30分鐘",
-  
+
   "triggers": [
     {
       "type": "alert",
@@ -26,7 +26,7 @@
       "description": "手動觸發降級"
     }
   ],
-  
+
   "workflow": {
     "steps": [
       {
@@ -208,7 +208,7 @@
       }
     ]
   },
-  
+
   "rollbackStrategy": {
     "description": "如果修復失敗，執行回滾步驟",
     "steps": [
@@ -229,7 +229,7 @@
       }
     ]
   },
-  
+
   "escalation": {
     "condition": "If all remediation steps fail",
     "contacts": [
@@ -246,7 +246,7 @@
     ],
     "escalationMessage": "服務降級 Runbook 執行失敗，需要人工介入。請查看執行日誌。"
   },
-  
+
   "postActions": {
     "description": "Runbook 執行後的必要動作",
     "actions": [
@@ -267,17 +267,12 @@
       }
     ]
   },
-  
+
   "monitoring": {
-    "dashboards": [
-      "https://grafana.example.com/d/service-health",
-      "https://grafana.example.com/d/error-rates"
-    ],
-    "logQueries": [
-      "kubectl logs -n production -l app=api-service --tail=500"
-    ]
+    "dashboards": ["https://grafana.example.com/d/service-health", "https://grafana.example.com/d/error-rates"],
+    "logQueries": ["kubectl logs -n production -l app=api-service --tail=500"]
   },
-  
+
   "metadata": {
     "tags": ["service-degradation", "high-priority", "automated"],
     "lastExecuted": null,

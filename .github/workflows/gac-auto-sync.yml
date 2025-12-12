@@ -8,10 +8,10 @@ on:
     branches:
       - main
     paths:
-      - 'governance/00-vision-strategy/*.yaml'
-      - '!governance/00-vision-strategy/gac-*.yaml'
-      - '!governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md'
-      - '!governance/00-vision-strategy/README*.md'
+      - "governance/00-vision-strategy/*.yaml"
+      - "!governance/00-vision-strategy/gac-*.yaml"
+      - "!governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md"
+      - "!governance/00-vision-strategy/README*.md"
 
 permissions:
   contents: write

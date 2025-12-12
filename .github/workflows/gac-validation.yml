@@ -6,14 +6,14 @@ name: GaC Validation
 on:
   pull_request:
     paths:
-      - 'governance/00-vision-strategy/**/*.yaml'
-      - 'governance/00-vision-strategy/**/*.rego'
+      - "governance/00-vision-strategy/**/*.yaml"
+      - "governance/00-vision-strategy/**/*.rego"
   push:
     branches:
       - main
     paths:
-      - 'governance/00-vision-strategy/**/*.yaml'
-      - 'governance/00-vision-strategy/**/*.rego'
+      - "governance/00-vision-strategy/**/*.yaml"
+      - "governance/00-vision-strategy/**/*.rego"
 
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install yq
         run: |
@@ -49,11 +49,11 @@ jobs:
           CRD_COUNT=$(find crd -name "*.yaml" | wc -l)
           K8S_COUNT=$(find k8s -name "*.yaml" | wc -l)
           POLICY_COUNT=$(find policy -name "*.rego" | wc -l)
-          
+
           echo "CRDs: $CRD_COUNT (expected: 9)"
           echo "K8s instances: $K8S_COUNT (expected: 9)"
           echo "OPA policies: $POLICY_COUNT (expected: 9)"
-          
+
           if [ "$CRD_COUNT" -ne 9 ] || [ "$K8S_COUNT" -ne 9 ] || [ "$POLICY_COUNT" -ne 9 ]; then
             echo "::error::File count mismatch!"
             exit 1

@@ -12,10 +12,10 @@ spec:
     updateMode: "Auto"
   resourcePolicy:
     containerPolicies:
-    - containerName: code-analyzer
-      minAllowed:
-        cpu: 500m
-        memory: 1Gi
-      maxAllowed:
-        cpu: 4
-        memory: 8Gi
+      - containerName: code-analyzer
+        minAllowed:
+          cpu: 500m
+          memory: 1Gi
+        maxAllowed:
+          cpu: 4
+          memory: 8Gi

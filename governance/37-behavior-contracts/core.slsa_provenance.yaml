@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@security-team"
-  
+
   description: |
     SLSA provenance module provides build attestation, provenance generation,
     and signature verification for supply chain security at SLSA Level 3.
-    
+
     SLSA 溯源模組提供建置認證、溯源生成和簽名驗證，實現 SLSA Level 3
     供應鏈安全。
 
@@ -30,20 +30,19 @@ contract:
 
 api:
   base_path: "/api/v1/provenance"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Generate Provenance Attestation
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Generate Provenance"
       method: POST
       path: "/attestations"
-      
+
       description: |
         Generate SLSA provenance attestation for a build artifact.
         為建置產物生成 SLSA 溯源認證。
-      
+
       input_schema:
         type: "object"
         required: ["artifact_uri", "builder", "materials"]
@@ -69,7 +68,7 @@ api:
                 digest: { type: "object" }
           metadata:
             type: "object"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -84,13 +83,13 @@ api:
             type: "string"
             description: "Signing certificate"
           created_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Provenance follows SLSA v1.0 spec"
         - "Signature uses Sigstore/Fulcio"
         - "Certificate includes transparency log entry"
         - "Attestation is immutable after creation"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid artifact URI or missing required fields"
@@ -98,7 +97,7 @@ api:
         - code: 500
           condition: "Sigstore signing failure"
           message: "ERR_SIGNING_FAILED"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 1s"
@@ -109,11 +108,11 @@ api:
     - name: "Verify Provenance"
       method: POST
       path: "/attestations/verify"
-      
+
       description: |
         Verify provenance attestation signature and certificate.
         驗證溯源認證簽名和證書。
-      
+
       input_schema:
         type: "object"
         required: ["attestation_id", "artifact_digest"]
@@ -123,7 +122,7 @@ api:
             type: "object"
             properties:
               sha256: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -132,13 +131,13 @@ api:
           certificate_valid: { type: "boolean" }
           transparency_log_verified: { type: "boolean" }
           verification_time: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Signature verification uses public Sigstore infrastructure"
         - "Certificate chain is validated"
         - "Transparency log entry is checked"
         - "Verification is deterministic"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 500ms"
@@ -149,9 +148,9 @@ api:
     - name: "Get Attestation"
       method: GET
       path: "/attestations/{attestation_id}"
-      
+
       description: "Retrieve provenance attestation by ID"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -161,11 +160,11 @@ api:
           signature: { type: "string" }
           certificate: { type: "string" }
           created_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Returns complete attestation bundle"
         - "Data is immutable"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 200ms"
@@ -176,10 +175,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "provenance.generated"
     description: "Emitted when provenance attestation is generated"
-    
+
     payload_schema:
       type: "object"
       required: ["attestation_id", "artifact_uri"]
@@ -189,11 +187,11 @@ events:
         artifact_digest: { type: "object" }
         builder_id: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "per-artifact"
     retention: "90 days"
-    
+
     consumers:
       - "core.contract_service"
       - "services.audit"
@@ -201,7 +199,7 @@ events:
 
   - name: "provenance.verification_failed"
     description: "Emitted when provenance verification fails"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -209,10 +207,10 @@ events:
         artifact_uri: { type: "string" }
         failure_reason: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "services.security"
       - "ops.alerting"
@@ -222,22 +220,21 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Immutable Attestations"
     description: "Provenance attestations cannot be modified after creation"
     rule: "forall a in attestations: a.provenance is immutable"
     enforcement: "database-constraint"
-    
+
   - name: "SLSA v1.0 Compliance"
     description: "All attestations follow SLSA v1.0 specification"
     rule: "forall a in attestations: validates_against(a.provenance, SLSA_v1_schema)"
     enforcement: "pre-condition"
-    
+
   - name: "Sigstore Signatures"
     description: "All signatures use Sigstore infrastructure"
     rule: "forall a in attestations: a.signature.method = 'sigstore'"
     enforcement: "application-logic"
-    
+
   - name: "Transparency Log Entry"
     description: "All attestations have transparency log entry"
     rule: "forall a in attestations: exists t in transparency_log where t.attestation_id = a.id"
@@ -248,7 +245,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Sigstore Service Unavailable"
     triggers:
       - "Sigstore API timeout"
@@ -260,7 +256,7 @@ failure_modes:
       - "Return 503 with retry-after header"
     error_code: "ERR_SIGSTORE_UNAVAILABLE"
     degraded_mode: true
-    
+
   - scenario: "Invalid Certificate Chain"
     triggers:
       - "Certificate expired"
@@ -270,7 +266,7 @@ failure_modes:
       - "Return verification failure"
       - "Alert security team immediately"
     error_code: "ERR_INVALID_CERTIFICATE"
-    
+
   - scenario: "Transparency Log Verification Failed"
     triggers:
       - "Log entry not found"
@@ -286,18 +282,17 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "external.sigstore"
       purpose: "Signature generation and verification"
       api_version: "cosign v2.x"
       failure_mode: "critical"
-    
+
     - module: "infrastructure.database"
       purpose: "Store attestations"
       type: "PostgreSQL 14+"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.audit"
       purpose: "Audit logging"
@@ -314,13 +309,13 @@ testing:
       - "Attestation generation"
       - "Signature verification"
       - "Certificate validation"
-  
+
   integration_tests:
     required:
       - "End-to-end attestation flow with Sigstore"
       - "Verification with real certificates"
       - "Transparency log integration"
-  
+
   security_tests:
     required:
       - "Signature forgery attempts"
@@ -333,13 +328,13 @@ testing:
 
 security:
   slsa_level: 3
-  
+
   security_controls:
     - "All signatures use ephemeral keys via Sigstore"
     - "Certificates include OIDC identity"
     - "Transparency log provides non-repudiation"
     - "No long-lived signing keys stored"
-  
+
   compliance:
     - "SLSA Level 3"
     - "NIST 800-53"
@@ -361,13 +356,13 @@ observability:
       labels: ["result"]
     - name: "sigstore_api_errors"
       type: "counter"
-  
+
   logs:
     level: "INFO"
     security_events: "WARN"
     structured: true
     retention: "90 days"
-  
+
   alerts:
     - condition: "sigstore_api_errors > 10/hour"
       severity: "critical"

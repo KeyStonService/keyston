@@ -3,12 +3,7 @@
   "title": "Structured Log Schema",
   "description": "標準化日誌格式定義",
   "type": "object",
-  "required": [
-    "timestamp",
-    "level",
-    "service",
-    "message"
-  ],
+  "required": ["timestamp", "level", "service", "message"],
   "properties": {
     "timestamp": {
       "type": "string",

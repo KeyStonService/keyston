@@ -15,26 +15,26 @@ spec:
       hostNetwork: true
       hostPID: true
       containers:
-      - name: falco
-        image: falcosecurity/falco:latest
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - name: dev
-          mountPath: /host/dev
-        - name: proc
-          mountPath: /host/proc
-          readOnly: true
-        - name: boot
-          mountPath: /host/boot
-          readOnly: true
+        - name: falco
+          image: falcosecurity/falco:latest
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: dev
+              mountPath: /host/dev
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: boot
+              mountPath: /host/boot
+              readOnly: true
       volumes:
-      - name: dev
-        hostPath:
-          path: /dev
-      - name: proc
-        hostPath:
-          path: /proc
-      - name: boot
-        hostPath:
-          path: /boot
+        - name: dev
+          hostPath:
+            path: /dev
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: boot
+          hostPath:
+            path: /boot

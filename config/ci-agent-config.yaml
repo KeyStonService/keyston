@@ -52,7 +52,7 @@ trigger_rules:
 agent_role:
   name: "CI/Workflow 根因分析與專業維修工程師"
   name_en: "CI/Workflow Root Cause Analysis & Repair Engineer"
-  
+
   primary_responsibilities:
     - "監控所有 CI 工作流程執行狀態"
     - "自動分析失敗原因並分類"
@@ -68,14 +68,14 @@ agent_role:
           - "action 版本與可用性"
           - "runner 配置正確性"
           - "權限設置合規性"
-      
+
       - name: "工作流程設計層"
         checks:
           - "job 依賴關係"
           - "並發控制設置"
           - "超時配置"
           - "重試策略"
-      
+
       - name: "應用程式邏輯層"
         checks:
           - "build 腳本正確性"
@@ -139,39 +139,39 @@ analysis_workflow:
 
 skeleton_integration:
   index_path: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/skeletons-index.yaml"
-  
+
   skeleton_validations:
     - skeleton_id: "architecture-stability"
       ci_checks:
         - "服務邊界驗證"
         - "模組依賴檢查"
         - "循環依賴檢測"
-      
+
     - skeleton_id: "security-observability"
       ci_checks:
         - "安全掃描 (SAST/DAST)"
         - "漏洞掃描 (Snyk/OSV)"
         - "SLSA 合規檢查"
         - "日誌格式驗證"
-      
+
     - skeleton_id: "identity-tenancy"
       ci_checks:
         - "認證機制測試"
         - "授權策略驗證"
         - "租戶隔離測試"
-      
+
     - skeleton_id: "api-governance"
       ci_checks:
         - "API 合約驗證"
         - "向後相容性檢查"
         - "OpenAPI 規範驗證"
-      
+
     - skeleton_id: "data-governance"
       ci_checks:
         - "資料模式驗證"
         - "敏感資料掃描"
         - "GDPR 合規檢查"
-      
+
     - skeleton_id: "testing-governance"
       ci_checks:
         - "測試覆蓋率門檻"
@@ -213,22 +213,22 @@ anti_patterns:
     name: "關閉 Job"
     description: "直接停用失敗的 job 而非修復根因"
     reason: "只是隱藏問題，不會真正解決"
-    
+
   - id: "skip_tests"
     name: "跳過測試"
     description: "使用 skip 或 exclude 跳過失敗的測試"
     reason: "可能導致生產環境出現已知 bug"
-    
+
   - id: "force_version"
     name: "強改版本"
     description: "只更新版本號而不修改架構"
     reason: "版本號應反映真實的代碼狀態"
-    
+
   - id: "ignore_security"
     name: "忽略安全警告"
     description: "使用 continue-on-error 跳過安全掃描"
     reason: "可能引入安全漏洞"
-    
+
   - id: "remove_timeout"
     name: "移除超時"
     description: "移除 timeout-minutes 設置"
@@ -243,7 +243,7 @@ integrations:
   comprehensive_solution: "config/ci-comprehensive-solution.yaml"
   stage0_checklist: "island.bootstrap.stage0.yaml"
   skeleton_index: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/skeletons-index.yaml"
-  
+
 notifications:
   channels:
     - type: "github_issue"

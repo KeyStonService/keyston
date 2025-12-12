@@ -105,11 +105,11 @@ AI 在提出任何架構變更時，**必須遵守**以下原則。違反任何�
 
 每個架構變更都應通過以下驗證：
 
-| 檢查項 | 工具 | 觸發時機 |
-|--------|------|---------|
-| Layer 檢查 | `check-layering.py` | PR 提交 |
-| 依賴分析 | `analyze-dependencies.py` | PR 提交 |
-| Bounded Context 檢查 | `check-boundaries.py` | PR 提交 |
-| 通道審計 | `audit-channels.yaml` | 部署前 |
+| 檢查項               | 工具                      | 觸發時機 |
+| -------------------- | ------------------------- | -------- |
+| Layer 檢查           | `check-layering.py`       | PR 提交  |
+| 依賴分析             | `analyze-dependencies.py` | PR 提交  |
+| Bounded Context 檢查 | `check-boundaries.py`     | PR 提交  |
+| 通道審計             | `audit-channels.yaml`     | 部署前   |
 
 所有檢查必須 pass 才能進入 `DEPLOYMENT_CHECKLIST`。

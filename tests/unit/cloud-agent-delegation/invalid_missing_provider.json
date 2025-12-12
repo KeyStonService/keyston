@@ -8,21 +8,21 @@
     "created_at": "2025-11-21T10:00:00Z",
     "created_by": "test-automation"
   },
-  
+
   "payload": {
     "metadata": {
       "name": "cloud-agent-delegation",
       "version": "1.0.0",
       "description": "Invalid configuration"
     },
-    
+
     "routing": {
       "default_provider": "aws",
       "load_balancing": {
         "enabled": false
       }
     },
-    
+
     "monitoring": {
       "enabled": true,
       "health_check": {
@@ -31,7 +31,7 @@
       }
     }
   },
-  
+
   "assertions": {
     "schema_valid": false,
     "error_type": "required_property_missing",

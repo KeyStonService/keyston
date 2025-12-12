@@ -138,7 +138,8 @@ router.post('/users', validateBody(createUserSchema), userController.create);
 
 All controllers updated to use models:
 
-1. **assignment.ts** - Uses `incidentSchema`, `updateStatusSchema`, `reassignSchema`
+1. **assignment.ts** - Uses `incidentSchema`, `updateStatusSchema`,
+   `reassignSchema`
 2. **escalation.ts** - Uses `createEscalationSchema` for validation
 3. **provenance.ts** - Uses `createAttestationSchema`, `verifyAttestationSchema`
 4. **slsa.ts** - Uses SLSA-prefixed schemas to avoid naming conflicts
@@ -167,7 +168,8 @@ All controllers updated to use models:
 - **Failing:** 3 (minor validation format adjustments needed)
 - **Test Suites:** 6/7 passing
 
-The 3 failing tests are related to validation error format expectations and don't affect functionality.
+The 3 failing tests are related to validation error format expectations and
+don't affect functionality.
 
 ## 🔒 Security Enhancements
 
@@ -228,7 +230,8 @@ The 3 failing tests are related to validation error format expectations and don'
 
 ### Fixed
 
-1. `core/contract_service/contracts-L1/contracts/tsconfig.json` - Node types configuration
+1. `core/contract_service/contracts-L1/contracts/tsconfig.json` - Node types
+   configuration
 
 ## 🎓 Lessons & Best Practices
 
@@ -236,7 +239,8 @@ The 3 failing tests are related to validation error format expectations and don'
 2. **Validation at the Edge** - Validate early in the request pipeline
 3. **Type Safety** - Leverage TypeScript with Zod for runtime safety
 4. **Error Handling** - Use custom error classes for better control
-5. **Separation of Concerns** - Keep validation, business logic, and errors separate
+5. **Separation of Concerns** - Keep validation, business logic, and errors
+   separate
 6. **Reusability** - Create utilities for common patterns (zodErrorHandler)
 7. **Code Review** - Address feedback promptly for better code quality
 
@@ -254,6 +258,8 @@ All requirements from the problem statement have been successfully implemented:
 
 ✅ **Clear Architecture** - MVC/Clean Architecture with standard directories  
 ✅ **Data Validation** - Zod library with centralized schemas and middleware  
-✅ **Error Handling** - Dedicated error classes and React error boundary  
+✅ **Error Handling** - Dedicated error classes and React error boundary
 
-The codebase now follows industry best practices for enterprise-grade TypeScript applications with proper separation of concerns, type safety, and robust error handling.
+The codebase now follows industry best practices for enterprise-grade TypeScript
+applications with proper separation of concerns, type safety, and robust error
+handling.

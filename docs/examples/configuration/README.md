@@ -122,7 +122,8 @@ cp .prettierrc.example.json /path/to/project/.prettierrc.json
 
 #### SonarQube配置
 
-複製 `sonar-project.properties.example` 到項目根目錄並重命名為 `sonar-project.properties`：
+複製 `sonar-project.properties.example` 到項目根目錄並重命名為
+`sonar-project.properties`：
 
 ```bash
 cp sonar-project.properties.example /path/to/project/sonar-project.properties
@@ -167,8 +168,7 @@ POSTGRES_PASSWORD=your_password
      prom/prometheus
    ```
 
-2. 訪問Prometheus UI：
-   打開瀏覽器訪問 `http://localhost:9090`
+2. 訪問Prometheus UI：打開瀏覽器訪問 `http://localhost:9090`
 
 ### Grafana
 

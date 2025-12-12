@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@automation-team"
-  
+
   description: |
     Hyperautomation provides intelligent automation governance, UAV/AD system safety validation,
     policy enforcement, and compliance checking for critical autonomous systems.
-    
+
     超自動化提供智能自動化治理、UAV/AD 系統安全驗證、策略執行和關鍵自主系統的合規檢查。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/hyperautomation"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Policy Validation
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Validate Policy"
       method: POST
       path: "/policies/validate"
-      
+
       description: |
         Validate resources against OPA/Rego and Gatekeeper policies.
         根據 OPA/Rego 和 Gatekeeper 策略驗證資源。
-      
+
       input_schema:
         type: "object"
         required: ["resource", "policy_type"]
@@ -57,13 +56,13 @@ api:
             type: "array"
             items: { type: "string" }
           strict_mode: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
           validation_id: { type: "string" }
           valid: { type: "boolean" }
-          violations: 
+          violations:
             type: "array"
             items:
               type: "object"
@@ -74,13 +73,13 @@ api:
                 location: { type: "string" }
           warnings: { type: "array" }
           timestamp: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "All applicable policies checked"
         - "Violations include remediation hints"
         - "Validation is deterministic"
         - "Policy evaluation is isolated"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid resource format"
@@ -91,7 +90,7 @@ api:
         - code: 500
           condition: "Policy evaluation error"
           message: "ERR_POLICY_EVALUATION_FAILED"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 800ms"
@@ -103,18 +102,18 @@ api:
     - name: "Register UAV System"
       method: POST
       path: "/uav/register"
-      
+
       description: |
         Register UAV/AD system with safety level and geo-fencing configuration.
         註冊 UAV/AD 系統，包含安全等級和地理圍欄配置。
-      
+
       input_schema:
         type: "object"
         required: ["system_id", "system_type", "safety_level"]
         properties:
           system_id: { type: "string" }
           system_type: { type: "string", enum: ["uav", "ad"] }
-          safety_level: 
+          safety_level:
             type: "string"
             enum: ["L0", "L1", "L2", "L3", "L4", "L5"]
             description: "Safety Integrity Level (L0=lowest, L5=highest)"
@@ -123,7 +122,7 @@ api:
             type: "object"
             properties:
               enabled: { type: "boolean" }
-              regions: 
+              regions:
                 type: "array"
                 items: { type: "string" }
                 description: "Format: XX-RegionName (e.g., TW-Taipei)"
@@ -133,7 +132,7 @@ api:
               team: { type: "string" }
               environment: { type: "string" }
               domain: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -145,13 +144,13 @@ api:
             description: "Kubernetes labels required for this system"
           compliance_checklist: { type: "array" }
           registered_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "System ID is globally unique"
         - "Safety level validated against system type"
         - "Geo-fencing validated for UAV systems"
         - "Required labels generated"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid safety level or configuration"
@@ -159,7 +158,7 @@ api:
         - code: 409
           condition: "System ID already registered"
           message: "ERR_DUPLICATE_SYSTEM_ID"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 300ms"
@@ -170,11 +169,11 @@ api:
     - name: "Validate Geo-Fencing"
       method: POST
       path: "/uav/geo-fencing/validate"
-      
+
       description: |
         Validate geo-fencing configuration for UAV systems.
         驗證 UAV 系統的地理圍欄配置。
-      
+
       input_schema:
         type: "object"
         required: ["system_id", "geo_fencing"]
@@ -190,7 +189,7 @@ api:
                 properties:
                   max_altitude: { type: "number" }
                   restricted_zones: { type: "array" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -205,12 +204,12 @@ api:
                 valid: { type: "boolean" }
                 issues: { type: "array" }
           recommendations: { type: "array" }
-      
+
       guarantees:
         - "All regions validated against allowed format"
         - "Restricted zones checked"
         - "Altitude limits validated"
-      
+
       performance:
         response_time_p50: "< 150ms"
         response_time_p99: "< 400ms"
@@ -221,11 +220,11 @@ api:
     - name: "Generate SBOM"
       method: POST
       path: "/sbom/generate"
-      
+
       description: |
         Generate Software Bill of Materials (SBOM) for deployment.
         為部署生成軟體材料清單 (SBOM)。
-      
+
       input_schema:
         type: "object"
         required: ["target", "format"]
@@ -241,7 +240,7 @@ api:
             type: "array"
             items: { type: "string", enum: ["sha256", "sha3-512", "blake3"] }
             default: ["sha256", "sha3-512"]
-      
+
       output_schema:
         type: "object"
         properties:
@@ -259,13 +258,13 @@ api:
               value: { type: "string" }
               public_key_url: { type: "string" }
           generated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "SBOM includes all dependencies"
         - "Dual-hash verification (SHA3-512 + BLAKE3)"
         - "Signature verifiable with public key"
         - "SBOM format compliant with standard"
-      
+
       performance:
         response_time_p50: "< 2s"
         response_time_p99: "< 10s"
@@ -276,11 +275,11 @@ api:
     - name: "Verify File Contract"
       method: POST
       path: "/contracts/verify"
-      
+
       description: |
         Verify file contracts with hash validation.
         驗證文件契約與雜湊值。
-      
+
       input_schema:
         type: "object"
         required: ["contract_file", "files"]
@@ -296,7 +295,7 @@ api:
                 path: { type: "string" }
                 content: { type: "string" }
           strict: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -314,12 +313,12 @@ api:
                 algorithm: { type: "string" }
           mismatches: { type: "array" }
           missing_files: { type: "array" }
-      
+
       guarantees:
         - "All files in contract verified"
         - "Multiple hash algorithms supported"
         - "Verification is deterministic"
-      
+
       performance:
         response_time_p50: "< 300ms"
         response_time_p99: "< 1s"
@@ -330,11 +329,11 @@ api:
     - name: "Assess Safety Level"
       method: POST
       path: "/safety/assess"
-      
+
       description: |
         Assess and recommend safety level for system based on risk analysis.
         根據風險分析評估並推薦系統安全等級。
-      
+
       input_schema:
         type: "object"
         required: ["system_type", "risk_factors"]
@@ -349,7 +348,7 @@ api:
               autonomous_capability: { type: "string" }
               human_interaction: { type: "string" }
           current_safety_level: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -366,12 +365,12 @@ api:
                 mandatory: { type: "boolean" }
                 rationale: { type: "string" }
           compliance_gaps: { type: "array" }
-      
+
       guarantees:
         - "Assessment based on industry standards"
         - "Risk score calculated consistently"
         - "Recommendations include rationale"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 600ms"
@@ -382,16 +381,16 @@ api:
     - name: "Get Emergency Stop Status"
       method: GET
       path: "/uav/{system_id}/emergency-stop"
-      
+
       description: |
         Get current emergency stop status for UAV system.
         獲取 UAV 系統的當前緊急停止狀態。
-      
+
       input_schema:
         type: "object"
         properties:
           system_id: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -406,11 +405,11 @@ api:
                 timestamp: { type: "string", format: "date-time" }
                 reason: { type: "string" }
                 triggered_by: { type: "string" }
-      
+
       guarantees:
         - "Real-time status"
         - "Complete trigger history"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 150ms"
@@ -420,10 +419,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "hyperautomation.policy_violation"
     description: "Emitted when policy violation detected"
-    
+
     payload_schema:
       type: "object"
       required: ["violation_id", "policy", "severity", "resource"]
@@ -439,11 +437,11 @@ events:
             namespace: { type: "string" }
         message: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "per-resource"
     retention: "180 days"
-    
+
     consumers:
       - "ops.alerting"
       - "services.governance"
@@ -451,7 +449,7 @@ events:
 
   - name: "hyperautomation.uav_registered"
     description: "Emitted when UAV/AD system is registered"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -461,17 +459,17 @@ events:
         safety_level: { type: "string" }
         geo_fencing_enabled: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "365 days"
-    
+
     consumers:
       - "services.audit"
       - "automation.monitoring"
 
   - name: "hyperautomation.sbom_generated"
     description: "Emitted when SBOM is generated"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -482,17 +480,17 @@ events:
         hashes: { type: "object" }
         signed: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "730 days"
-    
+
     consumers:
       - "services.audit"
       - "core.slsa_provenance"
 
   - name: "hyperautomation.emergency_stop_triggered"
     description: "Emitted when emergency stop is triggered"
-    
+
     payload_schema:
       type: "object"
       required: ["system_id", "reason", "triggered_by"]
@@ -502,12 +500,12 @@ events:
         triggered_by: { type: "string" }
         auto_triggered: { type: "boolean" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "exactly-once"
     ordering: "strict"
     retention: "1825 days"
     priority: "high"
-    
+
     consumers:
       - "ops.alerting"
       - "services.audit"
@@ -518,32 +516,31 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Safety Level Ordering"
     description: "Safety levels follow strict ordering (L0 < L1 < ... < L5)"
     rule: "forall level: L0 < L1 < L2 < L3 < L4 < L5"
     enforcement: "validation"
-    
+
   - name: "UAV Geo-Fencing Required"
     description: "UAV systems must have geo-fencing configured"
     rule: "forall uav in uav_systems: uav.geo_fencing.enabled = true"
     enforcement: "pre-condition"
-    
+
   - name: "Policy Validation Determinism"
     description: "Same resource and policy produces same validation result"
     rule: "validate(resource, policy) = validate(resource, policy)"
     enforcement: "application-logic"
-    
+
   - name: "SBOM Dual-Hash"
     description: "All SBOMs must include both SHA3-512 and BLAKE3 hashes"
     rule: "forall sbom: has_hash(sbom, 'sha3-512') AND has_hash(sbom, 'blake3')"
     enforcement: "validation"
-    
+
   - name: "Emergency Stop Immutable History"
     description: "Emergency stop trigger history cannot be modified"
     rule: "forall trigger in history: trigger is immutable"
     enforcement: "database-constraint"
-    
+
   - name: "High-Risk Systems Require L4+"
     description: "High-risk systems must have safety level L4 or L5"
     rule: "forall system where risk_category='high': safety_level >= L4"
@@ -554,7 +551,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Policy Evaluation Timeout"
     triggers:
       - "Complex policy with large resource"
@@ -564,7 +560,7 @@ failure_modes:
       - "Mark as timeout warning"
       - "Queue for async re-evaluation"
     error_code: "WARN_POLICY_TIMEOUT"
-    
+
   - scenario: "Invalid Geo-Fencing Region"
     triggers:
       - "Region format incorrect"
@@ -574,7 +570,7 @@ failure_modes:
       - "Suggest valid regions"
       - "Do not register system"
     error_code: "ERR_INVALID_REGION"
-    
+
   - scenario: "SBOM Generation Failure"
     triggers:
       - "Target not accessible"
@@ -585,7 +581,7 @@ failure_modes:
       - "Do not proceed with deployment"
     error_code: "ERR_SBOM_GENERATION_FAILED"
     critical: true
-    
+
   - scenario: "Emergency Stop Communication Failure"
     triggers:
       - "Network partition"
@@ -603,21 +599,20 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "governance.policies"
       purpose: "OPA/Rego policy definitions"
       failure_mode: "use-cached"
-    
+
     - module: "core.slsa_provenance"
       purpose: "SBOM signing and attestation"
       failure_mode: "critical"
-    
+
     - module: "infrastructure.policy_engine"
       purpose: "Policy evaluation (OPA/Gatekeeper)"
       type: "OPA 0.60+"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.audit"
       purpose: "Event audit logging"
@@ -635,14 +630,14 @@ testing:
       - "Safety level assessment"
       - "Geo-fencing validation"
       - "Hash computation"
-  
+
   integration_tests:
     required:
       - "End-to-end policy validation"
       - "UAV system registration flow"
       - "SBOM generation and signing"
       - "Emergency stop trigger"
-  
+
   compliance_tests:
     scenarios:
       - name: "UAV without geo-fencing rejected"
@@ -651,7 +646,7 @@ testing:
         expected: "Validation fails"
       - name: "SBOM without dual-hash rejected"
         expected: "Generation fails"
-  
+
   chaos_tests:
     scenarios:
       - "Policy engine unavailable"
@@ -685,19 +680,19 @@ observability:
     - name: "geo_fencing_validations_total"
       type: "counter"
       labels: ["valid"]
-  
+
   logs:
     level: "INFO"
     security_events: "WARN"
     emergency_stops: "CRITICAL"
     structured: true
     retention: "365 days"
-  
+
   traces:
     enabled: true
     sample_rate: 0.1
     critical_paths: 1.0
-  
+
   alerts:
     - condition: "policy_violations_total{severity='critical'} > 0"
       severity: "critical"
@@ -717,7 +712,7 @@ security:
   authentication:
     required: true
     methods: ["oauth2", "api_key"]
-  
+
   authorization:
     rbac_required: true
     roles:
@@ -725,7 +720,7 @@ security:
       - "uav-administrator"
       - "sbom-generator"
       - "emergency-operator"
-  
+
   audit:
     enabled: true
     retention: "1825 days"
@@ -735,7 +730,7 @@ security:
       - "uav_registered"
       - "emergency_stop_triggered"
       - "safety_level_changed"
-  
+
   encryption:
     at_rest: true
     in_transit: true

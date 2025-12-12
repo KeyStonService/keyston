@@ -17,7 +17,7 @@ services:
     image: sonarqube:9.9-community
     container_name: sonarqube
     ports:
-      - "9000:9000"
+      - '9000:9000'
     environment:
       - SONAR_JDBC_URL=jdbc:postgresql://postgres:5432/sonarqube
       - SONAR_JDBC_USERNAME=sonarqube
@@ -28,7 +28,7 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
     depends_on:
       - postgres
-    
+
   # PostgreSQL數據庫
   postgres:
     image: postgres:13
@@ -45,7 +45,7 @@ services:
     image: redis:6-alpine
     container_name: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis_data:/data
 
@@ -54,8 +54,8 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
-      - "8080:8080"
-      - "50000:50000"
+      - '8080:8080'
+      - '50000:50000'
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
@@ -156,17 +156,17 @@ echo "   - Redis: localhost:6379"
 // Jenkinsfile.code-quality
 pipeline {
     agent any
-    
+
     tools {
         nodejs 'NodeJS-16'
         maven 'Maven-3.8'
     }
-    
+
     environment {
         SONAR_TOKEN = credentials('sonar-token')
         SONAR_HOST_URL = 'http://sonarqube:9000'
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -179,11 +179,11 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Install Dependencies') {
             parallel {
                 stage('Node Dependencies') {
-                    when { 
+                    when {
                         anyOf {
                             fileExists('package.json')
                             fileExists('yarn.lock')
@@ -207,7 +207,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Code Quality Checks') {
             parallel {
                 stage('Static Analysis') {
@@ -240,7 +240,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Quality Gate') {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
@@ -249,7 +249,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             publishHTML([
@@ -266,9 +266,9 @@ pipeline {
                 subject: "Code Quality Check Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
                 body: """
                     Build failed for ${env.JOB_NAME} - ${env.BUILD_NUMBER}
-                    
+
                     Check console output at: ${env.BUILD_URL}
-                    
+
                     Git Commit: ${env.GIT_COMMIT_SHORT}
                 """,
                 to: "${env.CHANGE_AUTHOR_EMAIL}"
@@ -288,14 +288,14 @@ name: Code Quality Checks
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   code-quality:
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:13
@@ -304,53 +304,49 @@ jobs:
           POSTGRES_USER: sonarqube
           POSTGRES_PASSWORD: sonarqube_password
         options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s
           --health-retries 5
-      
+
       redis:
         image: redis:6-alpine
         options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    
+          --health-cmd "redis-cli ping" --health-interval 10s --health-timeout
+          5s --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'npm'
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      
+
       - name: Install dependencies
         run: |
           npm install
           pip install -r requirements.txt || echo "No requirements.txt"
-      
+
       - name: Run ESLint
         run: npm run lint || echo "No lint script"
-      
+
       - name: Run Prettier
         run: npm run format:check || echo "No format check"
-      
+
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      
+
       - name: Upload reports
         uses: actions/upload-artifact@v3
         if: always()
@@ -389,42 +385,42 @@ spec:
         app: sonarqube
     spec:
       containers:
-      - name: sonarqube
-        image: sonarqube:9.9-community
-        ports:
-        - containerPort: 9000
-        env:
-        - name: SONAR_JDBC_URL
-          value: "jdbc:postgresql://postgres-service:5432/sonarqube"
-        - name: SONAR_JDBC_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: username
-        - name: SONAR_JDBC_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: password
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1000m"
-          limits:
-            memory: "4Gi"
-            cpu: "2000m"
-        livenessProbe:
-          httpGet:
-            path: /api/system/health
-            port: 9000
-          initialDelaySeconds: 60
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /api/system/status
-            port: 9000
-          initialDelaySeconds: 30
-          periodSeconds: 10
+        - name: sonarqube
+          image: sonarqube:9.9-community
+          ports:
+            - containerPort: 9000
+          env:
+            - name: SONAR_JDBC_URL
+              value: 'jdbc:postgresql://postgres-service:5432/sonarqube'
+            - name: SONAR_JDBC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: SONAR_JDBC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+          resources:
+            requests:
+              memory: '2Gi'
+              cpu: '1000m'
+            limits:
+              memory: '4Gi'
+              cpu: '2000m'
+          livenessProbe:
+            httpGet:
+              path: /api/system/health
+              port: 9000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/system/status
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -435,8 +431,8 @@ spec:
   selector:
     app: sonarqube
   ports:
-  - port: 9000
-    targetPort: 9000
+    - port: 9000
+      targetPort: 9000
   type: LoadBalancer
 ---
 # k8s-postgres.yaml
@@ -457,34 +453,34 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:13
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          value: sonarqube
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: password
-        volumeMounts:
-        - name: postgres-storage
-          mountPath: /var/lib/postgresql/data
+        - name: postgres
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: sonarqube
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
-  - metadata:
-      name: postgres-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 20Gi
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ['ReadWriteOnce']
+        resources:
+          requests:
+            storage: 20Gi
 ---
 apiVersion: v1
 kind: Service
@@ -495,8 +491,8 @@ spec:
   selector:
     app: postgres
   ports:
-  - port: 5432
-    targetPort: 5432
+    - port: 5432
+      targetPort: 5432
   clusterIP: None
 ---
 # k8s-secrets.yaml
@@ -526,16 +522,16 @@ scrape_configs:
     static_configs:
       - targets: ['sonarqube:9000']
     metrics_path: '/api/monitoring/metrics'
-    
+
   - job_name: 'jenkins'
     static_configs:
       - targets: ['jenkins:8080']
     metrics_path: '/prometheus'
-    
+
   - job_name: 'code-checker'
     static_configs:
       - targets: ['code-checker:8080']
-    
+
   - job_name: 'kubernetes-pods'
     kubernetes_sd_configs:
       - role: pod
@@ -618,17 +614,17 @@ networks:
 security_groups:
   - name: code-quality-sg
     rules:
-      - port: 9000  # SonarQube
-        source: "10.0.0.0/8"
+      - port: 9000 # SonarQube
+        source: '10.0.0.0/8'
         protocol: tcp
-      - port: 8080  # Jenkins
-        source: "10.0.0.0/8"
+      - port: 8080 # Jenkins
+        source: '10.0.0.0/8'
         protocol: tcp
-      - port: 22    # SSH
-        source: "admin-ips"
+      - port: 22 # SSH
+        source: 'admin-ips'
         protocol: tcp
-      - port: 443   # HTTPS
-        source: "0.0.0.0/0"
+      - port: 443 # HTTPS
+        source: '0.0.0.0/0'
         protocol: tcp
 ```
 
@@ -791,7 +787,7 @@ psql -h localhost -U sonarqube -d sonarqube -c "SELECT version();"
    ```bash
    # 檢查日誌
    docker-compose logs sonarqube
-   
+
    # 增加內存限制
    # 編輯docker-compose.yml，設置SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
    ```
@@ -801,7 +797,7 @@ psql -h localhost -U sonarqube -d sonarqube -c "SELECT version();"
    ```bash
    # 檢查網絡連接
    docker network inspect code-quality-network
-   
+
    # 重啟PostgreSQL
    docker-compose restart postgres
    ```
@@ -811,7 +807,7 @@ psql -h localhost -U sonarqube -d sonarqube -c "SELECT version();"
    ```bash
    # 手動下載插件
    wget -P /var/jenkins_home/plugins/ https://updates.jenkins.io/download/plugins/...
-   
+
    # 重啟Jenkins
    docker-compose restart jenkins
    ```

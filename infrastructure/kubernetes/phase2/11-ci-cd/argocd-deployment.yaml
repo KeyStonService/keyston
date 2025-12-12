@@ -11,11 +11,11 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 8080
-    name: http
-  - port: 443
-    targetPort: 8080
-    name: https
+    - port: 80
+      targetPort: 8080
+      name: http
+    - port: 443
+      targetPort: 8080
+      name: https
   selector:
     app: argocd-server

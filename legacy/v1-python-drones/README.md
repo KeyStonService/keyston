@@ -27,12 +27,12 @@ v1-python-drones/
 
 ## 🔗 與核心系統的映射關係
 
-| v1-python-drones           | .devcontainer/automation        | 功能描述           |
-|---------------------------|--------------------------------|-------------------|
-| `drones/coordinator_drone.py` | `drone-coordinator.py`       | 主協調器           |
-| `drones/autopilot_drone.py`   | `auto-pilot.js`             | 自動駕駛 (Python 版) |
-| `drones/deployment_drone.py`  | `deployment-drone.sh`        | 部署無人機         |
-| `config/drone_config.py`      | `drone-config.yml`          | 配置載入器         |
+| v1-python-drones              | .devcontainer/automation | 功能描述             |
+| ----------------------------- | ------------------------ | -------------------- |
+| `drones/coordinator_drone.py` | `drone-coordinator.py`   | 主協調器             |
+| `drones/autopilot_drone.py`   | `auto-pilot.js`          | 自動駕駛 (Python 版) |
+| `drones/deployment_drone.py`  | `deployment-drone.sh`    | 部署無人機           |
+| `config/drone_config.py`      | `drone-config.yml`       | 配置載入器           |
 
 ## 🚀 使用方式
 

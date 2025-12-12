@@ -42,7 +42,8 @@ These workflows trigger on every push, potentially wasting CI minutes:
    - Also triggers on PR: ❌ No
    - Jobs: 1
    - Has timeouts: ✅
-   - **Recommendation**: Keep as-is (deployment workflow needs push trigger for staging branch)
+   - **Recommendation**: Keep as-is (deployment workflow needs push trigger for
+     staging branch)
 
 5. **autofix-bot.yml**
    - Triggers on push to: `main, develop`
@@ -202,7 +203,8 @@ Total scheduled workflows: 11
 
 ### Immediate Actions
 
-1. **Review 11 workflows with push triggers** - Add paths filters or remove if PR trigger exists
+1. **Review 11 workflows with push triggers** - Add paths filters or remove if
+   PR trigger exists
 2. **Verify 11 scheduled workflows** - Ensure frequency matches needs
 3. **Check 24 workflows without job timeouts** - Add timeout-minutes to all jobs
 

@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@core-platform-team"
-  
+
   description: |
     Unified integration layer orchestrates system bootstrap, service discovery,
     configuration management, and cognitive processing.
-    
+
     統一整合層編排系統啟動、服務發現、配置管理和認知處理。
 
 # ============================================================================
@@ -29,26 +29,25 @@ contract:
 
 api:
   base_path: "/api/v1/integration"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # System Bootstrap
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Bootstrap System"
       method: POST
       path: "/bootstrap"
-      
+
       description: |
         Initialize and bootstrap the entire SynergyMesh system.
         初始化並啟動整個 SynergyMesh 系統。
-      
+
       input_schema:
         type: "object"
         properties:
           environment: { type: "string", enum: ["development", "staging", "production"] }
           skip_phases: { type: "array", items: { type: "string" } }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -57,13 +56,13 @@ api:
           phases_completed: { type: "array" }
           services_started: { type: "integer" }
           bootstrap_time_seconds: { type: "number" }
-      
+
       guarantees:
         - "Bootstrap is idempotent"
         - "Phases execute in defined order"
         - "Failed phases are reported"
         - "System state is consistent after bootstrap"
-      
+
       error_responses:
         - code: 409
           condition: "System already bootstrapped"
@@ -71,7 +70,7 @@ api:
         - code: 500
           condition: "Critical phase failed"
           message: "ERR_BOOTSTRAP_FAILED"
-      
+
       performance:
         response_time_p99: "< 5s"
         bootstrap_time_target: "< 10s"
@@ -82,11 +81,11 @@ api:
     - name: "Register Service"
       method: POST
       path: "/services"
-      
+
       description: |
         Register a service in the service registry.
         在服務註冊表中註冊服務。
-      
+
       input_schema:
         type: "object"
         required: ["service_id", "endpoint", "health_check"]
@@ -97,19 +96,19 @@ api:
           health_check: { type: "string", format: "uri" }
           metadata: { type: "object" }
           dependencies: { type: "array", items: { type: "string" } }
-      
+
       output_schema:
         type: "object"
         properties:
           registration_id: { type: "string" }
           status: { type: "string" }
           registered_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Service ID is unique within registry"
         - "Health check is validated before registration"
         - "Dependencies are verified"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 200ms"
@@ -120,9 +119,9 @@ api:
     - name: "Discover Service"
       method: GET
       path: "/services/{service_id}"
-      
+
       description: "Discover service endpoint and metadata"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -131,12 +130,12 @@ api:
           health_status: { type: "string", enum: ["healthy", "degraded", "unhealthy"] }
           metadata: { type: "object" }
           last_health_check: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Returns most recent health status"
         - "Cache coherence < 5 seconds"
         - "Health status is validated"
-      
+
       performance:
         response_time_p50: "< 10ms"
         response_time_p99: "< 50ms"
@@ -148,22 +147,22 @@ api:
     - name: "Get Configuration"
       method: GET
       path: "/config/{key}"
-      
+
       description: "Retrieve configuration value"
-      
+
       output_schema:
         type: "object"
         properties:
           key: { type: "string" }
-          value: { }
+          value: {}
           version: { type: "string" }
           last_updated: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Configuration is validated against schema"
         - "Version tracking for all changes"
         - "Audit trail maintained"
-      
+
       performance:
         response_time_p50: "< 20ms"
         response_time_p99: "< 100ms"
@@ -171,23 +170,23 @@ api:
     - name: "Set Configuration"
       method: PUT
       path: "/config/{key}"
-      
+
       description: "Update configuration value"
-      
+
       input_schema:
         type: "object"
         required: ["value"]
         properties:
-          value: { }
+          value: {}
           validate_only: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
           key: { type: "string" }
           version: { type: "string" }
           updated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Schema validation before update"
         - "Atomic update (all-or-nothing)"
@@ -200,9 +199,9 @@ api:
     - name: "Publish Event"
       method: POST
       path: "/events"
-      
+
       description: "Publish event to integration bus"
-      
+
       input_schema:
         type: "object"
         required: ["event_type", "payload"]
@@ -210,14 +209,14 @@ api:
           event_type: { type: "string" }
           payload: { type: "object" }
           routing_key: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
           event_id: { type: "string" }
           published_at: { type: "string", format: "date-time" }
           subscribers_notified: { type: "integer" }
-      
+
       guarantees:
         - "At-least-once delivery"
         - "Event ordering per routing key"
@@ -229,11 +228,11 @@ api:
     - name: "Execute Workflow"
       method: POST
       path: "/workflows/execute"
-      
+
       description: |
         Execute coordinated workflow across multiple services.
         跨多個服務執行協調的工作流。
-      
+
       input_schema:
         type: "object"
         required: ["workflow_definition", "parameters"]
@@ -247,7 +246,7 @@ api:
           parameters: { type: "object" }
           async: { type: "boolean", default: false }
           timeout_seconds: { type: "integer", default: 300 }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -256,13 +255,13 @@ api:
           steps_completed: { type: "integer" }
           results: { type: "object" }
           duration_seconds: { type: "number" }
-      
+
       guarantees:
         - "Steps execute in defined order"
         - "Dependency resolution automatic"
         - "Rollback on failure if configured"
         - "Progress trackable via execution_id"
-      
+
       performance:
         response_time_p50: "< 500ms"
         response_time_p99: "< 2s"
@@ -273,11 +272,11 @@ api:
     - name: "Resolve Dependencies"
       method: POST
       path: "/dependencies/resolve"
-      
+
       description: |
         Resolve service dependencies and determine startup order.
         解析服務依賴並確定啟動順序。
-      
+
       input_schema:
         type: "object"
         required: ["service_graph"]
@@ -286,25 +285,25 @@ api:
             type: "object"
             description: "Service dependency graph"
           check_health: { type: "boolean", default: true }
-      
+
       output_schema:
         type: "object"
         properties:
           resolution_id: { type: "string" }
-          startup_order: 
+          startup_order:
             type: "array"
             items: { type: "string" }
             description: "Ordered list of services"
           circular_dependencies: { type: "array" }
           missing_dependencies: { type: "array" }
           resolution_time_ms: { type: "number" }
-      
+
       guarantees:
         - "Circular dependencies detected"
         - "Missing dependencies reported"
         - "Topological sort applied"
         - "Resolution is deterministic"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid service graph"
@@ -312,7 +311,7 @@ api:
         - code: 409
           condition: "Circular dependency detected"
           message: "ERR_CIRCULAR_DEPENDENCY"
-      
+
       performance:
         response_time_p50: "< 100ms"
         response_time_p99: "< 500ms"
@@ -323,17 +322,17 @@ api:
     - name: "Check System Health"
       method: GET
       path: "/health/system"
-      
+
       description: |
         Comprehensive system health check across all services.
         跨所有服務的全面系統健康檢查。
-      
+
       input_schema:
         type: "object"
         properties:
           include_metrics: { type: "boolean", default: false }
           timeout_seconds: { type: "integer", default: 10 }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -355,13 +354,13 @@ api:
               degraded_count: { type: "integer" }
               unhealthy_count: { type: "integer" }
           checked_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "All registered services checked"
         - "Health status cached appropriately"
         - "Timeout prevents hanging"
         - "Metrics updated atomically"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 1s"
@@ -372,10 +371,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "integration.system_bootstrapped"
     description: "Emitted when system bootstrap completes"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -384,18 +382,18 @@ events:
         phases_completed: { type: "array" }
         services_count: { type: "integer" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "global"
     retention: "30 days"
-    
+
     consumers:
       - "automation.monitoring"
       - "services.audit"
 
   - name: "integration.service_registered"
     description: "Emitted when new service registers"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -403,17 +401,17 @@ events:
         service_name: { type: "string" }
         endpoint: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "automation.monitoring"
       - "services.gateway"
 
   - name: "integration.config_changed"
     description: "Emitted when configuration changes"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -422,10 +420,10 @@ events:
         new_version: { type: "string" }
         changed_by: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "automation.monitoring"
@@ -433,7 +431,7 @@ events:
 
   - name: "integration.health_degraded"
     description: "Emitted when service health degrades"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -442,10 +440,10 @@ events:
         current_status: { type: "string" }
         reason: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "ops.alerting"
       - "automation.monitoring"
@@ -455,27 +453,26 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Bootstrap Idempotency"
     description: "Multiple bootstrap calls have same effect as one"
     rule: "bootstrap(s) = bootstrap(bootstrap(s))"
     enforcement: "application-logic"
-    
+
   - name: "Service Uniqueness"
     description: "Service IDs are unique in registry"
     rule: "forall s1, s2 in services: s1.id = s2.id implies s1 = s2"
     enforcement: "database-constraint"
-    
+
   - name: "Dependency Resolution"
     description: "Service dependencies must be satisfied"
     rule: "registered(s) implies forall d in s.dependencies: registered(d)"
     enforcement: "pre-condition"
-    
+
   - name: "Configuration Schema Compliance"
     description: "All config values match their schema"
     rule: "forall c in configs: validates(c.value, c.schema)"
     enforcement: "pre-condition"
-    
+
   - name: "Event Ordering Per Key"
     description: "Events with same routing key are ordered"
     rule: "forall e1, e2 where e1.key = e2.key and e1.time < e2.time: delivered(e1) before delivered(e2)"
@@ -486,7 +483,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Bootstrap Phase Failure"
     triggers:
       - "Critical phase times out"
@@ -496,7 +492,7 @@ failure_modes:
       - "Report failed phase"
       - "Maintain system in safe state"
     error_code: "ERR_BOOTSTRAP_PHASE_FAILED"
-    
+
   - scenario: "Service Registry Unavailable"
     triggers:
       - "Redis connection lost"
@@ -507,7 +503,7 @@ failure_modes:
       - "Attempt reconnection"
     error_code: "ERR_REGISTRY_UNAVAILABLE"
     degraded_mode: true
-    
+
   - scenario: "Configuration Drift Detected"
     triggers:
       - "Config differs from expected"
@@ -523,16 +519,15 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "infrastructure.redis"
       purpose: "Service registry cache"
       failure_mode: "critical"
-    
+
     - module: "governance.policies"
       purpose: "Configuration schemas"
       failure_mode: "use-cached"
-  
+
   optional:
     - module: "core.monitoring_system"
       purpose: "Health monitoring"
@@ -546,12 +541,12 @@ performance:
   bootstrap:
     target_time: "< 10s"
     max_time: "< 30s"
-    
+
   service_discovery:
     p50: "< 10ms"
     p99: "< 50ms"
     throughput: "> 10000 req/s"
-    
+
   configuration_access:
     p50: "< 20ms"
     p99: "< 100ms"
@@ -576,7 +571,7 @@ observability:
     - name: "events_published_total"
       type: "counter"
       labels: ["event_type"]
-  
+
   alerts:
     - condition: "bootstrap_duration_seconds > 30"
       severity: "high"

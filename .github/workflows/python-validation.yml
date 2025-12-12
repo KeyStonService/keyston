@@ -4,13 +4,13 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - '**.py'
-      - 'pyproject.toml'
-      - 'governance/35-scripts/validate-python-syntax.py'
+      - "**.py"
+      - "pyproject.toml"
+      - "governance/35-scripts/validate-python-syntax.py"
   push:
     branches: [main]
     paths:
-      - '**.py'
+      - "**.py"
 
 # Prevent concurrent runs
 concurrency:
@@ -30,8 +30,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |

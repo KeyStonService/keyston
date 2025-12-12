@@ -41,7 +41,7 @@ error_categories:
           auto_fixable: true
         - action: "驗證 YAML 語法"
           details: "使用 yaml linter 驗證語法"
-          command: "python3 -c \"import yaml; yaml.safe_load(open('.github/workflows/file.yml'))\""
+          command: 'python3 -c "import yaml; yaml.safe_load(open(''.github/workflows/file.yml''))"'
           auto_fixable: false
         - action: "檢查 reusable workflow 路徑"
           details: "確保 `uses: ./.github/workflows/xxx.yml` 路徑正確"
@@ -493,7 +493,7 @@ error_categories:
 
 auto_fix:
   enabled: true
-  
+
   # 安全修復 - 可自動執行
   safe_fixes:
     - lint_errors
@@ -502,14 +502,14 @@ auto_fix:
     - npm_cache_clean
     - docker_system_prune
     - nojekyll_file
-    
+
   # 需要審核的修復
   review_required:
     - dependency_major_updates
     - security_vulnerabilities
     - test_updates
     - configuration_changes
-    
+
   # 禁止自動修復
   never_auto_fix:
     - production_deployments
@@ -528,7 +528,7 @@ monitoring:
     enabled: true
     retention_days: 30
     aggregation: "workflow,error_category"
-    
+
   # 健康檢查
   health_checks:
     enabled: true
@@ -540,7 +540,7 @@ monitoring:
       - name: "mcp-servers"
         path: "mcp-servers"
         check: "npm run validate:deployment"
-        
+
   # 告警規則
   alerts:
     critical:
@@ -574,14 +574,14 @@ reporting:
       - success_rate
       - failure_breakdown
       - top_errors
-      
+
   # 週報告
   weekly_report:
     enabled: true
     day: "monday"
     include:
       - trend_analysis
-      - mttr  # Mean Time To Resolve
+      - mttr # Mean Time To Resolve
       - recurring_issues
       - recommendations
 
@@ -596,12 +596,12 @@ preventive_measures:
     - lint
     - type_check
     - unit_tests_fast
-    
+
   # 預推送檢查
   pre_push:
     - full_test_suite
     - security_scan_quick
-    
+
   # PR 要求
   pr_requirements:
     - ci_passing
@@ -622,7 +622,7 @@ references:
       description: "CI 自動評論系統文檔"
     - path: "docs/CI_GLOBAL_STATUS_FIX.md"
       description: "CI 全局狀態修復指南"
-      
+
   configurations:
     - path: "config/ci-error-handler.yaml"
       description: "CI 錯誤處理配置"
@@ -630,7 +630,7 @@ references:
       description: "自動駕駛級 CI 守護者"
     - path: ".github/workflows/autofix-bot.yml"
       description: "自動修復機器人"
-      
+
   scripts:
     - path: "scripts/check-env.sh"
       description: "環境檢查腳本"

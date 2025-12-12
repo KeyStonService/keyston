@@ -225,7 +225,7 @@ env:
    ```python
    # ❌ Bad
    url='https://github.com/org/repo'
-   
+
    # ✅ Good
    url=os.environ.get('REPOSITORY_URL', '')
    ```
@@ -235,7 +235,7 @@ env:
    ```yaml
    # ❌ Bad
    token: ${{ secrets.CUSTOM_TOKEN }}
-   
+
    # ✅ Good
    token: ${{ github.token }}
    ```
@@ -248,7 +248,7 @@ env:
      id-token: write
      packages: write
      security-events: write
-   
+
    # ✅ Good - 只聲明實際需要的
    permissions:
      contents: read

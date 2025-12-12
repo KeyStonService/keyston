@@ -12,7 +12,8 @@
 
 ## 🤖 AI 代理？即時載入！ / AI Agent? Instant Load
 
-**👉 [AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md) - < 1 秒完整專案狀態**
+**👉 [AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md) - <
+1 秒完整專案狀態**
 
 這份機器可讀的狀態清單包含:
 
@@ -29,9 +30,13 @@
 
 ## 📋 Overview | 概述
 
-Vision and Strategy Governance defines the overarching strategic direction, vision statements, and long-term objectives that guide all other governance dimensions. This dimension now includes a complete **Governance-as-Code (GaC)** implementation with automated deployment, policy enforcement, and monitoring.
+Vision and Strategy Governance defines the overarching strategic direction,
+vision statements, and long-term objectives that guide all other governance
+dimensions. This dimension now includes a complete **Governance-as-Code (GaC)**
+implementation with automated deployment, policy enforcement, and monitoring.
 
-願景與戰略治理定義指導所有其他治理維度的整體戰略方向、願景聲明和長期目標。此維度現包含完整的**治理即代碼 (GaC)** 實作，具備自動部署、策略執行和監控功能。
+願景與戰略治理定義指導所有其他治理維度的整體戰略方向、願景聲明和長期目標。此維度現包含完整的**治理即代碼 (GaC)**
+實作，具備自動部署、策略執行和監控功能。
 
 ## 🎯 Purpose | 目的
 
@@ -117,7 +122,8 @@ kubectl apply -k gitops/kustomization-instances.yaml
 
 ### 🌟 Primary Entry Point / 主要入口
 
-- **[AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md)** ⚡ **AI AGENTS START HERE**
+- **[AUTONOMOUS_AGENT_STATE.md](./AUTONOMOUS_AGENT_STATE.md)** ⚡ **AI AGENTS
+  START HERE**
   - < 1 second instant project state loading
   - Machine-readable JSON/YAML format
   - Instant execution commands
@@ -127,24 +133,31 @@ kubectl apply -k gitops/kustomization-instances.yaml
 
 ### Deployment / 部署
 
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide | 完整部署指南
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Complete deployment guide
+  | 完整部署指南
 
 ### Implementation Details / 實施細節
 
-- **[PHASE2_README.md](./PHASE2_README.md)** - Phase 2: Operational implementation | 階段 2：運營實施
-- **[PHASE3_README.md](./PHASE3_README.md)** - Phase 3: Automation & monitoring | 階段 3：自動化與監控
+- **[PHASE2_README.md](./PHASE2_README.md)** - Phase 2: Operational
+  implementation | 階段 2：運營實施
+- **[PHASE3_README.md](./PHASE3_README.md)** - Phase 3: Automation & monitoring
+  | 階段 3：自動化與監控
 
 ### Status & History / 狀態與歷史
 
-- **[PROJECT_STATE_SNAPSHOT.md](./PROJECT_STATE_SNAPSHOT.md)** - Complete project state | 完整項目狀態
-- **[README.gac-deployment.md](./README.gac-deployment.md)** - GaC deployment overview | GaC 部署概覽
+- **[PROJECT_STATE_SNAPSHOT.md](./PROJECT_STATE_SNAPSHOT.md)** - Complete
+  project state | 完整項目狀態
+- **[README.gac-deployment.md](./README.gac-deployment.md)** - GaC deployment
+  overview | GaC 部署概覽
 
 ## 🔗 Dependencies | 依賴關係
 
 - **Informs**: All other 22 dimensions | 影響其他 22 個維度
-- **Informed by**: External stakeholders, market analysis | 由外部利益相關者、市場分析影響
+- **Informed by**: External stakeholders, market analysis
+  | 由外部利益相關者、市場分析影響
 - **Related**: 01-architecture, 10-stakeholder | 相關：01-架構、10-利益相關者
-- **Deployed via**: Kubernetes CRDs, OPA Gatekeeper, Argo CD | 通過 Kubernetes CRDs、OPA Gatekeeper、Argo CD 部署
+- **Deployed via**: Kubernetes CRDs, OPA Gatekeeper, Argo CD | 通過 Kubernetes
+  CRDs、OPA Gatekeeper、Argo CD 部署
 
 ## 📊 Key Metrics | 關鍵指標
 
@@ -165,12 +178,12 @@ kubectl apply -k gitops/kustomization-instances.yaml
 
 ### Implementation Status | 實施狀態
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| Phase 1 | Strategic YAMLs (9 docs) | ✅ Complete |
-| Phase 2 | K8s Resources (27 files) | ✅ Complete |
-| Phase 3 | Automation (10 files) | ✅ Complete |
-| Deployment | K8s cluster deployment | 📖 Ready (see DEPLOYMENT.md) |
+| Phase      | Description              | Status                       |
+| ---------- | ------------------------ | ---------------------------- |
+| Phase 1    | Strategic YAMLs (9 docs) | ✅ Complete                  |
+| Phase 2    | K8s Resources (27 files) | ✅ Complete                  |
+| Phase 3    | Automation (10 files)    | ✅ Complete                  |
+| Deployment | K8s cluster deployment   | 📖 Ready (see DEPLOYMENT.md) |
 
 ### Resource Count | 資源計數
 

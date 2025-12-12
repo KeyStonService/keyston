@@ -16,9 +16,11 @@
 
 ### 發現 / Findings
 
-PR #110 建立了完整的 Governance-as-Code (GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
+PR #110 建立了完整的 Governance-as-Code
+(GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
 
-1. **CI/CD Workflows 位置錯誤** - 放在 `.github/workflows-gac/` 而非 `.github/workflows/`
+1. **CI/CD Workflows 位置錯誤** - 放在 `.github/workflows-gac/` 而非
+   `.github/workflows/`
 2. **缺少實際部署指南** - 僅有理論文檔，無實際部署步驟
 3. **缺少本地驗證工具** - 無法在部署前驗證資源語法
 4. **安全性問題** - GitHub Actions workflows 缺少 GITHUB_TOKEN 權限限制
@@ -63,17 +65,17 @@ Automation Layer (Phase 3) ✅
 
 ### 文件統計 / File Statistics
 
-| Category | Count | Status |
-|----------|-------|--------|
-| Strategic YAMLs | 9 | ✅ Complete |
-| Kubernetes CRDs | 9 | ✅ Validated |
-| K8s Instances | 9 | ✅ Validated |
-| OPA Policies | 9 | ✅ Syntax Ready |
-| GitOps Configs | 3 | ✅ Validated |
-| Gatekeeper Configs | 3 | ✅ Validated |
-| Monitoring Configs | 2 | ✅ Validated |
-| CI/CD Workflows | 2 | ✅ Active & Secure |
-| **Total Resources** | **46** | **✅ 100% Ready** |
+| Category            | Count  | Status             |
+| ------------------- | ------ | ------------------ |
+| Strategic YAMLs     | 9      | ✅ Complete        |
+| Kubernetes CRDs     | 9      | ✅ Validated       |
+| K8s Instances       | 9      | ✅ Validated       |
+| OPA Policies        | 9      | ✅ Syntax Ready    |
+| GitOps Configs      | 3      | ✅ Validated       |
+| Gatekeeper Configs  | 3      | ✅ Validated       |
+| Monitoring Configs  | 2      | ✅ Validated       |
+| CI/CD Workflows     | 2      | ✅ Active & Secure |
+| **Total Resources** | **46** | **✅ 100% Ready**  |
 
 ---
 
@@ -120,7 +122,7 @@ Automation Layer (Phase 3) ✅
 **功能 / Features:**
 
 - ✅ 驗證 9 CRDs
-- ✅ 驗證 9 K8s instances  
+- ✅ 驗證 9 K8s instances
 - ✅ 驗證 9 OPA policies
 - ✅ 驗證 3 GitOps configs
 - ✅ 驗證 3 Gatekeeper configs
@@ -294,21 +296,30 @@ argocd app list | grep gac-
 
 ### Primary Documentation
 
-- **[DEPLOYMENT.md](governance/00-vision-strategy/DEPLOYMENT.md)** - Complete deployment guide
-- **[README.md](governance/00-vision-strategy/README.md)** - Overview and quick start
-- **[PROJECT_STATE_SNAPSHOT.md](governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** - Complete project state
+- **[DEPLOYMENT.md](governance/00-vision-strategy/DEPLOYMENT.md)** - Complete
+  deployment guide
+- **[README.md](governance/00-vision-strategy/README.md)** - Overview and quick
+  start
+- **[PROJECT_STATE_SNAPSHOT.md](governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md)** -
+  Complete project state
 
 ### Phase Documentation
 
-- **[PHASE2_README.md](governance/00-vision-strategy/PHASE2_README.md)** - Operational layer documentation
-- **[PHASE3_README.md](governance/00-vision-strategy/PHASE3_README.md)** - Automation layer documentation
-- **[README.gac-deployment.md](governance/00-vision-strategy/README.gac-deployment.md)** - GaC deployment overview
+- **[PHASE2_README.md](governance/00-vision-strategy/PHASE2_README.md)** -
+  Operational layer documentation
+- **[PHASE3_README.md](governance/00-vision-strategy/PHASE3_README.md)** -
+  Automation layer documentation
+- **[README.gac-deployment.md](governance/00-vision-strategy/README.gac-deployment.md)** -
+  GaC deployment overview
 
 ### Tools
 
-- **[tests/deploy-local.sh](governance/00-vision-strategy/tests/deploy-local.sh)** - Local validation script
-- **[tests/generate-resources.sh](governance/00-vision-strategy/tests/generate-resources.sh)** - Resource generator
-- **[tests/validate-all.sh](governance/00-vision-strategy/tests/validate-all.sh)** - Validation script
+- **[tests/deploy-local.sh](governance/00-vision-strategy/tests/deploy-local.sh)** -
+  Local validation script
+- **[tests/generate-resources.sh](governance/00-vision-strategy/tests/generate-resources.sh)** -
+  Resource generator
+- **[tests/validate-all.sh](governance/00-vision-strategy/tests/validate-all.sh)** -
+  Validation script
 
 ---
 
@@ -330,7 +341,8 @@ argocd app list | grep gac-
 
 ### Continuous Operations
 
-- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to cluster
+- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to
+  cluster
 - **Time to production**: < 5 minutes ⚡
 
 ---

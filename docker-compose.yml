@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 # SynergyMesh 生產環境 Docker Compose 配置
 # 快速啟動所有核心服務
 
 services:
   # ==================== 核心服務層 ====================
-  
+
   contracts-l1:
     build:
       context: ./core/contract_service/contracts-L1/contracts
@@ -32,7 +32,7 @@ services:
       - "com.synergymesh.version=1.0.0"
 
   # ==================== 工具與驗證層 ====================
-  
+
   mcp-servers:
     build:
       context: ./mcp-servers
@@ -62,7 +62,7 @@ services:
       - "com.synergymesh.version=1.0.0"
 
   # ==================== 儀表板與監控層 ====================
-  
+
   dashboard:
     image: nginx:alpine
     container_name: synergymesh-dashboard
@@ -81,10 +81,10 @@ services:
       - "com.synergymesh.service=dashboard"
       - "com.synergymesh.tier=frontend"
       - "com.synergymesh.version=1.0.0"
-  
+
   # ==================== 工作流程系統層 (可選) ====================
   # 使用 docker-compose --profile workflow up 啟用
-  
+
   workflow-system:
     build:
       context: .
@@ -114,7 +114,7 @@ services:
       - "com.synergymesh.service=workflow-system"
       - "com.synergymesh.tier=workflow"
       - "com.synergymesh.version=2.0.0"
-  
+
   workflow-postgres:
     image: postgres:16-alpine
     container_name: synergymesh-workflow-postgres
@@ -137,7 +137,7 @@ services:
     labels:
       - "com.synergymesh.service=workflow-postgres"
       - "com.synergymesh.tier=database"
-  
+
   workflow-redis:
     image: redis:7-alpine
     container_name: synergymesh-workflow-redis
@@ -157,14 +157,14 @@ services:
     labels:
       - "com.synergymesh.service=workflow-redis"
       - "com.synergymesh.tier=cache"
-  
+
   workflow-prometheus:
     image: prom/prometheus:latest
     container_name: synergymesh-workflow-prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=15d'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
     ports:
       - "9090:9090"
     volumes:
@@ -178,7 +178,7 @@ services:
     labels:
       - "com.synergymesh.service=workflow-prometheus"
       - "com.synergymesh.tier=monitoring"
-  
+
   workflow-grafana:
     image: grafana/grafana:latest
     container_name: synergymesh-workflow-grafana
@@ -215,27 +215,27 @@ volumes:
     name: synergymesh-contracts-data
     labels:
       - "com.synergymesh.volume=contracts"
-  
+
   mcp-data:
     name: synergymesh-mcp-data
     labels:
       - "com.synergymesh.volume=mcp"
-  
+
   workflow-postgres-data:
     name: synergymesh-workflow-postgres-data
     labels:
       - "com.synergymesh.volume=workflow-postgres"
-  
+
   workflow-redis-data:
     name: synergymesh-workflow-redis-data
     labels:
       - "com.synergymesh.volume=workflow-redis"
-  
+
   workflow-prometheus-data:
     name: synergymesh-workflow-prometheus-data
     labels:
       - "com.synergymesh.volume=workflow-prometheus"
-  
+
   workflow-grafana-data:
     name: synergymesh-workflow-grafana-data
     labels:

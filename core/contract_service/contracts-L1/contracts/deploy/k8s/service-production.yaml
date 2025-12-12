@@ -13,14 +13,14 @@ spec:
   selector:
     app: contracts-l1
   ports:
-  - port: 80
-    targetPort: 3000
-    protocol: TCP
-    name: http
-  - port: 9090
-    targetPort: 9090
-    protocol: TCP
-    name: metrics
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: metrics
   sessionAffinity: None
 
 ---
@@ -38,7 +38,7 @@ spec:
   selector:
     app: contracts-l1
   ports:
-  - port: 3000
-    targetPort: 3000
-    protocol: TCP
-    name: http
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http

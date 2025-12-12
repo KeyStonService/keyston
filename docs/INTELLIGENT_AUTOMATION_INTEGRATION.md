@@ -6,7 +6,8 @@
 
 本指南說明如何將從 OJ-agent 提取的智能自動化能力整合至您的項目中。
 
-This guide explains how to integrate the intelligent automation capabilities extracted from OJ-agent into your project.
+This guide explains how to integrate the intelligent automation capabilities
+extracted from OJ-agent into your project.
 
 ---
 
@@ -126,24 +127,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # 依治理原則，建議使用彈性版本（或 '>=3.8'）
-      
+          python-version: '3.x' # 依治理原則，建議使用彈性版本（或 '>=3.8'）
+
       - name: Install Dependencies
         run: |
           cd intelligent-automation
           pip install -r requirements.txt
-      
+
       - name: Run Analysis
         run: |
           cd intelligent-automation
           python -c "
           import asyncio
           from pipeline_service import pipeline_service
-          
+
           async def main():
               # 分析最近的 commit
               result = await pipeline_service.process_request(
@@ -151,7 +152,7 @@ jobs:
                   analysis_type='comprehensive'
               )
               print(result)
-          
+
           asyncio.run(main())
           "
 ```
@@ -188,20 +189,20 @@ docker run -p 8080:8080 intelligent-automation
 ```yaml
 intelligent_automation:
   enabled: true
-  
+
   agents:
     task_executor:
       enabled: true
       analysis_types:
-        - "comprehensive"
-        - "security"
-        - "performance"
+        - 'comprehensive'
+        - 'security'
+        - 'performance'
       auto_fix_critical: true
-    
+
     recognition_server:
       enabled: true
       security_validation: true
-    
+
     visualization_agent:
       enabled: true
       generate_explanations: true
@@ -221,21 +222,21 @@ async def monitor_flight_control():
     while True:
         # 獲取最新代碼
         code = get_latest_flight_control_code()
-        
+
         # 安全關鍵分析
         result = await pipeline_service.process_request(
             query="Safety-critical analysis for drone control",
             editor_code=code,
             analysis_type="security"
         )
-        
+
         # 發現關鍵問題立即告警
         if result['result']['analysis']['issues']:
-            critical = [i for i in result['result']['analysis']['issues'] 
+            critical = [i for i in result['result']['analysis']['issues']
                        if i['severity'] == 'critical']
             if critical:
                 send_alert(critical)
-        
+
         await asyncio.sleep(10)  # 每10秒檢查一次
 ```
 
@@ -248,18 +249,18 @@ async def monitor_flight_control():
 async def validate_autonomous_code(pr_code):
     # 多層次驗證
     analyses = ['security', 'performance', 'comprehensive']
-    
+
     for analysis_type in analyses:
         result = await pipeline_service.process_request(
             query=f"Validate autonomous vehicle code: {analysis_type}",
             editor_code=pr_code,
             analysis_type=analysis_type
         )
-        
+
         # 任何關鍵問題都阻止合併
         if has_critical_issues(result):
             return False, result
-    
+
     return True, "All validations passed"
 ```
 
@@ -276,19 +277,19 @@ async def auto_fix_and_test(code):
         editor_code=code,
         analysis_type="comprehensive"
     )
-    
+
     # 如果有自動修復
     if result['result']['auto_fix_applied']:
         fixed_code = result['result']['fixed_code']
-        
+
         # 運行測試
         test_result = run_tests(fixed_code)
-        
+
         if test_result.passed:
             # 自動提交修復
             commit_fix(fixed_code, result)
             return True
-    
+
     return False
 ```
 
@@ -337,13 +338,13 @@ async def auto_fix_and_test(code):
 
 ### 目標性能 Target Performance
 
-| 指標 | 目標值 | 說明 |
-|------|--------|------|
-| 響應時間 | < 100ms | 平均分析響應時間 |
-| 並發處理 | 1000+ req/s | 最大並發請求數 |
-| 準確率 | 99.5% | 安全問題檢測準確率 |
-| 成功率 | 95.8% | 自動修復成功率 |
-| 可用性 | 99.9% | 系統可用性 |
+| 指標     | 目標值      | 說明               |
+| -------- | ----------- | ------------------ |
+| 響應時間 | < 100ms     | 平均分析響應時間   |
+| 並發處理 | 1000+ req/s | 最大並發請求數     |
+| 準確率   | 99.5%       | 安全問題檢測準確率 |
+| 成功率   | 95.8%       | 自動修復成功率     |
+| 可用性   | 99.9%       | 系統可用性         |
 
 ### 監控方式 Monitoring
 
@@ -387,10 +388,10 @@ from agents.task_executor import TaskExecutor
 @pytest.mark.asyncio
 async def test_security_analysis():
     executor = TaskExecutor()
-    
+
     unsafe_code = "result = eval(user_input)"
     result = await executor.analyze_code(unsafe_code, "security")
-    
+
     assert len(result["issues"]) > 0
     assert any(i["severity"] == "critical" for i in result["issues"])
 ```
@@ -434,7 +435,7 @@ asyncio.run(your_async_function())
 class CustomTaskExecutor(TaskExecutor):
     async def _check_custom_rules(self, code: str) -> list:
         issues = []
-        
+
         # 添加自定義檢查
         if "custom_pattern" in code:
             issues.append({
@@ -442,7 +443,7 @@ class CustomTaskExecutor(TaskExecutor):
                 "severity": "high",
                 "description": "Custom rule violation"
             })
-        
+
         return issues
 ```
 
@@ -453,7 +454,7 @@ class CustomTaskExecutor(TaskExecutor):
 class CustomAgent:
     def __init__(self):
         self.name = "custom_agent"
-    
+
     async def process(self, query: str) -> dict:
         # 實現自定義邏輯
         return {"result": "processed"}

@@ -11,37 +11,37 @@ name: Policy Simulation
 on:
   pull_request:
     paths:
-      - 'core/contract_service/contracts-L1/contracts/deploy/k8s/**'
-      - 'core/contract_service/contracts-L1/contracts/policy/**'
+      - "core/contract_service/contracts-L1/contracts/deploy/k8s/**"
+      - "core/contract_service/contracts-L1/contracts/policy/**"
   push:
     branches:
       - main
     paths:
-      - 'core/contract_service/contracts-L1/contracts/deploy/k8s/**'
+      - "core/contract_service/contracts-L1/contracts/deploy/k8s/**"
   workflow_dispatch:
 
 jobs:
   policy-simulation:
     name: 策略模擬與驗證
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 檢出代碼
         uses: actions/checkout@v4
-      
+
       - name: 安裝 OPA
         run: |
           curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
           chmod +x opa
           sudo mv opa /usr/local/bin/
           opa version
-      
+
       - name: 驗證 OPA 策略語法
         run: |
           echo "📋 驗證 OPA 策略檔案語法..."
           opa check core/contract_service/contracts-L1/contracts/policy/manifest-policies.rego
           echo "✅ 策略語法驗證通過"
-      
+
       - name: 執行策略模擬 - Deployment
         id: sim-deployment
         continue-on-error: true
@@ -52,15 +52,15 @@ jobs:
             --input core/contract_service/contracts-L1/contracts/deploy/k8s/deployment-production.yaml \
             --format pretty \
             'data.kubernetes.deny' > deployment-report.txt
-          
+
           opa eval \
             --data core/contract_service/contracts-L1/contracts/policy/manifest-policies.rego \
             --input core/contract_service/contracts-L1/contracts/deploy/k8s/deployment-production.yaml \
             --format json \
             'data.kubernetes.deny' > deployment-report.json
-          
+
           cat deployment-report.txt
-      
+
       - name: 執行策略模擬 - Service
         id: sim-service
         continue-on-error: true
@@ -71,7 +71,7 @@ jobs:
             --input core/contract_service/contracts-L1/contracts/deploy/k8s/service-production.yaml \
             --format json \
             'data.kubernetes.deny' > service-report.json
-      
+
       - name: 執行策略模擬 - Ingress
         id: sim-ingress
         continue-on-error: true
@@ -82,7 +82,7 @@ jobs:
             --input core/contract_service/contracts-L1/contracts/deploy/k8s/ingress.yaml \
             --format json \
             'data.kubernetes.deny' > ingress-report.json
-      
+
       - name: 生成策略報告
         run: |
           cat > policy-report.json << 'EOF'
@@ -102,10 +102,10 @@ jobs:
             }
           }
           EOF
-          
+
           echo "📊 策略模擬報告已生成"
           cat policy-report.json | jq '.'
-      
+
       - name: 上傳策略報告
         uses: actions/upload-artifact@v4
         with:
@@ -116,15 +116,15 @@ jobs:
             service-report.json
             ingress-report.json
           retention-days: 30
-      
+
       - name: 評估結果
         run: |
           echo "🎯 策略模擬完成"
           echo "📋 報告已上傳為 artifact: policy-simulation-report"
-          
+
           # 檢查是否有策略違規
           DENY_COUNT=$(cat deployment-report.json | jq '.result[0].expressions[0].value | length' 2>/dev/null || echo "0")
-          
+
           if [ "$DENY_COUNT" != "0" ] && [ "$DENY_COUNT" != "null" ]; then
             echo "⚠️ 發現 $DENY_COUNT 個策略違規"
             echo "詳情請查看 artifact 中的報告"

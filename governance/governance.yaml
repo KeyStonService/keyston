@@ -77,7 +77,7 @@ execution:
 # =============================================================================
 dimensions:
   registry: "./dimensions/index.yaml"
-  total_count: 81  # 00-80
+  total_count: 81 # 00-80
 
   categories:
     strategic:

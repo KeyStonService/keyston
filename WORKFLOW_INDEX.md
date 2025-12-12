@@ -7,16 +7,21 @@
 ### 🎯 Start Here | 從這裡開始
 
 1. **[WORKFLOW_README.md](WORKFLOW_README.md)** - Quick start & overview
-2. **[WORKFLOW_SYSTEM_SUMMARY.md](WORKFLOW_SYSTEM_SUMMARY.md)** - Complete summary (answers "完成什麼？？")
+2. **[WORKFLOW_SYSTEM_SUMMARY.md](WORKFLOW_SYSTEM_SUMMARY.md)** - Complete
+   summary (answers "完成什麼？？")
 3. **[WORKFLOW_FILES_CREATED.md](WORKFLOW_FILES_CREATED.md)** - File inventory
 
 ### 📖 Detailed Documentation | 詳細文檔
 
-- **[docs/WORKFLOW_SYSTEM.md](docs/WORKFLOW_SYSTEM.md)** - Complete system guide (422 lines)
-- **[docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)** - Deployment instructions
-- **[docs/ARCHITECTURE_DETAILED.md](docs/ARCHITECTURE_DETAILED.md)** - Architecture deep dive
+- **[docs/WORKFLOW_SYSTEM.md](docs/WORKFLOW_SYSTEM.md)** - Complete system guide
+  (422 lines)
+- **[docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)** - Deployment
+  instructions
+- **[docs/ARCHITECTURE_DETAILED.md](docs/ARCHITECTURE_DETAILED.md)** -
+  Architecture deep dive
 - **[docs/API_REFERENCE.md](docs/API_REFERENCE.md)** - API documentation
-- **[docs/VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md)** - Validation system guide
+- **[docs/VALIDATION_GUIDE.md](docs/VALIDATION_GUIDE.md)** - Validation system
+  guide
 
 ## 🗂️ File Organization | 文件組織
 
@@ -103,7 +108,7 @@ tests/
 
 **Total Files:** 31  
 **Total Lines of Code:** 4,119+  
-**Total Characters:** 150,000+  
+**Total Characters:** 150,000+
 
 ## 🎯 Key Components | 核心組件
 
@@ -182,12 +187,12 @@ kubectl logs -f deployment/workflow-system
 
 ## 📈 Performance Targets | 性能目標
 
-| Process | Target | Status |
-|---------|--------|--------|
-| Analysis | < 300s | ✓ 180s |
-| Validation | < 60s | ✓ 45s |
-| Build | < 600s | ✓ 420s |
-| Deployment | 0s downtime | ✓ |
+| Process    | Target      | Status |
+| ---------- | ----------- | ------ |
+| Analysis   | < 300s      | ✓ 180s |
+| Validation | < 60s       | ✓ 45s  |
+| Build      | < 600s      | ✓ 420s |
+| Deployment | 0s downtime | ✓      |
 
 ## ✅ Completeness Checklist | 完整性檢查
 

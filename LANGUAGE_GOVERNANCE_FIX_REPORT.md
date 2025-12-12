@@ -5,7 +5,8 @@
 **Status:** ✅ COMPLETE  
 **Date:** 2025-12-08  
 **Violations Fixed:** 15 files (all violations from issue report)  
-**Violations Remaining:** 49 files (in other directories: services/, apps/, tests/, docs/)
+**Violations Remaining:** 49 files (in other directories: services/, apps/,
+tests/, docs/)
 
 ---
 
@@ -23,15 +24,15 @@
 
 ### 1. JavaScript → TypeScript 轉換 (7 files)
 
-| 原檔案 | 新檔案 | 狀態 |
-|--------|--------|------|
-| `core/advisory-database/jest.config.js` | `jest.config.ts` | ✅ 已轉換 |
-| `core/advisory-database/eslint.config.js` | (已刪除，使用 `.eslintrc.json`) | ✅ 已移除 |
-| `core/contract_service/contracts-L1/contracts/jest.config.js` | `jest.config.ts` | ✅ 已轉換 |
-| `core/contract_service/contracts-L1/contracts/eslint.config.js` | (已刪除，使用 `.eslintrc.json`) | ✅ 已移除 |
-| `core/contract_service/contracts-L1/contracts/tailwind.config.js` | `tailwind.config.ts` | ✅ 已轉換 |
-| `core/contract_service/contracts-L1/contracts/web/tailwind.config.js` | `tailwind.config.ts` | ✅ 已轉換 |
-| `core/contract_service/contracts-L1/contracts/ci/contract-checker.js` | `contract-checker.ts` | ✅ 已轉換 |
+| 原檔案                                                                | 新檔案                          | 狀態      |
+| --------------------------------------------------------------------- | ------------------------------- | --------- |
+| `core/advisory-database/jest.config.js`                               | `jest.config.ts`                | ✅ 已轉換 |
+| `core/advisory-database/eslint.config.js`                             | (已刪除，使用 `.eslintrc.json`) | ✅ 已移除 |
+| `core/contract_service/contracts-L1/contracts/jest.config.js`         | `jest.config.ts`                | ✅ 已轉換 |
+| `core/contract_service/contracts-L1/contracts/eslint.config.js`       | (已刪除，使用 `.eslintrc.json`) | ✅ 已移除 |
+| `core/contract_service/contracts-L1/contracts/tailwind.config.js`     | `tailwind.config.ts`            | ✅ 已轉換 |
+| `core/contract_service/contracts-L1/contracts/web/tailwind.config.js` | `tailwind.config.ts`            | ✅ 已轉換 |
+| `core/contract_service/contracts-L1/contracts/ci/contract-checker.js` | `contract-checker.ts`           | ✅ 已轉換 |
 
 **轉換說明：**
 
@@ -41,10 +42,10 @@
 
 ### 2. Rego 政策檔案重新定位 (2 files)
 
-| 原位置 | 新位置 | 狀態 |
-|--------|--------|------|
-| `core/contract_service/contracts-L1/contracts/policy/manifest-policies.rego` | (已刪除) | ✅ 重複檔案，governance/ 中有更好版本 |
-| `automation/hyperautomation/policies/rego/uav_ad.rego` | `governance/policies/autonomous/uav_ad.rego` | ✅ 已搬移 |
+| 原位置                                                                       | 新位置                                       | 狀態                                  |
+| ---------------------------------------------------------------------------- | -------------------------------------------- | ------------------------------------- |
+| `core/contract_service/contracts-L1/contracts/policy/manifest-policies.rego` | (已刪除)                                     | ✅ 重複檔案，governance/ 中有更好版本 |
+| `automation/hyperautomation/policies/rego/uav_ad.rego`                       | `governance/policies/autonomous/uav_ad.rego` | ✅ 已搬移                             |
 
 **政策說明：**
 
@@ -54,12 +55,12 @@
 
 ### 3. Go → Python 轉換 (2 files + 1 new)
 
-| 原檔案 | 新檔案 | 狀態 |
-|--------|--------|------|
-| `automation/autonomous/security-observability/main.go` | `main.py` | ✅ 已轉換 |
-| `automation/autonomous/security-observability/go.mod` | (已刪除) | ✅ 已移除 |
-| `automation/autonomous/security-observability/observability/event_logger.go` | `event_logger.py` | ✅ 已轉換 |
-| - | `observability/__init__.py` | ✅ 新增 Python 套件 |
+| 原檔案                                                                       | 新檔案                      | 狀態                |
+| ---------------------------------------------------------------------------- | --------------------------- | ------------------- |
+| `automation/autonomous/security-observability/main.go`                       | `main.py`                   | ✅ 已轉換           |
+| `automation/autonomous/security-observability/go.mod`                        | (已刪除)                    | ✅ 已移除           |
+| `automation/autonomous/security-observability/observability/event_logger.go` | `event_logger.py`           | ✅ 已轉換           |
+| -                                                                            | `observability/__init__.py` | ✅ 新增 Python 套件 |
 
 **轉換詳情：**
 

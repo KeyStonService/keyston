@@ -51,26 +51,26 @@
 frameworks:
   popular:
     enabled: true
-    
+
     python:
       tools:
         - pylint
         - black
         - mypy
       auto_fix: true
-    
+
     typescript:
       tools:
         - eslint
         - prettier
       auto_fix: true
-    
+
     go:
       tools:
         - golint
         - gofmt
       auto_fix: true
-    
+
     rust:
       tools:
         - clippy

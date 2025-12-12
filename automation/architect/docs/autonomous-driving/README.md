@@ -6,7 +6,9 @@
 
 專為自動駕駛系統設計的代碼分析與修復解決方案，確保決策算法的安全性、可靠性和實時性能。
 
-Code analysis and repair solution specifically designed for autonomous driving systems, ensuring safety, reliability, and real-time performance of decision-making algorithms.
+Code analysis and repair solution specifically designed for autonomous driving
+systems, ensuring safety, reliability, and real-time performance of
+decision-making algorithms.
 
 ## 核心關注點 Focus Areas
 
@@ -57,10 +59,10 @@ Code analysis and repair solution specifically designed for autonomous driving s
 
 ```yaml
 analysis_priority:
-  security: critical      # 安全性最高優先級
-  performance: critical   # 實時性能關鍵
-  quality: high          # 代碼質量重要
-  architecture: high     # 架構設計重要
+  security: critical # 安全性最高優先級
+  performance: critical # 實時性能關鍵
+  quality: high # 代碼質量重要
+  architecture: high # 架構設計重要
 ```
 
 ## 典型問題檢測 Common Issues Detected

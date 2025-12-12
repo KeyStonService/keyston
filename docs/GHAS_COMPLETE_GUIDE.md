@@ -12,7 +12,8 @@
 
 ## 概述
 
-本指南提供 GitHub Advanced Security (GHAS) 在企業環境中的完整實施方案，涵蓋從基礎架構配置到高級安全功能的所有方面。
+本指南提供 GitHub Advanced Security
+(GHAS) 在企業環境中的完整實施方案，涵蓋從基礎架構配置到高級安全功能的所有方面。
 
 ### GHAS 核心功能
 
@@ -47,13 +48,13 @@ docs/
 
 #### 關鍵配置文件
 
-| 文件 | 用途 |
-|------|------|
-| `.github/security-policy.yml` | 組織安全策略 |
+| 文件                                 | 用途                |
+| ------------------------------------ | ------------------- |
+| `.github/security-policy.yml`        | 組織安全策略        |
 | `.github/workflows/setup-runner.yml` | Runner 設定工作流程 |
-| `config/security-network-config.yml` | 網路安全配置 |
-| `config/prometheus-config.yml` | Prometheus 監控 |
-| `config/elasticsearch-config.sh` | Elasticsearch 整合 |
+| `config/security-network-config.yml` | 網路安全配置        |
+| `config/prometheus-config.yml`       | Prometheus 監控     |
+| `config/elasticsearch-config.sh`     | Elasticsearch 整合  |
 
 ### 第二步：權限與團隊配置
 
@@ -108,7 +109,7 @@ gh api \
 
 ```yaml
 # .github/codeql/codeql-config.yml
-name: "Enterprise CodeQL Config"
+name: 'Enterprise CodeQL Config'
 disable-default-queries: false
 queries:
   - name: security-extended
@@ -274,12 +275,12 @@ cat .github/codeql/custom-queries/enterprise-security.ql
 
 #### 角色與職責
 
-| 角色 | 職責 |
-|------|------|
-| 安全團隊 | 政策制定、工具管理、事件響應 |
-| 開發團隊 | 修復漏洞、遵循最佳實踐 |
-| DevOps 團隊 | 基礎設施維護、監控配置 |
-| 管理層 | 資源分配、風險決策 |
+| 角色        | 職責                         |
+| ----------- | ---------------------------- |
+| 安全團隊    | 政策制定、工具管理、事件響應 |
+| 開發團隊    | 修復漏洞、遵循最佳實踐       |
+| DevOps 團隊 | 基礎設施維護、監控配置       |
+| 管理層      | 資源分配、風險決策           |
 
 #### 溝通渠道
 

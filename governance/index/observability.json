@@ -93,10 +93,10 @@
     {
       "dimension": "10-policy",
       "metrics": [
-        {"id": "policy_count", "type": "gauge", "description": "策略總數"},
-        {"id": "policy_violations", "type": "counter", "description": "策略違規次數"},
-        {"id": "policy_validation_time", "type": "histogram", "description": "策略驗證時間"},
-        {"id": "policy_enforcement_rate", "type": "gauge", "description": "策略執行率"}
+        { "id": "policy_count", "type": "gauge", "description": "策略總數" },
+        { "id": "policy_violations", "type": "counter", "description": "策略違規次數" },
+        { "id": "policy_validation_time", "type": "histogram", "description": "策略驗證時間" },
+        { "id": "policy_enforcement_rate", "type": "gauge", "description": "策略執行率" }
       ],
       "slo": {
         "availability": "99.9%",
@@ -107,9 +107,9 @@
     {
       "dimension": "20-intent",
       "metrics": [
-        {"id": "intent_received", "type": "counter", "description": "接收意圖數"},
-        {"id": "intent_mapping_success", "type": "gauge", "description": "意圖映射成功率"},
-        {"id": "intent_execution_time", "type": "histogram", "description": "意圖執行時間"}
+        { "id": "intent_received", "type": "counter", "description": "接收意圖數" },
+        { "id": "intent_mapping_success", "type": "gauge", "description": "意圖映射成功率" },
+        { "id": "intent_execution_time", "type": "histogram", "description": "意圖執行時間" }
       ],
       "slo": {
         "availability": "99.9%",
@@ -120,10 +120,10 @@
     {
       "dimension": "30-agents",
       "metrics": [
-        {"id": "agent_count", "type": "gauge", "description": "註冊 Agent 數"},
-        {"id": "agent_active", "type": "gauge", "description": "活躍 Agent 數"},
-        {"id": "agent_failures", "type": "counter", "description": "Agent 失敗次數"},
-        {"id": "agent_resource_usage", "type": "gauge", "description": "Agent 資源使用率"}
+        { "id": "agent_count", "type": "gauge", "description": "註冊 Agent 數" },
+        { "id": "agent_active", "type": "gauge", "description": "活躍 Agent 數" },
+        { "id": "agent_failures", "type": "counter", "description": "Agent 失敗次數" },
+        { "id": "agent_resource_usage", "type": "gauge", "description": "Agent 資源使用率" }
       ],
       "slo": {
         "availability": "99.9%",
@@ -134,10 +134,10 @@
     {
       "dimension": "39-automation",
       "metrics": [
-        {"id": "automation_tasks_total", "type": "counter", "description": "自動化任務總數"},
-        {"id": "automation_tasks_success", "type": "counter", "description": "成功任務數"},
-        {"id": "automation_duration", "type": "histogram", "description": "自動化執行時間"},
-        {"id": "engine_health", "type": "gauge", "description": "引擎健康狀態"}
+        { "id": "automation_tasks_total", "type": "counter", "description": "自動化任務總數" },
+        { "id": "automation_tasks_success", "type": "counter", "description": "成功任務數" },
+        { "id": "automation_duration", "type": "histogram", "description": "自動化執行時間" },
+        { "id": "engine_health", "type": "gauge", "description": "引擎健康狀態" }
       ],
       "slo": {
         "availability": "99%",
@@ -148,10 +148,10 @@
     {
       "dimension": "40-self-healing",
       "metrics": [
-        {"id": "healing_triggered", "type": "counter", "description": "修復觸發次數"},
-        {"id": "healing_success", "type": "counter", "description": "修復成功次數"},
-        {"id": "healing_time", "type": "histogram", "description": "修復時間"},
-        {"id": "anomaly_detected", "type": "counter", "description": "異常檢測次數"}
+        { "id": "healing_triggered", "type": "counter", "description": "修復觸發次數" },
+        { "id": "healing_success", "type": "counter", "description": "修復成功次數" },
+        { "id": "healing_time", "type": "histogram", "description": "修復時間" },
+        { "id": "anomaly_detected", "type": "counter", "description": "異常檢測次數" }
       ],
       "slo": {
         "availability": "99.9%",
@@ -162,9 +162,9 @@
     {
       "dimension": "60-contracts",
       "metrics": [
-        {"id": "contract_count", "type": "gauge", "description": "契約總數"},
-        {"id": "contract_violations", "type": "counter", "description": "契約違規次數"},
-        {"id": "contract_validation_time", "type": "histogram", "description": "契約驗證時間"}
+        { "id": "contract_count", "type": "gauge", "description": "契約總數" },
+        { "id": "contract_violations", "type": "counter", "description": "契約違規次數" },
+        { "id": "contract_validation_time", "type": "histogram", "description": "契約驗證時間" }
       ],
       "slo": {
         "availability": "99.9%",
@@ -175,10 +175,10 @@
     {
       "dimension": "70-audit",
       "metrics": [
-        {"id": "audit_events", "type": "counter", "description": "審計事件數"},
-        {"id": "audit_findings", "type": "counter", "description": "審計發現數"},
-        {"id": "evidence_collected", "type": "counter", "description": "證據收集數"},
-        {"id": "audit_lag", "type": "gauge", "description": "審計延遲"}
+        { "id": "audit_events", "type": "counter", "description": "審計事件數" },
+        { "id": "audit_findings", "type": "counter", "description": "審計發現數" },
+        { "id": "evidence_collected", "type": "counter", "description": "證據收集數" },
+        { "id": "audit_lag", "type": "gauge", "description": "審計延遲" }
       ],
       "slo": {
         "availability": "99.99%",
@@ -189,10 +189,10 @@
     {
       "dimension": "80-feedback",
       "metrics": [
-        {"id": "feedback_collected", "type": "counter", "description": "回饋收集數"},
-        {"id": "recommendations_generated", "type": "counter", "description": "建議生成數"},
-        {"id": "optimizations_applied", "type": "counter", "description": "優化應用數"},
-        {"id": "feedback_loop_time", "type": "histogram", "description": "回饋迴路時間"}
+        { "id": "feedback_collected", "type": "counter", "description": "回饋收集數" },
+        { "id": "recommendations_generated", "type": "counter", "description": "建議生成數" },
+        { "id": "optimizations_applied", "type": "counter", "description": "優化應用數" },
+        { "id": "feedback_loop_time", "type": "histogram", "description": "回饋迴路時間" }
       ],
       "slo": {
         "availability": "99%",
@@ -203,9 +203,9 @@
   ],
   "alerting": {
     "channels": [
-      {"id": "slack", "type": "slack", "webhook": "${SLACK_WEBHOOK}"},
-      {"id": "pagerduty", "type": "pagerduty", "routing_key": "${PAGERDUTY_KEY}"},
-      {"id": "email", "type": "email", "recipients": ["oncall@example.com"]}
+      { "id": "slack", "type": "slack", "webhook": "${SLACK_WEBHOOK}" },
+      { "id": "pagerduty", "type": "pagerduty", "routing_key": "${PAGERDUTY_KEY}" },
+      { "id": "email", "type": "email", "recipients": ["oncall@example.com"] }
     ],
     "severity_routing": {
       "critical": ["pagerduty", "slack"],
@@ -245,30 +245,30 @@
       "id": "governance-overview",
       "title": "Governance Overview",
       "panels": [
-        {"title": "Health Score", "metric": "governance_health_score", "type": "gauge"},
-        {"title": "Policy Compliance", "metric": "policy_compliance_rate", "type": "gauge"},
-        {"title": "Agent Status", "metric": "agent_availability", "type": "stat"},
-        {"title": "Recent Violations", "metric": "policy_violations", "type": "timeseries"}
+        { "title": "Health Score", "metric": "governance_health_score", "type": "gauge" },
+        { "title": "Policy Compliance", "metric": "policy_compliance_rate", "type": "gauge" },
+        { "title": "Agent Status", "metric": "agent_availability", "type": "stat" },
+        { "title": "Recent Violations", "metric": "policy_violations", "type": "timeseries" }
       ]
     },
     "execution_dashboard": {
       "id": "execution-dashboard",
       "title": "Execution & Automation",
       "panels": [
-        {"title": "Automation Tasks", "metric": "automation_tasks_total", "type": "counter"},
-        {"title": "Success Rate", "metric": "automation_success_rate", "type": "gauge"},
-        {"title": "Self-Healing MTTR", "metric": "self_healing_mttr", "type": "histogram"},
-        {"title": "Engine Health", "metric": "engine_health", "type": "heatmap"}
+        { "title": "Automation Tasks", "metric": "automation_tasks_total", "type": "counter" },
+        { "title": "Success Rate", "metric": "automation_success_rate", "type": "gauge" },
+        { "title": "Self-Healing MTTR", "metric": "self_healing_mttr", "type": "histogram" },
+        { "title": "Engine Health", "metric": "engine_health", "type": "heatmap" }
       ]
     },
     "feedback_dashboard": {
       "id": "feedback-dashboard",
       "title": "Feedback & Optimization",
       "panels": [
-        {"title": "Feedback Volume", "metric": "feedback_collected", "type": "timeseries"},
-        {"title": "Recommendations", "metric": "recommendations_generated", "type": "counter"},
-        {"title": "Loop Latency", "metric": "feedback_loop_time", "type": "histogram"},
-        {"title": "Optimization Impact", "metric": "optimizations_applied", "type": "stat"}
+        { "title": "Feedback Volume", "metric": "feedback_collected", "type": "timeseries" },
+        { "title": "Recommendations", "metric": "recommendations_generated", "type": "counter" },
+        { "title": "Loop Latency", "metric": "feedback_loop_time", "type": "histogram" },
+        { "title": "Optimization Impact", "metric": "optimizations_applied", "type": "stat" }
       ]
     }
   },

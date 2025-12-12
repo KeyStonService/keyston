@@ -22,4 +22,4 @@ Innovation experiments, new technology adoption, and R&D governance
 ---
 
 **維護者 (Maintainer)**: SynergyMesh Governance Team  
-**聯繫 (Contact)**: governance@synergymesh.io
+**聯繫 (Contact)**: <governance@synergymesh.io>

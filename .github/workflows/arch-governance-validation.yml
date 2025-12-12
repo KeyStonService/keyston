@@ -4,18 +4,18 @@ on:
   pull_request:
     branches: [main, staging]
     paths:
-      - 'core/**'
-      - 'services/**'
-      - 'apps/**'
-      - 'automation/**'
-      - 'governance/**'
-      - 'config/**'
-      - '.github/workflows/**'
+      - "core/**"
+      - "services/**"
+      - "apps/**"
+      - "automation/**"
+      - "governance/**"
+      - "config/**"
+      - ".github/workflows/**"
   push:
     branches: [main]
     paths:
-      - 'governance/schemas/**'
-      - 'unmanned-engineer-ceo/**'
+      - "governance/schemas/**"
+      - "unmanned-engineer-ceo/**"
   workflow_dispatch:
 
 # Restrict GITHUB_TOKEN permissions for security
@@ -41,8 +41,8 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: 📦 Install dependencies
         run: npm ci --ignore-scripts || npm install
@@ -50,12 +50,12 @@ jobs:
       - name: 🔍 Validate module dependencies
         run: |
           echo "📊 Checking module dependency structure..."
-          
+
           # Check for circular dependencies in TypeScript
           if command -v npx &> /dev/null; then
             npx madge --circular --extensions ts,tsx . || echo "⚠️ madge not available, skipping TS circular check"
           fi
-          
+
           # Validate workspace structure
           if [ -f "package.json" ]; then
             echo "✅ package.json exists"
@@ -70,7 +70,7 @@ jobs:
       - name: 🏛️ Validate skeleton alignment
         run: |
           echo "🔍 Checking architecture skeleton alignment..."
-          
+
           SKELETON_INDEX="unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/skeletons-index.yaml"
           if [ -f "$SKELETON_INDEX" ]; then
             echo "✅ Skeleton index found at $SKELETON_INDEX"
@@ -93,7 +93,7 @@ jobs:
       - name: 🐍 Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: 📦 Install validation tools
         run: |
@@ -102,7 +102,7 @@ jobs:
       - name: 🔍 Validate YAML files
         run: |
           echo "📊 Validating all YAML configuration files..."
-          
+
           ERRORS=0
           for file in $(find config -name "*.yaml" -o -name "*.yml" 2>/dev/null); do
             if python3 -c "import yaml; yaml.safe_load(open('$file'))" 2>/dev/null; then
@@ -112,7 +112,7 @@ jobs:
               ERRORS=$((ERRORS + 1))
             fi
           done
-          
+
           if [ $ERRORS -gt 0 ]; then
             echo "❌ Found $ERRORS invalid YAML files"
             exit 1
@@ -121,7 +121,7 @@ jobs:
       - name: 🔍 Validate governance schemas
         run: |
           echo "📊 Validating governance schema files..."
-          
+
           for schema in governance/schemas/*.json; do
             if [ -f "$schema" ]; then
               python3 -c "import json; json.load(open('$schema'))" && echo "✅ $schema"
@@ -142,7 +142,7 @@ jobs:
       - name: 🔍 SLSA Provenance Check
         run: |
           echo "📊 Checking SLSA provenance requirements..."
-          
+
           if [ -d "core/slsa_provenance" ]; then
             echo "✅ SLSA provenance directory exists"
           else
@@ -152,14 +152,14 @@ jobs:
       - name: 🔍 Security configuration check
         run: |
           echo "📊 Checking security configurations..."
-          
+
           # Check for hardcoded secrets patterns
           if grep -rn "password\s*=\s*['\"]" --include="*.yaml" --include="*.yml" config/ 2>/dev/null; then
             echo "⚠️ Potential hardcoded password found"
           else
             echo "✅ No hardcoded passwords detected in config"
           fi
-          
+
           # Check safety mechanisms config
           if [ -f "config/safety-mechanisms.yaml" ]; then
             echo "✅ Safety mechanisms configuration exists"
@@ -168,7 +168,7 @@ jobs:
       - name: 🔍 Observability configuration check
         run: |
           echo "📊 Checking observability configurations..."
-          
+
           # Check monitoring config
           [ -f "config/monitoring.yaml" ] && echo "✅ Monitoring config exists"
           [ -f "config/prometheus-config.yml" ] && echo "✅ Prometheus config exists"
@@ -188,12 +188,12 @@ jobs:
       - name: 🔍 Auth configuration check
         run: |
           echo "📊 Checking identity & tenancy configurations..."
-          
+
           # Check for auth service
           if [ -d "services/auth-service" ]; then
             echo "✅ Auth service directory exists"
           fi
-          
+
           # Check AI constitution for identity rules
           if [ -f "config/ai-constitution.yaml" ]; then
             echo "✅ AI Constitution exists"
@@ -214,12 +214,12 @@ jobs:
       - name: 🔍 Data schema validation
         run: |
           echo "📊 Checking data governance configurations..."
-          
+
           # Check for data governance in autonomous module
           if [ -d "automation/autonomous/data-governance" ]; then
             echo "✅ Data governance module exists"
           fi
-          
+
           # Check for SBOM configurations
           if [ -d "governance/sbom" ]; then
             echo "✅ SBOM governance directory exists"
@@ -228,10 +228,10 @@ jobs:
       - name: 🔍 Sensitive data pattern check
         run: |
           echo "📊 Scanning for sensitive data patterns..."
-          
+
           # Check for PII patterns in code (simplified check)
           SENSITIVE_PATTERNS="ssn|social.?security|credit.?card|api.?key|secret.?key"
-          
+
           if grep -rniE "$SENSITIVE_PATTERNS" --include="*.ts" --include="*.py" --include="*.go" src/ services/ 2>/dev/null | head -5; then
             echo "⚠️ Potential sensitive data patterns found - please review"
           else
@@ -252,7 +252,7 @@ jobs:
       - name: 🐍 Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: 📦 Install dependencies
         run: |
@@ -266,24 +266,24 @@ jobs:
       - name: 📊 Check governance completeness
         run: |
           echo "📊 Checking governance matrix completeness..."
-          
+
           # Count governance dimensions
           LAYERS_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/architecture/layers-domains.yaml')); print(len(d.get('layers', {})))" 2>/dev/null || echo "0")
           DOMAINS_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/architecture/layers-domains.yaml')); print(len(d.get('domains', {})))" 2>/dev/null || echo "0")
           MODULES_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/ownership-map.yaml')); print(len(d.get('modules', {})))" 2>/dev/null || echo "0")
           CONTRACTS_COUNT=$(find governance/behavior-contracts -name "*.yaml" -type f | wc -l)
-          
+
           echo "📋 Governance Matrix Metrics:"
           echo "  - Layers defined: $LAYERS_COUNT"
           echo "  - Domains defined: $DOMAINS_COUNT"
           echo "  - Modules with ownership: $MODULES_COUNT"
           echo "  - Behavior contracts: $CONTRACTS_COUNT"
-          
+
           # Check minimum thresholds
           if [ "$LAYERS_COUNT" -lt 5 ]; then
             echo "⚠️ Warning: Less than 5 layers defined"
           fi
-          
+
           if [ "$MODULES_COUNT" -lt 5 ]; then
             echo "⚠️ Warning: Less than 5 modules have ownership defined"
           fi
@@ -295,7 +295,15 @@ jobs:
     name: "📝 Governance Summary"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [arch-lint, schema-validation, security-observability, identity-tenancy, data-governance, governance-matrix]
+    needs:
+      [
+        arch-lint,
+        schema-validation,
+        security-observability,
+        identity-tenancy,
+        data-governance,
+        governance-matrix,
+      ]
     if: always()
     steps:
       - name: 📊 Generate Summary Report

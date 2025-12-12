@@ -92,12 +92,13 @@ npm run build
 
 ### 整合方案 1：作為獨立門戶
 
-將新系統作為主要門戶，原有的 `auto-fix-bot-dashboard.html` 可以作為一個功能頁面嵌入：
+將新系統作為主要門戶，原有的 `auto-fix-bot-dashboard.html`
+可以作為一個功能頁面嵌入：
 
 ```html
 <!-- 在 React 中嵌入現有儀表板 -->
-<iframe 
-  src="/auto-fix-bot-dashboard.html" 
+<iframe
+  src="/auto-fix-bot-dashboard.html"
   title="Auto-Fix Bot Dashboard"
   className="w-full h-screen border-0"
 />
@@ -124,7 +125,7 @@ export default function BotDashboard() {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-4xl font-bold mb-8">Auto-Fix Bot 儀表板</h1>
-      
+
       {/* 效率指標 */}
       <div className="grid md:grid-cols-4 gap-6 mb-8">
         <Card>
@@ -152,7 +153,7 @@ export default function BotDashboard() {
 ✅ 響應式設計  
 ✅ 易於維護和擴展  
 ✅ 內置路由系統  
-✅ 完整的開發工具鏈  
+✅ 完整的開發工具鏈
 
 ### 原儀表板優勢
 
@@ -160,7 +161,7 @@ export default function BotDashboard() {
 ✅ 無需構建步驟  
 ✅ 直接在瀏覽器中運行  
 ✅ 已經具有完整的可訪問性支持  
-✅ 動畫效果已實現  
+✅ 動畫效果已實現
 
 ## 🎯 建議的整合策略
 
@@ -243,10 +244,10 @@ export default {
         // 自定義顏色
         'bot-primary': '#667eea',
         'bot-secondary': '#764ba2',
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 ### 添加新組件
@@ -269,11 +270,9 @@ export default {
    npm run type-check
    ```
 
-3. **性能監控**
-   使用 Lighthouse 或 Web Vitals 監控頁面性能
+3. **性能監控** 使用 Lighthouse 或 Web Vitals 監控頁面性能
 
-4. **備份**
-   保留原始的 `auto-fix-bot-dashboard.html` 作為備份
+4. **備份** 保留原始的 `auto-fix-bot-dashboard.html` 作為備份
 
 ## 🔗 相關資源
 

@@ -20,76 +20,76 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: hlp-executor-core
-  
+
   minReplicas: 3
   maxReplicas: 20
-  
+
   # Scaling behavior
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 300  # 5 minutes stabilization
+      stabilizationWindowSeconds: 300 # 5 minutes stabilization
       policies:
-      - type: Percent
-        value: 50  # Scale down by at most 50% of current pods
-        periodSeconds: 60
-      - type: Pods
-        value: 2  # Scale down by at most 2 pods
-        periodSeconds: 60
-      selectPolicy: Min  # Use the policy that results in the smallest change
-    
+        - type: Percent
+          value: 50 # Scale down by at most 50% of current pods
+          periodSeconds: 60
+        - type: Pods
+          value: 2 # Scale down by at most 2 pods
+          periodSeconds: 60
+      selectPolicy: Min # Use the policy that results in the smallest change
+
     scaleUp:
-      stabilizationWindowSeconds: 60  # 1 minute stabilization
+      stabilizationWindowSeconds: 60 # 1 minute stabilization
       policies:
-      - type: Percent
-        value: 100  # Scale up by at most 100% of current pods
-        periodSeconds: 30
-      - type: Pods
-        value: 4  # Scale up by at most 4 pods
-        periodSeconds: 30
-      selectPolicy: Max  # Use the policy that results in the largest change
-  
+        - type: Percent
+          value: 100 # Scale up by at most 100% of current pods
+          periodSeconds: 30
+        - type: Pods
+          value: 4 # Scale up by at most 4 pods
+          periodSeconds: 30
+      selectPolicy: Max # Use the policy that results in the largest change
+
   # Metrics for autoscaling
   metrics:
-  # CPU utilization
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70  # Target 70% CPU utilization
-  
-  # Memory utilization
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80  # Target 80% memory utilization
-  
-  # Custom metrics (requires metrics server with custom metrics API)
-  - type: Pods
-    pods:
-      metric:
-        name: hlp_executor_active_tasks
-      target:
-        type: AverageValue
-        averageValue: "50"  # Target 50 active tasks per pod
-  
-  - type: Pods
-    pods:
-      metric:
-        name: hlp_executor_queue_depth
-      target:
-        type: AverageValue
-        averageValue: "100"  # Target 100 queued tasks per pod
-  
-  - type: Pods
-    pods:
-      metric:
-        name: hlp_executor_execution_latency_p95
-      target:
-        type: AverageValue
-        averageValue: "500"  # Target P95 latency of 500ms
+    # CPU utilization
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70 # Target 70% CPU utilization
+
+    # Memory utilization
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80 # Target 80% memory utilization
+
+    # Custom metrics (requires metrics server with custom metrics API)
+    - type: Pods
+      pods:
+        metric:
+          name: hlp_executor_active_tasks
+        target:
+          type: AverageValue
+          averageValue: "50" # Target 50 active tasks per pod
+
+    - type: Pods
+      pods:
+        metric:
+          name: hlp_executor_queue_depth
+        target:
+          type: AverageValue
+          averageValue: "100" # Target 100 queued tasks per pod
+
+    - type: Pods
+      pods:
+        metric:
+          name: hlp_executor_execution_latency_p95
+        target:
+          type: AverageValue
+          averageValue: "500" # Target P95 latency of 500ms
 
 ---
 # Service for metrics exposure
@@ -105,12 +105,12 @@ spec:
   selector:
     app: hlp-executor-core
   ports:
-  - name: metrics
-    port: 9090
-    targetPort: 9090
-    protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
   type: ClusterIP
-  
+
 ---
 # PodDisruptionBudget to ensure availability during scaling
 apiVersion: policy/v1
@@ -121,7 +121,7 @@ metadata:
   labels:
     app: hlp-executor-core
 spec:
-  minAvailable: 2  # Always keep at least 2 pods running
+  minAvailable: 2 # Always keep at least 2 pods running
   selector:
     matchLabels:
       app: hlp-executor-core

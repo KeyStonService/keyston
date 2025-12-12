@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@security-team"
-  
+
   description: |
     Safety mechanisms module provides runtime safety checks, risk assessment,
     and automated mitigation for autonomous operations.
-    
+
     安全機制模組提供運行時安全檢查、風險評估和自主操作的自動緩解。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/safety"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Execute Safety Check
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Execute Safety Check"
       method: POST
       path: "/checks"
-      
+
       description: |
         Execute safety checks before allowing an operation.
         執行安全檢查以允許操作。
-      
+
       input_schema:
         type: "object"
         required: ["operation_type", "context"]
@@ -61,7 +60,7 @@ api:
             type: "array"
             items:
               type: "string"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -71,13 +70,13 @@ api:
           violations: { type: "array", items: { type: "string" } }
           recommendations: { type: "array", items: { type: "string" } }
           checked_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "All safety rules are evaluated"
         - "Decision is deterministic for same input"
         - "Response time < 50ms for critical operations"
         - "Audit trail is created"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid operation type"
@@ -85,7 +84,7 @@ api:
         - code: 500
           condition: "Safety check engine failure"
           message: "ERR_SAFETY_CHECK_FAILED"
-      
+
       performance:
         response_time_p50: "< 10ms"
         response_time_p99: "< 50ms"
@@ -97,11 +96,11 @@ api:
     - name: "Assess Risk"
       method: POST
       path: "/risk-assessment"
-      
+
       description: |
         Assess risk level for a proposed action.
         評估提議操作的風險等級。
-      
+
       input_schema:
         type: "object"
         required: ["action", "impact_scope"]
@@ -117,7 +116,7 @@ api:
               users_affected: { type: "integer" }
               systems_affected: { type: "array" }
               data_sensitivity: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -127,7 +126,7 @@ api:
           risk_factors: { type: "array" }
           mitigation_steps: { type: "array" }
           approval_required: { type: "boolean" }
-      
+
       guarantees:
         - "Risk score is calculated consistently"
         - "All risk factors are considered"
@@ -139,11 +138,11 @@ api:
     - name: "Apply Circuit Breaker"
       method: POST
       path: "/circuit-breaker"
-      
+
       description: |
         Activate circuit breaker to stop unsafe operations.
         啟動斷路器以停止不安全的操作。
-      
+
       input_schema:
         type: "object"
         required: ["target", "reason"]
@@ -153,14 +152,14 @@ api:
             description: "Module or service to protect"
           reason: { type: "string" }
           duration_seconds: { type: "integer" }
-      
+
       output_schema:
         type: "object"
         properties:
           breaker_id: { type: "string" }
           activated: { type: "boolean" }
           active_until: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Circuit breaker activates immediately"
         - "All requests to target are blocked"
@@ -171,10 +170,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "safety.check_failed"
     description: "Emitted when safety check fails"
-    
+
     payload_schema:
       type: "object"
       required: ["check_id", "operation_type", "violations"]
@@ -184,10 +182,10 @@ events:
         violations: { type: "array" }
         risk_level: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "ops.alerting"
@@ -195,7 +193,7 @@ events:
 
   - name: "safety.circuit_breaker_activated"
     description: "Emitted when circuit breaker is activated"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -203,17 +201,17 @@ events:
         target: { type: "string" }
         reason: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "30 days"
-    
+
     consumers:
       - "ops.alerting"
       - "services.incident_management"
 
   - name: "safety.high_risk_operation"
     description: "Emitted when high-risk operation is attempted"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -221,10 +219,10 @@ events:
         risk_score: { type: "number" }
         actor: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "services.security"
       - "services.audit"
@@ -234,27 +232,26 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Fail-Safe Default"
     description: "When in doubt, deny the operation"
     rule: "if uncertain(check_result) then deny(operation)"
     enforcement: "application-logic"
-    
+
   - name: "All Checks Must Pass"
     description: "Operation allowed only if all safety checks pass"
     rule: "allowed(op) implies forall c in checks(op): passed(c)"
     enforcement: "pre-condition"
-    
+
   - name: "Circuit Breaker Precedence"
     description: "Active circuit breaker blocks all operations"
     rule: "forall op where active_breaker(op.target): deny(op)"
     enforcement: "application-logic"
-    
+
   - name: "Audit Trail Required"
     description: "All safety decisions are logged"
     rule: "forall decision: exists audit_entry where audit_entry.decision_id = decision.id"
     enforcement: "post-condition"
-    
+
   - name: "No Bypass Mechanism"
     description: "Safety checks cannot be bypassed programmatically"
     rule: "not exists bypass_flag in code"
@@ -265,7 +262,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Safety Check Timeout"
     triggers:
       - "Check takes > 50ms"
@@ -276,7 +272,7 @@ failure_modes:
       - "Alert monitoring team"
     error_code: "ERR_SAFETY_TIMEOUT"
     fail_safe: "deny"
-    
+
   - scenario: "Rule Engine Failure"
     triggers:
       - "Rule compilation error"
@@ -287,7 +283,7 @@ failure_modes:
       - "Use cached last-known-good rules"
     error_code: "ERR_RULE_ENGINE_FAILED"
     fail_safe: "deny"
-    
+
   - scenario: "Conflicting Rules"
     triggers:
       - "Two rules give opposite decisions"
@@ -303,16 +299,15 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "governance.policies"
       purpose: "Safety policy definitions"
       failure_mode: "use-cached"
-    
+
     - module: "infrastructure.database"
       purpose: "Store safety decisions"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.audit"
       purpose: "Audit logging"
@@ -329,13 +324,13 @@ testing:
       - "Fail-safe logic"
       - "Circuit breaker activation"
       - "Risk assessment calculation"
-  
+
   integration_tests:
     required:
       - "End-to-end safety check with denial"
       - "Circuit breaker triggering and recovery"
       - "High-risk operation detection"
-  
+
   chaos_tests:
     scenarios:
       - "Rule engine crash during check"
@@ -348,13 +343,13 @@ testing:
 
 security:
   safety_critical: true
-  
+
   security_controls:
     - "Fail-safe defaults (deny when uncertain)"
     - "No programmatic bypass"
     - "Audit all decisions"
     - "Circuit breaker for runaway systems"
-  
+
   compliance:
     - "ISO 26262 (Safety Critical Systems)"
     - "DO-178C (Software Safety)"
@@ -377,14 +372,14 @@ observability:
     - name: "safety_violations_total"
       type: "counter"
       labels: ["violation_type"]
-  
+
   logs:
     level: "INFO"
     security_events: "WARN"
     all_denials: "WARN"
     structured: true
     retention: "180 days"
-  
+
   alerts:
     - condition: "safety_violations_total > 50/hour"
       severity: "critical"

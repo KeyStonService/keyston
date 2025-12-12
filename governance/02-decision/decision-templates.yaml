@@ -13,7 +13,7 @@ strategic_decision_template:
   template_name: "戰略決策記錄模板"
   english_name: "Strategic Decision Record Template"
   applicability: "Board-level and executive strategic decisions"
-  
+
   required_sections:
     decision_metadata:
       decision_id: "唯一決策標識符 | Unique decision identifier (format: SD-YYYY-NNNN)"
@@ -22,14 +22,14 @@ strategic_decision_template:
       decision_owner: "決策負責人 | Decision owner (name and role)"
       decision_maker: "最終決策者 | Final decision maker"
       stakeholders: "利益相關方清單 | List of stakeholders"
-      
+
     decision_context:
       background: "背景描述 | Background description"
       business_drivers: "業務驅動因素 | Business drivers"
       strategic_alignment: "戰略對齊 | Strategic alignment"
       scope: "決策範圍 | Decision scope"
       constraints: "約束條件 | Constraints"
-      
+
     decision_analysis:
       problem_statement: "問題陳述 | Problem statement"
       alternatives_considered: "考慮的替代方案 | Alternatives considered (min 3)"
@@ -37,27 +37,27 @@ strategic_decision_template:
       risk_assessment: "風險評估 | Risk assessment"
       cost_benefit_analysis: "成本效益分析 | Cost-benefit analysis"
       compliance_check: "合規性檢查 | Compliance check"
-      
+
     decision_outcome:
       selected_option: "選定方案 | Selected option"
       rationale: "決策理由 | Decision rationale"
       expected_benefits: "預期收益 | Expected benefits"
       success_criteria: "成功標準 | Success criteria"
       kpis: "關鍵績效指標 | Key Performance Indicators"
-      
+
     implementation:
       implementation_plan: "實施計劃 | Implementation plan"
       timeline: "時間線 | Timeline"
       resource_requirements: "資源需求 | Resource requirements"
       dependencies: "依賴關係 | Dependencies"
       responsible_parties: "負責方 | Responsible parties"
-      
+
     approval:
       approval_authority: "批准機構 | Approval authority"
       approval_date: "批准日期 | Approval date"
       approval_signature: "批准簽名 | Approval signature"
       conditions: "批准條件 | Approval conditions"
-      
+
     review:
       review_date: "審查日期 | Review date"
       review_frequency: "審查頻率 | Review frequency"
@@ -69,7 +69,7 @@ tactical_decision_template:
   template_name: "戰術決策記錄模板"
   english_name: "Tactical Decision Record Template"
   applicability: "Management-level operational strategy decisions"
-  
+
   required_sections:
     decision_metadata:
       decision_id: "格式: TD-YYYY-NNNN"
@@ -77,35 +77,35 @@ tactical_decision_template:
       decision_type: "tactical"
       decision_owner: "決策負責人姓名和角色"
       reporting_to: "上級報告對象"
-      
+
     decision_description:
       title: "決策標題 | Decision title"
       summary: "執行摘要 | Executive summary (max 200 words)"
       objectives: "目標 | Objectives"
       scope: "範圍 | Scope"
-      
+
     analysis:
       current_situation: "當前情況 | Current situation"
       options: "選項 | Options (min 2)"
       comparison: "比較分析 | Comparison analysis"
       risks: "風險 | Risks"
       impact_assessment: "影響評估 | Impact assessment"
-      
+
     decision:
       chosen_option: "選定選項 | Chosen option"
       justification: "理由 | Justification"
       trade_offs: "權衡考慮 | Trade-offs"
-      
+
     execution:
       action_items: "行動項目 | Action items"
       timeline: "時間線 | Timeline"
       owners: "負責人 | Owners"
       milestones: "里程碑 | Milestones"
-      
+
     approval:
       approved_by: "批准者 | Approved by"
       approval_date: "批准日期 | Approval date"
-      
+
     tracking:
       review_date: "審查日期 | Review date"
       status: "狀態 | Status"
@@ -116,27 +116,27 @@ operational_decision_template:
   template_name: "執行決策記錄模板"
   english_name: "Operational Decision Record Template"
   applicability: "Day-to-day operational decisions"
-  
+
   required_sections:
     basic_info:
       decision_id: "格式: OD-YYYY-NNNN"
       date: "YYYY-MM-DD"
       team: "團隊 | Team"
       owner: "負責人 | Owner"
-      
+
     decision:
       issue: "問題 | Issue"
       decision: "決策 | Decision"
       reason: "原因 | Reason"
-      
+
     impact:
       affected_areas: "受影響區域 | Affected areas"
       stakeholders: "利益相關方 | Stakeholders"
-      
+
     action:
       next_steps: "下一步 | Next steps"
       deadline: "截止日期 | Deadline"
-      
+
     approval:
       approved: "是/否 | Yes/No"
       approver: "批准者 | Approver"
@@ -147,7 +147,7 @@ architecture_decision_template:
   template_name: "架構決策記錄 (ADR)"
   english_name: "Architecture Decision Record (ADR)"
   applicability: "Technical architecture decisions"
-  
+
   required_sections:
     metadata:
       adr_number: "ADR 編號 | ADR number"
@@ -155,22 +155,22 @@ architecture_decision_template:
       date: "日期 | Date"
       status: "狀態 | Status (proposed/accepted/deprecated/superseded)"
       deciders: "決策者 | Deciders"
-      
+
     context:
       context_description: "上下文和問題陳述 | Context and problem statement"
       technical_context: "技術上下文 | Technical context"
       business_context: "業務上下文 | Business context"
-      
+
     decision_drivers:
       drivers: "決策驅動因素列表 | List of decision drivers"
       constraints: "約束條件 | Constraints"
       assumptions: "假設 | Assumptions"
-      
+
     considered_options:
       option_1: "選項描述 | Option description"
       option_2: "選項描述 | Option description"
       option_n: "更多選項 | More options"
-      
+
     decision_outcome:
       chosen_option: "選定選項 | Chosen option"
       rationale: "理由 | Rationale"
@@ -178,11 +178,11 @@ architecture_decision_template:
         positive: "正面後果 | Positive consequences"
         negative: "負面後果 | Negative consequences"
         neutral: "中性後果 | Neutral consequences"
-      
+
     implementation:
       implementation_notes: "實施說明 | Implementation notes"
       validation: "驗證方法 | Validation method"
-      
+
     links:
       related_decisions: "相關決策 | Related decisions"
       related_requirements: "相關需求 | Related requirements"
@@ -193,37 +193,37 @@ risk_decision_template:
   template_name: "風險決策模板"
   english_name: "Risk Decision Template"
   applicability: "Risk acceptance, mitigation, or transfer decisions"
-  
+
   required_sections:
     risk_identification:
       risk_id: "風險 ID | Risk ID"
       risk_description: "風險描述 | Risk description"
       risk_category: "風險類別 | Risk category"
       risk_level: "風險等級 | Risk level (critical/high/medium/low)"
-      
+
     risk_analysis:
       likelihood: "可能性 | Likelihood (1-5)"
       impact: "影響 | Impact (1-5)"
       risk_score: "風險分數 | Risk score (likelihood × impact)"
       root_causes: "根本原因 | Root causes"
-      
+
     response_options:
       avoid: "規避 | Avoid"
       mitigate: "緩解 | Mitigate"
       transfer: "轉移 | Transfer"
       accept: "接受 | Accept"
-      
+
     decision:
       chosen_response: "選定應對策略 | Chosen response"
       justification: "理由 | Justification"
       residual_risk: "殘餘風險 | Residual risk"
-      
+
     action_plan:
       actions: "行動項目 | Action items"
       responsible: "負責人 | Responsible party"
       deadline: "截止日期 | Deadline"
       budget: "預算 | Budget"
-      
+
     monitoring:
       kris: "關鍵風險指標 | Key Risk Indicators"
       review_frequency: "審查頻率 | Review frequency"
@@ -234,37 +234,37 @@ change_decision_template:
   template_name: "變更決策模板"
   english_name: "Change Decision Template"
   applicability: "System and process change decisions"
-  
+
   required_sections:
     change_request:
       change_id: "變更 ID | Change ID"
       change_type: "變更類型 | Change type (standard/normal/emergency)"
       requestor: "申請人 | Requestor"
       request_date: "申請日期 | Request date"
-      
+
     change_description:
       description: "變更描述 | Change description"
       reason: "變更原因 | Reason for change"
       affected_systems: "受影響系統 | Affected systems"
       affected_users: "受影響用戶 | Affected users"
-      
+
     impact_assessment:
       business_impact: "業務影響 | Business impact"
       technical_impact: "技術影響 | Technical impact"
       risk_assessment: "風險評估 | Risk assessment"
-      
+
     implementation:
       implementation_plan: "實施計劃 | Implementation plan"
       rollback_plan: "回滾計劃 | Rollback plan"
       testing_plan: "測試計劃 | Testing plan"
       communication_plan: "溝通計劃 | Communication plan"
-      
+
     decision:
       decision: "批准/拒絕/延期 | Approve/Reject/Defer"
       decision_maker: "決策者 | Decision maker"
       decision_date: "決策日期 | Decision date"
       conditions: "條件 | Conditions"
-      
+
     post_implementation:
       actual_impact: "實際影響 | Actual impact"
       issues: "問題 | Issues"
@@ -272,19 +272,18 @@ change_decision_template:
 
 # 模板使用指南 | Template Usage Guidelines
 usage_guidelines:
-  
   template_selection:
     rules:
       - "根據決策級別選擇適當的模板 | Select appropriate template based on decision level"
       - "架構決策使用 ADR 模板 | Use ADR template for architecture decisions"
       - "風險相關決策使用風險決策模板 | Use risk decision template for risk-related decisions"
       - "系統變更使用變更決策模板 | Use change decision template for system changes"
-      
+
   mandatory_fields:
     - "所有標記為必填的字段必須完成 | All fields marked as required must be completed"
     - "不適用的字段應標記為 'N/A' | Mark non-applicable fields as 'N/A'"
     - "所有決策必須包含批准簽名 | All decisions must include approval signature"
-    
+
   documentation_location:
     - "戰略決策: governance/decisions/strategic/"
     - "戰術決策: governance/decisions/tactical/"
@@ -292,7 +291,7 @@ usage_guidelines:
     - "ADR: docs/architecture/decisions/"
     - "風險決策: governance/risk-governance/decisions/"
     - "變更決策: governance/change-governance/decisions/"
-    
+
   retention_policy:
     - "所有決策記錄保留 7 年 | All decision records retained for 7 years"
     - "已廢棄的決策標記狀態並保留 | Deprecated decisions marked and retained"

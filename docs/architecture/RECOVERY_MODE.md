@@ -2,7 +2,9 @@
 
 ## 📋 Overview / 概述
 
-This document describes the partial rollback and recovery logic for the HLP Executor Core Plugin, which enables granular recovery from failures at multiple levels of execution.
+This document describes the partial rollback and recovery logic for the HLP
+Executor Core Plugin, which enables granular recovery from failures at multiple
+levels of execution.
 
 本文檔描述 HLP 執行器核心插件的部分回滾與恢復邏輯，實現多層次執行失敗的細粒度恢復。
 
@@ -124,18 +126,18 @@ class RollbackTrigger(Enum):
 
 ### Action Mapping Table
 
-| Trigger | Scope | Action | Rationale |
-|---------|-------|--------|-----------|
-| validation-failure | phase | rollback-current-phase | Validation failure indicates phase-level issue |
-| validation-failure | plan-unit | rollback-current-phase | Roll back to last valid state |
-| validation-failure | artifact | skip-and-continue | Single artifact failure shouldn't block entire phase |
-| resource-exhaustion | phase | reschedule-with-backoff | Resource may become available later |
-| resource-exhaustion | plan-unit | reschedule-with-backoff | Retry with exponential backoff |
-| resource-exhaustion | artifact | reschedule-with-backoff | Temporary resource constraint |
-| security-violation | any | emergency-stop-and-rollback | Security issues require immediate halt |
-| timeout | phase | rollback-current-phase | Phase exceeded time budget |
-| timeout | plan-unit | rollback-current-phase | Unit exceeded time budget |
-| manual | any | rollback-current-phase | Operator-initiated rollback |
+| Trigger             | Scope     | Action                      | Rationale                                            |
+| ------------------- | --------- | --------------------------- | ---------------------------------------------------- |
+| validation-failure  | phase     | rollback-current-phase      | Validation failure indicates phase-level issue       |
+| validation-failure  | plan-unit | rollback-current-phase      | Roll back to last valid state                        |
+| validation-failure  | artifact  | skip-and-continue           | Single artifact failure shouldn't block entire phase |
+| resource-exhaustion | phase     | reschedule-with-backoff     | Resource may become available later                  |
+| resource-exhaustion | plan-unit | reschedule-with-backoff     | Retry with exponential backoff                       |
+| resource-exhaustion | artifact  | reschedule-with-backoff     | Temporary resource constraint                        |
+| security-violation  | any       | emergency-stop-and-rollback | Security issues require immediate halt               |
+| timeout             | phase     | rollback-current-phase      | Phase exceeded time budget                           |
+| timeout             | plan-unit | rollback-current-phase      | Unit exceeded time budget                            |
+| manual              | any       | rollback-current-phase      | Operator-initiated rollback                          |
 
 ### Decision Flow
 
@@ -147,14 +149,14 @@ graph TD
     B -->|security-violation| E[Emergency Stop & Rollback]
     B -->|timeout| F[Rollback Current Phase]
     B -->|manual| G[Rollback Current Phase]
-    
+
     C -->|phase| F
     C -->|plan-unit| F
     C -->|artifact| H[Skip & Continue]
-    
+
     D --> I[Wait with Exponential Backoff]
     I --> J[Retry]
-    
+
     E --> K[Alert Security Team]
     K --> L[Full System Rollback]
 ```
@@ -171,7 +173,7 @@ The system maintains checkpoints at phase boundaries:
 Phase 1 ──→ Phase 2 ──→ Phase 3 ──→ Phase 4
   ↓            ↓            ↓            ↓
  CP1          CP2          CP3          CP4
- ✓            ✓            ✗            
+ ✓            ✓            ✗
               ↑
          Last Known
          Good State
@@ -226,7 +228,8 @@ Backward Dependencies (reverse of above):
 
 **Definition**: Track what depends on the current item
 
-**Use Case**: Rolling back A requires rolling back all items that depend on A (B, C, D, E)
+**Use Case**: Rolling back A requires rolling back all items that depend on A
+(B, C, D, E)
 
 **Implementation**:
 
@@ -268,18 +271,18 @@ def _find_dependent_items(self, target: str) -> Set[str]:
     dependents = set()
     to_visit = [target]
     visited = set()
-    
+
     while to_visit:
         current = to_visit.pop()
         if current in visited:
             continue
         visited.add(current)
-        
+
         if current in self._execution_graph:
             for dependent in self._execution_graph[current]:
                 dependents.add(dependent)
                 to_visit.append(dependent)
-    
+
     return dependents
 ```
 
@@ -371,26 +374,26 @@ rollback_configuration:
         - phase
         - plan-unit
         - artifact
-      
+
       triggers:
-        - condition: "validation-failure"
-          scope: "phase"
-          action: "rollback-current-phase"
-        
-        - condition: "resource-exhaustion"
-          scope: "plan-unit"
-          action: "reschedule-with-backoff"
-        
-        - condition: "security-violation"
-          scope: "entire-execution"
-          action: "emergency-stop-and-rollback"
-    
+        - condition: 'validation-failure'
+          scope: 'phase'
+          action: 'rollback-current-phase'
+
+        - condition: 'resource-exhaustion'
+          scope: 'plan-unit'
+          action: 'reschedule-with-backoff'
+
+        - condition: 'security-violation'
+          scope: 'entire-execution'
+          action: 'emergency-stop-and-rollback'
+
     checkpoint_management:
       enabled: true
       retention_count: 5
       compression_enabled: true
       auto_cleanup: true
-    
+
     dependency_tracking:
       enabled: true
       forward_dependencies: true
@@ -403,19 +406,19 @@ rollback_configuration:
 
 ### Key Metrics
 
-| Metric | Description | Target |
-|--------|-------------|--------|
-| Recovery Time Objective (RTO) | Time to restore service | < 30s |
-| Recovery Point Objective (RPO) | Maximum data loss | < 5 min |
-| Rollback Success Rate | % of successful rollbacks | > 99% |
-| False Positive Rate | Unnecessary rollbacks | < 1% |
-| Mean Time to Recover (MTTR) | Average recovery time | < 2 min |
+| Metric                         | Description               | Target  |
+| ------------------------------ | ------------------------- | ------- |
+| Recovery Time Objective (RTO)  | Time to restore service   | < 30s   |
+| Recovery Point Objective (RPO) | Maximum data loss         | < 5 min |
+| Rollback Success Rate          | % of successful rollbacks | > 99%   |
+| False Positive Rate            | Unnecessary rollbacks     | < 1%    |
+| Mean Time to Recover (MTTR)    | Average recovery time     | < 2 min |
 
 ### Monitoring
 
 ```prometheus
 # Recovery time histogram
-hlp_executor_recovery_time_seconds_bucket{scope="phase"} 
+hlp_executor_recovery_time_seconds_bucket{scope="phase"}
 hlp_executor_recovery_time_seconds_bucket{scope="plan-unit"}
 hlp_executor_recovery_time_seconds_bucket{scope="artifact"}
 
@@ -425,7 +428,7 @@ hlp_executor_rollbacks_total{trigger="resource-exhaustion"}
 hlp_executor_rollbacks_total{trigger="security-violation"}
 
 # Recovery success rate
-rate(hlp_executor_recovery_success_total[5m]) 
+rate(hlp_executor_recovery_success_total[5m])
   / rate(hlp_executor_recovery_attempts_total[5m])
 ```
 
@@ -470,9 +473,9 @@ rate(hlp_executor_recovery_success_total[5m])
 
 ## 🔄 Version History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | 2025-12-07 | System | Initial version |
+| Version | Date       | Author | Changes         |
+| ------- | ---------- | ------ | --------------- |
+| 1.0.0   | 2025-12-07 | System | Initial version |
 
 ---
 

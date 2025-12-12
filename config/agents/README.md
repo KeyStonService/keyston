@@ -2,7 +2,8 @@
 
 # 智能代理配置目錄
 
-This directory contains all agent-related configurations for the SynergyMesh platform.
+This directory contains all agent-related configurations for the SynergyMesh
+platform.
 
 ## 📁 Directory Structure
 
@@ -34,8 +35,8 @@ Single agent configurations defining specific capabilities and behaviors.
 ```yaml
 agent:
   id: agent_id
-  name: "Agent Name"
-  role: "Agent Role"
+  name: 'Agent Name'
+  role: 'Agent Role'
   capabilities: []
   configuration: {}
 ```
@@ -54,12 +55,12 @@ Multi-agent team configurations for collaborative workflows.
 
 ```yaml
 experts:
-  version: "1.0.0"
-  team_name: "Team Name"
+  version: '1.0.0'
+  team_name: 'Team Name'
 team:
   - id: expert_id
-    name: "Expert Name"
-    role: "Expert Role"
+    name: 'Expert Name'
+    role: 'Expert Role'
     domains: []
     expertise: {}
 ```
@@ -125,7 +126,8 @@ services/agents/
 - **Agent Implementations**: `services/agents/README.md`
 - **AI Constitution**: `config/ai-constitution.yaml`
 - **System Architecture**: `docs/ARCHITECTURE.md`
-- **Virtual Experts Guide**: `automation/autonomous/nucleus-orchestrator/README.md`
+- **Virtual Experts Guide**:
+  `automation/autonomous/nucleus-orchestrator/README.md`
 
 ## 🔗 Configuration References
 
@@ -208,7 +210,8 @@ python tools/docs/validate_index.py --verbose
 
 - `config/virtual-experts.yaml` → `config/agents/team/virtual-experts.yaml`
 - `infra/config/virtual-experts.yaml` → Removed (duplicate)
-- `governance/schemas/virtual-experts.schema.json` → `config/agents/schemas/virtual-experts.schema.json`
+- `governance/schemas/virtual-experts.schema.json` →
+  `config/agents/schemas/virtual-experts.schema.json`
 
 All references have been updated accordingly.
 
@@ -222,5 +225,4 @@ For questions or issues:
 
 ---
 
-**Last Updated**: 2025-12-09
-**Maintained by**: SynergyMesh Core Team
+**Last Updated**: 2025-12-09 **Maintained by**: SynergyMesh Core Team

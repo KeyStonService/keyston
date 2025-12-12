@@ -23,7 +23,7 @@ metadata:
 spec:
   version: "1.0.0"
   status: "active"
-  
+
   vision:
     title: "次世代雲原生智能自動化平台"
     title_en: "Next-Generation Cloud-Native Intelligent Automation Platform"
@@ -61,7 +61,7 @@ spec:
           - "SLA 可用性 ≥ 99.99%"
           - "水平擴展能力 ≤ 10秒"
           - "零數據丟失保證"
-  
+
   mission:
     statement: |
       通過創新的 AI 技術與自動化框架，賦能企業實現智能化轉型，
@@ -81,7 +81,7 @@ spec:
         description: "AI 驅動的自動修復、智能派工、升級管理"
       - pillar: "全局優化"
         description: "架構決策基於全局視野，而非局部最優"
-  
+
   core_values:
     - value: "Innovation First | 創新優先"
       principles:
@@ -108,7 +108,7 @@ spec:
         - "一次性完整交付，零待補"
         - "自動化率 ≥ 95%"
         - "部署時間 ≤ 5分鐘"
-  
+
   strategic_themes:
     - theme: "AI-First Development"
       focus_areas:

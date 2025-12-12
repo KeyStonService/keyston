@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Sociological Governance examines social dynamics, organizational culture, group behavior, and social network effects within governance.
+Sociological Governance examines social dynamics, organizational culture, group
+behavior, and social network effects within governance.
 
 社會治理檢視治理內的社會動態、組織文化、群體行為和社交網絡效應。
 

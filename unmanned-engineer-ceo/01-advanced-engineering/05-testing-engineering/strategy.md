@@ -3,7 +3,8 @@
 ## Testing Pyramid
 
 1. **Unit**：ts-jest, pytest, go test；要求 70%+ 覆蓋。
-2. **Integration**：Contract tests, API tests，連接 core/contract_service 與 agents。
+2. **Integration**：Contract tests, API
+   tests，連接 core/contract_service 與 agents。
 3. **E2E**：`npm run dev:stack` + Cypress/Playwright。
 4. **Chaos & Resilience**：參考 `chaos-engineering.md`。
 

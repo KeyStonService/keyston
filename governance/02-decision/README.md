@@ -1,13 +1,15 @@
 # 決策治理 | Decision Governance
 
-> 決策流程、權限矩陣、記錄追蹤、審計
-> Decision processes, permission matrices, tracking, and auditing
+> 決策流程、權限矩陣、記錄追蹤、審計Decision processes, permission matrices,
+> tracking, and auditing
 
 ## 📋 概述 | Overview
 
 決策治理定義了組織內所有決策的流程、權限和審計機制，確保決策的透明性、可追蹤性和合規性。
 
-The Decision Governance dimension defines the processes, permissions, and audit mechanisms for all organizational decisions, ensuring transparency, traceability, and compliance.
+The Decision Governance dimension defines the processes, permissions, and audit
+mechanisms for all organizational decisions, ensuring transparency,
+traceability, and compliance.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -58,6 +60,5 @@ INITIATED → ANALYZING → APPROVED → EXECUTING → COMPLETED
 
 ---
 
-**Owner 負責人**: Decision Governance Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Decision Governance Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

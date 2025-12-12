@@ -2,7 +2,10 @@
 
 ## 📋 Overview
 
-The Agent Coordinator is the foundational component of Island AI Stage 2, enabling multi-agent collaboration through various execution strategies. This MVP implementation provides the core orchestration capabilities needed for agents to work together effectively.
+The Agent Coordinator is the foundational component of Island AI Stage 2,
+enabling multi-agent collaboration through various execution strategies. This
+MVP implementation provides the core orchestration capabilities needed for
+agents to work together effectively.
 
 **Status:** ✅ **COMPLETED** (MVP)  
 **Version:** 1.0.0  
@@ -24,7 +27,7 @@ The Agent Coordinator supports four collaboration strategies:
 const collaboration: AgentCollaboration = {
   coordinatorId: 'seq-001',
   participants: [securityAgent, architectAgent, devOpsAgent],
-  strategy: 'sequential'
+  strategy: 'sequential',
 };
 ```
 
@@ -41,7 +44,7 @@ const collaboration: AgentCollaboration = {
 const collaboration: AgentCollaboration = {
   coordinatorId: 'par-001',
   participants: [architectAgent, devOpsAgent, dataScientistAgent],
-  strategy: 'parallel'
+  strategy: 'parallel',
 };
 ```
 
@@ -55,8 +58,8 @@ const collaboration: AgentCollaboration = {
 ```typescript
 // Execute agents only if certain conditions are met
 const shouldContinue = (reports: AgentReport[]) => {
-  return reports.some(r => 
-    r.insights.some(i => i.signal === 'warn' || i.signal === 'error')
+  return reports.some((r) =>
+    r.insights.some((i) => i.signal === 'warn' || i.signal === 'error')
   );
 };
 
@@ -64,7 +67,7 @@ const collaboration: AgentCollaboration = {
   coordinatorId: 'cond-001',
   participants: [architectAgent, securityAgent, devOpsAgent],
   strategy: 'conditional',
-  condition: shouldContinue
+  condition: shouldContinue,
 };
 ```
 
@@ -80,8 +83,8 @@ const collaboration: AgentCollaboration = {
 // Repeat agent execution until condition is met or max iterations reached
 const isOptimized = (reports: AgentReport[]) => {
   // Check if optimization goals are achieved
-  return reports.some(r => 
-    r.insights.some(i => i.data?.optimizationScore >= 80)
+  return reports.some((r) =>
+    r.insights.some((i) => i.data?.optimizationScore >= 80)
   );
 };
 
@@ -90,7 +93,7 @@ const collaboration: AgentCollaboration = {
   participants: [architectAgent],
   strategy: 'iterative',
   condition: isOptimized,
-  maxIterations: 10
+  maxIterations: 10,
 };
 ```
 
@@ -137,7 +140,7 @@ Coordinate multiple agents waiting for each other:
 const barrier: SyncBarrier = {
   id: 'deployment-barrier',
   requiredAgents: ['agent1', 'agent2', 'agent3'],
-  timeout: 30000 // 30 seconds
+  timeout: 30000, // 30 seconds
 };
 
 // Agents arrive at barrier
@@ -205,15 +208,8 @@ npm run build
 ### Basic Usage
 
 ```typescript
-import { 
-  AgentCoordinator, 
-  AgentCollaboration 
-} from 'island-ai';
-import { 
-  ArchitectAgent, 
-  SecurityAgent, 
-  DevOpsAgent 
-} from 'island-ai';
+import { AgentCoordinator, AgentCollaboration } from 'island-ai';
+import { ArchitectAgent, SecurityAgent, DevOpsAgent } from 'island-ai';
 
 // Create coordinator
 const coordinator = new AgentCoordinator();
@@ -221,19 +217,15 @@ const coordinator = new AgentCoordinator();
 // Define collaboration
 const collaboration: AgentCollaboration = {
   coordinatorId: 'my-workflow-001',
-  participants: [
-    new ArchitectAgent(),
-    new SecurityAgent(),
-    new DevOpsAgent()
-  ],
-  strategy: 'sequential'
+  participants: [new ArchitectAgent(), new SecurityAgent(), new DevOpsAgent()],
+  strategy: 'sequential',
 };
 
 // Execute
 const context = {
   requestId: 'req-001',
   timestamp: new Date(),
-  payload: { repository: 'my-repo' }
+  payload: { repository: 'my-repo' },
 };
 
 const result = await coordinator.orchestrate(collaboration, context);
@@ -298,12 +290,12 @@ npm run test:coverage
 
 ### Execution Time Comparison
 
-| Strategy | Agents | Avg Time | Speedup |
-|----------|--------|----------|---------|
-| Sequential | 3 | ~300ms | 1x (baseline) |
-| Parallel | 3 | ~110ms | 2.7x faster |
-| Conditional | 1-3 | ~50-250ms | Variable |
-| Iterative | 1 × N | ~N × 100ms | N/A |
+| Strategy    | Agents | Avg Time   | Speedup       |
+| ----------- | ------ | ---------- | ------------- |
+| Sequential  | 3      | ~300ms     | 1x (baseline) |
+| Parallel    | 3      | ~110ms     | 2.7x faster   |
+| Conditional | 1-3    | ~50-250ms  | Variable      |
+| Iterative   | 1 × N  | ~N × 100ms | N/A           |
 
 ### Resource Usage
 
@@ -324,7 +316,7 @@ import { stageOneAgents } from 'island-ai';
 const collaboration: AgentCollaboration = {
   coordinatorId: 'full-analysis',
   participants: stageOneAgents, // All 6 Stage 1 agents
-  strategy: 'parallel'
+  strategy: 'parallel',
 };
 ```
 
@@ -358,37 +350,44 @@ if (!safetyCheck.approved) {
 
 ```typescript
 // Discover -> Assess -> Plan -> Execute
-const securityResponse = await coordinator.orchestrate({
-  coordinatorId: 'vuln-response',
-  participants: [
-    new SecurityAgent(),     // Detect vulnerabilities
-    new ArchitectAgent(),    // Assess architecture impact
-    new DevOpsAgent(),       // Plan deployment strategy
-    new QAAgent()            // Verify fix quality
-  ],
-  strategy: 'sequential'
-}, context);
+const securityResponse = await coordinator.orchestrate(
+  {
+    coordinatorId: 'vuln-response',
+    participants: [
+      new SecurityAgent(), // Detect vulnerabilities
+      new ArchitectAgent(), // Assess architecture impact
+      new DevOpsAgent(), // Plan deployment strategy
+      new QAAgent(), // Verify fix quality
+    ],
+    strategy: 'sequential',
+  },
+  context
+);
 ```
 
 ### Example 2: Parallel System Health Check
 
 ```typescript
 // Check all systems simultaneously
-const healthCheck = await coordinator.orchestrate({
-  coordinatorId: 'health-check',
-  participants: [
-    new ArchitectAgent(),
-    new SecurityAgent(),
-    new DevOpsAgent(),
-    new DataScientistAgent()
-  ],
-  strategy: 'parallel'
-}, context);
+const healthCheck = await coordinator.orchestrate(
+  {
+    coordinatorId: 'health-check',
+    participants: [
+      new ArchitectAgent(),
+      new SecurityAgent(),
+      new DevOpsAgent(),
+      new DataScientistAgent(),
+    ],
+    strategy: 'parallel',
+  },
+  context
+);
 
 // Aggregate health score
-const totalIssues = healthCheck.allInsights
-  .filter(i => i.signal === 'error').length;
-const healthScore = 100 - (totalIssues * 5);
+const totalIssues = healthCheck.allInsights.filter(
+  (i) => i.signal === 'error'
+).length;
+const healthScore = 100 - totalIssues * 5;
 ```
 
 ### Example 3: Adaptive Quality Improvement
@@ -398,20 +397,24 @@ const healthScore = 100 - (totalIssues * 5);
 let iterationCount = 0;
 const qualityThreshold = 85;
 
-const result = await coordinator.orchestrate({
-  coordinatorId: 'quality-improvement',
-  participants: [new QAAgent()],
-  strategy: 'iterative',
-  condition: (reports) => {
-    const lastReport = reports[reports.length - 1];
-    const qualityScore = lastReport.insights
-      .find(i => i.data?.qualityScore)?.data?.qualityScore || 0;
-    iterationCount++;
-    console.log(`Iteration ${iterationCount}: Quality ${qualityScore}%`);
-    return qualityScore >= qualityThreshold;
+const result = await coordinator.orchestrate(
+  {
+    coordinatorId: 'quality-improvement',
+    participants: [new QAAgent()],
+    strategy: 'iterative',
+    condition: (reports) => {
+      const lastReport = reports[reports.length - 1];
+      const qualityScore =
+        lastReport.insights.find((i) => i.data?.qualityScore)?.data
+          ?.qualityScore || 0;
+      iterationCount++;
+      console.log(`Iteration ${iterationCount}: Quality ${qualityScore}%`);
+      return qualityScore >= qualityThreshold;
+    },
+    maxIterations: 10,
   },
-  maxIterations: 10
-}, context);
+  context
+);
 ```
 
 ---
@@ -482,12 +485,12 @@ Clear knowledge base and barrier status.
 
 ```typescript
 interface AgentCollaboration {
-  coordinatorId: string;           // Unique collaboration ID
-  participants: AgentModule[];     // Agents to coordinate
+  coordinatorId: string; // Unique collaboration ID
+  participants: AgentModule[]; // Agents to coordinate
   strategy: CollaborationStrategy; // Execution strategy
-  syncBarrier?: SyncBarrier;       // Optional barrier
+  syncBarrier?: SyncBarrier; // Optional barrier
   condition?: (reports: AgentReport[]) => boolean; // Conditional/iterative check
-  maxIterations?: number;          // Max iterations (default: 5)
+  maxIterations?: number; // Max iterations (default: 5)
 }
 ```
 
@@ -495,12 +498,12 @@ interface AgentCollaboration {
 
 ```typescript
 interface AggregatedReport {
-  coordinatorId: string;              // Collaboration ID
-  strategy: CollaborationStrategy;    // Strategy used
-  allInsights: AgentInsight[];        // All insights combined
-  individualReports: AgentReport[];   // Individual agent reports
-  executionTime: number;              // Total time (ms)
-  success: boolean;                   // Execution success
+  coordinatorId: string; // Collaboration ID
+  strategy: CollaborationStrategy; // Strategy used
+  allInsights: AgentInsight[]; // All insights combined
+  individualReports: AgentReport[]; // Individual agent reports
+  executionTime: number; // Total time (ms)
+  success: boolean; // Execution success
 }
 ```
 

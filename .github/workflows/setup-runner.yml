@@ -5,49 +5,49 @@ on:
   workflow_dispatch:
     inputs:
       runner_name:
-        description: 'Name for the runner'
+        description: "Name for the runner"
         required: true
-        default: 'enterprise-runner'
+        default: "enterprise-runner"
       runner_labels:
-        description: 'Comma-separated labels for the runner'
+        description: "Comma-separated labels for the runner"
         required: true
-        default: 'enterprise,security,production'
+        default: "enterprise,security,production"
       runner_group:
-        description: 'Runner group'
+        description: "Runner group"
         required: false
-        default: 'Default'
+        default: "Default"
 
 jobs:
   setup-runner:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Validate inputs
         run: |
           echo "Setting up runner with the following configuration:"
           echo "Runner Name: ${{ github.event.inputs.runner_name }}"
           echo "Runner Labels: ${{ github.event.inputs.runner_labels }}"
           echo "Runner Group: ${{ github.event.inputs.runner_group }}"
-      
+
       - name: Generate runner configuration
         run: |
           cat > runner-config.sh << 'EOF'
           #!/bin/bash
-          
+
           # Self-hosted GitHub Actions Runner Setup Script
           # This script sets up a self-hosted runner for GitHub Actions
-          
+
           set -e
-          
+
           # Configuration variables
           RUNNER_NAME="${1:-enterprise-runner}"
           RUNNER_LABELS="${2:-enterprise,security,production}"
           RUNNER_GROUP="${3:-Default}"
           RUNNER_VERSION="2.311.0"
-          
+
           echo "=========================================="
           echo "GitHub Actions Runner Setup"
           echo "=========================================="
@@ -56,25 +56,25 @@ jobs:
           echo "Runner Group: $RUNNER_GROUP"
           echo "Runner Version: $RUNNER_VERSION"
           echo "=========================================="
-          
+
           # Create runner directory
           echo "Creating runner directory..."
           mkdir -p ~/actions-runner
           cd ~/actions-runner
-          
+
           # Download runner package
           echo "Downloading runner package..."
           curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L \
             https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
-          
+
           # Verify download (optional but recommended)
           echo "Verifying package integrity..."
           echo "6c726a118bbe02cd32e222f890e1e476567bf299353a96886ba75b423c1137b5  actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz" | shasum -a 256 -c
-          
+
           # Extract runner package
           echo "Extracting runner package..."
           tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
-          
+
           # Configure runner
           # Note: You need to replace {org} with your organization name
           # and provide a valid registration token
@@ -99,29 +99,29 @@ jobs:
           echo "sudo ./svc.sh install"
           echo "sudo ./svc.sh start"
           echo "=========================================="
-          
+
           EOF
-          
+
           chmod +x runner-config.sh
-      
+
       - name: Upload runner configuration script
         uses: actions/upload-artifact@v4
         with:
           name: runner-setup-script
           path: runner-config.sh
           retention-days: 30
-      
+
       - name: Generate runner service configuration
         run: |
           cat > runner-service.sh << 'EOF'
           #!/bin/bash
-          
+
           # GitHub Actions Runner Service Management Script
-          
+
           set -e
-          
+
           RUNNER_DIR="$HOME/actions-runner"
-          
+
           case "$1" in
             install)
               echo "Installing GitHub Actions Runner as a service..."
@@ -163,56 +163,56 @@ jobs:
               exit 1
               ;;
           esac
-          
+
           EOF
-          
+
           chmod +x runner-service.sh
-      
+
       - name: Upload runner service script
         uses: actions/upload-artifact@v4
         with:
           name: runner-service-script
           path: runner-service.sh
           retention-days: 30
-      
+
       - name: Generate runner health check script
         run: |
           cat > runner-healthcheck.sh << 'EOF'
           #!/bin/bash
-          
+
           # GitHub Actions Runner Health Check Script
-          
+
           RUNNER_DIR="$HOME/actions-runner"
           LOG_FILE="$RUNNER_DIR/_diag/Runner_*.log"
-          
+
           echo "=========================================="
           echo "GitHub Actions Runner Health Check"
           echo "=========================================="
           echo "Timestamp: $(date)"
           echo ""
-          
+
           # Check if runner directory exists
           if [ ! -d "$RUNNER_DIR" ]; then
             echo "❌ Error: Runner directory not found at $RUNNER_DIR"
             exit 1
           fi
-          
+
           echo "✅ Runner directory exists"
-          
+
           # Check if runner service is running
           if systemctl is-active --quiet actions.runner.*.service 2>/dev/null; then
             echo "✅ Runner service is active"
           else
             echo "❌ Warning: Runner service is not active"
           fi
-          
+
           # Check runner connectivity
           if [ -f "$RUNNER_DIR/.runner" ]; then
             echo "✅ Runner configuration file exists"
           else
             echo "❌ Warning: Runner configuration file not found"
           fi
-          
+
           # Check recent log entries
           if ls $LOG_FILE 1> /dev/null 2>&1; then
             echo ""
@@ -221,68 +221,68 @@ jobs:
           else
             echo "⚠️  No log files found"
           fi
-          
+
           echo ""
           echo "=========================================="
           echo "Health check completed"
           echo "=========================================="
-          
+
           EOF
-          
+
           chmod +x runner-healthcheck.sh
-      
+
       - name: Upload runner health check script
         uses: actions/upload-artifact@v4
         with:
           name: runner-healthcheck-script
           path: runner-healthcheck.sh
           retention-days: 30
-      
+
       - name: Generate documentation
         run: |
           cat > RUNNER_SETUP_GUIDE.md << 'EOF'
           # GitHub Actions Self-Hosted Runner Setup Guide
-          
+
           ## Overview
-          
+
           This guide provides instructions for setting up a self-hosted GitHub Actions runner for enterprise use.
-          
+
           ## Prerequisites
-          
+
           - Linux-based system (Ubuntu 20.04+ recommended)
           - Sudo access
           - Internet connectivity to github.com
           - Organization admin access to generate runner registration tokens
-          
+
           ## Setup Steps
-          
+
           ### 1. Download Setup Scripts
-          
+
           Download the following artifacts from the workflow run:
           - `runner-setup-script` - Main setup script
           - `runner-service-script` - Service management script
           - `runner-healthcheck-script` - Health check script
-          
+
           ### 2. Run Setup Script
-          
+
           ```bash
           # Make the script executable
           chmod +x runner-config.sh
-          
+
           # Run the setup script
           ./runner-config.sh "my-runner" "enterprise,security,production" "Default"
           ```
-          
+
           ### 3. Get Registration Token
-          
+
           1. Visit: https://github.com/organizations/{org}/settings/actions/runners/new
           2. Copy the registration token
-          
+
           ### 4. Configure Runner
-          
+
           ```bash
           cd ~/actions-runner
-          
+
           ./config.sh --url https://github.com/{org} \
             --token {REGISTRATION_TOKEN} \
             --name "enterprise-runner" \
@@ -291,109 +291,109 @@ jobs:
             --runnergroup "Default" \
             --unattended
           ```
-          
+
           ### 5. Install and Start Service
-          
+
           ```bash
           # Install as a service
           ./runner-service.sh install
-          
+
           # Start the service
           ./runner-service.sh start
-          
+
           # Check status
           ./runner-service.sh status
           ```
-          
+
           ### 6. Verify Installation
-          
+
           ```bash
           # Run health check
           ./runner-healthcheck.sh
           ```
-          
+
           ## Service Management
-          
+
           ### Start Runner
           ```bash
           ./runner-service.sh start
           ```
-          
+
           ### Stop Runner
           ```bash
           ./runner-service.sh stop
           ```
-          
+
           ### Check Status
           ```bash
           ./runner-service.sh status
           ```
-          
+
           ### Uninstall Runner
           ```bash
           ./runner-service.sh uninstall
           ```
-          
+
           ## Runner Labels
-          
+
           The following labels are recommended for enterprise runners:
-          
+
           - `enterprise` - Enterprise-level runner
           - `security` - Security scanning tasks
           - `production` - Production deployments
           - `high-memory` - High memory tasks
           - `gpu` - GPU-accelerated tasks
-          
+
           ## Troubleshooting
-          
+
           ### Runner Not Connecting
-          
+
           1. Check network connectivity to github.com
           2. Verify registration token is valid
           3. Check firewall rules
-          
+
           ### Service Not Starting
-          
+
           1. Check service logs: `journalctl -u actions.runner.*.service`
           2. Verify permissions on runner directory
           3. Ensure no port conflicts
-          
+
           ### Performance Issues
-          
+
           1. Monitor system resources
           2. Check concurrent job settings
           3. Review runner logs for errors
-          
+
           ## Security Considerations
-          
+
           - Use dedicated service account for runner
           - Apply least privilege principle
           - Regular security updates
           - Monitor runner activity
           - Rotate registration tokens periodically
-          
+
           ## Monitoring
-          
+
           - Check runner status regularly
           - Monitor job execution times
           - Review security scan results
           - Track resource utilization
-          
+
           ## Support
-          
+
           For issues or questions, contact the security team or refer to:
           - [GitHub Actions Documentation](https://docs.github.com/en/actions)
           - [Self-hosted Runner Documentation](https://docs.github.com/en/actions/hosting-your-own-runners)
-          
+
           EOF
-      
+
       - name: Upload documentation
         uses: actions/upload-artifact@v4
         with:
           name: runner-setup-documentation
           path: RUNNER_SETUP_GUIDE.md
           retention-days: 30
-      
+
       - name: Summary
         run: |
           echo "## Setup Complete! 🎉" >> $GITHUB_STEP_SUMMARY

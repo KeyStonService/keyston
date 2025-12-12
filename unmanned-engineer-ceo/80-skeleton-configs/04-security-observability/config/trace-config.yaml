@@ -27,8 +27,8 @@ sampling:
   # 預設取樣率
   default:
     type: parent_based_trace_id_ratio
-    ratio: 0.1  # 10%
-  
+    ratio: 0.1 # 10%
+
   # 規則型取樣
   rules:
     # 錯誤請求全部追蹤
@@ -38,7 +38,7 @@ sampling:
         value: 500
       sampler:
         type: always_on
-    
+
     # 健康檢查低取樣
     - condition:
         attribute: http.url.path
@@ -46,8 +46,8 @@ sampling:
         value: /health
       sampler:
         type: trace_id_ratio
-        ratio: 0.01  # 1%
-    
+        ratio: 0.01 # 1%
+
     # 關鍵 API 高取樣
     - condition:
         attribute: http.url.path
@@ -55,7 +55,7 @@ sampling:
         value: /api/v1/critical
       sampler:
         type: trace_id_ratio
-        ratio: 0.5  # 50%
+        ratio: 0.5 # 50%
 
 # Span 處理器
 span_processors:
@@ -81,14 +81,14 @@ attribute_filters:
     - http.request.header.authorization
     - http.request.header.cookie
     - http.request.body
-    - db.statement  # 可能包含敏感資料
-  
+    - db.statement # 可能包含敏感資料
+
   # 遮罩處理
   mask:
     - attribute: user.email
       pattern: "(.{3}).*(@.*)"
       replacement: "$1***$2"
-    
+
     - attribute: user.phone
       pattern: "(.{3}).*(.{4})"
       replacement: "$1***$2"
@@ -99,17 +99,17 @@ instrumentations:
     enabled: true
     capture_headers: true
     capture_body: false
-  
+
   database:
     enabled: true
-    capture_statement: false  # 安全考量
+    capture_statement: false # 安全考量
     capture_statement_hash: true
-  
+
   grpc:
     enabled: true
-  
+
   redis:
     enabled: true
-  
+
   message_queue:
     enabled: true

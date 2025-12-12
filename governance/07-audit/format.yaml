@@ -18,20 +18,20 @@ metadata:
 # =============================================================================
 eventSchema:
   required:
-    - eventId         # UUID 唯一識別符
-    - timestamp       # ISO 8601 時間戳
-    - action          # 動作類型
-    - subject         # 主題（被操作的對象）
-    - actor           # 執行者
-  
+    - eventId # UUID 唯一識別符
+    - timestamp # ISO 8601 時間戳
+    - action # 動作類型
+    - subject # 主題（被操作的對象）
+    - actor # 執行者
+
   optional:
-    - repository      # 倉庫名稱
-    - commit          # Git commit SHA
-    - workflow        # 工作流名稱
-    - runId           # 工作流運行 ID
-    - details         # 詳細資訊（自由格式物件）
-    - integrity       # 完整性資訊
-    - previousHash    # 前一事件的 hash（用於鏈式驗證）
+    - repository # 倉庫名稱
+    - commit # Git commit SHA
+    - workflow # 工作流名稱
+    - runId # 工作流運行 ID
+    - details # 詳細資訊（自由格式物件）
+    - integrity # 完整性資訊
+    - previousHash # 前一事件的 hash（用於鏈式驗證）
 
 # =============================================================================
 # 動作類型
@@ -44,21 +44,21 @@ actionTypes:
     - "validation.passed"
     - "validation.failed"
     - "validation.skipped"
-  
+
   # 策略相關
   policy:
     - "policy.evaluated"
     - "policy.passed"
     - "policy.denied"
     - "policy.exception"
-  
+
   # 自動修復相關
   autofix:
     - "autofix.triggered"
     - "autofix.completed"
     - "autofix.failed"
     - "autofix.pr_created"
-  
+
   # 供應鏈相關
   supplyChain:
     - "sbom.generated"
@@ -68,14 +68,14 @@ actionTypes:
     - "signature.created"
     - "signature.verified"
     - "signature.failed"
-  
+
   # 索引相關
   index:
     - "index.scanned"
     - "index.generated"
     - "index.updated"
     - "index.validated"
-  
+
   # 系統相關
   system:
     - "pipeline.started"
@@ -90,10 +90,10 @@ actionTypes:
 # =============================================================================
 integrity:
   algorithm: "sha256"
-  
+
   # 鏈式事件：每個事件包含前一事件的 hash
   chainedEvents: true
-  
+
   # 需要計算 hash 的欄位
   hashFields:
     - "eventId"
@@ -102,7 +102,7 @@ integrity:
     - "subject"
     - "actor"
     - "details"
-  
+
   # 驗證規則
   verification:
     checkPreviousHash: true
@@ -119,14 +119,14 @@ output:
     format: "jsonl"
     path: "governance/audit/events.jsonl"
     encoding: "utf-8"
-  
+
   # 輪換配置
   rotation:
     maxSize: "10MB"
     maxAge: "90d"
     compress: true
     archivePath: "governance/audit/archive/"
-  
+
   # 備份配置
   backup:
     enabled: true
@@ -155,7 +155,7 @@ examples:
     integrity:
       algorithm: "sha256"
       value: "a1b2c3d4e5f6..."
-  
+
   autofixTriggered:
     eventId: "660e8400-e29b-41d4-a716-446655440001"
     timestamp: "2025-11-30T09:05:00.000Z"

@@ -11,13 +11,13 @@
 
 ### Score Breakdown
 
-| Component | Weight | Score | Status |
-|-----------|--------|-------|--------|
-| Documentation Coverage | 30% | 28/30 | ✅ Excellent |
-| Code Quality | 25% | 22/25 | ✅ Good |
-| Language Governance | 20% | 16/20 | ⚠️ Fair |
-| Security Posture | 15% | 14/15 | ✅ Good |
-| Test Coverage | 10% | 5/10 | ⚠️ Needs Improvement |
+| Component              | Weight | Score | Status               |
+| ---------------------- | ------ | ----- | -------------------- |
+| Documentation Coverage | 30%    | 28/30 | ✅ Excellent         |
+| Code Quality           | 25%    | 22/25 | ✅ Good              |
+| Language Governance    | 20%    | 16/20 | ⚠️ Fair              |
+| Security Posture       | 15%    | 14/15 | ✅ Good              |
+| Test Coverage          | 10%    | 5/10  | ⚠️ Needs Improvement |
 
 ---
 
@@ -87,12 +87,12 @@
 
 ## 🔍 Recent Scans
 
-| Date | Type | Findings | Status |
-|------|------|----------|--------|
-| 2025-12-06 | Language Governance | 2 warnings | ⚠️ |
-| 2025-12-06 | Security (Semgrep) | 1 warning | ⚠️ |
-| 2025-12-05 | Code Quality | 0 errors | ✅ |
-| 2025-12-04 | Dependency Audit | 0 vulnerabilities | ✅ |
+| Date       | Type                | Findings          | Status |
+| ---------- | ------------------- | ----------------- | ------ |
+| 2025-12-06 | Language Governance | 2 warnings        | ⚠️     |
+| 2025-12-06 | Security (Semgrep)  | 1 warning         | ⚠️     |
+| 2025-12-05 | Code Quality        | 0 errors          | ✅     |
+| 2025-12-04 | Dependency Audit    | 0 vulnerabilities | ✅     |
 
 ---
 

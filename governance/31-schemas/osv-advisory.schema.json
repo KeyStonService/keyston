@@ -139,21 +139,7 @@
             },
             "ecosystem": {
               "type": "string",
-              "enum": [
-                "actions",
-                "composer",
-                "erlang",
-                "go",
-                "maven",
-                "npm",
-                "nuget",
-                "other",
-                "pip",
-                "pub",
-                "rubygems",
-                "rust",
-                "swift"
-              ]
+              "enum": ["actions", "composer", "erlang", "go", "maven", "npm", "nuget", "other", "pip", "pub", "rubygems", "rust", "swift"]
             },
             "purl": {
               "type": "string"
@@ -249,19 +235,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "ADVISORY",
-            "ARTICLE",
-            "DETECTION",
-            "DISCUSSION",
-            "EVIDENCE",
-            "FIX",
-            "GIT",
-            "INTRODUCED",
-            "PACKAGE",
-            "REPORT",
-            "WEB"
-          ]
+          "enum": ["ADVISORY", "ARTICLE", "DETECTION", "DISCUSSION", "EVIDENCE", "FIX", "GIT", "INTRODUCED", "PACKAGE", "REPORT", "WEB"]
         },
         "url": {
           "type": "string",
@@ -284,18 +258,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "FINDER",
-            "REPORTER",
-            "ANALYST",
-            "COORDINATOR",
-            "REMEDIATION_DEVELOPER",
-            "REMEDIATION_REVIEWER",
-            "REMEDIATION_VERIFIER",
-            "TOOL",
-            "SPONSOR",
-            "OTHER"
-          ]
+          "enum": ["FINDER", "REPORTER", "ANALYST", "COORDINATOR", "REMEDIATION_DEVELOPER", "REMEDIATION_REVIEWER", "REMEDIATION_VERIFIER", "TOOL", "SPONSOR", "OTHER"]
         }
       }
     }

@@ -1,1 +1,62 @@
-{"$schema":"./index/schemas/governance-index.schema.json","version":"2.1.0","timestamp":"2025-12-12T00:00:00Z","metadata":{"name":"SynergyMesh Governance Index","description":"Single Source of Truth (SSOT) for machine-first governance orchestration","purpose":"治理閉環的入口 - 讓機器能夠解析結構、決定執行順序、啟動正確的 agent、保證合規與審計","status":"production","ready":"immediate"},"bootstrap_contract":{"description":"入口協定 - 解決代理失憶問題","enforcement":"mandatory","required_context":["index/events/registry.json","index/events/current-session.json","index/events/vector-index.json"],"ci_gate":true,"block_on_missing":true},"index_registry":{"dimensions":"index/dimensions.json","shared":"index/shared.json","compliance":"index/compliance.json","events_config":"index/events.json","events_registry":"index/events/registry.json","events_session":"index/events/current-session.json","events_vectors":"index/events/vector-index.json","tech_debt":"index/tech-debt.json","vectors":"index/vectors.json","observability":"index/observability.json"},"dag_validation":{"enabled":true,"circular_dependency_check":true,"missing_dependency_check":true,"orphan_detection":true},"execution_control":{"instant_deployment":true,"max_deployment_time":"180s","human_intervention":"none","policy_engine":"OPA","validation_mode":"strict"},"layers":[{"id":"events","name":"Events Layer","dimensions":["events"],"execution":"required","latency":"<=5s","description":"事件持久化層 - 所有代理必須先讀取"},{"id":"strategy","name":"Strategy Layer","dimensions":["10-policy"],"execution":"required","latency":"<=30s"},{"id":"orchestration","name":"Orchestration Layer","dimensions":["20-intent"],"execution":"required","latency":"<=30s"},{"id":"execution","name":"Execution Layer","dimensions":["30-agents","39-automation","40-self-healing"],"execution":"required","latency":"<=60s"},{"id":"observability","name":"Observability Layer","dimensions":["60-contracts","70-audit"],"execution":"required","latency":"<=30s"},{"id":"feedback","name":"Feedback Layer","dimensions":["80-feedback"],"execution":"required","latency":"<=25s"}],"rag_config":{"status":"active","model":"all-MiniLM-L6-v2","query_endpoint":"index/scripts/rag-query.py","vector_index":"index/vectors.json","events_vector_index":"index/events/vector-index.json","similarity_threshold":0.7,"top_k":5,"embeddings_ready":true},"event_system":{"status":"active","registry":"index/events/registry.json","current_session":"index/events/current-session.json","vector_index":"index/events/vector-index.json","bootstrap_contract":"index/events/bootstrap-contract.json","writer_script":"index/scripts/event-writer.py","compression":{"enabled":true,"threshold":100},"shared_context":{"enabled":true,"scope":"all_agents"}},"audit":{"enabled":true,"trail_path":"70-audit/logs/","retention":"7years","immutable":true}}
+{
+  "$schema": "./index/schemas/governance-index.schema.json",
+  "version": "2.1.0",
+  "timestamp": "2025-12-12T00:00:00Z",
+  "metadata": {
+    "name": "SynergyMesh Governance Index",
+    "description": "Single Source of Truth (SSOT) for machine-first governance orchestration",
+    "purpose": "治理閉環的入口 - 讓機器能夠解析結構、決定執行順序、啟動正確的 agent、保證合規與審計",
+    "status": "production",
+    "ready": "immediate"
+  },
+  "bootstrap_contract": {
+    "description": "入口協定 - 解決代理失憶問題",
+    "enforcement": "mandatory",
+    "required_context": ["index/events/registry.json", "index/events/current-session.json", "index/events/vector-index.json"],
+    "ci_gate": true,
+    "block_on_missing": true
+  },
+  "index_registry": {
+    "dimensions": "index/dimensions.json",
+    "shared": "index/shared.json",
+    "compliance": "index/compliance.json",
+    "events_config": "index/events.json",
+    "events_registry": "index/events/registry.json",
+    "events_session": "index/events/current-session.json",
+    "events_vectors": "index/events/vector-index.json",
+    "tech_debt": "index/tech-debt.json",
+    "vectors": "index/vectors.json",
+    "observability": "index/observability.json"
+  },
+  "dag_validation": { "enabled": true, "circular_dependency_check": true, "missing_dependency_check": true, "orphan_detection": true },
+  "execution_control": { "instant_deployment": true, "max_deployment_time": "180s", "human_intervention": "none", "policy_engine": "OPA", "validation_mode": "strict" },
+  "layers": [
+    { "id": "events", "name": "Events Layer", "dimensions": ["events"], "execution": "required", "latency": "<=5s", "description": "事件持久化層 - 所有代理必須先讀取" },
+    { "id": "strategy", "name": "Strategy Layer", "dimensions": ["10-policy"], "execution": "required", "latency": "<=30s" },
+    { "id": "orchestration", "name": "Orchestration Layer", "dimensions": ["20-intent"], "execution": "required", "latency": "<=30s" },
+    { "id": "execution", "name": "Execution Layer", "dimensions": ["30-agents", "39-automation", "40-self-healing"], "execution": "required", "latency": "<=60s" },
+    { "id": "observability", "name": "Observability Layer", "dimensions": ["60-contracts", "70-audit"], "execution": "required", "latency": "<=30s" },
+    { "id": "feedback", "name": "Feedback Layer", "dimensions": ["80-feedback"], "execution": "required", "latency": "<=25s" }
+  ],
+  "rag_config": {
+    "status": "active",
+    "model": "all-MiniLM-L6-v2",
+    "query_endpoint": "index/scripts/rag-query.py",
+    "vector_index": "index/vectors.json",
+    "events_vector_index": "index/events/vector-index.json",
+    "similarity_threshold": 0.7,
+    "top_k": 5,
+    "embeddings_ready": true
+  },
+  "event_system": {
+    "status": "active",
+    "registry": "index/events/registry.json",
+    "current_session": "index/events/current-session.json",
+    "vector_index": "index/events/vector-index.json",
+    "bootstrap_contract": "index/events/bootstrap-contract.json",
+    "writer_script": "index/scripts/event-writer.py",
+    "compression": { "enabled": true, "threshold": 100 },
+    "shared_context": { "enabled": true, "scope": "all_agents" }
+  },
+  "audit": { "enabled": true, "trail_path": "70-audit/logs/", "retention": "7years", "immutable": true }
+}

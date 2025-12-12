@@ -16,7 +16,6 @@ role_architecture:
 
 # 戰略角色 | Strategic Roles
 strategic_roles:
-
   chief_governance_officer:
     name: "首席治理官"
     english_name: "Chief Governance Officer (CGO)"
@@ -86,7 +85,6 @@ strategic_roles:
 
 # 戰術角色 | Tactical Roles
 tactical_roles:
-
   governance_manager:
     name: "治理經理"
     english_name: "Governance Manager"
@@ -215,7 +213,6 @@ tactical_roles:
 
 # 執行角色 | Operational Roles
 operational_roles:
-
   governance_analyst:
     name: "治理分析師"
     english_name: "Governance Analyst"
@@ -344,7 +341,6 @@ operational_roles:
 
 # 支持角色 | Support Roles
 support_roles:
-
   governance_administrator:
     name: "治理管理員"
     english_name: "Governance Administrator"
@@ -411,8 +407,10 @@ support_roles:
 # 角色矩陣 | Role Matrix
 role_matrix:
   decision_making:
-    strategic_decisions: ["chief_governance_officer", "governance_board_chairman", "executive_sponsor"]
-    tactical_decisions: ["governance_manager", "risk_manager", "compliance_manager", "audit_director"]
+    strategic_decisions:
+      ["chief_governance_officer", "governance_board_chairman", "executive_sponsor"]
+    tactical_decisions:
+      ["governance_manager", "risk_manager", "compliance_manager", "audit_director"]
     operational_decisions: ["process_owner", "team_leads"]
 
   reporting:
@@ -421,7 +419,8 @@ role_matrix:
     to_operations: ["governance_analyst", "compliance_analyst", "risk_analyst"]
 
   collaboration:
-    cross_functional: ["governance_manager", "risk_manager", "compliance_manager", "security_manager"]
+    cross_functional:
+      ["governance_manager", "risk_manager", "compliance_manager", "security_manager"]
     within_team: ["governance_analyst", "compliance_analyst", "risk_analyst"]
 
 # 角色發展 | Role Development

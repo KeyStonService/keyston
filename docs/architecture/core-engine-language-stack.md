@@ -79,7 +79,8 @@ Core Engine 由三個語言層組成：
   - **TS API 封裝**：透過 gRPC 或 HTTP 提供 TypeScript 接口
   - **或 Python binding**：使用 pybind11 或 ctypes 提供 Python 綁定
 
-> **重要原則：** C++ 代碼不應直接被 `core/` 以外的模組調用，必須通過 TypeScript 或 Python 的抽象層。
+> **重要原則：** C++ 代碼不應直接被 `core/`
+> 以外的模組調用，必須通過 TypeScript 或 Python 的抽象層。
 
 ## 3. Core Engine 目錄與語言對應
 
@@ -205,9 +206,9 @@ const response = await fetch('https://python-service:8000/api/analyze', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${serviceToken}`,  // 服務間認證
+    Authorization: `Bearer ${serviceToken}`, // 服務間認證
   },
-  body: JSON.stringify({ code: sourceCode })
+  body: JSON.stringify({ code: sourceCode }),
 });
 ```
 
@@ -219,9 +220,9 @@ import * as grpc from '@grpc/grpc-js';
 import * as fs from 'fs';
 
 const tlsCredentials = grpc.credentials.createSsl(
-  fs.readFileSync('ca-cert.pem'),      // CA 證書
-  fs.readFileSync('client-key.pem'),   // 客戶端私鑰
-  fs.readFileSync('client-cert.pem')   // 客戶端證書
+  fs.readFileSync('ca-cert.pem'), // CA 證書
+  fs.readFileSync('client-key.pem'), // 客戶端私鑰
+  fs.readFileSync('client-cert.pem') // 客戶端證書
 );
 
 const client = new AnalysisServiceClient(
@@ -380,9 +381,9 @@ describe('ServiceRegistry', () => {
     await registry.register({
       id: 'test-service',
       name: 'Test Service',
-      endpoint: 'http://localhost:3000'
+      endpoint: 'http://localhost:3000',
     });
-    
+
     const discovered = await registry.discover('test-service');
     expect(discovered).toBeDefined();
     expect(discovered.name).toBe('Test Service');
@@ -405,7 +406,7 @@ async def test_decision_making():
         'issue_type': 'security',
         'severity': 'high'
     })
-    
+
     assert decision is not None
     assert decision.action in ['approve', 'reject', 'escalate']
     assert decision.confidence >= 0.7
@@ -416,7 +417,8 @@ async def test_decision_making():
 若新增語言（例如 Rust），必須先更新：
 
 1. **此文件** - 添加新語言的使用場景與規範
-2. **`config/system-module-map.yaml`** - 在 `modules.core-engine.languages` 中聲明
+2. **`config/system-module-map.yaml`** - 在 `modules.core-engine.languages`
+   中聲明
 3. **`governance/rules/language-policy.yml`** - 在 `allowed_languages` 中添加
 4. **文檔** - 更新 `docs/architecture/language-stack.md`
 
@@ -428,22 +430,21 @@ modules:
   core-engine:
     languages:
       primary:
-        - "TypeScript"
+        - 'TypeScript'
       secondary:
-        - "Python"
-        - "C++"
-        - "Rust"  # 新增
+        - 'Python'
+        - 'C++'
+        - 'Rust' # 新增
     rules:
       can_use:
-        - "Rust"  # 用於性能關鍵的安全模組
+        - 'Rust' # 用於性能關鍵的安全模組
 ```
 
 ## 9. 架構決策記錄（ADR）
 
 ### ADR-001: 為何 Core Engine 使用 TypeScript + Python
 
-**背景：**
-Core Engine 需要同時處理高階編排和 AI 推理。
+**背景：** Core Engine 需要同時處理高階編排和 AI 推理。
 
 **決策：**
 
@@ -465,11 +466,9 @@ Core Engine 需要同時處理高階編排和 AI 推理。
 
 ### ADR-002: C++ 僅用於性能關鍵路徑
 
-**背景：**
-某些場景需要低延遲、高性能計算。
+**背景：** 某些場景需要低延遲、高性能計算。
 
-**決策：**
-C++ 僅用於以下場景：
+**決策：** C++ 僅用於以下場景：
 
 - 實時控制（< 10ms 響應）
 - 感測器融合
@@ -526,21 +525,21 @@ logger = structlog.get_logger()
 
 async def analyze_with_llm(prompt: str, llm: 'LLMService') -> str:
     """使用 LLM 分析並記錄性能
-    
+
     Args:
         prompt: 要分析的提示文本
         llm: LLM 服務實例（例如 OpenAI、Anthropic 等）
     """
     logger.info("llm_analysis_started", prompt_length=len(prompt))
-    
+
     start_time = time.time()
     result = await llm.complete(prompt)
     duration = time.time() - start_time
-    
-    logger.info("llm_analysis_completed", 
+
+    logger.info("llm_analysis_completed",
                 duration_ms=duration * 1000,
                 tokens=result.token_count)
-    
+
     return result.text
 ```
 

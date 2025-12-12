@@ -13,13 +13,13 @@ rules:
     description: "檢測並修復 N+1 查詢問題"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - type: "loop_with_query"
         example: |
           for item in items:
               related = db.query(Related).filter(Related.id == item.id).first()
-    
+
     fix_strategy:
       type: "batch_query"
       template: "performance-batch-query"
@@ -28,15 +28,15 @@ rules:
         original:
           for item in items:
               related = db.query(Related).filter(Related.id == item.id).first()
-        
+
         replacement:
           item_ids = [item.id for item in items]
           related_map = {r.id: r for r in db.query(Related).filter(Related.id.in_(item_ids)).all()}
           for item in items:
               related = related_map.get(item.id)
-    
+
     expected_improvement: "80-95% 查詢時間減少"
-    
+
     verification:
       - run_tests: true
       - performance_benchmark: true
@@ -48,12 +48,12 @@ rules:
     description: "優化嵌套循環和低效迭代"
     severity: "MEDIUM"
     enabled: true
-    
+
     patterns:
       - type: "nested_loop"
         complexity_threshold: 2
       - type: "linear_search_in_loop"
-    
+
     fix_strategy:
       type: "algorithm_optimization"
       template: "performance-loop-optimize"
@@ -64,15 +64,15 @@ rules:
               for other in others:
                   if item.id == other.id:
                       process(item, other)
-        
+
         replacement:
           others_map = {o.id: o for o in others}
           for item in items:
               if item.id in others_map:
                   process(item, others_map[item.id])
-    
+
     expected_improvement: "O(n²) → O(n)"
-    
+
     verification:
       - run_tests: true
       - performance_benchmark: true
@@ -83,12 +83,12 @@ rules:
     description: "優化記憶體使用"
     severity: "MEDIUM"
     enabled: true
-    
+
     patterns:
       - type: "large_list_comprehension"
       - type: "unnecessary_copy"
       - type: "memory_leak"
-    
+
     fix_strategy:
       type: "memory_efficient"
       template: "performance-memory-optimize"
@@ -96,15 +96,15 @@ rules:
         # 使用生成器或迭代器
         original:
           results = [process(item) for item in large_dataset]
-        
+
         replacement:
           results = (process(item) for item in large_dataset)
           # 或使用分批處理
           for batch in chunks(large_dataset, 1000):
               process_batch(batch)
-    
+
     expected_improvement: "記憶體使用減少 50-90%"
-    
+
     verification:
       - run_tests: true
       - memory_profiling: true
@@ -115,11 +115,11 @@ rules:
     description: "添加適當的緩存"
     severity: "MEDIUM"
     enabled: true
-    
+
     patterns:
       - type: "repeated_computation"
       - type: "expensive_function_call"
-    
+
     fix_strategy:
       type: "add_caching"
       template: "performance-cache"
@@ -129,7 +129,7 @@ rules:
           def expensive_function(param):
               # 昂貴的計算
               return result
-        
+
         replacement:
           from functools import lru_cache
           
@@ -137,9 +137,9 @@ rules:
           def expensive_function(param):
               # 昂貴的計算
               return result
-    
+
     expected_improvement: "計算時間減少 70-99%"
-    
+
     verification:
       - run_tests: true
       - performance_benchmark: true
@@ -151,12 +151,12 @@ rules:
     description: "優化數據庫查詢"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - type: "missing_index"
       - type: "select_all"
       - type: "missing_join"
-    
+
     fix_strategy:
       type: "query_optimization"
       template: "performance-query-optimize"
@@ -165,12 +165,12 @@ rules:
         original:
           results = db.query(Model).all()
           filtered = [r for r in results if r.status == 'active']
-        
+
         replacement:
           results = db.query(Model).filter(Model.status == 'active').all()
-    
+
     expected_improvement: "查詢時間減少 60-95%"
-    
+
     verification:
       - run_tests: true
       - explain_analyze: true
@@ -182,11 +182,11 @@ rules:
     description: "識別並實現並行化機會"
     severity: "MEDIUM"
     enabled: true
-    
+
     patterns:
       - type: "independent_operations"
       - type: "io_bound_loop"
-    
+
     fix_strategy:
       type: "add_parallelization"
       template: "performance-parallel"
@@ -194,15 +194,15 @@ rules:
         # 使用並行處理
         original:
           results = [fetch_data(url) for url in urls]
-        
+
         replacement:
           from concurrent.futures import ThreadPoolExecutor
           
           with ThreadPoolExecutor(max_workers=10) as executor:
               results = list(executor.map(fetch_data, urls))
-    
+
     expected_improvement: "執行時間減少 50-90%"
-    
+
     verification:
       - run_tests: true
       - performance_benchmark: true
@@ -214,21 +214,21 @@ rules:
 
 performance_benchmarks:
   response_time:
-    p50: 100  # ms
-    p95: 200  # ms
-    p99: 500  # ms
-  
+    p50: 100 # ms
+    p95: 200 # ms
+    p99: 500 # ms
+
   throughput:
-    min: 1000  # requests/sec
-    target: 5000  # requests/sec
-  
+    min: 1000 # requests/sec
+    target: 5000 # requests/sec
+
   memory:
-    max_heap: 512  # MB
-    max_rss: 1024  # MB
-  
+    max_heap: 512 # MB
+    max_rss: 1024 # MB
+
   cpu:
-    max_usage: 0.8  # 80%
-    target_usage: 0.5  # 50%
+    max_usage: 0.8 # 80%
+    target_usage: 0.5 # 50%
 
 # ============================================================================
 # 修復配置
@@ -240,12 +240,12 @@ fix_config:
   create_backup: true
   run_benchmarks: true
   generate_report: true
-  
+
   benchmark_requirements:
-    min_improvement: 0.2  # 20% improvement
-    max_regression: 0.05  # 5% regression acceptable
-    
+    min_improvement: 0.2 # 20% improvement
+    max_regression: 0.05 # 5% regression acceptable
+
   rollback_conditions:
     - test_failure: true
     - performance_regression: true
-    - memory_increase: 0.2  # 20% increase
+    - memory_increase: 0.2 # 20% increase

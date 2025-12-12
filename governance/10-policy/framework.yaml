@@ -19,21 +19,21 @@ architecture:
         - base_policies
         - domain_policies
         - compliance_standards
-    
+
     orchestration_layer:
       description: "協調層 - 策略閘與執行協調"
       components:
         - policy_gates
         - policy_engine
         - suppress_manager
-    
+
     execution_layer:
       description: "執行層 - 實際策略驗證與執行"
       components:
         - opa_runtime
         - conftest
         - custom_validators
-    
+
     observability_layer:
       description: "觀測層 - 監控、審計與度量"
       components:
@@ -50,7 +50,7 @@ policy_categories:
       - dependency_rules
       - layer_boundaries
       - module_contracts
-  
+
   security:
     priority: "critical"
     enforcement: "blocking"
@@ -59,7 +59,7 @@ policy_categories:
       - authorization
       - encryption
       - secrets_management
-  
+
   compliance:
     priority: "high"
     enforcement: "blocking"
@@ -67,7 +67,7 @@ policy_categories:
       - data_privacy
       - audit_requirements
       - retention_policies
-  
+
   quality:
     priority: "medium"
     enforcement: "warning"
@@ -87,7 +87,7 @@ policy_gates:
       - quality_policies
     enforcement_level: "blocking"
     timeout_seconds: 300
-  
+
   deployment_gate:
     stage: "deployment"
     trigger: "on_release"
@@ -97,7 +97,7 @@ policy_gates:
       - deployment_policies
     enforcement_level: "blocking"
     timeout_seconds: 600
-  
+
   runtime_gate:
     stage: "runtime"
     trigger: "on_request"
@@ -121,14 +121,14 @@ suppress_mechanism:
     high_risk:
       approvers: ["ciso", "cto"]
       max_duration_days: 30
-  
+
   audit_requirements:
     - suppress_reason
     - business_justification
     - risk_assessment
     - mitigation_plan
     - expiry_date
-  
+
   auto_expiry: true
   notification_before_expiry_days: 7
 
@@ -139,18 +139,18 @@ policy_lifecycle:
       duration_days: 30
       enforcement: "audit_only"
       notification: true
-    
+
     silent:
       duration_days: 60
       enforcement: "warning"
       notification: true
-    
+
     adapt:
       duration_days: 90
       enforcement: "warning"
       notification: true
       block_on_critical: true
-    
+
     enforce:
       enforcement: "blocking"
       notification: true
@@ -162,18 +162,18 @@ tools:
     version: "latest"
     config_path: "opa-policies/"
     bundle_mode: true
-  
+
   conftest:
     enabled: true
     version: "latest"
     policy_path: "conftest/policy/"
     namespace: "main"
-  
+
   checkov:
     enabled: true
     version: "latest"
     frameworks: ["terraform", "kubernetes", "dockerfile"]
-  
+
   custom_validators:
     enabled: true
     path: "validators/"
@@ -186,15 +186,15 @@ metrics:
     - name: "policy_compliance_rate"
       type: "gauge"
       description: "Percentage of policy compliance"
-    
+
     - name: "policy_violation_count"
       type: "counter"
       description: "Total policy violations"
-    
+
     - name: "suppress_request_rate"
       type: "gauge"
       description: "Rate of suppress requests"
-    
+
     - name: "policy_execution_time"
       type: "histogram"
       description: "Policy execution duration"
@@ -206,12 +206,12 @@ feedback_loop:
     - metrics_analysis
     - violation_patterns
     - suppress_trends
-  
+
   optimization_triggers:
     - violation_threshold: 100
     - suppress_rate_threshold: 0.15
     - execution_time_threshold_ms: 1000
-  
+
   auto_adjustment:
     enabled: true
     requires_approval: true

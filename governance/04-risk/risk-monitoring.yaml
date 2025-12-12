@@ -27,7 +27,7 @@ monitoring_activities:
       - "System monitoring"
       - "Data analytics"
     frequency: "Real-time"
-    
+
   periodic_reviews:
     description: "Scheduled risk assessments"
     activities:
@@ -40,7 +40,7 @@ monitoring_activities:
       high_risks: "bi-weekly"
       medium_risks: "monthly"
       low_risks: "quarterly"
-  
+
   risk_reporting:
     description: "Structured communication of risk status"
     reports:
@@ -57,13 +57,13 @@ monitoring_activities:
 monitoring_metrics:
   - metric: "Risk exposure"
     description: "Total potential impact of all risks"
-    
+
   - metric: "Risk velocity"
     description: "Rate of risk change"
-    
+
   - metric: "Control effectiveness"
     description: "Performance of risk controls"
-    
+
   - metric: "Emerging risks"
     description: "New risks identified"
 
@@ -73,13 +73,13 @@ escalation_procedures:
     - "Control failure detected"
     - "New critical risk identified"
     - "Risk trend concerning"
-  
+
   escalation_path:
     level_1: "risk_owner"
     level_2: "risk_manager"
     level_3: "governance_manager"
     level_4: "governance_board"
-  
+
   response_times:
     critical: "immediate"
     high: "< 4 hours"

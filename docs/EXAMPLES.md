@@ -5,7 +5,7 @@
 ### 案例 1: JavaScript 語法錯誤自動修復
 
 #### 問題代碼（修復前）
->
+
 > ⚠️ 注意：以下代碼包含故意製造的錯誤，用於演示 Auto-Fix Bot 的修復能力
 
 ```javascript
@@ -64,7 +64,8 @@ $ autofix fix app.js --auto
 // app.js - 已修復
 function calculateTotal(items) {
   let total = 0;
-  for (let i = 0; i < items.length; i++) {  // ✅ 已添加分號
+  for (let i = 0; i < items.length; i++) {
+    // ✅ 已添加分號
     total += items[i].price;
   }
   return total;
@@ -72,8 +73,8 @@ function calculateTotal(items) {
 
 const result = calculateTotal([
   { price: 10 },
-  { price: 20 },  // ✅ 已添加逗號
-  { price: 30 }
+  { price: 20 }, // ✅ 已添加逗號
+  { price: 30 },
 ]);
 
 console.log(result);
@@ -168,13 +169,13 @@ function getUser(id: number): User {
   // 模擬 API 調用
   return {
     id: id,
-    name: "John Doe"
+    name: 'John Doe',
     // 缺少 email 屬性
   };
 }
 
 const user = getUser(1);
-console.log(user.email.toLowerCase());  // 可能拋出錯誤
+console.log(user.email.toLowerCase()); // 可能拋出錯誤
 ```
 
 #### Auto-Fix Bot 執行
@@ -205,13 +206,13 @@ $ autofix fix user.ts --interactive
   選項 A: 添加默認值 ""
   選項 B: 添加默認值 "unknown@example.com"
   選項 C: 使用可選屬性 email?
-  
+
   你的選擇: B
 
 問題 2: 可能的空值引用
   選項 A: 使用可選鏈 user.email?.toLowerCase()
   選項 B: 添加空值檢查
-  
+
   你的選擇: A
 
 ✅ 應用修復...
@@ -233,13 +234,13 @@ function getUser(id: number): User {
   // 模擬 API 調用
   return {
     id: id,
-    name: "John Doe",
-    email: "unknown@example.com"  // ✅ 已添加默認值
+    name: 'John Doe',
+    email: 'unknown@example.com', // ✅ 已添加默認值
   };
 }
 
 const user = getUser(1);
-console.log(user.email?.toLowerCase());  // ✅ 使用可選鏈
+console.log(user.email?.toLowerCase()); // ✅ 使用可選鏈
 ```
 
 ---
@@ -269,7 +270,7 @@ $ autofix analyze ./src --cloud --full
 
 🔄 執行中...
   [████████████████████] 100% (543/543 文件)
-  
+
 ⏱️  處理時間: 2.8 分鐘
   (本地預計: 12 分鐘)
   ⚡ 效率提升: 76%
@@ -326,20 +327,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: 🤖 Run Auto-Fix Bot
         env:
           AUTOFIX_CLOUD_TOKEN: ${{ secrets.AUTOFIX_TOKEN }}
         run: |
           npm install -g autofix-bot
           autofix analyze --cloud --report
-          
+
       - name: 📊 Upload Report
         uses: actions/upload-artifact@v3
         with:
           name: autofix-report
           path: autofix-report.html
-          
+
       - name: 💬 Comment on PR
         if: github.event_name == 'pull_request'
         run: |
@@ -352,33 +353,38 @@ jobs:
 ## 🤖 Auto-Fix Bot 分析報告
 
 ### 📊 執行摘要
+
 - ⏱️ **處理時間**: 0.3 秒
 - 🔍 **掃描文件**: 45 個
 - ✅ **問題修復**: 12 個
 - 📈 **代碼質量**: +15%
 
 ### 🔧 修復詳情
+
 1. ✅ 修復了 `app.js` 中的語法錯誤 (Line 23)
 2. ✅ 優化了 `utils.js` 的性能 (Line 56-58)
 3. ✅ 更新了 `package.json` 的依賴項
 4. ✅ 修正了 `types.ts` 的類型定義
 
 ### 📈 改善指標
-| 指標 | 修復前 | 修復後 | 改善 |
-|------|--------|--------|------|
-| 代碼異味 | 15 | 3 | -80% |
-| 複雜度 | 8.5 | 6.2 | -27% |
-| 測試覆蓋 | 75% | 82% | +7% |
+
+| 指標     | 修復前 | 修復後 | 改善 |
+| -------- | ------ | ------ | ---- |
+| 代碼異味 | 15     | 3      | -80% |
+| 複雜度   | 8.5    | 6.2    | -27% |
+| 測試覆蓋 | 75%    | 82%    | +7%  |
 
 ### 🎯 建議
+
 - 考慮重構 `processData` 函數以降低複雜度
 - 添加更多單元測試以提高覆蓋率
 - 更新文檔以反映 API 變更
 
 ---
+
 💡 **提示**: 所有修復已自動應用，請重新運行測試。
 
-[查看完整報告](https://autofix-bot.com/reports/abc123) | 
+[查看完整報告](https://autofix-bot.com/reports/abc123) |
 [配置 Auto-Fix Bot](https://docsconfig/autofix-bot.com)
 ```
 
@@ -428,37 +434,40 @@ $ autofix watch --auto-fix --cloud
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Auto-Fix Bot 報告</title>
-  <style>
-    .metric { 
-      display: inline-block; 
-      padding: 10px; 
-      margin: 5px; 
-      border-radius: 5px; 
-    }
-    .success { background: #4CAF50; color: white; }
-    .warning { background: #FFC107; color: black; }
-    .error { background: #F44336; color: white; }
-  </style>
-</head>
-<body>
-  <h1>🤖 Auto-Fix Bot 分析報告</h1>
-  
-  <div class="metrics">
-    <div class="metric success">
-      ⚡ 響應時間: 0.3s
+  <head>
+    <title>Auto-Fix Bot 報告</title>
+    <style>
+      .metric {
+        display: inline-block;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+      }
+      .success {
+        background: #4caf50;
+        color: white;
+      }
+      .warning {
+        background: #ffc107;
+        color: black;
+      }
+      .error {
+        background: #f44336;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🤖 Auto-Fix Bot 分析報告</h1>
+
+    <div class="metrics">
+      <div class="metric success">⚡ 響應時間: 0.3s</div>
+      <div class="metric success">✅ 問題修復: 12/14</div>
+      <div class="metric warning">⚠️ 需關注: 2</div>
     </div>
-    <div class="metric success">
-      ✅ 問題修復: 12/14
-    </div>
-    <div class="metric warning">
-      ⚠️  需關注: 2
-    </div>
-  </div>
-  
-  <!-- 詳細報告內容 -->
-</body>
+
+    <!-- 詳細報告內容 -->
+  </body>
 </html>
 ```
 

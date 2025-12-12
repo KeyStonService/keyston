@@ -27,11 +27,11 @@
 **內容要點**:
 
 ```yaml
-plugin_id: "hlp-executor-core"
-version: "1.0.0"
-plugin_type: "executor-engine"
-security_clearance: "L3-enterprise"
-compliance_tags: ["SLSA-L3", "quantum-safe", "enterprise-ready"]
+plugin_id: 'hlp-executor-core'
+version: '1.0.0'
+plugin_type: 'executor-engine'
+security_clearance: 'L3-enterprise'
+compliance_tags: ['SLSA-L3', 'quantum-safe', 'enterprise-ready']
 dependencies:
   hard:
     - kubernetes-api
@@ -54,10 +54,10 @@ dependencies:
 modules:
   execution:
     hlp-executor-core:
-      path: "core/hlp_executor"
-      type: "execution-engine"
-      provides: ["dag-orchestration", "partial-rollback", "state-management"]
-      requires: ["kubernetes-api", "trust-bundle"]
+      path: 'core/hlp_executor'
+      type: 'execution-engine'
+      provides: ['dag-orchestration', 'partial-rollback', 'state-management']
+      requires: ['kubernetes-api', 'trust-bundle']
 ```
 
 ---
@@ -104,9 +104,9 @@ kind: ClusterRole
 metadata:
   name: hlp-executor-role
 rules:
-  - apiGroups: [""]
-    resources: ["pods", "services", "configmaps"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ['']
+    resources: ['pods', 'services', 'configmaps']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
   # ... (其他規則)
 ```
 
@@ -114,7 +114,8 @@ rules:
 
 ### P0-5: 創建網絡策略
 
-**目標檔案**: `infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`  
+**目標檔案**:
+`infrastructure/kubernetes/network-policies/hlp-executor-netpol.yaml`  
 **動作類型**: CREATE  
 **理由**: 限制網絡存取，遵循最小權限原則
 
@@ -140,7 +141,7 @@ metadata:
   name: hlp-executor-state
   namespace: unmanned-island-system
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ['ReadWriteOnce']
   resources:
     requests:
       storage: 100Gi
@@ -186,13 +187,13 @@ core/slsa_provenance/plugins/hlp-executor-core/
 ```yaml
 components:
   hlp-executor-core:
-    version: "1.0.0"
+    version: '1.0.0'
     dependencies:
       required:
-        - kubernetes-api: ">= 1.24"
-        - trust-bundle: ">= 1.0.0"
+        - kubernetes-api: '>= 1.24'
+        - trust-bundle: '>= 1.0.0'
       optional:
-        - quantum-scheduler: ">= 0.9.0"
+        - quantum-scheduler: '>= 0.9.0'
           graceful_degradation: true
 ```
 
@@ -255,17 +256,17 @@ class PartialRollbackManager:
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "initial_state": {"type": "string"},
+    "initial_state": { "type": "string" },
     "states": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "name": {"type": "string"},
-          "transitions": {"type": "array"},
-          "timeout_seconds": {"type": "integer"},
-          "final_state": {"type": "boolean"},
-          "recovery_state": {"type": "boolean"}
+          "name": { "type": "string" },
+          "transitions": { "type": "array" },
+          "timeout_seconds": { "type": "integer" },
+          "final_state": { "type": "boolean" },
+          "recovery_state": { "type": "boolean" }
         }
       }
     }
@@ -286,12 +287,12 @@ class PartialRollbackManager:
 ```yaml
 vector_alignment:
   hlp_executor:
-    - intent: "task-execution"
-      embedding_model: "axiom-embed-v2"
+    - intent: 'task-execution'
+      embedding_model: 'axiom-embed-v2'
       dimension: 1024
       similarity_threshold: 0.85
-    - intent: "state-management"
-      embedding_model: "axiom-embed-v2"
+    - intent: 'state-management'
+      embedding_model: 'axiom-embed-v2'
       dimension: 1024
       similarity_threshold: 0.80
 ```
@@ -352,18 +353,18 @@ spec:
   minReplicas: 3
   maxReplicas: 20
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 ```
 
 ---
@@ -377,28 +378,31 @@ spec:
 **內容要點**:
 
 ```yaml
-policy_id: "hlp-executor-security-policy"
-version: "1.0.0"
+policy_id: 'hlp-executor-security-policy'
+version: '1.0.0'
 compliance:
   gdpr:
-    data_retention: "7d"
+    data_retention: '7d'
     data_portability: true
-    lawfulness: "legitimate-interest"
+    lawfulness: 'legitimate-interest'
   soc2_type2:
-    security_controls: ["access-logging", "encryption-at-rest", "encryption-in-transit"]
-    availability_controls: ["multi-az-deployment", "automated-failover"]
+    security_controls:
+      ['access-logging', 'encryption-at-rest', 'encryption-in-transit']
+    availability_controls: ['multi-az-deployment', 'automated-failover']
   quantum_safe:
     enabled: true
-    algorithms: ["ML-KEM-768", "ML-DSA-65"]
-    transition_plan: "hybrid-classical-pq"
+    algorithms: ['ML-KEM-768', 'ML-DSA-65']
+    transition_plan: 'hybrid-classical-pq'
 ```
 
 ---
 
 ### P1-7: 創建 Prometheus ServiceMonitor
 
-**目標檔案**: `infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`  
-**動作類型**: CREATE  
+**目標檔案**:
+`infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`  
+**動作類型**:
+CREATE  
 **理由**: 配置 Prometheus 抓取指標
 
 **內容要點**:
@@ -414,9 +418,9 @@ spec:
     matchLabels:
       app: hlp-executor-core
   endpoints:
-  - port: metrics
-    interval: 30s
-    path: /metrics
+    - port: metrics
+      interval: 30s
+      path: /metrics
 ```
 
 ---
@@ -432,9 +436,9 @@ spec:
 ```yaml
 logging:
   hlp_executor:
-    format: "json"
-    level: "INFO"
-    correlation_id: "trace-context"
+    format: 'json'
+    level: 'INFO'
+    correlation_id: 'trace-context'
     structured: true
 ```
 
@@ -452,11 +456,11 @@ logging:
 def hlp_executor_retry_policy(attempt: int, risk_score: float) -> int:
     """
     計算 HLP Executor 的重試延遲
-    
+
     Args:
         attempt: 當前重試次數 (0-based)
         risk_score: 風險評分 (0.0-1.0)
-    
+
     Returns:
         延遲毫秒數
     """
@@ -464,7 +468,7 @@ def hlp_executor_retry_policy(attempt: int, risk_score: float) -> int:
     max_delay_ms = 30000
     jitter = random.uniform(0.8, 1.2)
     risk_factor = 1 + risk_score  # 高風險延長重試間隔
-    
+
     delay = min(base_delay_ms * (2 ** attempt) * risk_factor * jitter, max_delay_ms)
     return int(delay)
 ```
@@ -483,7 +487,7 @@ def hlp_executor_retry_policy(attempt: int, risk_score: float) -> int:
 circuit_breakers:
   hlp_executor:
     failure_threshold: 5
-    recovery_timeout: "30s"
+    recovery_timeout: '30s'
     half_open_max_calls: 3
 ```
 
@@ -539,17 +543,17 @@ rollback_configuration:
   hlp_executor:
     partial_phase_rollback:
       enabled: true
-      scope_levels: ["phase", "plan-unit", "artifact"]
+      scope_levels: ['phase', 'plan-unit', 'artifact']
       triggers:
-        - condition: "validation-failure"
-          scope: "phase"
-          action: "rollback-current-phase"
-        - condition: "resource-exhaustion"
-          scope: "plan-unit"
-          action: "reschedule-with-backoff"
-        - condition: "security-violation"
-          scope: "entire-execution"
-          action: "emergency-stop-and-rollback"
+        - condition: 'validation-failure'
+          scope: 'phase'
+          action: 'rollback-current-phase'
+        - condition: 'resource-exhaustion'
+          scope: 'plan-unit'
+          action: 'reschedule-with-backoff'
+        - condition: 'security-violation'
+          scope: 'entire-execution'
+          action: 'emergency-stop-and-rollback'
 ```
 
 ---
@@ -564,10 +568,10 @@ rollback_configuration:
 
 ```yaml
 quantum_integration:
-  enabled: false  # 預設禁用，等量子後端就緒
-  scheduler_endpoint: "quantum-scheduler.unmanned-island-system.svc.cluster.local:8888"
-  circuit_optimizer: "quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889"
-  fallback_mode: "classical"  # 降級到經典模式
+  enabled: false # 預設禁用，等量子後端就緒
+  scheduler_endpoint: 'quantum-scheduler.unmanned-island-system.svc.cluster.local:8888'
+  circuit_optimizer: 'quantum-circuit-optimizer.unmanned-island-system.svc.cluster.local:8889'
+  fallback_mode: 'classical' # 降級到經典模式
 ```
 
 ---
@@ -582,8 +586,8 @@ quantum_integration:
 
 ```yaml
 knowledge_graph_integration:
-  kg_builder_endpoint: "kg-graph-builder.unmanned-island-system.svc.cluster.local:8890"
-  vector_search_endpoint: "kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891"
+  kg_builder_endpoint: 'kg-graph-builder.unmanned-island-system.svc.cluster.local:8890'
+  vector_search_endpoint: 'kg-vector-hybrid.unmanned-island-system.svc.cluster.local:8891'
   enabled: true
 ```
 
@@ -636,12 +640,12 @@ knowledge_graph_integration:
 
 **內容要點**:
 
-| 指標 | 目標值 | 測量方法 |
-|------|--------|---------|
+| 指標               | 目標值  | 測量方法             |
+| ------------------ | ------- | -------------------- |
 | DAG 解析延遲 (P95) | < 120ms | Prometheus histogram |
-| 狀態轉換延遲 (P90) | < 50ms | Prometheus histogram |
-| 恢復時間目標 (RTO) | < 30s | 手動測試 |
-| 可用性 | > 99.9% | Uptime monitoring |
+| 狀態轉換延遲 (P90) | < 50ms  | Prometheus histogram |
+| 恢復時間目標 (RTO) | < 30s   | 手動測試             |
+| 可用性             | > 99.9% | Uptime monitoring    |
 
 ---
 
@@ -662,9 +666,9 @@ module.exports = {
       branches: 90,
       functions: 90,
       lines: 90,
-      statements: 90
-    }
-  }
+      statements: 90,
+    },
+  },
 };
 ```
 
@@ -672,7 +676,8 @@ module.exports = {
 
 ### P1-20: 創建部署檢查清單
 
-**目標檔案**: `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`  
+**目標檔案**:
+`docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`  
 **動作類型**: CREATE  
 **理由**: 提供部署前驗證清單
 
@@ -702,6 +707,7 @@ module.exports = {
 ## [Unreleased]
 
 ### Added
+
 - **HLP Executor Core Plugin** (v1.0.0): 新增 Async DAG 編排引擎
   - 支援 Phase-level 部分回滾
   - 整合 Quantum Backend（優雅降級）
@@ -716,7 +722,8 @@ module.exports = {
 
 ### P2-1: 創建 Grafana 儀表板
 
-**目標檔案**: `infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`  
+**目標檔案**:
+`infrastructure/monitoring/grafana/dashboards/hlp-executor-dashboard.json`  
 **動作類型**: CREATE  
 **理由**: 提供可視化監控儀表板
 
@@ -742,8 +749,8 @@ module.exports = {
 quantum_safe_cryptography:
   hlp_executor:
     enabled: true
-    algorithms: ["ML-KEM-768", "ML-DSA-65"]
-    transition_plan: "hybrid-classical-pq"
+    algorithms: ['ML-KEM-768', 'ML-DSA-65']
+    transition_plan: 'hybrid-classical-pq'
 ```
 
 ---
@@ -767,11 +774,11 @@ processors:
   batch:
     timeout: 10s
     send_batch_size: 1024
-  
+
 exporters:
   jaeger:
-    endpoint: "jaeger-collector.unmanned-island-system.svc.cluster.local:14250"
-  
+    endpoint: 'jaeger-collector.unmanned-island-system.svc.cluster.local:14250'
+
 service:
   pipelines:
     traces:
@@ -792,9 +799,9 @@ service:
 
 ```yaml
 observability_integration:
-  prometheus_endpoint: "prometheus.unmanned-island-system.svc.cluster.local:9090"
-  grafana_endpoint: "grafana.unmanned-island-system.svc.cluster.local:3000"
-  trace_collector: "otel-collector.unmanned-island-system.svc.cluster.local:14268"
+  prometheus_endpoint: 'prometheus.unmanned-island-system.svc.cluster.local:9090'
+  grafana_endpoint: 'grafana.unmanned-island-system.svc.cluster.local:3000'
+  trace_collector: 'otel-collector.unmanned-island-system.svc.cluster.local:14268'
 ```
 
 ---
@@ -826,14 +833,14 @@ spec:
     maxWeight: 50
     stepWeight: 10
     metrics:
-    - name: request-success-rate
-      thresholdRange:
-        min: 99
-      interval: 1m
-    - name: request-duration
-      thresholdRange:
-        max: 200
-      interval: 1m
+      - name: request-success-rate
+        thresholdRange:
+          min: 99
+        interval: 1m
+      - name: request-duration
+        thresholdRange:
+          max: 200
+        interval: 1m
 ```
 
 ---
@@ -864,7 +871,7 @@ spec:
 
 ```yaml
 kind_cluster:
-  name: "hlp-executor-test"
+  name: 'hlp-executor-test'
   nodes: 3
   config: |
     kind: Cluster
@@ -876,7 +883,7 @@ kind_cluster:
 
 quantum_simulation:
   enabled: true
-  backend: "mock-quantum-scheduler"
+  backend: 'mock-quantum-scheduler'
 ```
 
 ---
@@ -909,23 +916,29 @@ import { check } from 'k6';
 
 export let options = {
   stages: [
-    { duration: '2m', target: 500 },  // Ramp-up
+    { duration: '2m', target: 500 }, // Ramp-up
     { duration: '6m', target: 1000 }, // Steady state
-    { duration: '2m', target: 0 },    // Ramp-down
+    { duration: '2m', target: 0 }, // Ramp-down
   ],
   thresholds: {
     http_req_duration: ['p(95)<200'], // 95% of requests < 200ms
-    http_req_failed: ['rate<0.01'],   // Error rate < 1%
+    http_req_failed: ['rate<0.01'], // Error rate < 1%
   },
 };
 
 export default function () {
-  const res = http.post('http://hlp-executor-core:8080/execute', JSON.stringify({
-    plan_units: [/* ... */]
-  }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
-  
+  const res = http.post(
+    'http://hlp-executor-core:8080/execute',
+    JSON.stringify({
+      plan_units: [
+        /* ... */
+      ],
+    }),
+    {
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+
   check(res, {
     'status is 200': (r) => r.status === 200,
     'response time < 200ms': (r) => r.timings.duration < 200,
@@ -965,7 +978,7 @@ class DAGExecutor:
 def validate_state_machine(state_machine: dict) -> ValidationResult:
     """
     驗證狀態機定義
-    
+
     檢查項目:
     - 初始狀態存在
     - 所有轉換目標狀態存在
@@ -1006,22 +1019,22 @@ class RollbackAnalyzer:
 %YAML 1.2
 ---
 document_metadata:
-  unique_id: "{{PLUGIN_ID}}-v{{VERSION}}"
-  actual_filename: "{{PLUGIN_ID}}.plugin.yaml"
-  version: "{{VERSION}}"
-  format_type: "quantum-yaml"
+  unique_id: '{{PLUGIN_ID}}-v{{VERSION}}'
+  actual_filename: '{{PLUGIN_ID}}.plugin.yaml'
+  version: '{{VERSION}}'
+  format_type: 'quantum-yaml'
 
 plugin_specification:
-  id: "{{PLUGIN_ID}}"
-  name: "{{PLUGIN_NAME}}"
-  version: "{{VERSION}}"
-  kind: ["{{PLUGIN_KIND}}"]
-  
+  id: '{{PLUGIN_ID}}'
+  name: '{{PLUGIN_NAME}}'
+  version: '{{VERSION}}'
+  kind: ['{{PLUGIN_KIND}}']
+
   provides:
-    - "{{CAPABILITY_1}}"
-  
+    - '{{CAPABILITY_1}}'
+
   requires:
-    - "{{DEPENDENCY_1}}"
+    - '{{DEPENDENCY_1}}'
 ```
 
 ---

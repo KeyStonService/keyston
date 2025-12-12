@@ -11,18 +11,18 @@ data:
       external_labels:
         cluster: 'autofix-prod'
         environment: 'production'
-    
+
     alerting:
       alertmanagers:
       - static_configs:
         - targets:
           - alertmanager:9093
-    
+
     scrape_configs:
     - job_name: 'prometheus'
       static_configs:
       - targets: ['localhost:9090']
-    
+
     - job_name: 'kubernetes-apiservers'
       kubernetes_sd_configs:
       - role: endpoints
@@ -34,7 +34,7 @@ data:
       - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
         action: keep
         regex: default;kubernetes;https
-    
+
     - job_name: 'kubernetes-pods'
       kubernetes_sd_configs:
       - role: pod

@@ -67,7 +67,7 @@ conftest test deploy/deployment.yaml -p governance/policies/conftest/
    # ❌ 錯誤
    metadata:
      name: MyNamespace
-   
+
    # ✅ 正確
    metadata:
      name: team-platform-prod
@@ -84,7 +84,7 @@ conftest test deploy/deployment.yaml -p governance/policies/conftest/
    ports:
      - port: 80
        targetPort: 8080
-   
+
    # ✅ 正確
    ports:
      - name: http
@@ -215,7 +215,7 @@ npx @cyclonedx/cyclonedx-npm --output-file sbom.json
    filters: |
      new-service:
        - 'apps/new-service/**'
-   
+
    ci-new-service:
      needs: detect-changes
      if: needs.detect-changes.outputs.new-service == 'true'
@@ -266,7 +266,7 @@ npx @cyclonedx/cyclonedx-npm --output-file sbom.json
    ```bash
    # 在根目錄
    npm outdated --workspaces
-   
+
    # 在特定子專案
    cd <sub-project>
    npm outdated
@@ -277,7 +277,7 @@ npx @cyclonedx/cyclonedx-npm --output-file sbom.json
    ```bash
    # 更新特定包
    npm update <package-name> --workspace=<workspace-name>
-   
+
    # 或在子專案中
    cd <sub-project>
    npm update <package-name>

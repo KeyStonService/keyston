@@ -20,7 +20,8 @@
 
 - [ ] 是否破壞既有 invariants（請比對 `invariants.md` 中的規則）？
 - [ ] 若必須破壞某個 invariant，你是否有在 proposal 中清楚標明原因與風險？
-- [ ] 是否檢查了循環依賴？（運行 `python tools/docs/validate_index.py --check cycles`）
+- [ ] 是否檢查了循環依賴？（運行
+      `python tools/docs/validate_index.py --check cycles`）
 - [ ] 是否檢查了所有公開 API 的向後相容性？
 
 ## 4. 通信協議檢查（Communication Protocol Check）

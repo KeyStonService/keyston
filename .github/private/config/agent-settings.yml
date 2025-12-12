@@ -83,7 +83,7 @@ agents:
         enabled: false
         manifest: "go.mod"
     schedule:
-      cron: "0 2 * * 1"  # Weekly on Monday at 2 AM UTC
+      cron: "0 2 * * 1" # Weekly on Monday at 2 AM UTC
     update_policy:
       patch: auto_merge
       minor: create_pr
@@ -124,12 +124,12 @@ integrations:
   github:
     api_version: "2022-11-28"
     per_page: 100
-  
+
   slack:
     enabled: false
     webhook_url: "${SLACK_WEBHOOK_URL}"
     channel: "#ci-cd-alerts"
-  
+
   email:
     enabled: false
     smtp_host: "${SMTP_HOST}"

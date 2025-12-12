@@ -14,8 +14,7 @@ Copyright © 2014 by Armin Ronacher and contributors.
 
 ### PyYAML (MIT)
 
-Copyright © 2017-2021 Ingy döt Net
-Copyright © 2006-2016 Kirill Simonov
+Copyright © 2017-2021 Ingy döt Net Copyright © 2006-2016 Kirill Simonov
 
 ### Rich (MIT)
 

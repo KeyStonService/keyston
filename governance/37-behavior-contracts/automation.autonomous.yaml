@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@automation-team"
-  
+
   description: |
     Autonomous systems module provides UAV/drone control, mission planning,
     path navigation, and safety monitoring for autonomous operations.
-    
+
     自主系統模組提供無人機控制、任務規劃、路徑導航和自主操作的安全監控。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/autonomous"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Mission Planning
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Create Mission"
       method: POST
       path: "/missions"
-      
+
       description: |
         Create and validate a new autonomous mission.
         創建並驗證新的自主任務。
-      
+
       input_schema:
         type: "object"
         required: ["mission_type", "waypoints", "constraints"]
@@ -68,7 +67,7 @@ api:
               battery_reserve: { type: "number" }
           metadata:
             type: "object"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -82,14 +81,14 @@ api:
               regulatory_compliant: { type: "boolean" }
           estimated_duration_seconds: { type: "number" }
           created_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "All waypoints validated for safety"
         - "No-fly zones checked"
         - "Battery capacity verified"
         - "Regulatory compliance validated"
         - "Mission ID is unique"
-      
+
       error_responses:
         - code: 400
           condition: "Invalid waypoints or constraints"
@@ -100,7 +99,7 @@ api:
         - code: 409
           condition: "Airspace conflict detected"
           message: "ERR_AIRSPACE_CONFLICT"
-      
+
       performance:
         response_time_p50: "< 200ms"
         response_time_p99: "< 1s"
@@ -111,17 +110,17 @@ api:
     - name: "Execute Mission"
       method: POST
       path: "/missions/{mission_id}/execute"
-      
+
       description: |
         Start execution of an approved mission.
         開始執行已批准的任務。
-      
+
       input_schema:
         type: "object"
         properties:
           drone_id: { type: "string" }
           pre_flight_check: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -129,13 +128,13 @@ api:
           status: { type: "string", enum: ["started", "rejected"] }
           drone_assigned: { type: "string" }
           started_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Pre-flight safety checks completed"
         - "Drone availability verified"
         - "Emergency abort capability enabled"
         - "Real-time telemetry started"
-      
+
       error_responses:
         - code: 404
           condition: "Mission not found"
@@ -153,18 +152,18 @@ api:
     - name: "Emergency Abort"
       method: POST
       path: "/missions/{mission_id}/abort"
-      
+
       description: |
         Emergency abort of active mission with safe landing.
         緊急中止活動任務並安全降落。
-      
+
       input_schema:
         type: "object"
         required: ["reason"]
         properties:
           reason: { type: "string" }
           return_to_home: { type: "boolean", default: true }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -176,13 +175,13 @@ api:
               latitude: { type: "number" }
               longitude: { type: "number" }
           abort_initiated_at: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Abort command sent immediately"
         - "Safe landing procedure initiated"
         - "All systems notified"
         - "Incident logged for review"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 100ms"
@@ -194,9 +193,9 @@ api:
     - name: "Get Telemetry"
       method: GET
       path: "/missions/{mission_id}/telemetry"
-      
+
       description: "Get real-time telemetry for active mission"
-      
+
       output_schema:
         type: "object"
         properties:
@@ -214,12 +213,12 @@ api:
           signal_strength: { type: "number" }
           status: { type: "string" }
           timestamp: { type: "string", format: "date-time" }
-      
+
       guarantees:
         - "Telemetry freshness < 1 second"
         - "Position accuracy within GPS limits"
         - "Battery level accurate"
-      
+
       performance:
         response_time_p50: "< 30ms"
         response_time_p99: "< 100ms"
@@ -231,11 +230,11 @@ api:
     - name: "Update Safety Zones"
       method: PUT
       path: "/safety-zones"
-      
+
       description: |
         Update no-fly zones and safety boundaries.
         更新禁飛區和安全邊界。
-      
+
       input_schema:
         type: "object"
         properties:
@@ -248,14 +247,14 @@ api:
                 geometry: { type: "object" }
                 active_from: { type: "string", format: "date-time" }
                 active_until: { type: "string", format: "date-time" }
-      
+
       output_schema:
         type: "object"
         properties:
           updated: { type: "boolean" }
           active_missions_affected: { type: "integer" }
           zones_count: { type: "integer" }
-      
+
       guarantees:
         - "Active missions checked against new zones"
         - "Conflicts trigger alerts"
@@ -267,11 +266,11 @@ api:
     - name: "Plan Path"
       method: POST
       path: "/missions/{mission_id}/path"
-      
+
       description: |
         Generate optimal path for autonomous mission with obstacle avoidance.
         為自主任務生成避障的最優路徑。
-      
+
       input_schema:
         type: "object"
         required: ["start_point", "end_point"]
@@ -291,8 +290,13 @@ api:
               altitude: { type: "number" }
           waypoints: { type: "array" }
           avoid_zones: { type: "array" }
-          optimization_goal: { type: "string", enum: ["shortest", "fastest", "safest", "energy-efficient"], default: "safest" }
-      
+          optimization_goal:
+            {
+              type: "string",
+              enum: ["shortest", "fastest", "safest", "energy-efficient"],
+              default: "safest",
+            }
+
       output_schema:
         type: "object"
         properties:
@@ -310,13 +314,13 @@ api:
           estimated_duration_seconds: { type: "number" }
           energy_consumption_estimate: { type: "number" }
           safety_score: { type: "number", minimum: 0, maximum: 100 }
-      
+
       guarantees:
         - "Path avoids all no-fly zones"
         - "Path is collision-free"
         - "Optimization goal respected"
         - "Path is executable within vehicle constraints"
-      
+
       error_responses:
         - code: 400
           condition: "No valid path exists"
@@ -324,7 +328,7 @@ api:
         - code: 404
           condition: "Mission not found"
           message: "ERR_MISSION_NOT_FOUND"
-      
+
       performance:
         response_time_p50: "< 500ms"
         response_time_p99: "< 2s"
@@ -335,23 +339,27 @@ api:
     - name: "Get Mission Status"
       method: GET
       path: "/missions/{mission_id}/status"
-      
+
       description: |
         Get detailed status and progress of autonomous mission.
         獲取自主任務的詳細狀態和進度。
-      
+
       input_schema:
         type: "object"
         properties:
           mission_id: { type: "string" }
           include_telemetry: { type: "boolean", default: true }
           include_logs: { type: "boolean", default: false }
-      
+
       output_schema:
         type: "object"
         properties:
           mission_id: { type: "string" }
-          status: { type: "string", enum: ["planned", "in_progress", "paused", "completed", "aborted", "failed"] }
+          status:
+            {
+              type: "string",
+              enum: ["planned", "in_progress", "paused", "completed", "aborted", "failed"],
+            }
           progress_percent: { type: "number", minimum: 0, maximum: 100 }
           current_waypoint: { type: "integer" }
           total_waypoints: { type: "integer" }
@@ -367,12 +375,12 @@ api:
                 timestamp: { type: "string", format: "date-time" }
                 description: { type: "string" }
           logs: { type: "array" }
-      
+
       guarantees:
         - "Status reflects real-time state"
         - "Progress calculation accurate"
         - "Events ordered chronologically"
-      
+
       performance:
         response_time_p50: "< 50ms"
         response_time_p99: "< 200ms"
@@ -382,10 +390,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "autonomous.mission_started"
     description: "Emitted when mission execution starts"
-    
+
     payload_schema:
       type: "object"
       required: ["mission_id", "execution_id", "drone_id"]
@@ -396,11 +403,11 @@ events:
         mission_type: { type: "string" }
         waypoint_count: { type: "integer" }
         started_at: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     ordering: "per-mission"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "automation.monitoring"
@@ -408,7 +415,7 @@ events:
 
   - name: "autonomous.mission_completed"
     description: "Emitted when mission completes successfully"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -417,17 +424,17 @@ events:
         duration_seconds: { type: "number" }
         waypoints_achieved: { type: "integer" }
         completed_at: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "ops.mission_control"
 
   - name: "autonomous.emergency_abort"
     description: "Emitted when mission is emergency aborted"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -440,10 +447,10 @@ events:
             latitude: { type: "number" }
             longitude: { type: "number" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "ops.alerting"
       - "services.incident_management"
@@ -451,7 +458,7 @@ events:
 
   - name: "autonomous.safety_violation"
     description: "Emitted when safety constraint is violated"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -460,10 +467,10 @@ events:
         severity: { type: "string", enum: ["low", "medium", "high", "critical"] }
         description: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "core.safety_mechanisms"
       - "ops.alerting"
@@ -471,7 +478,7 @@ events:
 
   - name: "autonomous.geofence_breach"
     description: "Emitted when drone breaches geofence"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -484,10 +491,10 @@ events:
             longitude: { type: "number" }
         zone_violated: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "ops.alerting"
       - "core.safety_mechanisms"
@@ -498,38 +505,37 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Safety-First Operation"
     description: "Safety constraints always enforced"
     rule: "forall mission: validated(mission.safety_constraints)"
     enforcement: "pre-condition"
-    
+
   - name: "No-Fly Zone Compliance"
     description: "Drones never enter no-fly zones"
     rule: "forall position: not intersects(position, no_fly_zones)"
     enforcement: "runtime-check"
-    
+
   - name: "Battery Reserve Required"
     description: "Minimum battery reserve maintained for return"
     rule: "forall mission: battery_level >= return_to_home_reserve + safety_margin"
     enforcement: "pre-condition + runtime-check"
-    
+
   - name: "Emergency Abort Always Available"
     description: "Abort capability never disabled during flight"
     rule: "forall active_mission: abort_available(mission)"
     enforcement: "application-logic"
-    
+
   - name: "Telemetry Freshness"
     description: "Telemetry data must be recent (with 1s safety margin beyond guarantee)"
     rule: "forall telemetry: now() - telemetry.timestamp < 2 seconds"
     enforcement: "runtime-check"
     note: "Guarantee is < 1s freshness; 2s threshold includes safety margin for alerts"
-    
+
   - name: "Single Active Mission Per Drone"
     description: "One drone cannot execute multiple missions simultaneously"
     rule: "forall drone: count(active_missions(drone)) <= 1"
     enforcement: "database-constraint"
-    
+
   - name: "Mission Immutability During Execution"
     description: "Mission parameters cannot change during flight"
     rule: "forall executing_mission: mission.params is immutable"
@@ -540,7 +546,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Communication Loss"
     triggers:
       - "Telemetry timeout > 5 seconds"
@@ -552,7 +557,7 @@ failure_modes:
       - "Continue monitoring for reconnection"
     error_code: "ERR_COMM_LOSS"
     fail_safe: "return-to-home"
-    
+
   - scenario: "Low Battery Emergency"
     triggers:
       - "Battery < critical threshold"
@@ -563,7 +568,7 @@ failure_modes:
       - "Broadcast emergency beacon"
     error_code: "ERR_BATTERY_CRITICAL"
     fail_safe: "emergency-landing"
-    
+
   - scenario: "Geofence Breach"
     triggers:
       - "Drone position outside allowed area"
@@ -575,7 +580,7 @@ failure_modes:
       - "If correction fails, abort mission"
     error_code: "ERR_GEOFENCE_BREACH"
     fail_safe: "course-correction-or-abort"
-    
+
   - scenario: "Weather Deterioration"
     triggers:
       - "Wind speed exceeds limits"
@@ -586,7 +591,7 @@ failure_modes:
       - "Return to home or emergency landing"
     error_code: "ERR_WEATHER_UNSAFE"
     fail_safe: "abort-and-return"
-    
+
   - scenario: "Sensor Failure"
     triggers:
       - "GPS signal loss"
@@ -598,7 +603,7 @@ failure_modes:
       - "If critical sensor fails, emergency landing"
     error_code: "ERR_SENSOR_FAILURE"
     fail_safe: "emergency-landing"
-    
+
   - scenario: "Obstacle Detected"
     triggers:
       - "Collision avoidance system alert"
@@ -615,20 +620,19 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "core.safety_mechanisms"
       purpose: "Runtime safety validation"
       failure_mode: "critical"
-    
+
     - module: "services.weather"
       purpose: "Weather data for mission planning"
       failure_mode: "use-cached"
-    
+
     - module: "services.airspace"
       purpose: "No-fly zone data"
       failure_mode: "critical"
-  
+
   optional:
     - module: "services.audit"
       purpose: "Mission logging"
@@ -641,7 +645,7 @@ dependencies:
 safety:
   safety_critical: true
   certification: "ISO 21384 (UAV Safety)"
-  
+
   safety_controls:
     - "Geofence enforcement with 10m buffer"
     - "Battery reserve calculation with 20% margin"
@@ -649,14 +653,14 @@ safety:
     - "Automatic return-to-home on failure"
     - "Emergency abort capability"
     - "Real-time collision avoidance"
-  
+
   risk_mitigation:
     - "Pre-flight safety checks mandatory"
     - "Weather conditions validated"
     - "No-fly zones checked continuously"
     - "Operator override capability"
     - "Kill switch available"
-  
+
   compliance:
     - "FAA Part 107 (US)"
     - "EASA regulations (EU)"
@@ -674,21 +678,21 @@ testing:
       - "Geofence validation"
       - "Battery reserve calculation"
       - "Safety constraint checking"
-  
+
   integration_tests:
     required:
       - "End-to-end mission execution"
       - "Emergency abort scenarios"
       - "Geofence breach handling"
       - "Communication loss recovery"
-  
+
   simulation_tests:
     required:
       - "Mission planning validation"
       - "Path optimization"
       - "Obstacle avoidance"
       - "Weather impact scenarios"
-  
+
   hardware_tests:
     required:
       - "Real drone communication"
@@ -718,19 +722,19 @@ observability:
       type: "counter"
     - name: "telemetry_latency_seconds"
       type: "histogram"
-  
+
   logs:
     level: "INFO"
     safety_events: "WARN"
     all_aborts: "ERROR"
     structured: true
     retention: "180 days"
-  
+
   traces:
     enabled: true
-    sample_rate: 0.1  # 10% for routine operations
-    critical_operation_sample_rate: 1.0  # 100% for emergency/safety events
-  
+    sample_rate: 0.1 # 10% for routine operations
+    critical_operation_sample_rate: 1.0 # 100% for emergency/safety events
+
   alerts:
     - condition: "missions_active = 0 AND expected > 0"
       severity: "warning"
@@ -754,13 +758,13 @@ operations:
     - "Validate no-fly zones"
     - "Test communication link"
     - "Confirm emergency procedures"
-  
+
   post_flight_review:
     - "Download flight logs"
     - "Review safety incidents"
     - "Check drone condition"
     - "Update maintenance records"
-  
+
   incident_response:
     - "Immediate: Secure drone and area"
     - "Document incident details"

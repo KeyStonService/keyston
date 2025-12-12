@@ -6,7 +6,7 @@
 safety:
   version: "1.0.0"
   enabled: true
-  mode: active  # active, passive, monitor_only
+  mode: active # active, passive, monitor_only
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Circuit Breaker Configuration (斷路器配置)
@@ -14,24 +14,24 @@ safety:
 
 circuit_breaker:
   enabled: true
-  
+
   # Default settings
   default:
-    failure_threshold: 5        # Number of failures before opening
-    success_threshold: 2        # Successes needed in half-open to close
-    timeout_ms: 60000          # Time before trying half-open (60 sec)
+    failure_threshold: 5 # Number of failures before opening
+    success_threshold: 2 # Successes needed in half-open to close
+    timeout_ms: 60000 # Time before trying half-open (60 sec)
     monitoring_period_ms: 10000 # Window for counting failures (10 sec)
-  
+
   # Per-service overrides
   services:
     database:
       failure_threshold: 3
       timeout_ms: 30000
-    
+
     external_api:
       failure_threshold: 5
       timeout_ms: 120000
-    
+
     ai_inference:
       failure_threshold: 2
       timeout_ms: 300000
@@ -42,7 +42,7 @@ circuit_breaker:
 
 escalation_ladder:
   enabled: true
-  
+
   levels:
     - level: NORMAL
       code: 0
@@ -50,7 +50,7 @@ escalation_ladder:
       description: "System operating normally"
       actions: []
       auto_escalate_after_seconds: null
-      
+
     - level: WARNING
       code: 1
       color: yellow
@@ -60,7 +60,7 @@ escalation_ladder:
         - notify_monitoring
       auto_escalate_after_seconds: 300
       require_acknowledgment: false
-      
+
     - level: ALERT
       code: 2
       color: orange
@@ -71,7 +71,7 @@ escalation_ladder:
         - enable_detailed_logging
       auto_escalate_after_seconds: 600
       require_acknowledgment: true
-      
+
     - level: CRITICAL
       code: 3
       color: red
@@ -83,7 +83,7 @@ escalation_ladder:
         - enable_circuit_breakers
       auto_escalate_after_seconds: 900
       require_acknowledgment: true
-      
+
     - level: EMERGENCY
       code: 4
       color: red
@@ -95,7 +95,7 @@ escalation_ladder:
         - consider_service_isolation
       auto_escalate_after_seconds: 1800
       require_acknowledgment: true
-      
+
     - level: DISASTER
       code: 5
       color: black
@@ -107,7 +107,7 @@ escalation_ladder:
         - initiate_failover
       auto_escalate_after_seconds: null
       require_acknowledgment: true
-  
+
   # Rate limiting for escalations
   rate_limiting:
     max_escalations_per_hour: 10
@@ -120,47 +120,47 @@ escalation_ladder:
 rollback:
   enabled: true
   auto_rollback: true
-  
+
   # Snapshot configuration
   snapshots:
     enabled: true
     types:
-      - FULL           # Complete system state
-      - INCREMENTAL    # Changes since last snapshot
-      - SELECTIVE      # Specific components only
-      - CHECKPOINT     # Lightweight checkpoint
-    
+      - FULL # Complete system state
+      - INCREMENTAL # Changes since last snapshot
+      - SELECTIVE # Specific components only
+      - CHECKPOINT # Lightweight checkpoint
+
     retention:
       full: 7d
       incremental: 3d
       selective: 1d
       checkpoint: 6h
-    
+
     max_snapshots: 100
     storage_limit_gb: 50
-  
+
   # Rollback strategies
   strategies:
     - name: FULL_ROLLBACK
       description: "Complete rollback to previous state"
       duration_estimate: "5-10 minutes"
       risk_level: LOW
-      
+
     - name: INCREMENTAL_ROLLBACK
       description: "Roll back recent changes only"
       duration_estimate: "1-5 minutes"
       risk_level: LOW
-      
+
     - name: SELECTIVE_ROLLBACK
       description: "Roll back specific components"
       duration_estimate: "1-3 minutes"
       risk_level: MEDIUM
-      
+
     - name: COMPENSATING_ROLLBACK
       description: "Apply compensating actions"
       duration_estimate: "variable"
       risk_level: HIGH
-  
+
   # Components that can be rolled back
   components:
     - database
@@ -175,7 +175,7 @@ rollback:
 
 anomaly_detection:
   enabled: true
-  
+
   strategies:
     - name: STATISTICAL
       enabled: true
@@ -183,40 +183,40 @@ anomaly_detection:
       parameters:
         std_dev_threshold: 3.0
         min_samples: 30
-    
+
     - name: THRESHOLD
       enabled: true
       description: "Fixed threshold checking"
       parameters:
         check_interval_seconds: 30
-    
+
     - name: RATE_LIMIT
       enabled: true
       description: "Rate of change detection"
       parameters:
         max_rate_per_second: 100
         window_seconds: 60
-    
+
     - name: PATTERN
       enabled: true
       description: "Pattern matching detection"
       parameters:
         pattern_window: 3600
-    
+
     - name: ML
       enabled: false
       description: "Machine learning based detection"
       parameters:
         model_type: isolation_forest
         retrain_interval: 24h
-    
+
     - name: HYBRID
       enabled: true
       description: "Combination of multiple strategies"
       parameters:
         combine_strategies: [STATISTICAL, THRESHOLD, RATE_LIMIT]
         require_consensus: 2
-  
+
   # Severity classification
   severity:
     LOW:
@@ -238,26 +238,26 @@ anomaly_detection:
 
 emergency_stop:
   enabled: true
-  
+
   # Scopes
   scopes:
-    - COMPONENT     # Stop single component
-    - SUBSYSTEM     # Stop subsystem
-    - SERVICE       # Stop service
-    - SYSTEM        # Stop entire system
-    - GLOBAL        # Global emergency stop
-  
+    - COMPONENT # Stop single component
+    - SUBSYSTEM # Stop subsystem
+    - SERVICE # Stop service
+    - SYSTEM # Stop entire system
+    - GLOBAL # Global emergency stop
+
   # Trigger reasons
   triggers:
-    - MANUAL                    # Manual trigger
-    - SECURITY_BREACH          # Security incident
-    - RESOURCE_EXHAUSTION      # Out of resources
-    - CASCADING_FAILURE        # Cascade detected
-    - DATA_CORRUPTION          # Data integrity issue
-    - COMPLIANCE_VIOLATION     # Compliance breach
-    - ANOMALY_DETECTED         # Anomaly threshold exceeded
-    - CIRCUIT_BREAKER_OPEN     # Circuit breaker tripped
-  
+    - MANUAL # Manual trigger
+    - SECURITY_BREACH # Security incident
+    - RESOURCE_EXHAUSTION # Out of resources
+    - CASCADING_FAILURE # Cascade detected
+    - DATA_CORRUPTION # Data integrity issue
+    - COMPLIANCE_VIOLATION # Compliance breach
+    - ANOMALY_DETECTED # Anomaly threshold exceeded
+    - CIRCUIT_BREAKER_OPEN # Circuit breaker tripped
+
   # Recovery procedures
   recovery:
     require_approval: true
@@ -274,7 +274,7 @@ emergency_stop:
 
 safety_net:
   enabled: true
-  
+
   # Six layers of protection
   layers:
     - layer: 1
@@ -286,7 +286,7 @@ safety_net:
         - schema_validation
         - sanitization
         - size_limits
-    
+
     - layer: 2
       name: PERMISSION_CHECK
       description: "Verify permissions"
@@ -296,7 +296,7 @@ safety_net:
         - authorization
         - role_check
         - resource_access
-    
+
     - layer: 3
       name: RESOURCE_LIMIT
       description: "Enforce resource limits"
@@ -306,7 +306,7 @@ safety_net:
         - quota_check
         - cost_limit
         - time_limit
-    
+
     - layer: 4
       name: BEHAVIOR_CHECK
       description: "Verify behavior is expected"
@@ -316,7 +316,7 @@ safety_net:
         - sequence_check
         - consistency_check
         - safety_rules
-    
+
     - layer: 5
       name: OUTPUT_VALIDATION
       description: "Validate all outputs"
@@ -326,7 +326,7 @@ safety_net:
         - content_filtering
         - pii_masking
         - size_limits
-    
+
     - layer: 6
       name: AUDIT_LOG
       description: "Log all operations"
@@ -336,7 +336,7 @@ safety_net:
         - outcome_logging
         - error_logging
         - performance_logging
-  
+
   # Fail-safe behavior
   fail_safe:
     on_layer_failure: BLOCK

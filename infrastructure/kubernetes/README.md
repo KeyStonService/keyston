@@ -131,18 +131,18 @@ kubectl get ingress -n autofix-bot
 
 ### 服務資源分配
 
-| 服務 | 副本 | CPU 請求 | CPU 限制 | 內存請求 | 內存限制 |
-|------|------|----------|----------|----------|----------|
-| Code Analyzer | 3 | 1 | 2 | 2Gi | 4Gi |
-| Vulnerability Detector | 3 | 2 | 4 | 4Gi | 8Gi |
-| Auto Repair | 2 | 1 | 2 | 2Gi | 4Gi |
-| Orchestrator | 2 | 1 | 2 | 2Gi | 4Gi |
-| PostgreSQL | 3 | 2 | 4 | 4Gi | 8Gi |
-| Redis | 3 | 1 | 2 | 2Gi | 4Gi |
-| Prometheus | 1 | 2 | 4 | 4Gi | 8Gi |
-| Grafana | 1 | 0.5 | 1 | 1Gi | 2Gi |
-| Loki | 1 | 1 | 2 | 2Gi | 4Gi |
-| Jaeger | 1 | 1 | 2 | 2Gi | 4Gi |
+| 服務                   | 副本 | CPU 請求 | CPU 限制 | 內存請求 | 內存限制 |
+| ---------------------- | ---- | -------- | -------- | -------- | -------- |
+| Code Analyzer          | 3    | 1        | 2        | 2Gi      | 4Gi      |
+| Vulnerability Detector | 3    | 2        | 4        | 4Gi      | 8Gi      |
+| Auto Repair            | 2    | 1        | 2        | 2Gi      | 4Gi      |
+| Orchestrator           | 2    | 1        | 2        | 2Gi      | 4Gi      |
+| PostgreSQL             | 3    | 2        | 4        | 4Gi      | 8Gi      |
+| Redis                  | 3    | 1        | 2        | 2Gi      | 4Gi      |
+| Prometheus             | 1    | 2        | 4        | 4Gi      | 8Gi      |
+| Grafana                | 1    | 0.5      | 1        | 1Gi      | 2Gi      |
+| Loki                   | 1    | 1        | 2        | 2Gi      | 4Gi      |
+| Jaeger                 | 1    | 1        | 2        | 2Gi      | 4Gi      |
 
 ---
 

@@ -2,7 +2,8 @@
 
 ## 📋 Overview
 
-This document explains the GitHub Copilot custom instructions setup for the SynergyMesh project and how to use it effectively.
+This document explains the GitHub Copilot custom instructions setup for the
+SynergyMesh project and how to use it effectively.
 
 ---
 
@@ -23,7 +24,8 @@ This file provides GitHub Copilot with project-specific guidance including:
 - **Architecture Patterns**: Controller pattern, middleware, Zod validation
 - **Documentation Standards**: JSDoc examples and requirements
 - **Testing Guidelines**: Jest best practices and coverage requirements
-- **Security Practices**: Environment variables, input validation, error handling
+- **Security Practices**: Environment variables, input validation, error
+  handling
 - **Git Workflow**: Branch naming, commit messages, PR checklists
 
 ---
@@ -55,7 +57,7 @@ When you write code, Copilot will follow the project conventions:
 // Copilot will suggest code following the project style:
 /**
  * Validates SLSA provenance for a given artifact
- * 
+ *
  * @param artifactId - Unique identifier of the artifact
  * @param provenance - Provenance data to validate
  * @returns Validation result with details
@@ -152,7 +154,8 @@ GitHub Copilot uses a hierarchy of custom instructions:
 └─────────────────────────────────────┘
 ```
 
-**Repository-level** instructions (what we set up) apply to everyone working on SynergyMesh.
+**Repository-level** instructions (what we set up) apply to everyone working on
+SynergyMesh.
 
 ---
 
@@ -172,7 +175,8 @@ GitHub Copilot uses a hierarchy of custom instructions:
 
 ### Other Editors
 
-GitHub Copilot in any supported editor will read the `.github/copilot-instructions.md` file.
+GitHub Copilot in any supported editor will read the
+`.github/copilot-instructions.md` file.
 
 ---
 
@@ -231,23 +235,28 @@ If suggestions don't follow the instructions:
 
 ### Q: Do I need to do anything to activate these instructions?
 
-**A:** No! If you have GitHub Copilot installed and are working in the repository, the instructions are automatically active.
+**A:** No! If you have GitHub Copilot installed and are working in the
+repository, the instructions are automatically active.
 
 ### Q: Can I override these instructions?
 
-**A:** Yes! You can set user-level instructions in your GitHub settings that will take priority over repository instructions.
+**A:** Yes! You can set user-level instructions in your GitHub settings that
+will take priority over repository instructions.
 
 ### Q: Will this work in GitHub Codespaces?
 
-**A:** Yes! Codespaces include GitHub Copilot, and repository instructions work there too.
+**A:** Yes! Codespaces include GitHub Copilot, and repository instructions work
+there too.
 
 ### Q: How often are instructions updated?
 
-**A:** The instructions are version-controlled in the repository. Any commits to `.github/copilot-instructions.md` immediately update what Copilot sees.
+**A:** The instructions are version-controlled in the repository. Any commits to
+`.github/copilot-instructions.md` immediately update what Copilot sees.
 
 ### Q: Do instructions affect repository size?
 
-**A:** The instructions file is ~13KB, which is negligible and well within recommended limits.
+**A:** The instructions file is ~13KB, which is negligible and well within
+recommended limits.
 
 ---
 

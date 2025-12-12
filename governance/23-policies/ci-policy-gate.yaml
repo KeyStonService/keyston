@@ -48,8 +48,8 @@ rules:
       must_include:
         - "tool_pipeline:"
         - "yaml_validation_pipeline:"
-        - "- \"interface_metadata\""
-        - "- \"signature_verification\""
+        - '- "interface_metadata"'
+        - '- "signature_verification"'
 
   - id: "governance-principles-required"
     description: "治理原則必須包含核心五原則"

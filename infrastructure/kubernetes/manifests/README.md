@@ -15,7 +15,8 @@ Phase 2 是 SynergyMesh 的完整生產級 Kubernetes 部署配置，包含：
 
 ### 1. 命名空間與 RBAC (`01-namespace-rbac/`)
 
-- **namespace.yaml**: 6 個命名空間（autofix, autofix-dev, autofix-staging, monitoring, logging, ingress-nginx）
+- **namespace.yaml**: 6 個命名空間（autofix, autofix-dev, autofix-staging,
+  monitoring, logging, ingress-nginx）
 - **rbac.yaml**: 完整的 RBAC 配置（管理員、開發者、查看者角色）
 - **network-policies.yaml**: 網絡微分段策略
 - **pod-security-policies.yaml**: Pod 安全策略
@@ -227,7 +228,7 @@ kubectl get ingress -n autofix
 ```yaml
 spec:
   rules:
-  - host: your-domain.com  # 修改為你的域名
+    - host: your-domain.com # 修改為你的域名
 ```
 
 ### 調整副本數
@@ -236,8 +237,8 @@ spec:
 
 ```yaml
 spec:
-  minReplicas: 3    # 最小副本數
-  maxReplicas: 10   # 最大副本數
+  minReplicas: 3 # 最小副本數
+  maxReplicas: 10 # 最大副本數
 ```
 
 ### 修改資源限制
@@ -247,11 +248,11 @@ spec:
 ```yaml
 resources:
   requests:
-    memory: "2Gi"
-    cpu: "1000m"
+    memory: '2Gi'
+    cpu: '1000m'
   limits:
-    memory: "4Gi"
-    cpu: "2000m"
+    memory: '4Gi'
+    cpu: '2000m'
 ```
 
 ## 🧪 驗證部署

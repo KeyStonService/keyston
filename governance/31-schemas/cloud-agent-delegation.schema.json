@@ -4,16 +4,9 @@
   "title": "Cloud Agent Delegation Configuration Schema",
   "description": "Multi-cloud delegation system configuration with intelligent routing, load balancing, and failover capabilities",
   "type": "object",
-  "required": [
-    "metadata",
-    "delegation",
-    "providers",
-    "routing",
-    "monitoring",
-    "security"
-  ],
+  "required": ["metadata", "delegation", "providers", "routing", "monitoring", "security"],
   "additionalProperties": false,
-  
+
   "properties": {
     "metadata": {
       "type": "object",
@@ -70,7 +63,7 @@
         }
       }
     },
-    
+
     "delegation": {
       "type": "object",
       "description": "Core delegation configuration",
@@ -93,7 +86,7 @@
         }
       }
     },
-    
+
     "providers": {
       "type": "object",
       "description": "Cloud provider configurations",
@@ -110,7 +103,7 @@
         }
       }
     },
-    
+
     "routing": {
       "type": "object",
       "description": "Task routing and load balancing configuration",
@@ -153,7 +146,7 @@
         }
       }
     },
-    
+
     "monitoring": {
       "type": "object",
       "description": "Monitoring and health check configuration",
@@ -214,7 +207,7 @@
         }
       }
     },
-    
+
     "security": {
       "type": "object",
       "description": "Security configuration",
@@ -265,7 +258,7 @@
         }
       }
     },
-    
+
     "failover": {
       "type": "object",
       "description": "Failover and retry configuration",
@@ -289,7 +282,7 @@
       }
     }
   },
-  
+
   "$defs": {
     "providerConfig": {
       "type": "object",
@@ -337,20 +330,14 @@
         }
       }
     },
-    
+
     "routingRule": {
       "type": "object",
       "required": ["task_type", "preferred_provider"],
       "properties": {
         "task_type": {
           "type": "string",
-          "enum": [
-            "code_analysis",
-            "auto_fix",
-            "security_scan",
-            "performance_optimization",
-            "report_generation"
-          ]
+          "enum": ["code_analysis", "auto_fix", "security_scan", "performance_optimization", "report_generation"]
         },
         "preferred_provider": {
           "type": "string",
@@ -378,7 +365,7 @@
         }
       }
     },
-    
+
     "alertChannel": {
       "type": "object",
       "required": ["type", "enabled"],

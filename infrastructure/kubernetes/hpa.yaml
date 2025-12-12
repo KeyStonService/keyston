@@ -17,8 +17,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: contracts-l1
-  minReplicas: 2      # 最小 Pod 數量
-  maxReplicas: 10     # 最大 Pod 數量
+  minReplicas: 2 # 最小 Pod 數量
+  maxReplicas: 10 # 最大 Pod 數量
   metrics:
     # CPU 使用率
     - type: Resource
@@ -26,14 +26,14 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 70  # 目標 70% CPU 使用率
+          averageUtilization: 70 # 目標 70% CPU 使用率
     # 記憶體使用率
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 80  # 目標 80% 記憶體使用率
+          averageUtilization: 80 # 目標 80% 記憶體使用率
     # 自定義指標 - 請求數
     - type: Pods
       pods:
@@ -41,27 +41,27 @@ spec:
           name: http_requests_per_second
         target:
           type: AverageValue
-          averageValue: "100"     # 每個 Pod 處理 100 req/s
+          averageValue: "100" # 每個 Pod 處理 100 req/s
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 300  # 縮減穩定期 5 分鐘
+      stabilizationWindowSeconds: 300 # 縮減穩定期 5 分鐘
       policies:
         - type: Percent
-          value: 50               # 每次最多縮減 50%
-          periodSeconds: 60       # 每 60 秒評估一次
+          value: 50 # 每次最多縮減 50%
+          periodSeconds: 60 # 每 60 秒評估一次
         - type: Pods
-          value: 2                # 每次最多縮減 2 個 Pod
+          value: 2 # 每次最多縮減 2 個 Pod
           periodSeconds: 60
     scaleUp:
-      stabilizationWindowSeconds: 0    # 立即擴展
+      stabilizationWindowSeconds: 0 # 立即擴展
       policies:
         - type: Percent
-          value: 100              # 每次最多擴展 100%
-          periodSeconds: 30       # 每 30 秒評估一次
+          value: 100 # 每次最多擴展 100%
+          periodSeconds: 30 # 每 30 秒評估一次
         - type: Pods
-          value: 4                # 每次最多擴展 4 個 Pod
+          value: 4 # 每次最多擴展 4 個 Pod
           periodSeconds: 30
-      selectPolicy: Max           # 選擇最大值
+      selectPolicy: Max # 選擇最大值
 
 ---
 apiVersion: autoscaling/v2
@@ -124,7 +124,7 @@ spec:
     kind: Deployment
     name: contracts-l1
   updatePolicy:
-    updateMode: "Off"    # 設為 "Off" 僅提供建議，避免與 HPA 衝突
+    updateMode: "Off" # 設為 "Off" 僅提供建議，避免與 HPA 衝突
   resourcePolicy:
     containerPolicies:
       - containerName: contracts-l1

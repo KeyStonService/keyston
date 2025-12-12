@@ -26,7 +26,7 @@ metadata:
   created_at: "2025-11-21"
   updated_at: "2025-11-21"
   author: "Auto-Fix Bot Team"
-  
+
   # 驗證意圖 (Validation Intent)
   validation:
     purpose: "確保 Auto-Fix Bot 項目配置的正確性和完整性"
@@ -34,8 +34,8 @@ metadata:
       - "rule configuration validation"
       - "path exclusion verification"
       - "integration settings check"
-    
-  # 質量目標 (Quality Objectives)  
+
+  # 質量目標 (Quality Objectives)
   quality:
     completeness: "所有分析規則和修復策略已定義"
     consistency: "配置與項目需求保持一致"
@@ -54,7 +54,7 @@ settings:
   auto_commit: false
   create_pr: true
   branch_prefix: "auto-fix/"
-  
+
 # 分析配置 (Analysis Configuration)
 # ============================================================
 # 驗證要點 (Validation Points):
@@ -68,7 +68,7 @@ settings:
 # - 可操作性：每個規則都有明確的修復指引
 analysis:
   enabled: true
-  
+
   # 分析規則 (Analysis Rules)
   # 設計理念：多維度代碼質量檢查
   rules:
@@ -77,37 +77,37 @@ analysis:
     # 目的：識別過度複雜的函數和類
     - name: "complexity"
       enabled: true
-      threshold: 10  # 循環複雜度閾值
-      
+      threshold: 10 # 循環複雜度閾值
+
     # 安全性分析 (Security Analysis)
     # 驗證：severity 列表不能為空
     # 目的：檢測常見安全漏洞 (SQL注入、XSS、CSRF等)
     - name: "security"
       enabled: true
       severity: ["critical", "high", "medium"]
-      
+
     # 性能分析 (Performance Analysis)
     # 驗證：至少啟用一種檢查類型
     # 目的：優化算法效率和記憶體使用
     - name: "performance"
       enabled: true
-      check_algorithms: true  # 檢查算法時間複雜度
-      check_memory: true      # 檢查記憶體洩漏風險
-      
+      check_algorithms: true # 檢查算法時間複雜度
+      check_memory: true # 檢查記憶體洩漏風險
+
     # 代碼風格 (Code Style)
     # 驗證：enforce_standard 必須為布爾值
     # 目的：統一代碼風格，提高可讀性
     - name: "style"
       enabled: true
       enforce_standard: true
-      
+
     # 文檔完整性 (Documentation Completeness)
     # 驗證：require_docstrings 必須為布爾值
     # 目的：確保所有公共 API 都有文檔
     - name: "documentation"
       enabled: true
       require_docstrings: true
-      
+
   # 排除路徑
   exclude:
     - "node_modules/"
@@ -116,7 +116,7 @@ analysis:
     - "*.min.js"
     - "*.zip"
     - ".git/"
-    
+
   # 文件類型
   include:
     - "*.js"
@@ -134,23 +134,23 @@ analysis:
 # 修復配置
 fix:
   enabled: true
-  
+
   # 自動修復類型
   auto_fix_types:
     - "syntax_errors"
     - "import_errors"
     - "format_issues"
     - "simple_logic_errors"
-    
+
   # 修復策略
   strategy:
-    conservative: false  # 保守模式，只修復確定的問題
-    aggressive: true    # 積極模式，嘗試修復更多問題
-    
+    conservative: false # 保守模式，只修復確定的問題
+    aggressive: true # 積極模式，嘗試修復更多問題
+
   # 測試驗證
   verify_with_tests: true
   run_tests_after_fix: true
-  
+
   # PR 設置
   pull_request:
     enabled: true
@@ -162,20 +162,20 @@ fix:
 # 性能優化
 optimization:
   enabled: true
-  
+
   areas:
     - "algorithms"
     - "memory_usage"
     - "database_queries"
     - "network_calls"
     - "concurrency"
-    
-  suggestions_only: false  # false 表示自動應用優化
+
+  suggestions_only: false # false 表示自動應用優化
 
 # 安全掃描
 security:
   enabled: true
-  
+
   # 掃描類型
   scan_types:
     - "sql_injection"
@@ -183,10 +183,10 @@ security:
     - "csrf"
     - "sensitive_data"
     - "dependency_vulnerabilities"
-    
+
   # 嚴重程度
-  severity_threshold: "medium"  # low, medium, high, critical
-  
+  severity_threshold: "medium" # low, medium, high, critical
+
   # 依賴掃描
   dependency_scan:
     enabled: true
@@ -198,35 +198,35 @@ security:
 # 代碼質量
 code_quality:
   enabled: true
-  
+
   # 質量指標
   metrics:
     - "cyclomatic_complexity"
     - "maintainability_index"
     - "code_duplication"
     - "test_coverage"
-    
+
   # 質量門檻
   thresholds:
     complexity: 10
-    duplication: 5  # 百分比
-    test_coverage: 80  # 百分比
-    maintainability: 65  # 分數
+    duplication: 5 # 百分比
+    test_coverage: 80 # 百分比
+    maintainability: 65 # 分數
 
 # 測試配置
 testing:
   enabled: true
-  
+
   # 測試框架
   frameworks:
     javascript: "jest"
     python: "pytest"
     java: "junit"
     go: "testing"
-    
+
   # 自動生成測試
   auto_generate: false
-  
+
   # 測試覆蓋率
   coverage:
     enabled: true
@@ -236,16 +236,16 @@ testing:
 # 文檔生成
 documentation:
   enabled: true
-  
+
   # 文檔類型
   types:
     - "api_docs"
     - "code_comments"
     - "readme"
-    
+
   # 文檔格式
   format: "markdown"
-  
+
   # 自動更新
   auto_update: true
 
@@ -255,33 +255,33 @@ documentation:
 # High-value multi-agent capabilities extracted from OJ-agent
 intelligent_automation:
   enabled: true
-  
+
   # 核心智能體配置 (Core Agents Configuration)
   agents:
     # 任務執行器 - 智能代碼分析與自動修復
     task_executor:
       enabled: true
       analysis_types:
-        - "comprehensive"  # 全面分析
-        - "security"       # 安全分析
-        - "performance"    # 性能分析
-      auto_fix_critical: true  # 自動修復關鍵問題
-      stream_results: true     # 實時流式輸出
-      
+        - "comprehensive" # 全面分析
+        - "security" # 安全分析
+        - "performance" # 性能分析
+      auto_fix_critical: true # 自動修復關鍵問題
+      stream_results: true # 實時流式輸出
+
     # 識別服務器 - 意圖識別與安全路由
     recognition_server:
       enabled: true
-      security_validation: true  # 啟用安全驗證
-      threat_detection: true     # 威脅檢測
-      intent_classification: true  # 意圖分類
-      
+      security_validation: true # 啟用安全驗證
+      threat_detection: true # 威脅檢測
+      intent_classification: true # 意圖分類
+
     # 可視化智能體 - 概念解釋與知識傳遞
     visualization_agent:
       enabled: true
-      generate_explanations: true  # 生成解釋
-      use_analogies: true          # 使用類比
-      domain_specific: true        # 領域特定解釋
-      
+      generate_explanations: true # 生成解釋
+      use_analogies: true # 使用類比
+      domain_specific: true # 領域特定解釋
+
   # 適配場景 (Adaptation Scenarios)
   scenarios:
     # 無人機系統
@@ -289,35 +289,35 @@ intelligent_automation:
       enabled: true
       real_time_monitoring: true
       safety_critical_checks: true
-      
+
     # 自動駕駛
     autonomous_vehicles:
       enabled: true
       decision_code_validation: true
       sensor_fusion_analysis: true
-      
+
     # 自動化迭代
     automated_iteration:
       enabled: true
       ci_cd_integration: true
       regression_detection: true
-      
+
   # 性能配置 (Performance Configuration)
   performance:
     max_concurrent_requests: 1000
-    response_timeout: 30  # 秒
+    response_timeout: 30 # 秒
     stream_chunk_size: 1024
-    
+
   # 質量指標 (Quality Metrics)
   metrics:
-    target_accuracy: 99.5  # 目標準確率 (%)
-    auto_fix_success_rate: 95.8  # 自動修復成功率 (%)
-    response_time_ms: 100  # 目標響應時間 (毫秒)
+    target_accuracy: 99.5 # 目標準確率 (%)
+    auto_fix_success_rate: 95.8 # 自動修復成功率 (%)
+    response_time_ms: 100 # 目標響應時間 (毫秒)
 
 # 通知配置
 notifications:
   enabled: true
-  
+
   # Slack 通知
   # To enable: Set enabled=true and configure AUTO_FIX_BOT_SLACK_WEBHOOK_URL environment variable
   slack:
@@ -328,8 +328,8 @@ notifications:
       - "fix_completed"
       - "security_issue"
       - "pr_created"
-      - "intelligent_analysis_complete"  # 新增：智能分析完成
-      
+      - "intelligent_analysis_complete" # 新增：智能分析完成
+
   # Email 通知
   # To enable: Set enabled=true and configure SMTP settings
   email:
@@ -337,30 +337,30 @@ notifications:
     smtp_server: "smtp.example.com"
     smtp_port: 587
     from: "auto-fix-bot@example.com"
-    to: []  # Add recipient email addresses here
+    to: [] # Add recipient email addresses here
     notify_on:
       - "security_issue"
       - "critical_error"
-      
+
   # GitHub 通知
   github:
     enabled: true
     notify_on:
       - "pr_created"
       - "fix_completed"
-      - "intelligent_fix_applied"  # 新增：智能修復已應用
+      - "intelligent_fix_applied" # 新增：智能修復已應用
 
 # 雲端委派
 cloud_delegation:
   enabled: true
   config_file: "cloud-agent-delegation.yml"
-  
+
   # 任務委派設置
   delegate_tasks:
     - "large_codebase_analysis"
     - "batch_fixes"
     - "comprehensive_security_scan"
-    
+
   # 並行處理
   parallel_processing:
     enabled: true
@@ -372,18 +372,18 @@ integrations:
   github:
     enabled: true
     token: "${GITHUB_TOKEN}"
-    
+
   # GitLab
   gitlab:
     enabled: false
     token: "${GITLAB_TOKEN}"
-    
+
   # Bitbucket
   bitbucket:
     enabled: false
     username: "${BITBUCKET_USERNAME}"
     password: "${BITBUCKET_PASSWORD}"
-    
+
   # JIRA
   jira:
     enabled: false
@@ -394,10 +394,10 @@ integrations:
 # 日誌配置
 logging:
   enabled: true
-  level: "info"  # debug, info, warn, error
+  level: "info" # debug, info, warn, error
   format: "json"
   output: "stdout"
-  
+
   # 日誌文件
   file:
     enabled: true
@@ -409,8 +409,8 @@ logging:
 # 緩存配置
 cache:
   enabled: true
-  type: "file"  # file, redis, memory
-  ttl: 3600  # 秒
+  type: "file" # file, redis, memory
+  ttl: 3600 # 秒
   path: "./.auto-fix-bot-cache"
 
 # 高級配置
@@ -419,19 +419,19 @@ advanced:
   concurrency:
     max_parallel_tasks: 5
     max_parallel_files: 10
-    
+
   # 超時設置
   timeouts:
-    analysis: 300  # 秒
+    analysis: 300 # 秒
     fix: 180
     test: 300
-    
+
   # 重試策略
   retry:
     enabled: true
     max_attempts: 3
     backoff: "exponential"
-    
+
   # 性能調優
   performance:
     use_cache: true
@@ -444,11 +444,11 @@ experimental:
   ai_assisted_fixes:
     enabled: false
     model: "gpt-4"
-    
+
   # 預測性分析
   predictive_analysis:
     enabled: false
-    
+
   # 自動重構
   auto_refactoring:
     enabled: false
@@ -462,23 +462,23 @@ custom_rules:
 plugins:
   enabled: true
   plugins_directory: "./.auto-fix-bot/plugins"
-  
+
   # 已啟用的插件
   active_plugins: []
 
 # 報告配置
 reporting:
   enabled: true
-  
+
   # 報告格式
   formats:
     - "html"
     - "json"
     - "markdown"
-    
+
   # 報告輸出
   output_directory: "./reports"
-  
+
   # 報告內容
   include:
     - "analysis_summary"
@@ -492,11 +492,11 @@ environment:
   development:
     auto_fix: false
     verbose: true
-    
+
   staging:
     auto_fix: true
     create_pr: true
-    
+
   production:
     auto_fix: true
     create_pr: true

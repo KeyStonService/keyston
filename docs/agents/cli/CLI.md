@@ -17,14 +17,14 @@ npm link
 
 ## 常用指令
 
-| 指令 | 說明 |
-| ------ | ------ |
-| `island-cli chat` | 啟動互動模式 |
-| `island-cli analyze <path>` | 靜態分析目錄 |
-| `island-cli fix --auto` | 啟動 Auto-Fix 流程 |
-| `island-cli agent:<role>` | 指派特定 Agent |
-| `island-cli collaborate` | 多 Agent 協作 |
-| `island-cli github:*` | GitHub 整合操作 |
+| 指令                        | 說明               |
+| --------------------------- | ------------------ |
+| `island-cli chat`           | 啟動互動模式       |
+| `island-cli analyze <path>` | 靜態分析目錄       |
+| `island-cli fix --auto`     | 啟動 Auto-Fix 流程 |
+| `island-cli agent:<role>`   | 指派特定 Agent     |
+| `island-cli collaborate`    | 多 Agent 協作      |
+| `island-cli github:*`       | GitHub 整合操作    |
 
 ## 組態
 

@@ -2,7 +2,8 @@
 
 ## 📋 Overview
 
-Stage 2 將在 Stage 1 的六個基礎 Agent 之上，建立多 Agent 協作機制與決策引擎，實現智能化的任務協調與自動化決策。
+Stage 2 將在 Stage
+1 的六個基礎 Agent 之上，建立多 Agent 協作機制與決策引擎，實現智能化的任務協調與自動化決策。
 
 **時程：** 6 個月  
 **代碼增量：** +30,000 行  
@@ -34,19 +35,19 @@ interface AgentCollaboration {
 }
 
 type CollaborationStrategy =
-  | 'sequential'    // 順序執行
-  | 'parallel'      // 並行執行
-  | 'conditional'   // 條件分支
-  | 'iterative';    // 迭代執行
+  | 'sequential' // 順序執行
+  | 'parallel' // 並行執行
+  | 'conditional' // 條件分支
+  | 'iterative'; // 迭代執行
 
 class AgentCoordinator {
   async orchestrate(
     collaboration: AgentCollaboration,
     context: AgentContext
   ): Promise<AggregatedReport>;
-  
+
   async waitForBarrier(barrier: SyncBarrier): Promise<void>;
-  
+
   async shareInsights(
     sourceAgent: string,
     targetAgents: string[],
@@ -77,9 +78,9 @@ interface EventPattern {
 
 class TriggerEngine {
   registerTrigger(trigger: AgentTrigger): void;
-  
+
   async processEvent(event: SystemEvent): Promise<void>;
-  
+
   async executeTriggeredAgents(
     event: SystemEvent,
     agents: AgentModule[]
@@ -109,12 +110,12 @@ interface Decision {
 
 class DecisionEngine {
   async analyze(context: DecisionContext): Promise<Decision>;
-  
+
   async prioritize(
     decisions: Decision[],
     strategy: PrioritizationStrategy
   ): Promise<Decision[]>;
-  
+
   async executeDecision(
     decision: Decision,
     executor: DecisionExecutor
@@ -146,13 +147,13 @@ type MessageType =
 
 class InterAgentProtocol {
   async sendMessage(message: AgentMessage): Promise<void>;
-  
+
   async broadcast(
     from: string,
     type: MessageType,
     payload: unknown
   ): Promise<void>;
-  
+
   subscribe(
     agentId: string,
     messageType: MessageType,
@@ -222,7 +223,7 @@ island-ai/
 // 當 Security Agent 發現漏洞時
 const securityInsights = await securityAgent.run(context);
 const vulnerabilities = securityInsights.insights.filter(
-  i => i.signal === 'error'
+  (i) => i.signal === 'error'
 );
 
 if (vulnerabilities.length > 0) {
@@ -230,18 +231,18 @@ if (vulnerabilities.length > 0) {
   const collaboration: AgentCollaboration = {
     coordinatorId: 'vuln-fix-001',
     participants: [
-      architectAgent,  // 評估架構影響
-      devOpsAgent,     // 檢查部署影響
-      qaAgent,         // 規劃測試策略
+      architectAgent, // 評估架構影響
+      devOpsAgent, // 檢查部署影響
+      qaAgent, // 規劃測試策略
     ],
     strategy: 'sequential',
   };
-  
+
   const aggregatedReport = await coordinator.orchestrate(
     collaboration,
     context
   );
-  
+
   // 決策引擎決定修復策略
   const decision = await decisionEngine.analyze({
     insights: aggregatedReport.allInsights,
@@ -249,7 +250,7 @@ if (vulnerabilities.length > 0) {
     constraints: [safetyConstraints],
     objectives: [{ type: 'security', priority: 'high' }],
   });
-  
+
   // 執行自動修復
   await executeDecision(decision, autoFixExecutor);
 }
@@ -362,9 +363,9 @@ island_ai:
   stage: 2
   orchestration:
     enabled: true
-    coordinator: "island-ai/dist/collaboration/agent-coordinator.js"
-    integration_point: "core/mind_matrix/"
-    decision_bridge: "core/unified_integration/decision_bridge.py"
+    coordinator: 'island-ai/dist/collaboration/agent-coordinator.js'
+    integration_point: 'core/mind_matrix/'
+    decision_bridge: 'core/unified_integration/decision_bridge.py'
 ```
 
 ### 整合點 2: Safety Mechanisms
@@ -402,14 +403,14 @@ await slsaProvenance.recordCollaboration(collaborationProvenance);
 
 ## 📊 成功指標
 
-| 指標                   | 目標值       | 測量方式               |
-| ---------------------- | ------------ | ---------------------- |
-| Agent 協作成功率       | > 95%        | 協作任務完成率         |
-| 平均決策時間           | < 2 秒       | 決策引擎響應時間       |
-| 觸發器準確率           | > 90%        | 正確觸發 / 總觸發      |
-| 工作流執行成功率       | > 98%        | 成功執行 / 總執行      |
-| Agent 間消息延遲       | < 100ms      | 消息傳輸時間           |
-| 系統可用性             | > 99.9%      | 上線時間百分比         |
+| 指標             | 目標值  | 測量方式          |
+| ---------------- | ------- | ----------------- |
+| Agent 協作成功率 | > 95%   | 協作任務完成率    |
+| 平均決策時間     | < 2 秒  | 決策引擎響應時間  |
+| 觸發器準確率     | > 90%   | 正確觸發 / 總觸發 |
+| 工作流執行成功率 | > 98%   | 成功執行 / 總執行 |
+| Agent 間消息延遲 | < 100ms | 消息傳輸時間      |
+| 系統可用性       | > 99.9% | 上線時間百分比    |
 
 ---
 

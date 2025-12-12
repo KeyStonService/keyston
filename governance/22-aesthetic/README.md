@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Aesthetic Governance encompasses design principles, user experience, visual coherence, and aesthetic quality in governance systems.
+Aesthetic Governance encompasses design principles, user experience, visual
+coherence, and aesthetic quality in governance systems.
 
 美學治理涵蓋治理系統中的設計原則、用戶體驗、視覺一致性和美學品質。
 

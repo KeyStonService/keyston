@@ -20,10 +20,10 @@ metadata:
     app: contracts-service
     namespace.io/team: contracts-team
 rules:
-# 最小權限原則：僅允許讀取 ConfigMap 與 Secret（如需要）
-- apiGroups: [""]
-  resources: ["configmaps"]
-  verbs: ["get", "list"]
+  # 最小權限原則：僅允許讀取 ConfigMap 與 Secret（如需要）
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list"]
 # 如需動態配置，取消註解以下行
 # - apiGroups: [""]
 #   resources: ["secrets"]
@@ -42,8 +42,8 @@ roleRef:
   kind: Role
   name: contracts-service-role
 subjects:
-- kind: ServiceAccount
-  name: contracts-service
-  # 注意：實際部署時請替換為實際的命名空間名稱
-  # 建議使用專用命名空間，例如：contracts-prod
-  namespace: default
+  - kind: ServiceAccount
+    name: contracts-service
+    # 注意：實際部署時請替換為實際的命名空間名稱
+    # 建議使用專用命名空間，例如：contracts-prod
+    namespace: default

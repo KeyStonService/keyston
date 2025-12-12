@@ -4,33 +4,33 @@ kind: Kustomization
 namespace: autofix-staging
 
 resources:
-- ../../01-namespace-rbac/namespace.yaml
-- ../../02-storage/storage-classes.yaml
-- ../../03-secrets-config/configmaps.yaml
-- ../../04-databases/postgres/statefulset.yaml
-- ../../04-databases/postgres/service.yaml
-- ../../04-databases/redis/statefulset.yaml
-- ../../04-databases/redis/service.yaml
-- ../../05-core-services/code-analyzer/deployment.yaml
-- ../../05-core-services/code-analyzer/service.yaml
-- ../../05-core-services/code-analyzer/hpa.yaml
-- ../../05-core-services/vulnerability-detector/deployment.yaml
-- ../../05-core-services/vulnerability-detector/service.yaml
-- ../../05-core-services/vulnerability-detector/hpa.yaml
-- ../../05-core-services/contracts-l1/deployment.yaml
-- ../../05-core-services/contracts-l1/service.yaml
-- ../../05-core-services/contracts-l1/hpa.yaml
+  - ../../01-namespace-rbac/namespace.yaml
+  - ../../02-storage/storage-classes.yaml
+  - ../../03-secrets-config/configmaps.yaml
+  - ../../04-databases/postgres/statefulset.yaml
+  - ../../04-databases/postgres/service.yaml
+  - ../../04-databases/redis/statefulset.yaml
+  - ../../04-databases/redis/service.yaml
+  - ../../05-core-services/code-analyzer/deployment.yaml
+  - ../../05-core-services/code-analyzer/service.yaml
+  - ../../05-core-services/code-analyzer/hpa.yaml
+  - ../../05-core-services/vulnerability-detector/deployment.yaml
+  - ../../05-core-services/vulnerability-detector/service.yaml
+  - ../../05-core-services/vulnerability-detector/hpa.yaml
+  - ../../05-core-services/contracts-l1/deployment.yaml
+  - ../../05-core-services/contracts-l1/service.yaml
+  - ../../05-core-services/contracts-l1/hpa.yaml
 
 replicas:
-- name: code-analyzer
-  count: 2
-- name: vulnerability-detector
-  count: 2
+  - name: code-analyzer
+    count: 2
+  - name: vulnerability-detector
+    count: 2
 
 configMapGenerator:
-- name: autofix-config
-  behavior: merge
-  literals:
-  - LOG_LEVEL=INFO
-  - ENVIRONMENT=staging
-  - ENABLE_DEBUG=false
+  - name: autofix-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=staging
+      - ENABLE_DEBUG=false

@@ -12,11 +12,11 @@ ecosystems:
     enabled: true
     manifest: "package.json"
     lock_file: "package-lock.json"
-  
+
   pip:
     enabled: true
     manifest: ["requirements.txt", "pyproject.toml"]
-  
+
   go:
     enabled: true
     manifest: "go.mod"
@@ -27,12 +27,12 @@ scanning:
     enabled: true
     sources: ["nvd", "ghsa", "osv"]
     severity_threshold: "MEDIUM"
-  
+
   licenses:
     enabled: true
     allowed: ["MIT", "Apache-2.0", "BSD-3-Clause"]
     blocked: ["GPL-3.0", "AGPL-3.0"]
-  
+
   versions:
     enabled: true
     check_major: true
@@ -44,22 +44,22 @@ update_policy:
   auto_update:
     enabled: true
     security_only: false
-    
+
   semver:
-    patch: "auto"      # 自動更新 patch 版本
-    minor: "pr"        # 建立 PR 進行 minor 更新
-    major: "manual"    # major 更新需人工審查
-    
+    patch: "auto" # 自動更新 patch 版本
+    minor: "pr" # 建立 PR 進行 minor 更新
+    major: "manual" # major 更新需人工審查
+
   scheduling:
     enabled: true
-    cron: "0 2 * * 1"  # 每週一凌晨 2 點
+    cron: "0 2 * * 1" # 每週一凌晨 2 點
 
 # 通知設置
 notifications:
   slack:
     enabled: false
     webhook: ""
-  
+
   email:
     enabled: false
     recipients: []

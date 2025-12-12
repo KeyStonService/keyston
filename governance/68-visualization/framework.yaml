@@ -15,11 +15,11 @@ architecture:
     strategy:
       description: "策略定義與規劃"
       components: []
-    
+
     execution:
       description: "實際執行與操作"
       components: []
-    
+
     observability:
       description: "監控與追蹤"
       components: []

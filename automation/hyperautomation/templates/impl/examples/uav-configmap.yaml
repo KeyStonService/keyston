@@ -16,16 +16,16 @@ data:
   # Geo-fencing configuration
   geo.fence.enabled: "true"
   geo.fence.regions: "TW-Taipei, TW-Taichung, TW-Kaohsiung, JP-Tokyo"
-  
+
   # Safety parameters
   max.altitude.meters: "120"
   max.speed.mps: "15"
   min.battery.percent: "20"
-  
+
   # Emergency settings
   emergency.landing.enabled: "true"
   emergency.return.home: "true"
-  
+
   # Communication settings
   telemetry.interval.seconds: "1"
   heartbeat.timeout.seconds: "5"

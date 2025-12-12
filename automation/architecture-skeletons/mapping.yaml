@@ -12,7 +12,7 @@ guide_to_implementation:
       - flight_controller.cpp
       - CMakeLists.txt
       - package.xml
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/security-observability/:
     implementation: automation/autonomous/security-observability/
     status: production
@@ -20,14 +20,14 @@ guide_to_implementation:
     key_files:
       - main.go
       - observability/event_logger.go
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/:
     implementation: automation/autonomous/identity-tenancy/
     status: design
     tech_stack: [Python]
     key_files:
       - README.md
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/api-governance/:
     implementation: automation/autonomous/api-governance/
     status: production
@@ -35,14 +35,14 @@ guide_to_implementation:
     key_files:
       - api_contract.py
       - requirements.txt
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/:
     implementation: automation/autonomous/data-governance/
     status: design
     tech_stack: [Python]
     key_files:
       - README.md
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/:
     implementation: automation/autonomous/testing-compatibility/
     status: production
@@ -51,21 +51,21 @@ guide_to_implementation:
       - test_compatibility.py
       - test_config.yaml
     note: "Implementation directory named 'testing-compatibility'"
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/:
     implementation: automation/autonomous/performance-reliability/
     status: design
     tech_stack: [Python]
     key_files:
       - README.md
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/:
     implementation: automation/autonomous/cost-management/
     status: design
     tech_stack: [Python]
     key_files:
       - README.md
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/:
     implementation: automation/autonomous/docs-examples/
     status: production
@@ -75,14 +75,14 @@ guide_to_implementation:
       - QUICKSTART.md
       - API_DOCUMENTATION.md
     note: "Implementation directory named 'docs-examples'"
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/:
     implementation: automation/autonomous/knowledge-base/
     status: design
     tech_stack: [Python]
     key_files:
       - README.md
-  
+
   unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/:
     implementation: automation/autonomous/nucleus-orchestrator/
     status: design
@@ -100,7 +100,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/security-observability/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/security-observability/
     guide_files:
@@ -109,7 +109,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/identity-tenancy/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/
     guide_files:
@@ -118,7 +118,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/api-governance/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/api-governance/
     guide_files:
@@ -127,7 +127,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/data-governance/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/
     guide_files:
@@ -136,7 +136,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/testing-compatibility/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/
     guide_files:
@@ -146,7 +146,7 @@ implementation_to_guide:
       - guardrails.md
       - checklists.md
     note: "Guide uses name 'testing-governance'"
-  
+
   automation/autonomous/performance-reliability/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/
     guide_files:
@@ -155,7 +155,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/cost-management/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/
     guide_files:
@@ -164,7 +164,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/docs-examples/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/
     guide_files:
@@ -174,7 +174,7 @@ implementation_to_guide:
       - guardrails.md
       - checklists.md
     note: "Guide uses name 'docs-governance'"
-  
+
   automation/autonomous/knowledge-base/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/
     guide_files:
@@ -183,7 +183,7 @@ implementation_to_guide:
       - io-contract.yaml
       - guardrails.md
       - checklists.md
-  
+
   automation/autonomous/nucleus-orchestrator/:
     guide: unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/
     guide_files:
@@ -199,7 +199,7 @@ name_discrepancies:
     implementation_name: "testing-compatibility"
     reason: "Historical naming - both refer to same skeleton"
     recommendation: "Consider renaming implementation to testing-governance for consistency"
-  
+
   - guide_name: "docs-governance"
     implementation_name: "docs-examples"
     reason: "Implementation focuses on examples while guide covers governance"
@@ -209,28 +209,28 @@ name_discrepancies:
 file_structure:
   guide_skeleton:
     required_files:
-      - overview.md            # 骨架簡介與應用場景
-      - runtime-mapping.yaml   # 映射到真實代碼位置
-      - io-contract.yaml       # AI 互動協議
-      - guardrails.md         # 不可越界的規則
-      - checklists.md         # 自檢清單
+      - overview.md # 骨架簡介與應用場景
+      - runtime-mapping.yaml # 映射到真實代碼位置
+      - io-contract.yaml # AI 互動協議
+      - guardrails.md # 不可越界的規則
+      - checklists.md # 自檢清單
     optional_files:
-      - examples/             # 範例目錄
-      - templates/            # 模板目錄
-  
+      - examples/ # 範例目錄
+      - templates/ # 模板目錄
+
   implementation_skeleton:
     required_files:
-      - README.md             # 實現說明
+      - README.md # 實現說明
     optional_files:
-      - src/                  # 源代碼
-      - tests/                # 測試代碼
-      - docs/                 # 額外文檔
-      - examples/             # 使用範例
-      - requirements.txt      # Python 依賴
-      - package.json          # Node.js 依賴
-      - go.mod                # Go 模組
-      - CMakeLists.txt        # CMake 配置
-      - Dockerfile            # Docker 配置
+      - src/ # 源代碼
+      - tests/ # 測試代碼
+      - docs/ # 額外文檔
+      - examples/ # 使用範例
+      - requirements.txt # Python 依賴
+      - package.json # Node.js 依賴
+      - go.mod # Go 模組
+      - CMakeLists.txt # CMake 配置
+      - Dockerfile # Docker 配置
 
 # 集成 SynergyMesh 平台的路徑映射
 platform_integration:
@@ -241,25 +241,25 @@ platform_integration:
     slsa_provenance: core/slsa_provenance/
     contract_service: core/contract_service/
     ai_decision_engine: core/ai_decision_engine.py
-  
+
   governance:
     schemas: governance/schemas/
     policies: governance/policies/
-  
+
   services:
     mcp_servers: services/mcp/
     agents: services/agents/
-  
+
   infrastructure:
     monitoring: infrastructure/monitoring/
     drift: infrastructure/drift/
-  
+
   documentation:
     knowledge_graph: docs/knowledge-graph.yaml
     living_knowledge_base: docs/LIVING_KNOWLEDGE_BASE.md
     documentation_index: DOCUMENTATION_INDEX.md
     knowledge_health: docs/KNOWLEDGE_HEALTH.md
-  
+
   config:
     system_manifest: config/system-manifest.yaml
     module_map: config/system-module-map.yaml
@@ -274,21 +274,21 @@ query_helpers:
       guide_path = "unmanned-engineer-ceo/.../api-governance/"
       impl_path = mapping['guide_to_implementation'][guide_path]['implementation']
       # returns: "automation/autonomous/api-governance/"
-  
+
   find_guide_for_implementation:
     description: "給定實現路徑，返回指南路徑"
     example: |
       impl_path = "automation/autonomous/api-governance/"
       guide_path = mapping['implementation_to_guide'][impl_path]['guide']
       # returns: "unmanned-engineer-ceo/.../api-governance/"
-  
+
   get_skeleton_status:
     description: "查詢骨架的實現狀態"
     example: |
       impl_path = "automation/autonomous/api-governance/"
       status = mapping['implementation_to_guide'][impl_path]['status']
       # returns: "production"
-  
+
   list_all_skeletons:
     description: "列出所有骨架"
     example: |

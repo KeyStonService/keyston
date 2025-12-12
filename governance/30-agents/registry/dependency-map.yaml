@@ -11,7 +11,6 @@ metadata:
 
 # Agent Dependencies
 agent_dependencies:
-  
   unmanned-island-agent:
     depends_on:
       # Core Dependencies
@@ -23,7 +22,7 @@ agent_dependencies:
           - "unified_integration"
           - "mind_matrix"
           - "safety_mechanisms"
-      
+
       # Governance Dependencies
       - component: "Governance Framework"
         type: "governance"
@@ -34,7 +33,7 @@ agent_dependencies:
           - "30-agents"
           - "60-contracts"
           - "70-audit"
-      
+
       # Automation Dependencies
       - component: "Automation Framework"
         type: "automation"
@@ -43,7 +42,7 @@ agent_dependencies:
         interfaces:
           - "39-automation"
           - "40-self-healing"
-      
+
       # Infrastructure Dependencies
       - component: "MCP Servers"
         type: "infrastructure"
@@ -52,22 +51,22 @@ agent_dependencies:
         interfaces:
           - "mcp-filesystem"
           - "mcp-github"
-      
+
     used_by:
       - component: "Admin Copilot CLI"
         type: "client"
         usage: "automation_tasks"
-      
+
       - component: "CI/CD Pipelines"
         type: "client"
         usage: "deployment_automation"
-    
+
     external_dependencies:
       - name: "GitHub API"
         type: "api"
         required: false
         purpose: "repository_operations"
-      
+
       - name: "Kubernetes API"
         type: "api"
         required: false
@@ -75,7 +74,6 @@ agent_dependencies:
 
 # Component Dependency Matrix
 component_dependencies:
-  
   # Governance Framework
   governance_framework:
     components:
@@ -85,7 +83,7 @@ component_dependencies:
       - "60-contracts"
       - "70-audit"
       - "80-feedback"
-    
+
     dependency_flow:
       # Strategy Layer
       - layer: "strategy"
@@ -94,7 +92,7 @@ component_dependencies:
         provides_to:
           - "20-intent"
           - "30-agents"
-      
+
       # Orchestration Layer
       - layer: "orchestration"
         component: "20-intent"
@@ -103,7 +101,7 @@ component_dependencies:
         provides_to:
           - "30-agents"
           - "39-automation"
-      
+
       # Execution Layer
       - layer: "execution"
         component: "30-agents"
@@ -113,7 +111,7 @@ component_dependencies:
         provides_to:
           - "60-contracts"
           - "70-audit"
-      
+
       # Observability Layer
       - layer: "observability"
         component: "60-contracts"
@@ -121,7 +119,7 @@ component_dependencies:
           - "30-agents"
         provides_to:
           - "70-audit"
-      
+
       - layer: "observability"
         component: "70-audit"
         depends_on:
@@ -129,7 +127,7 @@ component_dependencies:
           - "60-contracts"
         provides_to:
           - "80-feedback"
-      
+
       # Feedback Layer
       - layer: "feedback"
         component: "80-feedback"
@@ -140,25 +138,24 @@ component_dependencies:
 
 # Dependency Validation Rules
 validation_rules:
-  
   # Circular Dependency Check
   circular_dependency:
     enabled: true
     severity: "error"
     action: "reject_deployment"
-  
+
   # Version Compatibility
   version_compatibility:
     enabled: true
     severity: "warning"
     action: "log_warning"
-  
+
   # Missing Dependencies
   missing_dependencies:
     enabled: true
     severity: "error"
     action: "reject_deployment"
-  
+
   # Deprecated Dependencies
   deprecated_dependencies:
     enabled: true
@@ -168,14 +165,14 @@ validation_rules:
 # Dependency Health Monitoring
 health_monitoring:
   check_interval: "5 minutes"
-  
+
   health_checks:
     - check_type: "dependency_availability"
       action_on_failure: "alert"
-    
+
     - check_type: "version_compatibility"
       action_on_failure: "log"
-    
+
     - check_type: "circular_dependency"
       action_on_failure: "alert"
 
@@ -185,6 +182,6 @@ graph_metadata:
   total_components: 15
   max_dependency_depth: 3
   circular_dependencies: 0
-  
+
   last_validation: "2025-12-11T16:00:00Z"
   validation_status: "passed"

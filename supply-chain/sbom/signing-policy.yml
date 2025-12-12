@@ -12,14 +12,14 @@ on:
     branches:
       - main
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
   release:
     types: [published]
   workflow_dispatch:
 
 env:
   SBOM_FORMAT: cyclonedx-json
-  SBOM_VERSION: '1.5'
+  SBOM_VERSION: "1.5"
   COSIGN_EXPERIMENTAL: 1
 
 jobs:
@@ -30,37 +30,37 @@ jobs:
       contents: write
       id-token: write
       packages: write
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: 🔧 安裝 Syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
           syft version
-      
+
       - name: 🔧 安裝 Cosign
         uses: sigstore/cosign-installer@v3
         with:
-          cosign-release: 'v2.2.1'
-      
+          cosign-release: "v2.2.1"
+
       - name: 📦 生成 SBOM - 專案根目錄
         run: |
           echo "🔍 掃描專案依賴..."
           syft packages dir:. \
             -o cyclonedx-json \
             --file sbom/project-sbom.json
-          
+
           echo "✅ SBOM 已生成: sbom/project-sbom.json"
-          
+
           # 生成人類可讀版本
           syft packages dir:. \
             -o table \
             --file sbom/project-sbom.txt
-      
+
       - name: 📦 生成 SBOM - Intelligent Hyperautomation
         run: |
           if [ -d "intelligent-hyperautomation" ]; then
@@ -75,7 +75,7 @@ jobs:
             
             echo "✅ Intelligent Hyperautomation SBOM 已生成"
           fi
-      
+
       - name: 📦 生成 SBOM - Contracts L1
         run: |
           if [ -d "core/contract_service/contracts-L1" ]; then
@@ -86,11 +86,11 @@ jobs:
             
             echo "✅ Contracts L1 SBOM 已生成"
           fi
-      
+
       - name: 🔐 簽章 SBOM - Keyless (Sigstore)
         run: |
           echo "🔑 使用 Sigstore 進行 keyless 簽章..."
-          
+
           # 簽章專案 SBOM
           if [ -f "sbom/project-sbom.json" ]; then
             cosign sign-blob \
@@ -101,7 +101,7 @@ jobs:
             
             echo "✅ 專案 SBOM 已簽章"
           fi
-          
+
           # 簽章 Intelligent Hyperautomation SBOM
           if [ -f "sbom/intelligent-hyperautomation-sbom.json" ]; then
             cosign sign-blob \
@@ -112,7 +112,7 @@ jobs:
             
             echo "✅ Intelligent Hyperautomation SBOM 已簽章"
           fi
-      
+
       - name: 📊 生成 SBOM 摘要報告
         run: |
           cat > sbom/sbom-summary.json << EOF
@@ -149,10 +149,10 @@ jobs:
             }
           }
           EOF
-          
+
           echo "📋 SBOM 摘要報告已生成"
           cat sbom/sbom-summary.json | jq '.'
-      
+
       - name: 📤 上傳 SBOM Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -163,14 +163,14 @@ jobs:
             sbom/*.pem
             sbom/*.txt
           retention-days: 365
-      
+
       - name: 📈 生成摘要
         run: |
           echo "## 🔒 SBOM 生成與簽章摘要" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 生成的 SBOM" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           for sbom in sbom/*.json; do
             if [ -f "$sbom" ]; then
               filename=$(basename "$sbom")
@@ -178,7 +178,7 @@ jobs:
               echo "- ✅ $filename ($size)" >> $GITHUB_STEP_SUMMARY
             fi
           done
-          
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🔐 簽章驗證" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

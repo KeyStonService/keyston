@@ -8,13 +8,13 @@ audit_policy:
   purpose: "提供獨立保證 | Provide independent assurance"
   scope: "All governance activities"
   independence: "Reports directly to board"
-  
+
 audit_principles:
   - "Independence and objectivity"
   - "Professional competence"
   - "Due professional care"
   - "Confidentiality"
-  
+
 audit_types:
   internal: "Quarterly"
   external: "Annual"

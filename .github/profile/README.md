@@ -4,7 +4,9 @@
 
 ## 🌟 Our Mission
 
-We believe in creating seamless, intelligent, and scalable solutions that empower businesses to thrive in the digital age. SynergyMesh brings together cutting-edge technologies to deliver unprecedented integration capabilities.
+We believe in creating seamless, intelligent, and scalable solutions that
+empower businesses to thrive in the digital age. SynergyMesh brings together
+cutting-edge technologies to deliver unprecedented integration capabilities.
 
 ## 🔧 What We Build
 
@@ -17,7 +19,8 @@ We believe in creating seamless, intelligent, and scalable solutions that empowe
 ## 🚀 Get Started
 
 - 📖 [Documentation](https://docs.synergymesh.io)
-- 💻 [Quick Start Guide](https://github.com/SynergyMesh/platform-core#quick-start)
+- 💻
+  [Quick Start Guide](https://github.com/SynergyMesh/platform-core#quick-start)
 - 🎯 [Examples & Tutorials](https://github.com/SynergyMesh/examples)
 - 💬 [Community Forum](https://community.synergymesh.io)
 
@@ -37,4 +40,4 @@ We believe in creating seamless, intelligent, and scalable solutions that empowe
 
 ---
 
-*Building tomorrow's enterprise solutions, today.* ✨
+_Building tomorrow's enterprise solutions, today._ ✨

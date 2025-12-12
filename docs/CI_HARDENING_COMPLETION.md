@@ -7,22 +7,25 @@
 **版本**: 2.0.0  
 **執行時間**: 1 小時
 
-成功完成 GitHub Actions CI/CD 全面成本優化，所有 49 個 workflow 文件已加固，預期可節省 70-85% 的 GitHub Actions 運行成本。
+成功完成 GitHub Actions
+CI/CD 全面成本優化，所有 49 個 workflow 文件已加固，預期可節省 70-85% 的 GitHub
+Actions 運行成本。
 
-Successfully completed comprehensive GitHub Actions CI/CD cost optimization. All 49 workflow files hardened, expecting 70-85% cost savings.
+Successfully completed comprehensive GitHub Actions CI/CD cost optimization. All
+49 workflow files hardened, expecting 70-85% cost savings.
 
 ---
 
 ## 🎯 目標達成度 / Goal Achievement
 
-| 目標 | 狀態 | 完成度 |
-|------|------|--------|
-| 修復所有 CI 錯誤 | ⏳ 進行中 | 50% |
-| 停止不必要觸發 | ✅ 完成 | 100% |
-| 添加費用保護機制 | ✅ 完成 | 100% |
-| 實施 Fail Fast 規則 | ⏳ 計劃中 | 0% |
-| 建立 CI Summary Dashboard | ⏳ 計劃中 | 0% |
-| **總體完成度** | **✅** | **60%** |
+| 目標                      | 狀態      | 完成度  |
+| ------------------------- | --------- | ------- |
+| 修復所有 CI 錯誤          | ⏳ 進行中 | 50%     |
+| 停止不必要觸發            | ✅ 完成   | 100%    |
+| 添加費用保護機制          | ✅ 完成   | 100%    |
+| 實施 Fail Fast 規則       | ⏳ 計劃中 | 0%      |
+| 建立 CI Summary Dashboard | ⏳ 計劃中 | 0%      |
+| **總體完成度**            | **✅**    | **60%** |
 
 ---
 
@@ -134,7 +137,7 @@ concurrency:
 # 添加到每個 job
 jobs:
   job-name:
-    timeout-minutes: 5-20  # 根據 job 類型
+    timeout-minutes: 5-20 # 根據 job 類型
 ```
 
 **處理的 Workflows (41個)**:
@@ -187,20 +190,20 @@ jobs:
 
 ### 高影響變更 (High Impact)
 
-| Workflow | 原頻率 | 新頻率 | 節省 |
-|----------|--------|--------|------|
-| CodeQL | 每次 push + PR | 僅 PR + 週 | 90% |
-| OSV-Scanner | 每次 push + PR | 僅 PR + 週 | 80% |
-| Security Scan | 每日 | 每週 | 85% |
-| Self-Awareness | 每日 | 每週 | 85% |
-| Vulnerability Fix | 每日 | 每週 | 85% |
+| Workflow          | 原頻率         | 新頻率     | 節省 |
+| ----------------- | -------------- | ---------- | ---- |
+| CodeQL            | 每次 push + PR | 僅 PR + 週 | 90%  |
+| OSV-Scanner       | 每次 push + PR | 僅 PR + 週 | 80%  |
+| Security Scan     | 每日           | 每週       | 85%  |
+| Self-Awareness    | 每日           | 每週       | 85%  |
+| Vulnerability Fix | 每日           | 每週       | 85%  |
 
 ### 中影響變更 (Medium Impact)
 
-| 類別 | Workflows | 節省 |
-|------|-----------|------|
-| Concurrency 控制 | 41 個 | 30-40% |
-| Timeout 限制 | 49 個 | 10-20% |
+| 類別             | Workflows | 節省   |
+| ---------------- | --------- | ------ |
+| Concurrency 控制 | 41 個     | 30-40% |
+| Timeout 限制     | 49 個     | 10-20% |
 
 ### 總體預期節省 / Overall Expected Savings
 
@@ -317,12 +320,12 @@ gh run list --repo SynergyMesh-admin/unmanned-island --limit 100
 
 ### 預期指標變化
 
-| 指標 | Before | After | 變化 |
-|------|--------|-------|------|
-| 每日 runs | 100-150 | 20-40 | ↓ 70-75% |
+| 指標          | Before   | After   | 變化     |
+| ------------- | -------- | ------- | -------- |
+| 每日 runs     | 100-150  | 20-40   | ↓ 70-75% |
 | 平均 job 時間 | 8-12 min | 5-8 min | ↓ 30-40% |
-| 超時 jobs | 5-10/天 | 0-1/天 | ↓ 90% |
-| 並發衝突 | 20-30/天 | 0-2/天 | ↓ 95% |
+| 超時 jobs     | 5-10/天  | 0-1/天  | ↓ 90%    |
+| 並發衝突      | 20-30/天 | 0-2/天  | ↓ 95%    |
 
 ---
 
@@ -451,7 +454,8 @@ gh run list --repo SynergyMesh-admin/unmanned-island --limit 100
 
 系統現在具有強大的成本控制機制，可以安全地運行 CI/CD 管道而不會產生意外的高額帳單。
 
-The system now has robust cost control mechanisms and can safely run CI/CD pipelines without incurring unexpected high bills.
+The system now has robust cost control mechanisms and can safely run CI/CD
+pipelines without incurring unexpected high bills.
 
 ---
 

@@ -18,19 +18,19 @@
       "owner": "AI Governance Team",
       "dimensions": ["30-agents", "06-security", "05-compliance", "07-audit", "70-audit"],
       "controls": [
-        {"id": "4.1", "name": "Understanding the organization", "dimension": "00-vision-strategy", "status": "implemented"},
-        {"id": "4.2", "name": "Interested parties", "dimension": "10-stakeholder", "status": "implemented"},
-        {"id": "5.1", "name": "Leadership commitment", "dimension": "00-vision-strategy", "status": "implemented"},
-        {"id": "5.2", "name": "AI Policy", "dimension": "10-policy", "status": "implemented"},
-        {"id": "6.1", "name": "Risk assessment", "dimension": "04-risk", "status": "implemented"},
-        {"id": "6.2", "name": "AI objectives", "dimension": "09-performance", "status": "implemented"},
-        {"id": "7.1", "name": "Resources", "dimension": "11-tools-systems", "status": "implemented"},
-        {"id": "7.2", "name": "Competence", "dimension": "12-culture-capability", "status": "implemented"},
-        {"id": "8.1", "name": "Operational planning", "dimension": "08-process", "status": "implemented"},
-        {"id": "8.2", "name": "AI system lifecycle", "dimension": "30-agents", "status": "implemented"},
-        {"id": "9.1", "name": "Monitoring", "dimension": "50-monitoring", "status": "implemented"},
-        {"id": "9.2", "name": "Internal audit", "dimension": "70-audit", "status": "implemented"},
-        {"id": "10.1", "name": "Improvement", "dimension": "14-improvement", "status": "implemented"}
+        { "id": "4.1", "name": "Understanding the organization", "dimension": "00-vision-strategy", "status": "implemented" },
+        { "id": "4.2", "name": "Interested parties", "dimension": "10-stakeholder", "status": "implemented" },
+        { "id": "5.1", "name": "Leadership commitment", "dimension": "00-vision-strategy", "status": "implemented" },
+        { "id": "5.2", "name": "AI Policy", "dimension": "10-policy", "status": "implemented" },
+        { "id": "6.1", "name": "Risk assessment", "dimension": "04-risk", "status": "implemented" },
+        { "id": "6.2", "name": "AI objectives", "dimension": "09-performance", "status": "implemented" },
+        { "id": "7.1", "name": "Resources", "dimension": "11-tools-systems", "status": "implemented" },
+        { "id": "7.2", "name": "Competence", "dimension": "12-culture-capability", "status": "implemented" },
+        { "id": "8.1", "name": "Operational planning", "dimension": "08-process", "status": "implemented" },
+        { "id": "8.2", "name": "AI system lifecycle", "dimension": "30-agents", "status": "implemented" },
+        { "id": "9.1", "name": "Monitoring", "dimension": "50-monitoring", "status": "implemented" },
+        { "id": "9.2", "name": "Internal audit", "dimension": "70-audit", "status": "implemented" },
+        { "id": "10.1", "name": "Improvement", "dimension": "14-improvement", "status": "implemented" }
       ],
       "evidence_path": "63-evidence/iso-42001/",
       "reporting": {
@@ -52,36 +52,36 @@
           "id": "GOVERN",
           "name": "Govern",
           "categories": [
-            {"id": "1.1", "name": "Governance structure", "dimension": "00-vision-strategy", "status": "implemented"},
-            {"id": "1.2", "name": "Risk management", "dimension": "04-risk", "status": "implemented"},
-            {"id": "1.3", "name": "Policies and processes", "dimension": "10-policy", "status": "implemented"}
+            { "id": "1.1", "name": "Governance structure", "dimension": "00-vision-strategy", "status": "implemented" },
+            { "id": "1.2", "name": "Risk management", "dimension": "04-risk", "status": "implemented" },
+            { "id": "1.3", "name": "Policies and processes", "dimension": "10-policy", "status": "implemented" }
           ]
         },
         {
           "id": "MAP",
           "name": "Map",
           "categories": [
-            {"id": "2.1", "name": "Context mapping", "dimension": "01-architecture", "status": "implemented"},
-            {"id": "2.2", "name": "Stakeholder identification", "dimension": "10-stakeholder", "status": "implemented"},
-            {"id": "2.3", "name": "AI categorization", "dimension": "30-agents", "status": "implemented"}
+            { "id": "2.1", "name": "Context mapping", "dimension": "01-architecture", "status": "implemented" },
+            { "id": "2.2", "name": "Stakeholder identification", "dimension": "10-stakeholder", "status": "implemented" },
+            { "id": "2.3", "name": "AI categorization", "dimension": "30-agents", "status": "implemented" }
           ]
         },
         {
           "id": "MEASURE",
           "name": "Measure",
           "categories": [
-            {"id": "3.1", "name": "Risk metrics", "dimension": "13-metrics-reporting", "status": "implemented"},
-            {"id": "3.2", "name": "Performance evaluation", "dimension": "09-performance", "status": "implemented"},
-            {"id": "3.3", "name": "Trustworthiness assessment", "dimension": "30-agents", "status": "implemented"}
+            { "id": "3.1", "name": "Risk metrics", "dimension": "13-metrics-reporting", "status": "implemented" },
+            { "id": "3.2", "name": "Performance evaluation", "dimension": "09-performance", "status": "implemented" },
+            { "id": "3.3", "name": "Trustworthiness assessment", "dimension": "30-agents", "status": "implemented" }
           ]
         },
         {
           "id": "MANAGE",
           "name": "Manage",
           "categories": [
-            {"id": "4.1", "name": "Risk response", "dimension": "04-risk", "status": "implemented"},
-            {"id": "4.2", "name": "Incident management", "dimension": "56-incidents", "status": "implemented"},
-            {"id": "4.3", "name": "Continuous monitoring", "dimension": "50-monitoring", "status": "implemented"}
+            { "id": "4.1", "name": "Risk response", "dimension": "04-risk", "status": "implemented" },
+            { "id": "4.2", "name": "Incident management", "dimension": "56-incidents", "status": "implemented" },
+            { "id": "4.3", "name": "Continuous monitoring", "dimension": "50-monitoring", "status": "implemented" }
           ]
         }
       ],
@@ -125,13 +125,13 @@
         }
       },
       "obligations": [
-        {"id": "ART-9", "name": "Risk management system", "dimension": "04-risk", "status": "implemented"},
-        {"id": "ART-10", "name": "Data governance", "dimension": "61-lineage", "status": "implemented"},
-        {"id": "ART-11", "name": "Technical documentation", "dimension": "29-docs", "status": "implemented"},
-        {"id": "ART-12", "name": "Record-keeping", "dimension": "70-audit", "status": "implemented"},
-        {"id": "ART-13", "name": "Transparency", "dimension": "29-docs", "status": "implemented"},
-        {"id": "ART-14", "name": "Human oversight", "dimension": "30-agents", "status": "implemented"},
-        {"id": "ART-15", "name": "Accuracy and robustness", "dimension": "28-tests", "status": "implemented"}
+        { "id": "ART-9", "name": "Risk management system", "dimension": "04-risk", "status": "implemented" },
+        { "id": "ART-10", "name": "Data governance", "dimension": "61-lineage", "status": "implemented" },
+        { "id": "ART-11", "name": "Technical documentation", "dimension": "29-docs", "status": "implemented" },
+        { "id": "ART-12", "name": "Record-keeping", "dimension": "70-audit", "status": "implemented" },
+        { "id": "ART-13", "name": "Transparency", "dimension": "29-docs", "status": "implemented" },
+        { "id": "ART-14", "name": "Human oversight", "dimension": "30-agents", "status": "implemented" },
+        { "id": "ART-15", "name": "Accuracy and robustness", "dimension": "28-tests", "status": "implemented" }
       ],
       "evidence_path": "63-evidence/eu-ai-act/",
       "reporting": {
@@ -150,10 +150,10 @@
       "owner": "Security Team",
       "dimensions": ["38-sbom", "64-attestation", "62-provenance", "06-security"],
       "requirements": [
-        {"id": "source", "name": "Source requirements", "dimension": "62-provenance", "status": "implemented"},
-        {"id": "build", "name": "Build requirements", "dimension": "ci", "status": "implemented"},
-        {"id": "provenance", "name": "Provenance generation", "dimension": "64-attestation", "status": "implemented"},
-        {"id": "verification", "name": "Consumer verification", "dimension": "38-sbom", "status": "implemented"}
+        { "id": "source", "name": "Source requirements", "dimension": "62-provenance", "status": "implemented" },
+        { "id": "build", "name": "Build requirements", "dimension": "ci", "status": "implemented" },
+        { "id": "provenance", "name": "Provenance generation", "dimension": "64-attestation", "status": "implemented" },
+        { "id": "verification", "name": "Consumer verification", "dimension": "38-sbom", "status": "implemented" }
       ],
       "evidence_path": "63-evidence/slsa/",
       "reporting": {
@@ -171,8 +171,8 @@
       "owner": "Finance & Compliance",
       "dimensions": ["07-audit", "70-audit", "05-compliance", "63-evidence"],
       "controls": [
-        {"id": "302", "name": "Corporate responsibility", "dimension": "00-vision-strategy", "status": "implemented"},
-        {"id": "404", "name": "Internal controls assessment", "dimension": "07-audit", "status": "implemented"}
+        { "id": "302", "name": "Corporate responsibility", "dimension": "00-vision-strategy", "status": "implemented" },
+        { "id": "404", "name": "Internal controls assessment", "dimension": "07-audit", "status": "implemented" }
       ],
       "evidence_path": "63-evidence/sox/",
       "reporting": {
@@ -190,13 +190,13 @@
       "owner": "Data Protection Officer",
       "dimensions": ["06-security", "61-lineage", "62-provenance", "05-compliance"],
       "principles": [
-        {"id": "lawfulness", "name": "Lawfulness, fairness, transparency", "dimension": "10-policy", "status": "implemented"},
-        {"id": "purpose_limitation", "name": "Purpose limitation", "dimension": "10-policy", "status": "implemented"},
-        {"id": "data_minimization", "name": "Data minimization", "dimension": "61-lineage", "status": "implemented"},
-        {"id": "accuracy", "name": "Accuracy", "dimension": "28-tests", "status": "implemented"},
-        {"id": "storage_limitation", "name": "Storage limitation", "dimension": "70-audit", "status": "implemented"},
-        {"id": "integrity", "name": "Integrity and confidentiality", "dimension": "06-security", "status": "implemented"},
-        {"id": "accountability", "name": "Accountability", "dimension": "70-audit", "status": "implemented"}
+        { "id": "lawfulness", "name": "Lawfulness, fairness, transparency", "dimension": "10-policy", "status": "implemented" },
+        { "id": "purpose_limitation", "name": "Purpose limitation", "dimension": "10-policy", "status": "implemented" },
+        { "id": "data_minimization", "name": "Data minimization", "dimension": "61-lineage", "status": "implemented" },
+        { "id": "accuracy", "name": "Accuracy", "dimension": "28-tests", "status": "implemented" },
+        { "id": "storage_limitation", "name": "Storage limitation", "dimension": "70-audit", "status": "implemented" },
+        { "id": "integrity", "name": "Integrity and confidentiality", "dimension": "06-security", "status": "implemented" },
+        { "id": "accountability", "name": "Accountability", "dimension": "70-audit", "status": "implemented" }
       ],
       "evidence_path": "63-evidence/gdpr/",
       "reporting": {

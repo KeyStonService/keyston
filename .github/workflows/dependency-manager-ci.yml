@@ -4,13 +4,13 @@ on:
   push:
     branches: ["main", "develop", "copilot/**"]
     paths:
-      - 'agent/dependency-manager/**'
-      - '.github/workflows/dependency-manager-ci.yml'
+      - "agent/dependency-manager/**"
+      - ".github/workflows/dependency-manager-ci.yml"
   pull_request:
     branches: ["main", "develop"]
     paths:
-      - 'agent/dependency-manager/**'
-      - '.github/workflows/dependency-manager-ci.yml'
+      - "agent/dependency-manager/**"
+      - ".github/workflows/dependency-manager-ci.yml"
   workflow_dispatch:
 
 permissions:
@@ -32,7 +32,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Check Python syntax
         run: |
@@ -52,7 +52,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -80,7 +80,7 @@ jobs:
       - name: Validate agent structure
         run: |
           echo "📁 Validating dependency-manager agent structure..."
-          
+
           required_dirs=(
             "agent/dependency-manager/src/models"
             "agent/dependency-manager/src/analyzers"
@@ -97,7 +97,7 @@ jobs:
             "agent/dependency-manager/config"
             "agent/dependency-manager/tests"
           )
-          
+
           for dir in "${required_dirs[@]}"; do
             if [ -d "$dir" ]; then
               echo "✅ $dir exists"
@@ -106,20 +106,20 @@ jobs:
               exit 1
             fi
           done
-          
+
           echo ""
           echo "✅ All required directories exist"
 
       - name: Validate required files
         run: |
           echo "📄 Validating required files..."
-          
+
           required_files=(
             "agent/dependency-manager/README.md"
             "agent/dependency-manager/config/manager.yaml"
             "agent/dependency-manager/src/engine.py"
           )
-          
+
           for file in "${required_files[@]}"; do
             if [ -f "$file" ]; then
               echo "✅ $file exists"
@@ -128,7 +128,7 @@ jobs:
               exit 1
             fi
           done
-          
+
           echo ""
           echo "✅ All required files exist"
 
@@ -143,7 +143,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install YAML validator
         run: pip install pyyaml
@@ -171,49 +171,49 @@ jobs:
         run: |
           echo "📊 Dependency Manager Agent Statistics"
           echo ""
-          
+
           echo "Phase 1 - Core:"
           find agent/dependency-manager/src/models -name "*.py" | wc -l | xargs -I {} echo "  models: {} files"
           find agent/dependency-manager/src/analyzers -name "*.py" | wc -l | xargs -I {} echo "  analyzers: {} files"
           find agent/dependency-manager/src/scanners -name "*.py" | wc -l | xargs -I {} echo "  scanners: {} files"
           find agent/dependency-manager/src/updaters -name "*.py" | wc -l | xargs -I {} echo "  updaters: {} files"
-          
+
           echo ""
           echo "Phase 2-3 - Utils:"
           find agent/dependency-manager/src/utils -name "*.py" | wc -l | xargs -I {} echo "  utils: {} files"
-          
+
           echo ""
           echo "Phase 4 - Enterprise:"
           find agent/dependency-manager/src/enterprise -name "*.py" | wc -l | xargs -I {} echo "  enterprise: {} files"
-          
+
           echo ""
           echo "Phase 5 - Strategy:"
           find agent/dependency-manager/src/strategy -name "*.py" | wc -l | xargs -I {} echo "  strategy: {} files"
-          
+
           echo ""
           echo "Phase 6 - Future:"
           find agent/dependency-manager/src/future -name "*.py" | wc -l | xargs -I {} echo "  future: {} files"
-          
+
           echo ""
           echo "Phase 7 - Evaluation:"
           find agent/dependency-manager/src/evaluation -name "*.py" | wc -l | xargs -I {} echo "  evaluation: {} files"
-          
+
           echo ""
           echo "Phase 8 - Combination:"
           find agent/dependency-manager/src/combination -name "*.py" | wc -l | xargs -I {} echo "  combination: {} files"
-          
+
           echo ""
           echo "Phase 9 - CrossPlatform:"
           find agent/dependency-manager/src/crossplatform -name "*.py" | wc -l | xargs -I {} echo "  crossplatform: {} files"
-          
+
           echo ""
           echo "Phase 10 - Implementation:"
           find agent/dependency-manager/src/implementation -name "*.py" | wc -l | xargs -I {} echo "  implementation: {} files"
-          
+
           echo ""
           echo "Tests:"
           find agent/dependency-manager/tests -name "*.py" | wc -l | xargs -I {} echo "  tests: {} files"
-          
+
           echo ""
           total=$(find agent/dependency-manager -name "*.py" | wc -l)
           echo "📈 Total Python files: $total"
@@ -232,11 +232,11 @@ jobs:
         run: |
           cat > dependency-manager-report.md << 'EOF'
           # 🔧 Dependency Manager Agent - CI/CD Report
-          
+
           ## ✅ Status: PASSED
-          
+
           ### 📁 Agent Structure (10 Phases)
-          
+
           | Phase | Module | Description |
           |-------|--------|-------------|
           | 1 | models, analyzers, scanners, updaters | Core functionality |
@@ -248,34 +248,34 @@ jobs:
           | 8 | combination | Core-satellite, dynamic adjustment |
           | 9 | crossplatform | Web3, IoT, AR/VR, tech stack, risk |
           | 10 | implementation | Plan, metrics, action guide |
-          
+
           ### 🔍 Validation Results
-          
+
           - ✅ Python Syntax Check: PASSED
           - ✅ Structure Validation: PASSED
           - ✅ Configuration Validation: PASSED
           - ✅ Module Count: Complete
-          
+
           ### 🌐 Supported Ecosystems
-          
+
           - npm (Node.js)
           - pip (Python)
           - Go modules
           - Maven/Gradle (Java)
           - Cargo (Rust)
-          
+
           ### 🛡️ Security Features
-          
+
           - Vulnerability scanning (NVD, GHSA, OSV)
           - License compliance checking
           - SBOM generation (CycloneDX, SPDX)
           - Supply chain security
           - Zero-trust dependency verification
-          
+
           ---
           Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
           EOF
-          
+
           cat dependency-manager-report.md
 
       - name: Upload report

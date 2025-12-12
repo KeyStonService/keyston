@@ -1,13 +1,15 @@
 # 利益相關方治理 | Stakeholder Governance
 
-> 識別、溝通、參與、利益平衡
-> Identification, communication, engagement, and interest balancing
+> 識別、溝通、參與、利益平衡Identification, communication, engagement, and
+> interest balancing
 
 ## 📋 概述 | Overview
 
 利益相關方治理定義了組織與各利益相關方的互動框架，包括識別、溝通、參與和利益平衡機制。
 
-The Stakeholder Governance dimension defines the framework for organizational interaction with various stakeholders, including identification, communication, engagement, and interest balancing mechanisms.
+The Stakeholder Governance dimension defines the framework for organizational
+interaction with various stakeholders, including identification, communication,
+engagement, and interest balancing mechanisms.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -63,6 +65,5 @@ Power/Interest Matrix
 
 ---
 
-**Owner 負責人**: Stakeholder Governance Team
-**Last Updated 最後更新**: 2025-12-09
-**Status 狀態**: Active
+**Owner 負責人**: Stakeholder Governance Team **Last Updated 最後更新**:
+2025-12-09 **Status 狀態**: Active

@@ -25,4 +25,5 @@
 
 - 期中：設計一個支援 Multi-Region 的 registry，提交架構圖 + failure matrix。
 - 期末：完成 labs/raft-playground.md 所列全部任務並生成報告。
-- Bonus：提出 SynergyMesh 新的 consensus plug-in，寫入 docs/KNOWLEDGE_HEALTH.md。
+- Bonus：提出 SynergyMesh 新的 consensus
+  plug-in，寫入 docs/KNOWLEDGE_HEALTH.md。

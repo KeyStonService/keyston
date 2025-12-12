@@ -10,18 +10,17 @@ applies_to:
   - 7 AI Agents Architecture
 
 ---
-
 # 🎯 Self-Healing Philosophy (自我修復哲學)
 
 philosophy:
   principle: "預防優於治療，自動優於手動 (Prevention > Cure, Automation > Manual)"
-  
+
   core_beliefs:
     - "系統應自我感知狀態"
     - "異常應即時檢測 (< 1 秒)"
     - "修復應自動執行 (< 45 秒 MTTR)"
     - "人工介入僅限戰略決策"
-  
+
   design_patterns:
     - "Circuit Breaker (斷路器)"
     - "Bulkhead (隔艙)"
@@ -30,7 +29,6 @@ philosophy:
     - "Self-Healing Pods (自我修復容器)"
 
 ---
-
 # 🛡️ Preventive Design (預防性設計)
 
 preventive_measures:
@@ -41,7 +39,7 @@ preventive_measures:
         min_replicas: 2
         max_replicas: 10
         target_cpu_utilization: 70
-      
+
     health_checks:
       description: "多層次健康檢查"
       probes:
@@ -50,19 +48,19 @@ preventive_measures:
           interval: "10s"
           timeout: "2s"
           failure_threshold: 3
-          
+
         readiness:
           endpoint: "/health/ready"
           interval: "5s"
           timeout: "2s"
           failure_threshold: 3
-          
+
         startup:
           endpoint: "/health/startup"
           interval: "10s"
           timeout: "2s"
           failure_threshold: 30
-    
+
     resource_limits:
       description: "防止資源耗盡"
       limits:
@@ -71,7 +69,7 @@ preventive_measures:
       requests:
         cpu: "500m"
         memory: "1Gi"
-  
+
   fault_injection_testing:
     description: "主動注入故障以驗證韌性"
     scenarios:
@@ -80,7 +78,7 @@ preventive_measures:
       - "CPU/Memory stress testing"
       - "Database connection pool exhaustion"
     schedule: "Weekly in staging environment"
-    
+
   defensive_programming:
     description: "代碼層面防禦性措施"
     practices:
@@ -91,7 +89,6 @@ preventive_measures:
       - "Timeout on all external calls"
 
 ---
-
 # 🔍 Continuous Self-Awareness (持續自我感知)
 
 self_awareness_mechanisms:
@@ -104,20 +101,20 @@ self_awareness_mechanisms:
           - "Memory usage (RSS, heap)"
           - "Network I/O (bytes in/out)"
           - "Disk I/O (read/write ops)"
-        
+
         application_level:
           - "Request rate (req/s)"
           - "Response latency (p50, p95, p99)"
           - "Error rate (4xx, 5xx)"
           - "Active connections"
           - "Queue depth"
-        
+
         business_level:
           - "Active AI agents"
           - "Island orchestrator status"
           - "Cross-dimension event flow"
           - "Governance policy compliance"
-    
+
     log_aggregation:
       description: "集中式日誌收集與分析"
       sources:
@@ -125,33 +122,33 @@ self_awareness_mechanisms:
         - "Audit logs (security events)"
         - "Access logs (HTTP requests)"
         - "System logs (kernel events)"
-      
+
       processing:
         - "Structured logging (JSON format)"
         - "Log level filtering (ERROR, WARN, INFO)"
         - "Pattern matching for known issues"
         - "Anomaly detection via ML"
-    
+
     distributed_tracing:
       description: "跨服務請求追蹤"
       implementation: "OpenTelemetry"
       trace_sampling: "10% (production)"
       trace_retention: "7 days"
-  
+
   anomaly_detection:
     statistical_methods:
       - "Moving average deviation"
       - "Standard deviation (3-sigma rule)"
       - "Percentile-based thresholds"
-    
+
     machine_learning:
       - "Isolation Forest (unsupervised)"
       - "LSTM time-series prediction"
       - "Autoencoders for pattern recognition"
-    
+
     detection_time: "< 1 second"
     false_positive_rate: "< 5%"
-  
+
   predictive_analytics:
     description: "預測性故障分析"
     predictions:
@@ -159,11 +156,10 @@ self_awareness_mechanisms:
       - "Memory leak detection (trend analysis)"
       - "Database connection saturation"
       - "API rate limit approaching"
-    
+
     alert_lead_time: "15-60 minutes before failure"
 
 ---
-
 # 🚀 Proactive Adaptation (主動適應策略)
 
 adaptation_strategies:
@@ -173,60 +169,60 @@ adaptation_strategies:
       metrics:
         - type: "Resource"
           resource: "cpu"
-          target: 70  # Target CPU utilization %
-        
+          target: 70 # Target CPU utilization %
+
         - type: "Resource"
           resource: "memory"
-          target: 80  # Target memory utilization %
-        
+          target: 80 # Target memory utilization %
+
         - type: "Custom"
           metric: "http_requests_per_second"
           target: 1000
-      
+
       behavior:
         scale_up:
-          stabilization_window: "0s"  # INSTANT
+          stabilization_window: "0s" # INSTANT
           policies:
             - type: "Percent"
-              value: 100  # Double pods
+              value: 100 # Double pods
               period: "15s"
-        
+
         scale_down:
-          stabilization_window: "300s"  # 5 minutes
+          stabilization_window: "300s" # 5 minutes
           policies:
             - type: "Percent"
-              value: 50  # Half pods
+              value: 50 # Half pods
               period: "60s"
-    
+
     vertical_pod_autoscaler:
-      enabled: false  # Use with caution (requires pod restart)
+      enabled: false # Use with caution (requires pod restart)
       update_mode: "Auto"
-  
+
   circuit_breaker:
     description: "防止級聯故障"
     configuration:
-      failure_threshold: 5  # Open after 5 failures
-      timeout: "10s"  # Wait 10s before retry
-      half_open_requests: 3  # Test with 3 requests
-    
+      failure_threshold: 5 # Open after 5 failures
+      timeout: "10s" # Wait 10s before retry
+      half_open_requests: 3 # Test with 3 requests
+
     implementation:
       - "Service mesh (Istio/Linkerd)"
       - "Application-level (Resilience4j)"
-  
+
   graceful_degradation:
     description: "優雅降級策略"
     levels:
       level_1_full_service:
         description: "所有功能正常"
         capabilities: "100%"
-        
+
       level_2_reduced_service:
         description: "非關鍵功能降級"
         capabilities: "80%"
         disabled_features:
           - "AI-powered recommendations"
           - "Advanced analytics"
-        
+
       level_3_core_service:
         description: "僅保留核心功能"
         capabilities: "50%"
@@ -234,42 +230,41 @@ adaptation_strategies:
           - "Real-time collaboration"
           - "Background jobs"
           - "AI agents (except Monitor)"
-        
+
       level_4_minimal_service:
         description: "最小可用狀態"
         capabilities: "20%"
         enabled_features:
           - "Read-only operations"
           - "Health checks"
-  
+
   self_healing_actions:
     container_restart:
       trigger: "Liveness probe failure"
       action: "Kubernetes auto-restart"
       execution_time: "< 30 seconds"
-      
+
     traffic_rerouting:
       trigger: "Service unhealthy"
       action: "Remove from load balancer pool"
       execution_time: "< 5 seconds"
-      
+
     configuration_rollback:
       trigger: "Error rate spike > 50%"
       action: "Rollback to last known good config"
       execution_time: "< 60 seconds"
-      
+
     database_connection_reset:
       trigger: "Connection pool exhausted"
       action: "Close idle connections, increase pool size"
       execution_time: "< 10 seconds"
-      
+
     cache_invalidation:
       trigger: "Stale data detected"
       action: "Flush cache, rebuild from source"
       execution_time: "< 20 seconds"
 
 ---
-
 # 🔄 Self-Healing Workflow (自我修復工作流)
 
 healing_workflow:
@@ -280,26 +275,26 @@ healing_workflow:
       - "Metrics threshold breach"
       - "Log pattern match"
       - "Distributed trace anomaly"
-    
+
   step_2_classification:
     time: "< 1 second"
     categories:
       transient_error:
         examples: ["Network timeout", "Rate limit hit"]
         action: "Retry with exponential backoff"
-        
+
       persistent_error:
         examples: ["Configuration error", "Code bug"]
         action: "Rollback or container restart"
-        
+
       cascading_failure:
         examples: ["Database down", "Message queue full"]
         action: "Circuit breaker open, graceful degradation"
-        
+
       resource_exhaustion:
         examples: ["OOM", "Disk full"]
         action: "Auto-scaling or resource cleanup"
-  
+
   step_3_remediation:
     time: "< 10 seconds"
     decision_tree:
@@ -308,25 +303,25 @@ healing_workflow:
           - "Retry (up to 3 times)"
           - "Use cached response"
           - "Return partial result"
-      
+
       if_persistent:
         actions:
           - "Restart container"
           - "Rollback configuration"
           - "Switch to backup service"
-      
+
       if_cascading:
         actions:
           - "Open circuit breaker"
           - "Enable graceful degradation"
           - "Alert human (strategic escalation)"
-      
+
       if_resource:
         actions:
           - "Trigger auto-scaling"
           - "Clean up temporary files"
           - "Archive old logs"
-  
+
   step_4_verification:
     time: "< 30 seconds"
     checks:
@@ -334,11 +329,11 @@ healing_workflow:
       - "Error rate < 1%"
       - "Latency within baseline"
       - "No new alerts triggered"
-    
+
     on_failure:
       - "Repeat remediation with different action"
       - "Escalate to human (after 3 failed attempts)"
-  
+
   step_5_learning:
     time: "< 60 seconds"
     actions:
@@ -348,7 +343,6 @@ healing_workflow:
       - "Generate post-mortem summary"
 
 ---
-
 # 📊 Self-Healing Metrics (自我修復指標)
 
 metrics:
@@ -356,24 +350,23 @@ metrics:
     mean_time_to_detect: "< 1 second"
     false_positive_rate: "< 5%"
     false_negative_rate: "< 1%"
-    
+
   remediation_metrics:
     mean_time_to_recovery: "< 45 seconds"
     auto_remediation_success_rate: "> 95%"
     human_escalation_rate: "< 5%"
-    
+
   availability_metrics:
     service_uptime: "> 99.9%"
     error_budget: "0.1% per month"
     incident_frequency: "< 1 per week"
-    
+
   performance_metrics:
     healing_overhead: "< 1% CPU/Memory"
     false_alarm_rate: "< 2 per day"
     recovery_time_variance: "< 10 seconds (p95)"
 
 ---
-
 # 🧪 Testing & Validation (測試與驗證)
 
 testing_strategy:
@@ -384,15 +377,15 @@ testing_strategy:
       - name: "Pod Termination"
         frequency: "Daily in staging"
         expected_recovery: "< 30 seconds"
-        
+
       - name: "Network Partition"
         frequency: "Weekly in staging"
         expected_recovery: "< 60 seconds"
-        
+
       - name: "Resource Saturation"
         frequency: "Weekly in staging"
         expected_recovery: "< 45 seconds (auto-scaling)"
-  
+
   game_days:
     description: "模擬生產環境故障演練"
     frequency: "Monthly"
@@ -401,7 +394,7 @@ testing_strategy:
       - "Database failover"
       - "Message queue outage"
       - "Network DDoS simulation"
-    
+
   validation_suite:
     file: "governance/28-tests/validate_self_healing.py"
     tests:
@@ -412,12 +405,11 @@ testing_strategy:
     execution_time: "< 5 minutes"
 
 ---
-
 # 🔗 Integration with Improvement Policy (與改進政策整合)
 
 integration:
   improvement_policy_file: "governance/14-improvement/improvement-policy.yaml"
-  
+
   integration_points:
     continuous_learning:
       description: "從自我修復事件中學習"
@@ -425,7 +417,7 @@ integration:
         - "更新異常檢測模型"
         - "調整閾值參數"
         - "優化修復策略"
-    
+
     proactive_improvement:
       description: "基於自我感知數據主動改進"
       triggers:
@@ -436,7 +428,7 @@ integration:
         - "Root cause analysis"
         - "Architecture review"
         - "Code refactoring"
-    
+
     knowledge_sharing:
       description: "跨團隊知識共享"
       outputs:
@@ -445,7 +437,6 @@ integration:
         - "Best practices documentation"
 
 ---
-
 # 🚨 Escalation Matrix (升級矩陣)
 
 escalation:
@@ -459,7 +450,7 @@ escalation:
       - "High CPU → Scale out"
       - "Cache miss → Rebuild cache"
     success_rate: "> 95%"
-    
+
   level_2_tactical_intervention:
     scope: "架構層問題"
     decision_maker: "AI Architect + AI Coordinator"
@@ -469,7 +460,7 @@ escalation:
       - "Persistent latency → Add caching layer"
       - "Database contention → Query optimization"
     success_rate: "> 80%"
-    
+
   level_3_strategic_escalation:
     scope: "重大系統性問題"
     decision_maker: "Human (CTO/CEO)"
@@ -485,7 +476,6 @@ escalation:
       - "Email to on-call rotation"
 
 ---
-
 # 📚 References (參考資料)
 
 references:
@@ -494,7 +484,7 @@ references:
     - "governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml"
     - "governance/14-improvement/improvement-policy.yaml"
     - "governance/39-automation/self-healing-engine.py"
-    
+
   external_resources:
     - "Site Reliability Engineering (Google SRE Book)"
     - "Resilience4j Documentation"
@@ -502,7 +492,6 @@ references:
     - "Netflix Chaos Engineering Principles"
 
 ---
-
 status: ACTIVE
 maintainer: SynergyMesh Unmanned Island Team
 review_cycle: Quarterly

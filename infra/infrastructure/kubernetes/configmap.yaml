@@ -11,44 +11,44 @@ data:
   # System Configuration
   LOG_LEVEL: "INFO"
   ENVIRONMENT: "production"
-  
+
   # Database Configuration
   DB_HOST: "postgres-service"
   DB_PORT: "5432"
   DB_NAME: "autofix_bot"
   DB_MAX_CONNECTIONS: "100"
-  
+
   # Redis Configuration
   REDIS_HOST: "redis-service"
   REDIS_PORT: "6379"
   REDIS_DB: "0"
   REDIS_MAX_CONNECTIONS: "50"
-  
+
   # Service Ports
   CODE_ANALYZER_PORT: "8080"
   VULNERABILITY_DETECTOR_PORT: "8081"
   AUTO_REPAIR_PORT: "8082"
   ORCHESTRATOR_PORT: "8083"
-  
+
   # Analysis Configuration
   ANALYSIS_TIMEOUT: "300"
   ANALYSIS_MAX_WORKERS: "16"
   ANALYSIS_BATCH_SIZE: "100"
-  
+
   # Repair Configuration
   REPAIR_TIMEOUT: "300"
   REPAIR_MAX_RETRIES: "3"
   REPAIR_AUTO_APPLY: "false"
-  
+
   # Monitoring Configuration
   METRICS_ENABLED: "true"
   METRICS_PORT: "9090"
   HEALTH_CHECK_INTERVAL: "30"
-  
+
   # SLSA Configuration
   SLSA_LEVEL: "3"
   EVIDENCE_HASH_ALGORITHM: "SHA256"
-  
+
   # Prometheus Configuration
   prometheus.yml: |
     global:

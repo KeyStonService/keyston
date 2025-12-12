@@ -9,18 +9,18 @@ report_structure:
     - "Audit scope and objectives"
     - "Key findings summary"
     - "Overall opinion"
-  
+
   detailed_findings:
     - "Finding description"
     - "Risk level"
     - "Evidence"
     - "Recommendation"
-  
+
   management_response:
     - "Action plan"
     - "Responsible party"
     - "Timeline"
-  
+
   appendices:
     - "Audit methodology"
     - "Supporting documentation"

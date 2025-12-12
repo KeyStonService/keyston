@@ -2,14 +2,17 @@
 
 # 執行引擎
 
-> 代碼執行邏輯抽象層，提供執行、驗證、回滾的統一介面。
-> Code execution logic abstraction layer, providing unified interfaces for execution, verification, and rollback.
+> 代碼執行邏輯抽象層，提供執行、驗證、回滾的統一介面。Code execution logic
+> abstraction layer, providing unified interfaces for execution, verification,
+> and rollback.
 
 ## 📋 Overview 概述
 
 本目錄提供執行邏輯的抽象層，定義了 action 執行、capability 註冊、connector 管理和驗證引擎的標準介面。
 
-This directory provides an abstraction layer for execution logic, defining standard interfaces for action execution, capability registration, connector management, and verification engine.
+This directory provides an abstraction layer for execution logic, defining
+standard interfaces for action execution, capability registration, connector
+management, and verification engine.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -61,11 +64,11 @@ execution_engine/
 
 ## 🔗 Relationship with Related Components 與相關組件的關係
 
-| 組件 Component | 關係 Relationship |
-|----------------|------------------|
-| `core/execution_architecture/` | 架構設計層，定義 execution_engine 如何被編排 |
-| `runtime/` | 運行時層，使用 execution_engine 的抽象來實際執行 |
-| `agent/` | 業務代理，調用 execution_engine 來執行任務 |
+| 組件 Component                 | 關係 Relationship                                |
+| ------------------------------ | ------------------------------------------------ |
+| `core/execution_architecture/` | 架構設計層，定義 execution_engine 如何被編排     |
+| `runtime/`                     | 運行時層，使用 execution_engine 的抽象來實際執行 |
+| `agent/`                       | 業務代理，調用 execution_engine 來執行任務       |
 
 ## 📦 Key Interfaces 關鍵介面
 
@@ -113,18 +116,18 @@ is_valid = await verifier.verify(
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `shared/` | 共用工具和配置 |
-| `config/` | 執行配置 |
+| Dependency 依賴 | Purpose 用途   |
+| --------------- | -------------- |
+| `shared/`       | 共用工具和配置 |
+| `config/`       | 執行配置       |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `runtime/` | 抽象層不應依賴具體運行時 |
-| `agent/` | 抽象層不應依賴業務代理 |
-| `automation/` | 抽象層不應依賴自動化模組 |
+| Should NOT depend on 不應依賴 | Reason 原因              |
+| ----------------------------- | ------------------------ |
+| `runtime/`                    | 抽象層不應依賴具體運行時 |
+| `agent/`                      | 抽象層不應依賴業務代理   |
+| `automation/`                 | 抽象層不應依賴自動化模組 |
 
 ## 📖 Related Documentation 相關文檔
 
@@ -135,9 +138,9 @@ is_valid = await verifier.verify(
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README with boundary definitions |
+| Date 日期  | Version 版本 | Changes 變更                             |
+| ---------- | ------------ | ---------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial README with boundary definitions |
 
 ---
 

@@ -3,7 +3,8 @@
 > **版本**: 1.0.0  
 > **最後更新**: 2025-12-02
 
-本文件描述 MCP（Model Context Protocol）整合，說明如何將 Copilot 編碼代理連接到其他工具和服務。
+本文件描述 MCP（Model Context
+Protocol）整合，說明如何將 Copilot 編碼代理連接到其他工具和服務。
 
 ---
 
@@ -41,14 +42,14 @@ MCP 是一種開放標準，定義了應用程式如何與大型語言模型 (LL
 
 ### 可用的 MCP 服務器
 
-| 服務器 | 路徑 | 功能 |
-|--------|------|------|
-| **Code Analyzer** | `mcp-servers/code-analyzer.js` | 代碼品質和複雜度分析 |
-| **Test Generator** | `mcp-servers/test-generator.js` | 自動生成測試 |
-| **Doc Generator** | `mcp-servers/doc-generator.js` | 文檔自動生成 |
-| **SLSA Validator** | `mcp-servers/slsa-validator.js` | SLSA 溯源驗證 |
-| **Security Scanner** | `mcp-servers/security-scanner.js` | 安全漏洞掃描 |
-| **Performance Analyzer** | `mcp-servers/performance-analyzer.js` | 性能分析 |
+| 服務器                   | 路徑                                  | 功能                 |
+| ------------------------ | ------------------------------------- | -------------------- |
+| **Code Analyzer**        | `mcp-servers/code-analyzer.js`        | 代碼品質和複雜度分析 |
+| **Test Generator**       | `mcp-servers/test-generator.js`       | 自動生成測試         |
+| **Doc Generator**        | `mcp-servers/doc-generator.js`        | 文檔自動生成         |
+| **SLSA Validator**       | `mcp-servers/slsa-validator.js`       | SLSA 溯源驗證        |
+| **Security Scanner**     | `mcp-servers/security-scanner.js`     | 安全漏洞掃描         |
+| **Performance Analyzer** | `mcp-servers/performance-analyzer.js` | 性能分析             |
 
 ---
 
@@ -79,9 +80,9 @@ const request = {
     language: 'javascript',
     options: {
       checkComplexity: true,
-      checkSecurity: true
-    }
-  }
+      checkSecurity: true,
+    },
+  },
 };
 ```
 
@@ -180,16 +181,16 @@ MCP 配置文件通常位於：
 
 ### 配置欄位說明
 
-| 欄位 | 類型 | 必填 | 說明 |
-|------|------|------|------|
-| `servers` | object | ✅ | 服務器定義集合 |
-| `servers.<id>` | string | ✅ | 服務器唯一識別符 |
-| `type` | string | ✅ | 傳輸類型: `stdio`, `sse`, `websocket` |
-| `command` | string | ✅ | 執行命令 (如 `node`, `docker`, `python`) |
-| `args` | array | ❌ | 命令參數陣列 |
-| `env` | object | ❌ | 環境變數 |
-| `version` | string | ❌ | 服務器版本 |
-| `inputs` | array | ❌ | 用戶輸入定義（如密碼、令牌） |
+| 欄位           | 類型   | 必填 | 說明                                     |
+| -------------- | ------ | ---- | ---------------------------------------- |
+| `servers`      | object | ✅   | 服務器定義集合                           |
+| `servers.<id>` | string | ✅   | 服務器唯一識別符                         |
+| `type`         | string | ✅   | 傳輸類型: `stdio`, `sse`, `websocket`    |
+| `command`      | string | ✅   | 執行命令 (如 `node`, `docker`, `python`) |
+| `args`         | array  | ❌   | 命令參數陣列                             |
+| `env`          | object | ❌   | 環境變數                                 |
+| `version`      | string | ❌   | 服務器版本                               |
+| `inputs`       | array  | ❌   | 用戶輸入定義（如密碼、令牌）             |
 
 ### 完整配置範例
 
@@ -321,11 +322,11 @@ MCP 配置文件通常位於：
 
 ### 傳輸類型
 
-| 類型 | 說明 | 使用場景 |
-|------|------|----------|
-| `stdio` | 標準輸入/輸出 | 本地進程通信（最常用） |
-| `sse` | Server-Sent Events | HTTP 長連接 |
-| `websocket` | WebSocket | 雙向實時通信 |
+| 類型        | 說明               | 使用場景               |
+| ----------- | ------------------ | ---------------------- |
+| `stdio`     | 標準輸入/輸出      | 本地進程通信（最常用） |
+| `sse`       | Server-Sent Events | HTTP 長連接            |
+| `websocket` | WebSocket          | 雙向實時通信           |
 
 ### 環境變數引用
 
@@ -334,8 +335,8 @@ MCP 配置文件通常位於：
 ```json
 {
   "env": {
-    "TOKEN": "${input:token}",      // 從 inputs 引用
-    "PATH": "${env:PATH}",           // 從系統環境引用
+    "TOKEN": "${input:token}", // 從 inputs 引用
+    "PATH": "${env:PATH}", // 從系統環境引用
     "HOME": "${env:HOME}"
   }
 }
@@ -348,7 +349,7 @@ MCP 配置文件通常位於：
    ```json
    // ✅ Good
    "synergymesh/code-analyzer": { ... }
-   
+
    // ❌ Avoid
    "server1": { ... }
    ```
@@ -358,7 +359,7 @@ MCP 配置文件通常位於：
    ```json
    // ✅ Good - 使用 inputs
    "env": { "TOKEN": "${input:token}" }
-   
+
    // ❌ Bad - 硬編碼
    "env": { "TOKEN": "sk-xxxxx" }
    ```
@@ -393,8 +394,11 @@ MCP 配置文件通常位於：
       "type": "stdio",
       "command": "docker",
       "args": [
-        "run", "-i", "--rm",
-        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=${input:token}",
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN=${input:token}",
         "ghcr.io/github/github-mcp-server:0.21.0"
       ],
       "version": "0.21.0"
@@ -420,7 +424,7 @@ MCP 服務器可在代理配置中引用。參考 `mcp-servers/README.md` 中的
 mcp-servers:
   - name: code-analyzer
     command: node
-    args: ["./mcp-servers/code-analyzer.js"]
+    args: ['./mcp-servers/code-analyzer.js']
     capabilities:
       - analyze-code
       - detect-issues
@@ -530,16 +534,21 @@ npm run check:strict
 
 ```javascript
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
-const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
+const {
+  StdioServerTransport,
+} = require('@modelcontextprotocol/sdk/server/stdio.js');
 
-const server = new Server({
-  name: 'custom-server',
-  version: '1.0.0'
-}, {
-  capabilities: {
-    tools: {}
+const server = new Server(
+  {
+    name: 'custom-server',
+    version: '1.0.0',
+  },
+  {
+    capabilities: {
+      tools: {},
+    },
   }
-});
+);
 
 // 註冊工具
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
@@ -550,11 +559,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       inputSchema: {
         type: 'object',
         properties: {
-          input: { type: 'string' }
-        }
-      }
-    }
-  ]
+          input: { type: 'string' },
+        },
+      },
+    },
+  ],
 }));
 
 // 處理調用

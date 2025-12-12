@@ -27,7 +27,7 @@ capabilities:
     - "dynamic-retry-policies"
     - "dag-orchestration"
     - "state-management"
-  
+
   features:
     - name: "Async DAG Orchestrator"
       description: "Topological sort with risk-weighted scheduling"
@@ -46,7 +46,7 @@ dependencies:
     - name: "trust-bundle"
       version: ">= 1.0.0"
       description: "Security trust bundle for verification"
-  
+
   soft:
     - name: "quantum-scheduler"
       version: ">= 0.9.0"
@@ -59,7 +59,7 @@ integration:
   deployment_path: "infrastructure/kubernetes/deployments/hlp-executor-core.yaml"
   rbac_path: "infrastructure/kubernetes/rbac/hlp-executor-rbac.yaml"
   module_path: "core/hlp_executor"
-  
+
   endpoints:
     http: 8080
     grpc: 50051
@@ -70,12 +70,12 @@ security:
   provenance_path: "core/slsa_provenance/plugins/hlp-executor-core/"
   requires_signing: true
   network_policy_required: true
-  
+
 observability:
   metrics_enabled: true
   tracing_enabled: true
   logging_format: "json"
-  
+
 performance:
   slo:
     dag_parse_latency_p95: "120ms"

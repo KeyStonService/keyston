@@ -2,8 +2,8 @@
 
 # 合約管理服務
 
-> 合約管理微服務（L1），提供合約生命週期管理功能。
-> Contract management microservice (L1), providing contract lifecycle management functionality.
+> 合約管理微服務（L1），提供合約生命週期管理功能。Contract management
+> microservice (L1), providing contract lifecycle management functionality.
 
 ## 📋 Overview 概述
 
@@ -11,12 +11,13 @@
 
 **⚠️ 重要區分 Important Distinction:**
 
-| 目錄 Directory | 內容 Content | 說明 Description |
-|----------------|--------------|------------------|
-| `core/contract_service/` (本目錄) | 微服務程式碼 | 合約管理服務的**實作代碼** |
-| `contracts/` (根目錄) | 合約定義資料 | 外部 API 合約**規格定義** (OpenAPI, JSON Schema) |
+| 目錄 Directory                    | 內容 Content | 說明 Description                                 |
+| --------------------------------- | ------------ | ------------------------------------------------ |
+| `core/contract_service/` (本目錄) | 微服務程式碼 | 合約管理服務的**實作代碼**                       |
+| `contracts/` (根目錄)             | 合約定義資料 | 外部 API 合約**規格定義** (OpenAPI, JSON Schema) |
 
-This directory contains implementation code for the contract management microservice, including L1 contract service and AI chat service integration.
+This directory contains implementation code for the contract management
+microservice, including L1 contract service and AI chat service integration.
 
 ## 📁 Directory Structure 目錄結構
 
@@ -64,19 +65,19 @@ contract_service/
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途 |
-|----------------|--------------|
-| `shared/` | 共用工具和配置 |
-| `config/` | 服務配置 |
+| Dependency 依賴  | Purpose 用途      |
+| ---------------- | ----------------- |
+| `shared/`        | 共用工具和配置    |
+| `config/`        | 服務配置          |
 | `core/` 其他模組 | AI 能力、安全機制 |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因 |
-|------------------------------|-------------|
-| `contracts/` (根目錄) | 服務代碼不應依賴合約定義資料 |
-| `agent/` | 避免循環依賴 |
-| `frontend/` | 後端服務不應依賴前端 |
+| Should NOT depend on 不應依賴 | Reason 原因                  |
+| ----------------------------- | ---------------------------- |
+| `contracts/` (根目錄)         | 服務代碼不應依賴合約定義資料 |
+| `agent/`                      | 避免循環依賴                 |
+| `frontend/`                   | 後端服務不應依賴前端         |
 
 ## 🚀 Usage 使用方式
 
@@ -107,19 +108,23 @@ npm run lint
 - [Architecture Layers](../../docs/architecture/layers.md) - 架構分層視圖
 - [Repository Map](../../docs/architecture/repo-map.md) - 倉庫語義邊界
 - [External API Contracts](../../contracts/) - 外部 API 合約定義
-- [L1 Deployment Plan](../../docs/TIER1_CONTRACTS_L1_DEPLOYMENT_PLAN.md) - L1 部署計畫
+- [L1 Deployment Plan](../../docs/TIER1_CONTRACTS_L1_DEPLOYMENT_PLAN.md) -
+  L1 部署計畫
 
 ## ⚠️ Naming Convention Note 命名說明
 
-此目錄原名為 `core/contracts/`，為避免與根目錄 `contracts/`（外部 API 合約定義）混淆，已重命名為 `core/contract_service/`。
+此目錄原名為 `core/contracts/`，為避免與根目錄
+`contracts/`（外部 API 合約定義）混淆，已重命名為 `core/contract_service/`。
 
-This directory was originally named `core/contracts/`. It has been renamed to `core/contract_service/` to avoid confusion with the root-level `contracts/` directory (external API contract definitions).
+This directory was originally named `core/contracts/`. It has been renamed to
+`core/contract_service/` to avoid confusion with the root-level `contracts/`
+directory (external API contract definitions).
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Renamed from core/contracts/ to core/contract_service/ |
+| Date 日期  | Version 版本 | Changes 變更                                           |
+| ---------- | ------------ | ------------------------------------------------------ |
+| 2025-11-30 | 1.0.0        | Renamed from core/contracts/ to core/contract_service/ |
 
 ---
 

@@ -2,7 +2,8 @@
 
 ## 概述
 
-本文檔描述了 Auto-Fix Bot 如何將任務委派給雲端代理程式，實現高效的分散式處理和自動化工作流程。
+本文檔描述了 Auto-Fix
+Bot 如何將任務委派給雲端代理程式，實現高效的分散式處理和自動化工作流程。
 
 ## 🔄 委派流程圖
 
@@ -87,23 +88,23 @@
 
 ```yaml
 intelligent_automation_task:
-  type: "multi-agent-analysis"
+  type: 'multi-agent-analysis'
   agents:
-    - name: "recognition"
-      action: "analyze-intent"
+    - name: 'recognition'
+      action: 'analyze-intent'
       timeout: 5
-      
-    - name: "task-executor"
-      action: "analyze-code"
-      depends_on: "recognition"
+
+    - name: 'task-executor'
+      action: 'analyze-code'
+      depends_on: 'recognition'
       parameters:
-        analysis_type: "comprehensive"
+        analysis_type: 'comprehensive'
         auto_fix: true
       timeout: 30
-      
-    - name: "visualization"
-      action: "explain-results"
-      depends_on: "task-executor"
+
+    - name: 'visualization'
+      action: 'explain-results'
+      depends_on: 'task-executor'
       timeout: 10
 ```
 
@@ -115,7 +116,8 @@ intelligent_automation_task:
 
 **委派策略**：
 
-- **優先提供商**: 智能自動化系統 (Intelligent Automation) → AWS Lambda（高性能計算）
+- **優先提供商**: 智能自動化系統 (Intelligent Automation) → AWS
+  Lambda（高性能計算）
 - **並行度**: 中等（10個並行任務）
 - **優先級**: 高
 - **超時**: 180秒
@@ -125,35 +127,35 @@ intelligent_automation_task:
 ```yaml
 task: code-analysis
 steps:
-  - name: "準備代碼庫"
-    action: "clone-repo"
+  - name: '準備代碼庫'
+    action: 'clone-repo'
     parameters:
-      repo_url: "${REPO_URL}"
-      branch: "${BRANCH}"
-  
-  - name: "智能意圖識別"
-    action: "recognize-intent"
-    delegate_to: "intelligent-automation/recognition-server"
+      repo_url: '${REPO_URL}'
+      branch: '${BRANCH}'
+
+  - name: '智能意圖識別'
+    action: 'recognize-intent'
+    delegate_to: 'intelligent-automation/recognition-server'
     timeout: 5
-      
-  - name: "智能代碼分析"
-    action: "analyze"
-    delegate_to: "intelligent-automation/task-executor"
+
+  - name: '智能代碼分析'
+    action: 'analyze'
+    delegate_to: 'intelligent-automation/task-executor'
     parameters:
-      language: "auto-detect"
-      analysis_type: "comprehensive"
-      rules: ["complexity", "security", "style"]
+      language: 'auto-detect'
+      analysis_type: 'comprehensive'
+      rules: ['complexity', 'security', 'style']
       auto_fix_critical: true
     timeout: 30
-      
-  - name: "生成報告"
-    action: "generate-report"
+
+  - name: '生成報告'
+    action: 'generate-report'
     parameters:
-      format: ["json", "html"]
-      
-  - name: "上傳結果"
-    action: "upload"
-    destination: "s3://results-bucket/"
+      format: ['json', 'html']
+
+  - name: '上傳結果'
+    action: 'upload'
+    destination: 's3://results-bucket/'
 ```
 
 ### 2. 自動修復任務
@@ -172,29 +174,29 @@ steps:
 ```yaml
 task: auto-fix
 steps:
-  - name: "加載問題列表"
-    action: "load-issues"
-    source: "analysis-results"
-    
-  - name: "批量修復"
-    action: "batch-fix"
-    delegate_to: "gcp-cloud-functions"
+  - name: '加載問題列表'
+    action: 'load-issues'
+    source: 'analysis-results'
+
+  - name: '批量修復'
+    action: 'batch-fix'
+    delegate_to: 'gcp-cloud-functions'
     parameters:
       auto_commit: false
       verify_with_tests: true
       batch_size: 50
-      
-  - name: "運行測試"
-    action: "run-tests"
+
+  - name: '運行測試'
+    action: 'run-tests'
     parameters:
-      test_suite: "all"
-      
-  - name: "創建PR"
-    action: "create-pull-request"
-    condition: "tests-passed"
+      test_suite: 'all'
+
+  - name: '創建PR'
+    action: 'create-pull-request'
+    condition: 'tests-passed'
     parameters:
-      title: "[Auto-Fix] Automated code fixes"
-      labels: ["auto-fix", "bot"]
+      title: '[Auto-Fix] Automated code fixes'
+      labels: ['auto-fix', 'bot']
 ```
 
 ### 3. 性能優化任務
@@ -213,24 +215,24 @@ steps:
 ```yaml
 task: optimization
 steps:
-  - name: "性能分析"
-    action: "profile-code"
-    delegate_to: "azure-functions"
+  - name: '性能分析'
+    action: 'profile-code'
+    delegate_to: 'azure-functions'
     parameters:
-      metrics: ["cpu", "memory", "io"]
-      
-  - name: "識別瓶頸"
-    action: "identify-bottlenecks"
-    
-  - name: "應用優化"
-    action: "optimize"
+      metrics: ['cpu', 'memory', 'io']
+
+  - name: '識別瓶頸'
+    action: 'identify-bottlenecks'
+
+  - name: '應用優化'
+    action: 'optimize'
     parameters:
-      areas: ["algorithms", "database", "caching"]
-      
-  - name: "基準測試"
-    action: "benchmark"
+      areas: ['algorithms', 'database', 'caching']
+
+  - name: '基準測試'
+    action: 'benchmark'
     parameters:
-      compare_with: "baseline"
+      compare_with: 'baseline'
 ```
 
 ### 4. 安全掃描任務
@@ -249,28 +251,28 @@ steps:
 ```yaml
 task: security-scan
 steps:
-  - name: "依賴掃描"
-    action: "scan-dependencies"
-    delegate_to: "aws-lambda"
+  - name: '依賴掃描'
+    action: 'scan-dependencies'
+    delegate_to: 'aws-lambda'
     parameters:
       check_vulnerabilities: true
-      databases: ["CVE", "NVD"]
-      
-  - name: "代碼掃描"
-    action: "scan-code"
+      databases: ['CVE', 'NVD']
+
+  - name: '代碼掃描'
+    action: 'scan-code'
     parameters:
-      scan_types: ["sql-injection", "xss", "csrf"]
-      
-  - name: "配置審計"
-    action: "audit-config"
+      scan_types: ['sql-injection', 'xss', 'csrf']
+
+  - name: '配置審計'
+    action: 'audit-config'
     parameters:
       check_secrets: true
       check_permissions: true
-      
-  - name: "生成安全報告"
-    action: "generate-security-report"
+
+  - name: '生成安全報告'
+    action: 'generate-security-report'
     parameters:
-      severity: ["critical", "high", "medium"]
+      severity: ['critical', 'high', 'medium']
 ```
 
 ### 5. 報告生成任務
@@ -289,19 +291,19 @@ steps:
 ```yaml
 task: report-generation
 steps:
-  - name: "收集數據"
-    action: "collect-data"
-    sources: ["analysis", "fixes", "security", "performance"]
-    
-  - name: "生成報告"
-    action: "generate"
-    delegate_to: "gcp-cloud-functions"
+  - name: '收集數據'
+    action: 'collect-data'
+    sources: ['analysis', 'fixes', 'security', 'performance']
+
+  - name: '生成報告'
+    action: 'generate'
+    delegate_to: 'gcp-cloud-functions'
     parameters:
-      formats: ["html", "pdf", "json"]
+      formats: ['html', 'pdf', 'json']
       include_charts: true
-      
-  - name: "發送報告"
-    action: "distribute"
+
+  - name: '發送報告'
+    action: 'distribute'
     parameters:
       email: true
       slack: true
@@ -325,13 +327,13 @@ def select_cloud_provider(task):
         'region': task.region,
         'cost': task.cost_limit
     }
-    
+
     # 檢查提供商健康狀態
     healthy_providers = get_healthy_providers()
-    
+
     # 檢查是否啟用負載均衡（避免在循環中重複調用）
     load_balancing_enabled = use_load_balancing()
-    
+
     # 計算每個提供商的得分（已包含負載均衡權重）
     scores = {}
     for provider in healthy_providers:
@@ -342,10 +344,10 @@ def select_cloud_provider(task):
             scores[provider] = base_score * weight
         else:
             scores[provider] = base_score
-    
+
     # 選擇得分最高的提供商
     best_provider = max(scores, key=scores.get)
-    
+
     return best_provider
 ```
 
@@ -353,12 +355,12 @@ def select_cloud_provider(task):
 
 ```yaml
 load_balancing:
-  algorithm: "weighted-round-robin"
+  algorithm: 'weighted-round-robin'
   weights:
-    aws: 40%    # AWS 處理 40% 的流量
-    gcp: 35%    # GCP 處理 35% 的流量
-    azure: 25%  # Azure 處理 25% 的流量
-    
+    aws: 40% # AWS 處理 40% 的流量
+    gcp: 35% # GCP 處理 35% 的流量
+    azure: 25% # Azure 處理 25% 的流量
+
   health_check:
     interval: 30s
     timeout: 10s
@@ -372,22 +374,22 @@ load_balancing:
 ```yaml
 retry_policy:
   max_attempts: 3
-  backoff_strategy: "exponential"
+  backoff_strategy: 'exponential'
   initial_delay: 1s
   max_delay: 10s
   backoff_multiplier: 2
-  
+
   # 重試條件
   retry_on:
-    - "timeout"
-    - "rate_limit"
-    - "temporary_error"
-    
+    - 'timeout'
+    - 'rate_limit'
+    - 'temporary_error'
+
   # 不重試條件
   no_retry_on:
-    - "authentication_error"
-    - "invalid_input"
-    - "resource_not_found"
+    - 'authentication_error'
+    - 'invalid_input'
+    - 'resource_not_found'
 ```
 
 ### 故障轉移
@@ -399,17 +401,17 @@ def handle_failure(task, failed_provider, error):
     """
     # 記錄錯誤
     log_error(task, failed_provider, error)
-    
+
     # 檢查是否可重試
     if is_retryable(error) and task.retry_count < MAX_RETRIES:
         # 指數退避重試
         delay = calculate_backoff_delay(task.retry_count)
         schedule_retry(task, delay)
         return
-    
+
     # 嘗試故障轉移到另一個提供商
     fallback_providers = get_fallback_providers(failed_provider)
-    
+
     for provider in fallback_providers:
         if is_provider_healthy(provider):
             # 轉移到備用提供商
@@ -417,7 +419,7 @@ def handle_failure(task, failed_provider, error):
             task.retry_count = 0
             execute_task(task)
             return
-    
+
     # 所有提供商都失敗，標記任務失敗
     mark_task_failed(task, "all_providers_failed")
     send_alert("Task failed after all retry attempts")
@@ -431,75 +433,75 @@ def handle_failure(task, failed_provider, error):
 metrics:
   # 性能指標
   performance:
-    - metric: "task_execution_time"
-      type: "histogram"
-      labels: ["task_type", "provider"]
-      
-    - metric: "queue_wait_time"
-      type: "histogram"
-      labels: ["queue_name"]
-      
+    - metric: 'task_execution_time'
+      type: 'histogram'
+      labels: ['task_type', 'provider']
+
+    - metric: 'queue_wait_time'
+      type: 'histogram'
+      labels: ['queue_name']
+
   # 可靠性指標
   reliability:
-    - metric: "task_success_rate"
-      type: "gauge"
-      target: "> 98%"
-      
-    - metric: "task_error_rate"
-      type: "gauge"
-      alert_threshold: "> 5%"
-      
+    - metric: 'task_success_rate'
+      type: 'gauge'
+      target: '> 98%'
+
+    - metric: 'task_error_rate'
+      type: 'gauge'
+      alert_threshold: '> 5%'
+
   # 資源指標
   resources:
-    - metric: "concurrent_tasks"
-      type: "gauge"
+    - metric: 'concurrent_tasks'
+      type: 'gauge'
       max_value: 100
-      
-    - metric: "provider_utilization"
-      type: "gauge"
-      labels: ["provider"]
-      
+
+    - metric: 'provider_utilization'
+      type: 'gauge'
+      labels: ['provider']
+
   # 成本指標
   cost:
-    - metric: "task_cost"
-      type: "counter"
-      labels: ["provider", "task_type"]
+    - metric: 'task_cost'
+      type: 'counter'
+      labels: ['provider', 'task_type']
 ```
 
 ### 告警規則
 
 ```yaml
 alerts:
-  - name: "high_error_rate"
-    condition: "error_rate > 5%"
-    duration: "5m"
-    severity: "critical"
+  - name: 'high_error_rate'
+    condition: 'error_rate > 5%'
+    duration: '5m'
+    severity: 'critical'
     action:
-      - "send_pagerduty"
-      - "send_slack"
-      
-  - name: "task_timeout"
-    condition: "timeout_rate > 10%"
-    duration: "3m"
-    severity: "warning"
+      - 'send_pagerduty'
+      - 'send_slack'
+
+  - name: 'task_timeout'
+    condition: 'timeout_rate > 10%'
+    duration: '3m'
+    severity: 'warning'
     action:
-      - "send_slack"
-      
-  - name: "queue_backlog"
-    condition: "queue_depth > 1000"
-    duration: "10m"
-    severity: "warning"
+      - 'send_slack'
+
+  - name: 'queue_backlog'
+    condition: 'queue_depth > 1000'
+    duration: '10m'
+    severity: 'warning'
     action:
-      - "auto_scale_up"
-      - "send_slack"
-      
-  - name: "provider_down"
-    condition: "provider_health == 0"
-    duration: "1m"
-    severity: "critical"
+      - 'auto_scale_up'
+      - 'send_slack'
+
+  - name: 'provider_down'
+    condition: 'provider_health == 0'
+    duration: '1m'
+    severity: 'critical'
     action:
-      - "failover"
-      - "send_pagerduty"
+      - 'failover'
+      - 'send_pagerduty'
 ```
 
 ## 🔐 安全最佳實踐
@@ -509,19 +511,19 @@ alerts:
 ```yaml
 security:
   authentication:
-    method: "oauth2"
-    token_rotation: "24h"
-    
+    method: 'oauth2'
+    token_rotation: '24h'
+
   authorization:
     rbac:
       enabled: true
       roles:
-        - name: "admin"
-          permissions: ["*"]
-        - name: "developer"
-          permissions: ["analyze", "fix"]
-        - name: "viewer"
-          permissions: ["read"]
+        - name: 'admin'
+          permissions: ['*']
+        - name: 'developer'
+          permissions: ['analyze', 'fix']
+        - name: 'viewer'
+          permissions: ['read']
 ```
 
 ### 2. 數據加密
@@ -530,13 +532,13 @@ security:
 encryption:
   at_rest:
     enabled: true
-    algorithm: "AES-256-GCM"
-    key_management: "aws-kms"
-    
+    algorithm: 'AES-256-GCM'
+    key_management: 'aws-kms'
+
   in_transit:
     enabled: true
-    protocol: "TLS 1.3"
-    certificate_authority: "letsencrypt"
+    protocol: 'TLS 1.3'
+    certificate_authority: 'letsencrypt'
 ```
 
 ### 3. 網絡隔離
@@ -545,17 +547,17 @@ encryption:
 network:
   vpc:
     enabled: true
-    cidr: "10.0.0.0/16"
-    
+    cidr: '10.0.0.0/16'
+
   firewall:
     rules:
-      - type: "ingress"
+      - type: 'ingress'
         port: 443
-        source: "0.0.0.0/0"
-        
-      - type: "egress"
-        port: "all"
-        destination: "trusted-services"
+        source: '0.0.0.0/0'
+
+      - type: 'egress'
+        port: 'all'
+        destination: 'trusted-services'
 ```
 
 ## 💡 最佳實踐建議

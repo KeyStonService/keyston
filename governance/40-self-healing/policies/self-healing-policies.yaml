@@ -4,7 +4,6 @@
 version: "1.0.0"
 
 policies:
-  
   prevention_first:
     description: "Prevent issues through design rather than react to failures"
     rules:
@@ -12,7 +11,7 @@ policies:
       - "All deployments must have health checks"
       - "All changes must be reversible"
       - "All configurations must be immutable"
-      
+
   binary_response:
     description: "All status reports must be binary: CAN_COMPLETE or CANNOT_COMPLETE"
     forbidden:
@@ -23,14 +22,14 @@ policies:
     required_format:
       status: "CAN_COMPLETE | CANNOT_COMPLETE"
       details: "Specific, concrete information"
-      
+
   instant_execution:
     description: "All operations must meet INSTANT execution standards"
     requirements:
       understanding: "< 1 second"
       deployment: "< 3 minutes"
       healing: "< 45 seconds"
-      
+
   zero_manual_intervention:
     description: "Operational layer must be 100% automated"
     exceptions:
@@ -38,7 +37,7 @@ policies:
       - "Policy changes"
       - "Budget approvals"
       - "Emergency overrides"
-      
+
   continuous_evolution:
     description: "System must evolve autonomously"
     mechanisms:

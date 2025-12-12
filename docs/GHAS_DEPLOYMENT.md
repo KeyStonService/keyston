@@ -23,7 +23,8 @@ gh api \
   --field allowed_actions=all
 ```
 
-**注意**: 請將 `{org}` 替換為您的組織名稱，並使用有效的 GitHub Personal Access Token (PAT) 進行認證。
+**注意**: 請將 `{org}` 替換為您的組織名稱，並使用有效的 GitHub Personal Access
+Token (PAT) 進行認證。
 
 1. **設定組織安全策略**
 
@@ -40,7 +41,7 @@ graph TD
     A[開發環境 DEV] --> B[測試環境 UAT]
     B --> C[預生產環境 STAGING]
     C --> D[生產環境 PROD]
-    
+
     A --> E[GHAS 開發配置]
     B --> F[GHAS 測試配置]
     C --> G[GHAS 預生產配置]
@@ -49,12 +50,12 @@ graph TD
 
 ### 環境配置建議
 
-| 環境 | GHAS 功能 | 掃描頻率 | 警報級別 |
-|------|-----------|----------|----------|
-| DEV | CodeQL, Secret Scanning | 每次 Push | 所有級別 |
-| UAT | 完整 GHAS | 每日 | Medium 以上 |
-| STAGING | 完整 GHAS | 每次 PR | High 以上 |
-| PROD | 完整 GHAS | 持續監控 | Critical 以上 |
+| 環境    | GHAS 功能               | 掃描頻率  | 警報級別      |
+| ------- | ----------------------- | --------- | ------------- |
+| DEV     | CodeQL, Secret Scanning | 每次 Push | 所有級別      |
+| UAT     | 完整 GHAS               | 每日      | Medium 以上   |
+| STAGING | 完整 GHAS               | 每次 PR   | High 以上     |
+| PROD    | 完整 GHAS               | 持續監控  | Critical 以上 |
 
 ### 權限管理配置
 
@@ -97,7 +98,8 @@ gh api \
 
 ### GitHub Actions Runner 設定
 
-針對企業級部署，建議使用自託管 Runner。詳細設定請參考 `.github/workflows/setup-runner.yml` 文件。
+針對企業級部署，建議使用自託管 Runner。詳細設定請參考
+`.github/workflows/setup-runner.yml` 文件。
 
 #### 自託管 Runner 的優勢
 

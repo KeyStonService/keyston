@@ -55,8 +55,7 @@ schemas:
           properties:
             adr_id: { type: string }
             title: { type: string }
-            status:
-              { enum: ["accepted", "superseded", "deprecated", "proposed"] }
+            status: { enum: ["accepted", "superseded", "deprecated", "proposed"] }
             decision: { type: string }
             rationale: { type: string }
             consequences: { type: array, items: { type: string } }
@@ -108,8 +107,7 @@ schemas:
       impact:
         type: object
         properties:
-          knowledge_coverage_improvement:
-            { type: number, minimum: 0, maximum: 1 }
+          knowledge_coverage_improvement: { type: number, minimum: 0, maximum: 1 }
           affected_components: { type: array, items: { type: string } }
           query_performance_impact: { type: string }
       implementation_effort:

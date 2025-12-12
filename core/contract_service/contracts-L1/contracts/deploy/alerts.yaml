@@ -9,109 +9,109 @@ metadata:
     prometheus: kube-prometheus
 spec:
   groups:
-  - name: contracts-service
-    interval: 30s
-    rules:
-    # Pod 可用性告警
-    - alert: ContractsServicePodDown
-      expr: up{job="contracts-service"} == 0
-      for: 5m
-      labels:
-        severity: critical
-        team: contracts-team
-        namespace_io_environment: production
-      annotations:
-        summary: "Contracts Service Pod is down"
-        description: "Pod {{ $labels.pod }} is down for more than 5 minutes"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/contracts-service-down.md"
-    
-    # 高錯誤率告警
-    - alert: ContractsServiceHighErrorRate
-      expr: |
-        rate(http_requests_total{job="contracts-service",status=~"5.."}[5m]) 
-        / 
-        rate(http_requests_total{job="contracts-service"}[5m]) > 0.05
-      for: 5m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "High error rate in Contracts Service"
-        description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-error-rate.md"
-    
-    # 高延遲告警
-    - alert: ContractsServiceHighLatency
-      expr: |
-        histogram_quantile(0.99, 
-          rate(http_request_duration_seconds_bucket{job="contracts-service"}[5m])
-        ) > 1
-      for: 5m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "High latency in Contracts Service"
-        description: "P99 latency is {{ $value }}s (threshold: 1s)"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-latency.md"
-    
-    # Pod 重啟風暴
-    - alert: ContractsServiceFrequentRestarts
-      expr: |
-        rate(kube_pod_container_status_restarts_total{
-          pod=~"contracts-service-.*"
-        }[15m]) > 0.1
-      for: 5m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "Frequent pod restarts in Contracts Service"
-        description: "Pod {{ $labels.pod }} is restarting frequently"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/pod-restarts.md"
-    
-    # 記憶體使用率高
-    - alert: ContractsServiceHighMemoryUsage
-      expr: |
-        container_memory_usage_bytes{pod=~"contracts-service-.*"} 
-        / 
-        container_spec_memory_limit_bytes{pod=~"contracts-service-.*"} > 0.9
-      for: 5m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "High memory usage in Contracts Service"
-        description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-memory.md"
-    
-    # CPU 使用率高
-    - alert: ContractsServiceHighCPUUsage
-      expr: |
-        rate(container_cpu_usage_seconds_total{pod=~"contracts-service-.*"}[5m])
-        / on(pod) group_left()
-        (container_spec_cpu_quota{pod=~"contracts-service-.*"} / container_spec_cpu_period{pod=~"contracts-service-.*"}) > 0.9
-      for: 5m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "High CPU usage in Contracts Service"
-        description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 90%)"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-cpu.md"
-    
-    # Pod 不就緒
-    - alert: ContractsServicePodNotReady
-      expr: |
-        kube_pod_status_ready{
-          pod=~"contracts-service-.*",
-          condition="true"
-        } == 0
-      for: 10m
-      labels:
-        severity: warning
-        team: contracts-team
-      annotations:
-        summary: "Contracts Service Pod not ready"
-        description: "Pod {{ $labels.pod }} has been not ready for more than 10 minutes"
-        runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/pod-not-ready.md"
+    - name: contracts-service
+      interval: 30s
+      rules:
+        # Pod 可用性告警
+        - alert: ContractsServicePodDown
+          expr: up{job="contracts-service"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            team: contracts-team
+            namespace_io_environment: production
+          annotations:
+            summary: "Contracts Service Pod is down"
+            description: "Pod {{ $labels.pod }} is down for more than 5 minutes"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/contracts-service-down.md"
+
+        # 高錯誤率告警
+        - alert: ContractsServiceHighErrorRate
+          expr: |
+            rate(http_requests_total{job="contracts-service",status=~"5.."}[5m]) 
+            / 
+            rate(http_requests_total{job="contracts-service"}[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "High error rate in Contracts Service"
+            description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-error-rate.md"
+
+        # 高延遲告警
+        - alert: ContractsServiceHighLatency
+          expr: |
+            histogram_quantile(0.99, 
+              rate(http_request_duration_seconds_bucket{job="contracts-service"}[5m])
+            ) > 1
+          for: 5m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "High latency in Contracts Service"
+            description: "P99 latency is {{ $value }}s (threshold: 1s)"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-latency.md"
+
+        # Pod 重啟風暴
+        - alert: ContractsServiceFrequentRestarts
+          expr: |
+            rate(kube_pod_container_status_restarts_total{
+              pod=~"contracts-service-.*"
+            }[15m]) > 0.1
+          for: 5m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "Frequent pod restarts in Contracts Service"
+            description: "Pod {{ $labels.pod }} is restarting frequently"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/pod-restarts.md"
+
+        # 記憶體使用率高
+        - alert: ContractsServiceHighMemoryUsage
+          expr: |
+            container_memory_usage_bytes{pod=~"contracts-service-.*"} 
+            / 
+            container_spec_memory_limit_bytes{pod=~"contracts-service-.*"} > 0.9
+          for: 5m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "High memory usage in Contracts Service"
+            description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-memory.md"
+
+        # CPU 使用率高
+        - alert: ContractsServiceHighCPUUsage
+          expr: |
+            rate(container_cpu_usage_seconds_total{pod=~"contracts-service-.*"}[5m])
+            / on(pod) group_left()
+            (container_spec_cpu_quota{pod=~"contracts-service-.*"} / container_spec_cpu_period{pod=~"contracts-service-.*"}) > 0.9
+          for: 5m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "High CPU usage in Contracts Service"
+            description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 90%)"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/high-cpu.md"
+
+        # Pod 不就緒
+        - alert: ContractsServicePodNotReady
+          expr: |
+            kube_pod_status_ready{
+              pod=~"contracts-service-.*",
+              condition="true"
+            } == 0
+          for: 10m
+          labels:
+            severity: warning
+            team: contracts-team
+          annotations:
+            summary: "Contracts Service Pod not ready"
+            description: "Pod {{ $labels.pod }} has been not ready for more than 10 minutes"
+            runbook_url: "https://github.com/we-can-fix/synergymesh/blob/main/docs/runbooks/pod-not-ready.md"

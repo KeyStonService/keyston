@@ -9,14 +9,14 @@
 
 ## 專家團隊一覽
 
-| 專家 | 角色 | 專長領域 | 經驗 |
-|------|------|---------|------|
-| 🧠 Dr. Alex Chen | AI 架構師 | 決策引擎、神經網路、ML 系統 | 15 年 |
-| 💬 Sarah Wong | NLP 專家 | 大語言模型、對話系統、Prompt Engineering | 12 年 |
-| 🔐 Marcus Johnson | 安全架構師 | 零信任架構、滲透測試、合規框架 | 18 年 |
-| 🗄️ Li Wei | 數據庫專家 | PostgreSQL 優化、分佈式數據庫、數據倉庫 | 16 年 |
-| 🚀 Emma Thompson | DevOps 專家 | K8s 編排、GitOps、混沌工程 | 14 年 |
-| 🏗️ James Miller | 系統架構師 | 微服務、事件驅動、領域驅動設計 | 20 年 |
+| 專家              | 角色        | 專長領域                                 | 經驗  |
+| ----------------- | ----------- | ---------------------------------------- | ----- |
+| 🧠 Dr. Alex Chen  | AI 架構師   | 決策引擎、神經網路、ML 系統              | 15 年 |
+| 💬 Sarah Wong     | NLP 專家    | 大語言模型、對話系統、Prompt Engineering | 12 年 |
+| 🔐 Marcus Johnson | 安全架構師  | 零信任架構、滲透測試、合規框架           | 18 年 |
+| 🗄️ Li Wei         | 數據庫專家  | PostgreSQL 優化、分佈式數據庫、數據倉庫  | 16 年 |
+| 🚀 Emma Thompson  | DevOps 專家 | K8s 編排、GitOps、混沌工程               | 14 年 |
+| 🏗️ James Miller   | 系統架構師  | 微服務、事件驅動、領域驅動設計           | 20 年 |
 
 ---
 
@@ -24,23 +24,23 @@
 
 ```yaml
 domain_mapping:
-  DATABASE:     
-    primary: Li Wei          
+  DATABASE:
+    primary: Li Wei
     secondary: [James Miller]
-  SECURITY:     
-    primary: Marcus Johnson  
+  SECURITY:
+    primary: Marcus Johnson
     secondary: [Emma Thompson]
-  ARCHITECTURE: 
-    primary: James Miller    
+  ARCHITECTURE:
+    primary: James Miller
     secondary: [Alex Chen, Emma Thompson]
-  AI_ML:        
-    primary: Alex Chen       
+  AI_ML:
+    primary: Alex Chen
     secondary: [Sarah Wong]
-  NLP:          
-    primary: Sarah Wong      
+  NLP:
+    primary: Sarah Wong
     secondary: [Alex Chen]
-  DEVOPS:       
-    primary: Emma Thompson   
+  DEVOPS:
+    primary: Emma Thompson
     secondary: [James Miller]
 ```
 
@@ -159,7 +159,7 @@ domain_mapping:
 admin-copilot chat --expert "Alex Chen"
 
 # 自動選擇相關專家
-admin-copilot explain "How to optimize database queries?" 
+admin-copilot explain "How to optimize database queries?"
 # -> 自動路由到 Li Wei
 ```
 

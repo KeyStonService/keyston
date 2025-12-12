@@ -12,17 +12,7 @@
       "@config/*": ["../config/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "70-architecture-skeletons/**"
-  ],
-  "references": [
-    { "path": "./80-skeleton-configs/01-architecture-stability" }
-  ]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "build", "70-architecture-skeletons/**"],
+  "references": [{ "path": "./80-skeleton-configs/01-architecture-stability" }]
 }

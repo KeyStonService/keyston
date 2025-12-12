@@ -25,38 +25,38 @@ on:
         required: false
         type: boolean
         default: true
-      
+
       validate-json:
         description: "Validate JSON files"
         required: false
         type: boolean
         default: true
-      
+
       validate-markdown:
         description: "Validate Markdown files"
         required: false
         type: boolean
         default: false
-      
+
       validate-python:
         description: "Lint and type-check Python code"
         required: false
         type: boolean
         default: false
-      
+
       validate-typescript:
         description: "Lint and type-check TypeScript code"
         required: false
         type: boolean
         default: false
-      
+
       # Configuration
       fail-on-error:
         description: "Fail workflow on validation errors"
         required: false
         type: boolean
         default: true
-      
+
       changed-files-only:
         description: "Only validate changed files"
         required: false
@@ -66,17 +66,17 @@ on:
 jobs:
   validation:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Get Changed Files
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Get changed files
         if: inputs.changed-files-only
         id: changed-files
@@ -86,34 +86,34 @@ jobs:
           else
             echo "files=$(git diff --name-only HEAD~1 HEAD | tr '\n' ' ')" >> $GITHUB_OUTPUT
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # YAML Validation
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Python for validation
         if: inputs.validate-yaml || inputs.validate-json || inputs.validate-python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      
+          python-version: "3.11"
+
       - name: Validate YAML syntax
         if: inputs.validate-yaml
         run: |
           echo "## 📄 YAML Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ inputs.changed-files-only }}" == "true" ]; then
             yaml_files=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n' | grep -E '\.(yaml|yml)$' || true)
           else
             yaml_files=$(find . -type f \( -name "*.yaml" -o -name "*.yml" \) ! -path "*/node_modules/*" ! -path "*/.git/*" || true)
           fi
-          
+
           if [ -z "$yaml_files" ]; then
             echo "No YAML files to validate" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
-          
+
           validation_failed=0
           for file in $yaml_files; do
             if [ -f "$file" ]; then
@@ -125,32 +125,32 @@ jobs:
               fi
             fi
           done
-          
+
           if [ $validation_failed -eq 1 ] && [ "${{ inputs.fail-on-error }}" == "true" ]; then
             exit 1
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # JSON Validation
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Validate JSON syntax
         if: inputs.validate-json
         run: |
           echo "## 📋 JSON Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ inputs.changed-files-only }}" == "true" ]; then
             json_files=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n' | grep -E '\.json$' || true)
           else
             json_files=$(find . -type f -name "*.json" ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/dist/*" || true)
           fi
-          
+
           if [ -z "$json_files" ]; then
             echo "No JSON files to validate" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
-          
+
           validation_failed=0
           for file in $json_files; do
             if [ -f "$file" ]; then
@@ -162,48 +162,48 @@ jobs:
               fi
             fi
           done
-          
+
           if [ $validation_failed -eq 1 ] && [ "${{ inputs.fail-on-error }}" == "true" ]; then
             exit 1
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Markdown Validation
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Node.js for Markdown
         if: inputs.validate-markdown
         uses: actions/setup-node@v6
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Install markdownlint
         if: inputs.validate-markdown
         run: npm install -g markdownlint-cli
-      
+
       - name: Validate Markdown
         if: inputs.validate-markdown
         run: |
           echo "## 📝 Markdown Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ inputs.changed-files-only }}" == "true" ]; then
             md_files=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n' | grep -E '\.md$' || true)
           else
             md_files=$(find . -type f -name "*.md" ! -path "*/node_modules/*" ! -path "*/.git/*" || true)
           fi
-          
+
           if [ -z "$md_files" ]; then
             echo "No Markdown files to validate" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
-          
+
           if [ -f ".markdownlint.json" ]; then
             config_option="--config .markdownlint.json"
           else
             config_option=""
           fi
-          
+
           if markdownlint $config_option $md_files; then
             echo "✅ All Markdown files passed validation" >> $GITHUB_STEP_SUMMARY
           else
@@ -212,35 +212,35 @@ jobs:
               exit 1
             fi
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Python Validation
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Install Python linting tools
         if: inputs.validate-python
         run: |
           pip install ruff black mypy
-      
+
       - name: Validate Python code
         if: inputs.validate-python
         run: |
           echo "## 🐍 Python Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ "${{ inputs.changed-files-only }}" == "true" ]; then
             py_files=$(echo "${{ steps.changed-files.outputs.files }}" | tr ' ' '\n' | grep -E '\.py$' || true)
           else
             py_files=$(find . -type f -name "*.py" ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/venv/*" ! -path "*/.venv/*" || true)
           fi
-          
+
           if [ -z "$py_files" ]; then
             echo "No Python files to validate" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
-          
+
           validation_failed=0
-          
+
           # Ruff linting
           echo "### Linting (ruff)" >> $GITHUB_STEP_SUMMARY
           if ruff check $py_files 2>&1 | tee /tmp/ruff.log; then
@@ -249,7 +249,7 @@ jobs:
             echo "❌ Ruff: Issues found" >> $GITHUB_STEP_SUMMARY
             validation_failed=1
           fi
-          
+
           # Black formatting check
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Formatting (black)" >> $GITHUB_STEP_SUMMARY
@@ -259,40 +259,40 @@ jobs:
             echo "⚠️ Black: Some files need formatting" >> $GITHUB_STEP_SUMMARY
             # Don't fail on formatting, just warn
           fi
-          
+
           if [ $validation_failed -eq 1 ] && [ "${{ inputs.fail-on-error }}" == "true" ]; then
             exit 1
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # TypeScript Validation
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Setup Node.js for TypeScript
         if: inputs.validate-typescript
         uses: actions/setup-node@v6
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Validate TypeScript code
         if: inputs.validate-typescript
         run: |
           echo "## 📘 TypeScript Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           # Check if TypeScript project exists
           if [ ! -f "tsconfig.json" ] && [ ! -f "package.json" ]; then
             echo "⚠️ No TypeScript project configuration found" >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
-          
+
           # Install dependencies if needed
           if [ -f "package.json" ]; then
             npm ci --silent || npm install --silent
           fi
-          
+
           validation_failed=0
-          
+
           # ESLint
           if [ -f ".eslintrc.yaml" ] || [ -f ".eslintrc.json" ] || [ -f "eslint.config.js" ]; then
             echo "### Linting (eslint)" >> $GITHUB_STEP_SUMMARY
@@ -303,7 +303,7 @@ jobs:
               validation_failed=1
             fi
           fi
-          
+
           # TypeScript compiler
           if [ -f "tsconfig.json" ]; then
             echo "" >> $GITHUB_STEP_SUMMARY
@@ -315,15 +315,15 @@ jobs:
               validation_failed=1
             fi
           fi
-          
+
           if [ $validation_failed -eq 1 ] && [ "${{ inputs.fail-on-error }}" == "true" ]; then
             exit 1
           fi
-      
+
       # ─────────────────────────────────────────────────────────────────────────
       # Summary
       # ─────────────────────────────────────────────────────────────────────────
-      
+
       - name: Validation Summary
         if: always()
         run: |

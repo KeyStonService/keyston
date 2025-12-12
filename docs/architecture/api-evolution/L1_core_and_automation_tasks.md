@@ -3,7 +3,8 @@
 ## 文件說明 / Document Purpose
 
 本文件描述本輪針對 Core Engine（SynergyMesh）與 Automation 層的 API 演化計畫。  
-This document describes the current round of API evolution planning for the Core Engine (SynergyMesh) and Automation layer.
+This document describes the current round of API evolution planning for the Core
+Engine (SynergyMesh) and Automation layer.
 
 ## 版本資訊 / Version Information
 
@@ -32,7 +33,8 @@ All changes must align with:
 
 ## 1. automation.hyperautomation — 新增 7 個治理/安全 API
 
-> **目標 / Objective**: 讓 Hyperautomation 模組可以作為「治理與安全決策 API 中心」。
+> **目標 /
+> Objective**: 讓 Hyperautomation 模組可以作為「治理與安全決策 API 中心」。
 
 ### 📦 模組資訊 / Module Information
 
@@ -139,7 +141,8 @@ All changes must align with:
 
 ## 2. core.unified_integration — 增強 orchestrator 能力（+3 endpoints）
 
-> **目標 / Objective**: 讓 `core.unified_integration` 成為所有跨服務工作流的唯一入口。
+> **目標 / Objective**: 讓 `core.unified_integration`
+> 成為所有跨服務工作流的唯一入口。
 
 ### 📦 模組資訊 / Module Information
 
@@ -415,14 +418,14 @@ After completing all endpoint implementations, you must perform:
 
 ## 實施時間表 / Implementation Timeline
 
-| 模組 / Module | 預估時間 / Estimated Time | 優先級 / Priority |
-|--------------|-------------------------|-----------------|
-| automation.hyperautomation | 5-7 天 | HIGH |
-| core.unified_integration | 3-5 天 | HIGH |
-| core.mind_matrix | 4-6 天 | MEDIUM |
-| automation.autonomous | 3-4 天 | MEDIUM |
-| services.mcp | 1-2 天 | LOW |
-| apps.web.ui | 2-3 天 | LOW |
+| 模組 / Module              | 預估時間 / Estimated Time | 優先級 / Priority |
+| -------------------------- | ------------------------- | ----------------- |
+| automation.hyperautomation | 5-7 天                    | HIGH              |
+| core.unified_integration   | 3-5 天                    | HIGH              |
+| core.mind_matrix           | 4-6 天                    | MEDIUM            |
+| automation.autonomous      | 3-4 天                    | MEDIUM            |
+| services.mcp               | 1-2 天                    | LOW               |
+| apps.web.ui                | 2-3 天                    | LOW               |
 
 **總計 / Total**: 約 18-27 天（依團隊規模與並行度調整）
 
@@ -430,9 +433,9 @@ After completing all endpoint implementations, you must perform:
 
 ## 變更歷史 / Change Log
 
-| 日期 / Date | 版本 / Version | 變更內容 / Changes | 負責人 / Owner |
-|-------------|----------------|-------------------|----------------|
-| 2025-12-07  | v1.0.0         | 初始版本，定義 18 個新 endpoints | Platform Team |
+| 日期 / Date | 版本 / Version | 變更內容 / Changes               | 負責人 / Owner |
+| ----------- | -------------- | -------------------------------- | -------------- |
+| 2025-12-07  | v1.0.0         | 初始版本，定義 18 個新 endpoints | Platform Team  |
 
 ---
 

@@ -2,7 +2,10 @@
 
 ## 🎯 Purpose
 
-The Architecture Reasoner is a specialized AI agent responsible for **global optimization reasoning** across the Unmanned Island System. It ensures that all architecture changes, refactoring proposals, and language governance decisions are evaluated from a system-wide perspective before local implementation.
+The Architecture Reasoner is a specialized AI agent responsible for **global
+optimization reasoning** across the Unmanned Island System. It ensures that all
+architecture changes, refactoring proposals, and language governance decisions
+are evaluated from a system-wide perspective before local implementation.
 
 ## 🏗️ Role in Agent Hierarchy
 
@@ -51,7 +54,8 @@ Unmanned Island System Agent Architecture
    - Define new architectural patterns when needed
 
 4. **Metric Optimization**
-   - Track system-wide metrics (language violations, security findings, architecture compliance)
+   - Track system-wide metrics (language violations, security findings,
+     architecture compliance)
    - Define optimization targets for each Phase (0-5)
    - Monitor progress toward global goals
    - Report deviations and suggest corrections
@@ -149,13 +153,13 @@ required_inputs:
     - Dependency graphs (auto-generated)
     - Security scan results (Semgrep, CodeQL)
     - Test coverage reports
-    
+
   proposed_change:
     - Refactor playbook or proposal document
     - Affected modules and files
     - Expected local improvements
     - Risk assessment
-    
+
   historical_context:
     - Previous architecture decisions
     - Past violation patterns
@@ -169,61 +173,64 @@ All Architecture Reasoner decisions follow this format:
 
 ```yaml
 decision:
-  proposal_id: "{{PROPOSAL_ID}}"
+  proposal_id: '{{PROPOSAL_ID}}'
   decision: APPROVED | REJECTED | CONDITIONAL_APPROVAL
-  timestamp: "{{ISO_8601_TIMESTAMP}}"
-  
+  timestamp: '{{ISO_8601_TIMESTAMP}}'
+
 global_optimization_view:
   optimization_targets:
-    - metric: "Language violations"
-      impact: "-8 (moves toward target)"
-    - metric: "Semgrep HIGH"
-      impact: "-3 (achieves target)"
-    - metric: "Architecture compliance"
-      impact: "+1 (improvement)"
-      
+    - metric: 'Language violations'
+      impact: '-8 (moves toward target)'
+    - metric: 'Semgrep HIGH'
+      impact: '-3 (achieves target)'
+    - metric: 'Architecture compliance'
+      impact: '+1 (improvement)'
+
   hard_constraints_check:
-    - constraint: "No apps → core dependencies"
+    - constraint: 'No apps → core dependencies'
       status: PASS
-    - constraint: "Semgrep HIGH = 0"
+    - constraint: 'Semgrep HIGH = 0'
       status: PASS
-    - constraint: "Test coverage ≥ baseline - 2%"
+    - constraint: 'Test coverage ≥ baseline - 2%'
       status: PASS
-      
+
   global_impact_assessment:
-    positive: ["Language violations -8", "Security improved"]
-    neutral: ["Test coverage unchanged"]
+    positive: ['Language violations -8', 'Security improved']
+    neutral: ['Test coverage unchanged']
     negative: []
-    net: "POSITIVE - System health improves"
+    net: 'POSITIVE - System health improves'
 
 reasoning:
   why_approved: |
     This proposal advances all three global optimization targets
     without violating any hard constraints. The changes are scoped
     appropriately and include proper rollback plans.
-    
+
   why_rejected: |
     {{REJECTION_REASON if decision == REJECTED}}
-    
+
   conditions: |
     {{CONDITIONS if decision == CONDITIONAL_APPROVAL}}
-    
+
 recommendations:
-  - "Consider also migrating service X for consistency"
-  - "Add integration test for new API boundary"
-  - "Update system-module-map.yaml after completion"
-  
+  - 'Consider also migrating service X for consistency'
+  - 'Add integration test for new API boundary'
+  - 'Update system-module-map.yaml after completion'
+
 approval_chain:
-  reasoner: "architecture-reasoner-v1"
-  reviewer: "{{HUMAN_REVIEWER_NAME}}"
-  final_authority: "SynergyMesh Admin Team"
+  reasoner: 'architecture-reasoner-v1'
+  reviewer: '{{HUMAN_REVIEWER_NAME}}'
+  final_authority: 'SynergyMesh Admin Team'
 ```
 
 ## 📚 References
 
 - **AI Behavior Contract**: `.github/AI-BEHAVIOR-CONTRACT.md` (Section 9)
-- **Refactor Prompts**: `docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md` (Section 1.5)
-- **Playbook Template**: `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md` (Section 3)
+- **Refactor Prompts**: `docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md`
+  (Section 1.5)
+- **Playbook Template**:
+  `docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md`
+  (Section 3)
 - **System Module Map**: `config/system-module-map.yaml`
 - **Architecture Skeletons**: `automation/architecture-skeletons/`
 

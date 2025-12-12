@@ -9,9 +9,9 @@ objectives:
     name: "語言治理健康度"
     description: "降低語言違規，讓模組語言堆疊穩定且符合策略。"
     metric: "language_violations_total"
-    target: 0                    # 目標值：違規數 0
+    target: 0 # 目標值：違規數 0
     direction: "lower_is_better" # 越低越好
-    weight: 0.4                  # 在總分中的權重（0~1）
+    weight: 0.4 # 在總分中的權重（0~1）
 
   - id: "security"
     name: "安全掃描健康度"
@@ -25,7 +25,7 @@ objectives:
     name: "重構劇本覆蓋率"
     description: "高風險 cluster 應該都有對應的 03_refactor Playbook。"
     metric: "playbook_coverage_ratio"
-    target: 1.0                  # 目標：100% 覆蓋
+    target: 1.0 # 目標：100% 覆蓋
     direction: "higher_is_better"
     weight: 0.3
 

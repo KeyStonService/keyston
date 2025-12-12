@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "*/5 * * * *"
 
 env:
   SAFETY_THRESHOLD: "0.99"

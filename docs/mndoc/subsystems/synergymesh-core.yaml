@@ -22,10 +22,10 @@ domain: "automation"
 
 # Four-layer cognitive architecture
 capabilities:
-  - perception    # 感知層 - 遙測收集、異常偵測
-  - reasoning     # 推理層 - 因果圖構建、風險評分
-  - execution     # 執行層 - 多代理協作、同步屏障
-  - proof         # 證明層 - 審計鏈固化、SLSA 證據
+  - perception # 感知層 - 遙測收集、異常偵測
+  - reasoning # 推理層 - 因果圖構建、風險評分
+  - execution # 執行層 - 多代理協作、同步屏障
+  - proof # 證明層 - 審計鏈固化、SLSA 證據
 
 # Components belonging to this subsystem
 components:

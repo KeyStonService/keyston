@@ -6,14 +6,20 @@
 
 當檢測到缺少依賴時，系統會自動升級環境配置並安裝缺失的依賴，確保最佳功能體驗。
 
-When missing dependencies are detected, the system automatically upgrades the environment configuration and installs missing dependencies to ensure optimal functionality.
+When missing dependencies are detected, the system automatically upgrades the
+environment configuration and installs missing dependencies to ensure optimal
+functionality.
 
 ## 🆕 Enterprise Features (New in v2.0)
 
-- ✅ **並行安裝** Parallel Installation - Install multiple dependencies simultaneously
-- ✅ **版本衝突檢測** Version Conflict Detection - Detect and report version conflicts
-- ✅ **依賴緩存** Dependency Caching - Cache installation status to speed up checks
-- ✅ **配置文件支持** Config File Support - Load dependencies from requirements.txt, pyproject.toml, etc.
+- ✅ **並行安裝** Parallel Installation - Install multiple dependencies
+  simultaneously
+- ✅ **版本衝突檢測** Version Conflict Detection - Detect and report version
+  conflicts
+- ✅ **依賴緩存** Dependency Caching - Cache installation status to speed up
+  checks
+- ✅ **配置文件支持** Config File Support - Load dependencies from
+  requirements.txt, pyproject.toml, etc.
 - ✅ **智能推薦** Intelligent Recommendations - Suggest related dependencies
 
 ---
@@ -166,21 +172,21 @@ print(upgrader.get_summary())  # 包含緩存統計
 
 這些依賴會在缺少時自動安裝：
 
-| 依賴 Dependency | 用途 Purpose | 安裝命令 Install Command |
-|----------------|-------------|------------------------|
-| python-dotenv | 環境變量管理 | `pip install python-dotenv>=1.0.0` |
-| loguru | 增強日誌功能 | `pip install loguru>=0.7.2` |
+| 依賴 Dependency | 用途 Purpose | 安裝命令 Install Command           |
+| --------------- | ------------ | ---------------------------------- |
+| python-dotenv   | 環境變量管理 | `pip install python-dotenv>=1.0.0` |
+| loguru          | 增強日誌功能 | `pip install loguru>=0.7.2`        |
 
 ### 開發依賴 Development Dependencies
 
 這些依賴僅在開發和測試時需要：
 
-| 依賴 Dependency | 用途 Purpose | 安裝命令 Install Command |
-|----------------|-------------|------------------------|
-| pytest | 測試框架 | `pip install pytest>=8.0.0` |
-| pytest-asyncio | 異步測試 | `pip install pytest-asyncio>=0.23.5` |
-| black | 代碼格式化 | `pip install black>=24.1.1` |
-| isort | 導入排序 | `pip install isort>=5.13.2` |
+| 依賴 Dependency | 用途 Purpose | 安裝命令 Install Command             |
+| --------------- | ------------ | ------------------------------------ |
+| pytest          | 測試框架     | `pip install pytest>=8.0.0`          |
+| pytest-asyncio  | 異步測試     | `pip install pytest-asyncio>=0.23.5` |
+| black           | 代碼格式化   | `pip install black>=24.1.1`          |
+| isort           | 導入排序     | `pip install isort>=5.13.2`          |
 
 ---
 
@@ -204,7 +210,7 @@ except ImportError:
 def install_package(pip_package: str):
     # 使用 pip 安裝
     subprocess.run([
-        sys.executable, '-m', 'pip', 'install', 
+        sys.executable, '-m', 'pip', 'install',
         pip_package, '--quiet'
     ])
 ```
@@ -411,11 +417,11 @@ if os.getenv('CI'):
 
 ## 📈 性能指標 Performance Metrics
 
-| 操作 | 平均時間 | 說明 |
-|------|---------|------|
-| 依賴檢測 | < 10ms | 嘗試導入 |
-| 安裝單個依賴 | 2-10s | 取決於包大小 |
-| 驗證安裝 | < 10ms | 重新導入 |
+| 操作         | 平均時間 | 說明         |
+| ------------ | -------- | ------------ |
+| 依賴檢測     | < 10ms   | 嘗試導入     |
+| 安裝單個依賴 | 2-10s    | 取決於包大小 |
+| 驗證安裝     | < 10ms   | 重新導入     |
 
 ---
 

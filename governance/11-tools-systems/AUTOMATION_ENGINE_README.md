@@ -4,7 +4,8 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Governance Tools and Systems** dimension.
+This directory contains the autonomous automation engine for the **Governance
+Tools and Systems** dimension.
 
 ## 🚀 Features
 
@@ -29,8 +30,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main
-**Governance Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main **Governance
+Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -54,6 +55,5 @@ engine = GovernanceToolsEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: governance_tools
-**Dimension Name**: Governance Tools and Systems
-**Status**: Active
+**Dimension ID**: governance_tools **Dimension Name**: Governance Tools and
+Systems **Status**: Active

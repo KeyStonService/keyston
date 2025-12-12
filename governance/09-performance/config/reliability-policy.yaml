@@ -24,8 +24,8 @@ rules:
 
   # Disaster Recovery
   disaster_recovery:
-    rto_minutes: "1"  # Recovery Time Objective
-    rpo_minutes: "5"  # Recovery Point Objective
+    rto_minutes: "1" # Recovery Time Objective
+    rpo_minutes: "5" # Recovery Point Objective
     backup_frequency: "continuous"
     backup_locations: "3+ geographic regions"
     dr_testing: "quarterly"

@@ -19,14 +19,14 @@ sbom_generation:
   enabled: true
   tool: syft
   version: ">=0.100.0"
-  
+
   # 掃描目標
   targets:
     - type: image
       ref: "ghcr.io/we-can-fix/contracts-l1:${VERSION}"
     - type: directory
       path: "./dist"
-  
+
   # 輸出格式
   formats:
     - name: spdx-json
@@ -35,7 +35,7 @@ sbom_generation:
     - name: cyclonedx-json
       version: "1.5"
       output: "sbom/contracts-l1-sbom.cyclonedx.json"
-  
+
   # 掃描選項
   options:
     exclude:
@@ -44,34 +44,34 @@ sbom_generation:
     catalogers:
       - npm-package-json
       - node-modules
-    
+
 # 簽章配置
 signing:
   enabled: true
   tool: cosign
-  mode: keyless  # 使用 Sigstore keyless signing
-  
+  mode: keyless # 使用 Sigstore keyless signing
+
   # OIDC 配置
   oidc:
     issuer: "https://token.actions.githubusercontent.com"
     identity_regexp: ".*@isynergymesh\\.com"
-  
+
   # 簽章對象
   targets:
     - path: "sbom/contracts-l1-sbom.spdx.json"
       signature_file: "sbom/contracts-l1-sbom.spdx.json.sig"
     - path: "sbom/contracts-l1-sbom.cyclonedx.json"
       signature_file: "sbom/contracts-l1-sbom.cyclonedx.json.sig"
-  
+
   # 附加 attestation
   attestation:
     enabled: true
     predicate_type: "https://in-toto.io/Statement/v0.1"
-    
+
 # 驗證配置
 verification:
   enabled: true
-  
+
   # 驗證步驟
   checks:
     - name: signature_valid
@@ -83,7 +83,7 @@ verification:
     - name: timestamp_recent
       description: "驗證簽章時間在 24 小時內"
       required: false
-  
+
   # 失敗動作
   on_failure:
     action: "block"
@@ -96,7 +96,7 @@ automation:
   ci_trigger:
     - on_image_push
     - on_release_tag
-  
+
   # 自動上傳
   upload:
     enabled: true
@@ -105,7 +105,7 @@ automation:
         asset_name: "sbom-${VERSION}.tar.gz"
       - type: artifact_registry
         path: "sbom/${VERSION}/"
-  
+
   # 保留策略
   retention:
     days: 90

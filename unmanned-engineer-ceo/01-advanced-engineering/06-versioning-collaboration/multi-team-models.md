@@ -9,7 +9,7 @@
 ## CODEOWNERS 策略
 
 - 依 core/、automation/、docs/ 區塊分 ownership。
-- 重要檔案（synergymesh.yaml, config/*）必須由 Governance 團隊審核。
+- 重要檔案（synergymesh.yaml, config/\*）必須由 Governance 團隊審核。
 
 ## 工具
 

@@ -13,13 +13,15 @@
 
 ### 清理前提條件
 
-在刪除 `docs/refactor_playbooks/_legacy_scratch/README.md` 之前，必須確認以下所有條件滿足：
+在刪除 `docs/refactor_playbooks/_legacy_scratch/README.md`
+之前，必須確認以下所有條件滿足：
 
 #### 1. P0 行動全部完成
 
 - [ ] `governance/registry/plugins/hlp-executor-core.yaml` 已創建並驗證
 - [ ] `config/system-module-map.yaml` 已更新
-- [ ] `infrastructure/kubernetes/` 下所有 K8s 清單已創建並通過 `kubectl apply --dry-run`
+- [ ] `infrastructure/kubernetes/` 下所有 K8s 清單已創建並通過
+      `kubectl apply --dry-run`
 - [ ] `core/slsa_provenance/plugins/hlp-executor-core/` 目錄結構已建立
 - [ ] `config/dependencies.yaml` 已更新
 - [ ] `docs/architecture/EXECUTION_MODEL.md` 已創建
@@ -101,9 +103,9 @@ grep -r "HLP Executor Core" CHANGELOG.md
 cat > docs/refactor_playbooks/_legacy_scratch/README.md.INTEGRATED << EOF
 # Integration Status: COMPLETED
 
-**Original File**: README.md  
-**Integration Date**: $(date +%Y-%m-%d)  
-**Integration By**: Copilot Agent  
+**Original File**: README.md
+**Integration Date**: $(date +%Y-%m-%d)
+**Integration By**: Copilot Agent
 
 ## Integration Summary
 This file has been fully deconstructed and integrated into the Unmanned Island system.
@@ -207,7 +209,8 @@ ls -la docs/refactor_playbooks/_legacy_scratch/
 
 #### 監控配置完整性
 
-- [ ] `infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml` 存在
+- [ ] `infrastructure/monitoring/prometheus/servicemonitors/hlp-executor-metrics.yaml`
+      存在
 - [ ] `config/monitoring.yaml` 包含 HLP 日誌配置
 
 #### 運維手冊完整性
@@ -280,24 +283,24 @@ cat docs/refactor_playbooks/_legacy_scratch/README.md | head -20
 
 ### 推薦時間表
 
-| 階段 | 時間點 | 條件 | 動作 |
-|------|--------|------|------|
-| **階段 0** | 整合開始前 | - | 創建備份 |
-| **階段 1** | P0 完成後 | 所有 P0 檔案創建 | 標記 P0 完成，開始 P1 |
-| **階段 2** | P1 完成 80% | 核心功能整合 | 創建整合標記檔案 |
-| **階段 3** | P1 完成 100% | 所有必要檔案就緒 | 移動到存檔目錄 |
-| **階段 4** | +7 天 | 系統運行穩定 | 驗證無問題 |
-| **階段 5** | +30 天 | 持續穩定運行 | 刪除存檔（可選） |
+| 階段       | 時間點       | 條件             | 動作                  |
+| ---------- | ------------ | ---------------- | --------------------- |
+| **階段 0** | 整合開始前   | -                | 創建備份              |
+| **階段 1** | P0 完成後    | 所有 P0 檔案創建 | 標記 P0 完成，開始 P1 |
+| **階段 2** | P1 完成 80%  | 核心功能整合     | 創建整合標記檔案      |
+| **階段 3** | P1 完成 100% | 所有必要檔案就緒 | 移動到存檔目錄        |
+| **階段 4** | +7 天        | 系統運行穩定     | 驗證無問題            |
+| **階段 5** | +30 天       | 持續穩定運行     | 刪除存檔（可選）      |
 
 ### 保守時間表（推薦）
 
-| 階段 | 時間點 | 條件 | 動作 |
-|------|--------|------|------|
-| **階段 0** | 整合開始前 | - | 創建備份 |
-| **階段 1** | P0+P1 全部完成 | 所有必要檔案創建 | 創建整合標記 |
-| **階段 2** | +14 天 | 系統穩定 + P2 完成 50% | 移動到存檔 |
-| **階段 3** | +60 天 | 持續穩定運行 | 考慮刪除存檔 |
-| **階段 4** | +90 天 | 完全穩定 | 最終清理 |
+| 階段       | 時間點         | 條件                   | 動作         |
+| ---------- | -------------- | ---------------------- | ------------ |
+| **階段 0** | 整合開始前     | -                      | 創建備份     |
+| **階段 1** | P0+P1 全部完成 | 所有必要檔案創建       | 創建整合標記 |
+| **階段 2** | +14 天         | 系統穩定 + P2 完成 50% | 移動到存檔   |
+| **階段 3** | +60 天         | 持續穩定運行           | 考慮刪除存檔 |
+| **階段 4** | +90 天         | 完全穩定               | 最終清理     |
 
 ---
 

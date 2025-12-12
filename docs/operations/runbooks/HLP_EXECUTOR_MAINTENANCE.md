@@ -9,20 +9,23 @@
 
 ## 📋 文件目的 | Document Purpose
 
-本文件提供 HLP Executor Core Plugin 的例行維護程序，包含定期維護任務、維護腳本和最佳實踐。
+本文件提供 HLP Executor Core
+Plugin 的例行維護程序，包含定期維護任務、維護腳本和最佳實踐。
 
-This document provides routine maintenance procedures for the HLP Executor Core Plugin, including scheduled maintenance tasks, maintenance scripts, and best practices.
+This document provides routine maintenance procedures for the HLP Executor Core
+Plugin, including scheduled maintenance tasks, maintenance scripts, and best
+practices.
 
 ---
 
 ## 📅 維護排程概覽 | Maintenance Schedule Overview
 
-| 頻率 | 任務 | 維護窗口 | 預計時間 | 優先級 |
-|------|------|----------|----------|--------|
-| **每日** | 狀態清理 | 03:00-03:15 UTC | 5-10 分鐘 | P2 |
-| **每週** | 滾動重啟 | 週二 02:00-04:00 UTC | 15-30 分鐘 | P3 |
-| **每月** | 完整健康檢查 | 第一個週二 02:00-03:00 UTC | 30-45 分鐘 | P2 |
-| **每季** | 容量審查 | 季度末週二 02:00-05:00 UTC | 1-2 小時 | P1 |
+| 頻率     | 任務         | 維護窗口                   | 預計時間   | 優先級 |
+| -------- | ------------ | -------------------------- | ---------- | ------ |
+| **每日** | 狀態清理     | 03:00-03:15 UTC            | 5-10 分鐘  | P2     |
+| **每週** | 滾動重啟     | 週二 02:00-04:00 UTC       | 15-30 分鐘 | P3     |
+| **每月** | 完整健康檢查 | 第一個週二 02:00-03:00 UTC | 30-45 分鐘 | P2     |
+| **每季** | 容量審查     | 季度末週二 02:00-05:00 UTC | 1-2 小時   | P1     |
 
 ---
 
@@ -34,7 +37,8 @@ This document provides routine maintenance procedures for the HLP Executor Core 
 
 自動清理超過 7 天的舊狀態和 checkpoint，防止磁碟空間耗盡。
 
-Automatically clean up old states and checkpoints older than 7 days to prevent disk space exhaustion.
+Automatically clean up old states and checkpoints older than 7 days to prevent
+disk space exhaustion.
 
 #### 排程 | Schedule
 
@@ -136,8 +140,8 @@ metadata:
     app: hlp-executor-maintenance
     maintenance-type: state-cleanup
 spec:
-  schedule: "0 3 * * *"  # 03:00 UTC daily
-  timeZone: "UTC"
+  schedule: '0 3 * * *' # 03:00 UTC daily
+  timeZone: 'UTC'
   successfulJobsHistoryLimit: 7
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -152,31 +156,31 @@ spec:
           serviceAccountName: hlp-executor-maintenance-sa
           restartPolicy: OnFailure
           containers:
-          - name: cleanup
-            image: bitnami/kubectl:1.28
-            command:
-            - /bin/bash
-            - /scripts/daily-state-cleanup.sh
-            volumeMounts:
-            - name: maintenance-scripts
-              mountPath: /scripts
-            - name: log-volume
-              mountPath: /var/log/hlp-executor/maintenance
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                cpu: 500m
-                memory: 512Mi
+            - name: cleanup
+              image: bitnami/kubectl:1.28
+              command:
+                - /bin/bash
+                - /scripts/daily-state-cleanup.sh
+              volumeMounts:
+                - name: maintenance-scripts
+                  mountPath: /scripts
+                - name: log-volume
+                  mountPath: /var/log/hlp-executor/maintenance
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
           volumes:
-          - name: maintenance-scripts
-            configMap:
-              name: hlp-executor-maintenance-scripts
-              defaultMode: 0755
-          - name: log-volume
-            persistentVolumeClaim:
-              claimName: hlp-executor-maintenance-logs-pvc
+            - name: maintenance-scripts
+              configMap:
+                name: hlp-executor-maintenance-scripts
+                defaultMode: 0755
+            - name: log-volume
+              persistentVolumeClaim:
+                claimName: hlp-executor-maintenance-logs-pvc
 ```
 
 #### 手動執行 | Manual Execution
@@ -222,13 +226,15 @@ kubectl logs -n unmanned-island-system -l maintenance-task=daily-cleanup --tail=
 
 定期重啟以釋放記憶體、刷新配置並確保所有 Pod 運行最新版本。
 
-Periodic restart to release memory, refresh configuration, and ensure all pods run the latest version.
+Periodic restart to release memory, refresh configuration, and ensure all pods
+run the latest version.
 
 #### 排程 | Schedule
 
 - **時間 | Time**: 每週二 02:00-04:00 UTC | Weekly Tuesday 02:00-04:00 UTC
 - **持續時間 | Duration**: 15-30 分鐘 | 15-30 minutes
-- **影響 | Impact**: 最小 (滾動重啟保持服務可用) | Minimal (rolling restart maintains availability)
+- **影響 | Impact**: 最小 (滾動重啟保持服務可用) | Minimal (rolling restart
+  maintains availability)
 
 #### 前置檢查 | Pre-Restart Checks
 
@@ -340,11 +346,11 @@ ROLLOUT_STATUS=${PIPESTATUS[0]}
 
 if [ $ROLLOUT_STATUS -ne 0 ]; then
   echo "[$(date -Iseconds)] ERROR: Rollout failed" | tee -a "$LOG_FILE"
-  
+
   # Attempt to rollback
   echo "[$(date -Iseconds)] Attempting automatic rollback..." | tee -a "$LOG_FILE"
   kubectl rollout undo deployment/"$DEPLOYMENT" -n "$NAMESPACE" 2>&1 | tee -a "$LOG_FILE"
-  
+
   exit 1
 fi
 
@@ -409,7 +415,8 @@ kubectl exec -n unmanned-island-system deployment/hlp-executor-core -- \
 
 #### 排程 | Schedule
 
-- **時間 | Time**: 每月第一個週二 02:00-03:00 UTC | First Tuesday of month 02:00-03:00 UTC
+- **時間 | Time**: 每月第一個週二 02:00-03:00 UTC | First Tuesday of month
+  02:00-03:00 UTC
 - **持續時間 | Duration**: 30-45 分鐘 | 30-45 minutes
 
 #### 檢查清單 | Checklist
@@ -540,7 +547,8 @@ cat /tmp/hlp-executor-health-report-$(date +%Y%m).txt | \
 
 #### 排程 | Schedule
 
-- **時間 | Time**: 季度末第一個週二 02:00-05:00 UTC | First Tuesday of quarter-end month 02:00-05:00 UTC
+- **時間 | Time**: 季度末第一個週二 02:00-05:00 UTC | First Tuesday of
+  quarter-end month 02:00-05:00 UTC
 - **持續時間 | Duration**: 1-2 小時 | 1-2 hours
 
 #### 容量分析 | Capacity Analysis
@@ -658,11 +666,11 @@ data:
   daily-state-cleanup.sh: |
     #!/bin/bash
     # Content from above script
-    
+
   weekly-rolling-restart.sh: |
     #!/bin/bash
     # Content from above script
-    
+
   monthly-health-check.sh: |
     #!/bin/bash
     # Content from above script
@@ -731,11 +739,14 @@ kubectl wait --for=condition=available --timeout=180s \
 
 1. **Never skip pre-maintenance checks** | 不要跳過維護前檢查
 2. **Never restart all replicas simultaneously** | 不要同時重啟所有副本
-3. **Never delete state data without backup** | 不要在沒有備份的情況下刪除狀態數據
-4. **Never perform major changes during peak hours** | 不要在高峰時段進行重大變更
+3. **Never delete state data without backup**
+   | 不要在沒有備份的情況下刪除狀態數據
+4. **Never perform major changes during peak hours**
+   | 不要在高峰時段進行重大變更
 5. **Never ignore post-maintenance warnings** | 不要忽視維護後的警告
 6. **Never proceed if pre-checks fail** | 如果預檢失敗不要繼續
-7. **Never modify production without testing** | 不要在未經測試的情況下修改生產環境
+7. **Never modify production without testing**
+   | 不要在未經測試的情況下修改生產環境
 8. **Never forget to document changes** | 不要忘記記錄變更
 
 ---

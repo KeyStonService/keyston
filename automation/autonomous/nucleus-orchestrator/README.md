@@ -4,7 +4,8 @@
 
 本骨架作為系統的核心編排器，負責工作流編排、代理協調、任務分派和狀態管理。
 
-This skeleton serves as the system's core orchestrator, responsible for workflow orchestration, agent coordination, task dispatch, and state management.
+This skeleton serves as the system's core orchestrator, responsible for workflow
+orchestration, agent coordination, task dispatch, and state management.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +18,8 @@ This skeleton serves as the system's core orchestrator, responsible for workflow
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/`
 
 ### 指南文件結構
 
@@ -109,42 +111,42 @@ nucleus-orchestrator/
 
 ```yaml
 workflow:
-  name: "deploy-service"
-  version: "1.0.0"
-  
+  name: 'deploy-service'
+  version: '1.0.0'
+
   tasks:
-    - id: "validate-config"
-      type: "validation"
-      agent: "config-validator"
+    - id: 'validate-config'
+      type: 'validation'
+      agent: 'config-validator'
       inputs:
-        config_file: "service.yaml"
+        config_file: 'service.yaml'
       outputs:
         validated: true
-    
-    - id: "build-image"
-      type: "build"
-      agent: "docker-builder"
-      depends_on: ["validate-config"]
+
+    - id: 'build-image'
+      type: 'build'
+      agent: 'docker-builder'
+      depends_on: ['validate-config']
       inputs:
-        dockerfile: "Dockerfile"
+        dockerfile: 'Dockerfile'
       outputs:
-        image_id: "sha256:..."
-    
-    - id: "run-tests"
-      type: "test"
-      agent: "test-runner"
-      depends_on: ["build-image"]
+        image_id: 'sha256:...'
+
+    - id: 'run-tests'
+      type: 'test'
+      agent: 'test-runner'
+      depends_on: ['build-image']
       parallel: true
       inputs:
-        test_suite: "integration"
-    
-    - id: "deploy"
-      type: "deployment"
-      agent: "k8s-deployer"
-      depends_on: ["run-tests"]
+        test_suite: 'integration'
+
+    - id: 'deploy'
+      type: 'deployment'
+      agent: 'k8s-deployer'
+      depends_on: ['run-tests']
       inputs:
-        image: "${build-image.outputs.image_id}"
-        environment: "production"
+        image: '${build-image.outputs.image_id}'
+        environment: 'production'
 ```
 
 ### 執行流程 / Execution Flow
@@ -161,27 +163,27 @@ workflow:
 
 ```yaml
 agent_registry:
-  - id: "architect-agent"
-    name: "Architecture Design Agent"
+  - id: 'architect-agent'
+    name: 'Architecture Design Agent'
     capabilities:
-      - "system-design"
-      - "component-selection"
-      - "diagram-generation"
+      - 'system-design'
+      - 'component-selection'
+      - 'diagram-generation'
     capacity:
       concurrent_tasks: 3
       max_queue_size: 10
-    status: "active"
-  
-  - id: "security-agent"
-    name: "Security Analysis Agent"
+    status: 'active'
+
+  - id: 'security-agent'
+    name: 'Security Analysis Agent'
     capabilities:
-      - "security-scan"
-      - "vulnerability-detection"
-      - "compliance-check"
+      - 'security-scan'
+      - 'vulnerability-detection'
+      - 'compliance-check'
     capacity:
       concurrent_tasks: 5
       max_queue_size: 20
-    status: "active"
+    status: 'active'
 ```
 
 ### 能力匹配 / Capability Matching
@@ -189,19 +191,19 @@ agent_registry:
 ```python
 def match_agent_for_task(task: Task) -> Agent:
     """為任務匹配最合適的代理"""
-    
+
     # 1. 篩選具備所需能力的代理
     capable_agents = [
         agent for agent in agent_registry
         if all(cap in agent.capabilities for cap in task.required_capabilities)
     ]
-    
+
     # 2. 評估代理狀態
     available_agents = [
         agent for agent in capable_agents
         if agent.status == "active" and agent.has_capacity()
     ]
-    
+
     # 3. 負載均衡選擇
     if available_agents:
         return select_least_loaded(available_agents)
@@ -241,38 +243,38 @@ Coordinator Agent
 
 ### 優先級系統 / Priority System
 
-| 優先級 | 級別 | SLA | 範例 |
-|--------|------|-----|------|
-| P0 | 緊急 | < 5 min | 生產事故、安全漏洞 |
-| P1 | 高 | < 1 hour | 功能故障、性能問題 |
-| P2 | 中 | < 8 hours | 新功能開發、優化 |
-| P3 | 低 | < 24 hours | 文檔更新、重構 |
+| 優先級 | 級別 | SLA        | 範例               |
+| ------ | ---- | ---------- | ------------------ |
+| P0     | 緊急 | < 5 min    | 生產事故、安全漏洞 |
+| P1     | 高   | < 1 hour   | 功能故障、性能問題 |
+| P2     | 中   | < 8 hours  | 新功能開發、優化   |
+| P3     | 低   | < 24 hours | 文檔更新、重構     |
 
 ### 調度策略 / Scheduling Strategy
 
 ```yaml
 scheduling:
-  strategy: "priority-based"
-  
+  strategy: 'priority-based'
+
   rules:
-    - priority: "P0"
-      action: "interrupt-current-tasks"
+    - priority: 'P0'
+      action: 'interrupt-current-tasks'
       max_concurrent: 10
-    
-    - priority: "P1"
-      action: "queue-high"
+
+    - priority: 'P1'
+      action: 'queue-high'
       max_concurrent: 5
-    
-    - priority: "P2"
-      action: "queue-normal"
+
+    - priority: 'P2'
+      action: 'queue-normal'
       max_concurrent: 3
-    
-    - priority: "P3"
-      action: "queue-low"
+
+    - priority: 'P3'
+      action: 'queue-low'
       max_concurrent: 2
-  
+
   load_balancing:
-    algorithm: "least-connections"
+    algorithm: 'least-connections'
     health_check_interval: 30s
 ```
 
@@ -282,15 +284,15 @@ scheduling:
 class SLAMonitor:
     def monitor_task(self, task: Task):
         """監控任務 SLA"""
-        
+
         # 計算剩餘時間
         elapsed = now() - task.start_time
         remaining = task.sla - elapsed
-        
+
         # SLA 預警
         if remaining < task.sla * 0.2:  # 剩餘 < 20%
             self.send_warning(task)
-        
+
         # SLA 違約
         if remaining <= 0:
             self.handle_violation(task)
@@ -302,28 +304,28 @@ class SLAMonitor:
 
 ```yaml
 task_states:
-  - pending: "任務已創建，等待執行"
-  - queued: "任務在隊列中"
-  - assigned: "任務已分配給代理"
-  - running: "任務執行中"
-  - paused: "任務暫停"
-  - completed: "任務完成"
-  - failed: "任務失敗"
-  - cancelled: "任務取消"
+  - pending: '任務已創建，等待執行'
+  - queued: '任務在隊列中'
+  - assigned: '任務已分配給代理'
+  - running: '任務執行中'
+  - paused: '任務暫停'
+  - completed: '任務完成'
+  - failed: '任務失敗'
+  - cancelled: '任務取消'
 
 state_transitions:
-  - from: "pending"
-    to: ["queued", "cancelled"]
-  - from: "queued"
-    to: ["assigned", "cancelled"]
-  - from: "assigned"
-    to: ["running", "failed"]
-  - from: "running"
-    to: ["paused", "completed", "failed"]
-  - from: "paused"
-    to: ["running", "cancelled"]
-  - from: "failed"
-    to: ["queued", "cancelled"]  # 可重試
+  - from: 'pending'
+    to: ['queued', 'cancelled']
+  - from: 'queued'
+    to: ['assigned', 'cancelled']
+  - from: 'assigned'
+    to: ['running', 'failed']
+  - from: 'running'
+    to: ['paused', 'completed', 'failed']
+  - from: 'paused'
+    to: ['running', 'cancelled']
+  - from: 'failed'
+    to: ['queued', 'cancelled'] # 可重試
 ```
 
 ### 檢查點機制 / Checkpoint Mechanism
@@ -341,7 +343,7 @@ class CheckpointManager:
             "context": workflow.context
         }
         self.save(checkpoint)
-    
+
     def restore_from_checkpoint(self, workflow_id: str) -> Workflow:
         """從檢查點恢復工作流"""
         checkpoint = self.load(workflow_id)
@@ -353,57 +355,57 @@ class CheckpointManager:
 
 ```yaml
 recovery_strategies:
-  - failure_type: "agent-crash"
-    action: "reassign-to-another-agent"
+  - failure_type: 'agent-crash'
+    action: 'reassign-to-another-agent'
     max_retries: 3
-  
-  - failure_type: "network-error"
-    action: "exponential-backoff-retry"
+
+  - failure_type: 'network-error'
+    action: 'exponential-backoff-retry'
     max_retries: 5
     initial_delay: 1s
     max_delay: 60s
-  
-  - failure_type: "resource-exhaustion"
-    action: "queue-and-scale-up"
+
+  - failure_type: 'resource-exhaustion'
+    action: 'queue-and-scale-up'
     cooldown: 5m
-  
-  - failure_type: "validation-error"
-    action: "fail-fast-no-retry"
-    notification: "immediate"
+
+  - failure_type: 'validation-error'
+    action: 'fail-fast-no-retry'
+    notification: 'immediate'
 ```
 
 ## 📊 監控與指標 / Monitoring and Metrics
 
 ### 關鍵指標 / Key Metrics
 
-| 指標 | 目標值 | 重要性 |
-|------|--------|--------|
-| 任務完成率 | > 99% | 🔴 高 |
-| SLA 達成率 | > 95% | 🔴 高 |
-| 平均任務時長 | < 10 min | 🟡 中 |
-| 代理利用率 | 60-80% | 🟡 中 |
-| 失敗重試成功率 | > 90% | 🟡 中 |
+| 指標           | 目標值   | 重要性 |
+| -------------- | -------- | ------ |
+| 任務完成率     | > 99%    | 🔴 高  |
+| SLA 達成率     | > 95%    | 🔴 高  |
+| 平均任務時長   | < 10 min | 🟡 中  |
+| 代理利用率     | 60-80%   | 🟡 中  |
+| 失敗重試成功率 | > 90%    | 🟡 中  |
 
 ### 監控儀表板 / Monitoring Dashboard
 
 ```yaml
 dashboard:
   panels:
-    - title: "任務吞吐量"
-      metric: "tasks_per_minute"
-      chart: "time-series"
-    
-    - title: "SLA 達成率"
-      metric: "sla_compliance_rate"
-      chart: "gauge"
-    
-    - title: "代理狀態"
-      metric: "agent_status"
-      chart: "status-grid"
-    
-    - title: "任務隊列"
-      metric: "queue_depth_by_priority"
-      chart: "stacked-bar"
+    - title: '任務吞吐量'
+      metric: 'tasks_per_minute'
+      chart: 'time-series'
+
+    - title: 'SLA 達成率'
+      metric: 'sla_compliance_rate'
+      chart: 'gauge'
+
+    - title: '代理狀態'
+      metric: 'agent_status'
+      chart: 'status-grid'
+
+    - title: '任務隊列'
+      metric: 'queue_depth_by_priority'
+      chart: 'stacked-bar'
 ```
 
 ## 🧪 測試與驗證 / Testing and Validation

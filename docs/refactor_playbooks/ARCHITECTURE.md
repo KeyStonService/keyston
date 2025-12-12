@@ -146,7 +146,7 @@ generate_cluster_prompt(cluster_name, cluster_score)
 ```python
 class RefactorPlaybookGenerator:
     """Main generator class"""
-    
+
     # Properties
     repo_root: Path              # Repository root directory
     clusters: Dict               # {cluster_name: {score, ...}}
@@ -155,13 +155,13 @@ class RefactorPlaybookGenerator:
     semgrep_results: List[Dict] # [{path, severity, message}, ...]
     migration_flows: Dict       # {flows: [{source, target}, ...]}
     global_suggestions: str     # Full AI suggestions text
-    
+
     # Main Methods
     load_governance_data()      # Load all data sources
     generate_cluster_prompt()   # Generate LLM prompt
     generate_playbook_stub()    # Generate stub playbook
     generate_all_playbooks()    # Batch generate
-    
+
     # Helper Methods
     _parse_governance_report()  # Parse Markdown report
     _get_cluster_violations()   # Filter violations
@@ -223,33 +223,28 @@ class RefactorPlaybookGenerator:
 # Refactor Playbook: {cluster_name}
 
 ## 1. Cluster 概覽
-├── 角色說明
-└── 健康狀態
+
+├── 角色說明 └── 健康狀態
 
 ## 2. 問題盤點
-├── 語言治理違規
-├── Hotspot 檔案
-├── Semgrep 安全問題
-└── Migration Flow 觀察
+
+├── 語言治理違規 ├── Hotspot 檔案 ├── Semgrep 安全問題 └── Migration Flow 觀察
 
 ## 3. 語言與結構重構策略
-├── 語言層級策略
-├── 目錄結構策略
-└── 語言遷移建議
+
+├── 語言層級策略 ├── 目錄結構策略 └── 語言遷移建議
 
 ## 4. 分級重構計畫
-├── P0（24-48 小時）
-├── P1（一週內）
-└── P2（持續重構）
+
+├── P0（24-48 小時）├── P1（一週內）└── P2（持續重構）
 
 ## 5. 適合交給 Auto-Fix Bot 的項目
-├── 可自動修復
-└── 需人工審查
+
+├── 可自動修復 └── 需人工審查
 
 ## 6. 驗收條件與成功指標
-├── 語言治理 CI 期望值
-├── Hotspot / Cluster Score 改善
-└── 開發流程改善方向
+
+├── 語言治理 CI 期望值 ├── Hotspot / Cluster Score 改善 └── 開發流程改善方向
 ```
 
 ## 🔌 整合點
@@ -384,7 +379,7 @@ Language Governance Score
 def load_governance_data(self):
     # 現有資料源
     self._load_existing_sources()
-    
+
     # 新增資料源（範例：測試覆蓋率）
     coverage_path = self.repo_root / "reports" / "coverage.json"
     if coverage_path.exists():

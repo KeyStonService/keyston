@@ -10,7 +10,8 @@
 
 本文檔定義了 SynergyMesh 治理框架中所有治理活動應遵循的標準和最佳實踐。
 
-This document defines the standards and best practices that all governance activities within the SynergyMesh governance framework should follow.
+This document defines the standards and best practices that all governance
+activities within the SynergyMesh governance framework should follow.
 
 ---
 
@@ -25,9 +26,9 @@ This document defines the standards and best practices that all governance activ
 ```yaml
 ---
 # 文件標題（中英雙語）| File Title (Bilingual)
-version: "x.y"
-lastUpdated: "YYYY-MM-DD"
-status: "active|draft|deprecated"
+version: 'x.y'
+lastUpdated: 'YYYY-MM-DD'
+status: 'active|draft|deprecated'
 
 # 文件內容...
 ```
@@ -35,8 +36,10 @@ status: "active|draft|deprecated"
 **要求 | Requirements:**
 
 - 所有 YAML 文件必須有效且可解析 | All YAML files must be valid and parseable
-- 必須包含版本、更新日期和狀態元數據 | Must include version, update date, and status metadata
-- 使用雙語標籤（繁體中文/英文）| Use bilingual labels (Traditional Chinese/English)
+- 必須包含版本、更新日期和狀態元數據 | Must include version, update date, and
+  status metadata
+- 使用雙語標籤（繁體中文/英文）| Use bilingual labels (Traditional
+  Chinese/English)
 - 保持一致的縮進（2 個空格）| Maintain consistent indentation (2 spaces)
 
 #### 1.2 Markdown 文檔標準 | Markdown Documentation Standards
@@ -46,16 +49,17 @@ status: "active|draft|deprecated"
 ```markdown
 # 標題 | Title
 
-**版本 | Version**: x.y
-**狀態 | Status**: Active
-**最後更新 | Last Updated**: YYYY-MM-DD
+**版本 | Version**: x.y **狀態 | Status**: Active **最後更新 | Last Updated**:
+YYYY-MM-DD
 
 ---
 
 ## 概述 | Overview
+
 ...
 
 ## 內容章節 | Content Sections
+
 ...
 ```
 
@@ -112,8 +116,7 @@ Use Semantic Versioning (SemVer): `MAJOR.MINOR.PATCH`
 
 #### 4.1 完整性標準 | Completeness Standards
 
-所有治理文檔必須包含:
-All governance documents must include:
+所有治理文檔必須包含: All governance documents must include:
 
 - ✅ 明確的目的和範圍 | Clear purpose and scope
 - ✅ 角色和職責 | Roles and responsibilities
@@ -139,29 +142,30 @@ All governance documents must include:
 
 **四眼原則 | Four-Eyes Principle:**
 
-- 所有治理文檔必須經過至少兩人審核 | All governance documents must be reviewed by at least two people
+- 所有治理文檔必須經過至少兩人審核 | All governance documents must be reviewed
+  by at least two people
 - 審核者必須具備相關專業知識 | Reviewers must have relevant expertise
 - 記錄所有審核意見和決定 | Document all review comments and decisions
 
 #### 5.2 批准權限 | Approval Authority
 
-| 文檔類型 | Document Type | 批准者 | Approver |
-|---------|---------------|-------|----------|
-| 戰略政策 | Strategic Policies | 治理委員會 | Governance Board |
-| 戰術政策 | Tactical Policies | 治理經理 | Governance Manager |
-| 執行程序 | Operational Procedures | 流程負責人 | Process Owner |
-| 技術標準 | Technical Standards | 技術負責人 | Technical Lead |
+| 文檔類型 | Document Type          | 批准者     | Approver           |
+| -------- | ---------------------- | ---------- | ------------------ |
+| 戰略政策 | Strategic Policies     | 治理委員會 | Governance Board   |
+| 戰術政策 | Tactical Policies      | 治理經理   | Governance Manager |
+| 執行程序 | Operational Procedures | 流程負責人 | Process Owner      |
+| 技術標準 | Technical Standards    | 技術負責人 | Technical Lead     |
 
 ### 6. 合規標準 | Compliance Standards
 
 #### 6.1 監管合規 | Regulatory Compliance
 
-所有治理文檔必須符合:
-All governance documents must comply with:
+所有治理文檔必須符合: All governance documents must comply with:
 
 - **數據保護法規 | Data Protection Regulations**: GDPR, CCPA
 - **行業標準 | Industry Standards**: ISO 27001, COBIT, ITIL
-- **內部政策 | Internal Policies**: 所有適用的組織政策 | All applicable organizational policies
+- **內部政策 | Internal Policies**: 所有適用的組織政策 | All applicable
+  organizational policies
 
 #### 6.2 審計追蹤 | Audit Trail
 
@@ -187,12 +191,12 @@ All governance documents must comply with:
 
 #### 8.1 響應時間 | Response Times
 
-| 活動類型 | Activity Type | 目標響應時間 | Target Response Time |
-|---------|--------------|-------------|---------------------|
-| 緊急決策 | Emergency Decisions | < 24 小時 | < 24 hours |
-| 標準決策 | Standard Decisions | < 7 天 | < 7 days |
-| 審計請求 | Audit Requests | < 48 小時 | < 48 hours |
-| 報告生成 | Report Generation | < 3 天 | < 3 days |
+| 活動類型 | Activity Type       | 目標響應時間 | Target Response Time |
+| -------- | ------------------- | ------------ | -------------------- |
+| 緊急決策 | Emergency Decisions | < 24 小時    | < 24 hours           |
+| 標準決策 | Standard Decisions  | < 7 天       | < 7 days             |
+| 審計請求 | Audit Requests      | < 48 小時    | < 48 hours           |
+| 報告生成 | Report Generation   | < 3 天       | < 3 days             |
 
 #### 8.2 質量指標 | Quality Metrics
 
@@ -204,8 +208,7 @@ All governance documents must comply with:
 
 #### 9.1 培訓要求 | Training Requirements
 
-**所有治理人員必須完成:**
-**All governance personnel must complete:**
+**所有治理人員必須完成:** **All governance personnel must complete:**
 
 - 治理基礎培訓 | Governance fundamentals training
 - 角色特定培訓 | Role-specific training
@@ -237,8 +240,8 @@ All governance documents must comply with:
 
 ## 📊 標準合規檢查清單 | Standards Compliance Checklist
 
-使用此檢查清單驗證治理文檔的合規性:
-Use this checklist to verify governance document compliance:
+使用此檢查清單驗證治理文檔的合規性: Use this checklist to verify governance
+document compliance:
 
 - [ ] 文檔格式符合標準 | Document format meets standards
 - [ ] 包含所有必需的元數據 | Includes all required metadata

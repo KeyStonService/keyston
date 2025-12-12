@@ -4,15 +4,7 @@
   "title": "Code Analysis Result",
   "description": "Schema for code analysis results from SynergyMesh analysis engine",
   "type": "object",
-  "required": [
-    "analysis_id",
-    "timestamp",
-    "repository",
-    "commit_hash",
-    "issues",
-    "metrics",
-    "quality_score"
-  ],
+  "required": ["analysis_id", "timestamp", "repository", "commit_hash", "issues", "metrics", "quality_score"],
   "properties": {
     "analysis_id": {
       "type": "string",
@@ -137,14 +129,7 @@
   "definitions": {
     "issue": {
       "type": "object",
-      "required": [
-        "id",
-        "type",
-        "severity",
-        "file",
-        "line",
-        "message"
-      ],
+      "required": ["id", "type", "severity", "file", "line", "message"],
       "properties": {
         "id": {
           "type": "string",
@@ -154,24 +139,12 @@
         "type": {
           "type": "string",
           "description": "Issue type",
-          "enum": [
-            "SECURITY",
-            "PERFORMANCE",
-            "CODE_QUALITY",
-            "MAINTAINABILITY",
-            "DEPENDENCY"
-          ]
+          "enum": ["SECURITY", "PERFORMANCE", "CODE_QUALITY", "MAINTAINABILITY", "DEPENDENCY"]
         },
         "severity": {
           "type": "string",
           "description": "Issue severity",
-          "enum": [
-            "CRITICAL",
-            "HIGH",
-            "MEDIUM",
-            "LOW",
-            "INFO"
-          ]
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]
         },
         "file": {
           "type": "string",

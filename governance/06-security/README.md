@@ -1,6 +1,7 @@
 # 🆔 Identity & Tenancy Governance
 
-> AuthN/AuthZ & Multi-Tenant Rules - Governance for identity management, authorization, and multi-tenancy
+> AuthN/AuthZ & Multi-Tenant Rules - Governance for identity management,
+> authorization, and multi-tenancy
 
 ## 📋 Overview
 
@@ -68,5 +69,4 @@ This governance domain integrates with:
 
 ---
 
-**Status**: Core Governance Domain
-**Last Updated**: 2025-12-09
+**Status**: Core Governance Domain **Last Updated**: 2025-12-09

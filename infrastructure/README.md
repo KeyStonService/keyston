@@ -4,7 +4,8 @@
 
 `infrastructure/` 目錄包含所有基礎設施配置、容器編排、監控系統和部署清單。
 
-The `infrastructure/` directory contains all infrastructure configuration, container orchestration, monitoring systems, and deployment manifests.
+The `infrastructure/` directory contains all infrastructure configuration,
+container orchestration, monitoring systems, and deployment manifests.
 
 ---
 
@@ -258,12 +259,12 @@ spec:
   minReplicas: 2
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
 ```
 
 ### 垂直自動伸縮 (VPA - Vertical Pod Autoscaler)
@@ -279,7 +280,7 @@ spec:
     kind: Deployment
     name: synergymesh
   updatePolicy:
-    updateMode: "Auto"
+    updateMode: 'Auto'
 ```
 
 ---
@@ -348,11 +349,11 @@ affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-type
-          operator: In
-          values:
-          - compute
+        - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+                - compute
 ```
 
 ---

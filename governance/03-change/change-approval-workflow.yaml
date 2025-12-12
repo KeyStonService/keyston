@@ -14,27 +14,27 @@ workflow_overview:
 standard_change_workflow:
   workflow_id: "WF-STD-001"
   change_type: "standard"
-  
+
   steps:
     step_1:
       name: "提交 | Submit"
       action: "Requestor submits standard change request"
       system_action: "Auto-assign change ID"
       next: "step_2"
-      
+
     step_2:
       name: "自動驗證 | Auto-Validate"
       action: "System validates against standard change catalog"
       decision:
         valid: "step_3"
         invalid: "reject_and_notify"
-      
+
     step_3:
       name: "自動批准 | Auto-Approve"
       action: "System auto-approves if all criteria met"
       notification: "Notify requestor and stakeholders"
       next: "step_4"
-      
+
     step_4:
       name: "計劃實施 | Schedule Implementation"
       action: "Schedule within approved change window"
@@ -44,11 +44,11 @@ standard_change_workflow:
     total_time: "< 24 hours"
     approval_time: "Immediate"
 
-# 一般變更工作流 | Normal Change Workflow  
+# 一般變更工作流 | Normal Change Workflow
 normal_change_workflow:
   workflow_id: "WF-NORM-001"
   change_type: "normal"
-  
+
   steps:
     step_1:
       name: "提交 | Submit"
@@ -60,7 +60,7 @@ normal_change_workflow:
         - "Implementation plan"
         - "Rollback plan"
       next: "step_2"
-      
+
     step_2:
       name: "初步審查 | Initial Review"
       actor: "change_manager"
@@ -69,7 +69,7 @@ normal_change_workflow:
       decision:
         complete: "step_3"
         incomplete: "return_to_requestor"
-      
+
     step_3:
       name: "風險評估 | Risk Assessment"
       actor: "risk_analyst"
@@ -77,14 +77,14 @@ normal_change_workflow:
       outputs: "Risk rating and mitigation plan"
       duration: "1-2 business days"
       next: "step_4"
-      
+
     step_4:
       name: "技術審查 | Technical Review"
       actor: "technical_leads"
       action: "Review technical feasibility and dependencies"
       duration: "1-2 business days"
       next: "step_5"
-      
+
     step_5:
       name: "CAB 審查 | CAB Review"
       actor: "change_advisory_board"
@@ -95,12 +95,12 @@ normal_change_workflow:
         conditional_approve: "step_6_conditional"
         defer: "defer_and_reschedule"
         reject: "reject_with_reason"
-      
+
     step_6:
       name: "批准通知 | Approval Notification"
       action: "Notify all stakeholders of approval"
       next: "step_7"
-      
+
     step_7:
       name: "實施計劃 | Implementation Planning"
       actor: "implementation_team"
@@ -115,7 +115,7 @@ normal_change_workflow:
 major_change_workflow:
   workflow_id: "WF-MAJOR-001"
   change_type: "major"
-  
+
   steps:
     step_1:
       name: "提交 | Submit"
@@ -129,7 +129,7 @@ major_change_workflow:
         - "Resource requirements"
         - "Stakeholder analysis"
       next: "step_2"
-      
+
     step_2:
       name: "治理辦公室審查 | Governance Office Review"
       actor: "governance_manager"
@@ -138,7 +138,7 @@ major_change_workflow:
       decision:
         complete: "step_3"
         incomplete: "return_with_feedback"
-      
+
     step_3:
       name: "全面風險評估 | Comprehensive Risk Assessment"
       actor: "risk_management_committee"
@@ -146,14 +146,14 @@ major_change_workflow:
       duration: "3-5 business days"
       outputs: "Risk assessment report"
       next: "step_4"
-      
+
     step_4:
       name: "合規性審查 | Compliance Review"
       actor: "compliance_team"
       action: "Verify regulatory and policy compliance"
       duration: "2-3 business days"
       next: "step_5"
-      
+
     step_5:
       name: "CAB 初步審查 | CAB Preliminary Review"
       actor: "change_advisory_board"
@@ -161,7 +161,7 @@ major_change_workflow:
       duration: "1 week"
       output: "CAB recommendation to Governance Board"
       next: "step_6"
-      
+
     step_6:
       name: "治理委員會批准 | Governance Board Approval"
       actor: "governance_board"
@@ -172,13 +172,13 @@ major_change_workflow:
         conditional_approve: "step_7_conditional"
         defer: "defer_with_requirements"
         reject: "reject_with_detailed_reason"
-      
+
     step_7:
       name: "批准發布 | Approval Communication"
       action: "Formal notification of approval with conditions"
       recipients: "All stakeholders"
       next: "step_8"
-      
+
     step_8:
       name: "詳細規劃 | Detailed Planning"
       actor: "program_management_office"
@@ -194,7 +194,7 @@ major_change_workflow:
 emergency_change_workflow:
   workflow_id: "WF-EMERG-001"
   change_type: "emergency"
-  
+
   steps:
     step_1:
       name: "緊急聲明 | Emergency Declaration"
@@ -206,7 +206,7 @@ emergency_change_workflow:
         - "Urgency justification"
       notification: "Immediate to Emergency Change Committee"
       next: "step_2"
-      
+
     step_2:
       name: "快速評估 | Rapid Assessment"
       actor: "emergency_change_committee"
@@ -215,32 +215,32 @@ emergency_change_workflow:
       decision:
         approve: "step_3"
         reject: "escalate_to_incident_manager"
-      
+
     step_3:
       name: "緊急批准 | Emergency Approval"
       actor: "authorized_approvers"
       action: "Verbal or electronic approval"
       documentation: "Record approval with timestamp"
       next: "step_4"
-      
+
     step_4:
       name: "立即實施 | Immediate Implementation"
       action: "Implement change with continuous monitoring"
       monitoring: "Real-time status updates"
       next: "step_5"
-      
+
     step_5:
       name: "實施驗證 | Implementation Verification"
       action: "Verify change resolves emergency"
       duration: "< 2 hours"
       next: "step_6"
-      
+
     step_6:
       name: "追溯文檔 | Retrospective Documentation"
       action: "Complete full documentation within 48 hours"
       responsible: "change_requestor"
       next: "step_7"
-      
+
     step_7:
       name: "CAB 追溯審查 | CAB Retrospective Review"
       actor: "change_advisory_board"
@@ -255,13 +255,12 @@ emergency_change_workflow:
 
 # 批准決策規則 | Approval Decision Rules
 approval_rules:
-
   auto_approve_criteria:
     - "Change in standard change catalog"
     - "All prerequisites met"
     - "No blackout period"
     - "Within change window"
-    
+
   conditional_approval:
     definition: "Approval granted with specific conditions"
     conditions_examples:
@@ -270,14 +269,14 @@ approval_rules:
       - "Enhanced monitoring"
       - "Additional rollback testing"
     follow_up: "Conditions must be met before implementation"
-    
+
   deferral_reasons:
     - "Incomplete information"
     - "Unacceptable risk level"
     - "Resource constraints"
     - "Business blackout period"
     - "Technical dependencies not ready"
-    
+
   rejection_reasons:
     - "Does not align with strategy"
     - "Unacceptable risk"
@@ -287,39 +286,37 @@ approval_rules:
 
 # 並行批准 | Parallel Approvals
 parallel_approvals:
-
   use_cases:
     - "Multiple independent system changes"
     - "Cross-functional changes requiring multiple approvers"
     - "Distributed team implementations"
-    
+
   coordination:
     method: "Automated workflow orchestration"
     notification: "All approvers notified simultaneously"
     completion: "All approvals required before proceeding"
-    
+
   timeout:
     period: "5 business days"
     action: "Escalate to next level if no response"
 
 # 批准升級程序 | Approval Escalation Procedures
 escalation_procedures:
-
   level_1:
     trigger: "No response within SLA"
     action: "Reminder to approver"
     timing: "At 50% of SLA"
-    
+
   level_2:
     trigger: "Still no response"
     action: "Escalate to approver's manager"
     timing: "At 80% of SLA"
-    
+
   level_3:
     trigger: "SLA breach imminent"
     action: "Escalate to governance_manager"
     timing: "At 100% of SLA"
-    
+
   level_4:
     trigger: "Critical business impact"
     action: "Escalate to governance_board"
@@ -327,7 +324,6 @@ escalation_procedures:
 
 # 工作流自動化 | Workflow Automation
 workflow_automation:
-
   automated_actions:
     - "Change ID assignment"
     - "Routing to approvers"
@@ -336,14 +332,14 @@ workflow_automation:
     - "Escalation triggers"
     - "Compliance checks"
     - "Document validation"
-    
+
   manual_touchpoints:
     - "Risk assessment"
     - "Technical review"
     - "Approval decisions"
     - "CAB meetings"
     - "Governance Board decisions"
-    
+
   integration_points:
     - system: "JIRA"
       purpose: "Change ticket management"
@@ -358,14 +354,13 @@ workflow_automation:
 
 # 工作流監控 | Workflow Monitoring
 workflow_monitoring:
-
   metrics:
     - "Average approval time by change type"
     - "Approval SLA compliance"
     - "Bottleneck identification"
     - "Escalation frequency"
     - "Auto-approval rate"
-    
+
   dashboards:
     - name: "Approval Pipeline"
       content: "Changes at each workflow stage"
@@ -373,7 +368,7 @@ workflow_monitoring:
       content: "SLA compliance by change type"
     - name: "Bottleneck Analysis"
       content: "Stages causing delays"
-    
+
   alerts:
     - condition: "SLA breach imminent"
       notify: "change_manager, approver"
@@ -384,16 +379,15 @@ workflow_monitoring:
 
 # 工作流改進 | Workflow Improvement
 workflow_improvement:
-
   review_frequency: "quarterly"
-  
+
   review_criteria:
     - "Average approval time"
     - "SLA compliance rate"
     - "User satisfaction"
     - "Process efficiency"
     - "Automation opportunities"
-    
+
   improvement_process:
     - "收集反饋 | Collect feedback"
     - "分析數據 | Analyze data"

@@ -114,8 +114,9 @@ export JIRA_PROJECT="SEC"
     JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
     JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
     ALERT_SEVERITY: critical
-    ALERT_SUMMARY: "Critical security vulnerabilities detected"
-    ALERT_DESCRIPTION: "Found ${{ steps.scan.outputs.critical_count }} critical issues"
+    ALERT_SUMMARY: 'Critical security vulnerabilities detected'
+    ALERT_DESCRIPTION:
+      'Found ${{ steps.scan.outputs.critical_count }} critical issues'
   run: |
     python3 ./config/integrations/jira-integration.py
 ```

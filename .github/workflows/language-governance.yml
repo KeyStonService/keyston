@@ -2,7 +2,7 @@ name: Language Governance + CodeQL + Semgrep + AI Review
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
     paths:
       - "**/*.ts"
@@ -47,7 +47,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for better analysis
+          fetch-depth: 0 # Full history for better analysis
 
       # ───────────────────────────────────────────
       # 2. Install Python for Governance Analyzer
@@ -56,7 +56,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: 'pip'
+          cache: "pip"
 
       - name: Install Analyzer Dependencies
         run: |
@@ -106,9 +106,9 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            
+
             let commentBody = '## 🏝️ Language Governance Report\n\n';
-            
+
             try {
               if (fs.existsSync('pr-comment.md')) {
                 commentBody += fs.readFileSync('pr-comment.md', 'utf8');
@@ -118,19 +118,19 @@ jobs:
             } catch (error) {
               commentBody += '⚠️ Unable to generate detailed report.';
             }
-            
+
             // Find existing comment
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.data.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes('Language Governance Report')
             );
-            
+
             if (botComment) {
               // Update existing comment
               await github.rest.issues.updateComment({
@@ -186,12 +186,12 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            
+
             let issueBody = '## ⚠️ Critical Language Governance Violations Detected\n\n';
             issueBody += `**Branch:** ${context.ref}\n`;
             issueBody += `**Commit:** ${context.sha}\n\n`;
             issueBody += '### Details\n\n';
-            
+
             try {
               const report = JSON.parse(fs.readFileSync('governance-report.json', 'utf8'));
               const criticalViolations = report.violations.filter(v => v.severity === 'CRITICAL');
@@ -216,7 +216,7 @@ jobs:
             } catch (error) {
               issueBody += `Error generating detailed report: ${error.message}\n`;
             }
-            
+
             // Check if similar issue already exists
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
@@ -224,11 +224,11 @@ jobs:
               state: 'open',
               labels: 'language-governance'
             });
-            
+
             const existingIssue = issues.data.find(issue => 
               issue.title.includes('Critical Language Governance Violations')
             );
-            
+
             if (!existingIssue) {
               await github.rest.issues.create({
                 owner: context.repo.owner,
@@ -278,12 +278,12 @@ jobs:
         run: |
           echo "## 🏝️ Language Governance Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f governance-report.json ]; then
             python -c "
           import json
           import sys
-          
+
           try:
               with open('governance-report.json') as f:
                   data = json.load(f)
@@ -325,7 +325,7 @@ jobs:
                           for lang, count in sorted(languages.items(), key=lambda x: x[1], reverse=True)[:5]:
                               print(f'- {lang}: {count} files')
                           print('')
-          
+
           except Exception as e:
               print(f'Error generating summary: {e}')
           " >> $GITHUB_STEP_SUMMARY
@@ -341,32 +341,32 @@ jobs:
     runs-on: ubuntu-latest
     needs: language-governance
     continue-on-error: true
-    
+
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript', 'python', 'cpp', 'go' ]
-    
+        language: ["javascript", "python", "cpp", "go"]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
-      
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
-      
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{ matrix.language }}"
           upload: true
           output: codeql-results-${{ matrix.language }}.sarif
-      
+
       - name: Upload CodeQL Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -383,11 +383,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: language-governance
     continue-on-error: true
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
         with:
@@ -400,7 +400,7 @@ jobs:
             p/golang
             p/c
           generateSarif: true
-      
+
       - name: Upload Semgrep Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -408,7 +408,7 @@ jobs:
           name: semgrep-results
           path: semgrep.sarif
           retention-days: 30
-      
+
       - name: Upload to Security Tab
         if: always()
         uses: github/codeql-action/upload-sarif@v3
@@ -424,32 +424,32 @@ jobs:
     runs-on: ubuntu-latest
     needs: [language-governance, codeql-analysis, semgrep-analysis]
     if: always()
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      
+
       - name: Install dependencies
         run: |
           pip install pyyaml rich requests
-      
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: analysis-results/
-      
+
       - name: Generate Consolidated Report
         id: report
         run: |
           python tools/governance/generate-consolidated-report.py \
             --results-dir analysis-results/ \
             --output consolidated-security-report.md
-      
+
       - name: Generate AI-Powered Refactor Suggestions
         id: ai-suggestions
         continue-on-error: true
@@ -457,7 +457,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "🤖 Generating AI-powered refactor suggestions..."
-          
+
           # Run AI refactor review tool
           python tools/ai-refactor-review.py \
             --governance-report analysis-results/language-governance-report/governance-report.json \
@@ -465,10 +465,10 @@ jobs:
             --codeql-reports analysis-results/ \
             --output ai-refactor-suggestions.md \
             --ai-model gpt-4
-          
+
           # Copy for PR comment
           cp ai-refactor-suggestions.md ai-suggestions.md
-      
+
       - name: Upload Consolidated Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -479,42 +479,42 @@ jobs:
             ai-suggestions.md
             ai-refactor-suggestions.md
           retention-days: 90
-      
+
       - name: Post Comprehensive PR Comment
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            
+
             let commentBody = '# 🏝️ Unmanned Island Security & Governance Report\n\n';
             commentBody += '> Comprehensive analysis including Language Governance, CodeQL, and Semgrep\n\n';
             commentBody += '---\n\n';
-            
+
             // Add Language Governance Report
             if (fs.existsSync('analysis-results/language-governance-report/pr-comment.md')) {
               commentBody += '## 1️⃣ Language Stack Governance\n\n';
               commentBody += fs.readFileSync('analysis-results/language-governance-report/pr-comment.md', 'utf8');
               commentBody += '\n\n---\n\n';
             }
-            
+
             // Add AI Suggestions
             if (fs.existsSync('ai-suggestions.md')) {
               commentBody += fs.readFileSync('ai-suggestions.md', 'utf8');
               commentBody += '\n\n---\n\n';
             }
-            
+
             // Add Security Scan Summary
             commentBody += '## 2️⃣ Security Scans Summary\n\n';
             commentBody += '### CodeQL Analysis\n';
             commentBody += '✅ Multi-language security analysis completed (JavaScript, Python, C++, Go)\n';
             commentBody += '- Results uploaded to Security tab\n\n';
-            
+
             commentBody += '### Semgrep Analysis\n';
             commentBody += '✅ Fast syntax and security rules applied\n';
             commentBody += '- OWASP Top 10 checks completed\n';
             commentBody += '- Results uploaded to Security tab\n\n';
-            
+
             commentBody += '---\n\n';
             commentBody += '### 📊 Artifacts\n';
             commentBody += '- [Download Full Report](../actions/runs/' + context.runId + ')\n';
@@ -522,22 +522,22 @@ jobs:
             commentBody += '- CodeQL Results (SARIF)\n';
             commentBody += '- Semgrep Results (SARIF)\n';
             commentBody += '- Consolidated Security Report\n\n';
-            
+
             commentBody += '---\n';
             commentBody += '*Generated by Unmanned Island CI/CD Pipeline*';
-            
+
             // Find and update or create comment
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.data.find(comment => 
               comment.user.type === 'Bot' && 
               comment.body.includes('Unmanned Island Security & Governance Report')
             );
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
@@ -553,17 +553,17 @@ jobs:
                 body: commentBody
               });
             }
-      
+
       - name: Create or Update Security Issue
         if: always()
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            
+
             // Check if there are critical violations
             let hasCritical = false;
-            
+
             try {
               if (fs.existsSync('analysis-results/language-governance-report/governance-report.json')) {
                 const report = JSON.parse(
@@ -575,7 +575,7 @@ jobs:
             } catch (error) {
               console.log('Could not check for critical violations:', error);
             }
-            
+
             if (hasCritical) {
               const issueBody = '## 🚨 Critical Security & Governance Violations\n\n' +
                 `**Branch:** ${context.ref}\n` +

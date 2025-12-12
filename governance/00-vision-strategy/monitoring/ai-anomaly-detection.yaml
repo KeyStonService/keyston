@@ -12,39 +12,39 @@ metadata:
     governance.kai/feature: "anomaly-detection"
 spec:
   groups:
-  - name: ai_anomaly_detection
-    interval: 30s
-    rules:
-    # ML-based anomaly detection
-    - alert: AnomalousGovernancePattern
-      expr: ai_ml_anomaly_score{type="governance"} > 0.8
-      for: 0s  # INSTANT alert
-      labels:
-        severity: warning
-        ai_detected: "true"
-        auto_action: "investigate"
-      annotations:
-        summary: "AI detected anomalous governance pattern"
-        description: "ML model detected score {{ $value }} (threshold: 0.8)"
-        action: "AUTO_INVESTIGATE"
-        responsibility: "AI_AUTONOMOUS"
-        
-    - alert: UnexpectedResourceSpike
-      expr: rate(governance_resources_total[5m]) > 2 * rate(governance_resources_total[1h])
-      for: 0s
-      labels:
-        severity: warning
-        ai_detected: "true"
-      annotations:
-        summary: "Unexpected resource creation spike"
-        action: "AUTO_ANALYZE"
-        
-    - alert: ComplianceDriftAnomaly
-      expr: abs(deriv(governance_compliance_score[10m])) > 0.1
-      for: 0s
-      labels:
-        severity: critical
-        ai_detected: "true"
-      annotations:
-        summary: "Abnormal compliance score change detected"
-        action: "AUTO_REMEDIATE"
+    - name: ai_anomaly_detection
+      interval: 30s
+      rules:
+        # ML-based anomaly detection
+        - alert: AnomalousGovernancePattern
+          expr: ai_ml_anomaly_score{type="governance"} > 0.8
+          for: 0s # INSTANT alert
+          labels:
+            severity: warning
+            ai_detected: "true"
+            auto_action: "investigate"
+          annotations:
+            summary: "AI detected anomalous governance pattern"
+            description: "ML model detected score {{ $value }} (threshold: 0.8)"
+            action: "AUTO_INVESTIGATE"
+            responsibility: "AI_AUTONOMOUS"
+
+        - alert: UnexpectedResourceSpike
+          expr: rate(governance_resources_total[5m]) > 2 * rate(governance_resources_total[1h])
+          for: 0s
+          labels:
+            severity: warning
+            ai_detected: "true"
+          annotations:
+            summary: "Unexpected resource creation spike"
+            action: "AUTO_ANALYZE"
+
+        - alert: ComplianceDriftAnomaly
+          expr: abs(deriv(governance_compliance_score[10m])) > 0.1
+          for: 0s
+          labels:
+            severity: critical
+            ai_detected: "true"
+          annotations:
+            summary: "Abnormal compliance score change detected"
+            action: "AUTO_REMEDIATE"

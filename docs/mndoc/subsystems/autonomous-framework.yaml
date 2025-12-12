@@ -23,11 +23,11 @@ architecture: "five-skeleton"
 
 # Five-skeleton architecture capabilities
 capabilities:
-  - architecture-stability    # 架構穩定性骨架
-  - api-governance           # API 治理邊界骨架
-  - testing-compatibility    # 測試與兼容性骨架
-  - security-observability   # 安全性與觀測骨架
-  - documentation-examples   # 文件與範例骨架
+  - architecture-stability # 架構穩定性骨架
+  - api-governance # API 治理邊界骨架
+  - testing-compatibility # 測試與兼容性骨架
+  - security-observability # 安全性與觀測骨架
+  - documentation-examples # 文件與範例骨架
 
 # Components
 components:
@@ -66,23 +66,23 @@ meta:
       languages: ["cpp"]
       frameworks: ["ROS 2"]
       description: "即時飛控 (100Hz)、IMU 融合、PID 控制器"
-    
+
     - id: "skeleton-2"
       name: "API 治理邊界骨架 (API Governance)"
       languages: ["python"]
       description: "模組責任矩陣、API 合約驗證、依賴鏈檢查"
-    
+
     - id: "skeleton-3"
       name: "測試與兼容性骨架 (Testing & Compatibility)"
       languages: ["python"]
       formats: ["yaml"]
       description: "自動化測試套件、跨版本兼容測試"
-    
+
     - id: "skeleton-4"
       name: "安全性與觀測骨架 (Security & Observability)"
       languages: ["go"]
       description: "分散式事件日誌、安全監控、追蹤 ID"
-    
+
     - id: "skeleton-5"
       name: "文件與範例骨架 (Documentation & Examples)"
       formats: ["yaml", "markdown"]

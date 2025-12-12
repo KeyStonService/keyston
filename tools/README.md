@@ -4,7 +4,8 @@
 
 `tools/` 目錄包含構建、驗證、生成和運維工具，支持整個開發和部署流程。
 
-The `tools/` directory contains build, validation, generation, and operations tools that support the entire development and deployment process.
+The `tools/` directory contains build, validation, generation, and operations
+tools that support the entire development and deployment process.
 
 ---
 
@@ -202,13 +203,13 @@ bash tools/scripts/restore.sh --backup latest
 
 ## 📊 工具功能對應表 / Tool Feature Matrix
 
-| 工具 | 功能 | 輸入 | 輸出 |
-|------|------|------|------|
-| validate_index.py | Schema 驗證 | YAML/JSON | 驗證報告 |
-| generate_knowledge_graph.py | KG 生成 | 倉庫代碼 | knowledge-graph.yaml |
-| contract-checker.js | 合約驗證 | 合約定義 | 驗證結果 |
-| deployment-validator.js | 部署驗證 | K8s 清單 | 驗證報告 |
-| admin-copilot | CLI 工具 | 命令行 | 分析報告 |
+| 工具                        | 功能        | 輸入      | 輸出                 |
+| --------------------------- | ----------- | --------- | -------------------- |
+| validate_index.py           | Schema 驗證 | YAML/JSON | 驗證報告             |
+| generate_knowledge_graph.py | KG 生成     | 倉庫代碼  | knowledge-graph.yaml |
+| contract-checker.js         | 合約驗證    | 合約定義  | 驗證結果             |
+| deployment-validator.js     | 部署驗證    | K8s 清單  | 驗證報告             |
+| admin-copilot               | CLI 工具    | 命令行    | 分析報告             |
 
 ---
 

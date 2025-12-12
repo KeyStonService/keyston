@@ -12,4 +12,5 @@
 
 ## 決策
 
-- 所有量子試驗屬於探索（exploratory），需在 manifest 中標記 `experimental: true`。
+- 所有量子試驗屬於探索（exploratory），需在 manifest 中標記
+  `experimental: true`。

@@ -4,7 +4,8 @@
 
 `config/` 目錄是所有系統配置的統一中心，包含業務、基礎設施、安全、監控等配置。
 
-The `config/` directory is the unified center for all system configurations, including business, infrastructure, security, and monitoring configurations.
+The `config/` directory is the unified center for all system configurations,
+including business, infrastructure, security, and monitoring configurations.
 
 ---
 
@@ -207,14 +208,14 @@ cp .env.staging .env
 
 ## 📈 配置演變歷史 / Configuration Evolution
 
-| 版本 | 日期 | 更新 |
-|------|------|------|
-| 1.0.0 | 2024-01 | 初始配置 |
+| 版本  | 日期    | 更新         |
+| ----- | ------- | ------------ |
+| 1.0.0 | 2024-01 | 初始配置     |
 | 2.0.0 | 2024-06 | 引入統一索引 |
 | 2.5.0 | 2024-09 | 新增監控配置 |
 | 3.0.0 | 2024-11 | 統一配置索引 |
 | 3.5.0 | 2024-12 | Phase 4 整合 |
-| 4.0.0 | 2025-01 | 完全重構 |
+| 4.0.0 | 2025-01 | 完全重構     |
 
 ---
 

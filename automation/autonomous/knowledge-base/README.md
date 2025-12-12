@@ -4,7 +4,9 @@
 
 本骨架負責知識組織、查詢介面、更新策略和 AI 上下文管理，構建系統的活體知識庫。
 
-This skeleton handles knowledge organization, query interface, update strategies, and AI context management to build a living knowledge base for the system.
+This skeleton handles knowledge organization, query interface, update
+strategies, and AI context management to build a living knowledge base for the
+system.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +19,8 @@ This skeleton handles knowledge organization, query interface, update strategies
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/`
 
 ### 指南文件結構
 
@@ -138,29 +141,29 @@ unmanned-island/
 
 ```yaml
 knowledge_index:
-  version: "1.0.0"
-  last_updated: "2025-12-05"
-  
+  version: '1.0.0'
+  last_updated: '2025-12-05'
+
   entities:
-    - type: "module"
-      id: "core.unified_integration"
-      title: "統一整合層"
-      tags: ["core", "integration", "cognitive"]
+    - type: 'module'
+      id: 'core.unified_integration'
+      title: '統一整合層'
+      tags: ['core', 'integration', 'cognitive']
       links:
-        - type: "documentation"
-          url: "core/unified_integration/README.md"
-        - type: "api"
-          url: "core/unified_integration/api.yaml"
-      
-    - type: "skeleton"
-      id: "architecture-stability"
-      title: "架構穩定性骨架"
-      tags: ["skeleton", "architecture", "ros2"]
+        - type: 'documentation'
+          url: 'core/unified_integration/README.md'
+        - type: 'api'
+          url: 'core/unified_integration/api.yaml'
+
+    - type: 'skeleton'
+      id: 'architecture-stability'
+      title: '架構穩定性骨架'
+      tags: ['skeleton', 'architecture', 'ros2']
       links:
-        - type: "guide"
-          url: "unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/"
-        - type: "implementation"
-          url: "automation/autonomous/architecture-stability/"
+        - type: 'guide'
+          url: 'unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/'
+        - type: 'implementation'
+          url: 'automation/autonomous/architecture-stability/'
 ```
 
 ## 🔍 語義搜索能力 / Semantic Search Capabilities
@@ -206,35 +209,35 @@ knowledge_index:
 ```python
 def build_context_for_ai(task: Task) -> Context:
     """為 AI 構建任務相關上下文"""
-    
+
     context = Context()
-    
+
     # 1. 任務相關知識
     context.add(get_task_related_knowledge(task))
-    
+
     # 2. 當前文件上下文
     context.add(get_file_context(task.current_file))
-    
+
     # 3. 依賴知識
     context.add(get_dependency_knowledge(task.dependencies))
-    
+
     # 4. 歷史經驗
     context.add(get_similar_tasks_knowledge(task))
-    
+
     # 5. 相關規範
     context.add(get_relevant_guidelines(task))
-    
+
     return context.rank_by_relevance()
 ```
 
 ### 上下文優先級 / Context Priority
 
-| 優先級 | 類型 | 範例 | 最大 Token |
-|--------|------|------|-----------|
-| 🔴 P0 | 核心規範 | Guardrails, Checklists | 2000 |
-| 🟡 P1 | 相關指南 | Architecture Overview | 3000 |
-| 🟢 P2 | 實現參考 | Code Examples | 2000 |
-| 🔵 P3 | 背景知識 | Documentation | 1000 |
+| 優先級 | 類型     | 範例                   | 最大 Token |
+| ------ | -------- | ---------------------- | ---------- |
+| 🔴 P0  | 核心規範 | Guardrails, Checklists | 2000       |
+| 🟡 P1  | 相關指南 | Architecture Overview  | 3000       |
+| 🟢 P2  | 實現參考 | Code Examples          | 2000       |
+| 🔵 P3  | 背景知識 | Documentation          | 1000       |
 
 ### 上下文窗口管理 / Context Window Management
 
@@ -246,11 +249,11 @@ context_window:
     task_description: 500
     knowledge_context: 5000
     working_memory: 1500
-  
+
   strategies:
-    - "優先加載高優先級知識"
-    - "動態調整分配比例"
-    - "智能截斷低優先級內容"
+    - '優先加載高優先級知識'
+    - '動態調整分配比例'
+    - '智能截斷低優先級內容'
 ```
 
 ## 📝 知識更新機制 / Knowledge Update Mechanism
@@ -279,30 +282,30 @@ context_window:
 
 ```yaml
 consistency_checks:
-  - check: "文檔鏈接有效性"
-    frequency: "daily"
-    action: "報告失效鏈接"
-  
-  - check: "知識版本一致性"
-    frequency: "hourly"
-    action: "標記版本衝突"
-  
-  - check: "索引完整性"
-    frequency: "每次更新後"
-    action: "重建缺失索引"
+  - check: '文檔鏈接有效性'
+    frequency: 'daily'
+    action: '報告失效鏈接'
+
+  - check: '知識版本一致性'
+    frequency: 'hourly'
+    action: '標記版本衝突'
+
+  - check: '索引完整性'
+    frequency: '每次更新後'
+    action: '重建缺失索引'
 ```
 
 ## 📊 知識健康指標 / Knowledge Health Metrics
 
 ### 質量指標 / Quality Metrics
 
-| 指標 | 目標值 | 當前值 | 趨勢 |
-|------|--------|--------|------|
-| 文檔覆蓋率 | > 90% | - | - |
-| 知識新鮮度 | < 30 天 | - | - |
-| 鏈接有效率 | 100% | - | - |
-| 搜索準確率 | > 85% | - | - |
-| AI 使用率 | > 60% | - | - |
+| 指標       | 目標值  | 當前值 | 趨勢 |
+| ---------- | ------- | ------ | ---- |
+| 文檔覆蓋率 | > 90%   | -      | -    |
+| 知識新鮮度 | < 30 天 | -      | -    |
+| 鏈接有效率 | 100%    | -      | -    |
+| 搜索準確率 | > 85%   | -      | -    |
+| AI 使用率  | > 60%   | -      | -    |
 
 ### 健康報告 / Health Report
 
@@ -310,21 +313,21 @@ consistency_checks:
 
 ```yaml
 health_report:
-  generated_at: "2025-12-05T18:00:00Z"
+  generated_at: '2025-12-05T18:00:00Z'
   overall_score: 85
-  
+
   coverage:
     modules_documented: 45/50
     apis_documented: 120/125
-    
+
   freshness:
     outdated_docs: 3
     avg_age_days: 18
-    
+
   links:
     total_links: 500
     broken_links: 2
-    
+
   usage:
     ai_queries: 1500
     user_searches: 800

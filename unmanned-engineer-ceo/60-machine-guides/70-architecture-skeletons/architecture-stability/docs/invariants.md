@@ -4,8 +4,8 @@
 
 ### INV-001: 單向依賴原則
 
-**規則**: 依賴關係必須由外向內，禁止反向依賴
-**層級順序**: applications → agents → services → platform → core
+**規則**: 依賴關係必須由外向內，禁止反向依賴 **層級順序**: applications → agents
+→ services → platform → core
 
 **示例**:
 
@@ -14,8 +14,8 @@
 
 ### INV-002: 同層隔離原則
 
-**規則**: 同一層級的模組不得直接依賴，必須通過 API/Event
-**適用層級**: services, agents
+**規則**: 同一層級的模組不得直接依賴，必須通過 API/Event **適用層級**: services,
+agents
 
 **示例**:
 
@@ -24,8 +24,8 @@
 
 ### INV-003: Core 穩定性原則
 
-**規則**: core 層只能依賴標準庫和明確聲明的外部依賴
-**禁止**: core 依賴 platform/services/agents/applications
+**規則**: core 層只能依賴標準庫和明確聲明的外部依賴 **禁止**:
+core 依賴 platform/services/agents/applications
 
 ## 資料存取不變條件
 
@@ -58,5 +58,5 @@
 
 ### INV-008: 零信任原則
 
-**規則**: 所有跨邊界調用必須驗證身份與權限
-**邊界定義**: service 邊界、tenant 邊界、network 邊界
+**規則**: 所有跨邊界調用必須驗證身份與權限 **邊界定義**:
+service 邊界、tenant 邊界、network 邊界

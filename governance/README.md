@@ -2,14 +2,16 @@
 
 # 治理
 
-> 治理政策、規則、安全配置和合規資源。
-> Governance policies, rules, security configurations, and compliance resources.
+> 治理政策、規則、安全配置和合規資源。Governance policies, rules, security
+> configurations, and compliance resources.
 
 ## 📋 Overview 概述
 
 本目錄包含 SynergyMesh 項目的治理配置和文檔，確保模組間的責任清晰、依賴管理合理、語言邊界明確。
 
-This directory contains governance configurations and documentation for the SynergyMesh project, ensuring clear module responsibilities, reasonable dependency management, and explicit language boundaries.
+This directory contains governance configurations and documentation for the
+SynergyMesh project, ensuring clear module responsibilities, reasonable
+dependency management, and explicit language boundaries.
 
 ## 🎯 Governance Architecture | 治理架構 ⭐
 
@@ -25,7 +27,8 @@ This directory contains governance configurations and documentation for the Syne
 
 ### 分層閉環治理架構 (Layered Closed-Loop Governance)
 
-SynergyMesh 採用分層閉環治理架構，整合 GitOps、Policy as Code、Intent-based Orchestration、AI Agent Governance 與 Feedback Loop：
+SynergyMesh 採用分層閉環治理架構，整合 GitOps、Policy as Code、Intent-based
+Orchestration、AI Agent Governance 與 Feedback Loop：
 
 ```
 策略層 (Strategy)     → 10-policy: Policy as Code Framework
@@ -35,7 +38,8 @@ SynergyMesh 採用分層閉環治理架構，整合 GitOps、Policy as Code、In
 回饋層 (Feedback)     → 80-feedback: Closed-Loop Optimization
 ```
 
-詳見 [Governance Integration Architecture](./GOVERNANCE_INTEGRATION_ARCHITECTURE.md)
+詳見
+[Governance Integration Architecture](./GOVERNANCE_INTEGRATION_ARCHITECTURE.md)
 
 ### Core Structural Contracts | 核心結構契約
 
@@ -52,12 +56,14 @@ SynergyMesh 採用分層閉環治理架構，整合 GitOps、Policy as Code、In
 5. **Policies & Constraints** - Executable architectural policies
 6. **Quality & Metrics** - Measurable architecture health
 
-This framework makes architecture governance **explicit, measurable, and automatable**.
+This framework makes architecture governance **explicit, measurable, and
+automatable**.
 
 ## 📁 Directory Structure 目錄結構
 
-> **⚠️ RESTRUCTURING NOTICE** (2025-12-12): Directory structure has been cleaned up to resolve duplicates and conflicts.
-> See [RESTRUCTURING_GUIDE.md](./RESTRUCTURING_GUIDE.md) for migration details.
+> **⚠️ RESTRUCTURING NOTICE** (2025-12-12): Directory structure has been cleaned
+> up to resolve duplicates and conflicts. See
+> [RESTRUCTURING_GUIDE.md](./RESTRUCTURING_GUIDE.md) for migration details.
 
 ```
 governance/
@@ -155,12 +161,14 @@ governance/
 ### 🔄 Recent Changes (2025-12-12)
 
 **問題解決 (Problems Resolved)**:
+
 1. ✅ 移除目錄編號衝突 (10, 20, 30)
 2. ✅ 統一共享資源位置 (policies, schemas, scripts)
 3. ✅ 釐清審計職責 (07-audit vs 70-audit)
 4. ✅ 建立單一真相來源
 
 **遷移影響 (Migration Impact)**:
+
 - Legacy dimensions moved to `_legacy/`
 - Shared resources consolidated into numbered dimensions
 - All changes tracked in `governance-map.yaml`
@@ -267,18 +275,18 @@ governance/
 
 ### ✅ Who Should Depend on This 誰應該依賴本目錄
 
-| Consumer 使用者 | Purpose 用途 |
-|----------------|--------------|
+| Consumer 使用者 | Purpose 用途                                                 |
+| --------------- | ------------------------------------------------------------ |
 | CI/CD workflows | Policy validation and compliance checks / 策略驗證和合規檢查 |
-| `core/` | 讀取 AI 憲法和倫理規則 |
-| Security tools | SBOM 和安全策略 |
+| `core/`         | 讀取 AI 憲法和倫理規則                                       |
+| Security tools  | SBOM 和安全策略                                              |
 
 ### ❌ This Directory Should NOT Depend on 本目錄不應依賴
 
-| 不應依賴 | Reason 原因 |
-|---------|-------------|
-| 任何實作代碼 | 治理應獨立於實作 |
-| `runtime/` | 治理定義不應依賴運行時 |
+| 不應依賴     | Reason 原因            |
+| ------------ | ---------------------- |
+| 任何實作代碼 | 治理應獨立於實作       |
+| `runtime/`   | 治理定義不應依賴運行時 |
 
 ## 📖 Related Documentation 相關文檔
 
@@ -289,9 +297,9 @@ governance/
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial README |
+| Date 日期  | Version 版本 | Changes 變更   |
+| ---------- | ------------ | -------------- |
+| 2025-11-30 | 1.0.0        | Initial README |
 
 ---
 
@@ -350,7 +358,6 @@ SynergyMesh follows SLSA (Supply-chain Levels for Software Artifacts) framework:
 - [SLSA Framework](https://slsa.dev/)
 - [Migration Guide](../docs/MIGRATION.md)
 - [Sigstore Documentation](https://docs.sigstore.dev/)
-
 
 ## Directory Structure
 

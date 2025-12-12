@@ -10,49 +10,49 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: contracts-service
-  
+
   minReplicas: 3
   maxReplicas: 10
-  
+
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
       policies:
-      - type: Percent
-        value: 50
-        periodSeconds: 60
-      - type: Pods
-        value: 1
-        periodSeconds: 60
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 1
+          periodSeconds: 60
       selectPolicy: Min
     scaleUp:
       stabilizationWindowSeconds: 0
       policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 30
-      - type: Pods
-        value: 2
-        periodSeconds: 30
+        - type: Percent
+          value: 100
+          periodSeconds: 30
+        - type: Pods
+          value: 2
+          periodSeconds: 30
       selectPolicy: Max
-  
+
   metrics:
-  # CPU 使用率目標
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  
-  # 記憶體使用率目標
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
-  
+    # CPU 使用率目標
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+
+    # 記憶體使用率目標
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
   # 自定義指標（如需要，取消註解）
   # - type: Pods
   #   pods:

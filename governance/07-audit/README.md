@@ -1,13 +1,15 @@
 # 審計治理 | Audit Governance
 
-> 審計框架、計劃、執行、報告、跟蹤
-> Audit framework, planning, execution, reporting, and tracking
+> 審計框架、計劃、執行、報告、跟蹤Audit framework, planning, execution,
+> reporting, and tracking
 
 ## 📋 概述 | Overview
 
 審計治理定義了組織的審計框架，包括審計計劃、執行、報告和改進跟蹤機制。
 
-The Audit Governance dimension defines the organization's audit framework, including audit planning, execution, reporting, and continuous improvement tracking mechanisms.
+The Audit Governance dimension defines the organization's audit framework,
+including audit planning, execution, reporting, and continuous improvement
+tracking mechanisms.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -53,13 +55,13 @@ audit-governance/
 
 ## 🔗 依賴和映射 | Dependencies and Mappings
 
-- 依賴於: `governance-architecture`, `compliance-governance`, `security-governance`
+- 依賴於: `governance-architecture`, `compliance-governance`,
+  `security-governance`
 - 被依賴於: `governance-improvement`
 - 工具: `governance-tools` (審計管理系統)
 - 指標: `governance-metrics` (審計指標)
 
 ---
 
-**Owner 負責人**: Audit Governance Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Audit Governance Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

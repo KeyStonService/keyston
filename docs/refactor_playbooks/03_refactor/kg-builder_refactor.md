@@ -7,21 +7,24 @@
 
 - `01_deconstruction/kg-builder_deconstruction.md` ✅
 - `02_integration/kg-builder_integration.md` ✅  
-**執行範圍 (Execution Scope)**: P0/P1/P2 prioritized file operations  
-**預估總工作量 (Estimated Total Effort)**: ~16-24 人時
+  **執行範圍 (Execution Scope)**: P0/P1/P2 prioritized file operations  
+  **預估總工作量 (Estimated Total Effort)**: ~16-24 人時
 
 ---
 
 ## 🎯 1. 執行摘要 (Executive Summary)
 
-本重構計畫將 `_legacy_scratch/README.md` 中的知識圖譜構建器插件規範，系統化地整合到 Unmanned Island 系統的正式目錄結構中。整合遵循「最小變更原則」，優先利用現有目錄，避免引入新的頂層結構。
+本重構計畫將 `_legacy_scratch/README.md`
+中的知識圖譜構建器插件規範，系統化地整合到 Unmanned
+Island 系統的正式目錄結構中。整合遵循「最小變更原則」，優先利用現有目錄，避免引入新的頂層結構。
 
 ### 關鍵指標 (Key Metrics)
 
 - **新建文件數**: 25 個
 - **擴展文件數**: 5 個
 - **刪除文件數**: 0 個（legacy_scratch/README.md 標記為棄用但保留）
-- **受影響目錄**: 6 個 (docs/, config/, governance/, infrastructure/, knowledge/, tools/)
+- **受影響目錄**: 6 個 (docs/, config/, governance/, infrastructure/,
+  knowledge/, tools/)
 - **零破壞性變更**: 所有變更向後兼容
 
 ---
@@ -32,11 +35,11 @@
 
 #### P0-1: 架構文檔創建 (Architecture Documentation)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P0** | `docs/ARCHITECTURE/plugin-architecture-pattern.md` | 新建 | 插件模式是系統擴展的基礎，需立即文檔化 |
-| **P0** | `docs/ARCHITECTURE/knowledge-graph-processing.md` | 新建 | 知識處理流程是核心邏輯，需優先說明 |
-| **P0** | `docs/ARCHITECTURE/storage-architecture.md` | 新建 | 三層存儲架構影響數據持久化策略 |
+| 優先級 | 目標檔案路徑                                       | 動作類型 | 簡短理由                               |
+| ------ | -------------------------------------------------- | -------- | -------------------------------------- |
+| **P0** | `docs/ARCHITECTURE/plugin-architecture-pattern.md` | 新建     | 插件模式是系統擴展的基礎，需立即文檔化 |
+| **P0** | `docs/ARCHITECTURE/knowledge-graph-processing.md`  | 新建     | 知識處理流程是核心邏輯，需優先說明     |
+| **P0** | `docs/ARCHITECTURE/storage-architecture.md`        | 新建     | 三層存儲架構影響數據持久化策略         |
 
 **詳細行動**:
 
@@ -71,11 +74,11 @@ CREATE docs/ARCHITECTURE/storage-architecture.md
 
 #### P0-2: 治理規則與 Schema 創建 (Governance Rules & Schemas)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P0** | `governance/schemas/plugin-specification.schema.json` | 新建 | 插件規範驗證的基礎，影響所有插件開發 |
-| **P0** | `governance/policies/plugin-quality-gates.yaml` | 新建 | 質量門檻定義，確保插件質量 |
-| **P0** | `governance/policies/data-privacy-policy.yaml` | 新建 | 數據隱私合規，法律要求 |
+| 優先級 | 目標檔案路徑                                          | 動作類型 | 簡短理由                             |
+| ------ | ----------------------------------------------------- | -------- | ------------------------------------ |
+| **P0** | `governance/schemas/plugin-specification.schema.json` | 新建     | 插件規範驗證的基礎，影響所有插件開發 |
+| **P0** | `governance/policies/plugin-quality-gates.yaml`       | 新建     | 質量門檻定義，確保插件質量           |
+| **P0** | `governance/policies/data-privacy-policy.yaml`        | 新建     | 數據隱私合規，法律要求               |
 
 **詳細行動**:
 
@@ -110,10 +113,10 @@ CREATE governance/policies/data-privacy-policy.yaml
 
 #### P0-3: 配置模板創建 (Configuration Templates)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P0** | `config/templates/plugin-specification-template.yaml` | 新建 | 插件開發者模板，立即可用 |
-| **P0** | `config/system-module-map.yaml` | 擴展 | 註冊 knowledge_processing 模組 |
+| 優先級 | 目標檔案路徑                                          | 動作類型 | 簡短理由                       |
+| ------ | ----------------------------------------------------- | -------- | ------------------------------ |
+| **P0** | `config/templates/plugin-specification-template.yaml` | 新建     | 插件開發者模板，立即可用       |
+| **P0** | `config/system-module-map.yaml`                       | 擴展     | 註冊 knowledge_processing 模組 |
 
 **詳細行動**:
 
@@ -148,10 +151,10 @@ EXTEND config/system-module-map.yaml
 
 #### P1-1: 驗證工具創建 (Validation Tools)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P1** | `tools/validate-plugin-spec.py` | 新建 | 自動化驗證插件規範，提升開發效率 |
-| **P1** | `tools/validate-ontology.py` | 新建 | OWL 本體一致性驗證 |
+| 優先級 | 目標檔案路徑                    | 動作類型 | 簡短理由                         |
+| ------ | ------------------------------- | -------- | -------------------------------- |
+| **P1** | `tools/validate-plugin-spec.py` | 新建     | 自動化驗證插件規範，提升開發效率 |
+| **P1** | `tools/validate-ontology.py`    | 新建     | OWL 本體一致性驗證               |
 
 **詳細行動**:
 
@@ -187,9 +190,9 @@ CREATE tools/validate-ontology.py
 
 #### P1-2: CLI 工具創建 (CLI Tools)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P1** | `tools/cli/plugin-registry-cli.py` | 新建 | 插件註冊、查詢、更新 CLI |
+| 優先級 | 目標檔案路徑                       | 動作類型 | 簡短理由                 |
+| ------ | ---------------------------------- | -------- | ------------------------ |
+| **P1** | `tools/cli/plugin-registry-cli.py` | 新建     | 插件註冊、查詢、更新 CLI |
 
 **詳細行動**:
 
@@ -218,10 +221,10 @@ CREATE tools/cli/plugin-registry-cli.py
 
 #### P1-3: 架構文檔補充 (Additional Architecture Docs)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P1** | `docs/ARCHITECTURE/batch-stream-processing.md` | 新建 | 批流混合處理模式文檔 |
-| **P1** | `docs/ARCHITECTURE/vector-alignment-strategy.md` | 新建 | 向量嵌入策略文檔 |
+| 優先級 | 目標檔案路徑                                     | 動作類型 | 簡短理由             |
+| ------ | ------------------------------------------------ | -------- | -------------------- |
+| **P1** | `docs/ARCHITECTURE/batch-stream-processing.md`   | 新建     | 批流混合處理模式文檔 |
+| **P1** | `docs/ARCHITECTURE/vector-alignment-strategy.md` | 新建     | 向量嵌入策略文檔     |
 
 **詳細行動**:
 
@@ -250,11 +253,11 @@ CREATE docs/ARCHITECTURE/vector-alignment-strategy.md
 
 #### P1-4: 配置文件補充 (Additional Configuration Files)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P1** | `config/ai-models/vector-alignment-config.yaml` | 新建 | 向量嵌入模型配置 |
-| **P1** | `config/processing/pipeline-config.yaml` | 新建 | 處理管線配置 |
-| **P1** | `config/quality/quality-control-config.yaml` | 新建 | 質量控制配置 |
+| 優先級 | 目標檔案路徑                                    | 動作類型 | 簡短理由         |
+| ------ | ----------------------------------------------- | -------- | ---------------- |
+| **P1** | `config/ai-models/vector-alignment-config.yaml` | 新建     | 向量嵌入模型配置 |
+| **P1** | `config/processing/pipeline-config.yaml`        | 新建     | 處理管線配置     |
+| **P1** | `config/quality/quality-control-config.yaml`    | 新建     | 質量控制配置     |
 
 **詳細行動**:
 
@@ -291,11 +294,11 @@ CREATE config/quality/quality-control-config.yaml
 
 #### P2-1: Kubernetes 模板創建 (Kubernetes Templates)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml` | 新建 | 知識處理器部署模板 |
-| **P2** | `infrastructure/kubernetes/templates/neo4j-statefulset.yaml` | 新建 | Neo4j 部署模板 |
-| **P2** | `infrastructure/kubernetes/templates/redis-cluster-config.yaml` | 新建 | Redis 集群配置 |
+| 優先級 | 目標檔案路徑                                                              | 動作類型 | 簡短理由           |
+| ------ | ------------------------------------------------------------------------- | -------- | ------------------ |
+| **P2** | `infrastructure/kubernetes/templates/knowledge-processor-deployment.yaml` | 新建     | 知識處理器部署模板 |
+| **P2** | `infrastructure/kubernetes/templates/neo4j-statefulset.yaml`              | 新建     | Neo4j 部署模板     |
+| **P2** | `infrastructure/kubernetes/templates/redis-cluster-config.yaml`           | 新建     | Redis 集群配置     |
 
 **詳細行動**:
 
@@ -331,11 +334,11 @@ CREATE infrastructure/kubernetes/templates/redis-cluster-config.yaml
 
 #### P2-2: 知識庫目錄創建 (Knowledge Base Directories)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `knowledge/processing-workflows/kg-construction-workflow.yaml` | 新建 | KG 構建工作流定義 |
-| **P2** | `knowledge/semantic-patterns/relation-patterns.json` | 新建 | 關係模式庫 |
-| **P2** | `knowledge/entity-resolution-rules/similarity-rules.yaml` | 新建 | 實體解析規則 |
+| 優先級 | 目標檔案路徑                                                   | 動作類型 | 簡短理由          |
+| ------ | -------------------------------------------------------------- | -------- | ----------------- |
+| **P2** | `knowledge/processing-workflows/kg-construction-workflow.yaml` | 新建     | KG 構建工作流定義 |
+| **P2** | `knowledge/semantic-patterns/relation-patterns.json`           | 新建     | 關係模式庫        |
+| **P2** | `knowledge/entity-resolution-rules/similarity-rules.yaml`      | 新建     | 實體解析規則      |
 
 **詳細行動**:
 
@@ -370,10 +373,10 @@ CREATE knowledge/entity-resolution-rules/similarity-rules.yaml
 
 #### P2-3: CI/CD 集成 (CI/CD Integration)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `.github/workflows/knowledge-processing-ci.yml` | 新建 | 知識處理 CI workflow |
-| **P2** | `docs/refactor_playbooks/03_refactor/meta/CI_INTEGRATION.md` | 擴展 | 添加插件驗證 CI 說明 |
+| 優先級 | 目標檔案路徑                                                 | 動作類型 | 簡短理由             |
+| ------ | ------------------------------------------------------------ | -------- | -------------------- |
+| **P2** | `.github/workflows/knowledge-processing-ci.yml`              | 新建     | 知識處理 CI workflow |
+| **P2** | `docs/refactor_playbooks/03_refactor/meta/CI_INTEGRATION.md` | 擴展     | 添加插件驗證 CI 說明 |
 
 **詳細行動**:
 
@@ -404,10 +407,10 @@ EXTEND docs/refactor_playbooks/03_refactor/meta/CI_INTEGRATION.md
 
 #### P2-4: 性能測試與文檔 (Performance Testing & Docs)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `tools/benchmark-knowledge-processor.py` | 新建 | 性能基準測試工具 |
-| **P2** | `docs/refactor_playbooks/03_refactor/meta/PLUGIN_ARCHITECTURE_EXAMPLES.md` | 新建 | 插件架構示例 |
+| 優先級 | 目標檔案路徑                                                               | 動作類型 | 簡短理由         |
+| ------ | -------------------------------------------------------------------------- | -------- | ---------------- |
+| **P2** | `tools/benchmark-knowledge-processor.py`                                   | 新建     | 性能基準測試工具 |
+| **P2** | `docs/refactor_playbooks/03_refactor/meta/PLUGIN_ARCHITECTURE_EXAMPLES.md` | 新建     | 插件架構示例     |
 
 **詳細行動**:
 
@@ -441,10 +444,10 @@ CREATE docs/refactor_playbooks/03_refactor/meta/PLUGIN_ARCHITECTURE_EXAMPLES.md
 
 #### P2-5: 治理規則補充 (Additional Governance Policies)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `governance/policies/compliance-attestation.yaml` | 新建 | 語義 Web 標準合規聲明 |
-| **P2** | `governance/policies/knowledge-processing-rules.yaml` | 新建 | 知識處理質量規則 |
+| 優先級 | 目標檔案路徑                                          | 動作類型 | 簡短理由              |
+| ------ | ----------------------------------------------------- | -------- | --------------------- |
+| **P2** | `governance/policies/compliance-attestation.yaml`     | 新建     | 語義 Web 標準合規聲明 |
+| **P2** | `governance/policies/knowledge-processing-rules.yaml` | 新建     | 知識處理質量規則      |
 
 **詳細行動**:
 
@@ -473,10 +476,10 @@ CREATE governance/policies/knowledge-processing-rules.yaml
 
 #### P2-6: 擴展現有工具 (Extend Existing Tools)
 
-| 優先級 | 目標檔案路徑 | 動作類型 | 簡短理由 |
-|-------|-------------|---------|---------|
-| **P2** | `tools/ai-auto-fix.py` | 擴展 | 添加三元組質量分析功能 |
-| **P2** | `docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md` | 擴展 | 添加 KG 相關 AI 提示 |
+| 優先級 | 目標檔案路徑                                             | 動作類型 | 簡短理由               |
+| ------ | -------------------------------------------------------- | -------- | ---------------------- |
+| **P2** | `tools/ai-auto-fix.py`                                   | 擴展     | 添加三元組質量分析功能 |
+| **P2** | `docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md` | 擴展     | 添加 KG 相關 AI 提示   |
 
 **詳細行動**:
 
@@ -512,45 +515,45 @@ EXTEND docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md
 
 ### 3.1 按文件操作類型統計 (By Operation Type)
 
-| 操作類型 | 數量 | P0 | P1 | P2 |
-|---------|-----|----|----|-----|
-| **新建 (CREATE)** | 23 | 7 | 9 | 7 |
-| **擴展 (EXTEND)** | 4 | 1 | 0 | 3 |
-| **移動 (MOVE)** | 0 | 0 | 0 | 0 |
-| **刪除 (DELETE)** | 0 | 0 | 0 | 0 |
-| **標記棄用 (DEPRECATE)** | 1 | 0 | 0 | 1 |
-| **總計** | 28 | 8 | 9 | 11 |
+| 操作類型                 | 數量 | P0  | P1  | P2  |
+| ------------------------ | ---- | --- | --- | --- |
+| **新建 (CREATE)**        | 23   | 7   | 9   | 7   |
+| **擴展 (EXTEND)**        | 4    | 1   | 0   | 3   |
+| **移動 (MOVE)**          | 0    | 0   | 0   | 0   |
+| **刪除 (DELETE)**        | 0    | 0   | 0   | 0   |
+| **標記棄用 (DEPRECATE)** | 1    | 0   | 0   | 1   |
+| **總計**                 | 28   | 8   | 9   | 11  |
 
 ### 3.2 按目錄統計 (By Directory)
 
-| 目錄 | 新建文件數 | 擴展文件數 |
-|-----|-----------|-----------|
-| `docs/ARCHITECTURE/` | 5 | 0 |
-| `docs/refactor_playbooks/03_refactor/meta/` | 1 | 2 |
-| `config/templates/` | 1 | 0 |
-| `config/ai-models/` | 1 | 0 |
-| `config/processing/` | 1 | 0 |
-| `config/quality/` | 1 | 0 |
-| `config/kubernetes/` | 1 | 0 |
-| `config/` (root) | 0 | 1 |
-| `governance/schemas/` | 1 | 0 |
-| `governance/policies/` | 5 | 0 |
-| `infrastructure/kubernetes/templates/` | 5 | 0 |
-| `knowledge/processing-workflows/` | 1 | 0 |
-| `knowledge/semantic-patterns/` | 2 | 0 |
-| `knowledge/entity-resolution-rules/` | 1 | 0 |
-| `tools/` | 3 | 1 |
-| `tools/cli/` | 1 | 0 |
-| `.github/workflows/` | 1 | 0 |
+| 目錄                                        | 新建文件數 | 擴展文件數 |
+| ------------------------------------------- | ---------- | ---------- |
+| `docs/ARCHITECTURE/`                        | 5          | 0          |
+| `docs/refactor_playbooks/03_refactor/meta/` | 1          | 2          |
+| `config/templates/`                         | 1          | 0          |
+| `config/ai-models/`                         | 1          | 0          |
+| `config/processing/`                        | 1          | 0          |
+| `config/quality/`                           | 1          | 0          |
+| `config/kubernetes/`                        | 1          | 0          |
+| `config/` (root)                            | 0          | 1          |
+| `governance/schemas/`                       | 1          | 0          |
+| `governance/policies/`                      | 5          | 0          |
+| `infrastructure/kubernetes/templates/`      | 5          | 0          |
+| `knowledge/processing-workflows/`           | 1          | 0          |
+| `knowledge/semantic-patterns/`              | 2          | 0          |
+| `knowledge/entity-resolution-rules/`        | 1          | 0          |
+| `tools/`                                    | 3          | 1          |
+| `tools/cli/`                                | 1          | 0          |
+| `.github/workflows/`                        | 1          | 0          |
 
 ### 3.3 工作量估算 (Effort Estimation)
 
-| 優先級 | 任務數 | 預估時間（小時） | 預估時間（人天） |
-|-------|-------|----------------|----------------|
-| **P0** | 3 組（8 文件） | 11-15 | 1.5-2 天 |
-| **P1** | 4 組（9 文件） | 20-26 | 2.5-3.5 天 |
-| **P2** | 6 組（11 文件） | 29-37 | 3.5-5 天 |
-| **總計** | 13 組（28 文件） | 60-78 | 7.5-10 天 |
+| 優先級   | 任務數           | 預估時間（小時） | 預估時間（人天） |
+| -------- | ---------------- | ---------------- | ---------------- |
+| **P0**   | 3 組（8 文件）   | 11-15            | 1.5-2 天         |
+| **P1**   | 4 組（9 文件）   | 20-26            | 2.5-3.5 天       |
+| **P2**   | 6 組（11 文件）  | 29-37            | 3.5-5 天         |
+| **總計** | 13 組（28 文件） | 60-78            | 7.5-10 天        |
 
 註：以 8 小時工作日計算
 
@@ -599,7 +602,8 @@ EXTEND docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md
   - ✅ 所有可復用內容（已完全整合）
 
 清理操作:
-  - 將 _legacy_scratch/README.md 移至 _legacy_scratch/ARCHIVED_kg-builder-spec.yaml
+  - 將 _legacy_scratch/README.md 移至
+    _legacy_scratch/ARCHIVED_kg-builder-spec.yaml
   - 創建 _legacy_scratch/README.md 僅包含歷史說明與遷移指引
   - 在 .gitattributes 標記為 linguist-documentation
 ```
@@ -643,79 +647,69 @@ EXTEND docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md
 
 ### 5.1 功能性驗收 (Functional Acceptance)
 
-| 驗收項 | 標準 | 驗證方法 |
-|-------|-----|---------|
-| **文檔完整性** | 所有 P0/P1 架構文檔創建完成 | 檢查 docs/ARCHITECTURE/ 目錄 |
-| **配置有效性** | 所有 YAML 配置通過語法驗證 | 運行 `yamllint config/` |
+| 驗收項            | 標準                           | 驗證方法                                                                                 |
+| ----------------- | ------------------------------ | ---------------------------------------------------------------------------------------- |
+| **文檔完整性**    | 所有 P0/P1 架構文檔創建完成    | 檢查 docs/ARCHITECTURE/ 目錄                                                             |
+| **配置有效性**    | 所有 YAML 配置通過語法驗證     | 運行 `yamllint config/`                                                                  |
 | **Schema 正確性** | JSON Schema 能正確驗證示例規範 | 運行 `tools/validate-plugin-spec.py config/templates/plugin-specification-template.yaml` |
-| **工具可用性** | 所有驗證工具可執行並通過測試 | 運行 `pytest tools/tests/` |
-| **CLI 功能性** | 插件註冊 CLI 所有命令可用 | 運行 `python tools/cli/plugin-registry-cli.py --help` |
+| **工具可用性**    | 所有驗證工具可執行並通過測試   | 運行 `pytest tools/tests/`                                                               |
+| **CLI 功能性**    | 插件註冊 CLI 所有命令可用      | 運行 `python tools/cli/plugin-registry-cli.py --help`                                    |
 
 ### 5.2 質量性驗收 (Quality Acceptance)
 
-| 質量指標 | 門檻 | 當前狀態 |
-|---------|-----|---------|
-| **Markdown Lint** | 0 errors | 待驗證 |
-| **YAML Lint** | 0 errors | 待驗證 |
-| **Python Lint (Pylint)** | >= 8.0/10 | 待驗證 |
-| **Python Type Check (Mypy)** | 0 errors | 待驗證 |
-| **Test Coverage** | >= 70% | 待驗證 |
-| **Semgrep HIGH** | 0 violations | 待驗證 |
-| **Semgrep MEDIUM** | <= 5 violations | 待驗證 |
+| 質量指標                     | 門檻            | 當前狀態 |
+| ---------------------------- | --------------- | -------- |
+| **Markdown Lint**            | 0 errors        | 待驗證   |
+| **YAML Lint**                | 0 errors        | 待驗證   |
+| **Python Lint (Pylint)**     | >= 8.0/10       | 待驗證   |
+| **Python Type Check (Mypy)** | 0 errors        | 待驗證   |
+| **Test Coverage**            | >= 70%          | 待驗證   |
+| **Semgrep HIGH**             | 0 violations    | 待驗證   |
+| **Semgrep MEDIUM**           | <= 5 violations | 待驗證   |
 
 ### 5.3 整合性驗收 (Integration Acceptance)
 
-| 整合項 | 標準 | 驗證方法 |
-|-------|-----|---------|
-| **模組註冊** | knowledge_processing 模組在 system-module-map.yaml | 檢查 config/system-module-map.yaml |
-| **文檔索引** | 所有新文檔在 DOCUMENTATION_INDEX.md | 檢查 DOCUMENTATION_INDEX.md |
-| **Schema 引用** | 插件 Schema 在 governance/schemas/README.md | 檢查 governance/schemas/README.md |
-| **K8s 模板驗證** | 所有模板通過 kubectl dry-run | 運行 `kubectl apply --dry-run=client -f infrastructure/kubernetes/templates/` |
-| **CI 集成** | 新 workflow 成功運行 | 檢查 GitHub Actions 運行結果 |
+| 整合項           | 標準                                               | 驗證方法                                                                      |
+| ---------------- | -------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **模組註冊**     | knowledge_processing 模組在 system-module-map.yaml | 檢查 config/system-module-map.yaml                                            |
+| **文檔索引**     | 所有新文檔在 DOCUMENTATION_INDEX.md                | 檢查 DOCUMENTATION_INDEX.md                                                   |
+| **Schema 引用**  | 插件 Schema 在 governance/schemas/README.md        | 檢查 governance/schemas/README.md                                             |
+| **K8s 模板驗證** | 所有模板通過 kubectl dry-run                       | 運行 `kubectl apply --dry-run=client -f infrastructure/kubernetes/templates/` |
+| **CI 集成**      | 新 workflow 成功運行                               | 檢查 GitHub Actions 運行結果                                                  |
 
 ### 5.4 效能性驗收 (Performance Acceptance)
 
-| 效能指標 | 目標 | 測試方法 |
-|---------|-----|---------|
-| **插件規範驗證速度** | < 1s | 運行 `time tools/validate-plugin-spec.py <spec>` |
-| **本體驗證速度** | < 5s | 運行 `time tools/validate-ontology.py <owl>` |
-| **CLI 響應速度** | < 500ms | 運行 `time tools/cli/plugin-registry-cli.py list` |
+| 效能指標             | 目標    | 測試方法                                          |
+| -------------------- | ------- | ------------------------------------------------- |
+| **插件規範驗證速度** | < 1s    | 運行 `time tools/validate-plugin-spec.py <spec>`  |
+| **本體驗證速度**     | < 5s    | 運行 `time tools/validate-ontology.py <owl>`      |
+| **CLI 響應速度**     | < 500ms | 運行 `time tools/cli/plugin-registry-cli.py list` |
 
 ### 5.5 最終驗收檢查清單 (Final Acceptance Checklist)
 
 ```yaml
-Phase 0: 準備
-  - ✅ 解構分析完成 (01_deconstruction/kg-builder_deconstruction.md)
-  - ✅ 集成設計完成 (02_integration/kg-builder_integration.md)
-  - ✅ 重構計畫完成 (本文檔)
+Phase 0:
+  準備 - ✅ 解構分析完成 (01_deconstruction/kg-builder_deconstruction.md) - ✅
+  集成設計完成 (02_integration/kg-builder_integration.md) - ✅ 重構計畫完成
+  (本文檔)
 
-Phase 1: P0 執行
-  - [ ] 3 個架構文檔創建完成
-  - [ ] 3 個治理規則創建完成
-  - [ ] 2 個配置文件創建完成
-  - [ ] P0 所有驗收標準通過
+Phase 1:
+  P0 執行 - [ ] 3 個架構文檔創建完成 - [ ] 3 個治理規則創建完成 - [ ] 2
+  個配置文件創建完成 - [ ] P0 所有驗收標準通過
 
-Phase 2: P1 執行
-  - [ ] 2 個驗證工具創建完成
-  - [ ] 1 個 CLI 工具創建完成
-  - [ ] 2 個架構文檔創建完成
-  - [ ] 3 個配置文件創建完成
-  - [ ] P1 所有驗收標準通過
+Phase 2:
+  P1 執行 - [ ] 2 個驗證工具創建完成 - [ ] 1 個 CLI 工具創建完成 - [ ] 2
+  個架構文檔創建完成 - [ ] 3 個配置文件創建完成 - [ ] P1 所有驗收標準通過
 
-Phase 3: P2 執行
-  - [ ] 5 個 Kubernetes 模板創建完成
-  - [ ] 3 個知識庫文件創建完成
-  - [ ] 1 個 CI workflow 創建完成
-  - [ ] 2 個文檔擴展完成
-  - [ ] 2 個治理規則創建完成
-  - [ ] P2 所有驗收標準通過
+Phase 3:
+  P2 執行 - [ ] 5 個 Kubernetes 模板創建完成 - [ ] 3 個知識庫文件創建完成 - [ ]
+  1 個 CI workflow 創建完成 - [ ] 2 個文檔擴展完成 - [ ] 2 個治理規則創建完成 -
+  [ ] P2 所有驗收標準通過
 
-Phase 4: 清理與驗證
-  - [ ] legacy_scratch/README.md 標記棄用
-  - [ ] MIGRATION_COMPLETE.md 創建完成
-  - [ ] DOCUMENTATION_INDEX.md 更新完成
-  - [ ] CHANGELOG.md 更新完成
-  - [ ] 最終回歸測試通過
+Phase 4:
+  清理與驗證 - [ ] legacy_scratch/README.md 標記棄用 - [ ] MIGRATION_COMPLETE.md
+  創建完成 - [ ] DOCUMENTATION_INDEX.md 更新完成 - [ ] CHANGELOG.md 更新完成 - [
+  ] 最終回歸測試通過
 ```
 
 ---
@@ -724,13 +718,13 @@ Phase 4: 清理與驗證
 
 ### 6.1 風險識別 (Risk Identification)
 
-| 風險類別 | 風險等級 | 影響範圍 | 緩解措施 |
-|---------|---------|---------|---------|
-| **配置衝突** | 🟡 中 | config/system-module-map.yaml | 使用 Git 分支隔離，PR review |
-| **Schema 不兼容** | 🟢 低 | governance/schemas/ | 使用語義化版本，向後兼容 |
-| **CI 失敗** | 🟡 中 | .github/workflows/ | 獨立 workflow，不影響現有 CI |
-| **文檔過時** | 🟢 低 | docs/ | 使用 dead-link checker |
-| **工具缺陷** | 🟡 中 | tools/ | 充分單元測試，逐步上線 |
+| 風險類別          | 風險等級 | 影響範圍                      | 緩解措施                     |
+| ----------------- | -------- | ----------------------------- | ---------------------------- |
+| **配置衝突**      | 🟡 中    | config/system-module-map.yaml | 使用 Git 分支隔離，PR review |
+| **Schema 不兼容** | 🟢 低    | governance/schemas/           | 使用語義化版本，向後兼容     |
+| **CI 失敗**       | 🟡 中    | .github/workflows/            | 獨立 workflow，不影響現有 CI |
+| **文檔過時**      | 🟢 低    | docs/                         | 使用 dead-link checker       |
+| **工具缺陷**      | 🟡 中    | tools/                        | 充分單元測試，逐步上線       |
 
 ### 6.2 回滾計畫 (Rollback Plan)
 
@@ -767,13 +761,10 @@ git revert <P2-workflow-commit-sha>
 
 ```yaml
 出現問題時:
-  1. [ ] 識別問題範圍（P0/P1/P2 哪個階段）
-  2. [ ] 評估影響範圍（文檔/配置/工具/CI）
-  3. [ ] 決定修復或回滾
-  4. [ ] 執行回滾操作（使用 git revert）
-  5. [ ] 驗證系統恢復正常
-  6. [ ] 記錄問題與解決方案
-  7. [ ] 更新本重構計畫（調整策略）
+  1. [ ] 識別問題範圍（P0/P1/P2 哪個階段） 2. [ ]
+  評估影響範圍（文檔/配置/工具/CI） 3. [ ] 決定修復或回滾 4. [ ]
+  執行回滾操作（使用 git revert） 5. [ ] 驗證系統恢復正常 6. [ ]
+  記錄問題與解決方案 7. [ ] 更新本重構計畫（調整策略）
 ```
 
 ---
@@ -802,11 +793,11 @@ git revert <P2-workflow-commit-sha>
   plugin-architecture-pattern.md:
     - 引用: config/templates/plugin-specification-template.yaml
     - 引用: governance/schemas/plugin-specification.schema.json
-  
+
   knowledge-graph-processing.md:
     - 引用: config/processing/pipeline-config.yaml
     - 引用: knowledge/processing-workflows/kg-construction-workflow.yaml
-  
+
   storage-architecture.md:
     - 引用: infrastructure/kubernetes/templates/neo4j-statefulset.yaml
     - 引用: infrastructure/kubernetes/templates/redis-cluster-config.yaml
@@ -838,11 +829,11 @@ Week 3:
 
 ### 8.2 關鍵里程碑 (Key Milestones)
 
-| 里程碑 | 預計完成日期 | 驗收標準 |
-|-------|------------|---------|
-| **M1: P0 完成** | Day 3 | 8 個 P0 文件創建，通過所有驗證 |
-| **M2: P1 完成** | Week 2 Day 3 | 9 個 P1 文件創建，工具可用 |
-| **M3: P2 完成** | Week 3 Day 3 | 11 個 P2 文件創建，CI 集成成功 |
+| 里程碑           | 預計完成日期 | 驗收標準                       |
+| ---------------- | ------------ | ------------------------------ |
+| **M1: P0 完成**  | Day 3        | 8 個 P0 文件創建，通過所有驗證 |
+| **M2: P1 完成**  | Week 2 Day 3 | 9 個 P1 文件創建，工具可用     |
+| **M3: P2 完成**  | Week 3 Day 3 | 11 個 P2 文件創建，CI 集成成功 |
 | **M4: 最終交付** | Week 3 Day 5 | 所有驗收標準通過，文檔更新完成 |
 
 ---
@@ -855,21 +846,30 @@ Week 3:
 
 ```markdown
 # [Component Name] Architecture
+
 # [組件名稱] 架構設計
 
-**創建日期**: YYYY-MM-DD
-**作者**: [Team Name]
-**狀態**: Draft / Review / Approved
+**創建日期**: YYYY-MM-DD **作者**: [Team Name] **狀態**: Draft / Review /
+Approved
 
 ## 1. 概述 (Overview)
+
 ## 2. 架構設計 (Architecture Design)
+
 ## 3. 關鍵決策 (Key Decisions)
+
 ## 4. 權衡與限制 (Trade-offs & Constraints)
+
 ## 5. 替代方案 (Alternatives Considered)
+
 ## 6. 安全考量 (Security Considerations)
+
 ## 7. 性能考量 (Performance Considerations)
+
 ## 8. 運維考量 (Operational Considerations)
+
 ## 9. 未來工作 (Future Work)
+
 ## 10. 參考資料 (References)
 ```
 
@@ -882,12 +882,12 @@ Week 3:
 # ===================================================================
 
 policy_metadata:
-  id: "[policy-id]"
-  version: "1.0.0"
-  created_date: "YYYY-MM-DD"
-  last_updated: "YYYY-MM-DD"
-  status: "active"  # active / draft / deprecated
-  enforcement_level: "mandatory"  # mandatory / recommended / optional
+  id: '[policy-id]'
+  version: '1.0.0'
+  created_date: 'YYYY-MM-DD'
+  last_updated: 'YYYY-MM-DD'
+  status: 'active' # active / draft / deprecated
+  enforcement_level: 'mandatory' # mandatory / recommended / optional
 
 policy_scope:
   applies_to: []
@@ -896,9 +896,9 @@ policy_scope:
 policy_rules: {}
 
 enforcement:
-  validation_method: ""
+  validation_method: ''
   ci_integration: true
-  violation_severity: ""  # critical / high / medium / low
+  violation_severity: '' # critical / high / medium / low
 
 compliance:
   standards: []
@@ -940,12 +940,12 @@ def main():
     parser.add_argument('--input', required=True, help='Input file path')
     parser.add_argument('--output', help='Output file path')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
-    
+
     args = parser.parse_args()
-    
+
     if args.verbose:
         logger.setLevel(logging.DEBUG)
-    
+
     # Tool logic here
     logger.info(f"Processing {args.input}...")
 
@@ -959,42 +959,43 @@ if __name__ == '__main__':
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .ComponentName }}
-  namespace: {{ .Namespace | default "default" }}
+  name: { { .ComponentName } }
+  namespace: { { .Namespace | default "default" } }
   labels:
-    app: {{ .ComponentName }}
-    version: {{ .Version }}
+    app: { { .ComponentName } }
+    version: { { .Version } }
   annotations:
-    description: {{ .Description }}
+    description: { { .Description } }
 spec:
-  replicas: {{ .Replicas | default 3 }}
+  replicas: { { .Replicas | default 3 } }
   selector:
     matchLabels:
-      app: {{ .ComponentName }}
+      app: { { .ComponentName } }
   template:
     metadata:
       labels:
-        app: {{ .ComponentName }}
+        app: { { .ComponentName } }
     spec:
       containers:
-      - name: {{ .ComponentName }}
-        image: {{ .Image }}
-        ports:
-        - containerPort: {{ .Port }}
-        resources:
-          requests:
-            cpu: {{ .ResourceRequests.CPU }}
-            memory: {{ .ResourceRequests.Memory }}
-          limits:
-            cpu: {{ .ResourceLimits.CPU }}
-            memory: {{ .ResourceLimits.Memory }}
+        - name: { { .ComponentName } }
+          image: { { .Image } }
+          ports:
+            - containerPort: { { .Port } }
+          resources:
+            requests:
+              cpu: { { .ResourceRequests.CPU } }
+              memory: { { .ResourceRequests.Memory } }
+            limits:
+              cpu: { { .ResourceLimits.CPU } }
+              memory: { { .ResourceLimits.Memory } }
 ```
 
 ---
 
 ## 🎯 10. 總結 (Conclusion)
 
-本重構計畫提供了從 `_legacy_scratch/README.md` 到 Unmanned Island 系統正式結構的完整遷移路徑。透過 P0/P1/P2 三級優先順序，確保關鍵內容優先遷移，同時保持系統穩定性。
+本重構計畫提供了從 `_legacy_scratch/README.md` 到 Unmanned
+Island 系統正式結構的完整遷移路徑。透過 P0/P1/P2 三級優先順序，確保關鍵內容優先遷移，同時保持系統穩定性。
 
 ### 關鍵成功因素 (Key Success Factors)
 
@@ -1016,7 +1017,8 @@ spec:
 **重構計畫完成時間 (Refactor Plan Completed)**: 2025-12-07T10:19:24Z  
 **前置文檔 (Previous)**:
 
-- `01_deconstruction/kg-builder_deconstruction.md` ✅  
+- `01_deconstruction/kg-builder_deconstruction.md` ✅
 - `02_integration/kg-builder_integration.md` ✅  
-**執行狀態 (Execution Status)**: ⏳ Ready for P0 Execution  
-**總體狀態 (Overall Status)**: ✅ Refactor Planning Complete - Awaiting Execution Approval
+  **執行狀態 (Execution Status)**: ⏳ Ready for P0 Execution  
+  **總體狀態 (Overall Status)**: ✅ Refactor Planning Complete - Awaiting
+  Execution Approval

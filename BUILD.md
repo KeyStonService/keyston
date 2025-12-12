@@ -46,7 +46,8 @@ npm --version      # 需要 8+
 
 - Python 3.10+ ([下載](https://www.python.org/downloads/))
 - Node.js 18+ ([下載](https://nodejs.org/))
-- Visual Studio Build Tools ([下載](https://visualstudio.microsoft.com/downloads/))
+- Visual Studio Build Tools
+  ([下載](https://visualstudio.microsoft.com/downloads/))
 
 **可選工具**（用於完整構建）:
 

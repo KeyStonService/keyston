@@ -18,7 +18,6 @@ global_config:
 
 # Core Performance Metrics
 core_metrics:
-  
   # Availability Metrics
   availability:
     - name: "agent_uptime_seconds"
@@ -26,19 +25,19 @@ core_metrics:
       description: "Total uptime of the agent in seconds"
       labels: ["agent_id", "version"]
       target: "99.9%"
-    
+
     - name: "agent_downtime_seconds"
       type: "counter"
       description: "Total downtime in seconds"
       labels: ["agent_id", "reason"]
       target: "< 0.1%"
-    
+
     - name: "health_check_success_rate"
       type: "gauge"
       description: "Percentage of successful health checks"
       labels: ["agent_id", "check_type"]
       target: "> 99%"
-  
+
   # Latency Metrics
   latency:
     - name: "request_duration_seconds"
@@ -50,39 +49,39 @@ core_metrics:
         p50: "< 50ms"
         p95: "< 100ms"
         p99: "< 200ms"
-    
+
     - name: "response_time_ms"
       type: "gauge"
       description: "Current response time in milliseconds"
       labels: ["agent_id", "endpoint"]
       target: "< 100ms"
-  
+
   # Throughput Metrics
   throughput:
     - name: "requests_total"
       type: "counter"
       description: "Total number of requests processed"
       labels: ["agent_id", "operation", "status"]
-    
+
     - name: "requests_per_second"
       type: "gauge"
       description: "Current requests per second"
       labels: ["agent_id"]
       target: "> 100"
-  
+
   # Error Metrics
   errors:
     - name: "error_total"
       type: "counter"
       description: "Total number of errors"
       labels: ["agent_id", "error_type", "severity"]
-    
+
     - name: "error_rate"
       type: "gauge"
       description: "Current error rate percentage"
       labels: ["agent_id"]
       target: "< 5%"
-    
+
     - name: "success_rate"
       type: "gauge"
       description: "Successful operation rate percentage"
@@ -91,21 +90,20 @@ core_metrics:
 
 # Resource Utilization Metrics
 resource_metrics:
-  
   # Memory Metrics
   memory:
     - name: "memory_usage_bytes"
       type: "gauge"
       description: "Current memory usage in bytes"
       labels: ["agent_id"]
-      target: "< 1.8GB"  # 90% of 2GB limit
-    
+      target: "< 1.8GB" # 90% of 2GB limit
+
     - name: "memory_usage_percentage"
       type: "gauge"
       description: "Memory usage as percentage of limit"
       labels: ["agent_id"]
       target: "< 90%"
-  
+
   # CPU Metrics
   cpu:
     - name: "cpu_usage_percentage"
@@ -113,71 +111,70 @@ resource_metrics:
       description: "CPU usage percentage"
       labels: ["agent_id"]
       target: "< 80%"
-    
+
     - name: "cpu_throttling_seconds"
       type: "counter"
       description: "CPU throttling time in seconds"
       labels: ["agent_id"]
       target: "0"
-  
+
   # Network Metrics
   network:
     - name: "network_bytes_sent"
       type: "counter"
       description: "Total bytes sent"
       labels: ["agent_id"]
-    
+
     - name: "network_bytes_received"
       type: "counter"
       description: "Total bytes received"
       labels: ["agent_id"]
-    
+
     - name: "network_bandwidth_usage_mbps"
       type: "gauge"
       description: "Current network bandwidth usage"
       labels: ["agent_id"]
-      target: "< 45Mbps"  # 90% of 50Mbps limit
+      target: "< 45Mbps" # 90% of 50Mbps limit
 
 # Business Metrics
 business_metrics:
-  
   # Automation Metrics
   automation:
     - name: "automation_tasks_total"
       type: "counter"
       description: "Total automation tasks executed"
       labels: ["agent_id", "task_type", "status"]
-    
+
     - name: "automation_success_rate"
       type: "gauge"
       description: "Automation task success rate"
       labels: ["agent_id"]
       target: "> 90%"
-    
+
     - name: "automation_time_saved_hours"
       type: "counter"
       description: "Estimated time saved by automation"
       labels: ["agent_id", "task_type"]
-  
+
   # Governance Metrics
   governance:
     - name: "compliance_checks_total"
       type: "counter"
       description: "Total compliance checks performed"
       labels: ["agent_id", "standard", "result"]
-    
+
     - name: "compliance_score"
       type: "gauge"
       description: "Current compliance score percentage"
       labels: ["agent_id", "standard"]
       target: "100%"
-    
+
     - name: "policy_violations_total"
       type: "counter"
       description: "Total policy violations detected"
       labels: ["agent_id", "policy_type", "severity"]
       target: "0"
-  
+
   # User Experience Metrics
   user_experience:
     - name: "user_satisfaction_score"
@@ -185,7 +182,7 @@ business_metrics:
       description: "User satisfaction score (1-5)"
       labels: ["agent_id"]
       target: "> 4.0"
-    
+
     - name: "user_feedback_count"
       type: "counter"
       description: "Number of user feedback submissions"
@@ -193,24 +190,23 @@ business_metrics:
 
 # Agent-Specific Metrics
 agent_specific:
-  
   unmanned_island_agent:
     custom_metrics:
       - name: "synergymesh_integration_success_rate"
         type: "gauge"
         description: "SynergyMesh integration success rate"
         target: "> 99%"
-      
+
       - name: "autonomous_decisions_total"
         type: "counter"
         description: "Total autonomous decisions made"
         labels: ["decision_type", "outcome"]
-      
+
       - name: "self_healing_triggers_total"
         type: "counter"
         description: "Self-healing triggers activated"
         labels: ["trigger_type", "result"]
-      
+
       - name: "governance_compliance_checks_total"
         type: "counter"
         description: "Governance compliance checks"
@@ -225,33 +221,33 @@ alerting:
       severity: "critical"
       description: "Agent is down or severely degraded"
       action: "immediate_escalation"
-    
+
     - name: "HighErrorRate"
       condition: "error_rate > 0.10 for 5 minutes"
       severity: "critical"
       description: "Error rate exceeds 10%"
       action: "trigger_auto_recovery"
-    
+
     # High Priority Alerts
     - name: "PerformanceDegraded"
       condition: "request_duration_seconds{quantile='0.95'} > 0.2 for 10 minutes"
       severity: "high"
       description: "95th percentile latency exceeds 200ms"
       action: "alert_team"
-    
+
     - name: "ComplianceViolation"
       condition: "policy_violations_total > 0"
       severity: "high"
       description: "Policy violation detected"
       action: "halt_operations"
-    
+
     # Warning Alerts
     - name: "MemoryHighUsage"
       condition: "memory_usage_percentage > 0.85 for 15 minutes"
       severity: "warning"
       description: "Memory usage above 85%"
       action: "consider_scaling"
-    
+
     - name: "CPUHighUsage"
       condition: "cpu_usage_percentage > 0.80 for 15 minutes"
       severity: "warning"
@@ -260,7 +256,6 @@ alerting:
 
 # Dashboards
 dashboards:
-  
   # Overview Dashboard
   overview:
     title: "Agent Performance Overview"
@@ -269,19 +264,19 @@ dashboards:
       - title: "Availability"
         metrics: ["agent_uptime_seconds", "health_check_success_rate"]
         visualization: "stat"
-      
+
       - title: "Latency Distribution"
         metrics: ["request_duration_seconds"]
         visualization: "heatmap"
-      
+
       - title: "Error Rate"
         metrics: ["error_rate", "success_rate"]
         visualization: "graph"
-      
+
       - title: "Resource Usage"
         metrics: ["memory_usage_percentage", "cpu_usage_percentage"]
         visualization: "gauge"
-  
+
   # Detailed Performance Dashboard
   detailed_performance:
     title: "Agent Detailed Performance"
@@ -290,17 +285,17 @@ dashboards:
       - title: "Request Throughput"
         metrics: ["requests_per_second", "requests_total"]
         visualization: "graph"
-      
+
       - title: "Latency Percentiles"
         metrics: ["request_duration_seconds"]
         quantiles: ["p50", "p95", "p99"]
         visualization: "graph"
-      
+
       - title: "Error Breakdown"
         metrics: ["error_total"]
         group_by: ["error_type", "severity"]
         visualization: "pie_chart"
-  
+
   # Governance Dashboard
   governance:
     title: "Agent Governance Metrics"
@@ -310,12 +305,12 @@ dashboards:
         metrics: ["compliance_score"]
         group_by: ["standard"]
         visualization: "stat"
-      
+
       - title: "Policy Violations"
         metrics: ["policy_violations_total"]
         group_by: ["policy_type"]
         visualization: "table"
-      
+
       - title: "Automation Success"
         metrics: ["automation_success_rate"]
         visualization: "gauge"
@@ -326,12 +321,12 @@ export:
     enabled: true
     port: 9090
     path: "/metrics"
-  
+
   grafana:
     enabled: true
     datasource: "prometheus"
     dashboard_provisioning: true
-  
+
   cloudwatch:
     enabled: false
     region: "us-east-1"

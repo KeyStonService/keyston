@@ -1,6 +1,7 @@
 # Knowledge Base
 
-這個目錄包含 Unmanned Island System 的活體知識庫（Living Knowledge Base），記錄所有語言治理相關的歷史、指標和分析結果。
+這個目錄包含 Unmanned Island System 的活體知識庫（Living Knowledge
+Base），記錄所有語言治理相關的歷史、指標和分析結果。
 
 ## 📁 檔案結構
 
@@ -116,7 +117,7 @@ python tools/semantic-commit-generator.py \
 
 - **Total Fixes**: 累計修復數量
 - **By Violation Type**: 按違規類型分類
-- **By Action**: 按修復動作分類  
+- **By Action**: 按修復動作分類
 - **By Severity**: 按嚴重程度分類
 - **Health Score Trend**: 健康分數趨勢
 - **Fix Velocity**: 修復速度

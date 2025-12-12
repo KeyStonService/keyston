@@ -12,13 +12,13 @@ incident_response:
     - "Eradication"
     - "Recovery"
     - "Post-Incident"
-  
+
   severity_levels:
     critical: "Response time < 15 minutes"
     high: "Response time < 1 hour"
     medium: "Response time < 4 hours"
     low: "Response time < 24 hours"
-  
+
   team_structure:
     incident_commander: "Security manager"
     technical_lead: "Senior engineer"

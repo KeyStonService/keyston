@@ -3,70 +3,70 @@
 # Tracks all language policy events, fixes, and violations
 
 events:
-  - timestamp: '2025-12-06T14:30:00Z'
-    event: 'Auto-fix applied'
-    details: 'Fixed 3 TypeScript violations in core module'
-    type: 'fix'
+  - timestamp: "2025-12-06T14:30:00Z"
+    event: "Auto-fix applied"
+    details: "Fixed 3 TypeScript violations in core module"
+    type: "fix"
     files_affected:
-      - 'core/engine/processor.ts'
-      - 'core/engine/validator.ts'
-      - 'core/engine/transformer.ts'
-    author: 'auto-fix-bot'
+      - "core/engine/processor.ts"
+      - "core/engine/validator.ts"
+      - "core/engine/transformer.ts"
+    author: "auto-fix-bot"
 
-  - timestamp: '2025-12-06T12:00:00Z'
-    event: 'Language scan completed'
-    details: 'Scanned 1,247 files across 6 layers'
-    type: 'scan'
+  - timestamp: "2025-12-06T12:00:00Z"
+    event: "Language scan completed"
+    details: "Scanned 1,247 files across 6 layers"
+    type: "scan"
     statistics:
       total_files: 1247
       compliant_files: 1245
       violations: 2
       layers_scanned: 6
 
-  - timestamp: '2025-12-05T18:45:00Z'
-    event: 'New violation detected'
-    details: 'Cross-layer import violation in governance module'
-    type: 'violation'
-    severity: 'warning'
-    file: 'governance/policies/validator.py'
-    rule: 'no-cross-layer-imports'
+  - timestamp: "2025-12-05T18:45:00Z"
+    event: "New violation detected"
+    details: "Cross-layer import violation in governance module"
+    type: "violation"
+    severity: "warning"
+    file: "governance/policies/validator.py"
+    rule: "no-cross-layer-imports"
 
-  - timestamp: '2025-12-05T16:20:00Z'
-    event: 'Auto-fix applied'
-    details: 'Added Python type hints in automation layer'
-    type: 'fix'
+  - timestamp: "2025-12-05T16:20:00Z"
+    event: "Auto-fix applied"
+    details: "Added Python type hints in automation layer"
+    type: "fix"
     files_affected:
-      - 'automation/intelligent/processor.py'
-      - 'automation/intelligent/analyzer.py'
-    author: 'auto-fix-bot'
+      - "automation/intelligent/processor.py"
+      - "automation/intelligent/analyzer.py"
+    author: "auto-fix-bot"
 
-  - timestamp: '2025-12-05T10:00:00Z'
-    event: 'Policy update'
-    details: 'Updated language layer mapping rules'
-    type: 'policy-change'
-    policy_file: 'governance/policies/language-layer-policy.yaml'
-    author: 'admin'
+  - timestamp: "2025-12-05T10:00:00Z"
+    event: "Policy update"
+    details: "Updated language layer mapping rules"
+    type: "policy-change"
+    policy_file: "governance/policies/language-layer-policy.yaml"
+    author: "admin"
 
-  - timestamp: '2025-12-04T15:30:00Z'
-    event: 'Security scan completed'
-    details: 'Semgrep analysis found 1 potential issue'
-    type: 'scan'
-    tool: 'semgrep'
+  - timestamp: "2025-12-04T15:30:00Z"
+    event: "Security scan completed"
+    details: "Semgrep analysis found 1 potential issue"
+    type: "scan"
+    tool: "semgrep"
     findings: 1
-    severity: 'warning'
+    severity: "warning"
 
-  - timestamp: '2025-12-04T09:00:00Z'
-    event: 'Auto-fix applied'
-    details: 'Removed deprecated JavaScript files from TypeScript project'
-    type: 'fix'
+  - timestamp: "2025-12-04T09:00:00Z"
+    event: "Auto-fix applied"
+    details: "Removed deprecated JavaScript files from TypeScript project"
+    type: "fix"
     files_removed:
-      - 'apps/web/old/legacy.js'
-    author: 'auto-fix-bot'
+      - "apps/web/old/legacy.js"
+    author: "auto-fix-bot"
 
-  - timestamp: '2025-12-03T17:00:00Z'
-    event: 'Language scan completed'
-    details: 'Scanned 1,239 files, health score improved to 85/100'
-    type: 'scan'
+  - timestamp: "2025-12-03T17:00:00Z"
+    event: "Language scan completed"
+    details: "Scanned 1,239 files, health score improved to 85/100"
+    type: "scan"
     previous_score: 82
     current_score: 85
     improvement: 3

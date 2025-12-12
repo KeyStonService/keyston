@@ -1,6 +1,7 @@
 # Island AI Stage 1
 
-Stage 1 delivers six foundational agents described in `island-ai.md`. This package exposes them as typed modules plus a helper runner.
+Stage 1 delivers six foundational agents described in `island-ai.md`. This
+package exposes them as typed modules plus a helper runner.
 
 ## Layout
 
@@ -20,7 +21,8 @@ island-ai/
 │       └── product-manager/
 ```
 
-Each agent provides an `AgentInsight[]` describing its diagnostics, while shared helpers live in `src/types.ts` and `src/agents/base-agent.ts`.
+Each agent provides an `AgentInsight[]` describing its diagnostics, while shared
+helpers live in `src/types.ts` and `src/agents/base-agent.ts`.
 
 ## Usage
 
@@ -30,7 +32,7 @@ import { runStageOne } from 'island-ai';
 const reports = await runStageOne({
   requestId: 'example',
   timestamp: new Date(),
-  payload: { deploymentsPerWeek: 15 }
+  payload: { deploymentsPerWeek: 15 },
 });
 ```
 

@@ -41,8 +41,7 @@ schemas:
       data_classification:
         type: object
         properties:
-          sensitivity_level:
-            { enum: ["public", "internal", "confidential", "restricted"] }
+          sensitivity_level: { enum: ["public", "internal", "confidential", "restricted"] }
           pii_fields: { type: array, items: { type: string } }
           personally_identifiable: { type: boolean }
           regulated_categories: { type: array, items: { type: string } }

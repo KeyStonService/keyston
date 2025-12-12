@@ -8,7 +8,8 @@
 
 ## 架構原則 Principles
 
-1. **Single Source Config**：所有拓撲來自 `synergymesh.yaml` + `config/system-module-map.yaml`。
+1. **Single Source Config**：所有拓撲來自 `synergymesh.yaml` +
+   `config/system-module-map.yaml`。
 2. **Traceability**：每個設計決策需映射到 docs/architecture 或 governance/schemas。
 3. **SLSA Ready**：架構圖需描述供應鏈證據流向（core/slsa_provenance）。
 4. **Fail Fast**：以 automation/architect 提供的混沌腳本驗證關鍵假設。

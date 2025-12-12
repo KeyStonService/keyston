@@ -2,57 +2,57 @@ name: Build macOS Installers
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'build/macos/**'
-      - 'governance/**'
-      - 'core/**'
-      - '.github/workflows/build-macos.yml'
+      - "build/macos/**"
+      - "governance/**"
+      - "core/**"
+      - ".github/workflows/build-macos.yml"
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   workflow_dispatch:
 
 jobs:
   build-macos:
     runs-on: macos-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
-      
+          python-version: "3.11"
+          cache: "pip"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      
+          node-version: "20"
+          cache: "npm"
+
       - name: Install build tools
         run: |
           brew install create-dmg
           pip3 install pyinstaller dmgbuild
-      
+
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip setuptools wheel
           pip3 install -r build/macos/macos-requirements.txt
-      
+
       - name: Install Node.js dependencies
         run: npm install
-      
+
       - name: Build macOS installers
         run: |
           cd build/macos
           chmod +x build-macos.sh
           ./build-macos.sh
-      
+
       - name: Sign application (if certificate available)
         if: ${{ secrets.APPLE_DEVELOPER_ID != '' }}
         env:
@@ -61,7 +61,7 @@ jobs:
           cd build/macos
           chmod +x sign-macos.sh
           ./sign-macos.sh
-      
+
       - name: Notarize application (if credentials available)
         if: ${{ secrets.APPLE_ID != '' }}
         env:
@@ -72,24 +72,24 @@ jobs:
           cd build/macos
           # Create zip for notarization
           ditto -c -k --keepParent SynergyMesh-Governance.app SynergyMesh-Governance.zip
-          
+
           # Submit for notarization
           xcrun notarytool submit SynergyMesh-Governance.zip \
             --apple-id "$APPLE_ID" \
             --password "$APP_PASSWORD" \
             --team-id "$TEAM_ID" \
             --wait
-          
+
           # Staple the notarization
           xcrun stapler staple SynergyMesh-Governance.app
-      
+
       - name: Upload DMG installer
         uses: actions/upload-artifact@v4
         with:
           name: macos-dmg-installer
           path: build/macos/SynergyMesh-Governance-*.dmg
           retention-days: 30
-      
+
       - name: Upload PKG installer
         uses: actions/upload-artifact@v4
         if: always()
@@ -97,7 +97,7 @@ jobs:
           name: macos-pkg-installer
           path: build/macos/SynergyMesh-Governance-*.pkg
           retention-days: 30
-      
+
       - name: Test installation
         run: |
           # Test application launch

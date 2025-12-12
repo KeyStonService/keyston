@@ -4,7 +4,8 @@
 
 本指南涵蓋系統監控、診斷、日誌收集和故障排除程序。
 
-This guide covers system monitoring, diagnostics, log collection, and troubleshooting procedures.
+This guide covers system monitoring, diagnostics, log collection, and
+troubleshooting procedures.
 
 ---
 

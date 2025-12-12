@@ -5,9 +5,7 @@
   "title": "Plugin Specification Schema",
   "description": "JSON Schema for Unmanned Island System plugin specifications",
   "type": "object",
-  "required": [
-    "plugin_specification"
-  ],
+  "required": ["plugin_specification"],
   "properties": {
     "document_metadata": {
       "type": "object",
@@ -65,14 +63,7 @@
         "plugin_type": {
           "type": "string",
           "description": "Type of plugin",
-          "enum": [
-            "knowledge-processor",
-            "data-transformer",
-            "integration-adapter",
-            "security-scanner",
-            "monitoring-agent",
-            "custom"
-          ]
+          "enum": ["knowledge-processor", "data-transformer", "integration-adapter", "security-scanner", "monitoring-agent", "custom"]
         },
         "security_clearance": {
           "type": "string",
@@ -548,13 +539,7 @@
         "properties": {
           "strategy": {
             "type": "string",
-            "enum": [
-              "retry",
-              "fallback",
-              "skip-with-logging",
-              "exponential-backoff",
-              "circuit-breaker"
-            ]
+            "enum": ["retry", "fallback", "skip-with-logging", "exponential-backoff", "circuit-breaker"]
           },
           "retry_count": {
             "type": "integer",

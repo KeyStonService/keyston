@@ -1,4 +1,5 @@
 # Governance 缺失維度分析報告
+
 # Missing Governance Dimensions Analysis Report
 
 > **分析日期 (Analysis Date)**: 2025-12-12  
@@ -10,17 +11,18 @@
 
 ## 📋 執行摘要 (Executive Summary)
 
-本報告分析 `./governance` 目錄中建議的 81 個維度與現有 44 個維度的差異，評估 39 個缺失維度的必要性、優先級與實施建議。基於 SynergyMesh 的**分層閉環治理架構**設計理念，我們提供結構化的擴展建議。
+本報告分析 `./governance`
+目錄中建議的 81 個維度與現有 44 個維度的差異，評估 39 個缺失維度的必要性、優先級與實施建議。基於 SynergyMesh 的**分層閉環治理架構**設計理念，我們提供結構化的擴展建議。
 
 ### 關鍵發現 (Key Findings)
 
-| 指標 | 數值 |
-|------|------|
-| **現有維度** | 44 個 (00-40, 60, 70, 80) |
-| **建議維度** | 81 個 (00-80 連續編號) |
+| 指標         | 數值                        |
+| ------------ | --------------------------- |
+| **現有維度** | 44 個 (00-40, 60, 70, 80)   |
+| **建議維度** | 81 個 (00-80 連續編號)      |
 | **缺失維度** | 39 個 (主要在 41-59, 61-79) |
-| **建議新增** | 18 個高優先級維度 |
-| **建議整合** | 21 個可整合至現有維度 |
+| **建議新增** | 18 個高優先級維度           |
+| **建議整合** | 21 個可整合至現有維度       |
 
 ---
 
@@ -39,20 +41,24 @@
 ### 1.2 現有維度分布
 
 **00-09: 戰略治理維度** (10 個)
+
 - 00-vision-strategy, 01-architecture, 02-decision, 03-change, 04-risk
 - 05-compliance, 06-security, 07-audit, 08-process, 09-performance
 
 **10-40: 核心功能維度** (31 個)
+
 - 10-policy (策略層)
 - 20-intent (協調層)
 - 30-agents, 39-automation, 40-self-healing (執行層)
 - 11-tools-systems, 12-culture-capability, 13-metrics-reporting, 14-improvement
-- 15-economic, 16-psychological, 17-sociological, 18-complex-system, 19-evolutionary
+- 15-economic, 16-psychological, 17-sociological, 18-complex-system,
+  19-evolutionary
 - 21-ecological, 22-aesthetic, 23-policies, 24-registry, 25-principles
 - 26-tools, 27-templates, 28-tests, 29-docs, 31-schemas, 32-rules
 - 33-common, 34-config, 35-scripts, 36-modules, 37-behavior-contracts, 38-sbom
 
 **60-80: 觀測與回饋維度** (3 個)
+
 - 60-contracts (觀測層)
 - 70-audit (觀測層)
 - 80-feedback (回饋層)
@@ -65,70 +71,73 @@
 
 #### 執行層增強 (41-49)
 
-| 編號 | 維度名稱 | 用途 | 建議動作 | 理由 |
-|------|---------|------|---------|------|
-| **41-orchestration** | 編排治理 | 容器編排、服務網格治理 | ⭐ **新增** | 與 20-intent 互補，專注於執行層編排 |
-| **42-deployment** | 部署治理 | 部署策略、發布管理 | ⭐ **新增** | 關鍵 DevOps 能力，支援 INSTANT 部署 |
-| **43-scaling** | 彈性擴展治理 | 自動擴展、負載管理 | ⭐ **新增** | 雲原生必備，支援動態擴展 |
-| **44-resilience** | 韌性治理 | 容錯、降級、熔斷 | ⭐ **新增** | 與 40-self-healing 互補 |
-| **45-recovery** | 災難恢復治理 | 備份、恢復、容災 | ⭐ **新增** | 業務連續性必備 |
-| **46-migration** | 遷移治理 | 資料遷移、版本升級 | 🟡 **考慮** | 可納入 03-change |
-| **47-versioning** | 版本治理 | 版本策略、相容性 | 🟡 **考慮** | 可納入 60-contracts |
-| **48-rollback** | 回滾治理 | 回滾策略、版本回退 | 🟡 **考慮** | 可納入 42-deployment |
-| **49-canary** | 金絲雀發布治理 | 漸進式發布、流量控制 | 🟡 **考慮** | 可納入 42-deployment |
+| 編號                 | 維度名稱       | 用途                   | 建議動作    | 理由                                |
+| -------------------- | -------------- | ---------------------- | ----------- | ----------------------------------- |
+| **41-orchestration** | 編排治理       | 容器編排、服務網格治理 | ⭐ **新增** | 與 20-intent 互補，專注於執行層編排 |
+| **42-deployment**    | 部署治理       | 部署策略、發布管理     | ⭐ **新增** | 關鍵 DevOps 能力，支援 INSTANT 部署 |
+| **43-scaling**       | 彈性擴展治理   | 自動擴展、負載管理     | ⭐ **新增** | 雲原生必備，支援動態擴展            |
+| **44-resilience**    | 韌性治理       | 容錯、降級、熔斷       | ⭐ **新增** | 與 40-self-healing 互補             |
+| **45-recovery**      | 災難恢復治理   | 備份、恢復、容災       | ⭐ **新增** | 業務連續性必備                      |
+| **46-migration**     | 遷移治理       | 資料遷移、版本升級     | 🟡 **考慮** | 可納入 03-change                    |
+| **47-versioning**    | 版本治理       | 版本策略、相容性       | 🟡 **考慮** | 可納入 60-contracts                 |
+| **48-rollback**      | 回滾治理       | 回滾策略、版本回退     | 🟡 **考慮** | 可納入 42-deployment                |
+| **49-canary**        | 金絲雀發布治理 | 漸進式發布、流量控制   | 🟡 **考慮** | 可納入 42-deployment                |
 
-**建議**: 優先新增 **41-orchestration, 42-deployment, 43-scaling, 44-resilience, 45-recovery** (5 個)
+**建議**: 優先新增 **41-orchestration, 42-deployment, 43-scaling, 44-resilience,
+45-recovery** (5 個)
 
 #### 可觀測性增強 (50-59)
 
-| 編號 | 維度名稱 | 用途 | 建議動作 | 理由 |
-|------|---------|------|---------|------|
-| **50-monitoring** | 監控治理 | 系統監控、健康檢查 | ⭐ **新增** | 可觀測性核心支柱 |
-| **51-logging** | 日誌治理 | 日誌收集、分析、存儲 | ⭐ **新增** | 可觀測性核心支柱 |
-| **52-tracing** | 追蹤治理 | 分散式追蹤、調用鏈 | ⭐ **新增** | 可觀測性核心支柱 |
-| **53-alerting** | 告警治理 | 告警規則、通知管理 | ⭐ **新增** | 監控必備 |
-| **54-dashboards** | 儀表板治理 | 視覺化、報表管理 | 🟡 **考慮** | 可納入 67-visualization |
-| **55-hit-sli** | SLI/SLO 治理 | 服務等級指標 | 🟡 **考慮** | 可納入 09-performance |
-| **56-incidents** | 事件管理治理 | 事件響應、根因分析 | ⭐ **新增** | 運維必備 |
-| **57-postmortems** | 事後分析治理 | 事故復盤、改進追蹤 | 🟡 **考慮** | 可納入 56-incidents |
-| **58-capacity** | 容量治理 | 容量規劃、資源預測 | ⭐ **新增** | 可擴展性必備 |
-| **59-forecasting** | 預測治理 | 需求預測、趨勢分析 | 🟡 **考慮** | 可納入 58-capacity |
+| 編號               | 維度名稱     | 用途                 | 建議動作    | 理由                    |
+| ------------------ | ------------ | -------------------- | ----------- | ----------------------- |
+| **50-monitoring**  | 監控治理     | 系統監控、健康檢查   | ⭐ **新增** | 可觀測性核心支柱        |
+| **51-logging**     | 日誌治理     | 日誌收集、分析、存儲 | ⭐ **新增** | 可觀測性核心支柱        |
+| **52-tracing**     | 追蹤治理     | 分散式追蹤、調用鏈   | ⭐ **新增** | 可觀測性核心支柱        |
+| **53-alerting**    | 告警治理     | 告警規則、通知管理   | ⭐ **新增** | 監控必備                |
+| **54-dashboards**  | 儀表板治理   | 視覺化、報表管理     | 🟡 **考慮** | 可納入 67-visualization |
+| **55-hit-sli**     | SLI/SLO 治理 | 服務等級指標         | 🟡 **考慮** | 可納入 09-performance   |
+| **56-incidents**   | 事件管理治理 | 事件響應、根因分析   | ⭐ **新增** | 運維必備                |
+| **57-postmortems** | 事後分析治理 | 事故復盤、改進追蹤   | 🟡 **考慮** | 可納入 56-incidents     |
+| **58-capacity**    | 容量治理     | 容量規劃、資源預測   | ⭐ **新增** | 可擴展性必備            |
+| **59-forecasting** | 預測治理     | 需求預測、趨勢分析   | 🟡 **考慮** | 可納入 58-capacity      |
 
-**建議**: 優先新增 **50-monitoring, 51-logging, 52-tracing, 53-alerting, 56-incidents, 58-capacity** (6 個)
+**建議**: 優先新增 **50-monitoring, 51-logging, 52-tracing, 53-alerting,
+56-incidents, 58-capacity** (6 個)
 
 #### 審計與證明增強 (61-69)
 
-| 編號 | 維度名稱 | 用途 | 建議動作 | 理由 |
-|------|---------|------|---------|------|
-| **61-lineage** | 資料血緣治理 | 資料流向、影響分析 | ⭐ **新增** | 資料治理核心 |
-| **62-provenance** | 來源追溯治理 | 資料來源、模型來源 | ⭐ **新增** | AI 可信必備 |
-| **63-evidence** | 證據治理 | 合規證據、審計證據 | 🟡 **考慮** | 可納入 70-audit |
-| **64-attestation** | 認證治理 | 認證記錄、簽署管理 | 🟡 **考慮** | 可納入 05-compliance |
-| **65-certification** | 證書治理 | 認證管理、證書輪換 | 🟡 **考慮** | 可納入 06-security |
-| **66-reporting** | 報告治理 | 合規報告、分析報告 | 🟡 **考慮** | 可納入 13-metrics-reporting |
-| **67-analytics** | 分析治理 | 資料分析、洞察挖掘 | 🟡 **考慮** | 可納入 13-metrics-reporting |
-| **68-visualization** | 視覺化治理 | 圖表、儀表板設計 | 🟡 **考慮** | 可納入 54-dashboards |
-| **69-correlation** | 關聯分析治理 | 事件關聯、根因定位 | 🟡 **考慮** | 可納入 56-incidents |
+| 編號                 | 維度名稱     | 用途               | 建議動作    | 理由                        |
+| -------------------- | ------------ | ------------------ | ----------- | --------------------------- |
+| **61-lineage**       | 資料血緣治理 | 資料流向、影響分析 | ⭐ **新增** | 資料治理核心                |
+| **62-provenance**    | 來源追溯治理 | 資料來源、模型來源 | ⭐ **新增** | AI 可信必備                 |
+| **63-evidence**      | 證據治理     | 合規證據、審計證據 | 🟡 **考慮** | 可納入 70-audit             |
+| **64-attestation**   | 認證治理     | 認證記錄、簽署管理 | 🟡 **考慮** | 可納入 05-compliance        |
+| **65-certification** | 證書治理     | 認證管理、證書輪換 | 🟡 **考慮** | 可納入 06-security          |
+| **66-reporting**     | 報告治理     | 合規報告、分析報告 | 🟡 **考慮** | 可納入 13-metrics-reporting |
+| **67-analytics**     | 分析治理     | 資料分析、洞察挖掘 | 🟡 **考慮** | 可納入 13-metrics-reporting |
+| **68-visualization** | 視覺化治理   | 圖表、儀表板設計   | 🟡 **考慮** | 可納入 54-dashboards        |
+| **69-correlation**   | 關聯分析治理 | 事件關聯、根因定位 | 🟡 **考慮** | 可納入 56-incidents         |
 
 **建議**: 優先新增 **61-lineage, 62-provenance** (2 個)，其餘整合至現有維度
 
 #### 回饋與演化增強 (70-80)
 
-| 編號 | 維度名稱 | 用途 | 建議動作 | 理由 |
-|------|---------|------|---------|------|
-| **70-audit-trail** | 審計追蹤 | 完整審計鏈 | ❌ **不新增** | 已有 70-audit (等效) |
-| **71-feedback-loops** | 回饋迴路 | 閉環優化機制 | ❌ **不新增** | 已有 80-feedback (涵蓋) |
-| **72-optimization** | 優化治理 | 持續優化、效能調優 | ⭐ **新增** | 與 80-feedback 互補 |
-| **73-learning** | 學習治理 | 機器學習、知識累積 | ⭐ **新增** | AI 系統必備 |
-| **74-adaptation** | 適應治理 | 自適應、動態調整 | ⭐ **新增** | 演化能力核心 |
-| **75-evolution** | 演化治理 | 系統演化、版本演進 | 🟡 **考慮** | 可納入 19-evolutionary |
-| **76-innovation** | 創新治理 | 創新實驗、新技術引入 | 🟡 **考慮** | 可納入 77-experimentation |
-| **77-experimentation** | 實驗治理 | A/B 測試、實驗管理 | ⭐ **新增** | 持續改進必備 |
-| **78-simulation** | 模擬治理 | 數位分身、模擬測試 | 🟡 **考慮** | 可納入 20-intent |
-| **79-prediction** | 預測治理 | 預測模型、趨勢預測 | 🟡 **考慮** | 可納入 73-learning |
-| **80-synthesis** | 綜合治理 | 知識綜合、決策支援 | ❌ **不新增** | 已有 80-feedback (涵蓋) |
+| 編號                   | 維度名稱 | 用途                 | 建議動作      | 理由                      |
+| ---------------------- | -------- | -------------------- | ------------- | ------------------------- |
+| **70-audit-trail**     | 審計追蹤 | 完整審計鏈           | ❌ **不新增** | 已有 70-audit (等效)      |
+| **71-feedback-loops**  | 回饋迴路 | 閉環優化機制         | ❌ **不新增** | 已有 80-feedback (涵蓋)   |
+| **72-optimization**    | 優化治理 | 持續優化、效能調優   | ⭐ **新增**   | 與 80-feedback 互補       |
+| **73-learning**        | 學習治理 | 機器學習、知識累積   | ⭐ **新增**   | AI 系統必備               |
+| **74-adaptation**      | 適應治理 | 自適應、動態調整     | ⭐ **新增**   | 演化能力核心              |
+| **75-evolution**       | 演化治理 | 系統演化、版本演進   | 🟡 **考慮**   | 可納入 19-evolutionary    |
+| **76-innovation**      | 創新治理 | 創新實驗、新技術引入 | 🟡 **考慮**   | 可納入 77-experimentation |
+| **77-experimentation** | 實驗治理 | A/B 測試、實驗管理   | ⭐ **新增**   | 持續改進必備              |
+| **78-simulation**      | 模擬治理 | 數位分身、模擬測試   | 🟡 **考慮**   | 可納入 20-intent          |
+| **79-prediction**      | 預測治理 | 預測模型、趨勢預測   | 🟡 **考慮**   | 可納入 73-learning        |
+| **80-synthesis**       | 綜合治理 | 知識綜合、決策支援   | ❌ **不新增** | 已有 80-feedback (涵蓋)   |
 
-**建議**: 優先新增 **72-optimization, 73-learning, 74-adaptation, 77-experimentation** (4 個)
+**建議**: 優先新增 **72-optimization, 73-learning, 74-adaptation,
+77-experimentation** (4 個)
 
 ---
 
@@ -137,6 +146,7 @@
 ### 3.1 第一階段 (Phase 1) - 高優先級 (18 個維度)
 
 **執行層增強** (5 個):
+
 - 41-orchestration (編排治理)
 - 42-deployment (部署治理)
 - 43-scaling (彈性擴展治理)
@@ -144,6 +154,7 @@
 - 45-recovery (災難恢復治理)
 
 **可觀測性增強** (6 個):
+
 - 50-monitoring (監控治理)
 - 51-logging (日誌治理)
 - 52-tracing (追蹤治理)
@@ -152,16 +163,19 @@
 - 58-capacity (容量治理)
 
 **審計證明增強** (2 個):
+
 - 61-lineage (資料血緣治理)
 - 62-provenance (來源追溯治理)
 
 **回饋演化增強** (4 個):
+
 - 72-optimization (優化治理)
 - 73-learning (學習治理)
 - 74-adaptation (適應治理)
 - 77-experimentation (實驗治理)
 
 **預期影響**:
+
 - 完善 SynergyMesh 的執行層能力 (DevOps 全流程)
 - 建立完整的可觀測性三支柱 (Monitoring, Logging, Tracing)
 - 強化 AI 系統的可信與可追溯性
@@ -170,6 +184,7 @@
 ### 3.2 第二階段 (Phase 2) - 中優先級 (12 個維度)
 
 **可整合維度** (建議納入現有維度):
+
 - 46-migration → 整合至 03-change
 - 47-versioning → 整合至 60-contracts
 - 48-rollback → 整合至 42-deployment
@@ -186,6 +201,7 @@
 ### 3.3 不建議新增 (9 個維度)
 
 **已覆蓋維度**:
+
 - 64-attestation → 已有 05-compliance
 - 65-certification → 已有 06-security
 - 66-reporting → 已有 13-metrics-reporting
@@ -254,11 +270,13 @@
 ### 4.2 維度編號重組建議
 
 **選項 A: 保持現有編號，跳號填充**
+
 - 優點: 最小變更，向後相容
 - 缺點: 編號不連續，理解成本高
 - 建議: ✅ **採用** (符合現有架構)
 
 **選項 B: 重新編號為連續 00-80**
+
 - 優點: 編號連續，邏輯清晰
 - 缺點: 需大規模重構，破壞現有引用
 - 建議: ❌ **不採用**
@@ -302,6 +320,7 @@
    - 定義容量模型、預測算法
 
 **交付物**:
+
 - 6 個新維度目錄 (完整檔案結構)
 - 更新 governance-map.yaml
 - 更新 GOVERNANCE_INTEGRATION_ARCHITECTURE.md
@@ -318,6 +337,7 @@
 5. **45-recovery** (災難恢復)
 
 **交付物**:
+
 - 5 個新維度目錄
 - 部署策略庫 (Blue-Green, Canary, Rolling)
 - 自動擴展策略
@@ -335,6 +355,7 @@
 6. **77-experimentation** (實驗治理，整合 76-innovation)
 
 **交付物**:
+
 - 6 個新維度目錄
 - 資料血緣追蹤工具
 - ML 模型治理框架
@@ -350,6 +371,7 @@
 4. 建立維度間依賴關係
 
 **交付物**:
+
 - 更新所有現有維度的 dimension.yaml
 - 完整的依賴關係圖
 - 更新 FILE_CONTENT_STRUCTURE_ANALYSIS.md
@@ -361,16 +383,17 @@
 
 ### 6.1 建議採納的新增維度 (18 個)
 
-| 編號範圍 | 新增維度數 | 關鍵能力 |
-|---------|-----------|---------|
-| 41-45 | 5 | 執行層完整性 (部署、擴展、韌性、恢復) |
-| 50-58 | 6 | 可觀測性三支柱 + 事件管理 + 容量規劃 |
-| 61-62 | 2 | 資料血緣與來源追溯 (AI 可信) |
-| 72-77 | 4 | 優化、學習、適應、實驗 (演化能力) |
+| 編號範圍 | 新增維度數 | 關鍵能力                              |
+| -------- | ---------- | ------------------------------------- |
+| 41-45    | 5          | 執行層完整性 (部署、擴展、韌性、恢復) |
+| 50-58    | 6          | 可觀測性三支柱 + 事件管理 + 容量規劃  |
+| 61-62    | 2          | 資料血緣與來源追溯 (AI 可信)          |
+| 72-77    | 4          | 優化、學習、適應、實驗 (演化能力)     |
 
 ### 6.2 建議整合的維度 (12 個)
 
 整合至現有維度，避免過度細分：
+
 - 03-change (整合 46-migration)
 - 05-compliance (整合 64-attestation)
 - 06-security (整合 65-certification)
@@ -416,7 +439,8 @@
 ### 8.1 結論
 
 1. **現有架構完整度**: 現有 44 個維度已涵蓋核心治理需求 (70% 覆蓋率)
-2. **關鍵缺口**: 可觀測性 (Monitoring, Logging, Tracing) 與執行層 (Deployment, Scaling) 最為關鍵
+2. **關鍵缺口**: 可觀測性 (Monitoring, Logging, Tracing) 與執行層 (Deployment,
+   Scaling) 最為關鍵
 3. **擴展必要性**: 建議新增 18 個高優先級維度，提升至 90% 覆蓋率
 4. **整合優先**: 12 個中優先級維度應整合至現有維度，避免過度細分
 
@@ -440,57 +464,58 @@
 **文檔版本**: 1.0.0  
 **最後更新**: 2025-12-12  
 **維護者**: Unmanned Island Agent  
-**聯繫**: governance@synergymesh.io
+**聯繫**: <governance@synergymesh.io>
 
 ---
 
 ## 附錄 A: 維度對照表 (Dimension Mapping Table)
 
-| 建議編號 | 維度名稱 | 現有狀態 | 建議動作 | 目標層級 |
-|---------|---------|---------|---------|---------|
-| 00-40 | (現有維度) | ✅ 已存在 | 保持 | - |
-| 41 | orchestration | ❌ 缺失 | ⭐ 新增 | 執行層 |
-| 42 | deployment | ❌ 缺失 | ⭐ 新增 | 執行層 |
-| 43 | scaling | ❌ 缺失 | ⭐ 新增 | 執行層 |
-| 44 | resilience | ❌ 缺失 | ⭐ 新增 | 執行層 |
-| 45 | recovery | ❌ 缺失 | ⭐ 新增 | 執行層 |
-| 46 | migration | ❌ 缺失 | 🟡 整合至 03-change | 策略層 |
-| 47 | versioning | ❌ 缺失 | 🟡 整合至 60-contracts | 觀測層 |
-| 48 | rollback | ❌ 缺失 | 🟡 整合至 42-deployment | 執行層 |
-| 49 | canary | ❌ 缺失 | 🟡 整合至 42-deployment | 執行層 |
-| 50 | monitoring | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 51 | logging | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 52 | tracing | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 53 | alerting | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 54 | dashboards | ❌ 缺失 | 🟡 可新增或整合 | 觀測層 |
-| 55 | hit-sli | ❌ 缺失 | 🟡 整合至 09-performance | 策略層 |
-| 56 | incidents | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 57 | postmortems | ❌ 缺失 | 🟡 整合至 56-incidents | 觀測層 |
-| 58 | capacity | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 59 | forecasting | ❌ 缺失 | 🟡 整合至 58-capacity | 觀測層 |
-| 60 | contracts | ✅ 已存在 | 保持 | 觀測層 |
-| 61 | lineage | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 62 | provenance | ❌ 缺失 | ⭐ 新增 | 觀測層 |
-| 63 | evidence | ❌ 缺失 | 🟡 整合至 70-audit | 觀測層 |
-| 64 | attestation | ❌ 缺失 | 🟡 整合至 05-compliance | 策略層 |
-| 65 | certification | ❌ 缺失 | 🟡 整合至 06-security | 策略層 |
-| 66 | reporting | ❌ 缺失 | 🟡 整合至 13-metrics-reporting | 協調層 |
-| 67 | analytics | ❌ 缺失 | 🟡 整合至 13-metrics-reporting | 協調層 |
-| 68 | visualization | ❌ 缺失 | 🟡 整合至 54-dashboards | 觀測層 |
-| 69 | correlation | ❌ 缺失 | 🟡 整合至 56-incidents | 觀測層 |
-| 70 | audit(-trail) | ✅ 已存在 (70-audit) | 保持 | 觀測層 |
-| 71 | feedback-loops | ❌ 缺失 | 🟡 整合至 80-feedback | 回饋層 |
-| 72 | optimization | ❌ 缺失 | ⭐ 新增 | 回饋層 |
-| 73 | learning | ❌ 缺失 | ⭐ 新增 | 回饋層 |
-| 74 | adaptation | ❌ 缺失 | ⭐ 新增 | 回饋層 |
-| 75 | evolution | ❌ 缺失 | 🟡 整合至 19-evolutionary | 協調層 |
-| 76 | innovation | ❌ 缺失 | 🟡 整合至 77-experimentation | 回饋層 |
-| 77 | experimentation | ❌ 缺失 | ⭐ 新增 | 回饋層 |
-| 78 | simulation | ❌ 缺失 | 🟡 整合至 20-intent | 協調層 |
-| 79 | prediction | ❌ 缺失 | 🟡 整合至 73-learning | 回饋層 |
-| 80 | feedback/synthesis | ✅ 已存在 (80-feedback) | 保持 | 回饋層 |
+| 建議編號 | 維度名稱           | 現有狀態                | 建議動作                       | 目標層級 |
+| -------- | ------------------ | ----------------------- | ------------------------------ | -------- |
+| 00-40    | (現有維度)         | ✅ 已存在               | 保持                           | -        |
+| 41       | orchestration      | ❌ 缺失                 | ⭐ 新增                        | 執行層   |
+| 42       | deployment         | ❌ 缺失                 | ⭐ 新增                        | 執行層   |
+| 43       | scaling            | ❌ 缺失                 | ⭐ 新增                        | 執行層   |
+| 44       | resilience         | ❌ 缺失                 | ⭐ 新增                        | 執行層   |
+| 45       | recovery           | ❌ 缺失                 | ⭐ 新增                        | 執行層   |
+| 46       | migration          | ❌ 缺失                 | 🟡 整合至 03-change            | 策略層   |
+| 47       | versioning         | ❌ 缺失                 | 🟡 整合至 60-contracts         | 觀測層   |
+| 48       | rollback           | ❌ 缺失                 | 🟡 整合至 42-deployment        | 執行層   |
+| 49       | canary             | ❌ 缺失                 | 🟡 整合至 42-deployment        | 執行層   |
+| 50       | monitoring         | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 51       | logging            | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 52       | tracing            | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 53       | alerting           | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 54       | dashboards         | ❌ 缺失                 | 🟡 可新增或整合                | 觀測層   |
+| 55       | hit-sli            | ❌ 缺失                 | 🟡 整合至 09-performance       | 策略層   |
+| 56       | incidents          | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 57       | postmortems        | ❌ 缺失                 | 🟡 整合至 56-incidents         | 觀測層   |
+| 58       | capacity           | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 59       | forecasting        | ❌ 缺失                 | 🟡 整合至 58-capacity          | 觀測層   |
+| 60       | contracts          | ✅ 已存在               | 保持                           | 觀測層   |
+| 61       | lineage            | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 62       | provenance         | ❌ 缺失                 | ⭐ 新增                        | 觀測層   |
+| 63       | evidence           | ❌ 缺失                 | 🟡 整合至 70-audit             | 觀測層   |
+| 64       | attestation        | ❌ 缺失                 | 🟡 整合至 05-compliance        | 策略層   |
+| 65       | certification      | ❌ 缺失                 | 🟡 整合至 06-security          | 策略層   |
+| 66       | reporting          | ❌ 缺失                 | 🟡 整合至 13-metrics-reporting | 協調層   |
+| 67       | analytics          | ❌ 缺失                 | 🟡 整合至 13-metrics-reporting | 協調層   |
+| 68       | visualization      | ❌ 缺失                 | 🟡 整合至 54-dashboards        | 觀測層   |
+| 69       | correlation        | ❌ 缺失                 | 🟡 整合至 56-incidents         | 觀測層   |
+| 70       | audit(-trail)      | ✅ 已存在 (70-audit)    | 保持                           | 觀測層   |
+| 71       | feedback-loops     | ❌ 缺失                 | 🟡 整合至 80-feedback          | 回饋層   |
+| 72       | optimization       | ❌ 缺失                 | ⭐ 新增                        | 回饋層   |
+| 73       | learning           | ❌ 缺失                 | ⭐ 新增                        | 回饋層   |
+| 74       | adaptation         | ❌ 缺失                 | ⭐ 新增                        | 回饋層   |
+| 75       | evolution          | ❌ 缺失                 | 🟡 整合至 19-evolutionary      | 協調層   |
+| 76       | innovation         | ❌ 缺失                 | 🟡 整合至 77-experimentation   | 回饋層   |
+| 77       | experimentation    | ❌ 缺失                 | ⭐ 新增                        | 回饋層   |
+| 78       | simulation         | ❌ 缺失                 | 🟡 整合至 20-intent            | 協調層   |
+| 79       | prediction         | ❌ 缺失                 | 🟡 整合至 73-learning          | 回饋層   |
+| 80       | feedback/synthesis | ✅ 已存在 (80-feedback) | 保持                           | 回饋層   |
 
 **圖例**:
+
 - ⭐ **新增**: 高優先級，建議新增獨立維度
 - 🟡 **整合**: 中優先級，建議整合至現有維度
 - ❌ **不新增**: 低優先級或已有等效方案

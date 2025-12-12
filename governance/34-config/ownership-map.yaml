@@ -25,37 +25,36 @@ lifecycle_states:
     stability: "unstable"
     support_level: "best_effort"
     breaking_changes_allowed: true
-    
+
   active:
     description: "Production-ready with stable API"
     stability: "stable"
     support_level: "full_support"
     breaking_changes_allowed: false
-    
+
   maintenance:
     description: "Stable but not actively developed"
     stability: "stable"
     support_level: "bug_fixes_only"
     breaking_changes_allowed: false
-    
+
   legacy:
     description: "Deprecated, use alternatives instead"
     stability: "frozen"
     support_level: "critical_fixes_only"
     breaking_changes_allowed: false
-    
+
   deprecated:
     description: "Will be removed in future release"
     stability: "frozen"
     support_level: "none"
-    breaking_changes_allowed: true  # For removal
+    breaking_changes_allowed: true # For removal
 
 # ============================================================================
 # Core Platform Modules | 核心平台模組
 # ============================================================================
 
 modules:
-  
   # ─────────────────────────────────────────────────────────────────────────
   # Core - Unified Integration
   # ─────────────────────────────────────────────────────────────────────────
@@ -63,27 +62,27 @@ modules:
     owner: "@core-platform-team"
     backup_owner: "@architecture-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "core-platform@synergymesh.io"
       slack_channel: "#core-platform"
       oncall_rotation: "core-platform-oncall"
-    
+
     sla:
       availability: "99.9%"
       response_time_p50: "< 50ms"
       response_time_p99: "< 200ms"
       mttr: "< 1 hour"
       upgrade_cadence: "monthly"
-    
+
     dependencies_owned:
       - "core.unified_integration.service_registry"
       - "core.unified_integration.cognitive_processor"
       - "core.unified_integration.configuration_optimizer"
-    
+
     risk_level: "critical"
-    technical_debt_score: 2  # 1-5 scale, 1=low, 5=high
-    
+    technical_debt_score: 2 # 1-5 scale, 1=low, 5=high
+
     migration_path: null
     deprecation_date: null
 
@@ -94,27 +93,27 @@ modules:
     owner: "@core-platform-team"
     backup_owner: "@security-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "contracts@synergymesh.io"
       slack_channel: "#contracts"
       oncall_rotation: "platform-oncall"
-    
+
     sla:
       availability: "99.95%"
       response_time_p50: "< 100ms"
       response_time_p99: "< 500ms"
       mttr: "< 30 minutes"
       upgrade_cadence: "quarterly"
-    
+
     risk_level: "critical"
     technical_debt_score: 1
-    
+
     compliance_requirements:
       - "SLSA Level 3"
       - "SOC 2 Type II"
       - "ISO 27001"
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -125,12 +124,12 @@ modules:
     owner: "@security-team"
     backup_owner: "@core-platform-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "security@synergymesh.io"
       slack_channel: "#security"
       oncall_rotation: "security-oncall"
-    
+
     sla:
       availability: "99.99%"
       response_time_p50: "< 50ms"
@@ -139,14 +138,14 @@ modules:
       upgrade_cadence: "monthly with emergency patches as needed"
       upgrade_schedule: "First Monday of each month"
       emergency_patch_sla: "< 24 hours for critical vulnerabilities"
-    
+
     risk_level: "critical"
     technical_debt_score: 1
-    
+
     compliance_requirements:
       - "SLSA Level 3"
       - "NIST 800-53"
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -157,22 +156,22 @@ modules:
     owner: "@security-team"
     backup_owner: "@automation-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "safety@synergymesh.io"
       slack_channel: "#security"
       oncall_rotation: "security-oncall"
-    
+
     sla:
       availability: "99.95%"
       response_time_p50: "< 10ms"
       response_time_p99: "< 50ms"
       mttr: "< 30 minutes"
       upgrade_cadence: "quarterly"
-    
+
     risk_level: "critical"
     technical_debt_score: 2
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -183,22 +182,22 @@ modules:
     owner: "@ai-research-team"
     backup_owner: "@core-platform-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "ai-research@synergymesh.io"
       slack_channel: "#ai-research"
       oncall_rotation: "ai-research-oncall"
-    
+
     sla:
       availability: "99.5%"
       response_time_p50: "< 500ms"
       response_time_p99: "< 2s"
       mttr: "< 2 hours"
       upgrade_cadence: "bi-weekly"
-    
+
     risk_level: "high"
     technical_debt_score: 3
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -209,24 +208,24 @@ modules:
     owner: "@automation-team"
     backup_owner: "@security-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "autonomous@synergymesh.io"
       slack_channel: "#autonomous"
       oncall_rotation: "automation-oncall"
-    
+
     sla:
       availability: "99.0%"
       response_time_p50: "< 100ms"
       response_time_p99: "< 1s"
       mttr: "< 1 hour"
       upgrade_cadence: "monthly"
-    
+
     risk_level: "high"
     technical_debt_score: 3
-    
+
     safety_critical: true
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -237,22 +236,22 @@ modules:
     owner: "@automation-team"
     backup_owner: "@core-platform-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "automation@synergymesh.io"
       slack_channel: "#automation"
       oncall_rotation: "automation-oncall"
-    
+
     sla:
       availability: "99.5%"
       response_time_p50: "< 200ms"
       response_time_p99: "< 1s"
       mttr: "< 1 hour"
       upgrade_cadence: "bi-weekly"
-    
+
     risk_level: "medium"
     technical_debt_score: 2
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -263,22 +262,22 @@ modules:
     owner: "@architecture-team"
     backup_owner: "@automation-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "architecture@synergymesh.io"
       slack_channel: "#architecture"
       oncall_rotation: "architecture-oncall"
-    
+
     sla:
       availability: "99.0%"
       response_time_p50: "< 1s"
       response_time_p99: "< 5s"
       mttr: "< 2 hours"
       upgrade_cadence: "monthly"
-    
+
     risk_level: "low"
     technical_debt_score: 2
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -289,22 +288,22 @@ modules:
     owner: "@services-platform"
     backup_owner: "@core-platform-team"
     lifecycle: active
-    
+
     team:
       primary_contact: "services@synergymesh.io"
       slack_channel: "#services"
       oncall_rotation: "services-oncall"
-    
+
     sla:
       availability: "99.5%"
       response_time_p50: "< 100ms"
       response_time_p99: "< 500ms"
       mttr: "< 1 hour"
       upgrade_cadence: "bi-weekly"
-    
+
     risk_level: "medium"
     technical_debt_score: 2
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -315,32 +314,32 @@ modules:
     owner: "@ai-research-team"
     backup_owner: "@core-platform-team"
     lifecycle: experimental
-    
+
     team:
       primary_contact: "island-ai@synergymesh.io"
       slack_channel: "#island-ai"
-      oncall_rotation: null  # No oncall for experimental
-    
+      oncall_rotation: null # No oncall for experimental
+
     sla:
       availability: "95.0%"
       response_time_p50: "< 1s"
       response_time_p99: "< 5s"
       mttr: "< 4 hours"
       upgrade_cadence: "daily"
-    
+
     risk_level: "low"
     technical_debt_score: 4
-    
+
     experimental_features:
       - "Multi-agent orchestration"
       - "Self-learning governance"
-    
+
     promotion_criteria:
       - "Test coverage > 80%"
       - "Performance benchmarks met"
       - "Security audit completed"
       - "Documentation completed"
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -351,24 +350,24 @@ modules:
     owner: "@frontend-team"
     backup_owner: "@services-platform"
     lifecycle: active
-    
+
     team:
       primary_contact: "frontend@synergymesh.io"
       slack_channel: "#frontend"
       oncall_rotation: "frontend-oncall"
-    
+
     sla:
       availability: "99.0%"
       response_time_p50: "< 200ms"
       response_time_p99: "< 1s"
       mttr: "< 2 hours"
       upgrade_cadence: "weekly"
-    
+
     risk_level: "low"
     technical_debt_score: 3
-    
+
     user_facing: true
-    
+
     migration_path: null
     deprecation_date: null
 
@@ -383,42 +382,42 @@ teams:
     members: 8
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/core-platform"
-    
+
   security-team:
     name: "Security Team"
     description: "Owns security, compliance, and safety modules"
     members: 5
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/security"
-    
+
   automation-team:
     name: "Automation Team"
     description: "Owns automation and autonomous systems"
     members: 6
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/automation"
-    
+
   architecture-team:
     name: "Architecture Team"
     description: "Owns architecture governance and analysis tools"
     members: 4
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/architecture"
-    
+
   ai-research-team:
     name: "AI Research Team"
     description: "Owns AI/ML systems and research initiatives"
     members: 6
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/ai-research"
-    
+
   services-platform:
     name: "Services Platform Team"
     description: "Owns service layer and API gateways"
     members: 7
     timezone: "UTC+8"
     github_team: "@SynergyMesh-admin/services"
-    
+
   frontend-team:
     name: "Frontend Team"
     description: "Owns user-facing applications and UIs"
@@ -439,7 +438,7 @@ approval_workflows:
       - "@core-platform-team"
       - "@security-team"
     auto_merge: false
-    
+
   high_risk_modules:
     criteria:
       - risk_level: "high"
@@ -448,7 +447,7 @@ approval_workflows:
       - owner
       - backup_owner
     auto_merge: false
-    
+
   standard_modules:
     criteria:
       - risk_level: "medium"
@@ -457,14 +456,14 @@ approval_workflows:
     required_approvers:
       - owner
     auto_merge: false
-    
+
   experimental_modules:
     criteria:
       - lifecycle: "experimental"
     approvals_required: 1
     required_approvers:
       - owner
-    auto_merge: true  # Can auto-merge after approval
+    auto_merge: true # Can auto-merge after approval
 
 # ============================================================================
 # Escalation Paths | 升級路徑
@@ -477,13 +476,13 @@ escalation:
     level_3: "Architecture team lead"
     level_4: "CTO"
     escalation_time: "15 minutes"
-    
+
   high_priority:
     level_1: "Module owner"
     level_2: "Backup owner"
     level_3: "Team lead"
     escalation_time: "1 hour"
-    
+
   standard:
     level_1: "Module owner"
     level_2: "Team lead"

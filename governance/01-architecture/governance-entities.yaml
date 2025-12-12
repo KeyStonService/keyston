@@ -9,7 +9,6 @@ description: "Defines all governance entities, their responsibilities, relations
 
 # 核心治理實體 | Core Governance Entities
 entities:
-
   governance_board:
     name: "治理委員會"
     english_name: "Governance Board"
@@ -155,7 +154,6 @@ entities:
 
 # 實體關係 | Entity Relationships
 relationships:
-
   reporting_hierarchy:
     - from: "governance_office"
       to: "governance_board"
@@ -197,7 +195,6 @@ relationships:
 
 # 實體接口 | Entity Interfaces
 interfaces:
-
   decision_interface:
     description: "Interface for decision submission and approval"
     supported_by:

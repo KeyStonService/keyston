@@ -27,30 +27,30 @@
 # Document Metadata (文檔元數據) - OPTIONAL
 # ============================================================================
 document_metadata:
-  unique_id: "your-plugin-id-v1.0.0"        # REQUIRED: 唯一文檔 ID
-  actual_filename: "your-plugin.plugin.yaml"  # REQUIRED: 實際檔名
-  version: "1.0.0"                           # REQUIRED: 文檔版本（語義化版本）
-  format_type: "yaml"                        # 格式類型
-  encoding: "utf-8"                          # 字符編碼
-  description: "插件的簡短描述"               # 簡短描述
-  
+  unique_id: "your-plugin-id-v1.0.0" # REQUIRED: 唯一文檔 ID
+  actual_filename: "your-plugin.plugin.yaml" # REQUIRED: 實際檔名
+  version: "1.0.0" # REQUIRED: 文檔版本（語義化版本）
+  format_type: "yaml" # 格式類型
+  encoding: "utf-8" # 字符編碼
+  description: "插件的簡短描述" # 簡短描述
+
   creation_info:
-    created_date: "YYYY-MM-DDTHH:MM:SSZ"    # Replace with actual creation date in ISO 8601 format
-    created_by: "your-team-name"            # 創建者
+    created_date: "YYYY-MM-DDTHH:MM:SSZ" # Replace with actual creation date in ISO 8601 format
+    created_by: "your-team-name" # 創建者
     target_system: "Unmanned-Island-System" # 目標系統
 
 # ============================================================================
 # Governance Information (治理信息) - OPTIONAL BUT RECOMMENDED
 # ============================================================================
 governance_info:
-  plugin_type: "knowledge-processor"        # 插件類型
+  plugin_type: "knowledge-processor" # 插件類型
   # 可選值: knowledge-processor, data-transformer, integration-adapter,
   #        security-scanner, monitoring-agent, custom
-  
-  security_clearance: "L25-high"            # 安全級別（格式: L<level>-<priority>）
-  team_impact: "knowledge-layer"            # 影響的團隊或層級
-  
-  compliance_tags:                          # 合規標籤
+
+  security_clearance: "L25-high" # 安全級別（格式: L<level>-<priority>）
+  team_impact: "knowledge-layer" # 影響的團隊或層級
+
+  compliance_tags: # 合規標籤
     - "semantic-web"
     - "gdpr-compliant"
     - "enterprise-ready"
@@ -59,11 +59,11 @@ governance_info:
 # Registry Binding (註冊綁定) - OPTIONAL
 # ============================================================================
 registry_binding:
-  plugin_registry: "unmanned-island.io/plugins/v1"  # 插件註冊表 URL
-  namespace: "unmanned-island-system"               # 命名空間
-  runtime_class: "knowledge-intensive"              # 運行時類別
-  priority_class: "system-high"                     # 優先級類別
-  resource_quota: "knowledge-processing"            # 資源配額
+  plugin_registry: "unmanned-island.io/plugins/v1" # 插件註冊表 URL
+  namespace: "unmanned-island-system" # 命名空間
+  runtime_class: "knowledge-intensive" # 運行時類別
+  priority_class: "system-high" # 優先級類別
+  resource_quota: "knowledge-processing" # 資源配額
 
 # ============================================================================
 # Vector Alignment Map (向量對齊映射) - OPTIONAL
@@ -71,11 +71,11 @@ registry_binding:
 # 用於需要語義理解的插件（如知識處理、NLP 任務）
 vector_alignment_map:
   semantic_vectors:
-    - intent: "entity-extraction"           # 意圖類型
-      embedding_model: "system-embed-v2"    # 引用 config/ai-models/ 中的模型
-      dimension: 1024                       # 向量維度
-      similarity_threshold: 0.75            # 相似度閾值 (0.0 - 1.0)
-    
+    - intent: "entity-extraction" # 意圖類型
+      embedding_model: "system-embed-v2" # 引用 config/ai-models/ 中的模型
+      dimension: 1024 # 向量維度
+      similarity_threshold: 0.75 # 相似度閾值 (0.0 - 1.0)
+
     - intent: "relation-classification"
       embedding_model: "relation-embed"
       dimension: 768
@@ -86,40 +86,40 @@ vector_alignment_map:
 # ============================================================================
 plugin_specification:
   # 基本信息 (Basic Information) - REQUIRED
-  id: "your-plugin-id"                      # REQUIRED: 唯一插件 ID (小寫字母、數字、連字符)
-  name: "Your Plugin Name"                  # REQUIRED: 顯示名稱
-  version: "1.0.0"                          # REQUIRED: 插件版本（語義化版本）
-  
-  kind:                                     # REQUIRED: 插件類別（至少一個）
+  id: "your-plugin-id" # REQUIRED: 唯一插件 ID (小寫字母、數字、連字符)
+  name: "Your Plugin Name" # REQUIRED: 顯示名稱
+  version: "1.0.0" # REQUIRED: 插件版本（語義化版本）
+
+  kind: # REQUIRED: 插件類別（至少一個）
     - "knowledge"
     - "semantic-processing"
-  
-  priority: 80                              # 優先級 (0-100，越高越重要)
-  author: "Your Team Name"                  # 作者或團隊
-  license: "Apache-2.0"                     # 授權類型
-  
+
+  priority: 80 # 優先級 (0-100，越高越重要)
+  author: "Your Team Name" # 作者或團隊
+  license: "Apache-2.0" # 授權類型
+
   # 能力聲明 (Capability Declaration) - REQUIRED
-  provides:                                 # REQUIRED: 提供的能力（至少一個）
+  provides: # REQUIRED: 提供的能力（至少一個）
     - "capability-1"
     - "capability-2"
-  
-  requires:                                 # REQUIRED: 需求的能力（可以為空數組）
+
+  requires: # REQUIRED: 需求的能力（可以為空數組）
     - "required-capability-1"
     - "required-capability-2"
-  
+
   # 依賴管理 (Dependency Management) - OPTIONAL
   dependencies:
-    hard_dependencies:                      # 硬依賴（必須滿足）
+    hard_dependencies: # 硬依賴（必須滿足）
       - plugin_id: "core-plugin"
-        version_constraint: ">= 1.0.0"      # 語義化版本約束
-      
+        version_constraint: ">= 1.0.0" # 語義化版本約束
+
       - plugin_id: "another-plugin"
-        version_constraint: "^2.0.0"        # ^ = 兼容性約束 (2.x.x)
-    
-    soft_dependencies:                      # 軟依賴（可選）
+        version_constraint: "^2.0.0" # ^ = 兼容性約束 (2.x.x)
+
+    soft_dependencies: # 軟依賴（可選）
       - plugin_id: "optional-plugin"
         version_constraint: ">= 0.9.0"
-        graceful_degradation: true          # 缺失時優雅降級
+        graceful_degradation: true # 缺失時優雅降級
 
 # ============================================================================
 # Architecture (架構) - OPTIONAL BUT RECOMMENDED
@@ -133,25 +133,25 @@ architecture:
         config:
           param1: "value1"
           param2: "value2"
-      
+
       - name: "stage-2-name"
         processor: "another-processor"
         config:
           param1: "value1"
-  
+
   # 存儲架構 (Storage Architecture)
   storage_architecture:
     primary_store:
-      type: "neo4j"                         # 存儲類型
-      version: ">= 5.0, < 6.0"              # 版本約束
-      cluster_mode: true                    # 是否集群模式
-      replication_factor: 3                 # 副本因子
-    
+      type: "neo4j" # 存儲類型
+      version: ">= 5.0, < 6.0" # 版本約束
+      cluster_mode: true # 是否集群模式
+      replication_factor: 3 # 副本因子
+
     cache_layer:
       type: "redis-cluster"
-      ttl_seconds: 3600                     # TTL（秒）
-      max_memory_policy: "lru"              # 內存淘汰策略
-    
+      ttl_seconds: 3600 # TTL（秒）
+      max_memory_policy: "lru" # 內存淘汰策略
+
     backup_strategy:
       type: "incremental-with-full-weekly"
       retention_period: "90d"
@@ -165,11 +165,11 @@ performance_targets:
     processing_rate: ">= 1000 items/min"
     accuracy: "> 0.85"
     latency_p95: "< 30s"
-  
+
   resource_optimization:
     memory_efficiency:
       max_memory_per_item: "100MB"
-    
+
     cpu_utilization:
       target_utilization: "70%"
       auto_scaling_threshold: "85%"
@@ -179,20 +179,20 @@ performance_targets:
 # ============================================================================
 security_configuration:
   data_privacy:
-    pii_detection: true                     # 啟用 PII 檢測
-    pii_anonymization: "k-anonymity"        # 匿名化方法
+    pii_detection: true # 啟用 PII 檢測
+    pii_anonymization: "k-anonymity" # 匿名化方法
     gdpr_compliance:
       data_minimization: true
       purpose_limitation: true
       consent_management: "external-service"
-  
+
   access_control:
     rbac_permissions:
       - resource: "input-data"
         actions: ["read"]
       - resource: "output-data"
         actions: ["create", "update", "read"]
-  
+
   data_integrity:
     hash_verification: "sha3-256"
     digital_signatures: "ed25519"

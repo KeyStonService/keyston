@@ -20,21 +20,21 @@
 name: Environment Setup
 
 on:
-    workflow_call:
-        outputs:
-            token:
-                description: "The resolved GitHub token (defaults to automatic token)"
-                value: ${{ jobs.setup.outputs.token }}
+  workflow_call:
+    outputs:
+      token:
+        description: "The resolved GitHub token (defaults to automatic token)"
+        value: ${{ jobs.setup.outputs.token }}
 
 jobs:
-    setup:
-        runs-on: ubuntu-latest
-        outputs:
-            token: ${{ steps.resolve-token.outputs.token }}
-        steps:
-            - name: Resolve GitHub Token
-              id: resolve-token
-              run: |
-                  # 使用 GitHub 自動提供的 token，無需額外配置
-                  echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
-                  echo "Using automatic GitHub token (no configuration required)"
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.resolve-token.outputs.token }}
+    steps:
+      - name: Resolve GitHub Token
+        id: resolve-token
+        run: |
+          # 使用 GitHub 自動提供的 token，無需額外配置
+          echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
+          echo "Using automatic GitHub token (no configuration required)"

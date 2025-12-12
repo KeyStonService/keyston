@@ -34,7 +34,8 @@
   - 請優先讀取：
     - `knowledge/evolution-state.yaml`（機器可讀現狀）
     - `docs/SYSTEM_EVOLUTION_REPORT.md`（高階人類摘要）
-  - 依據其中「分數最低的 objective」與「建議區塊」，決定下一個要優先處理的 cluster / module。
+  - 依據其中「分數最低的 objective」與「建議區塊」，決定下一個要優先處理的 cluster
+    / module。
 
 - 給 **03_refactor Playbooks**：
   - 可將 System Evolution Report 中的「高風險 cluster」對應到：
@@ -52,5 +53,6 @@
 
 長期：
 
-- 在工具層接上 AI，用 evolution-state.yaml 作為輸入，產出更細緻的重構計畫與 Auto-Fix PR。
+- 在工具層接上 AI，用 evolution-state.yaml 作為輸入，產出更細緻的重構計畫與 Auto-Fix
+  PR。
 - 將「演化目標」擴充到成本、可靠性、延遲等維度。

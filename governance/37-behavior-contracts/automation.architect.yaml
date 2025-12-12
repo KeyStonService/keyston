@@ -16,11 +16,11 @@ contract:
   version: "1.0.0"
   status: "active"
   owner: "@architecture-team"
-  
+
   description: |
     Architecture Analyst provides automated architecture analysis, dependency mapping,
     technical debt assessment, and governance compliance checking.
-    
+
     架構分析師提供自動化架構分析、依賴映射、技術債務評估和治理合規檢查。
 
 # ============================================================================
@@ -29,20 +29,19 @@ contract:
 
 api:
   base_path: "/api/v1/architect"
-  
+
   endpoints:
-    
     # ─────────────────────────────────────────────────────────────────────────
     # Architecture Analysis
     # ─────────────────────────────────────────────────────────────────────────
     - name: "Analyze Architecture"
       method: POST
       path: "/analysis"
-      
+
       description: |
         Perform comprehensive architecture analysis.
         執行全面的架構分析。
-      
+
       input_schema:
         type: "object"
         required: ["scope"]
@@ -52,7 +51,7 @@ api:
             enum: ["full", "incremental", "module", "layer"]
           target: { type: "string" }
           include_recommendations: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -61,12 +60,12 @@ api:
           findings: { type: "array" }
           recommendations: { type: "array" }
           dependency_graph: { type: "object" }
-      
+
       guarantees:
         - "Complete dependency analysis"
         - "Circular dependency detection"
         - "Layer violation detection"
-      
+
       performance:
         response_time_p50: "< 1s"
         response_time_p99: "< 5s"
@@ -77,15 +76,15 @@ api:
     - name: "Assess Technical Debt"
       method: POST
       path: "/technical-debt"
-      
+
       description: "Calculate technical debt metrics"
-      
+
       input_schema:
         type: "object"
         properties:
           modules: { type: "array" }
           include_trends: { type: "boolean" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -93,7 +92,7 @@ api:
           debt_by_module: { type: "object" }
           priority_areas: { type: "array" }
           trends: { type: "object" }
-      
+
       guarantees:
         - "Consistent scoring methodology"
         - "Historical comparison available"
@@ -104,17 +103,17 @@ api:
     - name: "Check Compliance"
       method: POST
       path: "/compliance/check"
-      
+
       description: |
         Validate compliance with governance policies.
         驗證治理政策的合規性。
-      
+
       input_schema:
         type: "object"
         properties:
           policies: { type: "array" }
           scope: { type: "string" }
-      
+
       output_schema:
         type: "object"
         properties:
@@ -122,7 +121,7 @@ api:
           overall_compliance: { type: "boolean" }
           violations: { type: "array" }
           warnings: { type: "array" }
-      
+
       guarantees:
         - "All policies checked"
         - "Violations documented with location"
@@ -133,10 +132,9 @@ api:
 # ============================================================================
 
 events:
-  
   - name: "architect.analysis_completed"
     description: "Emitted when architecture analysis completes"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -144,17 +142,17 @@ events:
         architecture_score: { type: "number" }
         findings_count: { type: "integer" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "90 days"
-    
+
     consumers:
       - "services.audit"
       - "automation.monitoring"
 
   - name: "architect.governance_violation"
     description: "Emitted when governance violation detected"
-    
+
     payload_schema:
       type: "object"
       properties:
@@ -163,10 +161,10 @@ events:
         location: { type: "string" }
         policy: { type: "string" }
         timestamp: { type: "string", format: "date-time" }
-    
+
     delivery_guarantee: "at-least-once"
     retention: "180 days"
-    
+
     consumers:
       - "ops.alerting"
       - "services.governance"
@@ -176,12 +174,11 @@ events:
 # ============================================================================
 
 invariants:
-  
   - name: "Analysis Determinism"
     description: "Same input produces same analysis"
     rule: "analyze(input) = analyze(input)"
     enforcement: "application-logic"
-    
+
   - name: "Scoring Consistency"
     description: "Architecture scores are comparable over time"
     rule: "forall analysis: score uses consistent methodology"
@@ -192,7 +189,6 @@ invariants:
 # ============================================================================
 
 failure_modes:
-  
   - scenario: "Analysis Timeout"
     triggers:
       - "Large codebase analysis"
@@ -207,7 +203,6 @@ failure_modes:
 # ============================================================================
 
 dependencies:
-  
   required:
     - module: "governance.policies"
       purpose: "Policy definitions"
@@ -229,7 +224,7 @@ observability:
       labels: ["type", "severity"]
     - name: "architecture_score"
       type: "gauge"
-  
+
   alerts:
     - condition: "architecture_score < 70"
       severity: "warning"

@@ -11,7 +11,7 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress
 
 ---
 # 允許 Ingress 到 API 服務
@@ -25,15 +25,15 @@ spec:
     matchLabels:
       tier: api
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    ports:
-    - protocol: TCP
-      port: 8000
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8000
 
 ---
 # 允許 API 到數據庫
@@ -47,15 +47,15 @@ spec:
     matchLabels:
       app: postgres
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          tier: api
-    ports:
-    - protocol: TCP
-      port: 5432
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: api
+      ports:
+        - protocol: TCP
+          port: 5432
 
 ---
 # 允許 API 到 Redis
@@ -69,15 +69,15 @@ spec:
     matchLabels:
       app: redis
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          tier: api
-    ports:
-    - protocol: TCP
-      port: 6379
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: api
+      ports:
+        - protocol: TCP
+          port: 6379
 
 ---
 # 允許 Pod 到 Prometheus
@@ -89,15 +89,15 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: monitoring
-    ports:
-    - protocol: TCP
-      port: 9090
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+      ports:
+        - protocol: TCP
+          port: 9090
 
 ---
 # 允許 DNS
@@ -109,13 +109,13 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Egress
+    - Egress
   egress:
-  - to:
-    - namespaceSelector: {}
-    ports:
-    - protocol: UDP
-      port: 53
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
 
 ---
 # 允許外部 HTTPS
@@ -127,10 +127,10 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Egress
+    - Egress
   egress:
-  - to:
-    - podSelector: {}
-    ports:
-    - protocol: TCP
-      port: 443
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443

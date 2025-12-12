@@ -2,8 +2,8 @@
 
 ## 問題描述
 
-在 Dockerfile 中切換到非 root 使用者（nodejs）後執行 `npm install` 或 `npm ci` 時，
-會出現 `EACCES` 權限錯誤，因為 npm 需要寫入 `/home/nodejs/.npm` 快取目錄。
+在 Dockerfile 中切換到非 root 使用者（nodejs）後執行 `npm install` 或 `npm ci`
+時，會出現 `EACCES` 權限錯誤，因為 npm 需要寫入 `/home/nodejs/.npm` 快取目錄。
 
 ## 標準解決方案
 
@@ -29,7 +29,7 @@ ENV NPM_CONFIG_CACHE=/home/nodejs/.npm
 - ✅ `core/contract_service/contracts-L1/contracts/Dockerfile`
 - ✅ `mcp-servers/Dockerfile`
 - ✅ `advanced-system-src/Dockerfile`
-- ⚠️  未來任何新的 Node.js 服務 Dockerfile
+- ⚠️ 未來任何新的 Node.js 服務 Dockerfile
 
 ## 檢查清單
 

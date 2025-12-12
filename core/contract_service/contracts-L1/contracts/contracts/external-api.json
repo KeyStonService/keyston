@@ -48,8 +48,8 @@
               "type": "object",
               "required": ["signature", "certificate"],
               "properties": {
-                "signature": {"type": "string"},
-                "certificate": {"type": "string"}
+                "signature": { "type": "string" },
+                "certificate": { "type": "string" }
               }
             }
           }
@@ -64,17 +64,17 @@
               "type": "object",
               "required": ["artifact_digest", "signature", "certificate"],
               "properties": {
-                "artifact_digest": {"type": "string"},
-                "signature": {"type": "string"},
-                "certificate": {"type": "string"}
+                "artifact_digest": { "type": "string" },
+                "signature": { "type": "string" },
+                "certificate": { "type": "string" }
               }
             },
             "response": {
               "type": "object",
               "required": ["valid", "subject"],
               "properties": {
-                "valid": {"type": "boolean"},
-                "subject": {"type": "string"}
+                "valid": { "type": "boolean" },
+                "subject": { "type": "string" }
               }
             }
           }
@@ -128,18 +128,18 @@
               "type": "object",
               "required": ["owner", "repo", "sha"],
               "properties": {
-                "owner": {"type": "string"},
-                "repo": {"type": "string"},
-                "sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+                "owner": { "type": "string" },
+                "repo": { "type": "string" },
+                "sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
               }
             },
             "response": {
               "type": "object",
               "required": ["sha", "commit", "author"],
               "properties": {
-                "sha": {"type": "string"},
-                "commit": {"type": "object"},
-                "author": {"type": "object"}
+                "sha": { "type": "string" },
+                "commit": { "type": "object" },
+                "author": { "type": "object" }
               }
             }
           }
@@ -154,19 +154,19 @@
               "type": "object",
               "required": ["owner", "repo"],
               "properties": {
-                "owner": {"type": "string"},
-                "repo": {"type": "string"},
-                "per_page": {"type": "integer", "minimum": 1, "maximum": 100}
+                "owner": { "type": "string" },
+                "repo": { "type": "string" },
+                "per_page": { "type": "integer", "minimum": 1, "maximum": 100 }
               }
             },
             "response": {
               "type": "object",
               "required": ["total_count", "workflow_runs"],
               "properties": {
-                "total_count": {"type": "integer"},
+                "total_count": { "type": "integer" },
                 "workflow_runs": {
                   "type": "array",
-                  "items": {"type": "object"}
+                  "items": { "type": "object" }
                 }
               }
             }

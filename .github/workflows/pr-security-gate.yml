@@ -14,133 +14,133 @@ jobs:
       checks: write
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Check Code Scanning Status
-      id: check-scanning
-      env:
-        GH_TOKEN: ${{ github.token }}
-      continue-on-error: true
-      run: |
-        # 檢查 Code Scanning 是否啟用
-        RESPONSE=$(gh api \
-          /repos/${{ github.repository }}/code-scanning/alerts \
-          --jq 'length' 2>&1) || true
-        
-        if echo "$RESPONSE" | grep -q "Code scanning is not enabled"; then
-          echo "code_scanning_enabled=false" >> $GITHUB_OUTPUT
-          echo "⚠️ Code Scanning is not enabled for this repository"
-        else
-          echo "code_scanning_enabled=true" >> $GITHUB_OUTPUT
-        fi
+      - name: Check Code Scanning Status
+        id: check-scanning
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
+        run: |
+          # 檢查 Code Scanning 是否啟用
+          RESPONSE=$(gh api \
+            /repos/${{ github.repository }}/code-scanning/alerts \
+            --jq 'length' 2>&1) || true
 
-    - name: Evaluate Security Results
-      id: evaluate
-      if: steps.check-scanning.outputs.code_scanning_enabled == 'true'
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        # 取得 CodeQL 結果
-        ALERTS=$(gh api \
-          /repos/${{ github.repository }}/code-scanning/alerts \
-          --jq '.[] | select(.state == "open") | .rule.security_severity_level')
-        
-        HIGH_SEVERITY=$(echo "$ALERTS" | grep -c "high" || true)
-        CRITICAL_SEVERITY=$(echo "$ALERTS" | grep -c "critical" || true)
-        MEDIUM_SEVERITY=$(echo "$ALERTS" | grep -c "medium" || true)
-        LOW_SEVERITY=$(echo "$ALERTS" | grep -c "low" || true)
-        
-        echo "High severity alerts: $HIGH_SEVERITY"
-        echo "Critical severity alerts: $CRITICAL_SEVERITY"
-        echo "Medium severity alerts: $MEDIUM_SEVERITY"
-        echo "Low severity alerts: $LOW_SEVERITY"
-        
-        # 輸出到 GitHub outputs
-        echo "critical=$CRITICAL_SEVERITY" >> $GITHUB_OUTPUT
-        echo "high=$HIGH_SEVERITY" >> $GITHUB_OUTPUT
-        echo "medium=$MEDIUM_SEVERITY" >> $GITHUB_OUTPUT
-        echo "low=$LOW_SEVERITY" >> $GITHUB_OUTPUT
-        
-        # 設定閘門規則
-        if [ "$CRITICAL_SEVERITY" -gt 0 ]; then
-          echo "❌ PR blocked due to critical security issues"
-          echo "gate_status=blocked" >> $GITHUB_OUTPUT
-          exit 1
-        elif [ "$HIGH_SEVERITY" -gt 3 ]; then
-          echo "⚠️ PR requires security review due to multiple high severity issues"
-          echo "gate_status=review_required" >> $GITHUB_OUTPUT
-        else
-          echo "✅ Security gate passed"
-          echo "gate_status=passed" >> $GITHUB_OUTPUT
-        fi
+          if echo "$RESPONSE" | grep -q "Code scanning is not enabled"; then
+            echo "code_scanning_enabled=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Code Scanning is not enabled for this repository"
+          else
+            echo "code_scanning_enabled=true" >> $GITHUB_OUTPUT
+          fi
 
-    - name: Skip notice when Code Scanning not enabled
-      if: steps.check-scanning.outputs.code_scanning_enabled == 'false'
-      run: |
-        echo "::warning::Security gate check skipped - Code Scanning is not enabled"
-        echo ""
-        echo "To enable Code Scanning:"
-        echo "1. Go to Settings > Security > Code security and analysis"
-        echo "2. Enable 'Code scanning'"
-        echo "3. Choose 'Advanced' to use existing CodeQL workflow"
+      - name: Evaluate Security Results
+        id: evaluate
+        if: steps.check-scanning.outputs.code_scanning_enabled == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # 取得 CodeQL 結果
+          ALERTS=$(gh api \
+            /repos/${{ github.repository }}/code-scanning/alerts \
+            --jq '.[] | select(.state == "open") | .rule.security_severity_level')
 
-    - name: Request Changes if Needed
-      if: steps.check-scanning.outputs.code_scanning_enabled == 'true' && steps.evaluate.outputs.gate_status == 'review_required'
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh pr review ${{ github.event.pull_request.number }} --request-changes \
-          --body "⚠️ Security review required: ${{ steps.evaluate.outputs.high }} high severity alerts found. Please review and address these security issues before merging."
+          HIGH_SEVERITY=$(echo "$ALERTS" | grep -c "high" || true)
+          CRITICAL_SEVERITY=$(echo "$ALERTS" | grep -c "critical" || true)
+          MEDIUM_SEVERITY=$(echo "$ALERTS" | grep -c "medium" || true)
+          LOW_SEVERITY=$(echo "$ALERTS" | grep -c "low" || true)
 
-    - name: Comment PR Results
-      if: always() && steps.check-scanning.outputs.code_scanning_enabled == 'true'
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const critical = '${{ steps.evaluate.outputs.critical }}' || '0';
-          const high = '${{ steps.evaluate.outputs.high }}' || '0';
-          const medium = '${{ steps.evaluate.outputs.medium }}' || '0';
-          const low = '${{ steps.evaluate.outputs.low }}' || '0';
-          const gateStatus = '${{ steps.evaluate.outputs.gate_status }}';
-          
-          let statusEmoji = '✅';
-          let statusText = 'Security check passed';
-          
-          if (gateStatus === 'blocked') {
-            statusEmoji = '❌';
-            statusText = '**Merge blocked** - Critical security issues must be resolved';
-          } else if (gateStatus === 'review_required') {
-            statusEmoji = '⚠️';
-            statusText = '**Review required** - Multiple high severity issues detected';
-          }
-          
-          const comment = `## 🔐 Security Scan Results
-          
-          | Severity | Count |
-          |----------|--------|
-          | Critical | ${critical} |
-          | High     | ${high} |
-          | Medium   | ${medium} |
-          | Low      | ${low} |
-          
-          ${statusEmoji} ${statusText}
-          
-          ---
-          
-          ### Next Steps:
-          ${parseInt(critical) > 0 ? '- 🚨 **Critical issues must be fixed before merging**\n' : ''}
-          ${parseInt(high) > 3 ? '- ⚠️ Security team review is required\n' : ''}
-          ${parseInt(high) > 0 && parseInt(high) <= 3 ? '- Review high severity issues and consider fixing\n' : ''}
-          ${parseInt(medium) > 0 ? '- 📋 Consider addressing medium severity issues\n' : ''}
-          
-          For detailed information, check the [Security tab](https://github.com/${{ github.repository }}/security/code-scanning).
-          `;
-          
-          await github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: comment
-          });
+          echo "High severity alerts: $HIGH_SEVERITY"
+          echo "Critical severity alerts: $CRITICAL_SEVERITY"
+          echo "Medium severity alerts: $MEDIUM_SEVERITY"
+          echo "Low severity alerts: $LOW_SEVERITY"
+
+          # 輸出到 GitHub outputs
+          echo "critical=$CRITICAL_SEVERITY" >> $GITHUB_OUTPUT
+          echo "high=$HIGH_SEVERITY" >> $GITHUB_OUTPUT
+          echo "medium=$MEDIUM_SEVERITY" >> $GITHUB_OUTPUT
+          echo "low=$LOW_SEVERITY" >> $GITHUB_OUTPUT
+
+          # 設定閘門規則
+          if [ "$CRITICAL_SEVERITY" -gt 0 ]; then
+            echo "❌ PR blocked due to critical security issues"
+            echo "gate_status=blocked" >> $GITHUB_OUTPUT
+            exit 1
+          elif [ "$HIGH_SEVERITY" -gt 3 ]; then
+            echo "⚠️ PR requires security review due to multiple high severity issues"
+            echo "gate_status=review_required" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Security gate passed"
+            echo "gate_status=passed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip notice when Code Scanning not enabled
+        if: steps.check-scanning.outputs.code_scanning_enabled == 'false'
+        run: |
+          echo "::warning::Security gate check skipped - Code Scanning is not enabled"
+          echo ""
+          echo "To enable Code Scanning:"
+          echo "1. Go to Settings > Security > Code security and analysis"
+          echo "2. Enable 'Code scanning'"
+          echo "3. Choose 'Advanced' to use existing CodeQL workflow"
+
+      - name: Request Changes if Needed
+        if: steps.check-scanning.outputs.code_scanning_enabled == 'true' && steps.evaluate.outputs.gate_status == 'review_required'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr review ${{ github.event.pull_request.number }} --request-changes \
+            --body "⚠️ Security review required: ${{ steps.evaluate.outputs.high }} high severity alerts found. Please review and address these security issues before merging."
+
+      - name: Comment PR Results
+        if: always() && steps.check-scanning.outputs.code_scanning_enabled == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const critical = '${{ steps.evaluate.outputs.critical }}' || '0';
+            const high = '${{ steps.evaluate.outputs.high }}' || '0';
+            const medium = '${{ steps.evaluate.outputs.medium }}' || '0';
+            const low = '${{ steps.evaluate.outputs.low }}' || '0';
+            const gateStatus = '${{ steps.evaluate.outputs.gate_status }}';
+
+            let statusEmoji = '✅';
+            let statusText = 'Security check passed';
+
+            if (gateStatus === 'blocked') {
+              statusEmoji = '❌';
+              statusText = '**Merge blocked** - Critical security issues must be resolved';
+            } else if (gateStatus === 'review_required') {
+              statusEmoji = '⚠️';
+              statusText = '**Review required** - Multiple high severity issues detected';
+            }
+
+            const comment = `## 🔐 Security Scan Results
+
+            | Severity | Count |
+            |----------|--------|
+            | Critical | ${critical} |
+            | High     | ${high} |
+            | Medium   | ${medium} |
+            | Low      | ${low} |
+
+            ${statusEmoji} ${statusText}
+
+            ---
+
+            ### Next Steps:
+            ${parseInt(critical) > 0 ? '- 🚨 **Critical issues must be fixed before merging**\n' : ''}
+            ${parseInt(high) > 3 ? '- ⚠️ Security team review is required\n' : ''}
+            ${parseInt(high) > 0 && parseInt(high) <= 3 ? '- Review high severity issues and consider fixing\n' : ''}
+            ${parseInt(medium) > 0 ? '- 📋 Consider addressing medium severity issues\n' : ''}
+
+            For detailed information, check the [Security tab](https://github.com/${{ github.repository }}/security/code-scanning).
+            `;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

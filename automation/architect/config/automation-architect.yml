@@ -19,16 +19,16 @@ metadata:
 
 system:
   enabled: true
-  mode: "production"  # development, staging, production
-  
+  mode: "production" # development, staging, production
+
   # 性能配置
   performance:
     max_workers: 8
-    timeout: 300  # seconds
+    timeout: 300 # seconds
     max_concurrent_analyses: 10
     cache_enabled: true
-    cache_ttl: 3600  # seconds
-  
+    cache_ttl: 3600 # seconds
+
   # 資源限制
   resources:
     max_memory_mb: 2048
@@ -54,7 +54,7 @@ analysis:
       - name: "trivy"
         enabled: true
         severity: ["CRITICAL", "HIGH", "MEDIUM"]
-    
+
     checks:
       - "owasp-top-10"
       - "sql-injection"
@@ -64,7 +64,7 @@ analysis:
       - "hardcoded-secrets"
       - "path-traversal"
       - "insecure-deserialization"
-  
+
   # 代碼質量分析
   quality:
     enabled: true
@@ -79,21 +79,21 @@ analysis:
       - name: "eslint"
         enabled: true
         config: "config/rules/.eslintrc.json"
-    
+
     metrics:
       cyclomatic_complexity:
         threshold: 10
         severity: "warning"
       code_duplication:
-        threshold: 5  # percentage
+        threshold: 5 # percentage
         severity: "warning"
       function_length:
-        threshold: 50  # lines
+        threshold: 50 # lines
         severity: "info"
       documentation_coverage:
-        threshold: 80  # percentage
+        threshold: 80 # percentage
         severity: "info"
-  
+
   # 性能分析
   performance:
     enabled: true
@@ -105,13 +105,13 @@ analysis:
         enabled: true
       - name: "flamegraph"
         enabled: true
-    
+
     targets:
       api_latency_p99_ms: 100
       throughput_req_per_sec: 10000
       memory_usage_mb: 500
       cpu_usage_percent: 80
-    
+
     checks:
       - "time-complexity"
       - "space-complexity"
@@ -119,7 +119,7 @@ analysis:
       - "cpu-hotspots"
       - "io-bottlenecks"
       - "algorithm-efficiency"
-  
+
   # 架構分析
   architecture:
     enabled: true
@@ -130,33 +130,33 @@ analysis:
         connection_env: "NEO4J_URI"
       - name: "archunit"
         enabled: true
-    
+
     validations:
       - "no-circular-dependencies"
       - "coupling-threshold"
       - "high-cohesion"
       - "clear-module-boundaries"
       - "microservices-boundaries"
-  
+
   # 可維護性分析
   maintainability:
     enabled: true
     priority: "medium"
-    
+
     scoring:
       readability: 100
       testability: 100
       extensibility: 100
       maintainability_index: 100
-    
+
     debt_classification:
       high_priority: "immediate"
       medium_priority: "planned"
       low_priority: "monitor"
-    
+
     thresholds:
-      debt_ratio: 5  # percentage
-      debt_density: 0.1  # per 1000 lines
+      debt_ratio: 5 # percentage
+      debt_density: 0.1 # per 1000 lines
 
 # ============================================================================
 # 自動修復配置 Auto-Repair Configuration
@@ -164,7 +164,7 @@ analysis:
 
 repair:
   enabled: true
-  
+
   # 修復策略
   strategies:
     - name: "rule-based"
@@ -174,38 +174,38 @@ repair:
       enabled: true
       priority: 2
     - name: "ml-optimization"
-      enabled: false  # 需要額外配置
+      enabled: false # 需要額外配置
       priority: 3
     - name: "context-aware"
       enabled: true
       priority: 4
-  
+
   # 修復規則
   rules:
     - name: "security-auto-fix"
       enabled: true
       scope: "security"
-      auto_apply: false  # 需要人工審核
-    
+      auto_apply: false # 需要人工審核
+
     - name: "style-auto-fix"
       enabled: true
       scope: "quality"
       auto_apply: true
-    
+
     - name: "performance-optimization"
       enabled: true
       scope: "performance"
       auto_apply: false
-    
+
     - name: "deprecated-code-cleanup"
       enabled: true
       scope: "quality"
       auto_apply: true
-  
+
   # 驗證配置
   verification:
     enabled: true
-    
+
     tests:
       - name: "unit-tests"
         enabled: true
@@ -218,7 +218,7 @@ repair:
         enabled: true
       - name: "regression-tests"
         enabled: true
-    
+
     success_criteria:
       test_pass_rate: 95
       performance_no_degradation: true
@@ -255,7 +255,7 @@ frameworks:
       rust:
         - "clippy"
         - "rustfmt"
-  
+
   # Framework 2: Server-side Languages
   server_side:
     enabled: true
@@ -273,7 +273,7 @@ frameworks:
       csharp:
         - "roslyn"
         - "stylecop"
-  
+
   # Framework 3: Web Languages
   web:
     enabled: true
@@ -286,7 +286,7 @@ frameworks:
       - "eslint"
       - "stylelint"
       - "htmlhint"
-  
+
   # Framework 4: Mobile Languages
   mobile:
     enabled: true
@@ -302,7 +302,7 @@ frameworks:
         - "ktlint"
       dart:
         - "dartanalyzer"
-  
+
   # Framework 5: Data Representation
   data_representation:
     enabled: true
@@ -315,7 +315,7 @@ frameworks:
       - "json-schema"
       - "yamllint"
       - "xmllint"
-  
+
   # Framework 6: Other Languages
   other:
     enabled: true
@@ -340,62 +340,62 @@ scenarios:
   drone_systems:
     enabled: true
     description: "無人機系統代碼質量保障"
-    
+
     focus_areas:
       - "real-time-flight-control"
       - "sensor-data-processing"
       - "communication-protocols"
       - "real-time-performance"
       - "safety-critical-validation"
-    
+
     languages:
       primary: "cpp"
       secondary: ["python", "yaml"]
-    
+
     analysis_priority:
       security: "critical"
       performance: "critical"
       quality: "high"
       architecture: "medium"
-  
+
   # Scenario 2: 無人駕駛
   autonomous_driving:
     enabled: true
     description: "自動駕駛決策系統質量保障"
-    
+
     focus_areas:
       - "decision-algorithms"
       - "sensor-fusion"
       - "path-planning"
       - "real-time-monitoring"
       - "safety-validation"
-    
+
     languages:
       primary: "python"
       secondary: ["cpp", "go", "typescript"]
-    
+
     analysis_priority:
       security: "critical"
       performance: "critical"
       quality: "high"
       architecture: "high"
-  
+
   # Scenario 3: 自動化迭代
   automation_iteration:
     enabled: true
     description: "自動化工作流質量優化"
-    
+
     focus_areas:
       - "automation-scripts"
       - "workflow-optimization"
       - "dependency-analysis"
       - "performance-bottlenecks"
       - "tech-debt-management"
-    
+
     languages:
       primary: "python"
       secondary: ["go", "javascript", "yaml"]
-    
+
     analysis_priority:
       security: "high"
       performance: "medium"
@@ -408,7 +408,7 @@ scenarios:
 
 monitoring:
   enabled: true
-  
+
   # 指標收集
   metrics:
     enabled: true
@@ -419,18 +419,18 @@ monitoring:
       - name: "grafana"
         enabled: true
         port: 3000
-    
+
     metrics_list:
       - "analysis_duration_seconds"
       - "repair_success_rate"
       - "security_issues_detected"
       - "performance_improvements"
       - "code_quality_score"
-  
+
   # 日誌配置
   logging:
     enabled: true
-    level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    level: "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
     format: "json"
     outputs:
       - type: "console"
@@ -441,7 +441,7 @@ monitoring:
       - type: "elk"
         enabled: false
         host_env: "ELK_HOST"
-  
+
   # 告警配置
   alerting:
     enabled: true
@@ -455,7 +455,7 @@ monitoring:
       - type: "pagerduty"
         enabled: false
         api_key_env: "PAGERDUTY_KEY"
-    
+
     rules:
       - name: "high-severity-security-issue"
         condition: "security_issues.severity == CRITICAL"
@@ -473,7 +473,7 @@ monitoring:
 
 cicd:
   enabled: true
-  
+
   # GitHub Actions
   github_actions:
     enabled: true
@@ -484,15 +484,15 @@ cicd:
           - "static-analysis"
           - "security-scan"
           - "performance-test"
-      
+
       - name: "auto-fix"
         trigger: ["schedule"]
-        schedule: "0 2 * * *"  # Daily at 2 AM
-  
+        schedule: "0 2 * * *" # Daily at 2 AM
+
   # GitLab CI
   gitlab_ci:
     enabled: false
-  
+
   # Jenkins
   jenkins:
     enabled: false
@@ -508,7 +508,7 @@ deployment:
     image: "synergymesh/automation-architect"
     tag: "latest"
     registry: "docker.io"
-  
+
   # Kubernetes
   kubernetes:
     enabled: false
@@ -521,7 +521,7 @@ deployment:
       limits:
         cpu: "2000m"
         memory: "4Gi"
-  
+
   # 環境變量
   environment:
     - name: "ENVIRONMENT"
@@ -537,14 +537,14 @@ security:
   # 認證
   authentication:
     enabled: true
-    type: "jwt"  # jwt, oauth2, basic
-    token_expiry: 3600  # seconds
-  
+    type: "jwt" # jwt, oauth2, basic
+    token_expiry: 3600 # seconds
+
   # 授權
   authorization:
     enabled: true
-    type: "rbac"  # rbac, acl
-    
+    type: "rbac" # rbac, acl
+
     roles:
       - name: "admin"
         permissions: ["*"]
@@ -552,13 +552,13 @@ security:
         permissions: ["read", "analyze"]
       - name: "viewer"
         permissions: ["read"]
-  
+
   # 加密
   encryption:
     enabled: true
     algorithm: "AES-256-GCM"
     tls_version: "1.3"
-  
+
   # 審計
   audit:
     enabled: true
@@ -577,18 +577,18 @@ quality_metrics:
       maintainability: 0.30
       performance: 0.20
       testability: 0.20
-    
+
     thresholds:
       excellent: 90
       good: 75
       acceptable: 60
       poor: 0
-  
+
   # 技術債務
   technical_debt:
-    max_debt_ratio: 5  # percentage
-    max_debt_density: 0.1  # per 1000 lines
-    
+    max_debt_ratio: 5 # percentage
+    max_debt_density: 0.1 # per 1000 lines
+
     priority_thresholds:
       high: "immediate"
       medium: "30_days"
@@ -603,12 +603,12 @@ extensions:
   custom_analyzers:
     enabled: true
     path: "extensions/analyzers"
-  
+
   # 自定義修復規則
   custom_rules:
     enabled: true
     path: "extensions/rules"
-  
+
   # 插件系統
   plugins:
     enabled: true

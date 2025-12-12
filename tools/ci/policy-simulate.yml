@@ -10,10 +10,10 @@ name: CI Policy Simulation
 on:
   pull_request:
     paths:
-      - '**.yaml'
-      - '**.yml'
-      - 'policy/**'
-      - 'intelligent-hyperautomation/**'
+      - "**.yaml"
+      - "**.yml"
+      - "policy/**"
+      - "intelligent-hyperautomation/**"
   push:
     branches:
       - main
@@ -23,24 +23,24 @@ jobs:
   policy-simulation:
     name: 策略模擬與驗證
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 檢出代碼
         uses: actions/checkout@v4
-      
+
       - name: 🔧 安裝 OPA
         run: |
           curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
           chmod +x opa
           sudo mv opa /usr/local/bin/
           opa version
-      
+
       - name: 🔧 安裝 Conftest
         run: |
           curl -L https://github.com/open-policy-agent/conftest/releases/download/v0.47.0/conftest_0.47.0_Linux_x86_64.tar.gz | tar xz
           sudo mv conftest /usr/local/bin/
           conftest --version
-      
+
       - name: ✅ 驗證策略語法
         run: |
           echo "📋 驗證 OPA 策略檔案語法..."
@@ -48,30 +48,30 @@ jobs:
             opa check policy/manifest-policies.rego
             echo "✅ 策略語法驗證通過"
           fi
-          
+
           if [ -f "intelligent-hyperautomation/policies/rego/uav_ad.rego" ]; then
             opa check intelligent-hyperautomation/policies/rego/uav_ad.rego
             echo "✅ UAV/AD 策略語法驗證通過"
           fi
-      
+
       - name: 🧪 執行策略模擬測試
         id: policy-test
         continue-on-error: true
         run: |
           echo "🔍 開始策略模擬測試..."
           mkdir -p reports
-          
+
           # 測試 intelligent-hyperautomation 範例
           if [ -d "intelligent-hyperautomation/templates/impl/examples" ]; then
             echo "📦 測試 UAV/AD 範例..."
             conftest test intelligent-hyperautomation/templates/impl/examples/*.yaml \
               -p intelligent-hyperautomation/policies/rego/ \
               --output json > reports/uav-ad-test.json || true
-            
+
             echo "📊 UAV/AD 測試結果:"
             cat reports/uav-ad-test.json | jq '.'
           fi
-          
+
           # 測試其他 manifests
           if [ -d "core/contract_service/contracts-L1/contracts/deploy/k8s" ]; then
             echo "📦 測試 Contracts L1 manifests..."
@@ -80,7 +80,7 @@ jobs:
               conftest test "$file" -p policy/ --output json > "reports/$(basename $file .yaml)-test.json" || true
             done
           fi
-      
+
       - name: 📊 生成策略報告
         run: |
           cat > reports/policy-simulation-report.json << EOF
@@ -107,10 +107,10 @@ jobs:
             }
           }
           EOF
-          
+
           echo "📋 策略模擬報告已生成"
           cat reports/policy-simulation-report.json | jq '.'
-      
+
       - name: 📤 上傳策略報告
         uses: actions/upload-artifact@v4
         if: always()
@@ -118,16 +118,16 @@ jobs:
           name: policy-simulation-report-${{ github.run_id }}
           path: reports/
           retention-days: 90
-      
+
       - name: 📈 評估結果
         run: |
           echo "🎯 策略模擬完成"
           echo "📋 報告已上傳為 artifact"
-          
+
           # 檢查測試結果
           TOTAL_TESTS=$(find reports -name "*-test.json" 2>/dev/null | wc -l)
           echo "✅ 完成 $TOTAL_TESTS 個策略測試"
-          
+
           # 生成摘要
           echo "## 策略模擬摘要" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

@@ -9,7 +9,9 @@
 
 ## 📋 Overview
 
-Phase 2 implements the operational layer of Governance-as-Code (GaC) by transforming strategic governance documents into Kubernetes Custom Resources with OPA policy enforcement.
+Phase 2 implements the operational layer of Governance-as-Code (GaC) by
+transforming strategic governance documents into Kubernetes Custom Resources
+with OPA policy enforcement.
 
 ### Architecture Layers Completed
 
@@ -187,27 +189,27 @@ Each K8s resource includes full traceability back to strategic documents:
 ```yaml
 metadata:
   annotations:
-    strategic-doc-path: "governance/00-vision-strategy/vision-statement.yaml"
-    strategic-doc-version: "1.0.0"
-    gac-phase: "2-operational"
-    generated-at: "2025-12-11T02:40:00Z"
-    generated-by: "gac-automation"
-    traceability-hash: "sha256:vision-statement-2025-q4"
+    strategic-doc-path: 'governance/00-vision-strategy/vision-statement.yaml'
+    strategic-doc-version: '1.0.0'
+    gac-phase: '2-operational'
+    generated-at: '2025-12-11T02:40:00Z'
+    generated-by: 'gac-automation'
+    traceability-hash: 'sha256:vision-statement-2025-q4'
 ```
 
 ---
 
 ## 🎯 Success Metrics
 
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| CRDs Generated | 9 | 9 | ✅ |
-| K8s Instances Generated | 9 | 9 | ✅ |
-| OPA Policies Generated | 9 | 9 | ✅ |
-| YAML Validation | 100% | 100% | ✅ |
-| File Count Accuracy | 100% | 100% | ✅ |
-| Traceability Annotations | 100% | 100% | ✅ |
-| Generation Time | <5 min | ~30 sec | ✅ |
+| Metric                   | Target | Actual  | Status |
+| ------------------------ | ------ | ------- | ------ |
+| CRDs Generated           | 9      | 9       | ✅     |
+| K8s Instances Generated  | 9      | 9       | ✅     |
+| OPA Policies Generated   | 9      | 9       | ✅     |
+| YAML Validation          | 100%   | 100%    | ✅     |
+| File Count Accuracy      | 100%   | 100%    | ✅     |
+| Traceability Annotations | 100%   | 100%    | ✅     |
+| Generation Time          | <5 min | ~30 sec | ✅     |
 
 ---
 

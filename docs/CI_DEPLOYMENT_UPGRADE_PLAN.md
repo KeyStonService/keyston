@@ -2,15 +2,16 @@
 
 ## 📋 概覽
 
-本文檔規劃剩餘 **3 個部署相關 CI workflows** 的升級策略，將它們整合到互動式 CI 服務系統中。
+本文檔規劃剩餘 **3 個部署相關 CI workflows**
+的升級策略，將它們整合到互動式 CI 服務系統中。
 
 ### 升級目標
 
-| # | CI Workflow | 類型 | 複雜度 | 優先級 | 預計時間 |
-|---|-------------|------|--------|--------|---------|
-| 1 | Deploy Contracts L1 | 部署 | ⭐⭐⭐⭐ | 高 | 2-3 小時 |
-| 2 | Auto-Fix Bot | 分析工具 | ⭐⭐⭐ | 中 | 1-2 小時 |
-| 3 | MCP Servers CD | 容器部署 | ⭐⭐ | 中 | 1 小時 |
+| #   | CI Workflow         | 類型     | 複雜度   | 優先級 | 預計時間 |
+| --- | ------------------- | -------- | -------- | ------ | -------- |
+| 1   | Deploy Contracts L1 | 部署     | ⭐⭐⭐⭐ | 高     | 2-3 小時 |
+| 2   | Auto-Fix Bot        | 分析工具 | ⭐⭐⭐   | 中     | 1-2 小時 |
+| 3   | MCP Servers CD      | 容器部署 | ⭐⭐     | 中     | 1 小時   |
 
 **總預計時間**: 4-6 小時
 
@@ -23,15 +24,16 @@
 1. **漸進式整合** - 逐個 workflow 升級，避免一次性大規模變更
 2. **保持功能完整** - 所有原有部署功能必須完整保留
 3. **專注失敗診斷** - 僅在失敗時提供智能診斷，成功時靜默處理
-4. **最小權限原則** - 僅添加必要的 `pull-requests: write` 和 `issues: write` 權限
+4. **最小權限原則** - 僅添加必要的 `pull-requests: write` 和 `issues: write`
+   權限
 
 ### 條件執行策略
 
-| Workflow | 互動式反饋觸發條件 | 原因 |
-|----------|------------------|------|
-| Deploy Contracts L1 | PR only | 避免 push/部署時過多評論 |
-| Auto-Fix Bot | PR only | 分析工具僅在 PR 時需要反饋 |
-| MCP Servers CD | PR only | 部署流程在 push 時通過日誌查看 |
+| Workflow            | 互動式反饋觸發條件 | 原因                           |
+| ------------------- | ------------------ | ------------------------------ |
+| Deploy Contracts L1 | PR only            | 避免 push/部署時過多評論       |
+| Auto-Fix Bot        | PR only            | 分析工具僅在 PR 時需要反饋     |
+| MCP Servers CD      | PR only            | 部署流程在 push 時通過日誌查看 |
 
 ---
 
@@ -75,8 +77,8 @@ permissions:
   contents: read
   packages: write
   id-token: write
-  pull-requests: write  # 新增：發布互動式評論
-  issues: write         # 新增：標籤管理
+  pull-requests: write # 新增：發布互動式評論
+  issues: write # 新增：標籤管理
 ```
 
 #### 階段 2：設計狀態計算邏輯
@@ -84,18 +86,19 @@ permissions:
 **關鍵考慮**：
 
 - 部署 jobs (`deploy-staging`, `deploy-production`) 僅在特定條件下執行
-- 需要檢查所有「必須執行」的 jobs：`build-and-test`, `generate-sbom`, `build-docker`, `security-scan`
+- 需要檢查所有「必須執行」的 jobs：`build-and-test`, `generate-sbom`,
+  `build-docker`, `security-scan`
 - 部署 jobs 可能被跳過（不影響整體狀態）
 
 **狀態計算**：
 
 ```yaml
-ci-status: ${{ 
-  (needs.build-and-test.result == 'success' && 
-   needs.generate-sbom.result == 'success' && 
-   needs.build-docker.result == 'success' && 
-   needs.security-scan.result == 'success') 
-  && 'success' || 'failure' 
+ci-status: ${{
+  (needs.build-and-test.result == 'success' &&
+   needs.generate-sbom.result == 'success' &&
+   needs.build-docker.result == 'success' &&
+   needs.security-scan.result == 'success')
+  && 'success' || 'failure'
 }}
 ```
 
@@ -111,12 +114,12 @@ interactive-service:
   uses: ./.github/workflows/interactive-ci-service.yml
   with:
     ci-name: "Deploy Contracts L1"
-    ci-status: ${{ 
-      (needs.build-and-test.result == 'success' && 
-       needs.generate-sbom.result == 'success' && 
-       needs.build-docker.result == 'success' && 
-       needs.security-scan.result == 'success') 
-      && 'success' || 'failure' 
+    ci-status: ${{
+      (needs.build-and-test.result == 'success' &&
+       needs.generate-sbom.result == 'success' &&
+       needs.build-docker.result == 'success' &&
+       needs.security-scan.result == 'success')
+      && 'success' || 'failure'
     }}
     ci-context: |
       {
@@ -126,12 +129,12 @@ interactive-service:
         "security_result": "${{ needs.security-scan.result }}",
         "event_type": "${{ github.event_name }}"
       }
-    error-logs: ${{ 
-      (needs.build-and-test.result == 'failure' || 
-       needs.generate-sbom.result == 'failure' || 
-       needs.build-docker.result == 'failure' || 
-       needs.security-scan.result == 'failure') 
-      && 'Contracts L1 部署流程失敗，請查看各階段詳細日誌' || '' 
+    error-logs: ${{
+      (needs.build-and-test.result == 'failure' ||
+       needs.generate-sbom.result == 'failure' ||
+       needs.build-docker.result == 'failure' ||
+       needs.security-scan.result == 'failure')
+      && 'Contracts L1 部署流程失敗，請查看各階段詳細日誌' || ''
     }}
   permissions:
     contents: read
@@ -157,11 +160,11 @@ interactive-service:
 
 ### 風險評估
 
-| 風險 | 等級 | 緩解措施 |
-|------|------|---------|
-| 部署流程中斷 | 低 | 互動式服務在最後執行，不阻塞部署 |
-| 權限過度 | 低 | 僅添加必要的 PR 和 Issues 權限 |
-| 評論過多 | 低 | 僅在 PR 事件觸發 |
+| 風險         | 等級 | 緩解措施                         |
+| ------------ | ---- | -------------------------------- |
+| 部署流程中斷 | 低   | 互動式服務在最後執行，不阻塞部署 |
+| 權限過度     | 低   | 僅添加必要的 PR 和 Issues 權限   |
+| 評論過多     | 低   | 僅在 PR 事件觸發                 |
 
 ---
 
@@ -199,8 +202,8 @@ analyze-and-fix (分析與修復)
 ```yaml
 permissions:
   contents: read
-  pull-requests: write  # 現有 + 互動式評論
-  issues: write         # 新增：標籤管理
+  pull-requests: write # 現有 + 互動式評論
+  issues: write # 新增：標籤管理
 ```
 
 #### 階段 2：設計狀態計算邏輯
@@ -208,11 +211,11 @@ permissions:
 **簡單邏輯** - 所有 3 個 jobs 都必須成功：
 
 ```yaml
-ci-status: ${{ 
-  (needs.analyze-and-fix.result == 'success' && 
-   needs.cloud-delegation.result == 'success' && 
-   needs.efficiency-report.result == 'success') 
-  && 'success' || 'failure' 
+ci-status: ${{
+  (needs.analyze-and-fix.result == 'success' &&
+   needs.cloud-delegation.result == 'success' &&
+   needs.efficiency-report.result == 'success')
+  && 'success' || 'failure'
 }}
 ```
 
@@ -228,11 +231,11 @@ interactive-service:
   uses: ./.github/workflows/interactive-ci-service.yml
   with:
     ci-name: "Auto-Fix Bot"
-    ci-status: ${{ 
-      (needs.analyze-and-fix.result == 'success' && 
-       needs.cloud-delegation.result == 'success' && 
-       needs.efficiency-report.result == 'success') 
-      && 'success' || 'failure' 
+    ci-status: ${{
+      (needs.analyze-and-fix.result == 'success' &&
+       needs.cloud-delegation.result == 'success' &&
+       needs.efficiency-report.result == 'success')
+      && 'success' || 'failure'
     }}
     ci-context: |
       {
@@ -240,11 +243,11 @@ interactive-service:
         "delegation_result": "${{ needs.cloud-delegation.result }}",
         "report_result": "${{ needs.efficiency-report.result }}"
       }
-    error-logs: ${{ 
-      (needs.analyze-and-fix.result == 'failure' || 
-       needs.cloud-delegation.result == 'failure' || 
-       needs.efficiency-report.result == 'failure') 
-      && 'Auto-Fix Bot 執行失敗，請查看詳細日誌' || '' 
+    error-logs: ${{
+      (needs.analyze-and-fix.result == 'failure' ||
+       needs.cloud-delegation.result == 'failure' ||
+       needs.efficiency-report.result == 'failure')
+      && 'Auto-Fix Bot 執行失敗，請查看詳細日誌' || ''
     }}
   permissions:
     contents: read
@@ -268,10 +271,10 @@ interactive-service:
 
 ### 風險評估
 
-| 風險 | 等級 | 緩解措施 |
-|------|------|---------|
-| 分析中斷 | 低 | 互動式服務在最後執行 |
-| 演示輸出混亂 | 低 | 清晰的 job 分離 |
+| 風險         | 等級 | 緩解措施             |
+| ------------ | ---- | -------------------- |
+| 分析中斷     | 低   | 互動式服務在最後執行 |
+| 演示輸出混亂 | 低   | 清晰的 job 分離      |
 
 ---
 
@@ -305,7 +308,8 @@ cd (調用 project-cd.yml)
 
 #### 挑戰
 
-⚠️ **特殊情況**：此 workflow 使用可重用 workflow (`uses: ./.github/workflows/project-cd.yml`)
+⚠️ **特殊情況**：此 workflow 使用可重用 workflow
+(`uses: ./.github/workflows/project-cd.yml`)
 
 **兩種升級方案**：
 
@@ -330,7 +334,7 @@ jobs:
       # ... 現有參數 ...
     secrets:
       # ... 現有 secrets ...
-  
+
   # ==================== 互動式客服整合 ====================
   # Note: 僅在 PR 時提供互動式反饋
   interactive-service:
@@ -339,14 +343,16 @@ jobs:
     if: always() && github.event_name == 'pull_request'
     uses: ./.github/workflows/interactive-ci-service.yml
     with:
-      ci-name: "MCP Servers CD"
+      ci-name: 'MCP Servers CD'
       ci-status: ${{ needs.cd.result }}
       ci-context: |
         {
           "cd_result": "${{ needs.cd.result }}",
           "environment": "${{ inputs.environment || 'dev' }}"
         }
-      error-logs: ${{ needs.cd.result == 'failure' && 'MCP Servers CD 失敗，請查看詳細日誌' || '' }}
+      error-logs:
+        ${{ needs.cd.result == 'failure' && 'MCP Servers CD
+        失敗，請查看詳細日誌' || '' }}
     permissions:
       contents: read
       pull-requests: write
@@ -393,7 +399,7 @@ jobs:
      push:
        branches: [main, develop]
        paths: ['mcp-servers/**', ...]
-     pull_request:  # 新增
+     pull_request: # 新增
        paths: ['mcp-servers/**', ...]
      workflow_dispatch:
        # ... 現有配置 ...
@@ -411,11 +417,11 @@ jobs:
 
 ### 風險評估
 
-| 風險 | 等級 | 緩解措施 |
-|------|------|---------|
-| 影響其他 workflows | 低 | 使用方案 A，不修改 `project-cd.yml` |
-| PR 觸發新增 | 低 | 標準操作，風險可控 |
-| 狀態信息有限 | 中 | 接受限制，保持簡單性 |
+| 風險               | 等級 | 緩解措施                            |
+| ------------------ | ---- | ----------------------------------- |
+| 影響其他 workflows | 低   | 使用方案 A，不修改 `project-cd.yml` |
+| PR 觸發新增        | 低   | 標準操作，風險可控                  |
+| 狀態信息有限       | 中   | 接受限制，保持簡單性                |
 
 ---
 
@@ -440,14 +446,14 @@ jobs:
 
 ### 時間線
 
-| 階段 | 時間 | 任務 | 驗證 |
-|------|------|------|------|
-| 準備 | 30 min | 文檔審查、環境準備 | ✓ 理解所有 workflows |
-| 第一批 | 1-2 h | Auto-Fix Bot 升級 | PR 測試、失敗測試 |
-| 第二批 | 1 h | MCP Servers CD 升級 | PR 觸發測試 |
-| 第三批 | 2-3 h | Deploy Contracts L1 升級 | 完整部署流程測試 |
-| 文檔 | 30 min | 更新文檔、總結 | 文檔審查 |
-| **總計** | **5-7 h** | | |
+| 階段     | 時間      | 任務                     | 驗證                 |
+| -------- | --------- | ------------------------ | -------------------- |
+| 準備     | 30 min    | 文檔審查、環境準備       | ✓ 理解所有 workflows |
+| 第一批   | 1-2 h     | Auto-Fix Bot 升級        | PR 測試、失敗測試    |
+| 第二批   | 1 h       | MCP Servers CD 升級      | PR 觸發測試          |
+| 第三批   | 2-3 h     | Deploy Contracts L1 升級 | 完整部署流程測試     |
+| 文檔     | 30 min    | 更新文檔、總結           | 文檔審查             |
+| **總計** | **5-7 h** |                          |                      |
 
 ### 檢查清單
 
@@ -479,28 +485,28 @@ jobs:
 
 ### Deploy Contracts L1
 
-| 失敗類型 | 可能原因 | 修復建議 |
-|---------|---------|---------|
-| Build 失敗 | TypeScript 錯誤 | 檢查編譯錯誤、依賴版本 |
-| Docker 失敗 | 鏡像建置問題 | 檢查 Dockerfile、基礎鏡像 |
-| Security 失敗 | 漏洞檢測 | 更新依賴、查看 Trivy 報告 |
-| Deploy 失敗 | 環境配置 | 檢查 secrets、k8s 配置 |
+| 失敗類型      | 可能原因        | 修復建議                  |
+| ------------- | --------------- | ------------------------- |
+| Build 失敗    | TypeScript 錯誤 | 檢查編譯錯誤、依賴版本    |
+| Docker 失敗   | 鏡像建置問題    | 檢查 Dockerfile、基礎鏡像 |
+| Security 失敗 | 漏洞檢測        | 更新依賴、查看 Trivy 報告 |
+| Deploy 失敗   | 環境配置        | 檢查 secrets、k8s 配置    |
 
 ### Auto-Fix Bot
 
-| 失敗類型 | 可能原因 | 修復建議 |
-|---------|---------|---------|
-| 分析失敗 | 代碼掃描問題 | 檢查文件權限、依賴 |
-| 委派失敗 | 雲端連接問題 | 檢查網路、憑證 |
+| 失敗類型 | 可能原因     | 修復建議             |
+| -------- | ------------ | -------------------- |
+| 分析失敗 | 代碼掃描問題 | 檢查文件權限、依賴   |
+| 委派失敗 | 雲端連接問題 | 檢查網路、憑證       |
 | 報告失敗 | 數據收集問題 | 查看日誌、格式化邏輯 |
 
 ### MCP Servers CD
 
-| 失敗類型 | 可能原因 | 修復建議 |
-|---------|---------|---------|
-| CD 失敗 | 容器建置問題 | 查看 project-cd.yml 日誌 |
-| Cosign 失敗 | 簽名配置 | 檢查 COSIGN_PRIVATE_KEY |
-| SBOM 失敗 | 依賴掃描 | 檢查依賴結構 |
+| 失敗類型    | 可能原因     | 修復建議                 |
+| ----------- | ------------ | ------------------------ |
+| CD 失敗     | 容器建置問題 | 查看 project-cd.yml 日誌 |
+| Cosign 失敗 | 簽名配置     | 檢查 COSIGN_PRIVATE_KEY  |
+| SBOM 失敗   | 依賴掃描     | 檢查依賴結構             |
 
 ---
 
@@ -572,12 +578,12 @@ jobs:
 
 ### 預期結果
 
-| 指標 | 當前 | 升級後 | 變化 |
-|------|------|--------|------|
-| 升級 CI 總數 | 7 個 | 10 個 | +43% |
-| 部署 CI 覆蓋率 | 0% | 100% | +100% |
-| 互動式診斷覆蓋 | 70% | 100% | +30% |
-| 資源效率 | 基準 | -50% 評論 | 優化 |
+| 指標           | 當前 | 升級後    | 變化  |
+| -------------- | ---- | --------- | ----- |
+| 升級 CI 總數   | 7 個 | 10 個     | +43%  |
+| 部署 CI 覆蓋率 | 0%   | 100%      | +100% |
+| 互動式診斷覆蓋 | 70%  | 100%      | +30%  |
+| 資源效率       | 基準 | -50% 評論 | 優化  |
 
 ### 覆蓋範圍
 
@@ -591,10 +597,8 @@ jobs:
 6. ✅ Security Compliance Report
 7. ✅ Phase 1 Integration
 
-**計劃升級（3 個）**：
-8. 🔄 Deploy Contracts L1
-9. 🔄 Auto-Fix Bot
-10. 🔄 MCP Servers CD
+**計劃升級（3 個）**：8. 🔄 Deploy Contracts L1 9. 🔄 Auto-Fix Bot 10. 🔄 MCP
+Servers CD
 
 **完成後**：
 

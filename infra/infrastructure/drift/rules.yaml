@@ -13,7 +13,7 @@ driftDetection:
     - api_contracts
     - image_signatures
     - policy_files
-  
+
   # 差異類型與嚴重度
   rules:
     # 資源配置差異
@@ -41,7 +41,7 @@ driftDetection:
         auto_fix: false
         action: create_pr
         notification: true
-    
+
     # API 契約差異
     - id: api-contract-drift
       name: API 契約語意變更
@@ -69,7 +69,7 @@ driftDetection:
         auto_fix: false
         action: notify_owner
         require_approval: true
-    
+
     # 映像行為差異
     - id: image-behavior-drift
       name: 映像行為變更
@@ -94,7 +94,7 @@ driftDetection:
         auto_fix: false
         action: security_review
         notification: true
-    
+
     # 策略檔案差異
     - id: policy-file-drift
       name: 策略檔案變更
@@ -118,7 +118,7 @@ driftDetection:
         auto_fix: false
         action: policy_review
         require_approval: true
-    
+
     # 標籤差異
     - id: label-drift
       name: 資源標籤差異
@@ -143,7 +143,7 @@ driftDetection:
         auto_fix: true
         action: apply_labels
         notification: false
-    
+
     # 安全上下文差異
     - id: security-context-drift
       name: 安全上下文變更
@@ -168,7 +168,7 @@ driftDetection:
         auto_fix: false
         action: security_review
         notification: true
-  
+
   # 通知設定
   notifications:
     enabled: true
@@ -180,16 +180,16 @@ driftDetection:
             severity_filter: ["critical", "high"]
           - name: "#drift-monitoring"
             severity_filter: ["medium", "low"]
-      
+
       - type: email
         recipients:
           - platform-team@example.com
         severity_filter: ["critical"]
-      
+
       - type: pagerduty
         integration_key_secret: pagerduty-key
         severity_filter: ["critical"]
-  
+
   # 報告設定
   reporting:
     enabled: true
@@ -198,25 +198,25 @@ driftDetection:
     storage:
       type: artifact
       path: drift-reports/
-    
+
     summary:
       enabled: true
       interval: daily
       recipients:
         - platform-team@example.com
-  
+
   # 自動修復設定
   auto_remediation:
     enabled: true
     dry_run: false
     allowed_fixes:
       - label-drift
-    
+
     approval_required:
       - resource-config-drift
       - policy-file-drift
       - security-context-drift
-    
+
     max_auto_fixes_per_hour: 10
 
 # ==============================================================================

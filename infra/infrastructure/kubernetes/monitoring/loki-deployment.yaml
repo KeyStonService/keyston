@@ -14,21 +14,21 @@ spec:
         app: loki
     spec:
       containers:
-      - name: loki
-        image: grafana/loki:latest
-        ports:
-        - containerPort: 3100
-        volumeMounts:
-        - name: storage
-          mountPath: /loki
-        resources:
-          requests:
-            cpu: 1
-            memory: 2Gi
-          limits:
-            cpu: 2
-            memory: 4Gi
+        - name: loki
+          image: grafana/loki:latest
+          ports:
+            - containerPort: 3100
+          volumeMounts:
+            - name: storage
+              mountPath: /loki
+          resources:
+            requests:
+              cpu: 1
+              memory: 2Gi
+            limits:
+              cpu: 2
+              memory: 4Gi
       volumes:
-      - name: storage
-        persistentVolumeClaim:
-          claimName: loki-pvc
+        - name: storage
+          persistentVolumeClaim:
+            claimName: loki-pvc

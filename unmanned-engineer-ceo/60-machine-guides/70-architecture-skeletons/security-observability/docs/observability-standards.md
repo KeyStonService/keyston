@@ -49,12 +49,12 @@ metrics:
   - name: request_rate
     type: counter
     labels: [service, endpoint, method]
-  
+
   - name: request_duration_seconds
     type: histogram
     buckets: [0.01, 0.05, 0.1, 0.5, 1, 5]
     labels: [service, endpoint, method]
-  
+
   - name: request_errors_total
     type: counter
     labels: [service, endpoint, method, error_type]
@@ -67,11 +67,11 @@ metrics:
   - name: cpu_usage_percent
     type: gauge
     labels: [service, instance]
-  
+
   - name: memory_usage_bytes
     type: gauge
     labels: [service, instance]
-  
+
   - name: disk_io_operations_total
     type: counter
     labels: [service, instance, operation]
@@ -84,7 +84,7 @@ metrics:
   - name: orders_total
     type: counter
     labels: [service, status]
-  
+
   - name: revenue_total
     type: counter
     labels: [service, currency]
@@ -121,12 +121,12 @@ attributes:
 
 ```yaml
 sampling:
-  default_rate: 0.1  # 10% 取樣
-  
+  default_rate: 0.1 # 10% 取樣
+
   rules:
     - condition: http.status_code >= 500
-      rate: 1.0  # 錯誤全部追蹤
-    
+      rate: 1.0 # 錯誤全部追蹤
+
     - condition: http.url.path == "/health"
-      rate: 0.01  # 健康檢查低取樣
+      rate: 0.01 # 健康檢查低取樣
 ```

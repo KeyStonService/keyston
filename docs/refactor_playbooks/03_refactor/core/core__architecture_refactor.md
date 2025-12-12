@@ -7,8 +7,10 @@
   - `core/safety_mechanisms/`
   - `core/slsa_provenance/`
   - Root level: `core/*.py` (AI engines, detectors)
-- **對應集成劇本**: `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
-- **對應解構劇本**: `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
+- **對應集成劇本**:
+  `docs/refactor_playbooks/02_integration/core/core__architecture_integration.md`
+- **對應解構劇本**:
+  `docs/refactor_playbooks/01_deconstruction/core/core__architecture_deconstruction.md`
 - **Legacy Assets**:
   - `core-toplevel-engines-v2.5`
   - `advisory-db-javascript-legacy`
@@ -55,10 +57,10 @@
 
 根據 `apps/web/public/data/hotspot.json` 的實際掃描結果：
 
-| 檔案 | Score | 嚴重性 | 問題描述 |
-|------|-------|--------|----------|
-| `core/legacy_module/old_api.php` | 95 | CRITICAL | 禁用語言 PHP + 高複雜度 |
-| `core/mind_matrix/brain.js` | 75 | MEDIUM | 應使用 TypeScript 而非 JavaScript |
+| 檔案                             | Score | 嚴重性   | 問題描述                          |
+| -------------------------------- | ----- | -------- | --------------------------------- |
+| `core/legacy_module/old_api.php` | 95    | CRITICAL | 禁用語言 PHP + 高複雜度           |
+| `core/mind_matrix/brain.js`      | 75    | MEDIUM   | 應使用 TypeScript 而非 JavaScript |
 
 主要問題類型：
 
@@ -73,7 +75,7 @@
 1. **`core/legacy_module/old_api.php`** (score: 95, CRITICAL)
    - 問題：Forbidden language + high complexity
    - 影響：阻塞 CI，違反語言治理政策
-   - 建議：立即刪除或移至 _legacy_scratch/
+   - 建議：立即刪除或移至 \_legacy_scratch/
 
 2. **`core/mind_matrix/brain.js`** (score: 75, MEDIUM)
    - 問題：Should use TypeScript instead of JavaScript
@@ -176,8 +178,8 @@ core/
     - **備份**：如需保留參考，移動至 `docs/refactor_playbooks/_legacy_scratch/`
     - **影響評估**：檢查是否有其他檔案 import 此模組
     - **預估時間**：2 小時（含影響評估）
-  
-  - ✅ **行動 2**：`core/mind_matrix/brain.js` (score: 75, MEDIUM → P0 因為影響範圍大)
+  - ✅ **行動 2**：`core/mind_matrix/brain.js` (score: 75, MEDIUM →
+    P0 因為影響範圍大)
     - **操作**：改寫為 TypeScript (`brain.ts`)
     - **步驟**：
       1. 複製 `brain.js` → `brain.ts`
@@ -278,22 +280,22 @@ core/
 
 ### 語言治理指標
 
-| 指標 | 當前值 | 目標值 | 驗證方式 |
-|------|--------|--------|----------|
-| 語言違規數 | **2** (1 CRITICAL + 1 MEDIUM) | <= 2 | `npm run governance:check` |
-| PHP 檔案數 | **1** (`core/legacy_module/old_api.php`) | **0** | `find core/ -name "*.php" \| wc -l` |
-| JavaScript 檔案數 | **1** (`core/mind_matrix/brain.js`) | **0** | `find core/ -name "*.js" \| wc -l` |
-| Python 型別覆蓋率 | 待測量 | > 85% | `mypy --html-report core/` |
-| Hotspot Score | **Max: 95** (core/legacy_module/old_api.php) | < 80 | Review hotspot.json |
+| 指標              | 當前值                                       | 目標值 | 驗證方式                            |
+| ----------------- | -------------------------------------------- | ------ | ----------------------------------- |
+| 語言違規數        | **2** (1 CRITICAL + 1 MEDIUM)                | <= 2   | `npm run governance:check`          |
+| PHP 檔案數        | **1** (`core/legacy_module/old_api.php`)     | **0**  | `find core/ -name "*.php" \| wc -l` |
+| JavaScript 檔案數 | **1** (`core/mind_matrix/brain.js`)          | **0**  | `find core/ -name "*.js" \| wc -l`  |
+| Python 型別覆蓋率 | 待測量                                       | > 85%  | `mypy --html-report core/`          |
+| Hotspot Score     | **Max: 95** (core/legacy_module/old_api.php) | < 80   | Review hotspot.json                 |
 
 ### 安全指標
 
-| 嚴重性 | 當前數量 | 目標數量 | 驗證方式 |
-|--------|----------|----------|----------|
-| CRITICAL | **0** ✅ | 0 | Semgrep 掃描 |
-| HIGH | **0** ✅ | 0 | Semgrep 掃描 |
-| MEDIUM | **0** ✅ | <= 3 | Semgrep 掃描 |
-| LOW | **0** ✅ | <= 10 | Semgrep 掃描 |
+| 嚴重性   | 當前數量 | 目標數量 | 驗證方式     |
+| -------- | -------- | -------- | ------------ |
+| CRITICAL | **0** ✅ | 0        | Semgrep 掃描 |
+| HIGH     | **0** ✅ | 0        | Semgrep 掃描 |
+| MEDIUM   | **0** ✅ | <= 3     | Semgrep 掃描 |
+| LOW      | **0** ✅ | <= 10    | Semgrep 掃描 |
 
 ### 架構指標
 
@@ -380,22 +382,22 @@ core/
 
 本 cluster 依賴以下基礎設施：
 
-| 服務 | 介面類型 | 用途 |
-|------|----------|------|
-| `governance/schemas` | JSON Schema | 型別定義與驗證 |
-| `shared/utils` | Python/TypeScript Module | 共用工具函式 |
-| External: Sigstore | HTTP API | 簽名與驗證 |
+| 服務                 | 介面類型                 | 用途           |
+| -------------------- | ------------------------ | -------------- |
+| `governance/schemas` | JSON Schema              | 型別定義與驗證 |
+| `shared/utils`       | Python/TypeScript Module | 共用工具函式   |
+| External: Sigstore   | HTTP API                 | 簽名與驗證     |
 
 ### 下游使用者
 
 本 cluster 被以下服務使用：
 
-| 服務 | 介面類型 | 使用方式 |
-|------|----------|----------|
-| `services/agents` | Python Import | 呼叫 AI 引擎與認知處理 |
-| `services/mcp` | gRPC/REST | 透過 Contract Service 互動 |
-| `apps/web` | REST API | 前端呼叫分析與決策功能 |
-| `automation/*` | Direct Import | 自動化系統使用核心能力 |
+| 服務              | 介面類型      | 使用方式                   |
+| ----------------- | ------------- | -------------------------- |
+| `services/agents` | Python Import | 呼叫 AI 引擎與認知處理     |
+| `services/mcp`    | gRPC/REST     | 透過 Contract Service 互動 |
+| `apps/web`        | REST API      | 前端呼叫分析與決策功能     |
+| `automation/*`    | Direct Import | 自動化系統使用核心能力     |
 
 ### 集成步驟摘要
 
@@ -449,7 +451,8 @@ core/
 
 ### 9.1 工作流程概述
 
-根據 `docs/refactor_playbooks/03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md`，本重構採用雙角色 AI 驗證流程：
+根據
+`docs/refactor_playbooks/03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md`，本重構採用雙角色 AI 驗證流程：
 
 ```text
 Proposer (建議者) → 產生重構方案
@@ -496,31 +499,31 @@ Human Review → Merge
 
 ```yaml
 proposer_output:
-  phase: "Phase A - 基礎建設"
+  phase: 'Phase A - 基礎建設'
   tasks:
-    - task_id: "A1"
-      action: "建立目錄結構"
+    - task_id: 'A1'
+      action: '建立目錄結構'
       commands:
-        - "mkdir -p core/{interfaces,ai_engines,governance,quality_assurance}"
-        - "mkdir -p core/unified_integration/{configuration,orchestration}"
-      rationale: "建立新架構骨架，為後續遷移做準備"
-      
-    - task_id: "A2"
-      action: "建立介面定義"
+        - 'mkdir -p core/{interfaces,ai_engines,governance,quality_assurance}'
+        - 'mkdir -p core/unified_integration/{configuration,orchestration}'
+      rationale: '建立新架構骨架，為後續遷移做準備'
+
+    - task_id: 'A2'
+      action: '建立介面定義'
       files:
-        - path: "core/interfaces/service_interface.py"
+        - path: 'core/interfaces/service_interface.py'
           content: |
             # 見 Integration Section 4.2
             from abc import ABC, abstractmethod
             ...
-      rationale: "定義契約層，打破循環依賴"
-      
-    - task_id: "A3"
-      action: "建立 README 文檔"
+      rationale: '定義契約層，打破循環依賴'
+
+    - task_id: 'A3'
+      action: '建立 README 文檔'
       files:
-        - path: "core/ai_engines/README.md"
-          content: "AI Engines 模組說明..."
-      rationale: "文檔先行，幫助團隊理解新結構"
+        - path: 'core/ai_engines/README.md'
+          content: 'AI Engines 模組說明...'
+      rationale: '文檔先行，幫助團隊理解新結構'
 ```
 
 ### 9.3 Critic 角色實施
@@ -541,92 +544,92 @@ proposer_output:
 ```yaml
 critic_checklist:
   architecture_constraints:
-    - question: "依賴方向是否正確？"
-      check: "core/* 是否依賴 apps/** 或 services/**"
-      expected: "❌ MUST NOT"
-      status: "✅ PASS"
+    - question: '依賴方向是否正確？'
+      check: 'core/* 是否依賴 apps/** 或 services/**'
+      expected: '❌ MUST NOT'
+      status: '✅ PASS'
       evidence: "grep -r 'from apps\\.' core/ 返回空"
-      
-    - question: "是否違反模組邊界？"
-      check: "是否跨 domain 直接 import？"
-      expected: "透過 interfaces/ 或公開 API"
-      status: "✅ PASS"
-      evidence: "所有跨模組依賴都透過 core/interfaces/"
-      
-    - question: "是否引入新的循環依賴？"
-      check: "tools/dependency-graph.py --check-cycles"
-      expected: "0 cycles"
-      status: "✅ PASS"
-      evidence: "執行結果：No cycles detected"
+
+    - question: '是否違反模組邊界？'
+      check: '是否跨 domain 直接 import？'
+      expected: '透過 interfaces/ 或公開 API'
+      status: '✅ PASS'
+      evidence: '所有跨模組依賴都透過 core/interfaces/'
+
+    - question: '是否引入新的循環依賴？'
+      check: 'tools/dependency-graph.py --check-cycles'
+      expected: '0 cycles'
+      status: '✅ PASS'
+      evidence: '執行結果：No cycles detected'
 ```
 
 #### 2. 語言策略檢查
 
 ```yaml
 language_strategy:
-  - question: "是否使用 preferred languages？"
-    check: "新檔案是否為 Python/TypeScript"
-    expected: "100%"
-    status: "✅ PASS"
-    evidence: "所有新檔案均為 .py 或 .ts"
-    
-  - question: "是否引入 banned languages？"
-    check: "是否有 PHP/Perl/Ruby 檔案"
-    expected: "0 檔案"
-    status: "✅ PASS"
+  - question: '是否使用 preferred languages？'
+    check: '新檔案是否為 Python/TypeScript'
+    expected: '100%'
+    status: '✅ PASS'
+    evidence: '所有新檔案均為 .py 或 .ts'
+
+  - question: '是否引入 banned languages？'
+    check: '是否有 PHP/Perl/Ruby 檔案'
+    expected: '0 檔案'
+    status: '✅ PASS'
     evidence: "find core/ -name '*.php' -o -name '*.pl' -o -name '*.rb' 返回空"
-    
-  - question: "語言混用是否減少？"
-    check: "JavaScript 檔案數量"
+
+  - question: '語言混用是否減少？'
+    check: 'JavaScript 檔案數量'
     baseline: 7
     target: 0
-    status: "🟡 IN_PROGRESS"
-    evidence: "Phase E 將遷移所有 .js → .ts"
+    status: '🟡 IN_PROGRESS'
+    evidence: 'Phase E 將遷移所有 .js → .ts'
 ```
 
 #### 3. 品質指標檢查
 
 ```yaml
 quality_metrics:
-  - metric: "複雜度是否降低？"
+  - metric: '複雜度是否降低？'
     baseline: 8.5
-    target: "≤ 8.0"
-    status: "🟡 IN_PROGRESS"
-    evidence: "cognitive_processor.py 複雜度 18 → 需重構至 ≤ 15"
-    
-  - metric: "測試覆蓋率是否維持/提升？"
+    target: '≤ 8.0'
+    status: '🟡 IN_PROGRESS'
+    evidence: 'cognitive_processor.py 複雜度 18 → 需重構至 ≤ 15'
+
+  - metric: '測試覆蓋率是否維持/提升？'
     baseline: 55%
-    target: "≥ 80%"
-    status: "🟡 IN_PROGRESS"
-    evidence: "Phase C-D 將補充測試，目標達 80%"
-    
-  - metric: "是否引入新的安全問題？"
-    check: "semgrep --config auto core/"
-    expected: "HIGH=0"
-    status: "✅ PASS"
-    evidence: "Semgrep 掃描：0 HIGH, 0 MEDIUM, 0 LOW"
+    target: '≥ 80%'
+    status: '🟡 IN_PROGRESS'
+    evidence: 'Phase C-D 將補充測試，目標達 80%'
+
+  - metric: '是否引入新的安全問題？'
+    check: 'semgrep --config auto core/'
+    expected: 'HIGH=0'
+    status: '✅ PASS'
+    evidence: 'Semgrep 掃描：0 HIGH, 0 MEDIUM, 0 LOW'
 ```
 
 #### 4. 可維護性檢查
 
 ```yaml
 maintainability:
-  - question: "命名是否清晰？"
-    check: "目錄與檔案命名符合慣例"
-    expected: "snake_case for Python, lowercase for dirs"
-    status: "✅ PASS"
-    
-  - question: "是否符合專案風格？"
-    check: "black --check core/ && mypy core/"
-    expected: "0 violations"
-    status: "🟡 IN_PROGRESS"
-    evidence: "mypy 檢查尚未全部通過（型別註解補充中）"
-    
-  - question: "是否有充分文檔？"
-    check: "每個新模組/類別有 docstring"
-    expected: "100% coverage"
-    status: "✅ PASS"
-    evidence: "所有公開 API 均有 docstring"
+  - question: '命名是否清晰？'
+    check: '目錄與檔案命名符合慣例'
+    expected: 'snake_case for Python, lowercase for dirs'
+    status: '✅ PASS'
+
+  - question: '是否符合專案風格？'
+    check: 'black --check core/ && mypy core/'
+    expected: '0 violations'
+    status: '🟡 IN_PROGRESS'
+    evidence: 'mypy 檢查尚未全部通過（型別註解補充中）'
+
+  - question: '是否有充分文檔？'
+    check: '每個新模組/類別有 docstring'
+    expected: '100% coverage'
+    status: '✅ PASS'
+    evidence: '所有公開 API 均有 docstring'
 ```
 
 ### 9.4 Proposer/Critic 循環範例
@@ -635,64 +638,65 @@ maintainability:
 
 ```yaml
 proposer_iteration_1:
-  proposal: "移動 ai_decision_engine.py 到 ai_engines/decision/"
+  proposal: '移動 ai_decision_engine.py 到 ai_engines/decision/'
   patch: |
     git mv core/ai_decision_engine.py core/ai_engines/decision/engine.py
 
 critic_feedback:
-  status: "❌ REJECT"
+  status: '❌ REJECT'
   issues:
-    - issue_id: "C1"
-      severity: "HIGH"
-      description: "未建立 shim layer，會破壞下游服務"
+    - issue_id: 'C1'
+      severity: 'HIGH'
+      description: '未建立 shim layer，會破壞下游服務'
       evidence: "grep -r 'from core.ai_decision_engine' services/agents/"
-      required_fix: "在舊位置建立 shim 並發出 deprecation warning"
-    
-    - issue_id: "C2"
-      severity: "MEDIUM"
-      description: "缺少單元測試"
-      evidence: "core/ai_engines/decision/tests/ 目錄不存在"
-      required_fix: "移動對應測試或建立新測試"
+      required_fix: '在舊位置建立 shim 並發出 deprecation warning'
+
+    - issue_id: 'C2'
+      severity: 'MEDIUM'
+      description: '缺少單元測試'
+      evidence: 'core/ai_engines/decision/tests/ 目錄不存在'
+      required_fix: '移動對應測試或建立新測試'
 ```
 
 **Iteration 2**: Proposer 修正 → Critic 通過
 
 ```yaml
 proposer_iteration_2:
-  proposal: "移動 ai_decision_engine.py + 建立 shim + 測試"
+  proposal: '移動 ai_decision_engine.py + 建立 shim + 測試'
   patches:
-    - action: "move_with_tests"
+    - action: 'move_with_tests'
       commands:
-        - "git mv core/ai_decision_engine.py core/ai_engines/decision/engine.py"
-        - "git mv tests/core/test_ai_decision_engine.py tests/core/ai_engines/decision/test_engine.py"
-    
-    - action: "create_shim"
-      file: "core/ai_decision_engine.py"
+        - 'git mv core/ai_decision_engine.py core/ai_engines/decision/engine.py'
+        - 'git mv tests/core/test_ai_decision_engine.py
+          tests/core/ai_engines/decision/test_engine.py'
+
+    - action: 'create_shim'
+      file: 'core/ai_decision_engine.py'
       content: |
         import warnings
         from core.ai_engines.decision import DecisionEngine
-        
+
         warnings.warn(
             "core.ai_decision_engine is deprecated. Use core.ai_engines.decision instead.",
             DeprecationWarning, stacklevel=2
         )
         __all__ = ['DecisionEngine']
-    
-    - action: "update_imports"
+
+    - action: 'update_imports'
       affected_files:
-        - "core/unified_integration/cognitive_processor.py"
-      changes: "from core.ai_engines.decision import DecisionEngine"
+        - 'core/unified_integration/cognitive_processor.py'
+      changes: 'from core.ai_engines.decision import DecisionEngine'
 
 critic_feedback:
-  status: "✅ APPROVED"
+  status: '✅ APPROVED'
   validation:
-    - check: "Shim layer exists"
-      result: "✅ PASS"
-    - check: "Tests moved"
-      result: "✅ PASS"
-    - check: "Imports updated"
-      result: "✅ PASS"
-  proceed_to: "CI_VALIDATION"
+    - check: 'Shim layer exists'
+      result: '✅ PASS'
+    - check: 'Tests moved'
+      result: '✅ PASS'
+    - check: 'Imports updated'
+      result: '✅ PASS'
+  proceed_to: 'CI_VALIDATION'
 ```
 
 ### 9.5 自動化工具支援
@@ -734,30 +738,30 @@ tools/critic-check.py \
 
 ### 10.1 Before/After 比對表
 
-| 指標 | 重構前 (v2.5) | 目標值 (v3.0) | 當前進度 | 狀態 |
-|------|---------------|---------------|----------|------|
-| **語言治理** |||||
-| JavaScript 檔案數 | 7 | 0 | 7 (0%) | 🔴 未開始 |
-| Python 型別覆蓋率 | 50% | 85% | 50% (0%) | 🔴 未開始 |
-| 語言違規總數 | 7 | 0 | 7 (0%) | 🔴 未開始 |
-| **安全指標** |||||
-| Semgrep HIGH | 0 | 0 | 0 (100%) | ✅ 達標 |
-| Semgrep MEDIUM | 0 | ≤3 | 0 (100%) | ✅ 達標 |
-| Semgrep LOW | 0 | ≤10 | 0 (100%) | ✅ 達標 |
-| **架構指標** |||||
-| 頂層散落檔案 | 11 | 0 | 11 (0%) | 🔴 未開始 |
-| 循環依賴數 | 1 | 0 | 1 (0%) | 🔴 未開始 |
-| API 邊界明確度 | 30% | 100% | 30% (0%) | 🔴 未開始 |
-| **複雜度指標** |||||
-| 平均 CC | 8.5 | ≤8.0 | 8.5 (0%) | 🔴 未開始 |
-| Max CC (單函式) | 22 | ≤15 | 22 (0%) | 🔴 未開始 |
-| Hotspot 檔案數 (>80) | 3 | 0 | 3 (0%) | 🔴 未開始 |
-| **測試指標** |||||
-| 整體覆蓋率 | 55% | 80% | 55% (0%) | 🔴 未開始 |
-| unified_integration/ | 55% | 80% | 55% (0%) | 🔴 未開始 |
-| safety_mechanisms/ | 70% | 85% | 70% (21%) | 🟡 部分達標 |
-| island_ai_runtime/ | 50% | 75% | 50% (0%) | 🔴 未開始 |
-| 頂層 AI engines | 30% | 70% | 30% (0%) | 🔴 未開始 |
+| 指標                 | 重構前 (v2.5) | 目標值 (v3.0) | 當前進度  | 狀態        |
+| -------------------- | ------------- | ------------- | --------- | ----------- |
+| **語言治理**         |               |               |           |             |
+| JavaScript 檔案數    | 7             | 0             | 7 (0%)    | 🔴 未開始   |
+| Python 型別覆蓋率    | 50%           | 85%           | 50% (0%)  | 🔴 未開始   |
+| 語言違規總數         | 7             | 0             | 7 (0%)    | 🔴 未開始   |
+| **安全指標**         |               |               |           |             |
+| Semgrep HIGH         | 0             | 0             | 0 (100%)  | ✅ 達標     |
+| Semgrep MEDIUM       | 0             | ≤3            | 0 (100%)  | ✅ 達標     |
+| Semgrep LOW          | 0             | ≤10           | 0 (100%)  | ✅ 達標     |
+| **架構指標**         |               |               |           |             |
+| 頂層散落檔案         | 11            | 0             | 11 (0%)   | 🔴 未開始   |
+| 循環依賴數           | 1             | 0             | 1 (0%)    | 🔴 未開始   |
+| API 邊界明確度       | 30%           | 100%          | 30% (0%)  | 🔴 未開始   |
+| **複雜度指標**       |               |               |           |             |
+| 平均 CC              | 8.5           | ≤8.0          | 8.5 (0%)  | 🔴 未開始   |
+| Max CC (單函式)      | 22            | ≤15           | 22 (0%)   | 🔴 未開始   |
+| Hotspot 檔案數 (>80) | 3             | 0             | 3 (0%)    | 🔴 未開始   |
+| **測試指標**         |               |               |           |             |
+| 整體覆蓋率           | 55%           | 80%           | 55% (0%)  | 🔴 未開始   |
+| unified_integration/ | 55%           | 80%           | 55% (0%)  | 🔴 未開始   |
+| safety_mechanisms/   | 70%           | 85%           | 70% (21%) | 🟡 部分達標 |
+| island_ai_runtime/   | 50%           | 75%           | 50% (0%)  | 🔴 未開始   |
+| 頂層 AI engines      | 30%           | 70%           | 30% (0%)  | 🔴 未開始   |
 
 **圖例**:
 
@@ -769,15 +773,15 @@ tools/critic-check.py \
 
 ### 10.2 階段性里程碑
 
-| Phase | 目標 | 預期完成日期 | 關鍵指標 | 狀態 |
-|-------|------|-------------|----------|------|
-| **Phase A** | 基礎建設 | Week 1 | 目錄結構+介面定義完成 | 🔴 未開始 |
-| **Phase B** | 頂層檔案遷移 | Week 2 | 11 個檔案遷移完成 | 🔴 未開始 |
-| **Phase C** | unified_integration 重組 | Week 2 | 子模組化+複雜度降低 | 🔴 未開始 |
-| **Phase D** | Runtime 改進 | Week 3 | 循環依賴打破+測試 ≥75% | 🔴 未開始 |
-| **Phase E** | TypeScript 遷移 | Week 3 | JS檔案=0 | 🔴 未開始 |
-| **Phase F** | 公開 API 定義 | Week 4 | API 文檔+遷移指南 | 🔴 未開始 |
-| **Phase G** | 驗證與監控 | Week 4 | 所有指標達標 | 🔴 未開始 |
+| Phase       | 目標                     | 預期完成日期 | 關鍵指標               | 狀態      |
+| ----------- | ------------------------ | ------------ | ---------------------- | --------- |
+| **Phase A** | 基礎建設                 | Week 1       | 目錄結構+介面定義完成  | 🔴 未開始 |
+| **Phase B** | 頂層檔案遷移             | Week 2       | 11 個檔案遷移完成      | 🔴 未開始 |
+| **Phase C** | unified_integration 重組 | Week 2       | 子模組化+複雜度降低    | 🔴 未開始 |
+| **Phase D** | Runtime 改進             | Week 3       | 循環依賴打破+測試 ≥75% | 🔴 未開始 |
+| **Phase E** | TypeScript 遷移          | Week 3       | JS檔案=0               | 🔴 未開始 |
+| **Phase F** | 公開 API 定義            | Week 4       | API 文檔+遷移指南      | 🔴 未開始 |
+| **Phase G** | 驗證與監控               | Week 4       | 所有指標達標           | 🔴 未開始 |
 
 ### 10.3 實時追蹤儀表板
 
@@ -819,28 +823,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: 測試覆蓋率檢查
         run: |
           pytest core/ --cov=core --cov-report=json
           python tools/check-coverage-target.py --target 80 --current coverage.json
-      
+
       - name: 複雜度檢查
         run: |
           radon cc core/ -a -nb --json > complexity.json
           python tools/check-complexity-target.py --target 8.0 --current complexity.json
-      
+
       - name: 語言治理檢查
         run: |
           npm run governance:check
           python tools/check-language-violations.py --max 0
-      
+
       - name: 架構約束檢查
         run: |
           python tools/validate-architecture-constraints.py \
             --config config/system-module-map.yaml \
             --cluster core/architecture-stability
-      
+
       - name: 更新進度儀表板
         if: github.ref == 'refs/heads/main'
         run: |
@@ -887,8 +891,10 @@ jobs:
 
 - [ ] **檔案遷移** (11 個)
   - [ ] `auto_bug_detector.py` → `quality_assurance/bug_detector.py`
-  - [ ] `hallucination_detector.py` → `ai_engines/hallucination_detection/detector.py`
-  - [ ] `context_understanding_engine.py` → `ai_engines/context_understanding/engine.py`
+  - [ ] `hallucination_detector.py` →
+        `ai_engines/hallucination_detection/detector.py`
+  - [ ] `context_understanding_engine.py` →
+        `ai_engines/context_understanding/engine.py`
   - [ ] `ai_decision_engine.py` → `ai_engines/decision/engine.py`
   - [ ] `autonomous_trust_engine.py` → `governance/trust_engine.py`
   - [ ] `auto_governance_hub.py` → `governance/hub.py`
@@ -911,7 +917,7 @@ jobs:
 
 #### Phase C-G 驗收清單
 
-*(類似結構，省略詳細內容)*
+_(類似結構，省略詳細內容)_
 
 ### 11.2 全局驗收條件
 
@@ -999,6 +1005,7 @@ jobs:
 ## 執行摘要
 
 本次重構完成 core/architecture-stability cluster 的架構優化，達成以下目標：
+
 - ✅ 語言純度：JavaScript 檔案從 7 → 0
 - ✅ 架構清晰：頂層檔案從 11 → 0（重組至子目錄）
 - ✅ 循環依賴：從 1 → 0（透過 interfaces/ 打破）
@@ -1006,14 +1013,14 @@ jobs:
 
 ## 指標達成情況
 
-| 類別 | 指標 | 目標 | 達成 | 狀態 |
-|------|------|------|------|------|
-| 語言治理 | JS 檔案數 | 0 | 0 | ✅ |
-| 語言治理 | Python 型別覆蓋率 | ≥85% | 87% | ✅ |
-| 安全 | Semgrep HIGH | 0 | 0 | ✅ |
-| 架構 | 循環依賴 | 0 | 0 | ✅ |
-| 複雜度 | 平均 CC | ≤8.0 | 7.8 | ✅ |
-| 測試 | 覆蓋率 | ≥80% | 82% | ✅ |
+| 類別     | 指標              | 目標 | 達成 | 狀態 |
+| -------- | ----------------- | ---- | ---- | ---- |
+| 語言治理 | JS 檔案數         | 0    | 0    | ✅   |
+| 語言治理 | Python 型別覆蓋率 | ≥85% | 87%  | ✅   |
+| 安全     | Semgrep HIGH      | 0    | 0    | ✅   |
+| 架構     | 循環依賴          | 0    | 0    | ✅   |
+| 複雜度   | 平均 CC           | ≤8.0 | 7.8  | ✅   |
+| 測試     | 覆蓋率            | ≥80% | 82%  | ✅   |
 
 ## 驗收結論
 
@@ -1027,9 +1034,9 @@ jobs:
 
 ## 簽核
 
-- Tech Lead: __________ (Date: ______)
-- Security: __________ (Date: ______)
-- QA: __________ (Date: ______)
+- Tech Lead: ****\_\_**** (Date: **\_\_**)
+- Security: ****\_\_**** (Date: **\_\_**)
+- QA: ****\_\_**** (Date: **\_\_**)
 ```
 
 ---
@@ -1052,13 +1059,13 @@ jobs:
 ```yaml
 # 在 03_refactor/index.yaml 中更新
 clusters:
-  - cluster_id: "core/architecture-stability"
-    playbook: "core/core__architecture_refactor.md"
-    governance_status: "in_progress"  # 更新此欄位
-    last_updated: "2025-12-07"
-    priority: "P0"
+  - cluster_id: 'core/architecture-stability'
+    playbook: 'core/core__architecture_refactor.md'
+    governance_status: 'in_progress' # 更新此欄位
+    last_updated: '2025-12-07'
+    priority: 'P0'
     progress:
-      current_phase: "Phase A"
+      current_phase: 'Phase A'
       completion_pct: 5
       blocking_issues: []
 ```
@@ -1108,4 +1115,5 @@ clusters:
 
 ---
 
-*此重構劇本整合了 Proposer/Critic 工作流程、質量度量追蹤、與全面的驗收條件，為 core/architecture-stability cluster 重構提供具體執行指導。*
+_此重構劇本整合了 Proposer/Critic 工作流程、質量度量追蹤、與全面的驗收條件，為 core/architecture-stability
+cluster 重構提供具體執行指導。_

@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document explains the build configuration for the SynergyMesh monorepo structure.
+This document explains the build configuration for the SynergyMesh monorepo
+structure.
 
 ## Workspace Configuration
 

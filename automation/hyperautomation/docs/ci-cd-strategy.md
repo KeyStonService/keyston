@@ -2,7 +2,8 @@
 
 ## 概述
 
-本文檔定義了 Intelligent Hyperautomation 模板套件的持續整合與持續部署策略，確保安全、可追溯與自動化的軟體交付流程。
+本文檔定義了 Intelligent
+Hyperautomation 模板套件的持續整合與持續部署策略，確保安全、可追溯與自動化的軟體交付流程。
 
 ## CI/CD 原則
 
@@ -42,10 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install yamllint
         run: pip install yamllint
-      
+
       - name: Lint YAML files
         run: yamllint -c .yamllint .
 ```
@@ -57,12 +58,12 @@ kubeconform:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install kubeconform
       run: |
         curl -L https://github.com/yannh/kubeconform/releases/download/v0.6.3/kubeconform-linux-amd64.tar.gz | tar xz
         sudo mv kubeconform /usr/local/bin/
-    
+
     - name: Validate manifests
       run: |
         kubeconform -strict -summary \
@@ -78,12 +79,12 @@ conftest:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install Conftest
       run: |
         curl -L https://github.com/open-policy-agent/conftest/releases/download/v0.47.0/conftest_0.47.0_Linux_x86_64.tar.gz | tar xz
         sudo mv conftest /usr/local/bin/
-    
+
     - name: Test policies
       run: |
         conftest test \
@@ -113,18 +114,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Kubernetes
         uses: helm/kind-action@v1.8.0
         with:
           cluster_name: test-cluster
-      
+
       # Gatekeeper v3.14.0 已驗證與 Kubernetes 1.30 相容，採用明確版本標籤以確保可重現性與審計追蹤
       - name: Install Gatekeeper
         run: |
           kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/v3.14.0/deploy/gatekeeper.yaml
           kubectl wait --for=condition=Ready pod -l control-plane=controller-manager -n gatekeeper-system --timeout=300s
-      
+
       - name: Dry-run constraints
         run: |
           kubectl apply -f intelligent-hyperautomation/policies/gatekeeper/uav-ad-labels.yaml --dry-run=server
@@ -138,19 +139,19 @@ hash-calculation:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install b3sum
       run: |
         curl -L https://github.com/BLAKE3-team/BLAKE3/releases/download/1.5.0/b3sum_linux_x64_bin -o b3sum
         chmod +x b3sum
         sudo mv b3sum /usr/local/bin/
-    
+
     - name: Calculate BLAKE3 hashes
       run: |
         b3sum intelligent-hyperautomation/docs/core-principles.md
         b3sum intelligent-hyperautomation/docs/uav-autonomous-driving-governance.md
         b3sum intelligent-hyperautomation/policies/rego/uav_ad.rego
-    
+
     - name: Calculate SHA3-512 hashes
       run: |
         openssl dgst -sha3-512 intelligent-hyperautomation/docs/core-principles.md
@@ -164,17 +165,17 @@ sbom-generation:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Install Syft
       run: |
         curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-    
+
     - name: Generate SBOM
       run: |
         syft packages dir:intelligent-hyperautomation \
           -o cyclonedx-json \
           > intelligent-hyperautomation/docs/sbom.json
-    
+
     - name: Upload SBOM
       uses: actions/upload-artifact@v4
       with:
@@ -189,7 +190,7 @@ security-scan:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Run Trivy
       uses: aquasecurity/trivy-action@master
       with:
@@ -197,7 +198,7 @@ security-scan:
         scan-ref: 'intelligent-hyperautomation/'
         format: 'sarif'
         output: 'trivy-results.sarif'
-    
+
     - name: Upload Trivy results
       uses: github/codeql-action/upload-sarif@v3
       with:
@@ -224,24 +225,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install ArgoCD CLI
         run: |
           curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x argocd
           sudo mv argocd /usr/local/bin/
-      
+
       - name: Login to ArgoCD
         run: |
           argocd login ${{ secrets.ARGOCD_SERVER }} \
             --username ${{ secrets.ARGOCD_USERNAME }} \
             --password ${{ secrets.ARGOCD_PASSWORD }}
-      
+
       - name: Sync application
         run: |
           argocd app sync intelligent-hyperautomation \
             --revision ${{ github.ref_name }}
-      
+
       - name: Wait for sync
         run: |
           argocd app wait intelligent-hyperautomation \
@@ -266,16 +267,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Flux CLI
         run: |
           curl -s https://fluxcd.io/install.sh | sudo bash
-      
+
       - name: Setup Kubeconfig
         run: |
           echo "${{ secrets.KUBECONFIG }}" > kubeconfig
           export KUBECONFIG=kubeconfig
-      
+
       - name: Reconcile Flux
         run: |
           flux reconcile source git intelligent-hyperautomation
@@ -289,12 +290,12 @@ server-side-apply:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup Kubeconfig
       run: |
         echo "${{ secrets.KUBECONFIG }}" > kubeconfig
         export KUBECONFIG=kubeconfig
-    
+
     - name: Apply constraints
       run: |
         kubectl apply --server-side=true \
@@ -315,11 +316,11 @@ changelog:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    
+
     - name: Generate changelog
       run: |
         git log --oneline --no-merges $(git describe --tags --abbrev=0)..HEAD > CHANGELOG.txt
-    
+
     - name: Append metadata
       run: |
         echo "---" >> CHANGELOG.txt
@@ -350,7 +351,7 @@ audit-log:
           "status": "success"
         }
         EOF
-    
+
     - name: Send to audit system
       run: |
         curl -X POST ${{ secrets.AUDIT_ENDPOINT }} \
@@ -373,7 +374,7 @@ auto-rollback:
       run: |
         kubectl rollout status deployment/uav-controller -n production --timeout=5m
       continue-on-error: true
-    
+
     - name: Rollback on failure
       if: steps.health.outcome == 'failure'
       run: |
@@ -473,7 +474,7 @@ monitoring:
     - name: Check deployment metrics
       run: |
         kubectl top deployment uav-controller -n production
-    
+
     - name: Alert on anomalies
       if: failure()
       uses: 8398a7/action-slack@v3

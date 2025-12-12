@@ -2,7 +2,8 @@
 
 ## 執行總覽
 
-本次任務完成了對 `docs/refactor_playbooks/_legacy_scratch/README.md` 的完整解構、整合規劃與行動方案設計。
+本次任務完成了對 `docs/refactor_playbooks/_legacy_scratch/README.md`
+的完整解構、整合規劃與行動方案設計。
 
 ---
 
@@ -10,7 +11,8 @@
 
 ### 1. 解構摘要文件
 
-**檔案**: `docs/refactor_playbooks/01_deconstruction/HLP_EXECUTOR_CORE_DECONSTRUCTION.md`
+**檔案**:
+`docs/refactor_playbooks/01_deconstruction/HLP_EXECUTOR_CORE_DECONSTRUCTION.md`
 
 **內容**:
 
@@ -24,7 +26,8 @@
 
 ### 2. 邏輯→目標位置對應表
 
-**檔案**: `docs/refactor_playbooks/02_integration/HLP_EXECUTOR_CORE_INTEGRATION_MAPPING.md`
+**檔案**:
+`docs/refactor_playbooks/02_integration/HLP_EXECUTOR_CORE_INTEGRATION_MAPPING.md`
 
 **內容**:
 
@@ -64,7 +67,8 @@
 
 ### 4. legacy_scratch 清理計畫
 
-**檔案**: `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_LEGACY_CLEANUP.md`
+**檔案**:
+`docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_LEGACY_CLEANUP.md`
 
 **內容**:
 
@@ -86,7 +90,8 @@
 
 ### 5. 目錄與檔案整合藍圖
 
-**檔案**: `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_DIRECTORY_BLUEPRINT.md`
+**檔案**:
+`docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_DIRECTORY_BLUEPRINT.md`
 
 **內容**:
 
@@ -109,17 +114,17 @@
 
 ### 從 legacy_scratch 提取的關鍵邏輯
 
-| 類別 | 提取項目數 | 整合位置 |
-|------|----------|---------|
-| **核心概念** | 12 | `docs/architecture/`, `governance/` |
-| **功能模組** | 5 | `core/safety_mechanisms/` |
-| **K8s 資源** | 8 | `infrastructure/kubernetes/` |
-| **安全配置** | 4 | `governance/policies/`, `config/` |
-| **監控配置** | 4 | `infrastructure/monitoring/` |
-| **整合端點** | 6 | `config/integrations/` |
-| **運維手冊** | 7 | `docs/operations/runbooks/` |
-| **測試配置** | 4 | `tests/` |
-| **自動化工具** | 3 | `automation/`, `tools/` |
+| 類別           | 提取項目數 | 整合位置                            |
+| -------------- | ---------- | ----------------------------------- |
+| **核心概念**   | 12         | `docs/architecture/`, `governance/` |
+| **功能模組**   | 5          | `core/safety_mechanisms/`           |
+| **K8s 資源**   | 8          | `infrastructure/kubernetes/`        |
+| **安全配置**   | 4          | `governance/policies/`, `config/`   |
+| **監控配置**   | 4          | `infrastructure/monitoring/`        |
+| **整合端點**   | 6          | `config/integrations/`              |
+| **運維手冊**   | 7          | `docs/operations/runbooks/`         |
+| **測試配置**   | 4          | `tests/`                            |
+| **自動化工具** | 3          | `automation/`, `tools/`             |
 
 **總計**: 53項邏輯元件，映射到50個新檔案 + 9個更新檔案
 
@@ -127,14 +132,14 @@
 
 已完成所有文件中的命名空間解構與適配：
 
-| 原始 | 適配後 | 影響範圍 |
-|------|--------|---------|
-| `axiom-system` | `unmanned-island-system` | 所有 K8s namespace 引用 |
-| `axiom-critical` | `system-cluster-critical` | Priority Class |
-| `registry.local/axiom/` | `ghcr.io/synergymesh-admin/` | Container images |
-| `/etc/axiom/` | `/etc/unmanned-island/` | 配置與信任包路徑 |
-| `/var/lib/axiom/` | `/var/lib/unmanned-island/` | 狀態存儲路徑 |
-| `axiom.io` | `unmanned-island.io` | K8s API Group |
+| 原始                    | 適配後                       | 影響範圍                |
+| ----------------------- | ---------------------------- | ----------------------- |
+| `axiom-system`          | `unmanned-island-system`     | 所有 K8s namespace 引用 |
+| `axiom-critical`        | `system-cluster-critical`    | Priority Class          |
+| `registry.local/axiom/` | `ghcr.io/synergymesh-admin/` | Container images        |
+| `/etc/axiom/`           | `/etc/unmanned-island/`      | 配置與信任包路徑        |
+| `/var/lib/axiom/`       | `/var/lib/unmanned-island/`  | 狀態存儲路徑            |
+| `axiom.io`              | `unmanned-island.io`         | K8s API Group           |
 
 **依賴適配策略**:
 
@@ -167,15 +172,15 @@ templates/             1 檔案  (0 P0, 0 P1, 1 P2)
 
 ### 系統模組影響
 
-| 模組 | 影響類型 | 變更數量 |
-|------|---------|---------|
-| `config/` | 高 | 8 更新 + 3 新增 |
-| `governance/` | 高 | 3 新增 |
-| `infrastructure/` | 高 | 20 新增 |
-| `core/safety_mechanisms/` | 高 | 1 更新 + 2 新增 |
-| `docs/` | 中 | 2 更新 + 11 新增 |
-| `automation/` | 低 | 2 新增 |
-| `tests/` | 低 | 4 新增 |
+| 模組                      | 影響類型 | 變更數量         |
+| ------------------------- | -------- | ---------------- |
+| `config/`                 | 高       | 8 更新 + 3 新增  |
+| `governance/`             | 高       | 3 新增           |
+| `infrastructure/`         | 高       | 20 新增          |
+| `core/safety_mechanisms/` | 高       | 1 更新 + 2 新增  |
+| `docs/`                   | 中       | 2 更新 + 11 新增 |
+| `automation/`             | 低       | 2 新增           |
+| `tests/`                  | 低       | 4 新增           |
 
 ---
 
@@ -386,7 +391,8 @@ mv docs/refactor_playbooks/_legacy_scratch/README.md \
 3. `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_ACTION_PLAN.md`
 4. `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_LEGACY_CLEANUP.md`
 5. `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_DIRECTORY_BLUEPRINT.md`
-6. `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_INTEGRATION_SUMMARY.md` (本文件)
+6. `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_INTEGRATION_SUMMARY.md`
+   (本文件)
 
 ### 原始規格
 
@@ -396,7 +402,8 @@ mv docs/refactor_playbooks/_legacy_scratch/README.md \
 
 ## 🎯 關鍵約束遵守檢查
 
-- ✅ **不創建新頂層目錄**: 所有整合都在現有結構內（core/, services/, automation/, governance/, config/, docs/, infrastructure/）
+- ✅ **不創建新頂層目錄**: 所有整合都在現有結構內（core/, services/,
+  automation/, governance/, config/, docs/, infrastructure/）
 - ✅ **具體到檔名與路徑**: 所有42項邏輯都有精確的目標檔案路徑
 - ✅ **不修改 business 邏輯**: 只重新安排概念、規則、流程到合適位置
 - ✅ **優先整合到既有目錄**: 無新建頂層目錄，全部整合到既有結構
@@ -439,7 +446,8 @@ mv docs/refactor_playbooks/_legacy_scratch/README.md \
 如有問題或需要支援，請參考：
 
 - **架構問題**: `docs/architecture/EXECUTION_MODEL.md`
-- **部署問題**: `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`
+- **部署問題**:
+  `docs/operations/deployment/HLP_EXECUTOR_DEPLOYMENT_CHECKLIST.md`
 - **運維問題**: `docs/operations/runbooks/HLP_EXECUTOR_ERROR_HANDLING.md`
 - **安全問題**: `governance/policies/security/hlp-executor-security-policy.yaml`
 
@@ -447,11 +455,13 @@ mv docs/refactor_playbooks/_legacy_scratch/README.md \
 
 ## 📝 變更歷史
 
-| 日期 | 版本 | 變更內容 |
-|------|------|---------|
-| 2025-12-07 | 1.0.0 | 初始版本，完成解構與整合規劃 |
+| 日期       | 版本  | 變更內容                                                      |
+| ---------- | ----- | ------------------------------------------------------------- |
+| 2025-12-07 | 1.0.0 | 初始版本，完成解構與整合規劃                                  |
 | 2025-12-07 | 1.1.0 | 新增命名空間適配策略（axiom-system → unmanned-island-system） |
 
 ---
 
-**總結**: 本次整合工作從 legacy_scratch 的 548 行 Quantum-YAML 規格中提取了53項邏輯元件，設計了50個新檔案和9個更新檔案的詳細整合方案，並完成了命名空間從 `axiom-system` 到 `unmanned-island-system` 的完整適配。所有文件已準備就緒，可立即開始執行 P0 行動。
+**總結**: 本次整合工作從 legacy_scratch 的 548 行 Quantum-YAML 規格中提取了53項邏輯元件，設計了50個新檔案和9個更新檔案的詳細整合方案，並完成了命名空間從
+`axiom-system` 到 `unmanned-island-system`
+的完整適配。所有文件已準備就緒，可立即開始執行 P0 行動。

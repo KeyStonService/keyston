@@ -10,13 +10,13 @@ registry:
     version: "2.0.0"
     last_updated: "2024-12-09T00:00:00Z"
     total_plugins: 12
-    
+
   configuration:
     auto_discovery: true
     hot_reload: true
     signature_verification: true
     isolation_level: "sandbox"
-    
+
 # ============================================================================
 # BEHAVIOR ADAPTER PLUGINS
 # ============================================================================
@@ -29,51 +29,51 @@ behavior_adapters:
     version: "2.5.0"
     type: "behavior_adapter"
     enabled: true
-    
+
     description: |
       Advanced AI-powered intent recognition using Claude 4.5 Sonnet
       with multi-turn conversation context and semantic understanding
-    
+
     capabilities:
       - "natural_language_understanding"
       - "intent_classification"
       - "entity_extraction"
       - "context_awareness"
       - "multi_language_support"
-      
+
     configuration:
       provider: "anthropic"
       model: "claude-sonnet-4-5-20250929"
       api_endpoint: "${ANTHROPIC_API_URL}"
       api_key: "${ANTHROPIC_API_KEY}"
-      
+
       parameters:
         max_tokens: 4096
         temperature: 0.3
         top_p: 0.9
-        
+
       intent_taxonomy:
         path: "./plugins/behavior-adapters/ai-intent-plugin/taxonomy.yaml"
         version: "3.0.0"
-        
+
       confidence_thresholds:
         minimum: 0.75
         high_confidence: 0.90
         require_clarification_below: 0.60
-        
+
     performance:
       max_latency_ms: 2000
       cache_results: true
       cache_ttl_seconds: 300
-      
+
     dependencies:
       - "anthropic-sdk >= 0.39.0"
       - "pydantic >= 2.0.0"
-      
+
     security:
       signature: "sha3-512:abc123..."
       code_hash: "blake3:def456..."
-      
+
     metadata:
       author: "IBCS Core Team"
       license: "proprietary"
@@ -87,36 +87,36 @@ behavior_adapters:
     version: "2.1.0"
     type: "behavior_adapter"
     enabled: true
-    
+
     description: |
       Maintains and analyzes execution context including user preferences,
       historical patterns, and environmental factors
-    
+
     capabilities:
       - "context_tracking"
       - "preference_learning"
       - "pattern_recognition"
       - "situational_awareness"
-      
+
     configuration:
       context_store:
         type: "redis"
         connection: "${REDIS_URL}"
         namespace: "ibcs:context"
-        
+
       memory:
         short_term_ttl_seconds: 3600
         long_term_storage: "postgresql"
-        
+
       learning:
         enabled: true
         update_frequency_minutes: 30
         min_confidence_delta: 0.05
-        
+
     performance:
       max_latency_ms: 500
       memory_limit_mb: 512
-      
+
     metadata:
       author: "IBCS Core Team"
       license: "proprietary"
@@ -129,36 +129,36 @@ behavior_adapters:
     version: "1.8.0"
     type: "behavior_adapter"
     enabled: true
-    
+
     description: |
       Predicts likely user needs and prepares proactive responses
       using ML models trained on historical interaction data
-    
+
     capabilities:
       - "need_prediction"
       - "proactive_suggestions"
       - "trend_analysis"
       - "anomaly_detection"
-      
+
     configuration:
       ml_backend:
         provider: "tensorflow"
         model_path: "./models/predictive-behavior-v1.8"
-        
+
       prediction_horizon:
         short_term_seconds: 300
         medium_term_hours: 24
         long_term_days: 7
-        
+
       confidence_thresholds:
         act_on_prediction: 0.85
         suggest_to_user: 0.70
         log_only: 0.50
-        
+
     performance:
       max_latency_ms: 800
       batch_prediction: true
-      
+
     metadata:
       author: "ML Team"
       license: "proprietary"
@@ -175,42 +175,42 @@ integration_connectors:
     version: "3.2.0"
     type: "integration_connector"
     enabled: true
-    
+
     description: |
       Connects to API Gateway for external service integration
       with rate limiting, retry logic, and circuit breaker
-    
+
     capabilities:
       - "http_client"
       - "websocket_client"
       - "grpc_client"
       - "graphql_client"
-      
+
     configuration:
       gateway:
         base_url: "${API_GATEWAY_URL}"
         timeout_seconds: 30
-        
+
       connection_pooling:
         enabled: true
         max_connections: 100
         max_connections_per_host: 10
-        
+
       retry_policy:
         max_attempts: 3
         backoff_strategy: "exponential"
         backoff_base_ms: 100
         max_backoff_ms: 10000
-        
+
       circuit_breaker:
         enabled: true
         failure_threshold: 5
         timeout_seconds: 60
         half_open_requests: 3
-        
+
     performance:
       max_latency_ms: 5000
-      
+
     metadata:
       author: "Integration Team"
       license: "MIT"
@@ -223,41 +223,41 @@ integration_connectors:
     version: "2.7.0"
     type: "integration_connector"
     enabled: true
-    
+
     description: |
       Kafka-based event streaming for real-time data integration
       and event-driven architecture support
-    
+
     capabilities:
       - "event_publishing"
       - "event_subscription"
       - "stream_processing"
       - "exactly_once_semantics"
-      
+
     configuration:
       kafka:
         brokers: "${KAFKA_BROKERS}"
         security_protocol: "SASL_SSL"
         sasl_mechanism: "PLAIN"
-        
+
       topics:
         contracts: "ibcs.contracts.v1"
         validations: "ibcs.validations.v1"
         executions: "ibcs.executions.v1"
-        
+
       consumer:
         group_id: "ibcs-engine"
         auto_offset_reset: "earliest"
         enable_auto_commit: false
-        
+
       producer:
         acks: "all"
         compression_type: "snappy"
         batch_size: 16384
-        
+
     performance:
       max_latency_ms: 1000
-      
+
     metadata:
       author: "Data Platform Team"
       license: "Apache-2.0"
@@ -270,30 +270,30 @@ integration_connectors:
     version: "1.5.0"
     type: "integration_connector"
     enabled: true
-    
+
     description: |
       Connects to data pipelines for analytics, ML training,
       and batch processing workflows
-    
+
     capabilities:
       - "batch_data_transfer"
       - "streaming_data_sync"
       - "schema_evolution"
       - "data_quality_checks"
-      
+
     configuration:
       pipeline:
         orchestrator: "airflow"
         api_url: "${AIRFLOW_API_URL}"
-        
+
       storage:
         data_lake: "s3://${DATA_LAKE_BUCKET}"
         format: "parquet"
-        
+
       processing:
         engine: "spark"
         cluster_endpoint: "${SPARK_CLUSTER}"
-        
+
     metadata:
       author: "Data Engineering Team"
       license: "Apache-2.0"
@@ -311,36 +311,36 @@ security_modules:
     type: "security_module"
     enabled: true
     mandatory: true
-    
+
     description: |
       Implements comprehensive zero-trust security model with
       continuous verification and risk-based access control
-    
+
     capabilities:
       - "identity_verification"
       - "continuous_authentication"
       - "risk_scoring"
       - "adaptive_access_control"
-      
+
     configuration:
       identity_providers:
         - type: "oidc"
           issuer: "${OIDC_ISSUER}"
-          
+
         - type: "mutual_tls"
           ca_bundle: "/etc/ibcs/certs/ca-bundle.pem"
-          
+
       policy_engine:
         type: "opa"
         bundle_url: "${OPA_BUNDLE_URL}"
-        
+
       risk_engine:
         ml_model: "risk-scoring-v3"
         update_frequency_minutes: 5
-        
+
     performance:
       max_latency_ms: 500
-      
+
     metadata:
       author: "Security Team"
       license: "proprietary"
@@ -355,34 +355,34 @@ security_modules:
     type: "security_module"
     enabled: true
     mandatory: false
-    
+
     description: |
       Post-quantum cryptography implementation with hybrid
       classical-quantum security for future-proof protection
-    
+
     capabilities:
       - "quantum_resistant_encryption"
       - "quantum_resistant_signatures"
       - "key_exchange"
       - "hybrid_cryptography"
-      
+
     configuration:
       algorithms:
         kem: "CRYSTALS-Kyber-1024"
         signature: "CRYSTALS-Dilithium5"
         hash: "SHA3-512"
-        
+
       hybrid_mode:
         enabled: true
         classical_algorithm: "Ed25519"
-        
+
       key_management:
         rotation_days: 90
         hsm_backed: true
-        
+
     performance:
       max_latency_ms: 800
-      
+
     metadata:
       author: "Cryptography Team"
       license: "NIST-PQC"
@@ -396,36 +396,36 @@ security_modules:
     version: "2.3.0"
     type: "security_module"
     enabled: true
-    
+
     description: |
       ML-powered behavioral analytics for anomaly detection,
       threat hunting, and security intelligence
-    
+
     capabilities:
       - "user_behavior_profiling"
       - "anomaly_detection"
       - "threat_scoring"
       - "automated_response"
-      
+
     configuration:
       ml_models:
         - name: "user-behavior-baseline"
           type: "autoencoder"
-          
+
         - name: "threat-classifier"
           type: "random_forest"
-          
+
       detection:
         sensitivity: "medium"
         false_positive_tolerance: 0.05
-        
+
       response:
         auto_block_threshold: 0.95
         alert_threshold: 0.80
-        
+
     performance:
       max_latency_ms: 1000
-      
+
     metadata:
       author: "Security ML Team"
       license: "proprietary"
@@ -438,17 +438,17 @@ lifecycle:
     - "security_modules"
     - "integration_connectors"
     - "behavior_adapters"
-    
+
   health_checks:
     enabled: true
     interval_seconds: 60
     timeout_seconds: 10
-    
+
   automatic_updates:
     enabled: false
     check_interval_hours: 24
     require_approval: true
-    
+
   deprecation_policy:
     warning_days: 90
     sunset_days: 180
@@ -460,5 +460,5 @@ lifecycle:
 metadata:
   schema_version: "2.0.0"
   last_validated: "2024-12-09T00:00:00Z"
-  checksum: ""  # SHA3-512 hash
-  signature: ""  # EdDSA signature
+  checksum: "" # SHA3-512 hash
+  signature: "" # EdDSA signature

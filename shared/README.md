@@ -23,11 +23,11 @@ shared/
 
 ## 🔄 與版本系統的映射關係
 
-| 共享資源 | v1-python-drones | v2-multi-islands |
-|---------|------------------|------------------|
-| `config/base_config.py` | `config/drone_config.py` | `config/island_config.py` |
-| `utils/common_helpers.py` | `utils/helpers.py` | `utils/helpers.py` |
-| `constants/system_constants.py` | 內建常數 | 內建常數 |
+| 共享資源                        | v1-python-drones         | v2-multi-islands          |
+| ------------------------------- | ------------------------ | ------------------------- |
+| `config/base_config.py`         | `config/drone_config.py` | `config/island_config.py` |
+| `utils/common_helpers.py`       | `utils/helpers.py`       | `utils/helpers.py`        |
+| `constants/system_constants.py` | 內建常數                 | 內建常數                  |
 
 ## 📝 使用方式
 

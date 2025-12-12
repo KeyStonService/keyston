@@ -1,13 +1,15 @@
 # 變更治理 | Change Governance
 
-> 變更分類、流程、控制點、記錄
-> Change classification, processes, control points, and documentation
+> 變更分類、流程、控制點、記錄Change classification, processes, control points,
+> and documentation
 
 ## 📋 概述 | Overview
 
 變更治理定義了系統變更的分類、流程、控制機制和完整的記錄追蹤，確保所有變更都經過適當的評估、批准和實施。
 
-The Change Governance dimension defines change classification, processes, control mechanisms, and complete audit trails, ensuring all changes are properly evaluated, approved, and implemented.
+The Change Governance dimension defines change classification, processes,
+control mechanisms, and complete audit trails, ensuring all changes are properly
+evaluated, approved, and implemented.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -59,6 +61,5 @@ SUBMITTED → REVIEWED → APPROVED → IMPLEMENTING → VALIDATING → COMPLETE
 
 ---
 
-**Owner 負責人**: Change Governance Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Change Governance Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

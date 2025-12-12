@@ -12,7 +12,6 @@ tracking_system:
 
 # 決策生命週期階段 | Decision Lifecycle Stages
 lifecycle_stages:
-
   stage_1_initiated:
     name: "已啟動"
     english_name: "Initiated"
@@ -172,7 +171,6 @@ lifecycle_stages:
 
 # 追蹤指標 | Tracking Metrics
 tracking_metrics:
-
   cycle_time:
     name: "決策週期時間"
     description: "從啟動到關閉的總時間 | Total time from initiation to closure"
@@ -181,7 +179,7 @@ tracking_metrics:
       tactical: "< 14 days"
       operational: "< 7 days"
     measurement: "days"
-    
+
   approval_time:
     name: "批准時間"
     description: "從提交到批准的時間 | Time from submission to approval"
@@ -190,19 +188,19 @@ tracking_metrics:
       tactical: "< 3 days"
       operational: "< 1 day"
     measurement: "days"
-    
+
   implementation_success_rate:
     name: "實施成功率"
     description: "成功實施的決策百分比 | Percentage of decisions successfully implemented"
     target: "> 85%"
     measurement: "percentage"
-    
+
   stakeholder_satisfaction:
     name: "利益相關方滿意度"
     description: "對決策過程的滿意度 | Satisfaction with decision process"
     target: "> 80%"
     measurement: "score (1-10)"
-    
+
   decision_quality:
     name: "決策質量"
     description: "基於結果的決策質量評分 | Decision quality score based on outcomes"
@@ -211,7 +209,6 @@ tracking_metrics:
 
 # 追蹤報告 | Tracking Reports
 tracking_reports:
-
   daily_status_report:
     name: "每日狀態報告"
     frequency: "daily"
@@ -268,7 +265,6 @@ tracking_reports:
 
 # 追蹤工具和系統 | Tracking Tools and Systems
 tracking_tools:
-
   decision_management_system:
     name: "決策管理系統"
     type: "software_platform"
@@ -283,7 +279,7 @@ tracking_tools:
       - "Confluence"
       - "Slack"
       - "Email"
-    
+
   dashboard:
     name: "決策追蹤儀表板"
     type: "visualization_tool"
@@ -305,7 +301,7 @@ tracking_tools:
         permissions: "full_access"
       - role: "team_leads"
         permissions: "read_access"
-        
+
   notification_system:
     name: "通知系統"
     type: "alerting_tool"
@@ -327,7 +323,6 @@ tracking_tools:
 
 # 追蹤流程 | Tracking Process
 tracking_process:
-
   decision_registration:
     step: 1
     activity: "註冊決策"
@@ -339,7 +334,7 @@ tracking_process:
     outputs:
       - "決策 ID | Decision ID"
       - "決策記錄 | Decision record"
-      
+
   status_updates:
     step: 2
     activity: "更新狀態"
@@ -350,7 +345,7 @@ tracking_process:
       - "記錄狀態變更 | Log status change"
       - "更新時間戳 | Update timestamp"
       - "添加註釋 | Add comments"
-      
+
   milestone_tracking:
     step: 3
     activity: "追蹤里程碑"
@@ -362,7 +357,7 @@ tracking_process:
       - "批准獲得 | Approval obtained"
       - "實施完成 | Implementation completed"
       - "審查完成 | Review completed"
-      
+
   issue_management:
     step: 4
     activity: "管理問題"
@@ -375,7 +370,7 @@ tracking_process:
         condition: "問題持續 > 5 天 | Issue persists > 5 days"
       - level: "governance_board"
         condition: "重大阻礙 | Major blocker"
-        
+
   performance_monitoring:
     step: 5
     activity: "監控績效"
@@ -390,7 +385,6 @@ tracking_process:
 
 # 數據管理 | Data Management
 data_management:
-
   data_collection:
     automated:
       - "狀態變更 | Status changes"
@@ -400,20 +394,20 @@ data_management:
       - "決策描述 | Decision descriptions"
       - "分析結果 | Analysis results"
       - "審查評論 | Review comments"
-      
+
   data_storage:
     location: "governance_database"
     backup_frequency: "daily"
     retention_period: "7 years"
     archive_location: "long_term_storage"
-    
+
   data_quality:
     validation_rules:
       - "必填字段檢查 | Required field checks"
       - "格式驗證 | Format validation"
       - "邏輯一致性檢查 | Logic consistency checks"
     quality_score_target: "> 95%"
-    
+
   data_security:
     access_control: "role_based"
     encryption: "at rest and in transit"
@@ -422,14 +416,13 @@ data_management:
 
 # 持續改進 | Continuous Improvement
 continuous_improvement:
-
   feedback_collection:
     methods:
       - "決策後調查 | Post-decision surveys"
       - "利益相關方訪談 | Stakeholder interviews"
       - "流程審查會議 | Process review meetings"
     frequency: "after each major decision"
-    
+
   process_optimization:
     activities:
       - "識別瓶頸 | Identify bottlenecks"
@@ -437,7 +430,7 @@ continuous_improvement:
       - "自動化改進 | Automation improvements"
       - "工具增強 | Tool enhancements"
     frequency: "quarterly"
-    
+
   lessons_learned:
     capture:
       - "在審查階段記錄 | Captured during review stage"

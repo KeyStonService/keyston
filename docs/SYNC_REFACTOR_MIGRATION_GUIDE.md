@@ -8,32 +8,33 @@
 
 ## Overview
 
-This guide helps you migrate from the old sync/refactor system to the optimized version.
+This guide helps you migrate from the old sync/refactor system to the optimized
+version.
 
 ## What Changed?
 
 ### Removed Files
 
-| File | Status | Action Required |
-|------|--------|-----------------|
-| `watch_sync_script.sh` | ❌ Deleted | Use `scripts/sync/watch-and-sync.sh` directly |
-| `post_commit_hook.sh` | ⚠️  Deprecated | Disable to avoid conflicts with watch script |
+| File                   | Status        | Action Required                               |
+| ---------------------- | ------------- | --------------------------------------------- |
+| `watch_sync_script.sh` | ❌ Deleted    | Use `scripts/sync/watch-and-sync.sh` directly |
+| `post_commit_hook.sh`  | ⚠️ Deprecated | Disable to avoid conflicts with watch script  |
 
 ### New Files
 
-| File | Purpose |
-|------|---------|
-| `config/sync-refactor-config.yaml` | Unified configuration for sync & refactor |
-| `docs/SYNC_REFACTOR_OPTIMIZATION.md` | Complete optimization documentation |
-| `.cache/refactor/` | Cache directory for playbook generation |
+| File                                 | Purpose                                   |
+| ------------------------------------ | ----------------------------------------- |
+| `config/sync-refactor-config.yaml`   | Unified configuration for sync & refactor |
+| `docs/SYNC_REFACTOR_OPTIMIZATION.md` | Complete optimization documentation       |
+| `.cache/refactor/`                   | Cache directory for playbook generation   |
 
 ### Modified Files
 
-| File | Changes |
-|------|---------|
-| `.github/workflows/08-sync-subdirs.yml` | Added validation, metrics, integration trigger |
-| `.github/workflows/update-refactor-playbooks.yml` | Added caching support, workflow_call |
-| `tools/generate-refactor-playbook.py` | Added intelligent caching system |
+| File                                              | Changes                                        |
+| ------------------------------------------------- | ---------------------------------------------- |
+| `.github/workflows/08-sync-subdirs.yml`           | Added validation, metrics, integration trigger |
+| `.github/workflows/update-refactor-playbooks.yml` | Added caching support, workflow_call           |
+| `tools/generate-refactor-playbook.py`             | Added intelligent caching system               |
 
 ## Migration Steps
 
@@ -63,7 +64,8 @@ mv .git/hooks/post-commit .git/hooks/post-commit.disabled
 #   post_commit_hook_enabled: false
 ```
 
-**Why?** The post-commit hook can conflict with the watch script, causing duplicate commits.
+**Why?** The post-commit hook can conflict with the watch script, causing
+duplicate commits.
 
 ### Step 3: Update Script References
 
@@ -163,14 +165,13 @@ rm -rf .git/refactor-cache
 - Everything configurable in `config/sync-refactor-config.yaml`
 - Update config, not code
 
-**Migration:**
-If you modified directories in the old script, now update:
+**Migration:** If you modified directories in the old script, now update:
 
 ```yaml
 sync:
   monitored_directories:
-    - "core/"
-    - "your-custom-dir/"
+    - 'core/'
+    - 'your-custom-dir/'
 ```
 
 ### 2. Watch Script Usage
@@ -234,7 +235,8 @@ rm -rf .cache/refactor/
 # 4. Notify team
 ```
 
-**Note:** Rollback is not recommended as the new system has significant improvements.
+**Note:** Rollback is not recommended as the new system has significant
+improvements.
 
 ## Common Issues & Solutions
 

@@ -20,10 +20,10 @@ metadata:
     app: advanced-system
     namespace.io/team: frontend-team
 rules:
-# 最小權限原則 - frontend 通常不需要額外權限
-- apiGroups: [""]
-  resources: ["configmaps"]
-  verbs: ["get", "list"]
+  # 最小權限原則 - frontend 通常不需要額外權限
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -38,6 +38,6 @@ roleRef:
   kind: Role
   name: advanced-system-role
 subjects:
-- kind: ServiceAccount
-  name: advanced-system
-  namespace: default
+  - kind: ServiceAccount
+    name: advanced-system
+    namespace: default

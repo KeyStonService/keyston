@@ -41,7 +41,7 @@ Launcher启动失败？
   # 1. 尝试优雅重启
   python automation_launcher.py stop
   python automation_launcher.py start
-  
+
   # 2. 如果失败，使用应急脚本
   python emergency_recovery.py
   ```
@@ -191,10 +191,10 @@ async def manual_start():
         auto_start_engines=True,
         engines_paths=["./tools/automation/engines"]
     )
-    
+
     orch = MasterOrchestrator(config)
     success = await orch.start()
-    
+
     if success:
         print("✅ 手动启动成功")
         # 保持运行
@@ -238,12 +238,12 @@ async def start_single_engine():
         "name": "manual_engine",
         # 其他配置...
     })
-    
+
     await engine.initialize()
     await engine.start()
-    
+
     print(f"✅ 引擎 {engine.name} 已启动")
-    
+
     # 保持运行
     try:
         while True:
@@ -344,24 +344,24 @@ git commit -m "Config snapshot $(date +%Y%m%d_%H%M%S)"
 ```markdown
 ## 故障报告 - [YYYY-MM-DD HH:MM]
 
-**故障等级**: Level X
-**影响范围**: [影响的组件]
-**检测时间**: [时间]
-**恢复时间**: [时间]
-**停机时长**: [分钟]
+**故障等级**: Level X **影响范围**: [影响的组件] **检测时间**: [时间]
+**恢复时间**: [时间] **停机时长**: [分钟]
 
 ### 症状
+
 - [描述观察到的问题]
 
 ### 根本原因
+
 - [分析后确定的原因]
 
 ### 恢复步骤
+
 1. [步骤1]
-2. [步骤2]
-...
+2. [步骤2] ...
 
 ### 预防措施
+
 - [建议的改进]
 ```
 
@@ -393,6 +393,4 @@ rm -f .orchestrator_status && python emergency_recovery.py
 
 ---
 
-**最后更新**: 2025-12-09
-**版本**: 1.0.0
-**维护者**: SynergyMesh Team
+**最后更新**: 2025-12-09 **版本**: 1.0.0 **维护者**: SynergyMesh Team

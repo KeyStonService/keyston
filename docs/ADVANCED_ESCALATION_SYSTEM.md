@@ -6,20 +6,28 @@
 
 進階升級系統是 SynergyMesh 的核心功能，專門設計用於處理自動化解決方案失敗後的智能升級流程。系統特別針對無人機、自動駕駛和自動化迭代場景進行優化，確保在關鍵時刻能夠快速升級到適當的人工支援層級。
 
-The Advanced Escalation System is a core feature of SynergyMesh, specifically designed to handle intelligent escalation workflows when automated solutions fail. The system is optimized for drones, autonomous vehicles, and automated iteration scenarios, ensuring rapid escalation to appropriate human support levels during critical moments.
+The Advanced Escalation System is a core feature of SynergyMesh, specifically
+designed to handle intelligent escalation workflows when automated solutions
+fail. The system is optimized for drones, autonomous vehicles, and automated
+iteration scenarios, ensuring rapid escalation to appropriate human support
+levels during critical moments.
 
 ## 🎯 核心特性 Core Features
 
 ### 1. 智能升級決策 (Intelligent Escalation Decision)
 
-- **多層級升級架構**: L1 (自動化) → L2 (團隊主管) → L3 (支援工程師) → L4 (資深工程師) → L5 (客服人員)
+- **多層級升級架構**: L1 (自動化) → L2 (團隊主管) → L3 (支援工程師) → L4
+  (資深工程師) → L5 (客服人員)
 - **自動觸發檢測**: 根據失敗原因、優先級和上下文自動決定升級層級
 - **安全關鍵優先**: 安全相關問題直接升級到最高層級
 - **重試次數感知**: 根據自動修復嘗試次數調整升級策略
 
-**Multi-level Escalation**: L1 (Auto) → L2 (Team Lead) → L3 (Support) → L4 (Senior) → L5 (Customer Service)  
-**Auto-trigger Detection**: Automatically determines escalation level based on failure reason, priority, and context  
-**Safety-critical Priority**: Safety-related issues escalate directly to the highest level  
+**Multi-level Escalation**: L1 (Auto) → L2 (Team Lead) → L3 (Support) → L4
+(Senior) → L5 (Customer Service)  
+**Auto-trigger Detection**: Automatically determines escalation level based on
+failure reason, priority, and context  
+**Safety-critical Priority**: Safety-related issues escalate directly to the
+highest level  
 **Retry-aware**: Adjusts escalation strategy based on auto-fix attempt count
 
 ### 2. 客服人員智能分派 (Intelligent Customer Service Agent Assignment)
@@ -29,8 +37,10 @@ The Advanced Escalation System is a core feature of SynergyMesh, specifically de
 - **工作負載平衡**: 自動選擇當前負載較低的客服人員
 - **跨語言支持**: 支持繁體中文和英文雙語客服
 
-**Expertise Scoring**: 40% expertise match + 30% current load + 30% performance  
-**System-aware**: Selects specialists based on drone, autonomous vehicle, or general system type  
+**Expertise Scoring**: 40% expertise match + 30% current load + 30%
+performance  
+**System-aware**: Selects specialists based on drone, autonomous vehicle, or
+general system type  
 **Load Balancing**: Automatically selects agents with lower current workload  
 **Multilingual**: Supports Traditional Chinese and English bilingual support
 
@@ -43,7 +53,8 @@ The Advanced Escalation System is a core feature of SynergyMesh, specifically de
 
 **Status Tracking**: Complete workflow from pending to closed  
 **Time Recording**: Tracks creation, assignment, start, resolution timestamps  
-**Solution Recording**: Detailed records of resolution method, implementer, and changes  
+**Solution Recording**: Detailed records of resolution method, implementer, and
+changes  
 **Further Escalation**: Supports step-by-step upward escalation
 
 ### 4. 豐富的統計分析 (Rich Statistical Analysis)
@@ -89,15 +100,15 @@ The Advanced Escalation System is a core feature of SynergyMesh, specifically de
 
 ## 📝 升級觸發原因 Escalation Triggers
 
-| 觸發原因<br>Trigger | 說明<br>Description | 典型場景<br>Typical Scenario |
-|-------------------|-------------------|--------------------------|
-| `AUTO_FIX_FAILED` | 自動修復失敗 | 重試 3 次後仍無法自動修復 |
-| `TIMEOUT_NO_RESPONSE` | 超時無回應 | 分派後無人確認 |
-| `TIMEOUT_NO_PROGRESS` | 超時無進展 | 確認後長時間無進展 |
-| `CRITICAL_SEVERITY` | 嚴重等級 | 系統判定為嚴重問題 |
-| `REPEATED_FAILURES` | 重複失敗 | 同一問題反覆出現 |
-| `SAFETY_CRITICAL` | 安全關鍵 | 涉及無人機/自駕安全 |
-| `MANUAL_REQUEST` | 手動請求 | 人工主動升級 |
+| 觸發原因<br>Trigger   | 說明<br>Description | 典型場景<br>Typical Scenario |
+| --------------------- | ------------------- | ---------------------------- |
+| `AUTO_FIX_FAILED`     | 自動修復失敗        | 重試 3 次後仍無法自動修復    |
+| `TIMEOUT_NO_RESPONSE` | 超時無回應          | 分派後無人確認               |
+| `TIMEOUT_NO_PROGRESS` | 超時無進展          | 確認後長時間無進展           |
+| `CRITICAL_SEVERITY`   | 嚴重等級            | 系統判定為嚴重問題           |
+| `REPEATED_FAILURES`   | 重複失敗            | 同一問題反覆出現             |
+| `SAFETY_CRITICAL`     | 安全關鍵            | 涉及無人機/自駕安全          |
+| `MANUAL_REQUEST`      | 手動請求            | 人工主動升級                 |
 
 ## 🔢 升級層級說明 Escalation Levels
 
@@ -137,7 +148,8 @@ The Advanced Escalation System is a core feature of SynergyMesh, specifically de
 
 系統已整合在 contracts-L1 服務中，無需額外安裝。
 
-The system is integrated into the contracts-L1 service, no additional installation required.
+The system is integrated into the contracts-L1 service, no additional
+installation required.
 
 ```bash
 cd core/contract_service/contracts-L1/contracts
@@ -233,7 +245,11 @@ POST /api/v1/escalation/create
         "id": "cs-001",
         "name": "Sarah Johnson",
         "email": "sarah.johnson@synergymesh.dev",
-        "specialties": ["Customer Support", "Technical Support", "Escalation Management"],
+        "specialties": [
+          "Customer Support",
+          "Technical Support",
+          "Escalation Management"
+        ],
         "timezone": "America/New_York"
       },
       "createdAt": "2025-11-26T10:10:00Z",
@@ -379,7 +395,11 @@ GET /api/v1/escalation/customer-service/available
         "expertise": {
           "technical": true,
           "languages": ["en", "zh-TW"],
-          "specializations": ["Drones", "Autonomous Systems", "Emergency Response"]
+          "specializations": [
+            "Drones",
+            "Autonomous Systems",
+            "Emergency Response"
+          ]
         },
         "performance": {
           "averageResponseTime": 3,
@@ -506,7 +526,7 @@ import { EscalationEngine } from './services/escalation/escalation-engine';
 // 當自動修復失敗時
 if (autoFixResult.success === false) {
   const escalationEngine = new EscalationEngine();
-  
+
   const escalation = escalationEngine.createEscalation(
     incidentId,
     'AUTO_FIX_FAILED',
@@ -517,12 +537,12 @@ if (autoFixResult.success === false) {
       errorDetails: {
         message: autoFixResult.error,
         affectedComponents: ['flight-controller'],
-        impactLevel: 'HIGH'
+        impactLevel: 'HIGH',
       },
-      autoFixAttempts: autoFixResult.attempts
+      autoFixAttempts: autoFixResult.attempts,
     }
   );
-  
+
   console.log(`Escalated to: ${escalation.level}`);
 }
 ```
@@ -542,10 +562,10 @@ monitoringSystem.on('critical-alert', (alert) => {
       errorDetails: {
         message: alert.message,
         affectedComponents: alert.components,
-        impactLevel: alert.severity
+        impactLevel: alert.severity,
       },
       autoFixAttempts: [],
-      businessImpact: alert.businessImpact
+      businessImpact: alert.businessImpact,
     }
   );
 });

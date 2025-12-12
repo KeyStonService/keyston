@@ -2,7 +2,10 @@
 
 ## Overview
 
-Contracts-L1 is a core service of the SynergyMesh platform that provides **build provenance tracking**, **SLSA attestation**, and **automated responsibility assignment** capabilities. The service follows a **clean layered architecture** pattern to ensure maintainability, testability, and scalability.
+Contracts-L1 is a core service of the SynergyMesh platform that provides **build
+provenance tracking**, **SLSA attestation**, and **automated responsibility
+assignment** capabilities. The service follows a **clean layered architecture**
+pattern to ensure maintainability, testability, and scalability.
 
 ## Architecture Pattern
 
@@ -33,9 +36,11 @@ The service implements a **3-tier layered architecture**:
 
 **Components:**
 
-- **Controllers** (`controllers/`): Handle HTTP requests, orchestrate service calls, format responses
+- **Controllers** (`controllers/`): Handle HTTP requests, orchestrate service
+  calls, format responses
 - **Routes** (`routes.ts`): Define API endpoints and map them to controllers
-- **Middleware** (`middleware/`): Cross-cutting concerns (logging, validation, error handling, rate limiting)
+- **Middleware** (`middleware/`): Cross-cutting concerns (logging, validation,
+  error handling, rate limiting)
 
 **Key Principles:**
 
@@ -52,10 +57,13 @@ export class ProvenanceController {
   async createAttestation(req: Request, res: Response): Promise<void> {
     // 1. Extract validated data from request
     const { filePath, builder } = req.body;
-    
+
     // 2. Call service layer
-    const attestation = await provenanceService.createAttestation(filePath, builder);
-    
+    const attestation = await provenanceService.createAttestation(
+      filePath,
+      builder
+    );
+
     // 3. Format and send response
     sendSuccess(res, attestation, { status: 201 });
   }
@@ -64,13 +72,17 @@ export class ProvenanceController {
 
 #### 2. Business Logic Layer (`services/`)
 
-**Purpose:** Contains core business logic, orchestrates workflows, enforces business rules.
+**Purpose:** Contains core business logic, orchestrates workflows, enforces
+business rules.
 
 **Components:**
 
-- **Attestation Service** (`services/attestation.ts`): Handles Sigstore attestation creation/verification
-- **Provenance Service** (`services/provenance.ts`): Manages build provenance tracking
-- **Assignment Engine** (`services/assignment/`): Automated responsibility assignment system
+- **Attestation Service** (`services/attestation.ts`): Handles Sigstore
+  attestation creation/verification
+- **Provenance Service** (`services/provenance.ts`): Manages build provenance
+  tracking
+- **Assignment Engine** (`services/assignment/`): Automated responsibility
+  assignment system
 - **Escalation Engine** (`services/escalation/`): Incident escalation workflows
 
 **Key Principles:**
@@ -86,7 +98,10 @@ export class ProvenanceController {
 ```typescript
 // services/provenance.ts
 export class ProvenanceService {
-  async createAttestation(filePath: string, builder: BuilderInfo): Promise<Attestation> {
+  async createAttestation(
+    filePath: string,
+    builder: BuilderInfo
+  ): Promise<Attestation> {
     // Business logic:
     // 1. Validate file exists
     // 2. Calculate digest
@@ -237,7 +252,9 @@ Services are instantiated in controllers and can be injected for testing:
 
 ```typescript
 export class ProvenanceController {
-  constructor(private provenanceService: ProvenanceService = new ProvenanceService()) {}
+  constructor(
+    private provenanceService: ProvenanceService = new ProvenanceService()
+  ) {}
 }
 ```
 
@@ -381,7 +398,12 @@ const createError = {
 Centralized error handling ensures consistent error responses:
 
 ```typescript
-export const errorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       error: {
@@ -396,7 +418,10 @@ export const errorMiddleware = (err: Error, req: Request, res: Response, next: N
     res.status(500).json({
       error: {
         code: 'INTERNAL_ERROR',
-        message: config.NODE_ENV === 'production' ? 'Internal server error' : err.message,
+        message:
+          config.NODE_ENV === 'production'
+            ? 'Internal server error'
+            : err.message,
         traceId: req.traceId,
         timestamp: new Date().toISOString(),
       },
@@ -527,5 +552,4 @@ For questions or contributions, refer to the main repository documentation.
 
 ---
 
-**Last Updated:** 2024-12-09
-**Version:** 1.0.0
+**Last Updated:** 2024-12-09 **Version:** 1.0.0

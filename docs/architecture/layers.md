@@ -2,18 +2,20 @@
 
 # 架構分層視圖
 
-> 本文件定義了 SynergyMesh 平台的分層架構視圖，作為目錄結構與系統邊界的唯一參考來源。
-> This document defines the layered architecture view for the SynergyMesh platform, serving as the single source of truth for directory structure and system boundaries.
+> 本文件定義了 SynergyMesh 平台的分層架構視圖，作為目錄結構與系統邊界的唯一參考來源。This
+> document defines the layered architecture view for the SynergyMesh platform,
+> serving as the single source of truth for directory structure and system
+> boundaries.
 
 ## 📊 Architecture Layers Table 分層架構表
 
-| 層級 Layer | 目錄 Directory | 說明 Description |
-|------------|----------------|------------------|
-| **Experience / Interfaces** | `frontend/`, `bridges/`, `contracts/` | 人機介面與外部 API/語言接口。User interfaces and external API/language bindings. |
-| **Platform Core** | `core/`, `runtime/`, `shared/` | 平台核心服務與共用能力。Core platform services and shared capabilities. |
-| **AI & Automation** | `automation/`, `agent/`, `mcp-servers/` | AI workflow、智能代理、工具端點。AI workflows, intelligent agents, and tool endpoints. |
-| **Enablement** | `infrastructure/`, `.github/`, `tools/`, `tests/`, `config/` | 基礎設施 / CI / 測試 / 配置。Infrastructure, CI/CD, testing, and configuration. |
-| **Governance & Ops** | `governance/`, `ops/`, `docs/` | 政策、運維、文件。Policies, operations, and documentation. |
+| 層級 Layer                  | 目錄 Directory                                               | 說明 Description                                                                       |
+| --------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| **Experience / Interfaces** | `frontend/`, `bridges/`, `contracts/`                        | 人機介面與外部 API/語言接口。User interfaces and external API/language bindings.       |
+| **Platform Core**           | `core/`, `runtime/`, `shared/`                               | 平台核心服務與共用能力。Core platform services and shared capabilities.                |
+| **AI & Automation**         | `automation/`, `agent/`, `mcp-servers/`                      | AI workflow、智能代理、工具端點。AI workflows, intelligent agents, and tool endpoints. |
+| **Enablement**              | `infrastructure/`, `.github/`, `tools/`, `tests/`, `config/` | 基礎設施 / CI / 測試 / 配置。Infrastructure, CI/CD, testing, and configuration.        |
+| **Governance & Ops**        | `governance/`, `ops/`, `docs/`                               | 政策、運維、文件。Policies, operations, and documentation.                             |
 
 ## 🔷 Layer Descriptions 層級說明
 
@@ -152,21 +154,21 @@ Experience/Interfaces → Platform Core → AI & Automation
 
 ### Allowed Dependencies 允許的依賴
 
-| From 來源 | Can depend on 可依賴 |
-|-----------|---------------------|
-| Experience/Interfaces | Platform Core, Shared |
-| Platform Core | Shared, Runtime |
-| AI & Automation | Platform Core, Shared |
-| Enablement | 無業務邏輯依賴 (No business logic dependencies) |
-| Governance & Ops | 僅文檔參考 (Documentation references only) |
+| From 來源             | Can depend on 可依賴                            |
+| --------------------- | ----------------------------------------------- |
+| Experience/Interfaces | Platform Core, Shared                           |
+| Platform Core         | Shared, Runtime                                 |
+| AI & Automation       | Platform Core, Shared                           |
+| Enablement            | 無業務邏輯依賴 (No business logic dependencies) |
+| Governance & Ops      | 僅文檔參考 (Documentation references only)      |
 
 ### Prohibited Dependencies 禁止的依賴
 
-| From 來源 | Should NOT depend on 不應依賴 |
-|-----------|------------------------------|
-| Platform Core | AI & Automation (避免循環) |
-| Enablement | 直接依賴業務代碼 |
-| contracts/ | 任何實作代碼 |
+| From 來源     | Should NOT depend on 不應依賴 |
+| ------------- | ----------------------------- |
+| Platform Core | AI & Automation (避免循環)    |
+| Enablement    | 直接依賴業務代碼              |
+| contracts/    | 任何實作代碼                  |
 
 ---
 
@@ -174,23 +176,23 @@ Experience/Interfaces → Platform Core → AI & Automation
 
 ### By Programming Language 按語言分類
 
-| Language 語言 | Directories 目錄 |
-|--------------|------------------|
-| **TypeScript/Node** | 根目錄, `mcp-servers/`, `frontend/`, `core/contract_service/contract_service/` |
-| **Python** | `automation/intelligent/`, `automation/autonomous/api-governance/`, `core/*.py` |
-| **Go** | `automation/autonomous/security-observability/`, `core/monitoring_system/` |
-| **C++** | `automation/autonomous/architecture-stability/` (ROS 2) |
-| **YAML/Config** | `config/`, `infrastructure/`, `governance/` |
+| Language 語言       | Directories 目錄                                                                |
+| ------------------- | ------------------------------------------------------------------------------- |
+| **TypeScript/Node** | 根目錄, `mcp-servers/`, `frontend/`, `core/contract_service/contract_service/`  |
+| **Python**          | `automation/intelligent/`, `automation/autonomous/api-governance/`, `core/*.py` |
+| **Go**              | `automation/autonomous/security-observability/`, `core/monitoring_system/`      |
+| **C++**             | `automation/autonomous/architecture-stability/` (ROS 2)                         |
+| **YAML/Config**     | `config/`, `infrastructure/`, `governance/`                                     |
 
 ### By Domain 按領域分類
 
-| Domain 領域 | Primary Directories 主要目錄 |
-|------------|------------------------------|
-| **Autonomous Systems** | `automation/autonomous/`, `automation/hyperautomation/` |
-| **AI/ML** | `core/ai_*`, `core/virtual_experts/`, `core/training_system/` |
-| **Security** | `core/safety_mechanisms/`, `core/slsa_provenance/`, `governance/` |
-| **Integration** | `core/unified_integration/`, `bridges/`, `contracts/` |
-| **Monitoring** | `infrastructure/monitoring/`, `core/monitoring_system/` |
+| Domain 領域            | Primary Directories 主要目錄                                      |
+| ---------------------- | ----------------------------------------------------------------- |
+| **Autonomous Systems** | `automation/autonomous/`, `automation/hyperautomation/`           |
+| **AI/ML**              | `core/ai_*`, `core/virtual_experts/`, `core/training_system/`     |
+| **Security**           | `core/safety_mechanisms/`, `core/slsa_provenance/`, `governance/` |
+| **Integration**        | `core/unified_integration/`, `bridges/`, `contracts/`             |
+| **Monitoring**         | `infrastructure/monitoring/`, `core/monitoring_system/`           |
 
 ---
 
@@ -215,9 +217,9 @@ Experience/Interfaces → Platform Core → AI & Automation
 
 ## 📝 Document History 文檔歷史
 
-| Date 日期 | Version 版本 | Changes 變更 |
-|-----------|-------------|--------------|
-| 2025-11-30 | 1.0.0 | Initial layered architecture document |
+| Date 日期  | Version 版本 | Changes 變更                          |
+| ---------- | ------------ | ------------------------------------- |
+| 2025-11-30 | 1.0.0        | Initial layered architecture document |
 
 ---
 

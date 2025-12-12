@@ -6,7 +6,10 @@
 
 自動化專責負責人員系統是 SynergyMesh 的核心功能之一，旨在解決千萬級開發環境中的責任分派瓶頸問題。系統能夠自動識別問題類型、分析團隊專業、評估工作負載，並智慧地將任務分派給最適合的負責人。
 
-The Auto-Assignment System is a core feature of SynergyMesh, designed to solve responsibility assignment bottlenecks in million-scale development environments. The system can automatically identify problem types, analyze team expertise, evaluate workload, and intelligently assign tasks to the most suitable owners.
+The Auto-Assignment System is a core feature of SynergyMesh, designed to solve
+responsibility assignment bottlenecks in million-scale development environments.
+The system can automatically identify problem types, analyze team expertise,
+evaluate workload, and intelligently assign tasks to the most suitable owners.
 
 ## 核心特性 (Core Features)
 
@@ -17,9 +20,11 @@ The Auto-Assignment System is a core feature of SynergyMesh, designed to solve r
 - **團隊感知**: 根據團隊結構和專業領域智慧選擇
 - **備援機制**: 自動選擇備援負責人和升級負責人
 
-**Multi-dimensional Analysis**: Considers expertise match, availability, workload, and historical performance  
+**Multi-dimensional Analysis**: Considers expertise match, availability,
+workload, and historical performance  
 **Automated Decision**: Completes analysis and assignment in 2-5 seconds  
-**Team-aware**: Intelligently selects based on team structure and expertise areas  
+**Team-aware**: Intelligently selects based on team structure and expertise
+areas  
 **Backup Mechanism**: Automatically selects secondary and escalation owners
 
 ### ⚖️ 動態負載平衡 (Dynamic Load Balancing)
@@ -30,7 +35,8 @@ The Auto-Assignment System is a core feature of SynergyMesh, designed to solve r
 - **跨時區支援**: Follow-the-sun 模式 24 小時無縫接力
 
 **Real-time Workload Tracking**: Monitors active tasks for each member  
-**Smart Scoring Algorithm**: 40% expertise + 30% availability + 20% load + 10% performance  
+**Smart Scoring Algorithm**: 40% expertise + 30% availability + 20% load + 10%
+performance  
 **Auto-adjustment**: Dynamically reassigns based on actual conditions  
 **Cross-timezone Support**: Follow-the-sun model for 24-hour coverage
 
@@ -41,9 +47,11 @@ The Auto-Assignment System is a core feature of SynergyMesh, designed to solve r
 - **效能追蹤**: 即時監控回應時間、解決時間、達成率
 - **品質評估**: 多維度評估解決方案品質
 
-**Tiered SLA Targets**: Different response and resolution times based on priority  
+**Tiered SLA Targets**: Different response and resolution times based on
+priority  
 **Auto-escalation**: Automatically triggers escalation on timeout  
-**Performance Tracking**: Real-time monitoring of response time, resolution time, compliance  
+**Performance Tracking**: Real-time monitoring of response time, resolution
+time, compliance  
 **Quality Assessment**: Multi-dimensional evaluation of solution quality
 
 ### 📈 效能分析與報告 (Performance Analysis & Reporting)
@@ -54,7 +62,8 @@ The Auto-Assignment System is a core feature of SynergyMesh, designed to solve r
 - **SLA 合規報告**: 達成率統計和違規分析
 
 **Statistical Dashboard**: Overview of all assignments and processing status  
-**Member Performance**: Individual workload, success rate, average resolution time  
+**Member Performance**: Individual workload, success rate, average resolution
+time  
 **Team Analysis**: Team-level performance metrics and trends  
 **SLA Compliance Report**: Compliance statistics and violation analysis
 
@@ -146,45 +155,50 @@ const response = await fetch('http://localhost:3000/api/v1/assignment/assign', {
     type: 'BACKEND_API',
     priority: 'HIGH',
     description: 'API endpoint returning 500 errors',
-    errorMessage: 'Internal Server Error'
-  })
+    errorMessage: 'Internal Server Error',
+  }),
 });
 
 const { data } = await response.json();
 console.log('分派給:', data.assignment.primaryOwner.name);
 
 // 2. 更新狀態
-await fetch(`http://localhost:3000/api/v1/assignment/status/${data.assignment.id}`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ status: 'ACKNOWLEDGED' })
-});
+await fetch(
+  `http://localhost:3000/api/v1/assignment/status/${data.assignment.id}`,
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'ACKNOWLEDGED' }),
+  }
+);
 
 // 3. 查詢工作負載
-const workloadResponse = await fetch('http://localhost:3000/api/v1/assignment/workload');
+const workloadResponse = await fetch(
+  'http://localhost:3000/api/v1/assignment/workload'
+);
 const { data: workload } = await workloadResponse.json();
 console.log('團隊工作負載:', workload);
 ```
 
 ## 問題類型對應 (Problem Type Mapping)
 
-| 問題類型 (Problem Type) | 對應團隊 (Assigned Teams) | 專業領域 (Expertise Areas) |
-|------------------------|-------------------------|-------------------------|
-| `FRONTEND_ERROR` | Frontend | React, Vue, TypeScript, UI/UX |
-| `BACKEND_API` | Backend | Node.js, Python, API, Database |
-| `DATABASE_ISSUE` | Backend, Database | Database, Performance, Backend |
-| `PERFORMANCE` | DevOps, Backend | Performance, Monitoring, Infrastructure |
-| `SECURITY` | Security, Backend | Authentication, Encryption, Security Review |
-| `INFRASTRUCTURE` | DevOps | Docker, Kubernetes, AWS, CI/CD |
+| 問題類型 (Problem Type) | 對應團隊 (Assigned Teams) | 專業領域 (Expertise Areas)                  |
+| ----------------------- | ------------------------- | ------------------------------------------- |
+| `FRONTEND_ERROR`        | Frontend                  | React, Vue, TypeScript, UI/UX               |
+| `BACKEND_API`           | Backend                   | Node.js, Python, API, Database              |
+| `DATABASE_ISSUE`        | Backend, Database         | Database, Performance, Backend              |
+| `PERFORMANCE`           | DevOps, Backend           | Performance, Monitoring, Infrastructure     |
+| `SECURITY`              | Security, Backend         | Authentication, Encryption, Security Review |
+| `INFRASTRUCTURE`        | DevOps                    | Docker, Kubernetes, AWS, CI/CD              |
 
 ## SLA 目標時間 (SLA Target Times)
 
 | 優先級<br>Priority | 回應時間<br>Response Time | 解決時間<br>Resolution Time | 無回應升級<br>No Response | 無進展升級<br>No Progress | 未解決升級<br>Unresolved |
-|------------|--------------|----------------|--------------|--------------|--------------|
-| CRITICAL   | 5 分鐘       | 60 分鐘        | 5 分鐘       | 15 分鐘      | 60 分鐘      |
-| HIGH       | 15 分鐘      | 240 分鐘       | 15 分鐘      | 30 分鐘      | 240 分鐘     |
-| MEDIUM     | 60 分鐘      | 480 分鐘       | 60 分鐘      | 120 分鐘     | 480 分鐘     |
-| LOW        | 240 分鐘     | 1440 分鐘      | 240 分鐘     | 480 分鐘     | 1440 分鐘    |
+| ------------------ | ------------------------- | --------------------------- | ------------------------- | ------------------------- | ------------------------ |
+| CRITICAL           | 5 分鐘                    | 60 分鐘                     | 5 分鐘                    | 15 分鐘                   | 60 分鐘                  |
+| HIGH               | 15 分鐘                   | 240 分鐘                    | 15 分鐘                   | 30 分鐘                   | 240 分鐘                 |
+| MEDIUM             | 60 分鐘                   | 480 分鐘                    | 60 分鐘                   | 120 分鐘                  | 480 分鐘                 |
+| LOW                | 240 分鐘                  | 1440 分鐘                   | 240 分鐘                  | 480 分鐘                  | 1440 分鐘                |
 
 ## 團隊配置 (Team Configuration)
 
@@ -301,7 +315,8 @@ where:
 
 完整的 API 文檔請參閱: [AUTO_ASSIGNMENT_API.md](./AUTO_ASSIGNMENT_API.md)
 
-For complete API documentation, see: [AUTO_ASSIGNMENT_API.md](./AUTO_ASSIGNMENT_API.md)
+For complete API documentation, see:
+[AUTO_ASSIGNMENT_API.md](./AUTO_ASSIGNMENT_API.md)
 
 ## 測試 (Testing)
 

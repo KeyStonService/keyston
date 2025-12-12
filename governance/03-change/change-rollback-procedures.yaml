@@ -22,7 +22,7 @@ rollback_triggers:
     - trigger: "安全漏洞 | Security breach"
       threshold: "新引入的安全漏洞 | Newly introduced security vulnerabilities"
       action: "立即回滾 | Immediate rollback"
-      
+
   high_priority_triggers:
     - trigger: "性能嚴重下降 | Severe performance degradation"
       threshold: "> 50% performance decrease"
@@ -33,7 +33,7 @@ rollback_triggers:
     - trigger: "用戶無法訪問 | User access blocked"
       threshold: "> 25% users affected"
       action: "緊急回滾 | Emergency rollback"
-      
+
   medium_priority_triggers:
     - trigger: "功能異常 | Feature anomalies"
       threshold: "非關鍵功能問題 | Non-critical function issues"
@@ -41,7 +41,7 @@ rollback_triggers:
     - trigger: "性能下降 | Performance degradation"
       threshold: "20-50% performance decrease"
       action: "評估後回滾 | Rollback after assessment"
-      
+
   low_priority_triggers:
     - trigger: "次要錯誤 | Minor errors"
       threshold: "非阻塞性問題 | Non-blocking issues"
@@ -57,7 +57,7 @@ rollback_decision_matrix:
     decision_maker: "incident_manager 或 on_call_engineer"
     approval_required: false
     notification: "同時進行 | Concurrent with rollback"
-    
+
   emergency_rollback:
     criteria:
       - "重大功能失效 | Major function failure"
@@ -66,7 +66,7 @@ rollback_decision_matrix:
     decision_maker: "change_manager + technical_lead"
     approval_required: "verbal_approval"
     notification: "10 分鐘內 | Within 10 minutes"
-    
+
   planned_rollback:
     criteria:
       - "非關鍵問題 | Non-critical issues"
@@ -75,7 +75,7 @@ rollback_decision_matrix:
     decision_maker: "CAB 或 change_manager"
     approval_required: true
     notification: "提前 2 小時 | 2 hours advance notice"
-    
+
   fix_forward:
     criteria:
       - "回滾比修復更複雜 | Rollback more complex than fix"
@@ -87,7 +87,6 @@ rollback_decision_matrix:
 
 # 回滾程序步驟 | Rollback Procedure Steps
 rollback_procedure:
-
   step_1_declaration:
     name: "回滾聲明 | Rollback Declaration"
     activities:
@@ -193,29 +192,28 @@ rollback_procedure:
 
 # 回滾計劃要求 | Rollback Plan Requirements
 rollback_plan_requirements:
-
   mandatory_elements:
     - element: "回滾觸發條件 | Rollback trigger conditions"
       description: "明確何時應該回滾 | Clear criteria for when to rollback"
-      
+
     - element: "回滾步驟 | Rollback steps"
       description: "詳細的逐步指令 | Detailed step-by-step instructions"
-      
+
     - element: "回滾腳本 | Rollback scripts"
       description: "自動化腳本（如適用）| Automated scripts (if applicable)"
-      
+
     - element: "驗證程序 | Verification procedures"
       description: "如何確認回滾成功 | How to confirm rollback success"
-      
+
     - element: "數據處理 | Data handling"
       description: "數據備份和恢復步驟 | Data backup and restore steps"
-      
+
     - element: "時間估計 | Time estimates"
       description: "每個步驟的預估時間 | Estimated time for each step"
-      
+
     - element: "資源需求 | Resource requirements"
       description: "所需人員和工具 | Required personnel and tools"
-      
+
     - element: "應急措施 | Contingency measures"
       description: "如果回滾失敗的備用計劃 | Backup plan if rollback fails"
 
@@ -230,27 +228,26 @@ rollback_plan_requirements:
 
 # 回滾類型 | Rollback Types
 rollback_types:
-
   full_rollback:
     description: "完全回滾到變更前狀態 | Complete rollback to pre-change state"
     when_used: "變更完全失敗或造成嚴重問題 | Change completely failed or causing severe issues"
     complexity: "medium_to_high"
     typical_duration: "30-120 minutes"
-    
+
   partial_rollback:
     description: "僅回滾部分變更 | Rollback only portion of change"
     when_used: "部分功能有問題，其他正常 | Some features problematic, others fine"
     complexity: "medium"
     typical_duration: "15-60 minutes"
     risk: "可能導致不一致 | May cause inconsistencies"
-    
+
   progressive_rollback:
     description: "分階段逐步回滾 | Gradual rollback in stages"
     when_used: "大型複雜變更 | Large complex changes"
     complexity: "high"
     typical_duration: "2-4 hours"
     advantage: "降低風險，更可控 | Lower risk, more controlled"
-    
+
   automated_rollback:
     description: "自動化執行回滾 | Automated rollback execution"
     when_used: "預定義的標準回滾 | Pre-defined standard rollbacks"
@@ -260,19 +257,18 @@ rollback_types:
 
 # 回滾測試 | Rollback Testing
 rollback_testing:
-
   testing_requirements:
     - requirement: "所有重大變更必須測試回滾程序 | All major changes must test rollback procedure"
       when: "在生產實施前 | Before production implementation"
       environment: "測試環境 | Test environment"
-      
+
   testing_scope:
     - "回滾腳本執行 | Rollback script execution"
     - "數據恢復驗證 | Data restore verification"
     - "功能驗證 | Functionality verification"
     - "性能驗證 | Performance verification"
     - "時間測量 | Timing measurement"
-    
+
   test_documentation:
     - "測試計劃 | Test plan"
     - "測試結果 | Test results"
@@ -281,76 +277,72 @@ rollback_testing:
 
 # 回滾失敗處理 | Rollback Failure Handling
 rollback_failure_handling:
-
   if_rollback_fails:
     step_1: "停止回滾操作 | Stop rollback operation"
     step_2: "評估當前狀態 | Assess current state"
     step_3: "啟動應急計劃 | Activate contingency plan"
     step_4: "上報至高級管理層 | Escalate to senior management"
     step_5: "召集專家團隊 | Convene expert team"
-    
+
   contingency_options:
     - option: "修復當前狀態 | Fix current state"
       when: "回滾不可行 | Rollback not feasible"
-      
+
     - option: "部分回滾 | Partial rollback"
       when: "完全回滾失敗 | Full rollback failed"
-      
+
     - option: "災難恢復 | Disaster recovery"
       when: "系統嚴重損壞 | System severely damaged"
-      
+
     - option: "業務連續性計劃 | Business continuity plan"
       when: "長時間恢復需要 | Extended recovery needed"
 
 # 回滾文檔 | Rollback Documentation
 rollback_documentation:
-
   required_documents:
     - document: "回滾計劃 | Rollback Plan"
       owner: "change_requestor"
       when: "變更批准前 | Before change approval"
-      
+
     - document: "回滾執行日誌 | Rollback Execution Log"
       owner: "implementation_team"
       when: "回滾期間 | During rollback"
-      
+
     - document: "回滾報告 | Rollback Report"
       owner: "change_manager"
       when: "回滾後 24 小時內 | Within 24 hours of rollback"
-      
+
     - document: "根本原因分析 | Root Cause Analysis"
       owner: "technical_lead"
       when: "回滾後 3 天內 | Within 3 days of rollback"
 
 # 回滾指標 | Rollback Metrics
 rollback_metrics:
-
   - metric: "回滾率 | Rollback Rate"
     calculation: "(回滾次數 / 總變更) × 100%"
     target: "< 3%"
-    
+
   - metric: "回滾成功率 | Rollback Success Rate"
     calculation: "(成功回滾 / 總回滾) × 100%"
     target: "> 98%"
-    
+
   - metric: "平均回滾時間 | Average Rollback Time"
     calculation: "總回滾時間 / 回滾次數"
     target: "< 60 minutes"
-    
+
   - metric: "回滾到恢復時間 | Rollback to Recovery Time"
     calculation: "從開始回滾到服務恢復的時間"
     target: "< 90 minutes"
 
 # 持續改進 | Continuous Improvement
 continuous_improvement:
-
   rollback_review:
     frequency: "每次回滾後 | After each rollback"
     focus:
       - "回滾原因分析 | Rollback cause analysis"
       - "回滾過程效率 | Rollback process efficiency"
       - "改進機會識別 | Improvement opportunity identification"
-      
+
   lessons_learned:
     capture:
       - "什麼導致回滾 | What caused rollback"
@@ -358,7 +350,7 @@ continuous_improvement:
       - "如何預防未來回滾 | How to prevent future rollbacks"
       - "流程改進建議 | Process improvement recommendations"
     repository: "governance/knowledge-base/rollback-lessons"
-    
+
   process_optimization:
     activities:
       - "簡化回滾步驟 | Streamline rollback steps"

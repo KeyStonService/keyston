@@ -7,7 +7,8 @@
 
 ## 📝 一句話總結
 
-**`docs/GOVERNANCE/` 目錄違反了「治理統一管理」原則，應立即遷移到 `governance/29-docs/`，同時需修復7組大小寫目錄衝突。**
+**`docs/GOVERNANCE/` 目錄違反了「治理統一管理」原則，應立即遷移到
+`governance/29-docs/`，同時需修復7組大小寫目錄衝突。**
 
 ---
 
@@ -89,19 +90,20 @@ python3 tools/docs/scan_repo_generate_index.py
 
 ## 📊 影響範圍
 
-| 項目 | 數量 | 風險 |
-|------|------|------|
-| 移動文件 | ~25 | 低（有腳本） |
-| 刪除目錄 | 7 | 低（空目錄） |
-| 更新引用 | 2 檔案 | 中（自動化） |
-| 破壞性 | - | 中（可Git回滾） |
+| 項目     | 數量   | 風險            |
+| -------- | ------ | --------------- |
+| 移動文件 | ~25    | 低（有腳本）    |
+| 刪除目錄 | 7      | 低（空目錄）    |
+| 更新引用 | 2 檔案 | 中（自動化）    |
+| 破壞性   | -      | 中（可Git回滾） |
 
 ---
 
 ## 📚 相關文檔
 
-1. **完整分析**: [docs/STRUCTURE_ANALYSIS_REPORT.md](./STRUCTURE_ANALYSIS_REPORT.md) (5.7KB)
-2. **修復腳本**: [docs/_fix_structure.sh](./_fix_structure.sh) (7.3KB，可執行)
+1. **完整分析**:
+   [docs/STRUCTURE_ANALYSIS_REPORT.md](./STRUCTURE_ANALYSIS_REPORT.md) (5.7KB)
+2. **修復腳本**: [docs/\_fix_structure.sh](./_fix_structure.sh) (7.3KB，可執行)
 3. **PR 描述**: 查看本 Pull Request 的完整描述
 
 ---
@@ -110,7 +112,9 @@ python3 tools/docs/scan_repo_generate_index.py
 
 ### Q: 為什麼 docs/GOVERNANCE/ 不應該存在？
 
-**A**: 根據您的專案設計，治理應該統一在 `./governance/` 目錄（23維度治理矩陣）。`docs/GOVERNANCE/` 的存在違反了這個原則，造成「治理在哪裡」的混淆。
+**A**: 根據您的專案設計，治理應該統一在 `./governance/`
+目錄（23維度治理矩陣）。`docs/GOVERNANCE/`
+的存在違反了這個原則，造成「治理在哪裡」的混淆。
 
 ### Q: 執行修復會破壞什麼嗎？
 

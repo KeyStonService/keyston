@@ -10,7 +10,8 @@
 
 ## 📋 Overview | 概述
 
-Evolutionary Governance focuses on adaptive change, learning systems, evolution patterns, and long-term organizational adaptation.
+Evolutionary Governance focuses on adaptive change, learning systems, evolution
+patterns, and long-term organizational adaptation.
 
 演化治理專注於自適應變化、學習系統、演化模式和長期組織適應。
 

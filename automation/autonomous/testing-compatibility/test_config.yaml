@@ -9,7 +9,7 @@ test_suites:
       - name: "test_gps_integration"
         expected_output: "position"
         timeout_ms: 200
-  
+
   - name: "flight_control_tests"
     modules: ["flight_controller"]
     test_cases:

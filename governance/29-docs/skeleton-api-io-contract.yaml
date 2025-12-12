@@ -5,8 +5,7 @@ input:
   schema:
     properties:
       action_type:
-        enum:
-          ["design_api", "version_api", "deprecate_api", "validate_contract"]
+        enum: ["design_api", "version_api", "deprecate_api", "validate_contract"]
 
 output:
   schema:

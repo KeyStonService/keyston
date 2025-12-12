@@ -1,13 +1,14 @@
 # 流程治理 | Process Governance
 
-> 流程管理、標準化、績效
-> Process management, standardization, and performance
+> 流程管理、標準化、績效Process management, standardization, and performance
 
 ## 📋 概述 | Overview
 
 流程治理定義了組織流程的管理框架，包括流程的設計、優化、自動化和監控。
 
-The Process Governance dimension defines the organization's process management framework, including process design, optimization, automation, and continuous monitoring.
+The Process Governance dimension defines the organization's process management
+framework, including process design, optimization, automation, and continuous
+monitoring.
 
 ## 📁 目錄結構 | Directory Structure
 
@@ -61,6 +62,5 @@ process-governance/
 
 ---
 
-**Owner 負責人**: Process Governance Team
-**Last Updated 最後更新**: 2025-12-09
+**Owner 負責人**: Process Governance Team **Last Updated 最後更新**: 2025-12-09
 **Status 狀態**: Active

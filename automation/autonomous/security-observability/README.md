@@ -44,7 +44,7 @@ import (
 func main() {
     // 創建事件日誌記錄器
     logger := observability.NewEventLogger(100)
-    
+
     // 記錄事件
     logger.LogEvent(
         observability.EventAudit,
@@ -53,10 +53,10 @@ func main() {
         "System started",
         nil,
     )
-    
+
     // 創建安全監控器
     monitor := observability.NewSafetyMonitor(logger)
-    
+
     // 檢查高度限制
     if !monitor.CheckAltitudeLimit(150.0, 100.0) {
         // 處理違規
@@ -91,13 +91,13 @@ go run main.go
 
 ## 事件分類
 
-| 類別 | 描述 | 嚴重性 |
-|------|------|--------|
-| audit | 審計事件 | INFO |
-| sensor_error | 感測器錯誤 | WARN/ERROR |
-| control_error | 控制錯誤 | ERROR/CRITICAL |
-| safety_violation | 安全違規 | CRITICAL |
-| system_error | 系統錯誤 | ERROR/CRITICAL |
+| 類別             | 描述       | 嚴重性         |
+| ---------------- | ---------- | -------------- |
+| audit            | 審計事件   | INFO           |
+| sensor_error     | 感測器錯誤 | WARN/ERROR     |
+| control_error    | 控制錯誤   | ERROR/CRITICAL |
+| safety_violation | 安全違規   | CRITICAL       |
+| system_error     | 系統錯誤   | ERROR/CRITICAL |
 
 ## 嚴重性級別
 

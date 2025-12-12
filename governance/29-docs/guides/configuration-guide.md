@@ -2,7 +2,8 @@
 
 ## Configuration Files
 
-Governance framework uses YAML configuration files located in `config/` directory.
+Governance framework uses YAML configuration files located in `config/`
+directory.
 
 ### Environment-Specific Configs
 

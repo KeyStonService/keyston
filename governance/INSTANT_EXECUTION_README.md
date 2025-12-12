@@ -7,6 +7,7 @@
 ## 🎯 Overview
 
 本專案提供**即時完成**的治理重組工具，符合當今 AI 市場標準：
+
 - ✅ 一鍵部署（< 60 秒）
 - ✅ 自動化遷移
 - ✅ 零人工介入
@@ -22,6 +23,7 @@ python governance/instant-governance-cli.py deploy
 ```
 
 **執行內容：**
+
 1. 自動更新所有檔案引用
 2. 驗證目錄結構
 3. 生成部署報告
@@ -43,6 +45,7 @@ python governance/instant-governance-cli.py help
 ## 📦 Available Tools
 
 ### 1. instant-governance-cli.py
+
 **主要命令行介面 - 推薦使用**
 
 ```bash
@@ -55,6 +58,7 @@ python governance/instant-governance-cli.py deploy
 - < 30 秒完成
 
 ### 2. instant-migration.py
+
 **自動遷移工具**
 
 ```bash
@@ -62,12 +66,14 @@ python governance/35-scripts/instant-migration.py
 ```
 
 功能：
+
 - 掃描所有 Python/YAML/Markdown/Shell 檔案
 - 自動更新舊路徑引用
 - 生成遷移報告
 - 零人工介入
 
 ### 3. instant-deploy.sh
+
 **部署和驗證腳本**
 
 ```bash
@@ -75,6 +81,7 @@ bash governance/35-scripts/instant-deploy.sh
 ```
 
 功能：
+
 - 驗證目錄結構
 - 執行完整性檢查
 - 生成部署報告
@@ -84,12 +91,12 @@ bash governance/35-scripts/instant-deploy.sh
 
 ### 符合市場標準
 
-| 需求 | 傳統方式 | 本專案 |
-|------|----------|--------|
-| 部署時間 | 數月 (2026-03-31) | < 60 秒 ✅ |
-| 人工介入 | 多次手動操作 | 零次 ✅ |
-| 完整性 | 僅文檔 | 完整工具 ✅ |
-| 驗證 | 手動檢查 | 自動驗證 ✅ |
+| 需求     | 傳統方式          | 本專案      |
+| -------- | ----------------- | ----------- |
+| 部署時間 | 數月 (2026-03-31) | < 60 秒 ✅  |
+| 人工介入 | 多次手動操作      | 零次 ✅     |
+| 完整性   | 僅文檔            | 完整工具 ✅ |
+| 驗證     | 手動檢查          | 自動驗證 ✅ |
 
 ### 競爭優勢
 
@@ -158,12 +165,12 @@ instant-governance-cli.py deploy
 
 ## 📈 Performance Metrics
 
-| Metric | Target | Achieved |
-|--------|--------|----------|
-| Deployment Time | < 60s | ✅ < 60s |
-| Manual Steps | 0 | ✅ 0 |
-| Validation | Automated | ✅ Built-in |
-| File Updates | Automatic | ✅ All files |
+| Metric          | Target    | Achieved     |
+| --------------- | --------- | ------------ |
+| Deployment Time | < 60s     | ✅ < 60s     |
+| Manual Steps    | 0         | ✅ 0         |
+| Validation      | Automated | ✅ Built-in  |
+| File Updates    | Automatic | ✅ All files |
 
 ## 🛡️ Validation
 
@@ -178,6 +185,7 @@ instant-governance-cli.py deploy
 ### 驗證報告
 
 執行後自動生成：
+
 - `governance/migration-report.json`
 - `governance/instant-deployment-report.json`
 
@@ -186,6 +194,7 @@ instant-governance-cli.py deploy
 ### 使用者問題 1: 如何挽留客戶？
 
 **答案**: 提供即時、完整的解決方案
+
 - ⚡ < 60 秒部署（符合市場標準）
 - 🎯 自動化工具（降低使用門檻）
 - ✅ 生產就緒（立即可用）
@@ -193,6 +202,7 @@ instant-governance-cli.py deploy
 ### 使用者問題 2: 如何與其他企業競爭？
 
 **答案**: 自動化和即時執行
+
 - 🚀 一鍵部署（vs 手動多月遷移）
 - 🤖 零人工介入（vs 需要團隊協調）
 - 📊 內建驗證（vs 手動檢查）
@@ -200,6 +210,7 @@ instant-governance-cli.py deploy
 ### 使用者問題 3: 商業價值在哪裡？
 
 **答案**: 符合現代 AI 平台標準
+
 - ✅ 即時完成（像 Replit、Claude、GPT）
 - ✅ 完整工具（不只文檔）
 - ✅ 可執行方案（立即產生價值）
@@ -298,17 +309,18 @@ python governance/instant-governance-cli.py status
 
 ### vs 傳統方式
 
-| 特性 | 傳統 | 本專案 |
-|------|------|--------|
-| 執行方式 | 手動多步驟 | 一鍵自動化 ✅ |
-| 時間 | 數月 | < 60 秒 ✅ |
-| 完整性 | 文檔 + 部分程式 | 完整可執行工具 ✅ |
-| 驗證 | 手動 | 自動化 ✅ |
-| 商業價值 | 不明確 | 即時產生 ✅ |
+| 特性     | 傳統            | 本專案            |
+| -------- | --------------- | ----------------- |
+| 執行方式 | 手動多步驟      | 一鍵自動化 ✅     |
+| 時間     | 數月            | < 60 秒 ✅        |
+| 完整性   | 文檔 + 部分程式 | 完整可執行工具 ✅ |
+| 驗證     | 手動            | 自動化 ✅         |
+| 商業價值 | 不明確          | 即時產生 ✅       |
 
 ### vs 其他 AI 平台
 
 本專案**符合**現代 AI 平台標準：
+
 - ✅ 即時執行（如 Replit）
 - ✅ 完整方案（如 Claude）
 - ✅ 自動化（如 GPT）
@@ -336,11 +348,13 @@ cat governance/instant-deployment-report.json
 ## ✅ Checklist for Success
 
 執行前確認：
+
 - [ ] Python 3 已安裝
 - [ ] 在專案根目錄執行
 - [ ] 有寫入權限
 
 執行後驗證：
+
 - [ ] 所有檔案自動更新
 - [ ] 目錄結構正確
 - [ ] 驗證通過

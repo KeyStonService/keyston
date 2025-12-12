@@ -2,12 +2,12 @@
 
 ## Pipeline 類型
 
-| 名稱 | 功能 |
-|------|------|
-| Schema Pipeline | 統一資料與 API 契約演進 |
-| Auto-Fix Pipeline | 靜/動態分析 + 自動修復 |
+| 名稱                | 功能                       |
+| ------------------- | -------------------------- |
+| Schema Pipeline     | 統一資料與 API 契約演進    |
+| Auto-Fix Pipeline   | 靜/動態分析 + 自動修復     |
 | Deployment Pipeline | 多階段審批 + Canary + 回滾 |
-| Knowledge Pipeline | 資料抽取、轉換、嵌入 |
+| Knowledge Pipeline  | 資料抽取、轉換、嵌入       |
 
 ## 編排引擎
 

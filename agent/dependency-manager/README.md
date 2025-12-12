@@ -2,7 +2,8 @@
 
 ## 概述
 
-依賴管理代理 (Dependency Manager Agent) 是 SynergyMesh 智能自動化系統的組件之一，負責管理項目依賴、檢測過時套件、分析依賴漏洞和自動化更新流程。
+依賴管理代理 (Dependency Manager
+Agent) 是 SynergyMesh 智能自動化系統的組件之一，負責管理項目依賴、檢測過時套件、分析依賴漏洞和自動化更新流程。
 
 ## 功能特性
 
@@ -100,28 +101,28 @@ max_workers: 8
 ecosystems:
   npm:
     enabled: true
-    manifest: "package.json"
-    lock_file: "package-lock.json"
-  
+    manifest: 'package.json'
+    lock_file: 'package-lock.json'
+
   pip:
     enabled: true
-    manifest: ["requirements.txt", "pyproject.toml"]
-  
+    manifest: ['requirements.txt', 'pyproject.toml']
+
   go:
     enabled: true
-    manifest: "go.mod"
+    manifest: 'go.mod'
 
 scanning:
   vulnerabilities:
     enabled: true
-    sources: ["nvd", "ghsa", "osv"]
-    severity_threshold: "MEDIUM"
-  
+    sources: ['nvd', 'ghsa', 'osv']
+    severity_threshold: 'MEDIUM'
+
   licenses:
     enabled: true
-    allowed: ["MIT", "Apache-2.0", "BSD-3-Clause"]
-    blocked: ["GPL-3.0"]
-  
+    allowed: ['MIT', 'Apache-2.0', 'BSD-3-Clause']
+    blocked: ['GPL-3.0']
+
   versions:
     enabled: true
     check_major: true
@@ -132,15 +133,15 @@ update_policy:
   auto_update:
     enabled: true
     security_only: false
-    
+
   semver:
-    patch: "auto"      # 自動更新 patch 版本
-    minor: "pr"        # 建立 PR 進行 minor 更新
-    major: "manual"    # major 更新需人工審查
-    
+    patch: 'auto' # 自動更新 patch 版本
+    minor: 'pr' # 建立 PR 進行 minor 更新
+    major: 'manual' # major 更新需人工審查
+
   scheduling:
     enabled: true
-    cron: "0 2 * * 1"  # 每週一凌晨 2 點
+    cron: '0 2 * * 1' # 每週一凌晨 2 點
 ```
 
 ## 輸出格式
@@ -188,27 +189,27 @@ update_policy:
 ```python
 class SecurityFirstUpdater:
     """安全優先更新策略"""
-    
+
     async def update(self, analysis: DependencyAnalysis) -> UpdateResult:
         # 優先處理安全漏洞
         vulnerable_deps = [
             dep for dep in analysis.dependencies
             if dep.has_vulnerability
         ]
-        
+
         # 按嚴重程度排序
         sorted_deps = sorted(
             vulnerable_deps,
             key=lambda d: d.vulnerability.severity,
             reverse=True
         )
-        
+
         # 執行更新
         results = []
         for dep in sorted_deps:
             result = await self.update_dependency(dep)
             results.append(result)
-        
+
         return UpdateResult(updates=results)
 ```
 
@@ -217,7 +218,7 @@ class SecurityFirstUpdater:
 ```python
 class SemVerUpdater:
     """語義化版本更新策略"""
-    
+
     def classify_update(
         self,
         current: str,
@@ -225,14 +226,14 @@ class SemVerUpdater:
     ) -> UpdateType:
         """
         分類更新類型
-        
+
         - PATCH: x.y.z -> x.y.z+1
         - MINOR: x.y.z -> x.y+1.0
         - MAJOR: x.y.z -> x+1.0.0
         """
         current_parts = parse_version(current)
         latest_parts = parse_version(latest)
-        
+
         if latest_parts.major > current_parts.major:
             return UpdateType.MAJOR
         elif latest_parts.minor > current_parts.minor:
@@ -255,14 +256,14 @@ class SemVerUpdater:
 ```python
 async def scan_vulnerabilities(manifest: str) -> List[Vulnerability]:
     """掃描依賴漏洞"""
-    
+
     scanner = VulnerabilityScanner(
         sources=["nvd", "ghsa", "osv"]
     )
-    
+
     dependencies = parse_manifest(manifest)
     vulnerabilities = []
-    
+
     for dep in dependencies:
         vuln = await scanner.check(
             package=dep.name,
@@ -271,7 +272,7 @@ async def scan_vulnerabilities(manifest: str) -> List[Vulnerability]:
         )
         if vuln:
             vulnerabilities.extend(vuln)
-    
+
     return vulnerabilities
 ```
 
@@ -301,9 +302,9 @@ blocked_licenses:
   - SSPL-1.0
 
 exceptions:
-  - package: "gnu-readline"
-    license: "GPL-3.0"
-    reason: "用於開發環境，不納入生產部署"
+  - package: 'gnu-readline'
+    license: 'GPL-3.0'
+    reason: '用於開發環境，不納入生產部署'
 ```
 
 ## CI/CD 整合
@@ -319,21 +320,21 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    - cron: '0 2 * * 1'  # 每週一凌晨 2 點
+    - cron: '0 2 * * 1' # 每週一凌晨 2 點
 
 jobs:
   dependency-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Run Dependency Manager
         run: |
           python agent/dependency-manager/src/engine.py \
             --project . \
             --scan-type full \
             --output dependency-report.json
-      
+
       - name: Check for Critical Vulnerabilities
         run: |
           critical=$(jq '.summary.critical_vulnerabilities' dependency-report.json)
@@ -341,7 +342,7 @@ jobs:
             echo "Found $critical critical vulnerabilities!"
             exit 1
           fi
-      
+
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
@@ -357,7 +358,7 @@ name: Dependency Update
 
 on:
   schedule:
-    - cron: '0 2 * * 1'  # 每週一凌晨 2 點
+    - cron: '0 2 * * 1' # 每週一凌晨 2 點
   workflow_dispatch:
 
 jobs:
@@ -365,7 +366,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Run Dependency Update
         id: update
         run: |
@@ -373,15 +374,15 @@ jobs:
             --action update \
             --policy security \
             --output updates.json
-      
+
       - name: Create Pull Request
         if: steps.update.outputs.has_updates == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
-          title: "🔒 依賴安全更新"
+          title: '🔒 依賴安全更新'
           body: |
             此 PR 包含自動化安全更新。
-            
+
             請審查變更並合併。
           branch: dependency-updates/${{ github.run_id }}
           reviewers: security-team

@@ -13,7 +13,7 @@ rules:
     description: "檢測並移除硬編碼的密鑰和敏感信息"
     severity: "CRITICAL"
     enabled: true
-    
+
     patterns:
       - regex: "password\\s*=\\s*[\"'][\\w\\W]+[\"']"
         message: "檢測到硬編碼密碼"
@@ -23,7 +23,7 @@ rules:
         message: "檢測到硬編碼密鑰"
       - regex: "token\\s*=\\s*[\"'][\\w\\W]+[\"']"
         message: "檢測到硬編碼令牌"
-    
+
     fix_strategy:
       type: "environment_variable"
       template: "security-env-var"
@@ -31,7 +31,7 @@ rules:
         # 替換硬編碼值為環境變量
         original: {variable_name} = "{hardcoded_value}"
         replacement: {variable_name} = os.getenv("{VARIABLE_NAME}")
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -43,13 +43,13 @@ rules:
     description: "修復 SQL 注入漏洞"
     severity: "CRITICAL"
     enabled: true
-    
+
     patterns:
       - regex: "execute\\([\"'].*\\+.*[\"']"
         message: "檢測到 SQL 字符串拼接"
       - regex: "query\\s*=\\s*[\"'].*\\+.*[\"']"
         message: "檢測到不安全的查詢構建"
-    
+
     fix_strategy:
       type: "parameterized_query"
       template: "security-parameterized-query"
@@ -57,7 +57,7 @@ rules:
         # 使用參數化查詢
         original: execute("SELECT * FROM users WHERE id = " + user_id)
         replacement: execute("SELECT * FROM users WHERE id = ?", (user_id,))
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -69,13 +69,13 @@ rules:
     description: "修復跨站腳本漏洞"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - regex: "innerHTML\\s*=\\s*[^(]"
         message: "檢測到不安全的 innerHTML 使用"
       - regex: "document\\.write\\("
         message: "檢測到不安全的 document.write"
-    
+
     fix_strategy:
       type: "sanitization"
       template: "security-xss-sanitize"
@@ -83,7 +83,7 @@ rules:
         # 使用安全的 HTML 注入方法
         original: element.innerHTML = userInput
         replacement: element.textContent = DOMPurify.sanitize(userInput)
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -94,11 +94,11 @@ rules:
     description: "更新存在已知漏洞的依賴項"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - type: "dependency_check"
         sources: ["snyk", "npm audit", "pip audit"]
-    
+
     fix_strategy:
       type: "dependency_update"
       template: "security-dependency-update"
@@ -107,7 +107,7 @@ rules:
         - 檢查可用的安全版本
         - 更新 package.json / requirements.txt
         - 運行測試確保兼容性
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -119,11 +119,11 @@ rules:
     description: "添加 CSRF 防護"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - type: "missing_csrf_token"
         check: "form_without_csrf"
-    
+
     fix_strategy:
       type: "add_csrf_protection"
       template: "security-csrf-token"
@@ -131,7 +131,7 @@ rules:
         # 添加 CSRF 令牌驗證
         - 在表單中添加 CSRF 令牌
         - 在服務器端驗證令牌
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -142,11 +142,11 @@ rules:
     description: "防止路徑遍歷攻擊"
     severity: "HIGH"
     enabled: true
-    
+
     patterns:
       - regex: "open\\([^)]*\\+.*[^)]*\\)"
         message: "檢測到不安全的文件路徑拼接"
-    
+
     fix_strategy:
       type: "path_sanitization"
       template: "security-path-sanitize"
@@ -154,7 +154,7 @@ rules:
         # 使用安全的路徑處理
         original: open(base_path + user_input)
         replacement: open(os.path.join(base_path, os.path.basename(user_input)))
-    
+
     verification:
       - run_tests: true
       - security_scan: true
@@ -169,11 +169,11 @@ fix_config:
   create_backup: true
   run_tests: true
   generate_report: true
-  
+
   review_requirements:
     min_approvers: 2
     required_roles: ["security-reviewer", "tech-lead"]
-    
+
   rollback_conditions:
     - test_failure: true
     - security_scan_failure: true

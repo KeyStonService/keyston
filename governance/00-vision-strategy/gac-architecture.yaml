@@ -34,13 +34,13 @@ architecture:
       location: "governance/00-vision-strategy/*.yaml"
       ownership: "Executive team + AI agents"
       update_frequency: "Quarterly strategic reviews"
-      
+
     operational:
       description: "Machine-executable K8s resources (CRDs + instances)"
       location: "governance/00-vision-strategy/k8s/"
       ownership: "Platform team + GitOps"
       update_frequency: "Automated from strategic layer"
-      
+
     enforcement:
       description: "OPA policies + admission control"
       location: "governance/00-vision-strategy/policy/"
@@ -69,7 +69,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-vision.rego"
     gitops_path: "k8s/vision-instance.yaml"
-    
+
   - strategic_doc: "strategic-objectives.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -80,7 +80,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-okr.rego"
     gitops_path: "k8s/objectives-instance.yaml"
-    
+
   - strategic_doc: "governance-charter.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -91,7 +91,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-governance.rego"
     gitops_path: "k8s/charter-instance.yaml"
-    
+
   - strategic_doc: "alignment-framework.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -102,7 +102,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-alignment.rego"
     gitops_path: "k8s/alignment-instance.yaml"
-    
+
   - strategic_doc: "risk-register.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -113,7 +113,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-risk.rego"
     gitops_path: "k8s/risk-instance.yaml"
-    
+
   - strategic_doc: "implementation-roadmap.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -124,7 +124,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-roadmap.rego"
     gitops_path: "k8s/roadmap-instance.yaml"
-    
+
   - strategic_doc: "communication-plan.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -135,7 +135,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-communication.rego"
     gitops_path: "k8s/communication-instance.yaml"
-    
+
   - strategic_doc: "success-metrics-dashboard.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -146,7 +146,7 @@ resource_mapping:
     namespace: "governance"
     opa_policy: "policy/policy-metrics.rego"
     gitops_path: "k8s/metrics-instance.yaml"
-    
+
   - strategic_doc: "change-management-protocol.yaml"
     crd:
       apiVersion: "governance.kai/v1"
@@ -179,7 +179,7 @@ deployment_phases:
         expected: "This file validates"
     no_k8s_deployment: true
     reason: "Architecture only - avoid mixing strategic docs + infrastructure"
-    
+
   phase_2:
     name: "Operational Implementation"
     status: "planned"
@@ -208,7 +208,7 @@ deployment_phases:
       - step: "Configure GitOps"
         command: "argocd app create governance-00-vision-strategy --repo <repo> --path governance/00-vision-strategy/k8s"
         validation: "argocd app get governance-00-vision-strategy"
-    
+
   phase_3:
     name: "Automation & Monitoring"
     status: "future"
@@ -226,7 +226,7 @@ deployment_phases:
 templates:
   location: "governance/00-vision-strategy/gac-templates/"
   purpose: "Ensure consistency across all K8s resources"
-  
+
   crd_template:
     file: "crd-template.yaml"
     description: "Kubernetes CRD schema for governance resources"
@@ -235,7 +235,7 @@ templates:
       - "{{ CRD_GROUP }}"
       - "{{ CRD_PLURAL }}"
       - "{{ SCHEMA_PROPERTIES }}"
-    
+
   k8s_instance_template:
     file: "k8s-instance-template.yaml"
     description: "K8s resource instance from strategic YAML"
@@ -244,7 +244,7 @@ templates:
       - "{{ NAMESPACE }}"
       - "{{ STRATEGIC_DOC_PATH }}"
       - "{{ SPEC_CONTENT }}"
-    
+
   opa_policy_template:
     file: "policy-template.rego"
     description: "OPA Gatekeeper policy for governance enforcement"
@@ -252,7 +252,7 @@ templates:
       - "{{ POLICY_NAME }}"
       - "{{ TARGET_KIND }}"
       - "{{ VALIDATION_RULES }}"
-    
+
   gitops_manifest_template:
     file: "gitops-template.yaml"
     description: "Argo CD / Flux application manifest"
@@ -260,7 +260,7 @@ templates:
       - "{{ APP_NAME }}"
       - "{{ REPO_URL }}"
       - "{{ TARGET_PATH }}"
-    
+
   validation_script_template:
     file: "validation-template.sh"
     description: "Automated validation for deployed resources"
@@ -275,11 +275,11 @@ templates:
 # ============================================================================
 
 gitops:
-  tool: "Argo CD"  # or "Flux"
+  tool: "Argo CD" # or "Flux"
   repo: "https://github.com/SynergyMesh-admin/SynergyMesh"
   branch: "main"
   path: "governance/00-vision-strategy/k8s/"
-  
+
   applications:
     - name: "governance-00-vision-strategy"
       namespace: "governance"
@@ -297,7 +297,7 @@ gitops:
           selfHeal: true
         syncOptions:
           - "CreateNamespace=true"
-      
+
   sync_waves:
     wave_0: "CRDs"
     wave_1: "Namespace"
@@ -311,20 +311,20 @@ gitops:
 opa_policies:
   tool: "OPA Gatekeeper"
   version: "v3.14+"
-  
+
   policy_categories:
     - category: "Governance Compliance"
       policies:
         - "Ensure all resources reference strategic docs"
         - "Validate version format (v20XX.QX)"
         - "Enforce ownership annotations"
-    
+
     - category: "Change Management"
       policies:
         - "Changes require approval based on classification"
         - "Critical changes require executive approval"
         - "Auto-rollback on validation failure"
-    
+
     - category: "Alignment Validation"
       policies:
         - "OKRs align with vision"
@@ -341,17 +341,17 @@ validation:
       description: "YAML syntax validation"
       tool: "yamllint"
       command: "yamllint governance/00-vision-strategy/*.yaml"
-      
+
     level_2_schema:
       description: "K8s resource schema validation"
       tool: "kubectl dry-run"
       command: "kubectl apply --dry-run=client -f k8s/"
-      
+
     level_3_policy:
       description: "OPA policy validation"
       tool: "conftest"
       command: "conftest test k8s/ --policy policy/"
-      
+
     level_4_integration:
       description: "End-to-end GitOps sync"
       tool: "argocd app sync"
@@ -378,12 +378,12 @@ traceability:
       - "governance.kai/version: <semver>"
       - "governance.kai/owner: <team>"
       - "governance.kai/last-updated: <ISO8601>"
-  
+
   change_history:
     method: "Git commits + K8s resource versioning"
     git_tags: "v2025.Q4, v2026.Q1, ..."
     k8s_versions: "Immutable instances with version in name"
-  
+
   provenance:
     method: "SLSA provenance + SBOM"
     location: "provenance/sbom.json"
@@ -403,7 +403,7 @@ ai_agents:
       - "Validate alignment (Vision → OKRs → Initiatives)"
       - "Suggest OKR updates based on metrics"
       - "Flag misalignments for review"
-  
+
   policy_agent:
     role: "OPA policy generation + optimization"
     triggers:
@@ -413,7 +413,7 @@ ai_agents:
       - "Auto-generate OPA policies from strategic docs"
       - "Suggest policy improvements"
       - "Auto-remediate common violations"
-  
+
   deployment_agent:
     role: "K8s resource generation + deployment"
     triggers:
@@ -432,11 +432,11 @@ rollback:
     trigger: "OPA policy violation OR metric threshold breach"
     action: "Revert to previous GitOps commit"
     timeline: "< 5 minutes"
-  
+
   manual:
     command: "kubectl rollout undo deployment/<name> -n governance"
     validation: "kubectl rollout status deployment/<name> -n governance"
-  
+
   disaster_recovery:
     backup_location: "S3 bucket: s3://synergymesh-governance-backup/"
     backup_frequency: "Daily snapshots"
@@ -453,14 +453,14 @@ success_criteria:
     - "GaC architecture blueprint validated"
     - "All templates scaffolded"
     - "Handoff documentation complete"
-  
+
   phase_2:
     - "9/9 CRDs deployed successfully"
     - "9/9 K8s instances created"
     - "9/9 OPA policies enforced"
     - "GitOps auto-sync working"
     - "Validation script passes 100%"
-  
+
   phase_3:
     - "AI agents operational (3/3)"
     - "Compliance dashboard live (99.9% uptime)"
@@ -473,7 +473,7 @@ success_criteria:
 
 next_steps:
   priority: "P0 - Immediate next PR"
-  
+
   agent_instructions:
     - "Read this file (gac-architecture.yaml) completely"
     - "Read all templates in gac-templates/"
@@ -484,7 +484,7 @@ next_steps:
     - "Configure GitOps manifests"
     - "Run validation-template.sh"
     - "Update README.gac-deployment.md with deployment results"
-  
+
   avoid_fragmentation:
     - "Do NOT create CRDs from scratch - use templates"
     - "Do NOT skip validation - run all checks"

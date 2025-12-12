@@ -2,38 +2,38 @@ name: Build Linux Packages
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'build/linux/**'
-      - 'governance/**'
-      - 'core/**'
-      - '.github/workflows/build-linux.yml'
+      - "build/linux/**"
+      - "governance/**"
+      - "core/**"
+      - ".github/workflows/build-linux.yml"
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   workflow_dispatch:
 
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
-      
+          python-version: "3.11"
+          cache: "pip"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      
+          node-version: "20"
+          cache: "npm"
+
       - name: Install build dependencies
         run: |
           sudo apt-get update
@@ -46,23 +46,23 @@ jobs:
             fuse \
             libfuse2 \
             desktop-file-utils
-          
+
           pip3 install pyinstaller
-      
+
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip setuptools wheel
           pip3 install -r build/linux/linux-requirements.txt
-      
+
       - name: Install Node.js dependencies
         run: npm install
-      
+
       - name: Build Linux packages
         run: |
           cd build/linux
           chmod +x build-linux.sh build-appimage.sh build-deb.sh build-rpm.sh
           ./build-linux.sh
-      
+
       - name: Sign packages (if GPG key available)
         if: ${{ secrets.GPG_PRIVATE_KEY != '' }}
         env:
@@ -71,24 +71,24 @@ jobs:
         run: |
           # Import GPG key
           echo "$GPG_PRIVATE_KEY" | gpg --import --batch --yes
-          
+
           # Sign DEB package
           if [ -f build/linux/debian/synergymesh-governance_*.deb ]; then
             dpkg-sig --sign builder build/linux/debian/synergymesh-governance_*.deb
           fi
-          
+
           # Sign RPM package
           if [ -f build/linux/redhat/synergymesh-governance-*.rpm ]; then
             rpm --addsign build/linux/redhat/synergymesh-governance-*.rpm
           fi
-      
+
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
         with:
           name: linux-appimage
           path: build/linux/SynergyMesh-Governance-*.AppImage
           retention-days: 30
-      
+
       - name: Upload DEB package
         uses: actions/upload-artifact@v4
         if: always()
@@ -96,7 +96,7 @@ jobs:
           name: linux-deb-package
           path: build/linux/debian/synergymesh-governance_*.deb
           retention-days: 30
-      
+
       - name: Upload RPM package
         uses: actions/upload-artifact@v4
         if: always()
@@ -104,13 +104,13 @@ jobs:
           name: linux-rpm-package
           path: build/linux/redhat/synergymesh-governance-*.rpm
           retention-days: 30
-      
+
       - name: Test AppImage
         run: |
           chmod +x build/linux/SynergyMesh-Governance-*.AppImage
           # ./build/linux/SynergyMesh-Governance-*.AppImage --version
           echo "AppImage test placeholder"
-      
+
       - name: Test DEB package
         run: |
           # sudo dpkg -i build/linux/debian/synergymesh-governance_*.deb

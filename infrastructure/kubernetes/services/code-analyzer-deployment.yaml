@@ -18,32 +18,32 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       containers:
-      - name: code-analyzer
-        image: autofix-bot/code-analyzer:latest
-        ports:
-        - containerPort: 8080
-        - containerPort: 9090
-        envFrom:
-        - configMapRef:
-            name: autofix-bot-config
-        - secretRef:
-            name: autofix-bot-secrets
-        resources:
-          requests:
-            cpu: 1
-            memory: 2Gi
-          limits:
-            cpu: 2
-            memory: 4Gi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 5
+        - name: code-analyzer
+          image: autofix-bot/code-analyzer:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: autofix-bot-config
+            - secretRef:
+                name: autofix-bot-secrets
+          resources:
+            requests:
+              cpu: 1
+              memory: 2Gi
+            limits:
+              cpu: 2
+              memory: 4Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5

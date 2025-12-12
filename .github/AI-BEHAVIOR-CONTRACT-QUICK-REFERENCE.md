@@ -50,23 +50,23 @@ If task is large/complex, IMMEDIATELY provide:
 ```yaml
 proposed_subtasks:
   1:
-    name: "First concrete step"
-    required_files: ["list", "of", "files"]
-    output: "Specific deliverable"
-  
-  2:
-    name: "Second concrete step"
-    depends_on: [1]
-    required_files: ["more", "files"]
-    output: "Another deliverable"
-  
-  3:
-    name: "Third concrete step"
-    depends_on: [1, 2]
-    output: "Final output"
+    name: 'First concrete step'
+    required_files: ['list', 'of', 'files']
+    output: 'Specific deliverable'
 
-recommendation: "Start with task 1 because <reason>"
-user_choice: "Which task should I start with?"
+  2:
+    name: 'Second concrete step'
+    depends_on: [1]
+    required_files: ['more', 'files']
+    output: 'Another deliverable'
+
+  3:
+    name: 'Third concrete step'
+    depends_on: [1, 2]
+    output: 'Final output'
+
+recommendation: 'Start with task 1 because <reason>'
+user_choice: 'Which task should I start with?'
 ```
 
 ❌ **NEVER SAY:** "This is too complex to do"  
@@ -81,16 +81,16 @@ user_choice: "Which task should I start with?"
 ```yaml
 file_modification_protocol:
   default: DRAFT_MODE
-  
+
   output_format:
-    file: "config/system.yaml"
+    file: 'config/system.yaml'
     proposed_changes: |
       # Full modified content here
       # User will decide to apply
-  
+
   ask_user:
-    - "Should I output as draft? (default: YES)"
-    - "Or commit directly? (explicit authorization required)"
+    - 'Should I output as draft? (default: YES)'
+    - 'Or commit directly? (explicit authorization required)'
 ```
 
 **Direct write triggers:**
@@ -105,7 +105,8 @@ file_modification_protocol:
 
 Ask yourself:
 
-1. ❓ Did I use vague words? (seems/might/possibly) → **Replace with concrete facts**
+1. ❓ Did I use vague words? (seems/might/possibly) → **Replace with concrete
+   facts**
 2. ❓ Is my response CAN_COMPLETE or CANNOT_COMPLETE? → **Must be one**
 3. ❓ If CANNOT_COMPLETE, did I list exact missing files? → **Add file paths**
 4. ❓ If task is large, did I break it down? → **Provide 2-3 subtasks**
@@ -121,13 +122,13 @@ Ask yourself:
 status: CANNOT_COMPLETE
 
 missing_resources:
-  - "exact/file/path.yaml (full content)"
-  - "Error message from command X"
-  - "Current value of variable Y"
+  - 'exact/file/path.yaml (full content)'
+  - 'Error message from command X'
+  - 'Current value of variable Y'
 
 to_proceed:
-  provide: "List above"
-  then: "I can deliver complete solution"
+  provide: 'List above'
+  then: 'I can deliver complete solution'
 ```
 
 ### Template 2: When Task is Complex
@@ -138,49 +139,49 @@ task_assessment:
   recommendation: DECOMPOSE
 
 subtasks:
-  - step_1: "Analyze current state"
-    needs: ["file1.md", "file2.yaml"]
-    delivers: "Analysis document"
-  
-  - step_2: "Design solution"
-    depends_on: [step_1]
-    delivers: "Design blueprint"
-  
-  - step_3: "Implement changes"
-    depends_on: [step_2]
-    delivers: "Working code"
+  - step_1: 'Analyze current state'
+    needs: ['file1.md', 'file2.yaml']
+    delivers: 'Analysis document'
 
-start_with: "step_1 (must understand current state first)"
+  - step_2: 'Design solution'
+    depends_on: [step_1]
+    delivers: 'Design blueprint'
+
+  - step_3: 'Implement changes'
+    depends_on: [step_2]
+    delivers: 'Working code'
+
+start_with: 'step_1 (must understand current state first)'
 ```
 
 ### Template 3: When Providing Draft
 
 ```yaml
 draft_output:
-  file: "config/system-manifest.yaml"
-  change_type: "MODIFY (lines 10-20)"
-  
+  file: 'config/system-manifest.yaml'
+  change_type: 'MODIFY (lines 10-20)'
+
   proposed_content: |
     # Complete modified file content
     # Ready for user review
-  
+
   instructions:
-    1: "Review the changes above"
-    2: "If approved, copy to actual file"
-    3: "Or request modifications"
+    1: 'Review the changes above'
+    2: 'If approved, copy to actual file'
+    3: 'Or request modifications'
 ```
 
 ---
 
 ## 🚨 Common Violations & Fixes
 
-| Violation | Fix |
-|-----------|-----|
-| "The file seems incomplete" | "Missing lines 50-100 from config/app.yaml" |
-| "I might not have access" | "Cannot read /etc/secrets/key.pem (Permission denied)" |
-| "This is too complex" | "Breaking into 3 tasks: 1) Analyze 2) Design 3) Implement" |
-| "I'll update the file" | "Here's the DRAFT content. Should I commit directly?" |
-| "Just provide guidance" | "Here's COMPLETE working code (ready to use)" |
+| Violation                   | Fix                                                        |
+| --------------------------- | ---------------------------------------------------------- |
+| "The file seems incomplete" | "Missing lines 50-100 from config/app.yaml"                |
+| "I might not have access"   | "Cannot read /etc/secrets/key.pem (Permission denied)"     |
+| "This is too complex"       | "Breaking into 3 tasks: 1) Analyze 2) Design 3) Implement" |
+| "I'll update the file"      | "Here's the DRAFT content. Should I commit directly?"      |
+| "Just provide guidance"     | "Here's COMPLETE working code (ready to use)"              |
 
 ---
 

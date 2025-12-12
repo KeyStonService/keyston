@@ -16,18 +16,18 @@ metadata:
 authentication:
   policy_id: "SEC-AUTH-001"
   description: "All services must implement authentication"
-  
+
   rules:
     - rule: "api_authentication_required"
       description: "All API endpoints must require authentication"
       enforcement: "blocking"
       exceptions: ["health_check", "metrics"]
-    
+
     - rule: "strong_authentication"
       description: "Use strong authentication methods (JWT, OAuth2, mTLS)"
       enforcement: "blocking"
       allowed_methods: ["jwt", "oauth2", "mtls"]
-    
+
     - rule: "token_expiration"
       description: "Authentication tokens must have expiration"
       enforcement: "blocking"
@@ -36,16 +36,16 @@ authentication:
 authorization:
   policy_id: "SEC-AUTHZ-001"
   description: "Implement least-privilege access control"
-  
+
   rules:
     - rule: "rbac_required"
       description: "All services must implement RBAC"
       enforcement: "blocking"
-    
+
     - rule: "default_deny"
       description: "Default deny all access, explicitly allow"
       enforcement: "blocking"
-    
+
     - rule: "permission_audit"
       description: "All permission checks must be audited"
       enforcement: "blocking"
@@ -54,18 +54,18 @@ authorization:
 encryption:
   policy_id: "SEC-ENC-001"
   description: "Data encryption requirements"
-  
+
   rules:
     - rule: "data_at_rest_encryption"
       description: "All sensitive data must be encrypted at rest"
       enforcement: "blocking"
       algorithms: ["AES-256", "ChaCha20-Poly1305"]
-    
+
     - rule: "data_in_transit_encryption"
       description: "All data in transit must use TLS 1.3+"
       enforcement: "blocking"
       min_tls_version: "1.3"
-    
+
     - rule: "key_rotation"
       description: "Encryption keys must be rotated regularly"
       enforcement: "warning"
@@ -75,17 +75,17 @@ encryption:
 secrets:
   policy_id: "SEC-SEC-001"
   description: "Secrets management policies"
-  
+
   rules:
     - rule: "no_hardcoded_secrets"
       description: "No hardcoded secrets in code or config"
       enforcement: "blocking"
-    
+
     - rule: "use_vault"
       description: "Use HashiCorp Vault or equivalent for secrets"
       enforcement: "blocking"
       allowed_tools: ["vault", "aws_secrets_manager", "azure_key_vault"]
-    
+
     - rule: "secret_rotation"
       description: "Secrets must be rotated regularly"
       enforcement: "warning"
@@ -95,16 +95,16 @@ secrets:
 network:
   policy_id: "SEC-NET-001"
   description: "Network security policies"
-  
+
   rules:
     - rule: "private_network_only"
       description: "Internal services must use private network"
       enforcement: "blocking"
-    
+
     - rule: "firewall_rules"
       description: "All services must have firewall rules"
       enforcement: "blocking"
-    
+
     - rule: "ddos_protection"
       description: "Public endpoints must have DDoS protection"
       enforcement: "blocking"
@@ -113,18 +113,18 @@ network:
 vulnerabilities:
   policy_id: "SEC-VUL-001"
   description: "Vulnerability management policies"
-  
+
   rules:
     - rule: "no_critical_vulnerabilities"
       description: "No critical vulnerabilities allowed in production"
       enforcement: "blocking"
       severity_threshold: "high"
-    
+
     - rule: "vulnerability_scanning"
       description: "All images and dependencies must be scanned"
       enforcement: "blocking"
       scan_frequency: "on_build"
-    
+
     - rule: "patch_sla"
       description: "Patches must be applied within SLA"
       enforcement: "warning"
@@ -139,6 +139,5 @@ compliance:
     - ISO_27001
     - SOC_2
     - GDPR
-  
-  audit_frequency: "quarterly"
 
+  audit_frequency: "quarterly"

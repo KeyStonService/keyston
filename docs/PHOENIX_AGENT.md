@@ -7,9 +7,13 @@
 
 ## 🦅 Overview | 概述
 
-Dr. Phoenix (鳳凰博士) is a **Virtual Expert Agent** designed to automatically detect and fix system failures without human intervention. Named after the mythical phoenix bird that rises from its ashes, this agent embodies the principle of self-healing and continuous system recovery.
+Dr. Phoenix (鳳凰博士) is a **Virtual Expert Agent** designed to automatically
+detect and fix system failures without human intervention. Named after the
+mythical phoenix bird that rises from its ashes, this agent embodies the
+principle of self-healing and continuous system recovery.
 
-Dr. Phoenix (鳳凰博士) 是一個**虛擬專家代理**，旨在自動檢測並修復系統故障，無需人工介入。以神話中的鳳凰命名，這個代理體現了自我修復和持續系統恢復的原則。
+Dr. Phoenix
+(鳳凰博士) 是一個**虛擬專家代理**，旨在自動檢測並修復系統故障，無需人工介入。以神話中的鳳凰命名，這個代理體現了自我修復和持續系統恢復的原則。
 
 ## 🎯 Key Features | 主要功能
 
@@ -81,7 +85,8 @@ docs/RECOVERY_PLAYBOOK.md                    - Recovery procedures
 ### Core Values | 核心價值觀
 
 1. **System availability above all** | 系統可用性至上
-2. **Automated recovery first, human intervention last** | 自動恢復優先，人工介入最後
+2. **Automated recovery first, human intervention last**
+   | 自動恢復優先，人工介入最後
 3. **Learn from every failure** | 從每次失敗中學習
 4. **Prevention is better than cure** | 預防勝於治療
 
@@ -96,12 +101,12 @@ docs/RECOVERY_PLAYBOOK.md                    - Recovery procedures
 
 ### Tools | 工具
 
-| Tool | Purpose | Location |
-|------|---------|----------|
-| Health Monitor | Real-time health monitoring | `services/watchdog/health_monitor.py` |
-| Process Watchdog | Process-level monitoring | `services/watchdog/system_watchdog.py` |
-| Emergency Recovery | Standalone bootstrap | `emergency_recovery.py` |
-| Log Analyzer | Intelligent log analysis | `services/agents/recovery/log_analyzer.py` |
+| Tool               | Purpose                     | Location                                   |
+| ------------------ | --------------------------- | ------------------------------------------ |
+| Health Monitor     | Real-time health monitoring | `services/watchdog/health_monitor.py`      |
+| Process Watchdog   | Process-level monitoring    | `services/watchdog/system_watchdog.py`     |
+| Emergency Recovery | Standalone bootstrap        | `emergency_recovery.py`                    |
+| Log Analyzer       | Intelligent log analysis    | `services/agents/recovery/log_analyzer.py` |
 
 ## 🔧 How It Works | 工作原理
 
@@ -160,14 +165,14 @@ graph TD
 
 ### Recovery Strategies | 恢復策略
 
-| Priority | Strategy | When Used | Duration |
-|----------|----------|-----------|----------|
-| 1 | Quick Restart | First attempt, simple crash | 30s |
-| 2 | Safe Mode Restart | Config suspected | 2m |
-| 3 | Configuration Rollback | Recent config change | 5m |
-| 4 | Service Dependency Restart | Dependency issues | 10m |
-| 5 | Backup Restore | Data corruption | 30m |
-| 6 | Full System Bootstrap | All else failed | 2h |
+| Priority | Strategy                   | When Used                   | Duration |
+| -------- | -------------------------- | --------------------------- | -------- |
+| 1        | Quick Restart              | First attempt, simple crash | 30s      |
+| 2        | Safe Mode Restart          | Config suspected            | 2m       |
+| 3        | Configuration Rollback     | Recent config change        | 5m       |
+| 4        | Service Dependency Restart | Dependency issues           | 10m      |
+| 5        | Backup Restore             | Data corruption             | 30m      |
+| 6        | Full System Bootstrap      | All else failed             | 2h       |
 
 ## 🚀 Usage | 使用方法
 
@@ -240,13 +245,13 @@ tail -f .automation_logs/emergency_recovery.log
 
 ## 📊 Escalation Levels | 升級級別
 
-| Level | Trigger | Action | Notification |
-|-------|---------|--------|--------------|
-| 1 | Recovery successful | Log only | None |
-| 2 | Recovery in progress | Status update | Info |
-| 3 | Multiple attempts | Alert team | Slack |
-| 4 | All recovery failed | Page on-call | Slack + Email |
-| 5 | System-wide outage | Disaster recovery | All channels |
+| Level | Trigger              | Action            | Notification  |
+| ----- | -------------------- | ----------------- | ------------- |
+| 1     | Recovery successful  | Log only          | None          |
+| 2     | Recovery in progress | Status update     | Info          |
+| 3     | Multiple attempts    | Alert team        | Slack         |
+| 4     | All recovery failed  | Page on-call      | Slack + Email |
+| 5     | System-wide outage   | Disaster recovery | All channels  |
 
 ## 🔐 Security & Authority | 安全性與權限
 
@@ -300,12 +305,12 @@ Key settings:
 
 ```yaml
 monitoring:
-  health_check_interval: 30  # seconds
-  heartbeat_timeout: 90      # seconds
+  health_check_interval: 30 # seconds
+  heartbeat_timeout: 90 # seconds
 
 recovery:
   max_restart_attempts: 3
-  retry_delay: 5             # seconds
+  retry_delay: 5 # seconds
 
 escalation:
   enabled: true
@@ -316,7 +321,8 @@ escalation:
 
 ### With automation_launcher.py | 與 automation_launcher.py 整合
 
-Phoenix monitors the launcher and can restart it if it fails. The launcher should:
+Phoenix monitors the launcher and can restart it if it fails. The launcher
+should:
 
 1. Send heartbeats every 20 seconds
 2. Register with watchdog on startup
@@ -401,6 +407,7 @@ For issues or questions:
 
 ---
 
-**Remember | 記住**: Dr. Phoenix is here to ensure the system never stays down. When everything else fails, Phoenix rises from the ashes to restore service.
+**Remember | 記住**: Dr. Phoenix is here to ensure the system never stays down.
+When everything else fails, Phoenix rises from the ashes to restore service.
 
 **Dr. Phoenix: 鳳凰博士 - 永不放棄的守護者**

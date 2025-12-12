@@ -34,10 +34,7 @@
       "source": "test",
       "data": {
         "agent_id": "test-agent-001",
-        "capabilities": [
-          "read",
-          "write"
-        ]
+        "capabilities": ["read", "write"]
       },
       "causal_parent": null,
       "status": "completed"

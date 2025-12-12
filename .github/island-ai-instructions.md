@@ -3,19 +3,22 @@
 ## 📋 Project Overview
 
 **Project Name:** SynergyMesh  
-**Goal:** Next-generation cloud-native platform for intelligent business automation and seamless data orchestration with SLSA provenance capabilities  
+**Goal:** Next-generation cloud-native platform for intelligent business
+automation and seamless data orchestration with SLSA provenance capabilities  
 **Tech Stack:** TypeScript, Node.js, Express, Jest, Zod, Sigstore  
 **License:** MIT
 
 ### Vision
-🚀 Building the future of enterprise integration
-✨ Transforming enterprises through AI-powered workflows and unified digital experiences
+
+🚀 Building the future of enterprise integration ✨ Transforming enterprises
+through AI-powered workflows and unified digital experiences
 
 ---
 
 ## 🎯 Code Style and Standards
 
 ### Language and Framework
+
 - **Primary Language:** TypeScript (strict mode)
 - **Backend Framework:** Express.js
 - **Node Version:** >=18.0.0
@@ -26,6 +29,7 @@
 ### Code Conventions
 
 #### TypeScript Configuration
+
 ```typescript
 // ✅ TypeScript settings (already configured)
 {
@@ -52,17 +56,23 @@
 ```
 
 #### Naming Conventions
+
 - **File names:** kebab-case (e.g., `provenance.ts`, `slsa.ts`)
 - **Class names:** PascalCase (e.g., `ProvenanceController`, `SLSAValidator`)
-- **Function names:** camelCase (e.g., `validateProvenance()`, `verifySignature()`)
+- **Function names:** camelCase (e.g., `validateProvenance()`,
+  `verifySignature()`)
 - **Constants:** UPPER_SNAKE_CASE (e.g., `MAX_RETRIES`, `DEFAULT_TIMEOUT`)
-- **Private members:** Prefix with `_` (e.g., `_internalCache`, `_validateInput()`)
+- **Private members:** Prefix with `_` (e.g., `_internalCache`,
+  `_validateInput()`)
 
 #### Code Format
+
 - **Indentation:** 2 spaces
 - **Line length:** Maximum 100 characters
 - **Semicolons:** Required
-- **Quotes:** Single quotes `'` preferred for general strings; double quotes `"` acceptable in JSX and specific contexts (e.g., error messages, when avoiding escape characters)
+- **Quotes:** Single quotes `'` preferred for general strings; double quotes `"`
+  acceptable in JSX and specific contexts (e.g., error messages, when avoiding
+  escape characters)
 - **Trailing commas:** Use (ES5 compatible)
 
 ```typescript
@@ -75,13 +85,14 @@ const config = {
 
 // ❌ Incorrect example
 const config = {
-  apiUrl: "https://api.example.com",
+  apiUrl: 'https://api.example.com',
   timeout: 5000,
-  retries: 3
-}
+  retries: 3,
+};
 ```
 
 ### ESLint Rules
+
 ```javascript
 // ESLint configuration
 {
@@ -104,6 +115,7 @@ const config = {
 ## 🏗️ Architecture and Design Patterns
 
 ### Project Structure
+
 ```
 synergymesh/
 ├── .github/
@@ -141,6 +153,7 @@ synergymesh/
 ### Design Patterns
 
 #### 1. Controller Pattern
+
 ```typescript
 // ✅ Recommended: Use controller pattern for route handlers
 export class ProvenanceController {
@@ -157,6 +170,7 @@ export class ProvenanceController {
 ```
 
 #### 2. Middleware Pattern
+
 ```typescript
 // ✅ Recommended: Use middleware for cross-cutting concerns
 // Example: Realistic logging middleware with trace ID, timing, sanitization, and log levels
@@ -178,20 +192,24 @@ export const loggingMiddleware = (
 
   res.on('finish', () => {
     const durationMs = Number(process.hrtime.bigint() - start) / 1_000_000;
-    logger.info({
-      traceId,
-      method: req.method,
-      path: req.path,
-      status: res.statusCode,
-      durationMs,
-      headers: sanitizedHeaders,
-    }, 'Request completed');
+    logger.info(
+      {
+        traceId,
+        method: req.method,
+        path: req.path,
+        status: res.statusCode,
+        durationMs,
+        headers: sanitizedHeaders,
+      },
+      'Request completed'
+    );
   });
   next();
 };
 ```
 
 #### 3. Validation with Zod
+
 ```typescript
 // ✅ Recommended: Use Zod for input validation
 import { z } from 'zod';
@@ -210,21 +228,27 @@ type Provenance = z.infer<typeof provenanceSchema>;
 ## 📝 Documentation and Comments
 
 ### Documentation Language
+
 This project uses a **bilingual documentation approach**:
-- **JSDoc and code comments**: May use Traditional Chinese (繁體中文) for function summaries, especially in existing code
-- **English**: Used for detailed parameter descriptions, technical documentation, and new features
-- **Consistency**: When adding to existing files, match the language style already present
+
+- **JSDoc and code comments**: May use Traditional Chinese (繁體中文) for
+  function summaries, especially in existing code
+- **English**: Used for detailed parameter descriptions, technical
+  documentation, and new features
+- **Consistency**: When adding to existing files, match the language style
+  already present
 
 ### JSDoc Comments
+
 ```typescript
 /**
  * 創建構建認證 (Create build attestation)
- * 
+ *
  * @param artifactId - Unique identifier of the artifact
  * @param provenance - Provenance data to validate
  * @returns Validation result with details
  * @throws {ValidationError} When provenance is invalid
- * 
+ *
  * @example
  * const result = await validateProvenance('artifact-001', provenanceData);
  */
@@ -237,13 +261,14 @@ async validateProvenance(
 ```
 
 ### Class and Interface Documentation
+
 ```typescript
 /**
  * SLSA provenance validator
- * 
+ *
  * Validates artifacts against SLSA framework requirements.
  * Supports multiple SLSA levels and custom validation rules.
- * 
+ *
  * @class
  * @example
  * const validator = new SLSAValidator();
@@ -255,7 +280,7 @@ class SLSAValidator {
 
 /**
  * Validation result interface
- * 
+ *
  * @interface
  */
 interface ValidationResult {
@@ -273,6 +298,7 @@ interface ValidationResult {
 ## 🧪 Testing Standards
 
 ### Test Structure
+
 ```typescript
 // ✅ Recommended test structure
 describe('ProvenanceController', () => {
@@ -305,15 +331,14 @@ describe('ProvenanceController', () => {
       mockService.get.mockRejectedValue(new NotFoundError());
 
       // Act & Assert
-      await expect(controller.getProvenance(id)).rejects.toThrow(
-        NotFoundError
-      );
+      await expect(controller.getProvenance(id)).rejects.toThrow(NotFoundError);
     });
   });
 });
 ```
 
 ### Test Coverage
+
 - **Minimum coverage:** 80%
 - **Critical paths:** 100%
 - **Error handling:** 100%
@@ -323,6 +348,7 @@ describe('ProvenanceController', () => {
 ## 🔒 Security Best Practices
 
 ### Environment Variables
+
 ```typescript
 // ✅ Recommended: Use environment variables for sensitive data
 import dotenv from 'dotenv';
@@ -349,6 +375,7 @@ const config = {
 ```
 
 ### Input Validation
+
 ```typescript
 // ✅ Recommended: Validate all user input
 import { z } from 'zod';
@@ -366,6 +393,7 @@ async function processArtifact(input: unknown): Promise<Result> {
 ```
 
 ### Error Handling
+
 ```typescript
 // ✅ Recommended: Proper error handling and logging
 class ProvenanceService {
@@ -380,7 +408,7 @@ class ProvenanceService {
         console.warn(`Provenance not found: ${id}`);
         throw error;
       }
-      
+
       console.error('Unexpected validation error', {
         id,
         error: error instanceof Error ? error.message : String(error),
@@ -396,6 +424,7 @@ class ProvenanceService {
 ## 📦 Dependency Management
 
 ### Key Dependencies
+
 ```json
 {
   "dependencies": {
@@ -424,12 +453,14 @@ class ProvenanceService {
 ## 🚀 Git Workflow
 
 ### Branch Naming
+
 - **Feature branches:** `feature/description` (e.g., `feature/slsa-validator`)
 - **Fix branches:** `fix/description` (e.g., `fix/provenance-validation`)
 - **Docs branches:** `docs/description` (e.g., `docs/api-reference`)
 - **Release branches:** `release/version` (e.g., `release/1.0.0`)
 
 ### Commit Messages (Conventional Commits)
+
 ```
 <type>(<scope>): <subject>
 
@@ -457,6 +488,7 @@ Closes #123
 ```
 
 ### Pull Request Checklist
+
 - [ ] Code follows style guide
 - [ ] Tests added and passing
 - [ ] Test coverage ≥ 80%
@@ -470,6 +502,7 @@ Closes #123
 ## 🔄 CI/CD
 
 ### GitHub Actions
+
 ```yaml
 # .github/workflows/ci.yml
 name: CI
@@ -499,6 +532,7 @@ jobs:
 ## 💡 General Guidelines
 
 ### When generating code:
+
 1. ✅ Prioritize TypeScript and type safety
 2. ✅ Follow architecture and naming conventions above
 3. ✅ Include complete JSDoc comments
@@ -509,6 +543,7 @@ jobs:
 8. ✅ Follow security best practices
 
 ### When answering questions:
+
 1. ✅ Provide specific code examples
 2. ✅ Explain why it's best practice
 3. ✅ Point out common pitfalls
@@ -533,16 +568,19 @@ jobs:
 ### SynergyMesh Core Features
 
 #### Provenance Management
+
 - SLSA compliance validation
 - Signature verification with Sigstore
 - Provenance data storage and retrieval
 
 #### Contract Management
+
 - L1 contract service implementation
 - RESTful API for contract operations
 - Secure contract validation
 
 #### Security Features
+
 - Helmet for security headers
 - CORS configuration
 - Input validation with Zod

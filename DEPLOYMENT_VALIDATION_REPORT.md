@@ -15,13 +15,13 @@
 
 ## ✅ Phase 1: 环境检查
 
-| 组件 | 状态 | 版本/信息 |
-|------|------|-----------|
-| Node.js | ✅ | v20.19.6 |
-| npm | ✅ | 10.8.2 |
-| Python | ✅ | Python 3.12.3 |
-| Docker | ⚠️ | Docker version 28.0.4, build b8034c0 |
-| Docker Compose | ⚠️ | Docker Compose version v2.38.2 |
+| 组件           | 状态 | 版本/信息                            |
+| -------------- | ---- | ------------------------------------ |
+| Node.js        | ✅   | v20.19.6                             |
+| npm            | ✅   | 10.8.2                               |
+| Python         | ✅   | Python 3.12.3                        |
+| Docker         | ⚠️   | Docker version 28.0.4, build b8034c0 |
+| Docker Compose | ⚠️   | Docker Compose version v2.38.2       |
 
 ---
 
@@ -31,18 +31,11 @@
 - ✅ Python 依赖安装完成
 - ✅ TypeScript 项目构建完成
 
-**npm workspaces**:
-  "workspaces": [
-    "mcp-servers",
-    "core/contract_service/contracts-L1/contracts",
-    "core/advisory-database",
-    "apps/web",
-    "island-ai"
-  ],
-  "scripts": {
-    "lint": "npm run lint --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
+**npm workspaces**: "workspaces": [ "mcp-servers",
+"core/contract_service/contracts-L1/contracts", "core/advisory-database",
+"apps/web", "island-ai" ], "scripts": { "lint": "npm run lint --workspaces
+--if-present", "test": "npm run test --workspaces --if-present", "build": "npm
+run build --workspaces --if-present",
 
 ---
 
@@ -221,8 +214,8 @@ docker compose -f docker-compose.dev.yml up -d
 
 ## 📊 系统健康指标
 
-| 指标 | 状态 |
-|------|------|
+| 指标     | 状态    |
+| -------- | ------- |
 | 部署状态 | ✅ 成功 |
 | 核心服务 | ✅ 就绪 |
 | 配置验证 | ✅ 通过 |
@@ -235,7 +228,8 @@ docker compose -f docker-compose.dev.yml up -d
 - **快速开始**: [QUICK_START.md](QUICK_START.md)
 - **完整文档**: [README.md](README.md)
 - **部署清单**: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)
-- **问题报告**: [GitHub Issues](https://github.com/SynergyMesh/SynergyMesh/issues)
+- **问题报告**:
+  [GitHub Issues](https://github.com/SynergyMesh/SynergyMesh/issues)
 
 ---
 

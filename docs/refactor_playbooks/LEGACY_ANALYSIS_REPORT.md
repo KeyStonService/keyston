@@ -1,23 +1,30 @@
 # Legacy Scratch Refactor Playbook System - Analysis Report
 
-# _legacy_scratch 重構劇本系統 - 完整分析報告
+# \_legacy_scratch 重構劇本系統 - 完整分析報告
 
 **Generated:** 2025-12-06  
-**Source:** `docs/refactor_playbooks/_legacy_scratch/refactor_readme.txt` (已移除 / Removed)  
+**Source:** `docs/refactor_playbooks/_legacy_scratch/refactor_readme.txt`
+(已移除 / Removed)  
 **Status:** Integration Complete - Legacy Files Removed (2025-12-07)
 
 ---
 
 ## 📋 Executive Summary（執行摘要）
 
-本報告完整分析 `_legacy_scratch/refactor_readme.txt` 中描述的三階段重構劇本系統架構，並將其邏輯提取、解構並整合到現有專案結構中。該系統是 Unmanned Island System 語言治理與架構重構的核心控制平面。
+本報告完整分析 `_legacy_scratch/refactor_readme.txt`
+中描述的三階段重構劇本系統架構，並將其邏輯提取、解構並整合到現有專案結構中。該系統是 Unmanned
+Island System 語言治理與架構重構的核心控制平面。
 
-**注意**: 原始舊檔案 (`README.md`, `refactor_readme.txt`) 已於 2025-12-07 從 `_legacy_scratch/` 目錄中移除，因為內容已完全遷移到正式結構。`_legacy_scratch/` 目錄本身保留作為未來重構過程中的暫存區域。
+**注意**: 原始舊檔案 (`README.md`, `refactor_readme.txt`) 已於 2025-12-07 從
+`_legacy_scratch/` 目錄中移除，因為內容已完全遷移到正式結構。`_legacy_scratch/`
+目錄本身保留作為未來重構過程中的暫存區域。
 
 ### 核心發現
 
-1. **三階段重構流程已實現**：01_deconstruction → 02_integration → 03_refactor 目錄結構已存在
-2. **自動化工具已部署**：`tools/generate-refactor-playbook.py` 提供 AI 驅動的劇本生成
+1. **三階段重構流程已實現**：01_deconstruction → 02_integration →
+   03_refactor 目錄結構已存在
+2. **自動化工具已部署**：`tools/generate-refactor-playbook.py`
+   提供 AI 驅動的劇本生成
 3. **需要補強的部分**：
    - `legacy_assets_index.yaml` 結構定義
    - `index.yaml` 機器可讀索引完整實現
@@ -141,53 +148,53 @@ legacy_assets_index.yaml 記錄 ID/來源/描述
 
 ```yaml
 clusters:
-  - cluster_id: "core/architecture-stability"
-    domain: "core"
-    priority: "P0"                          # P0/P1/P2
-    status: "in_progress"                   # draft/in_progress/completed/blocked
-    
+  - cluster_id: 'core/architecture-stability'
+    domain: 'core'
+    priority: 'P0' # P0/P1/P2
+    status: 'in_progress' # draft/in_progress/completed/blocked
+
     # 重構劇本位置
-    refactor_file: "core/core__architecture_refactor.md"
-    
+    refactor_file: 'core/core__architecture_refactor.md'
+
     # 來源劇本（必須存在）
-    deconstruction_file: "../01_deconstruction/core__architecture_deconstruction.md"
-    integration_file: "../02_integration/core__architecture_integration.md"
-    
+    deconstruction_file: '../01_deconstruction/core__architecture_deconstruction.md'
+    integration_file: '../02_integration/core__architecture_integration.md'
+
     # 舊資產引用（指向 legacy_assets_index.yaml 中的 ID）
     legacy_assets:
-      - "core-v1-legacy-modules"
-      - "architecture-old-contracts"
-    
+      - 'core-v1-legacy-modules'
+      - 'architecture-old-contracts'
+
     # 涉及的實際目錄
     involved_dirs:
-      - "core/unified_integration/"
-      - "core/mind_matrix/"
-      - "core/architecture-stability/"
-    
+      - 'core/unified_integration/'
+      - 'core/mind_matrix/'
+      - 'core/architecture-stability/'
+
     # 語言治理狀態
     governance_status:
-      violations: 15                        # 當前違規數
-      threshold: 5                          # 目標門檻
-      auto_fixable: 8                       # Auto-Fix 可處理數量
+      violations: 15 # 當前違規數
+      threshold: 5 # 目標門檻
+      auto_fixable: 8 # Auto-Fix 可處理數量
 ```
 
 #### legacy_assets_index.yaml 結構
 
 ```yaml
 legacy_assets:
-  - id: "core-v1-legacy-modules"
-    source_repo: "git@github.com:old-repo/core.git"
-    source_ref: "v1.0.0"
-    description: "舊版 core 模組（TypeScript）"
-    reason: "語言混用、缺乏類型安全、架構邊界不清"
-    deprecated_date: "2024-11-01"
-    
-  - id: "architecture-old-contracts"
-    source_repo: "git@github.com:old-repo/contracts.git"
-    source_ref: "main@abc1234"
-    description: "舊版 gRPC 合約定義"
-    reason: "Protocol Buffer v2 已廢棄，缺乏 API 版本管理"
-    deprecated_date: "2024-10-15"
+  - id: 'core-v1-legacy-modules'
+    source_repo: 'git@github.com:old-repo/core.git'
+    source_ref: 'v1.0.0'
+    description: '舊版 core 模組（TypeScript）'
+    reason: '語言混用、缺乏類型安全、架構邊界不清'
+    deprecated_date: '2024-11-01'
+
+  - id: 'architecture-old-contracts'
+    source_repo: 'git@github.com:old-repo/contracts.git'
+    source_ref: 'main@abc1234'
+    description: '舊版 gRPC 合約定義'
+    reason: 'Protocol Buffer v2 已廢棄，缺乏 API 版本管理'
+    deprecated_date: '2024-10-15'
 ```
 
 ---
@@ -202,27 +209,27 @@ legacy_assets:
 
 ```yaml
 ---
-cluster_id: "core/architecture-stability"
-domain: "core"
-priority: "P0"
-status: "in_progress"
+cluster_id: 'core/architecture-stability'
+domain: 'core'
+priority: 'P0'
+status: 'in_progress'
 
 # 來源劇本（必填）
-deconstruction: "../01_deconstruction/core__architecture_deconstruction.md"
-integration: "../02_integration/core__architecture_integration.md"
+deconstruction: '../01_deconstruction/core__architecture_deconstruction.md'
+integration: '../02_integration/core__architecture_integration.md'
 
 # 舊資產引用（必填）
 legacy_assets:
-  - id: "core-v1-legacy-modules"
-    description: "舊版 core 模組（TypeScript）"
-  - id: "architecture-old-contracts"
-    description: "舊版 gRPC 合約定義"
+  - id: 'core-v1-legacy-modules'
+    description: '舊版 core 模組（TypeScript）'
+  - id: 'architecture-old-contracts'
+    description: '舊版 gRPC 合約定義'
 
 # 涉及目錄（必填）
 involved_dirs:
-  - "core/unified_integration/"
-  - "core/mind_matrix/"
-  - "core/architecture-stability/"
+  - 'core/unified_integration/'
+  - 'core/mind_matrix/'
+  - 'core/architecture-stability/'
 ---
 ```
 
@@ -284,7 +291,7 @@ involved_dirs:
       --violations language-governance-report.json \
       --index docs/refactor_playbooks/03_refactor/index.yaml \
       --output violation-playbook-map.json
-    
+
     # 產生 GitHub Issue（按 cluster 分組）
     python scripts/create_refactor_issues.py \
       --map violation-playbook-map.json
@@ -314,14 +321,14 @@ interface ClusterView {
   domain: string;
   priority: 'P0' | 'P1' | 'P2';
   status: 'draft' | 'in_progress' | 'completed' | 'blocked';
-  
-  refactorPlaybook: string;  // Markdown 內容
+
+  refactorPlaybook: string; // Markdown 內容
   governanceStatus: {
     violations: number;
     threshold: number;
     autoFixable: number;
   };
-  
+
   actions: {
     viewPlaybook: () => void;
     triggerAutoFix: () => void;
@@ -429,7 +436,8 @@ interface ClusterView {
 
 - `03_refactor/core/core__architecture_refactor.md` - Core Platform 完整示範
 - `03_refactor/services/services__gateway_refactor.md` - Services Layer 示範
-- `03_refactor/automation/automation__autonomous_refactor.md` - Automation System 示範
+- `03_refactor/automation/automation__autonomous_refactor.md` - Automation
+  System 示範
 
 ---
 

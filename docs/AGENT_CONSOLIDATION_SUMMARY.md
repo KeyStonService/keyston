@@ -10,7 +10,8 @@
 
 ## 📋 Executive Summary
 
-Successfully consolidated all agent/character configuration files under a unified directory structure:
+Successfully consolidated all agent/character configuration files under a
+unified directory structure:
 
 - **Configuration**: `config/agents/` (profiles, team, schemas)
 - **Implementation**: `services/agents/` (existing structure maintained)
@@ -46,13 +47,13 @@ services/agents/           # Agent implementations (verified correct)
 
 ### ✅ 2. Files Moved/Consolidated
 
-| Original Location | New Location | Action |
-|-------------------|--------------|--------|
-| `config/virtual-experts.yaml` | `config/agents/team/virtual-experts.yaml` | ✅ Moved |
-| `infra/config/virtual-experts.yaml` | — | ✅ Deleted (duplicate) |
-| `governance/schemas/virtual-experts.schema.json` | `config/agents/schemas/virtual-experts.schema.json` | ✅ Moved |
-| `config/agents/profiles/recovery_expert.yaml` | Same | ✅ Already correct |
-| `services/agents/recovery/phoenix_agent.py` | Same | ✅ Already correct |
+| Original Location                                | New Location                                        | Action                 |
+| ------------------------------------------------ | --------------------------------------------------- | ---------------------- |
+| `config/virtual-experts.yaml`                    | `config/agents/team/virtual-experts.yaml`           | ✅ Moved               |
+| `infra/config/virtual-experts.yaml`              | —                                                   | ✅ Deleted (duplicate) |
+| `governance/schemas/virtual-experts.schema.json` | `config/agents/schemas/virtual-experts.schema.json` | ✅ Moved               |
+| `config/agents/profiles/recovery_expert.yaml`    | Same                                                | ✅ Already correct     |
+| `services/agents/recovery/phoenix_agent.py`      | Same                                                | ✅ Already correct     |
 
 ### ✅ 3. References Updated (33 files)
 

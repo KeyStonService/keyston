@@ -1,10 +1,13 @@
 # SynergyMesh
 
-Next-generation cloud-native platform for intelligent business automation and seamless data orchestration.
+Next-generation cloud-native platform for intelligent business automation and
+seamless data orchestration.
 
 ## Project Overview
 
-SynergyMesh is an autonomous coordination grid system (無人化自主協同網格系統) that combines AI agents, multi-agent orchestration, and enterprise automation capabilities.
+SynergyMesh is an autonomous coordination grid system (無人化自主協同網格系統)
+that combines AI agents, multi-agent orchestration, and enterprise automation
+capabilities.
 
 ## Project Architecture
 
@@ -63,7 +66,8 @@ pip install -e ".[dev]"
 
 ## Workflows
 
-- **Frontend**: `cd apps/web && npm run dev` - React development server on port 5000
+- **Frontend**: `cd apps/web && npm run dev` - React development server on port
+  5000
 
 ## Deployment
 
@@ -74,14 +78,14 @@ The frontend is configured for static deployment:
 
 ## Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `package.json` | npm workspaces configuration |
+| File                  | Purpose                           |
+| --------------------- | --------------------------------- |
+| `package.json`        | npm workspaces configuration      |
 | `pnpm-workspace.yaml` | pnpm workspaces (synced with npm) |
-| `pyproject.toml` | Python project configuration |
-| `Cargo.toml` | Rust workspace (members pending) |
-| `go.work` | Go workspace (modules pending) |
-| `tsconfig.json` | TypeScript configuration |
+| `pyproject.toml`      | Python project configuration      |
+| `Cargo.toml`          | Rust workspace (members pending)  |
+| `go.work`             | Go workspace (modules pending)    |
+| `tsconfig.json`       | TypeScript configuration          |
 
 ## Notes
 

@@ -7,35 +7,35 @@ kind: PodSecurityPolicy
 metadata:
   name: restricted
   annotations:
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
-    apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'
-    seccomp.security.alpha.kubernetes.io/defaultProfileName: 'runtime/default'
-    apparmor.security.beta.kubernetes.io/defaultProfileName: 'runtime/default'
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: "runtime/default"
+    apparmor.security.beta.kubernetes.io/allowedProfileNames: "runtime/default"
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: "runtime/default"
+    apparmor.security.beta.kubernetes.io/defaultProfileName: "runtime/default"
 spec:
   privileged: false
   allowPrivilegeEscalation: false
   requiredDropCapabilities:
-  - ALL
+    - ALL
   volumes:
-  - 'configMap'
-  - 'emptyDir'
-  - 'projected'
-  - 'secret'
-  - 'downwardAPI'
-  - 'persistentVolumeClaim'
+    - "configMap"
+    - "emptyDir"
+    - "projected"
+    - "secret"
+    - "downwardAPI"
+    - "persistentVolumeClaim"
   hostNetwork: false
   hostIPC: false
   hostPID: false
   runAsUser:
-    rule: 'MustRunAsNonRoot'
+    rule: "MustRunAsNonRoot"
   seLinux:
-    rule: 'MustRunAs'
+    rule: "MustRunAs"
     seLinuxOptions:
       level: "s0:c123,c456"
   supplementalGroups:
-    rule: 'RunAsAny'
+    rule: "RunAsAny"
   fsGroup:
-    rule: 'RunAsAny'
+    rule: "RunAsAny"
   readOnlyRootFilesystem: false
 
 ---
@@ -45,11 +45,11 @@ kind: ClusterRole
 metadata:
   name: restricted-psp-user
 rules:
-- apiGroups: ['policy']
-  resources: ['podsecuritypolicies']
-  verbs: ['use']
-  resourceNames:
-  - restricted
+  - apiGroups: ["policy"]
+    resources: ["podsecuritypolicies"]
+    verbs: ["use"]
+    resourceNames:
+      - restricted
 
 ---
 # 集群角色綁定
@@ -62,6 +62,6 @@ roleRef:
   kind: ClusterRole
   name: restricted-psp-user
 subjects:
-- kind: Group
-  name: system:serviceaccounts
-  apiGroup: rbac.authorization.k8s.io
+  - kind: Group
+    name: system:serviceaccounts
+    apiGroup: rbac.authorization.k8s.io

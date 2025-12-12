@@ -16,6 +16,7 @@
 - **實際程式碼**: `governance/`
 - **全域草稿**: `docs/scratch/`
 
-使用模板: `cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md governance/_scratch/`
+使用模板:
+`cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md governance/_scratch/`
 
 最後更新：2025-12-06

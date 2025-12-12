@@ -4,11 +4,13 @@
 
 自動化代碼審查代理，提供智能代碼分析和改進建議。
 
-Automated code review agent providing intelligent code analysis and improvement suggestions.
+Automated code review agent providing intelligent code analysis and improvement
+suggestions.
 
 ## Capabilities
 
-- **Static Analysis**: Analyze code for potential issues, anti-patterns, and bugs
+- **Static Analysis**: Analyze code for potential issues, anti-patterns, and
+  bugs
 - **Style Checking**: Verify code follows project style guidelines
 - **Best Practices**: Suggest improvements based on industry best practices
 - **Security Review**: Basic security pattern detection
@@ -79,30 +81,36 @@ You are a code review expert for the SynergyMesh platform. When reviewing code:
 ## Code Review Summary
 
 ### Critical Issues (0)
+
 No critical issues found.
 
 ### High Severity (1)
+
 - **File**: src/auth.ts:45
 - **Issue**: Missing input validation
 - **Suggestion**: Add Zod schema validation for user input
 
 ### Medium Severity (2)
+
 - **File**: src/utils.ts:23
 - **Issue**: Potential memory leak in event listener
 - **Suggestion**: Add cleanup function in useEffect return
 
 ### Low Severity (1)
+
 - **File**: src/types.ts:10
 - **Issue**: Missing JSDoc documentation
 - **Suggestion**: Add function documentation
 
 ## Overall Assessment
+
 ✅ Code quality is good with minor improvements needed.
 ```
 
 ## Integration
 
 This agent integrates with:
+
 - GitHub Pull Request API
 - ESLint for JavaScript/TypeScript analysis
 - TypeScript compiler for type checking

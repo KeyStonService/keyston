@@ -205,12 +205,12 @@
 
 ### 語言治理指標
 
-| 指標 | 當前值 | 目標值 | 驗證方式 |
-|------|--------|--------|----------|
-| 語言違規數 | 25 | <= 2 | `npm run governance:check` |
-| 禁用語言檔案 | 5 | 0 | 手動檢查 + CI |
-| JavaScript 檔案 | 120 | <= 30 | `find . -name "*.js"` |
-| Hotspot 檔案 | 15 | <= 5 | 檢視 hotspot.json |
+| 指標            | 當前值 | 目標值 | 驗證方式                   |
+| --------------- | ------ | ------ | -------------------------- |
+| 語言違規數      | 25     | <= 2   | `npm run governance:check` |
+| 禁用語言檔案    | 5      | 0      | 手動檢查 + CI              |
+| JavaScript 檔案 | 120    | <= 30  | `find . -name "*.js"`      |
+| Hotspot 檔案    | 15     | <= 5   | 檢視 hotspot.json          |
 ```
 
 ### 安全指標
@@ -218,11 +218,11 @@
 ```markdown
 ### 安全指標
 
-| 嚴重性 | 當前數量 | 目標數量 | 驗證方式 |
-|--------|----------|----------|----------|
-| HIGH | 3 | 0 | Semgrep 掃描 |
-| MEDIUM | 12 | <= 5 | Semgrep 掃描 |
-| LOW | 28 | <= 15 | Semgrep 掃描 |
+| 嚴重性 | 當前數量 | 目標數量 | 驗證方式     |
+| ------ | -------- | -------- | ------------ |
+| HIGH   | 3        | 0        | Semgrep 掃描 |
+| MEDIUM | 12       | <= 5     | Semgrep 掃描 |
+| LOW    | 28       | <= 15    | Semgrep 掃描 |
 ```
 
 ### 架構指標
@@ -242,7 +242,7 @@
 
 ### 標準 Tree 格式
 
-```markdown
+````markdown
 ## 7. 檔案與目錄結構（交付視圖）
 
 ### 受影響目錄
@@ -253,28 +253,14 @@
 
 ### 結構示意（重構後）
 
-\```text
-core/
-├─ unified_integration/
-│  ├─ src/
-│  │  ├─ cognitive_processor.ts    # 認知處理器主入口
-│  │  ├─ service_registry.ts       # 服務註冊表
-│  │  └─ config_optimizer.ts       # 配置優化器
-│  ├─ tests/                       # 單元測試
-│  ├─ README.md                    # 模組說明
-│  └─ package.json                 # 依賴定義
-├─ mind_matrix/
-│  ├─ src/
-│  │  ├─ ceo_system.ts             # CEO 執行長系統
-│  │  └─ multi_agent_hypergraph.ts # 多代理超圖
-│  └─ README.md
-└─ safety_mechanisms/
-   ├─ src/
-   │  ├─ circuit_breaker.ts        # 斷路器
-   │  ├─ emergency_stop.ts         # 緊急停止
-   │  └─ rollback_system.ts        # 回滾系統
-   └─ README.md
-\```
+\```text core/ ├─ unified_integration/ │ ├─ src/ │ │ ├─
+cognitive_processor.ts # 認知處理器主入口 │ │ ├─
+service_registry.ts # 服務註冊表 │ │ └─ config_optimizer.ts # 配置優化器 │ ├─
+tests/ # 單元測試 │ ├─ README.md # 模組說明 │ └─ package.json # 依賴定義 ├─
+mind_matrix/ │ ├─ src/ │ │ ├─ ceo_system.ts # CEO 執行長系統 │ │ └─
+multi_agent_hypergraph.ts # 多代理超圖 │ └─ README.md └─ safety_mechanisms/ ├─
+src/ │ ├─ circuit_breaker.ts # 斷路器 │ ├─ emergency_stop.ts # 緊急停止 │ └─
+rollback_system.ts # 回滾系統 └─ README.md \```
 
 ### 關鍵檔案說明
 
@@ -282,7 +268,7 @@ core/
 - **service_registry.ts** - 服務發現與健康監控入口
 - **ceo_system.ts** - 決策引擎與幻覺偵測整合點
 - **circuit_breaker.ts** - 保護機制，防止級聯失效
-```
+````
 
 ---
 
@@ -295,21 +281,21 @@ core/
 
 本 cluster 依賴以下上游服務：
 
-| 服務 | 介面類型 | 用途 |
-|------|----------|------|
-| `core/contract_service` | gRPC | 合約驗證與執行 |
-| `governance/schemas` | JSON Schema | 型別定義與驗證 |
-| `shared/utils` | TypeScript Module | 共用工具函式 |
+| 服務                    | 介面類型          | 用途           |
+| ----------------------- | ----------------- | -------------- |
+| `core/contract_service` | gRPC              | 合約驗證與執行 |
+| `governance/schemas`    | JSON Schema       | 型別定義與驗證 |
+| `shared/utils`          | TypeScript Module | 共用工具函式   |
 
 ### 下游使用者
 
 本 cluster 被以下下游服務使用：
 
-| 服務 | 介面類型 | 使用方式 |
-|------|----------|----------|
-| `apps/web` | REST API | 前端呼叫業務邏輯 |
-| `services/agents` | Event Bus | 訂閱狀態變更事件 |
-| `automation/architect` | Direct Import | 讀取架構元資料 |
+| 服務                   | 介面類型      | 使用方式         |
+| ---------------------- | ------------- | ---------------- |
+| `apps/web`             | REST API      | 前端呼叫業務邏輯 |
+| `services/agents`      | Event Bus     | 訂閱狀態變更事件 |
+| `automation/architect` | Direct Import | 讀取架構元資料   |
 
 ### 集成步驟
 

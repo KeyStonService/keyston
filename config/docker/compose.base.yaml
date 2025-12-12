@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 # SynergyMesh 生產環境 Docker Compose 配置
 # 快速啟動所有核心服務
 
 services:
   # ==================== 核心服務層 ====================
-  
+
   contracts-l1:
     build:
       context: ./core/contract_service/contracts-L1/contracts
@@ -32,7 +32,7 @@ services:
       - "com.synergymesh.version=1.0.0"
 
   # ==================== 工具與驗證層 ====================
-  
+
   mcp-servers:
     build:
       context: ./mcp-servers
@@ -62,7 +62,7 @@ services:
       - "com.synergymesh.version=1.0.0"
 
   # ==================== 儀表板與監控層 ====================
-  
+
   dashboard:
     image: nginx:alpine
     container_name: synergymesh-dashboard
@@ -98,7 +98,7 @@ volumes:
     name: synergymesh-contracts-data
     labels:
       - "com.synergymesh.volume=contracts"
-  
+
   mcp-data:
     name: synergymesh-mcp-data
     labels:

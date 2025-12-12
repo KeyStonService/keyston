@@ -4,7 +4,8 @@
 
 本骨架負責認證授權、RBAC/ABAC 策略、租戶隔離和資料分離等身份管理功能。
 
-This skeleton handles authentication, authorization, RBAC/ABAC policies, tenant isolation, and data separation for identity management.
+This skeleton handles authentication, authorization, RBAC/ABAC policies, tenant
+isolation, and data separation for identity management.
 
 ## 🎯 用途 / Purpose
 
@@ -17,7 +18,8 @@ This skeleton handles authentication, authorization, RBAC/ABAC policies, tenant 
 
 完整的架構設計指南請參考：
 
-**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/`
+**主要指南**:
+`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/`
 
 ### 指南文件結構
 
@@ -172,12 +174,12 @@ identity-tenancy/
 
 ### 目標指標
 
-| 指標 | 目標值 | 重要性 |
-|------|--------|--------|
-| 認證延遲 | < 100ms | 🔴 高 |
-| 授權檢查 | < 10ms | 🔴 高 |
-| Token 驗證 | < 5ms | 🔴 高 |
-| 審計日誌寫入 | < 50ms | 🟡 中 |
+| 指標         | 目標值  | 重要性 |
+| ------------ | ------- | ------ |
+| 認證延遲     | < 100ms | 🔴 高  |
+| 授權檢查     | < 10ms  | 🔴 高  |
+| Token 驗證   | < 5ms   | 🔴 高  |
+| 審計日誌寫入 | < 50ms  | 🟡 中  |
 
 ## 📞 支援與參考 / Support and References
 
