@@ -47,6 +47,13 @@ class Colors:
 class GovernanceScanner:
     """Comprehensive governance directory scanner with deep analysis."""
     
+    # Known shared resource directory names (from governance-map.yaml)
+    SHARED_RESOURCE_NAMES = [
+        'ci', '23-policies', '31-schemas', '35-scripts', 
+        'packages', 'dimensions', 'index', '_scratch', 
+        '_legacy', 'examples'
+    ]
+    
     def __init__(
         self,
         governance_root: str = "governance",
@@ -148,9 +155,8 @@ class GovernanceScanner:
         if dir_name.startswith('_'):
             return ('deprecated', None)
         
-        # Known shared resources (from governance-map.yaml shared_resources section)
-        shared_names = ['ci', 'policies', 'schemas', 'scripts', 'dimensions', 'packages', 'examples', 'index']
-        if dir_name in shared_names:
+        # Check against known shared resources
+        if dir_name in self.SHARED_RESOURCE_NAMES:
             return ('shared', None)
             
         return ('unknown', None)
@@ -252,7 +258,7 @@ class GovernanceScanner:
             if dir_name.startswith('_'):
                 result['type'] = 'deprecated'
                 result['valid'] = True
-            elif dir_name in ['ci', 'policies', 'schemas', 'dimensions', 'packages', 'examples', 'index']:
+            elif dir_name in self.SHARED_RESOURCE_NAMES:
                 result['type'] = 'shared'
                 result['valid'] = True
             else:

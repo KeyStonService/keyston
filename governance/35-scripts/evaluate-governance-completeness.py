@@ -139,8 +139,8 @@ class CompletenessEvaluator:
         else:
             result['recommendations'].append(f"Consider adding OPA/Rego policies")
             
-        # Check for schema files (*.json, *.schema.json)
-        schema_files = list(dim_path.glob('**/*.schema.json')) + list(dim_path.glob('**/schema.json'))
+        # Check for schema files (*.schema.json or schema.json)
+        schema_files = [f for f in dim_path.glob('**/*.json') if f.name.endswith('.schema.json') or f.name == 'schema.json']
         if len(schema_files) > 0:
             result['scores']['has_schemas'] = self.WEIGHTS['has_schemas']
             result['schema_count'] = len(schema_files)
