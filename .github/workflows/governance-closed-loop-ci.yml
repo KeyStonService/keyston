@@ -214,13 +214,12 @@ PY
         with:
           python-version: "3.11"
       - name: Scan technical debt markers
+        env:
+          PYTHONPATH: .
         run: |
           python - <<'PY'
 import json
-import sys
 from pathlib import Path
-
-sys.path.insert(0, str(Path(".").resolve()))
 
 from governance.technical_debt_manager import TechnicalDebtManager
 
@@ -260,7 +259,14 @@ PY
             echo "::warning::No package.json found; skipping Node-based security scan"
             exit 0
           fi
+          if [ "${SKIP_SECURITY_SCAN:-false}" = "true" ]; then
+            echo "::warning::Skipping security scan due to SKIP_SECURITY_SCAN flag"
+            exit 0
+          fi
           npm install --ignore-scripts
+          if [ ! -d node_modules ]; then
+            echo "::warning::node_modules not found after npm install; SBOM may be incomplete"
+          fi
           npx @cyclonedx/cyclonedx-npm --output-file sbom.json
           npm audit --audit-level=high
       - name: Upload SBOM
