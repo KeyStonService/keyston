@@ -1,0 +1,23 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:{{ generated_at|hash }}",
+  "version": 1,
+  "metadata": {
+    "timestamp": "{{ generated_at }}",
+    "tools": [
+      {
+        "vendor": "SynergyMesh",
+        "name": "Project Factory",
+        "version": "{{ generator_version }}"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "{{ project_name }}",
+      "version": "{{ version }}",
+      "description": "{{ description }}"
+    }
+  },
+  "components": []
+}

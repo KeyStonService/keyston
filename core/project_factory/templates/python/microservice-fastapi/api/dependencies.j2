@@ -1,0 +1,39 @@
+"""
+FastAPI Dependencies
+"""
+
+from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    """Application settings."""
+    
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    
+    # Application
+    environment: str = "development"
+    host: str = "0.0.0.0"
+    port: int = 8000
+    cors_origins: list[str] = ["*"]
+    
+{% if has_database %}
+    # Database
+    database_url: str = "{{ features.database.type }}://user:password@localhost/{{ package_name }}"
+{% endif %}
+{% if has_cache %}
+    # Cache
+    redis_url: str = "redis://localhost:6379/0"
+{% endif %}
+
+
+@lru_cache
+def get_settings() -> Settings:
+    """Get cached settings instance."""
+    return Settings()
+
+
+async def get_{{ package_name }}_service():
+    """Get service instance."""
+    from {{ package_name }}.application.services import {{ project_name|pascal_case }}Service
+    return {{ project_name|pascal_case }}Service()

@@ -7,7 +7,7 @@ Validates generated projects against governance standards.
 
 import logging
 from pathlib import Path
-from typing import Dict, Any, List, TYPE_CHECKING
+from typing import Dict, Any, List, Optional, TYPE_CHECKING
 import yaml
 import re
 

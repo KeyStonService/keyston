@@ -1,0 +1,92 @@
+"""
+Application services for {{ project_name }}
+"""
+
+from typing import List, Optional
+import structlog
+
+from {{ package_name }}.domain.models import {{ project_name|pascal_case }}Model, {{ project_name|pascal_case }}Create
+from {{ package_name }}.domain.repositories import {{ project_name|pascal_case }}Repository
+{% if has_database %}
+from {{ package_name }}.infrastructure.database import Database{{ project_name|pascal_case }}Repository
+{% endif %}
+
+logger = structlog.get_logger()
+
+
+class {{ project_name|pascal_case }}Service:
+    """Service for {{ project_name }} business logic."""
+    
+    def __init__(self):
+{% if has_database %}
+        self.repository: {{ project_name|pascal_case }}Repository = Database{{ project_name|pascal_case }}Repository()
+{% else %}
+        # In-memory implementation for demo
+        self._items: dict[str, {{ project_name|pascal_case }}Model] = {}
+{% endif %}
+    
+    async def list_items(self, skip: int = 0, limit: int = 100) -> List[{{ project_name|pascal_case }}Model]:
+        """List all items."""
+        logger.info("listing_items", skip=skip, limit=limit)
+{% if has_database %}
+        return await self.repository.list(skip, limit)
+{% else %}
+        items = list(self._items.values())
+        return items[skip:skip + limit]
+{% endif %}
+    
+    async def get_item(self, item_id: str) -> Optional[{{ project_name|pascal_case }}Model]:
+        """Get item by ID."""
+        logger.info("getting_item", item_id=item_id)
+{% if has_database %}
+        return await self.repository.get(item_id)
+{% else %}
+        return self._items.get(item_id)
+{% endif %}
+    
+    async def create_item(self, data: {{ project_name|pascal_case }}Create) -> {{ project_name|pascal_case }}Model:
+        """Create new item."""
+        logger.info("creating_item", data=data.model_dump())
+{% if has_database %}
+        return await self.repository.create(data)
+{% else %}
+        from datetime import datetime
+        import uuid
+        item = {{ project_name|pascal_case }}Model(
+            id=str(uuid.uuid4()),
+            **data.model_dump(),
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow()
+        )
+        self._items[item.id] = item
+        return item
+{% endif %}
+    
+    async def update_item(self, item_id: str, data: {{ project_name|pascal_case }}Create) -> Optional[{{ project_name|pascal_case }}Model]:
+        """Update item."""
+        logger.info("updating_item", item_id=item_id)
+{% if has_database %}
+        return await self.repository.update(item_id, data)
+{% else %}
+        if item_id not in self._items:
+            return None
+        from datetime import datetime
+        item = self._items[item_id]
+        updated_data = data.model_dump()
+        for key, value in updated_data.items():
+            setattr(item, key, value)
+        item.updated_at = datetime.utcnow()
+        return item
+{% endif %}
+    
+    async def delete_item(self, item_id: str) -> bool:
+        """Delete item."""
+        logger.info("deleting_item", item_id=item_id)
+{% if has_database %}
+        return await self.repository.delete(item_id)
+{% else %}
+        if item_id in self._items:
+            del self._items[item_id]
+            return True
+        return False
+{% endif %}

@@ -1,0 +1,37 @@
+"""
+Repository interfaces for {{ project_name }}
+"""
+
+from abc import ABC, abstractmethod
+from typing import List, Optional
+
+from {{ package_name }}.domain.models import {{ project_name|pascal_case }}Model, {{ project_name|pascal_case }}Create
+
+
+class {{ project_name|pascal_case }}Repository(ABC):
+    """Abstract repository for {{ project_name }}."""
+    
+    @abstractmethod
+    async def list(self, skip: int = 0, limit: int = 100) -> List[{{ project_name|pascal_case }}Model]:
+        """List items."""
+        pass
+    
+    @abstractmethod
+    async def get(self, item_id: str) -> Optional[{{ project_name|pascal_case }}Model]:
+        """Get item by ID."""
+        pass
+    
+    @abstractmethod
+    async def create(self, data: {{ project_name|pascal_case }}Create) -> {{ project_name|pascal_case }}Model:
+        """Create item."""
+        pass
+    
+    @abstractmethod
+    async def update(self, item_id: str, data: {{ project_name|pascal_case }}Create) -> Optional[{{ project_name|pascal_case }}Model]:
+        """Update item."""
+        pass
+    
+    @abstractmethod
+    async def delete(self, item_id: str) -> bool:
+        """Delete item."""
+        pass

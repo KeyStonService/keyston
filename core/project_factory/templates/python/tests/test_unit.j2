@@ -1,0 +1,42 @@
+"""
+Unit tests for {{ project_name }}
+"""
+
+import pytest
+from datetime import datetime
+
+from {{ package_name }}.domain.models import {{ project_name|pascal_case }}Create, {{ project_name|pascal_case }}Model
+
+
+def test_model_creation():
+    """Test model creation."""
+    data = {{ project_name|pascal_case }}Create(
+        name="Test Item",
+        description="Test description"
+    )
+    assert data.name == "Test Item"
+    assert data.description == "Test description"
+
+
+def test_model_validation():
+    """Test model validation."""
+    with pytest.raises(ValueError):
+        {{ project_name|pascal_case }}Create(name="")  # Should fail min_length validation
+
+
+@pytest.mark.asyncio
+async def test_service_create_item():
+    """Test service create item."""
+    from {{ package_name }}.application.services import {{ project_name|pascal_case }}Service
+    
+    service = {{ project_name|pascal_case }}Service()
+    data = {{ project_name|pascal_case }}Create(
+        name="Test Item",
+        description="Test description"
+    )
+    
+    item = await service.create_item(data)
+    
+    assert item.id is not None
+    assert item.name == "Test Item"
+    assert isinstance(item.created_at, datetime)

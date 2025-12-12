@@ -1,0 +1,27 @@
+"""
+Domain models for {{ project_name }}
+"""
+
+from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel, Field
+
+
+class {{ project_name|pascal_case }}Base(BaseModel):
+    """Base model for {{ project_name }}."""
+    name: str = Field(..., min_length=1, max_length=255)
+    description: Optional[str] = None
+
+
+class {{ project_name|pascal_case }}Create({{ project_name|pascal_case }}Base):
+    """Model for creating {{ project_name }}."""
+    pass
+
+
+class {{ project_name|pascal_case }}Model({{ project_name|pascal_case }}Base):
+    """Complete {{ project_name }} model."""
+    id: str
+    created_at: datetime
+    updated_at: datetime
+    
+    model_config = {"from_attributes": True}

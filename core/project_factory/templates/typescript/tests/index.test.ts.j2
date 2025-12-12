@@ -1,0 +1,34 @@
+import request from 'supertest';
+import app from '../src/index';
+
+describe('{{ project_name }} API', () => {
+  it('should return health status', async () => {
+    const response = await request(app)
+      .get('/health')
+      .expect(200);
+    
+    expect(response.body).toHaveProperty('status', 'healthy');
+    expect(response.body).toHaveProperty('service', '{{ project_name }}');
+  });
+
+  it('should list items', async () => {
+    const response = await request(app)
+      .get('/api/v1/items')
+      .expect(200);
+    
+    expect(response.body).toHaveProperty('items');
+    expect(Array.isArray(response.body.items)).toBe(true);
+  });
+
+  it('should create item', async () => {
+    const newItem = { name: 'Test Item', description: 'Test' };
+    
+    const response = await request(app)
+      .post('/api/v1/items')
+      .send(newItem)
+      .expect(201);
+    
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.name).toBe(newItem.name);
+  });
+});

@@ -1,0 +1,56 @@
+# Example: Python FastAPI Microservice with Full Stack
+metadata:
+  name: user-service
+  version: 1.0.0
+  description: User management microservice with authentication
+
+spec:
+  type: microservice
+  language: python
+  framework: fastapi
+  
+  architecture:
+    pattern: clean-architecture
+    layers: [presentation, application, domain, infrastructure]
+  
+  features:
+    api:
+      rest: true
+      openapi_version: "3.1.0"
+    database:
+      type: postgresql
+      orm: sqlalchemy
+      migrations: alembic
+    cache:
+      type: redis
+    messaging:
+      type: kafka
+      topics: [user.created, user.updated, user.deleted]
+    observability:
+      logging: structured
+      metrics: prometheus
+      tracing: opentelemetry
+      health_checks: true
+  
+  deliverables:
+    tests:
+      unit: true
+      integration: true
+      coverage_threshold: 85
+    docker:
+      multi_stage: true
+      healthcheck: true
+    kubernetes:
+      deployment: true
+      service: true
+      hpa: true
+    ci_cd:
+      platform: github-actions
+      stages: [lint, test, build, security-scan, deploy]
+  
+  governance:
+    compliance: [ISO-42001, SOC2, GDPR]
+    security_level: high
+    sbom: true
+    provenance: slsa-level-3
+    license: MIT

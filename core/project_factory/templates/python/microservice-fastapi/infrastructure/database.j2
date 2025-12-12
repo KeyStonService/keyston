@@ -1,0 +1,46 @@
+"""
+Database infrastructure for {{ project_name }}
+"""
+
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
+import structlog
+
+from {{ package_name }}.api.dependencies import get_settings
+
+logger = structlog.get_logger()
+
+Base = declarative_base()
+settings = get_settings()
+
+engine = create_async_engine(
+    settings.database_url,
+    echo=settings.environment == "development",
+    future=True
+)
+
+AsyncSessionLocal = async_sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False
+)
+
+
+async def init_db():
+    """Initialize database."""
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("database_initialized")
+
+
+async def check_db_connection():
+    """Check database connection."""
+    async with AsyncSessionLocal() as session:
+        await session.execute("SELECT 1")
+
+
+# Repository implementation would go here
+# class Database{{ project_name|pascal_case }}Repository({{ project_name|pascal_case }}Repository):
+#     async def list(self, skip: int = 0, limit: int = 100):
+#         # Implementation
+#         pass

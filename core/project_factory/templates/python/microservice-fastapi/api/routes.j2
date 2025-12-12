@@ -1,0 +1,35 @@
+"""
+API Routes for {{ project_name }}
+"""
+
+from typing import List
+from fastapi import APIRouter, Depends, HTTPException, status
+import structlog
+
+from {{ package_name }}.domain.models import {{ project_name|pascal_case }}Model, {{ project_name|pascal_case }}Create
+from {{ package_name }}.application.services import {{ project_name|pascal_case }}Service
+from {{ package_name }}.api.dependencies import get_{{ package_name }}_service
+
+logger = structlog.get_logger()
+router = APIRouter(tags=["{{ project_name }}"])
+
+
+@router.get("/items", response_model=List[{{ project_name|pascal_case }}Model])
+async def list_items(
+    skip: int = 0,
+    limit: int = 100,
+    service: {{ project_name|pascal_case }}Service = Depends(get_{{ package_name }}_service)
+):
+    """List all items with pagination."""
+    logger.info("listing_items", skip=skip, limit=limit)
+    return await service.list_items(skip=skip, limit=limit)
+
+
+@router.post("/items", response_model={{ project_name|pascal_case }}Model, status_code=status.HTTP_201_CREATED)
+async def create_item(
+    item_data: {{ project_name|pascal_case }}Create,
+    service: {{ project_name|pascal_case }}Service = Depends(get_{{ package_name }}_service)
+):
+    """Create a new item."""
+    logger.info("creating_item", data=item_data.model_dump())
+    return await service.create_item(item_data)
