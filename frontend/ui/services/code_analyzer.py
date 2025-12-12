@@ -183,7 +183,7 @@ class BaseAnalyzer:
     def _get_cache_key(self, code: str, file_path: str) -> str:
         """生成緩存鍵"""
         content = f"{code}:{file_path}"
-        return f"analysis:{hashlib.md5(content.encode()).hexdigest()}"
+        return f"analysis:{hashlib.sha256(content.encode()).hexdigest()}"
     
     async def analyze(self, code: str, file_path: str, strategy: AnalysisStrategy = AnalysisStrategy.STANDARD) -> List[CodeIssue]:
         """分析代碼 - 支持緩存"""

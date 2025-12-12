@@ -757,7 +757,7 @@ class LegacyScratchProcessor:
         content = filepath.read_text(encoding='utf-8', errors='ignore')
 
         # 計算哈希
-        file_hash = hashlib.md5(content.encode()).hexdigest()
+        file_hash = hashlib.sha256(content.encode()).hexdigest()
 
         # 詞彙掃描
         print("   詞彙掃描...")

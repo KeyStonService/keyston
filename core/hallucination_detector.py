@@ -392,7 +392,7 @@ class HallucinationDetector:
         code: str
     ) -> list[HallucinationDetection]:
         """Filter out known false positives (過濾已知的誤報)"""
-        code_hash = hashlib.md5(code.encode()).hexdigest()
+        code_hash = hashlib.sha256(code.encode()).hexdigest()
         return [
             d for d in detections 
             if f"{code_hash}:{d.detection_id}" not in self._false_positive_hashes
@@ -400,7 +400,7 @@ class HallucinationDetector:
     
     def mark_false_positive(self, code: str, detection_id: str) -> None:
         """Mark a detection as false positive (標記為誤報)"""
-        code_hash = hashlib.md5(code.encode()).hexdigest()
+        code_hash = hashlib.sha256(code.encode()).hexdigest()
         self._false_positive_hashes.add(f"{code_hash}:{detection_id}")
     
     def _calculate_confidence(self, detections: list[HallucinationDetection]) -> float:

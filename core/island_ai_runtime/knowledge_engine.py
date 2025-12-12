@@ -303,4 +303,4 @@ class KnowledgeEngine:
     @staticmethod
     def _generate_id(path: str) -> str:
         """生成節點 ID"""
-        return hashlib.md5(path.encode()).hexdigest()
+        return hashlib.sha256(path.encode()).hexdigest()

@@ -134,7 +134,7 @@ class IntegrationAutomationEngine(ExecutionEngineBase):
         for file in self._target_path.rglob("*"):
             if file.is_file():
                 content = file.read_bytes()
-                file_hash = hashlib.md5(content).hexdigest()
+                file_hash = hashlib.sha256(content).hexdigest()
                 if file_hash in hashes:
                     duplicates.append((str(file), hashes[file_hash]))
                 else:

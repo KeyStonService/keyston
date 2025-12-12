@@ -117,7 +117,7 @@ class AutoUpgradeEnvironment:
     
     def _get_cache_key(self, package: str) -> str:
         """Generate cache key for a package"""
-        return hashlib.md5(package.encode()).hexdigest()
+        return hashlib.sha256(package.encode()).hexdigest()
     
     def check_dependency(self, import_name: str) -> bool:
         """
