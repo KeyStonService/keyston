@@ -1,0 +1,122 @@
+{
+  "id": "qa_required_dimensions",
+  "name": "QA-Required Dimensions Configuration",
+  "description": "Defines which dimensions require mandatory QA validation",
+  "version": "1.0.0",
+  "dimensions": [
+    {
+      "id": "06",
+      "name": "security",
+      "qa_required": true,
+      "qa_validators": ["schema", "security", "compliance"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.pre_execution_check", "qa.inline_validation", "qa.post_execution_check"],
+      "rationale": "Security violations must be caught immediately"
+    },
+    {
+      "id": "23",
+      "name": "contracts",
+      "qa_required": true,
+      "qa_validators": ["schema", "compliance"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.compliance_check"],
+      "rationale": "Contract violations affect SLAs and compliance"
+    },
+    {
+      "id": "30",
+      "name": "agents",
+      "qa_required": true,
+      "qa_validators": ["schema", "security"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.integration_check"],
+      "rationale": "Agent deployment must pass integration checks"
+    },
+    {
+      "id": "39",
+      "name": "automation",
+      "qa_required": true,
+      "qa_validators": ["schema", "security", "semantic"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.pre_execution_check", "qa.inline_validation"],
+      "rationale": "Automation errors cascade; prevent at source"
+    },
+    {
+      "id": "40",
+      "name": "self_healing",
+      "qa_required": true,
+      "qa_validators": ["schema", "security", "semantic"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.safety_check"],
+      "rationale": "Self-healing must not cause more harm"
+    },
+    {
+      "id": "60",
+      "name": "contracts",
+      "qa_required": true,
+      "qa_validators": ["compliance"],
+      "qa_block_on_fail": true,
+      "qa_events": ["qa.compliance_check"],
+      "rationale": "Legal and compliance requirements"
+    },
+    {
+      "id": "70",
+      "name": "audit",
+      "qa_required": true,
+      "qa_validators": ["compliance", "schema"],
+      "qa_block_on_fail": false,
+      "qa_events": ["qa.post_execution_check"],
+      "rationale": "Audit logs must be complete and compliant"
+    }
+  ],
+  "qa_policies": {
+    "default_qa_required": false,
+    "require_all_validators_pass": true,
+    "allow_qa_override": {
+      "enabled": true,
+      "requires_approval_from": ["admin", "qa_lead"],
+      "audit_override": true
+    },
+    "cascading_qa": {
+      "enabled": true,
+      "description": "If a dimension depends on qa_required dimension, it inherits QA"
+    }
+  },
+  "validator_matrix": {
+    "schema": {
+      "applies_to": ["all"],
+      "description": "Validates output structure against JSON schema/Zod",
+      "avg_latency_ms": 15
+    },
+    "security": {
+      "applies_to": ["security", "automation", "self_healing"],
+      "description": "Checks for vulnerabilities (injection, XSS, secrets)",
+      "avg_latency_ms": 25
+    },
+    "compliance": {
+      "applies_to": ["contracts", "audit", "security"],
+      "description": "Validates against ISO27001, NIST, GDPR, SOC2",
+      "avg_latency_ms": 40
+    },
+    "semantic": {
+      "applies_to": ["automation", "self_healing"],
+      "description": "Vector similarity check for known violation patterns",
+      "avg_latency_ms": 80
+    }
+  },
+  "performance_targets": {
+    "total_qa_latency_p95_ms": 150,
+    "validator_timeout_ms": 200,
+    "parallel_validators": true,
+    "circuit_breaker": {
+      "enabled": true,
+      "failure_threshold": 5,
+      "timeout_duration_ms": 500,
+      "fallback": "warn_and_continue"
+    }
+  },
+  "integration": {
+    "event_bus": "governance/index/events/registry.json",
+    "dimension_index": "governance/index/dimensions.json",
+    "merge_strategy": "enhance_existing_dimensions"
+  }
+}

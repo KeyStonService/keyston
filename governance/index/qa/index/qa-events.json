@@ -1,0 +1,135 @@
+{
+  "id": "qa",
+  "name": "Quality Assurance Events",
+  "description": "Real-time event-driven QA validation system",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "qa.pre_execution_check",
+      "name": "Pre-Execution QA Check",
+      "trigger": "before_tool_execution",
+      "validators": ["schema", "security"],
+      "max_latency_ms": 50,
+      "block_on_fail": true,
+      "priority": "critical"
+    },
+    {
+      "id": "qa.inline_validation",
+      "name": "Inline QA Validation",
+      "trigger": "during_execution",
+      "validators": ["schema", "security", "compliance"],
+      "max_latency_ms": 100,
+      "block_on_fail": true,
+      "priority": "critical"
+    },
+    {
+      "id": "qa.post_execution_check",
+      "name": "Post-Execution QA Check",
+      "trigger": "after_tool_execution",
+      "validators": ["compliance", "semantic"],
+      "max_latency_ms": 200,
+      "block_on_fail": false,
+      "priority": "high"
+    },
+    {
+      "id": "qa.compliance_check",
+      "name": "Compliance Framework Check",
+      "trigger": "on_contract_create",
+      "validators": ["compliance"],
+      "frameworks": ["ISO27001", "NIST", "GDPR"],
+      "max_latency_ms": 150,
+      "block_on_fail": true,
+      "priority": "critical"
+    },
+    {
+      "id": "qa.safety_check",
+      "name": "Safety Check",
+      "trigger": "on_self_healing",
+      "validators": ["schema", "security", "semantic"],
+      "max_latency_ms": 50,
+      "block_on_fail": true,
+      "priority": "critical"
+    },
+    {
+      "id": "qa.integration_check",
+      "name": "Integration Check",
+      "trigger": "on_agent_deploy",
+      "validators": ["schema", "compliance"],
+      "max_latency_ms": 300,
+      "block_on_fail": true,
+      "priority": "high"
+    },
+    {
+      "id": "qa.validation_passed",
+      "name": "QA Validation Passed",
+      "trigger": "after_successful_qa",
+      "emit_to": ["audit", "feedback"],
+      "priority": "medium"
+    },
+    {
+      "id": "qa.validation_failed",
+      "name": "QA Validation Failed",
+      "trigger": "after_failed_qa",
+      "emit_to": ["self_healing", "audit"],
+      "auto_fix_enabled": true,
+      "priority": "critical"
+    }
+  ],
+  "triggers_map": {
+    "automation.started": ["qa.pre_execution_check"],
+    "automation.executing": ["qa.inline_validation"],
+    "automation.completed": ["qa.post_execution_check"],
+    "contract.created": ["qa.compliance_check"],
+    "self_healing.triggered": ["qa.safety_check"],
+    "agent.lifecycle.deployed": ["qa.integration_check"]
+  },
+  "validators_config": {
+    "schema": {
+      "engine": "zod",
+      "fail_mode": "block",
+      "timeout_ms": 20
+    },
+    "security": {
+      "checks": ["injection", "xss", "secrets", "path_traversal"],
+      "fail_mode": "block",
+      "timeout_ms": 30
+    },
+    "compliance": {
+      "frameworks": ["ISO27001", "NIST_CSF", "GDPR", "SOC2"],
+      "fail_mode": "warn_critical_block",
+      "timeout_ms": 50
+    },
+    "semantic": {
+      "model": "all-MiniLM-L6-v2",
+      "threshold": 0.85,
+      "fail_mode": "warn",
+      "timeout_ms": 100
+    }
+  },
+  "actions": {
+    "block": {
+      "description": "Stop execution immediately",
+      "emit_event": "qa.validation_failed",
+      "notify": ["admin", "security_team"]
+    },
+    "warn": {
+      "description": "Log warning but continue",
+      "emit_event": "qa.validation_passed",
+      "log_level": "warning"
+    },
+    "auto_fix": {
+      "description": "Attempt automatic remediation",
+      "max_attempts": 3,
+      "fallback": "block",
+      "emit_event": "self_healing.triggered"
+    }
+  },
+  "metrics": {
+    "track": ["latency", "pass_rate", "block_rate", "auto_fix_rate"],
+    "alert_on": {
+      "latency_p95_ms": 200,
+      "block_rate_percent": 5,
+      "consecutive_failures": 3
+    }
+  }
+}

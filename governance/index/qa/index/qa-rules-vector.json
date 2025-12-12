@@ -1,0 +1,154 @@
+{
+  "id": "qa_rules_vector_index",
+  "name": "Vectorized QA Rules",
+  "description": "Semantic similarity-based QA rule matching using vector embeddings",
+  "version": "1.0.0",
+  "model": {
+    "name": "all-MiniLM-L6-v2",
+    "dimensions": 384,
+    "similarity_metric": "cosine"
+  },
+  "rules": [
+    {
+      "id": "qa-sec-001",
+      "category": "security",
+      "pattern": "hardcoded credentials or API keys in code",
+      "description": "Detects hardcoded passwords, tokens, API keys",
+      "severity": "critical",
+      "action": "block",
+      "auto_fix": "replace_with_env_variable",
+      "embedding": null,
+      "examples": ["password = 'admin123'", "api_key = 'sk-...'", "token: 'bearer xyz'"]
+    },
+    {
+      "id": "qa-sec-002",
+      "category": "security",
+      "pattern": "SQL injection vulnerability",
+      "description": "Detects raw SQL queries with string concatenation",
+      "severity": "critical",
+      "action": "block",
+      "auto_fix": "use_parameterized_query",
+      "embedding": null,
+      "examples": ["query = 'SELECT * FROM users WHERE id=' + userId"]
+    },
+    {
+      "id": "qa-sec-003",
+      "category": "security",
+      "pattern": "XSS vulnerability in HTML output",
+      "description": "Detects unsafe HTML rendering without sanitization",
+      "severity": "high",
+      "action": "block",
+      "auto_fix": "add_sanitization",
+      "embedding": null,
+      "examples": ["innerHTML = userInput", "dangerouslySetInnerHTML={{__html: data}}"]
+    },
+    {
+      "id": "qa-debt-001",
+      "category": "tech_debt",
+      "pattern": "TODO comment without issue reference",
+      "description": "Detects TODO/FIXME without tracking link",
+      "severity": "low",
+      "action": "warn",
+      "auto_fix": "create_issue_link",
+      "embedding": null,
+      "examples": ["// TODO: fix this later", "# FIXME: optimize"]
+    },
+    {
+      "id": "qa-debt-002",
+      "category": "tech_debt",
+      "pattern": "console.log in production code",
+      "description": "Detects debug logging in production",
+      "severity": "medium",
+      "action": "warn",
+      "auto_fix": "remove_or_replace_with_logger",
+      "embedding": null,
+      "examples": ["console.log(user)", "console.error('debug')"]
+    },
+    {
+      "id": "qa-comp-001",
+      "category": "compliance",
+      "pattern": "PII without encryption or masking",
+      "description": "Detects personal data without protection (GDPR)",
+      "severity": "critical",
+      "action": "block",
+      "auto_fix": "add_encryption",
+      "embedding": null,
+      "examples": ["email: user.email", "ssn: rawSSN"]
+    },
+    {
+      "id": "qa-comp-002",
+      "category": "compliance",
+      "pattern": "audit log missing for sensitive operation",
+      "description": "Detects actions without audit trail (SOC2)",
+      "severity": "high",
+      "action": "block",
+      "auto_fix": "add_audit_log",
+      "embedding": null,
+      "examples": ["deleteUser(id)", "changePermissions(role)"]
+    },
+    {
+      "id": "qa-arch-001",
+      "category": "architecture",
+      "pattern": "circular dependency detected",
+      "description": "Detects import cycles in modules",
+      "severity": "medium",
+      "action": "warn",
+      "auto_fix": "suggest_refactor",
+      "embedding": null,
+      "examples": ["A imports B imports A"]
+    },
+    {
+      "id": "qa-perf-001",
+      "category": "performance",
+      "pattern": "N+1 query problem",
+      "description": "Detects multiple queries in loop",
+      "severity": "medium",
+      "action": "warn",
+      "auto_fix": "use_batch_query",
+      "embedding": null,
+      "examples": ["for item in items: db.query(item.id)"]
+    },
+    {
+      "id": "qa-test-001",
+      "category": "testing",
+      "pattern": "production code without tests",
+      "description": "Detects new code without test coverage",
+      "severity": "medium",
+      "action": "warn",
+      "auto_fix": "generate_test_template",
+      "embedding": null,
+      "examples": ["function newFeature() { ... } // no test file"]
+    }
+  ],
+  "semantic_search": {
+    "enabled": true,
+    "threshold": 0.85,
+    "max_results": 5,
+    "fallback_to_keyword": true
+  },
+  "auto_fix_config": {
+    "enabled": true,
+    "confidence_threshold": 0.9,
+    "max_attempts": 3,
+    "require_approval": {
+      "critical": true,
+      "high": false,
+      "medium": false,
+      "low": false
+    }
+  },
+  "indexing": {
+    "status": "pending",
+    "last_indexed": null,
+    "total_rules": 10,
+    "index_method": "faiss",
+    "update_strategy": "incremental"
+  },
+  "usage_notes": [
+    "Embeddings are generated on first use",
+    "Semantic search finds similar violations even if wording differs",
+    "Auto-fix suggestions require confidence >= 0.9",
+    "Critical violations always block execution",
+    "Rules are versioned and can be updated without downtime"
+  ]
+}
