@@ -1,7 +1,10 @@
 import { createHash, randomUUID } from 'crypto';
 import { readFile, stat } from 'fs/promises';
-import { relative } from 'path';
+import { relative, resolve, normalize } from 'path';
+import * as path from 'path';
 
+// Define a safe root directory for allowed file operations
+const SAFE_ROOT = path.resolve(process.cwd(), 'safefiles');
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
 export interface BuildAttestation {
@@ -86,14 +89,20 @@ export class ProvenanceService {
     builder: BuilderInfo,
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
-    const stats = await stat(subjectPath);
+    // Normalize and resolve against the SAFE_ROOT
+    const resolvedPath = path.resolve(SAFE_ROOT, subjectPath);
+    // Ensure the resolved path is within SAFE_ROOT
+    if (!resolvedPath.startsWith(SAFE_ROOT + path.sep)) {
+      throw new Error('Invalid file path: Access outside of allowed directory is not permitted.');
+    }
+    const stats = await stat(resolvedPath);
     if (!stats.isFile()) {
       throw new Error(`Subject path must be a file: ${subjectPath}`);
     }
 
-    const content = await readFile(subjectPath);
+    const content = await readFile(resolvedPath);
     const subject = this.slsaService.createSubjectFromContent(
-      relative(process.cwd(), subjectPath),
+      relative(process.cwd(), resolvedPath),
       content
     );
 
