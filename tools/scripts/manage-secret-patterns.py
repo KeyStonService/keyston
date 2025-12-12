@@ -43,8 +43,15 @@ class SecretPatternManager:
         return sanitized
     
     @staticmethod
-    def _sanitize_pattern_data(pattern: Dict) -> Dict:
-        """Remove sensitive fields from pattern data for safe logging"""
+    def sanitize_pattern_data(pattern: Dict) -> Dict:
+        """Remove sensitive fields from pattern data for safe logging
+        
+        Returns only metadata that is safe to display:
+        - Pattern ID (numeric, non-sensitive identifier)
+        - Timestamps (created_at, updated_at)
+        
+        Excludes sensitive fields like name, regex, and secret_type.
+        """
         safe_fields = ['id', 'created_at', 'updated_at']
         return {k: v for k, v in pattern.items() if k in safe_fields}
     
@@ -252,7 +259,7 @@ def main():
             if patterns:
                 print("\nCustom Patterns (sanitized view):")
                 # Show only non-sensitive metadata
-                safe_patterns = [manager._sanitize_pattern_data(p) for p in patterns]
+                safe_patterns = [manager.sanitize_pattern_data(p) for p in patterns]
                 print(json.dumps(safe_patterns, indent=2))
                 print(f"\n💡 Use 'export' action to save full pattern details to a secure file")
         
