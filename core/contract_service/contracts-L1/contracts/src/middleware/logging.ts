@@ -42,7 +42,7 @@ interface RequestLog {
 }
 
 /**
- * Whitelist of HTTP headers allowed in log output.
+ * Allowlist of HTTP headers allowed in log output.
  * Helps prevent logging of sensitive custom headers while
  * retaining useful debugging information.
  * @constant
