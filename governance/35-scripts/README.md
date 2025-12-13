@@ -9,6 +9,7 @@ validation.
 
 | Script                           | Purpose                       | Execution | Auto-Fix |
 | -------------------------------- | ----------------------------- | --------- | -------- |
+| scan-governance-directory.py     | Comprehensive governance scan | < 10s     | No       |
 | extreme-problem-identifier.py    | 10-category problem detection | < 5s      | 76.6%    |
 | intelligent-file-router.py       | Content-based file routing    | < 5s      | N/A      |
 | logical-consistency-engine.py    | Logical consistency analysis  | < 10s     | 65%      |
@@ -19,6 +20,108 @@ validation.
 ---
 
 ## Detailed Documentation
+
+### `scan-governance-directory.py` ⭐ NEW
+
+**治理目錄掃描器** - Comprehensive governance directory scanner with deep
+analysis and reporting.
+
+**Purpose:**
+
+- Full directory structure scan (00-80 dimensions)
+- File completeness verification (dimension.yaml, README.md, framework.yaml)
+- Naming convention validation
+- Dependency graph analysis
+- Orphaned directory detection
+- Coverage analysis (dimension implementation %)
+- Statistics generation
+- Actionable recommendations
+- INSTANT EXECUTION: < 10 seconds full scan
+
+**Features:**
+
+- 100% dimension coverage reporting
+- Multiple report formats (YAML, JSON, text)
+- Integration with existing validators
+- Detailed statistics on governance health
+- Automated issue detection and recommendations
+- CI/CD ready
+
+**Usage:**
+
+```bash
+# Basic scan with summary
+python governance/35-scripts/scan-governance-directory.py
+
+# Verbose output
+python governance/35-scripts/scan-governance-directory.py --verbose
+
+# Generate YAML report
+python governance/35-scripts/scan-governance-directory.py \
+  --report-output governance/scan-report.yaml
+
+# Generate JSON report
+python governance/35-scripts/scan-governance-directory.py \
+  --report-format json \
+  --report-output governance/scan-report.json
+
+# Quiet mode (report only, no console output)
+python governance/35-scripts/scan-governance-directory.py \
+  --quiet \
+  --report-output governance/scan-report.yaml
+
+# Using Make
+make scan-governance              # Interactive scan
+make scan-governance-report       # Generate YAML report
+make scan-governance-json         # Generate JSON report
+make governance-full-check        # Full validation + scan
+```
+
+**Output Example:**
+
+```
+================================================================================
+Governance Directory Scan Summary
+================================================================================
+
+Directory Structure:
+  Total directories: 87
+  Dimensions (00-80): 82
+  Shared resources: 4
+  Orphaned directories: 1
+
+Dimension Coverage:
+  Expected dimensions: 81
+  Present: 81
+  Missing: 0
+  Coverage: 100.0%
+
+File Completeness:
+  With dimension.yaml: 81/82
+  With README.md: 72/82
+  With framework.yaml: 43/82
+  Missing required files: 1
+
+Issues Found:
+  Total issues: 1
+  ERROR: 1
+
+Recommendations:
+  1. Create dimension.yaml files for 1 dimensions: 55-slo-sli
+  2. Add README.md documentation for 10 dimensions
+  3. Register 1 orphaned directories in governance-map.yaml
+```
+
+**Exit Codes:**
+
+- `0`: No errors found
+- `1`: Errors detected (missing required files, validation failures)
+
+**Detailed Documentation:** See
+[README-SCANNER.md](./README-SCANNER.md) for comprehensive documentation,
+examples, and troubleshooting.
+
+---
 
 ### `intelligent-file-router.py` ⭐ NEW
 

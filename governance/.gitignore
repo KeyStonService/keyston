@@ -43,6 +43,11 @@ htmlcov/
 reports/*.html
 reports/*.pdf
 reports/*.json
+scan-report.yaml
+scan-report.json
+scan-report.txt
+completeness-report.yaml
+completeness-report.json
 
 # Logs
 *.log

@@ -1,0 +1,55 @@
+apiVersion: governance.synergymesh.io/v1
+kind: ModuleRegistry
+metadata:
+  id: modules-registry
+  name: SynergyMesh Module Registry
+  owner: governance-bot
+  created_at: "2025-12-12T00:00:00Z"
+  updated_at: "2025-12-12T00:00:00Z"
+  description: "Tracks module specification coverage, ownership, and readiness"
+
+modules:
+  - id: core.unified_integration
+    role: orchestrator
+    owner: "@core-platform-team"
+    spec: governance/36-modules/core.unified_integration.yaml
+    behavior_contract: null
+    status:
+      spec: complete
+      behavior_contract: missing
+      docs: referenced
+      tests: defined
+      observability: defined
+  - id: core.contract_service.L1
+    role: domain-service
+    owner: "@core-platform-team"
+    spec: governance/36-modules/core.contract_service.L1.yaml
+    behavior_contract: governance/37-behavior-contracts/core.contract_service.L1.yaml
+    status:
+      spec: complete
+      behavior_contract: linked
+      docs: required
+      tests: required
+      observability: defined
+  - id: core.slsa_provenance
+    role: policy-engine
+    owner: "@security-platform-team"
+    spec: null
+    behavior_contract: governance/37-behavior-contracts/core.slsa_provenance.yaml
+    status:
+      spec: missing
+      behavior_contract: linked
+      docs: required
+      tests: required
+      observability: missing
+
+coverage_summary:
+  total_modules: 3
+  specs_completed: 2
+  specs_missing: 1
+  behavior_contracts_linked: 2
+  highest_priority_gaps:
+    - module: core.slsa_provenance
+      gap: "Add module spec to pair with existing behavior contract"
+    - module: core.contract_service.L1
+      gap: "Backfill docs and test suites to match declared gates"

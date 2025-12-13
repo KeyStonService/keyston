@@ -114,11 +114,24 @@ class HallucinationDetector:
     """
     
     def __init__(self) -> None:
+        """Initialize the detector with in-memory state.
+
+        The constructor prepares all bookkeeping structures used across the
+        detection lifecycle so that downstream methods can focus purely on
+        analysis. State tracked includes:
+
+        - detection history for auditability and post-hoc analysis
+        - custom validators registered by callers for domain-specific checks
+        - a false-positive cache to suppress repeated noise from known code
+        - monotonically increasing detection identifiers for traceability
+        - statistics that summarize validations and severities for reporting
+        """
+
         self._detection_history: list[HallucinationDetection] = []
         self._custom_validators: list[Callable[[str], list[HallucinationDetection]]] = []
         self._false_positive_hashes: set[str] = set()
         self._detection_count = 0
-        
+
         # 統計數據
         self._stats = {
             "total_validations": 0,
@@ -128,17 +141,22 @@ class HallucinationDetector:
         }
     
     def validate_code(self, code: str, language: str = "python") -> ValidationResult:
-        """
-        Validate AI-generated code for hallucinations
-        
-        驗證 AI 生成的代碼，檢測潛在幻覺
-        
+        """Validate AI-generated code for hallucinations.
+
+        The validator runs layered checks ranging from regular-expression
+        heuristics to caller-supplied validators, filters known false
+        positives, and produces both a structured list of detections and
+        actionable suggestions. This is the primary API entry point for the
+        detector.
+
         Args:
-            code: The code to validate
-            language: Programming language
-            
+            code: Source code produced by an AI system or other generator.
+            language: Programming language hint used by some heuristics
+                (currently tuned for Python defaults).
+
         Returns:
-            ValidationResult with detected issues
+            ValidationResult capturing validity, detections, warnings,
+            suggestions, and the computed overall confidence score.
         """
         hallucinations: list[HallucinationDetection] = []
         warnings: list[str] = []
@@ -192,7 +210,19 @@ class HallucinationDetector:
         )
     
     def _detect_security_flaws(self, code: str) -> list[HallucinationDetection]:
-        """Detect security vulnerabilities (檢測安全漏洞)"""
+        """Detect security vulnerabilities (檢測安全漏洞).
+
+        This helper scans for common vulnerability signatures, including
+        plaintext credential handling, SQL injection patterns, and logging of
+        secrets. Matches are converted into strongly typed detection objects so
+        that callers can trace the precise pattern and suggested remediation.
+
+        Args:
+            code: Raw code text to be inspected.
+
+        Returns:
+            A list of security-focused :class:`HallucinationDetection` entries.
+        """
         detections: list[HallucinationDetection] = []
         
         # 檢測明文密碼
@@ -246,7 +276,20 @@ class HallucinationDetector:
         return detections
     
     def _detect_logic_errors(self, code: str, language: str) -> list[HallucinationDetection]:
-        """Detect logic errors (檢測邏輯錯誤)"""
+        """Detect logic errors (檢測邏輯錯誤).
+
+        Looks for implementation smells that often slip past superficial
+        reviews, such as empty catch blocks, potential infinite loops, and
+        unused variable assignments. Python-specific heuristics are applied
+        only when the ``language`` hint is set accordingly.
+
+        Args:
+            code: The candidate code to assess.
+            language: Programming language context that gates some heuristics.
+
+        Returns:
+            A collection of logic-oriented detections with severity and fixes.
+        """
         detections: list[HallucinationDetection] = []
         
         # 檢測空 catch 塊
@@ -308,7 +351,19 @@ class HallucinationDetector:
         return detections
     
     def _detect_incomplete_implementation(self, code: str) -> list[HallucinationDetection]:
-        """Detect incomplete implementations (檢測不完整實現)"""
+        """Detect incomplete implementations (檢測不完整實現).
+
+        Flags placeholders that indicate unfinished work, including TODO/FIXME
+        markers and deliberate ``NotImplementedError`` stubs. The resulting
+        detections enable downstream tooling to block promotion of code that
+        still contains scaffolding.
+
+        Args:
+            code: Source text that may include unfinished fragments.
+
+        Returns:
+            Detected incompleteness signals annotated with guidance.
+        """
         detections: list[HallucinationDetection] = []
         
         # 檢測 TODO/FIXME 註釋
@@ -359,7 +414,19 @@ class HallucinationDetector:
         return detections
     
     def _detect_overconfidence(self, code: str) -> list[HallucinationDetection]:
-        """Detect overconfident claims in comments (檢測過度自信的聲明)"""
+        """Detect overconfident claims in comments (檢測過度自信的聲明).
+
+        Searches for unverified assertions about security, completeness, or
+        testing rigor. These markers often mask missing evidence and should be
+        challenged before acceptance.
+
+        Args:
+            code: Code and associated comments to analyze.
+
+        Returns:
+            Detections indicating overconfident statements and suggested next
+            steps to validate them.
+        """
         detections: list[HallucinationDetection] = []
         
         # 過度自信的註釋模式
@@ -387,11 +454,23 @@ class HallucinationDetector:
         return detections
     
     def _filter_false_positives(
-        self, 
-        detections: list[HallucinationDetection], 
+        self,
+        detections: list[HallucinationDetection],
         code: str
     ) -> list[HallucinationDetection]:
-        """Filter out known false positives (過濾已知的誤報)"""
+        """Filter out known false positives (過濾已知的誤報).
+
+        Uses a content hash combined with the detection identifier to
+        de-duplicate issues that the user has explicitly suppressed for the
+        given code snapshot.
+
+        Args:
+            detections: Candidate detections to evaluate.
+            code: The exact code string associated with the detections.
+
+        Returns:
+            A filtered list excluding detections previously marked as noise.
+        """
         code_hash = hashlib.sha256(code.encode()).hexdigest()
         return [
             d for d in detections 
@@ -399,12 +478,31 @@ class HallucinationDetector:
         ]
     
     def mark_false_positive(self, code: str, detection_id: str) -> None:
-        """Mark a detection as false positive (標記為誤報)"""
+        """Mark a detection as false positive (標記為誤報).
+
+        Persists a hash-based fingerprint so subsequent validation passes ignore
+        the same detection on identical code, preventing repetitive alerts.
+
+        Args:
+            code: The code sample that produced the detection.
+            detection_id: Identifier of the detection to silence.
+        """
         code_hash = hashlib.sha256(code.encode()).hexdigest()
         self._false_positive_hashes.add(f"{code_hash}:{detection_id}")
     
     def _calculate_confidence(self, detections: list[HallucinationDetection]) -> float:
-        """Calculate overall confidence score (計算整體置信度)"""
+        """Calculate overall confidence score (計算整體置信度).
+
+        Applies weighted penalties based on severity to derive an aggregate
+        confidence value between 0 and 1, where 1 represents no detected
+        hallucinations.
+
+        Args:
+            detections: Detections generated for a single validation run.
+
+        Returns:
+            Normalized confidence score reflecting remaining risk.
+        """
         if not detections:
             return 1.0
         
@@ -425,7 +523,18 @@ class HallucinationDetector:
         return max(0.0, 1.0 - min(total_penalty, 1.0))
     
     def _generate_suggestions(self, detections: list[HallucinationDetection]) -> list[str]:
-        """Generate improvement suggestions (生成改進建議)"""
+        """Generate improvement suggestions (生成改進建議).
+
+        Aggregates detections by severity and type to create concise,
+        prioritized remediation hints that can be shown to engineers or fed
+        into automated workflows.
+
+        Args:
+            detections: Detections to summarize.
+
+        Returns:
+            Ordered list of human-readable suggestions.
+        """
         suggestions = []
         
         # 按嚴重程度分組
@@ -449,7 +558,14 @@ class HallucinationDetector:
         return suggestions
     
     def _update_stats(self, detections: list[HallucinationDetection]) -> None:
-        """Update detection statistics (更新檢測統計)"""
+        """Update detection statistics (更新檢測統計).
+
+        Maintains aggregate counts across validations to support reporting and
+        trend analysis without exposing mutable internal state to callers.
+
+        Args:
+            detections: New detections from the current validation pass.
+        """
         self._stats["total_validations"] += 1
         self._stats["total_hallucinations"] += len(detections)
         
@@ -464,13 +580,29 @@ class HallucinationDetector:
         self, 
         validator: Callable[[str], list[HallucinationDetection]]
     ) -> None:
-        """Register a custom validation function (註冊自定義驗證器)"""
+        """Register a custom validation function (註冊自定義驗證器).
+
+        Custom validators allow domain teams to enforce additional rules (for
+        example, framework conventions) while reusing the detector's lifecycle
+        management and reporting pipeline.
+
+        Args:
+            validator: Callable returning detections for the provided code.
+        """
         self._custom_validators.append(validator)
     
     def get_statistics(self) -> dict[str, Any]:
-        """Get detection statistics (獲取檢測統計)"""
+        """Get detection statistics (獲取檢測統計).
+
+        Returns a shallow copy to prevent external mutation of the collector's
+        internal counters.
+        """
         return self._stats.copy()
     
     def get_detection_history(self) -> list[HallucinationDetection]:
-        """Get detection history (獲取檢測歷史)"""
+        """Get detection history (獲取檢測歷史).
+
+        Provides an immutable snapshot of all detections seen so far to support
+        audit logging or user-visible history views.
+        """
         return self._detection_history.copy()

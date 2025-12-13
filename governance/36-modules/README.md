@@ -19,6 +19,7 @@ Each module can have a detailed specification file:
 ```
 governance/36-modules/
 ├── README.md                          # This file
+├── module-registry.yaml              # Registry & completeness tracker
 ├── core.contract_service.L1.yaml     # Example module spec
 ├── core.unified_integration.yaml     # Example module spec
 └── {module-namespace-id}.yaml        # One file per module
@@ -149,6 +150,9 @@ When adding a new module or enhancing an existing one:
 5. **Assign ownership**: Specify team and lifecycle state
 6. **Link behavior contract**: Reference the detailed contract in
    `governance/37-behavior-contracts/`
+7. **Register the module**: Add or update the entry in
+   `governance/36-modules/module-registry.yaml` to keep the completeness map
+   accurate (spec status, behavior contract linkage, test/docs readiness).
 
 ## ✅ Validation | 驗證
 
