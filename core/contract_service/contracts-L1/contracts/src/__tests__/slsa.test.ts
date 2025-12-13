@@ -304,6 +304,129 @@ describe('SLSA API Endpoints', () => {
       expect(response.body.success).toBe(false);
     });
   });
+
+  describe('POST /api/v1/slsa/summary - Rate Limiting', () => {
+    let rateLimitApp: express.Application;
+    let provenance: any;
+
+    beforeAll(async () => {
+      // Create a fresh app instance for rate limiting tests to avoid interference
+      rateLimitApp = createTestApp();
+
+      // Create a provenance for rate limiting tests
+      const testFile = join(tmpdir(), `test-slsa-ratelimit-${Date.now()}.txt`);
+      await writeFile(testFile, 'test content for rate limiting');
+
+      const createResponse = await request(rateLimitApp)
+        .post('/api/v1/slsa/attestations')
+        .send({
+          subjectPath: testFile,
+          builder: {
+            id: 'test-builder',
+            version: '1.0.0'
+          }
+        });
+
+      provenance = createResponse.body.data.provenance;
+
+      try {
+        await unlink(testFile);
+      } catch {
+        // Ignore cleanup errors
+      }
+    });
+
+    it('should allow requests within the rate limit', async () => {
+      // Make multiple requests within the limit (test with 5 requests)
+      const requests = Array(5).fill(null).map(() =>
+        request(rateLimitApp)
+          .post('/api/v1/slsa/summary')
+          .send({ provenance })
+      );
+
+      const responses = await Promise.all(requests);
+
+      // All requests should succeed
+      responses.forEach((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+      });
+    });
+
+    it('should include rate limit headers', async () => {
+      const response = await request(rateLimitApp)
+        .post('/api/v1/slsa/summary')
+        .send({ provenance });
+
+      // Rate limit headers should be present regardless of rate limit status
+      expect(response.headers['ratelimit-limit']).toBeDefined();
+      expect(response.headers['ratelimit-remaining']).toBeDefined();
+      expect(response.headers['ratelimit-reset']).toBeDefined();
+
+      // Verify the limit is set to 100
+      expect(response.headers['ratelimit-limit']).toBe('100');
+    });
+
+    it('should reset rate limit after the configured window expires', async () => {
+      // This test validates the reset behavior conceptually
+      // In a real-world scenario, the rate limiter uses a 15-minute window
+      // For testing, we verify the reset timestamp is set in the future
+      const response = await request(rateLimitApp)
+        .post('/api/v1/slsa/summary')
+        .send({ provenance });
+
+      const resetHeader = response.headers['ratelimit-reset'];
+      expect(resetHeader).toBeDefined();
+
+      // The reset header contains the number of seconds until the rate limit resets
+      // (not an absolute timestamp)
+      const secondsUntilReset = parseInt(resetHeader as string, 10);
+      const fifteenMinutes = 15 * 60;
+
+      // Verify the reset time is positive and within the 15-minute window
+      expect(secondsUntilReset).toBeGreaterThan(0);
+      expect(secondsUntilReset).toBeLessThanOrEqual(fifteenMinutes);
+    });
+
+    it('should reject requests exceeding the rate limit with 429 status', async () => {
+      // The rate limiter is configured for 100 requests per 15 minutes
+      // We need to account for requests already made in previous tests
+      // Check current remaining count first
+      const checkResponse = await request(rateLimitApp)
+        .post('/api/v1/slsa/summary')
+        .send({ provenance });
+
+      const remaining = parseInt(checkResponse.headers['ratelimit-remaining'] as string, 10);
+
+      // Make enough requests to exceed the limit
+      const requestsToMake = remaining + 2; // Exceed by at least 1
+      const requests = Array(requestsToMake).fill(null).map(() =>
+        request(rateLimitApp)
+          .post('/api/v1/slsa/summary')
+          .send({ provenance })
+      );
+
+      const responses = await Promise.all(requests);
+
+      // At least one request should be rate limited
+      const rateLimitedRequests = responses.filter(r => r.status === 429);
+      expect(rateLimitedRequests.length).toBeGreaterThanOrEqual(1);
+
+      // Verify the rate limit error response format
+      const rateLimitedResponse = rateLimitedRequests[0];
+      expect(rateLimitedResponse.body).toMatchObject({
+        status: 'error',
+        error: 'rate_limit_exceeded',
+        message: 'Too many requests, please try again later.',
+        timestamp: expect.any(String)
+      });
+
+      // Verify rate limit headers are still present in error response
+      expect(rateLimitedResponse.headers['ratelimit-limit']).toBeDefined();
+      expect(rateLimitedResponse.headers['ratelimit-remaining']).toBe('0');
+      expect(rateLimitedResponse.headers['ratelimit-reset']).toBeDefined();
+    });
+  });
 });
 
 describe('Health Check Endpoints', () => {
