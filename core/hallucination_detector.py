@@ -121,13 +121,16 @@ class HallucinationDetector:
         analysis. State tracked includes:
 
         - detection history for auditability and post-hoc analysis
+        - a lookup index for detection identifiers to enable feedback mapping
         - custom validators registered by callers for domain-specific checks
         - a false-positive cache to suppress repeated noise from known code
         - monotonically increasing detection identifiers for traceability
         - statistics that summarize validations and severities for reporting
+        - feedback summaries to understand false-positive clusters and trend lines
         """
 
         self._detection_history: list[HallucinationDetection] = []
+        self._detection_index: dict[str, HallucinationDetection] = {}
         self._custom_validators: list[Callable[[str], list[HallucinationDetection]]] = []
         self._false_positive_hashes: set[str] = set()
         self._detection_count = 0
@@ -138,6 +141,17 @@ class HallucinationDetector:
             "total_hallucinations": 0,
             "by_type": {},
             "by_severity": {},
+            "by_pattern": {},
+            "false_positive_marks": 0,
+        }
+
+        # 人類回饋記錄，用於自動演化與誤報抑制
+        self._feedback_log: list[dict[str, Any]] = []
+        self._feedback_stats: dict[str, Any] = {
+            "total": 0,
+            "by_verdict": {},
+            "by_pattern": {},
+            "by_type": {},
         }
     
     def validate_code(self, code: str, language: str = "python") -> ValidationResult:
@@ -197,9 +211,9 @@ class HallucinationDetector:
         
         # 更新統計
         self._update_stats(hallucinations)
-        
+
         # 記錄歷史
-        self._detection_history.extend(hallucinations)
+        self._record_detections(hallucinations)
         
         return ValidationResult(
             is_valid=len([h for h in hallucinations if h.severity in [SeverityLevel.CRITICAL, SeverityLevel.HIGH]]) == 0,
@@ -516,11 +530,18 @@ class HallucinationDetector:
         }
         
         total_penalty = sum(
-            severity_weights.get(d.severity, 0.1) * d.confidence 
+            severity_weights.get(d.severity, 0.1) * d.confidence
             for d in detections
         )
-        
+
         return max(0.0, 1.0 - min(total_penalty, 1.0))
+
+    def _record_detections(self, detections: list[HallucinationDetection]) -> None:
+        """Persist detections to history and lookup index (保存檢測紀錄與索引)."""
+
+        self._detection_history.extend(detections)
+        for detection in detections:
+            self._detection_index[detection.detection_id] = detection
     
     def _generate_suggestions(self, detections: list[HallucinationDetection]) -> list[str]:
         """Generate improvement suggestions (生成改進建議).
@@ -568,13 +589,17 @@ class HallucinationDetector:
         """
         self._stats["total_validations"] += 1
         self._stats["total_hallucinations"] += len(detections)
-        
+
         for d in detections:
             type_key = d.hallucination_type.value
             self._stats["by_type"][type_key] = self._stats["by_type"].get(type_key, 0) + 1
-            
+
             severity_key = d.severity.value
             self._stats["by_severity"][severity_key] = self._stats["by_severity"].get(severity_key, 0) + 1
+
+            pattern_key = d.metadata.get("pattern") if isinstance(d.metadata, dict) else None
+            if pattern_key:
+                self._stats["by_pattern"][pattern_key] = self._stats["by_pattern"].get(pattern_key, 0) + 1
     
     def register_custom_validator(
         self, 
@@ -606,3 +631,140 @@ class HallucinationDetector:
         audit logging or user-visible history views.
         """
         return self._detection_history.copy()
+
+    def ingest_feedback(
+        self,
+        code: str,
+        detection_id: str,
+        verdict: str,
+        notes: Optional[str] = None,
+    ) -> None:
+        """Capture human feedback to evolve detector behavior (接收人類回饋並自動演化).
+
+        This method enables a lightweight reinforcement loop:
+
+        - ``false_positive`` verdicts silence the referenced detection for the
+          provided code hash and increment a suppression counter.
+        - ``true_positive`` verdicts are logged to help prioritize heuristics
+          that commonly surface real issues.
+        - ``improvement_applied`` verdicts note that remediation actions were
+          taken, allowing downstream dashboards to track closure rates.
+
+        Args:
+            code: Exact code sample that produced the detection.
+            detection_id: Identifier of the detection being reviewed.
+            verdict: One of ``"false_positive"``, ``"true_positive"``, or
+                ``"improvement_applied"``.
+            notes: Optional analyst notes or remediation details.
+        """
+        timestamp = datetime.now().isoformat()
+        code_hash = hashlib.sha256(code.encode()).hexdigest()
+
+        if verdict == "false_positive":
+            self._false_positive_hashes.add(f"{code_hash}:{detection_id}")
+            self._stats["false_positive_marks"] += 1
+
+        detection = self._find_detection(detection_id)
+        pattern_key = detection.metadata.get("pattern") if detection and isinstance(detection.metadata, dict) else None
+        type_key = detection.hallucination_type.value if detection else None
+
+        self._feedback_stats["total"] += 1
+        self._feedback_stats["by_verdict"][verdict] = self._feedback_stats["by_verdict"].get(verdict, 0) + 1
+
+        if pattern_key:
+            bucket = self._feedback_stats["by_pattern"].setdefault(pattern_key, {"false_positive": 0, "true_positive": 0, "improvement_applied": 0})
+            if verdict in bucket:
+                bucket[verdict] += 1
+
+        if type_key:
+            bucket = self._feedback_stats["by_type"].setdefault(type_key, {"false_positive": 0, "true_positive": 0, "improvement_applied": 0})
+            if verdict in bucket:
+                bucket[verdict] += 1
+
+        self._feedback_log.append(
+            {
+                "code_hash": code_hash,
+                "detection_id": detection_id,
+                "verdict": verdict,
+                "notes": notes,
+                "timestamp": timestamp,
+            }
+        )
+
+    def get_feedback_log(self) -> list[dict[str, Any]]:
+        """Return accumulated feedback entries (回傳累積回饋記錄)."""
+        return self._feedback_log.copy()
+
+    def get_feedback_summary(self) -> dict[str, Any]:
+        """Aggregate feedback signals for dashboards (彙總回饋訊號供看板使用)."""
+
+        return {
+            "total": self._feedback_stats.get("total", 0),
+            "by_verdict": self._feedback_stats.get("by_verdict", {}).copy(),
+            "by_pattern": {k: v.copy() for k, v in self._feedback_stats.get("by_pattern", {}).items()},
+            "by_type": {k: v.copy() for k, v in self._feedback_stats.get("by_type", {}).items()},
+        }
+
+    def get_adaptive_recommendations(self, min_occurrences: int = 3) -> list[str]:
+        """Suggest evolutions to detection rules (建議自動演化方向).
+
+        Reviews aggregated statistics and human feedback to highlight areas
+        where heuristics should be strengthened or relaxed.
+
+        Args:
+            min_occurrences: Minimum pattern count to be considered "trending".
+
+        Returns:
+            A list of human-readable recommendations suitable for backlog items
+            or rule updates.
+        """
+        recommendations: list[str] = []
+
+        for pattern, count in self._stats.get("by_pattern", {}).items():
+            if count >= min_occurrences:
+                recommendations.append(
+                    f"Pattern '{pattern}' triggered {count} times; consider a dedicated rule or test."
+                )
+
+        for pattern, feedback in self._feedback_stats.get("by_pattern", {}).items():
+            false_pos = feedback.get("false_positive", 0)
+            true_pos = feedback.get("true_positive", 0)
+            improvements = feedback.get("improvement_applied", 0)
+
+            if false_pos >= min_occurrences and false_pos > true_pos:
+                recommendations.append(
+                    f"Pattern '{pattern}' draws frequent false positives ({false_pos}); relax regex or downgrade severity."
+                )
+            if true_pos >= min_occurrences and true_pos > false_pos:
+                recommendations.append(
+                    f"Pattern '{pattern}' confirmed {true_pos} times; strengthen detection with tests or linters."
+                )
+            if improvements > 0:
+                recommendations.append(
+                    f"Pattern '{pattern}' prompted {improvements} remediations; add regression checks to prevent recurrence."
+                )
+
+        for type_key, feedback in self._feedback_stats.get("by_type", {}).items():
+            if feedback.get("false_positive", 0) >= min_occurrences and feedback.get("false_positive", 0) > feedback.get("true_positive", 0):
+                recommendations.append(
+                    f"Hallucination type '{type_key}' has elevated false positives; recalibrate detection thresholds."
+                )
+            if feedback.get("true_positive", 0) >= min_occurrences and feedback.get("true_positive", 0) > feedback.get("false_positive", 0):
+                recommendations.append(
+                    f"Hallucination type '{type_key}' consistently surfaces real issues; prioritize rule hardening."
+                )
+
+        if self._stats.get("false_positive_marks", 0) >= min_occurrences:
+            recommendations.append(
+                "High false-positive volume detected; review regexes or lower severities for noisy rules."
+            )
+
+        if not recommendations:
+            recommendations.append("No adaptive actions required; keep monitoring usage signals.")
+
+        return recommendations
+
+    def _find_detection(self, detection_id: str) -> Optional[HallucinationDetection]:
+        """Retrieve a detection by id from history (從歷史中查找檢測記錄)."""
+
+        return self._detection_index.get(detection_id)
