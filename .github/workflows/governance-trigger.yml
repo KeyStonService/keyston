@@ -53,13 +53,6 @@ jobs:
           done
 
           GOVERNANCE_STATUS="success"
-          # Validate that argument values do not contain problematic characters
-          for var in "$WORKFLOW_NAME" "${{ github.run_id }}" "$COMMIT_SHA" "$BRANCH_NAME" "$PR_NUMBER"; do
-            if [[ "$var" == *$'\n'* ]] || [[ "$var" == *\"* ]]; then
-              echo "::error::Governance argument contains a newline or quote, aborting for safety."
-              exit 0
-            fi
-          done
           SCRIPT_ARGS=(
             --workflow "${WORKFLOW_NAME}"
             --run-id "${{ github.run_id }}"
