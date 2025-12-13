@@ -36,7 +36,10 @@ async function validateAndNormalizePath(
   let resolvedPath: string;
   const systemTmpDir = tmpdir();
   if (path.isAbsolute(filePath)) {
-    if (process.env.NODE_ENV === 'test' && filePath.startsWith(systemTmpDir)) {
+    if (
+      process.env.NODE_ENV === 'test' &&
+      (filePath === systemTmpDir || filePath.startsWith(systemTmpDir + path.sep))
+    ) {
       // In test environment, resolve path relative to system tmpdir to avoid direct use of untrusted absolute paths
       resolvedPath = path.resolve(systemTmpDir, path.relative(systemTmpDir, filePath));
     } else {
