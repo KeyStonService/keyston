@@ -49,7 +49,8 @@ const EVENT_FILE_PATH = path.join(
 // Cache for registry to avoid repeated parsing
 let registryCache = null;
 let registryCacheTime = 0;
-const CACHE_TTL = 5000; // 5 seconds
+// Cache TTL in milliseconds (default: 5s, configurable via environment variable)
+const CACHE_TTL = parseInt(process.env.REGISTRY_CACHE_TTL || "5000", 10);
 
 // =============================================================================
 // ARGUMENT PARSING
@@ -166,16 +167,17 @@ async function loadRegistry() {
 }
 
 /**
- * Save registry asynchronously
+ * Save registry asynchronously with atomic write
  */
 async function saveRegistry(registry) {
+  const tempPath = REGISTRY_PATH + '.tmp';
+  
   try {
     // Ensure directory exists
     const dir = path.dirname(REGISTRY_PATH);
     await fs.mkdir(dir, { recursive: true });
     
     // Write file atomically
-    const tempPath = REGISTRY_PATH + '.tmp';
     await fs.writeFile(tempPath, JSON.stringify(registry, null, 2), "utf-8");
     await fs.rename(tempPath, REGISTRY_PATH);
     
@@ -186,6 +188,16 @@ async function saveRegistry(registry) {
     return true;
   } catch (err) {
     console.error(`Error saving registry: ${err.message}`);
+    
+    // Clean up temporary file if it exists
+    try {
+      if (fsSync.existsSync(tempPath)) {
+        await fs.unlink(tempPath);
+      }
+    } catch (cleanupErr) {
+      console.error(`Error cleaning up temp file: ${cleanupErr.message}`);
+    }
+    
     return false;
   }
 }

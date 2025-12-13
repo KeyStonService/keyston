@@ -153,8 +153,11 @@ def compare_performance(
         )
         print(f"   Throughput improvement: {throughput_improvement:+.2f}%")
     
-    speedup = original_result.execution_time / optimized_result.execution_time if optimized_result.execution_time > 0 else 0
-    print(f"   Speedup: {speedup:.2f}x")
+    if optimized_result.execution_time > 0:
+        speedup = original_result.execution_time / optimized_result.execution_time
+        print(f"   Speedup: {speedup:.2f}x")
+    else:
+        print(f"   Speedup: N/A (optimized execution time too small to measure)")
     print()
     
     return original_result, optimized_result, improvement

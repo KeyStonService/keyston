@@ -10,6 +10,9 @@ Performance improvements:
 - Efficient data structures (sets vs lists)
 - Reduced file I/O operations
 
+Requirements:
+    Python 3.8+
+    
 Usage:
     python tools/docs/scan_repo_generate_index_optimized.py
     python tools/docs/scan_repo_generate_index_optimized.py --output docs/generated-index.yaml
@@ -27,7 +30,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
 try:
     import yaml
@@ -110,6 +113,9 @@ EXCLUDE_DIRS = {
 
 EXCLUDE_PARTS = {'.git/', 'node_modules/', 'dist/', '__pycache__/'}
 
+# Buffer size for file reading (64KB provides good balance of memory vs performance)
+FILE_READ_BUFFER_SIZE = 65536
+
 
 def calculate_file_hash(file_path: Path) -> str:
     """
@@ -117,9 +123,9 @@ def calculate_file_hash(file_path: Path) -> str:
     Uses larger buffer size for better performance.
     """
     sha256_hash = hashlib.sha256()
-    # Use larger buffer size (64KB) for better performance
+    # Use optimized buffer size for better performance
     with open(file_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(65536), b""):
+        for byte_block in iter(lambda: f.read(FILE_READ_BUFFER_SIZE), b""):
             sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
@@ -203,7 +209,7 @@ def generate_id(path_str: str) -> str:
 
 
 @lru_cache(maxsize=500)
-def extract_tags_cached(file_path_str: str) -> tuple[str, ...]:
+def extract_tags_cached(file_path_str: str) -> Tuple[str, ...]:
     """
     Extract relevant tags from file path with caching.
     Returns tuple for hashability (required for caching).
@@ -309,12 +315,20 @@ def process_single_file(file_path: Path, repo_root: Path) -> Optional[dict[str, 
 def scan_repository_parallel(
     repo_root: Path, 
     include_patterns: list[str] = None,
-    max_workers: int = 10
+    max_workers: int = None
 ) -> list[dict[str, Any]]:
     """
     Scan repository in parallel using ThreadPoolExecutor.
     Significantly faster than sequential processing.
+    
+    Args:
+        repo_root: Root directory to scan
+        include_patterns: Glob patterns to include
+        max_workers: Number of parallel workers. If None, defaults to min(32, (cpu_count or 1) + 4)
     """
+    if max_workers is None:
+        # Use ThreadPoolExecutor default: min(32, (cpu_count or 1) + 4)
+        max_workers = min(32, (os.cpu_count() or 1) + 4)
     if include_patterns is None:
         include_patterns = ['**/*.md', '**/README.md']
     
@@ -429,8 +443,8 @@ def main():
     parser.add_argument(
         '--workers',
         type=int,
-        default=10,
-        help='Number of parallel workers (default: 10)'
+        default=None,
+        help='Number of parallel workers (default: auto-detect based on CPU count)'
     )
     parser.add_argument(
         '--benchmark',
