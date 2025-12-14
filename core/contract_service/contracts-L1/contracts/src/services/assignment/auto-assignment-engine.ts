@@ -158,10 +158,10 @@ export class AutoAssignmentEngine {
    * 更新分派狀態
    * Update assignment status
    */
-  async updateAssignmentStatus(
+  updateAssignmentStatus(
     assignmentId: string,
     status: AssignmentStatus
-  ): Promise<Assignment> {
+  ): Assignment {
     const assignment = this.assignments.get(assignmentId);
 
     if (!assignment) {

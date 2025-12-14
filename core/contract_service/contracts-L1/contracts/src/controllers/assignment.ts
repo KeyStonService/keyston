@@ -84,7 +84,7 @@ export class AssignmentController {
       const { id } = req.params;
       const validatedData = updateStatusSchema.parse(req.body);
 
-      const assignment = await this.engine.updateAssignmentStatus(
+      const assignment = this.engine.updateAssignmentStatus(
         id,
         validatedData.status as AssignmentStatus
       );
@@ -167,7 +167,7 @@ export class AssignmentController {
       }
 
       // 更新為升級狀態
-      const updatedAssignment = await this.engine.updateAssignmentStatus(id, 'ESCALATED');
+      const updatedAssignment = this.engine.updateAssignmentStatus(id, 'ESCALATED');
 
       sendSuccess(res, updatedAssignment, { message: 'Assignment escalated successfully' });
     } catch (error) {

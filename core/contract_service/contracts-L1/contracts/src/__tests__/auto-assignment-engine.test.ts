@@ -332,7 +332,7 @@ describe('AutoAssignmentEngine', () => {
       const updated = engine.updateAssignmentStatus(assignment.id, 'IN_PROGRESS');
 
       expect(updated).toBeDefined();
-      expect(updated?.status).toBe('IN_PROGRESS');
+      expect(updated.status).toBe('IN_PROGRESS');
     });
 
     it('should throw error for non-existent assignment', () => {
