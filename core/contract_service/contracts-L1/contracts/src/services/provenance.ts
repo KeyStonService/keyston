@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'crypto';
 import { readFile, stat } from 'fs/promises';
-import { relative } from 'path';
+import { relative, resolve } from 'path';
+import { realpath } from 'fs/promises';
 
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
@@ -64,15 +65,32 @@ export interface Dependency {
 
 export class ProvenanceService {
   private slsaService: SLSAAttestationService;
+  // Define the root directory for allowed files. Change as needed for your project needs
+  private static readonly SAFE_ROOT = process.cwd();
 
   constructor() {
     this.slsaService = new SLSAAttestationService();
+  }
+
+  /**
+   * Normalize and validate a user supplied file path, ensuring it stays within SAFE_ROOT.
+   * Throws an error if the check fails.
+   */
+  private async resolveSafePath(userInputPath: string): Promise<string> {
+    // Resolve the user input to an absolute path within SAFE_ROOT
+    const absPath = resolve(ProvenanceService.SAFE_ROOT, userInputPath);
+    const realAbsPath = await realpath(absPath);
+    if (!realAbsPath.startsWith(ProvenanceService.SAFE_ROOT)) {
+      throw new Error('Access to the specified file path is not allowed');
+    }
+    return realAbsPath;
   }
   /**
    * 生成文件的 SHA256 摘要
    */
   async generateFileDigest(filePath: string): Promise<string> {
-    const content = await readFile(filePath);
+    const safePath = await this.resolveSafePath(filePath);
+    const content = await readFile(safePath);
     const hash = createHash('sha256');
     hash.update(content);
     return `sha256:${hash.digest('hex')}`;
@@ -86,14 +104,15 @@ export class ProvenanceService {
     builder: BuilderInfo,
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
-    const stats = await stat(subjectPath);
+    const safePath = await this.resolveSafePath(subjectPath);
+    const stats = await stat(safePath);
     if (!stats.isFile()) {
       throw new Error(`Subject path must be a file: ${subjectPath}`);
     }
 
-    const content = await readFile(subjectPath);
+    const content = await readFile(safePath);
     const subject = this.slsaService.createSubjectFromContent(
-      relative(process.cwd(), subjectPath),
+      relative(process.cwd(), safePath),
       content
     );
 
