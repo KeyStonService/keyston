@@ -74,7 +74,7 @@ async function validateAndNormalizePath(
   // This prevents path.normalize() from resolving .. segments before we can check them
   // Split on both forward and backward slashes to catch all path separator variants
   const segments = filePath.split(/[/\\]/);
-  if (segments.includes('..')) {
+  if (segments.some(segment => segment === '..')) {
     throw new Error('Invalid file path: Directory traversal is not permitted.');
   }
 
