@@ -71,13 +71,17 @@ async function validateAndNormalizePath(
     throw new Error('Invalid file path: Path must be a non-empty string');
   }
 
-  // If you need multi-directory paths, reject obvious traversal
-  if (
-    filePath.includes('\0') ||
-    filePath.split(path.sep).includes('..') ||
-    filePath.includes('//')
-  ) {
-    throw new Error('Invalid file path: Directory traversal is not permitted');
+  // Reject null bytes which can be used for path traversal exploits
+  if (filePath.includes('\0')) {
+    throw new Error('Invalid file path: Null bytes are not permitted.');
+  }
+
+  // Check for directory traversal in path segments BEFORE normalization
+  // This prevents path.normalize() from resolving .. segments before we can check them
+  // Split on both forward and backward slashes to catch all path separator variants
+  const segments = filePath.split(/[/\\]/);
+  if (segments.some(segment => segment === '..')) {
+    throw new Error('Invalid file path: Directory traversal is not permitted.');
   }
 
   const systemTmpDir = tmpdir();
@@ -86,7 +90,7 @@ async function validateAndNormalizePath(
   try {
     const canonicalPath = await realpath(resolvedPath);
 
-    // FINAL GUARD: Path must start with SAFE_ROOT or allowed test directory, comparing canonical (real) paths
+    // Verify canonical path is within allowed boundaries
     if (isInTestTmpDir(canonicalPath, systemTmpDir)) {
       return canonicalPath;
     }
