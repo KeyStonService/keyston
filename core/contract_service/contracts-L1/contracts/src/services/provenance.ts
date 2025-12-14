@@ -81,10 +81,20 @@ export class ProvenanceService {
   private validatePath(filePath: string): string {
     const resolvedPath = resolve(filePath);
 
+    // Normalize paths for case-insensitive comparison on Windows
+    const normalizedResolved = resolvedPath.toLowerCase();
+    const normalizedSafeRoot = SAFE_ROOT.toLowerCase();
+    const normalizedTempRoot = TEMP_ROOT.toLowerCase();
+    const normalizedSep = sep.toLowerCase();
+
     // Check if the resolved path is within allowed directories
     // This prevents both relative path traversal (../) and absolute path attacks
-    const isWithinSafeRoot = resolvedPath.startsWith(SAFE_ROOT + sep) || resolvedPath === SAFE_ROOT;
-    const isWithinTempRoot = resolvedPath.startsWith(TEMP_ROOT + sep) || resolvedPath === TEMP_ROOT;
+    const isWithinSafeRoot =
+      normalizedResolved.startsWith(normalizedSafeRoot + normalizedSep) ||
+      normalizedResolved === normalizedSafeRoot;
+    const isWithinTempRoot =
+      normalizedResolved.startsWith(normalizedTempRoot + normalizedSep) ||
+      normalizedResolved === normalizedTempRoot;
 
     if (!isWithinSafeRoot && !isWithinTempRoot) {
       throw new Error(
@@ -131,7 +141,7 @@ export class ProvenanceService {
     // 生成格式為 att_timestamp_hash 的 ID
     const timestamp = Date.now();
     const hash = createHash('sha256')
-      .update(`${timestamp}${subjectPath}`)
+      .update(`${timestamp}${validatedPath}`)
       .digest('hex')
       .substring(0, 8);
     const attestationId = `att_${timestamp}_${hash}`;
