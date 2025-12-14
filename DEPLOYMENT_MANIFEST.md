@@ -4,15 +4,13 @@
 
 本檔案列出所有必要的部署配置、依賴項和驗證步驟，確保系統完整部署。
 
-This document lists all necessary deployment configurations, dependencies, and
-verification steps to ensure complete system deployment.
+This document lists all necessary deployment configurations, dependencies, and verification steps to ensure complete system deployment.
 
 ---
 
 ## 📋 預部署檢查清單 / Pre-Deployment Checklist
 
 ### 環境準備 / Environment Preparation
-
 - [ ] Node.js >= 18.0.0
 - [ ] Python >= 3.10
 - [ ] Docker & Docker Compose
@@ -21,14 +19,12 @@ verification steps to ensure complete system deployment.
 - [ ] `.env` 檔案已建立
 
 ### 代碼準備 / Code Preparation
-
 - [ ] 所有分支已合併至 main
-- [ ] 版本號已更新 (package.json, **version**.py)
+- [ ] 版本號已更新 (package.json, __version__.py)
 - [ ] CHANGELOG.md 已更新
 - [ ] 標籤已創建 (git tag v X.Y.Z)
 
 ### 質量檢查 / Quality Assurance
-
 - [ ] npm run lint 通過
 - [ ] npm run test 全部通過
 - [ ] 代碼覆蓋率 >= 85%
@@ -58,7 +54,6 @@ pip install -r requirements.txt
 ```
 
 關鍵套件 / Key Packages:
-
 - fastapi >= 0.100.0
 - sqlalchemy >= 2.0.0
 - pydantic >= 2.0.0
@@ -299,7 +294,6 @@ openssl s_client -connect your-domain.com:443 -showcerts < /dev/null
 ## 🔄 部署策略 / Deployment Strategies
 
 ### 滾動部署 (Rolling Deployment)
-
 ```bash
 # 自動滾動更新
 kubectl set image deployment/synergymesh \
@@ -311,7 +305,6 @@ kubectl rollout status deployment/synergymesh -n synergymesh
 ```
 
 ### 金絲雀部署 (Canary Deployment)
-
 ```bash
 # 先部署金絲雀版本到 5% 流量
 kubectl patch virtualservice synergymesh \
@@ -320,7 +313,6 @@ kubectl patch virtualservice synergymesh \
 ```
 
 ### 藍綠部署 (Blue-Green Deployment)
-
 ```bash
 # 部署新版本 (Green)
 kubectl apply -f infrastructure/deployment/blue-green-deployment.yaml
@@ -384,7 +376,6 @@ docker logs synergymesh-postgres
 ## 📋 部署檢查清單 / Deployment Checklist
 
 ### 部署前 / Before Deployment
-
 - [ ] 所有測試通過
 - [ ] 代碼審查完成
 - [ ] 文檔已更新
@@ -392,14 +383,12 @@ docker logs synergymesh-postgres
 - [ ] 回滾計劃已準備
 
 ### 部署中 / During Deployment
-
 - [ ] 監控系統已啟動
 - [ ] 告警已配置
 - [ ] 日誌正確記錄
 - [ ] 沒有錯誤報告
 
 ### 部署後 / After Deployment
-
 - [ ] 所有功能驗證通過
 - [ ] 效能指標達標
 - [ ] 無報告錯誤
@@ -420,3 +409,4 @@ docker logs synergymesh-postgres
 **最後更新 / Last Updated**: 2025-01-15  
 **版本 / Version**: 4.0.0  
 **維護者 / Maintainer**: SynergyMesh Team
+

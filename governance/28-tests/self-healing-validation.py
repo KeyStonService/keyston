@@ -23,7 +23,6 @@ import yaml
 class ValidationResult:
     """驗證結果"""
     def __init__(self, name: str):
-        """TODO: Add function documentation"""
         self.name = name
         self.passed = 0
         self.failed = 0
@@ -85,7 +84,6 @@ class UnmannedIslandValidator:
         self.results: Dict[str, ValidationResult] = {}
     
     def validate_all(self) -> bool:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         執行所有驗證
         
@@ -169,7 +167,7 @@ class UnmannedIslandValidator:
             ("governance/00-vision-strategy/AI-BEHAVIOR-CONTRACT.md", "AI 行為契約"),
             ("governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml", "即時執行清單"),
             ("governance/14-improvement/self-healing-self-healing.yaml", "自我修復框架"),
-            ("governance/_legacy/30-integration/self-healing-integration-manifest.md", "整合清單 (Legacy)"),
+            ("governance/30-integration/self-healing-integration-manifest.md", "整合清單"),
             ("governance/39-automation/self_healing_integration_engine.py", "整合引擎"),
         ]
         
@@ -249,7 +247,7 @@ class UnmannedIslandValidator:
             ("00-vision-strategy", "Vision & Strategy"),
             ("14-improvement", "Improvement & Learning"),
             ("28-tests", "Tests & Validation"),
-            ("30-agents", "AI Agent Governance (Primary)"),
+            ("30-integration", "Integration & Coordination"),
             ("39-automation", "Automation & Orchestration"),
         ]
         
@@ -289,8 +287,8 @@ class UnmannedIslandValidator:
         """驗證 API 端點"""
         result = ValidationResult("API Endpoints")
         
-        # 檢查整合清單中定義的 API 端點 (Legacy location)
-        manifest_path = self.governance_root / "_legacy/30-integration/self-healing-integration-manifest.md"
+        # 檢查整合清單中定義的 API 端點
+        manifest_path = self.governance_root / "30-integration/self-healing-integration-manifest.md"
         if manifest_path.exists():
             result.add_pass("整合清單存在")
             
@@ -322,7 +320,6 @@ class UnmannedIslandValidator:
         self.results['API Endpoints'] = result
     
     def _validate_performance_baselines(self):
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """驗證性能基線"""
         result = ValidationResult("Performance Baselines")
         

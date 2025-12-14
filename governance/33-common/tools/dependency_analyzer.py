@@ -125,7 +125,6 @@ class DependencyAnalyzer:
         rec_stack: Set[str] = set()
 
         def dfs(node: str, path: List[str]) -> None:
-            """TODO: Add function documentation"""
             visited.add(node)
             rec_stack.add(node)
             path.append(node)

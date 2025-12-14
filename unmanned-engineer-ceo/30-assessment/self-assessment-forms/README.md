@@ -1,7 +1,6 @@
 # Self Assessment Forms
 
 ## 模板結構
-
 ```
 ---
 id: sa-2025q4-<name>

@@ -7,7 +7,6 @@
 ## 核心原則 (Core Principles)
 
 ### 開發階段：權限應該是幫助而非阻礙
-
 **Development Stage: Permissions Should Help, Not Hinder**
 
 - ✅ 使用 GitHub 自動提供的 `github.token`
@@ -17,7 +16,6 @@
 - ❌ 不需要組織級別權限設置
 
 ### 生產環境：可選的增強安全性
-
 **Production: Optional Enhanced Security**
 
 - 生產環境可以選擇性覆蓋環境變數
@@ -29,13 +27,11 @@
 ### 1. 移除硬編碼 Repository URL
 
 **Before**:
-
 ```python
 url='https://github.com/SynergyMesh-admin/SynergyMesh',
 ```
 
 **After**:
-
 ```python
 url=os.environ.get('REPOSITORY_URL', ''),
 ```
@@ -45,7 +41,6 @@ url=os.environ.get('REPOSITORY_URL', ''),
 ### 2. 簡化 Token 管理策略
 
 **Before** (`.github/workflows/env-setup.yml`):
-
 ```yaml
 # Token 優先順序：
 #   1. vars.WE_TONKE (Repository Variable)
@@ -54,7 +49,6 @@ url=os.environ.get('REPOSITORY_URL', ''),
 ```
 
 **After**:
-
 ```yaml
 # Token 策略 (Development-Friendly):
 #   - 開發階段: 使用 GitHub 自動提供的 token (github.token)
@@ -72,14 +66,12 @@ url=os.environ.get('REPOSITORY_URL', ''),
 - ✅ `.github/workflows/self-healing-ci.yml`
 
 **Before**:
-
 ```yaml
 env:
   GITHUB_TOKEN: ${{ secrets.WE_TONKE || secrets.GITHUB_TOKEN }}
 ```
 
 **After**:
-
 ```yaml
 env:
   GITHUB_TOKEN: ${{ github.token }}
@@ -88,19 +80,16 @@ env:
 ## 受益 (Benefits)
 
 ### 開發人員體驗
-
 - 🚀 **即開即用**: 無需配置任何 secrets
 - 🔄 **自動權限**: GitHub 自動提供適當的權限
 - 🛠️ **簡化設置**: Fork 專案後立即可用
 
 ### 維護性
-
 - 📝 **減少配置**: 不需要管理多個自定義 tokens
 - 🔒 **安全**: 減少 secret 洩漏風險
 - 🌍 **可移植**: 易於遷移到不同的 GitHub 組織
 
 ### CI/CD 穩定性
-
 - ✅ **減少失敗**: 不再因為 token 配置錯誤導致失敗
 - 🔧 **易於除錯**: 權限問題更容易識別和解決
 - 📊 **一致性**: 所有環境使用相同的權限模式
@@ -128,12 +117,10 @@ env:
 ### 對於組織管理員
 
 #### 開發/測試環境
-
 - ✅ 使用預設的 `github.token`
 - ✅ 無需額外配置
 
 #### 生產環境（可選）
-
 如果需要增強安全性，可以：
 
 1. 在 GitHub Environments 中設置環境保護規則
@@ -159,7 +146,6 @@ env:
 ### Q: 為什麼移除自定義 tokens？
 
 **A**: 自定義 tokens 在開發階段是阻礙而非幫助：
-
 - 需要手動配置
 - 容易配置錯誤
 - 增加維護負擔
@@ -168,15 +154,13 @@ env:
 ### Q: 這會影響安全性嗎？
 
 **A**: 不會，反而更安全：
-
 - 減少 secret 數量 = 減少洩漏風險
 - `github.token` 自動輪換
 - 權限範圍由 GitHub 自動管理
 
 ### Q: 如果需要更高權限怎麼辦？
 
-**A**:
-
+**A**: 
 1. 在工作流程中明確聲明所需權限
 2. 使用 GitHub Environments 添加保護規則
 3. 只在絕對必要時使用 Personal Access Token
@@ -184,7 +168,6 @@ env:
 ### Q: 這適用於所有工作流程嗎？
 
 **A**: 是的，除非：
-
 - 需要訪問其他 repository
 - 需要特殊的組織級權限
 - 需要長期有效的 token
@@ -196,14 +179,12 @@ env:
 ### ✅ 推薦做法
 
 1. **優先使用 `github.token`**
-
    ```yaml
    env:
      GITHUB_TOKEN: ${{ github.token }}
    ```
 
 2. **明確聲明所需權限**
-
    ```yaml
    permissions:
      contents: write
@@ -211,7 +192,6 @@ env:
    ```
 
 3. **使用環境保護規則而非自定義 tokens**
-
    ```yaml
    environment:
      name: production
@@ -221,34 +201,31 @@ env:
 ### ❌ 避免做法
 
 1. **不要硬編碼 repository URLs**
-
    ```python
    # ❌ Bad
    url='https://github.com/org/repo'
-
+   
    # ✅ Good
    url=os.environ.get('REPOSITORY_URL', '')
    ```
 
 2. **不要創建不必要的自定義 tokens**
-
    ```yaml
    # ❌ Bad
    token: ${{ secrets.CUSTOM_TOKEN }}
-
+   
    # ✅ Good
    token: ${{ github.token }}
    ```
 
 3. **不要在開發階段要求過度權限**
-
    ```yaml
    # ❌ Bad - 開發階段不需要這些
    permissions:
      id-token: write
      packages: write
      security-events: write
-
+   
    # ✅ Good - 只聲明實際需要的
    permissions:
      contents: read
@@ -257,7 +234,6 @@ env:
 ## 總結 (Conclusion)
 
 通過簡化權限配置：
-
 - ✅ 開發更順暢
 - ✅ 配置更簡單
 - ✅ 安全性更高
@@ -268,7 +244,6 @@ env:
 ---
 
 **相關文檔**:
-
 - [GitHub Actions Permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication)
 - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Environment Protection Rules](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)

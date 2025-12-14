@@ -7,8 +7,7 @@
 
 ## 📋 Overview | 概述
 
-This directory contains detailed module-level specifications that extend the
-basic module mapping with behavioral intent and capability declarations.
+This directory contains detailed module-level specifications that extend the basic module mapping with behavioral intent and capability declarations.
 
 本目錄包含詳細的模組級規範，通過行為意圖和能力聲明擴展基本模組映射。
 
@@ -19,7 +18,6 @@ Each module can have a detailed specification file:
 ```
 governance/36-modules/
 ├── README.md                          # This file
-├── module-registry.yaml              # Registry & completeness tracker
 ├── core.contract_service.L1.yaml     # Example module spec
 ├── core.unified_integration.yaml     # Example module spec
 └── {module-namespace-id}.yaml        # One file per module
@@ -30,56 +28,56 @@ governance/36-modules/
 Each module specification file should follow this structure:
 
 ```yaml
-module: 'core.contract_service.L1'
-version: '1.0.0'
-status: 'active'
+module: "core.contract_service.L1"
+version: "1.0.0"
+status: "active"
 
 # Role definition
-role: 'domain-service'
-role_description: 'Core business logic for contract management'
+role: "domain-service"
+role_description: "Core business logic for contract management"
 
 # Capabilities
 capabilities:
-  - id: 'read-contracts'
-    description: 'Query and retrieve contract data'
-  - id: 'write-contracts'
-    description: 'Create and modify contracts'
-  - id: 'validate-signatures'
-    description: 'Verify contract signatures'
+  - id: "read-contracts"
+    description: "Query and retrieve contract data"
+  - id: "write-contracts"
+    description: "Create and modify contracts"
+  - id: "validate-signatures"
+    description: "Verify contract signatures"
 
 # Technical details
 tech_stack:
-  languages: ['typescript', 'python']
-  frameworks: ['express', 'zod']
-  databases: ['postgresql']
+  languages: ["typescript", "python"]
+  frameworks: ["express", "zod"]
+  databases: ["postgresql"]
 
 # Integration points
 provides:
-  - 'ContractManagement'
-  - 'ProvenanceAttestation'
+  - "ContractManagement"
+  - "ProvenanceAttestation"
 
 depends_on:
-  - 'core.slsa_provenance'
-  - 'infrastructure.database'
+  - "core.slsa_provenance"
+  - "infrastructure.database"
 
 # Ownership
-owner: '@core-platform-team'
-lifecycle: 'active'
+owner: "@core-platform-team"
+lifecycle: "active"
 ```
 
 ## 🎯 Role Types | 角色類型
 
 ### Standard Role Types
 
-| Role             | Purpose                           | Examples                            |
-| ---------------- | --------------------------------- | ----------------------------------- |
-| `api-gateway`    | Entry point for external requests | API Gateway, Load Balancer          |
-| `domain-service` | Core business logic               | Contract Service, Billing Service   |
-| `adapter`        | External system integration       | Database Adapter, Cloud API Adapter |
-| `policy-engine`  | Policy enforcement                | Access Control, Rate Limiter        |
-| `orchestrator`   | Workflow coordination             | Task Scheduler, Workflow Engine     |
-| `data-processor` | Data transformation               | ETL Pipeline, Analytics Engine      |
-| `ui-component`   | User interface element            | Dashboard, Admin Panel              |
+| Role | Purpose | Examples |
+|------|---------|----------|
+| `api-gateway` | Entry point for external requests | API Gateway, Load Balancer |
+| `domain-service` | Core business logic | Contract Service, Billing Service |
+| `adapter` | External system integration | Database Adapter, Cloud API Adapter |
+| `policy-engine` | Policy enforcement | Access Control, Rate Limiter |
+| `orchestrator` | Workflow coordination | Task Scheduler, Workflow Engine |
+| `data-processor` | Data transformation | ETL Pipeline, Analytics Engine |
+| `ui-component` | User interface element | Dashboard, Admin Panel |
 
 ## 📊 Capability Model | 能力模型
 
@@ -148,11 +146,7 @@ When adding a new module or enhancing an existing one:
 3. **List capabilities**: Be specific and action-oriented
 4. **Document dependencies**: Include all runtime dependencies
 5. **Assign ownership**: Specify team and lifecycle state
-6. **Link behavior contract**: Reference the detailed contract in
-   `governance/37-behavior-contracts/`
-7. **Register the module**: Add or update the entry in
-   `governance/36-modules/module-registry.yaml` to keep the completeness map
-   accurate (spec status, behavior contract linkage, test/docs readiness).
+6. **Link behavior contract**: Reference the detailed contract in `governance/37-behavior-contracts/`
 
 ## ✅ Validation | 驗證
 

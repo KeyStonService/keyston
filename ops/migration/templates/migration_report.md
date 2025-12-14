@@ -16,8 +16,7 @@
 ## 處理的檔案
 
 | 來源 | 目標 | 狀態 |
-| ---- | ---- | ---- |
-
+|------|------|------|
 {{ file_table }}
 
 ## 配置變更
@@ -58,4 +57,4 @@ python3 migration/migrator.py --direction={{ reverse_direction }}
 
 ---
 
-_報告生成於 {{ timestamp }}_
+*報告生成於 {{ timestamp }}*

@@ -4,8 +4,7 @@
 
 `tools/` 目錄包含構建、驗證、生成和運維工具，支持整個開發和部署流程。
 
-The `tools/` directory contains build, validation, generation, and operations
-tools that support the entire development and deployment process.
+The `tools/` directory contains build, validation, generation, and operations tools that support the entire development and deployment process.
 
 ---
 
@@ -95,14 +94,12 @@ tools/
 ### 文檔與知識圖工具 (Documentation & Knowledge Graph)
 
 #### Schema 驗證器
-
 ```bash
 python3 tools/docs/validate_index.py --verbose
 python3 tools/docs/validate_index.py --config config/system-manifest.yaml
 ```
 
 #### 知識圖生成
-
 ```bash
 python3 tools/docs/generate_knowledge_graph.py \
   --repo-root . \
@@ -111,7 +108,6 @@ python3 tools/docs/generate_knowledge_graph.py \
 ```
 
 #### MN-DOC 生成
-
 ```bash
 python3 tools/docs/generate_mndoc_from_readme.py \
   --readme README.md \
@@ -203,26 +199,24 @@ bash tools/scripts/restore.sh --backup latest
 
 ## 📊 工具功能對應表 / Tool Feature Matrix
 
-| 工具                        | 功能        | 輸入      | 輸出                 |
-| --------------------------- | ----------- | --------- | -------------------- |
-| validate_index.py           | Schema 驗證 | YAML/JSON | 驗證報告             |
-| generate_knowledge_graph.py | KG 生成     | 倉庫代碼  | knowledge-graph.yaml |
-| contract-checker.js         | 合約驗證    | 合約定義  | 驗證結果             |
-| deployment-validator.js     | 部署驗證    | K8s 清單  | 驗證報告             |
-| admin-copilot               | CLI 工具    | 命令行    | 分析報告             |
+| 工具 | 功能 | 輸入 | 輸出 |
+|------|------|------|------|
+| validate_index.py | Schema 驗證 | YAML/JSON | 驗證報告 |
+| generate_knowledge_graph.py | KG 生成 | 倉庫代碼 | knowledge-graph.yaml |
+| contract-checker.js | 合約驗證 | 合約定義 | 驗證結果 |
+| deployment-validator.js | 部署驗證 | K8s 清單 | 驗證報告 |
+| admin-copilot | CLI 工具 | 命令行 | 分析報告 |
 
 ---
 
 ## 🔒 安全工具 / Security Tools
 
 ### 密鑰掃描
-
 ```bash
 bash tools/security/secret-scan.sh --repo . --strict
 ```
 
 ### 依賴檢查
-
 ```bash
 bash tools/security/dependency-check.sh
 
@@ -232,13 +226,11 @@ pip install --upgrade -r requirements.txt
 ```
 
 ### CodeQL 分析
-
 ```bash
 bash tools/security/codeql-analyze.sh --repo . --language typescript
 ```
 
 ### SLSA 驗證
-
 ```bash
 bash tools/security/slsa-verify.sh --artifact build/release.tar.gz
 ```
@@ -248,7 +240,6 @@ bash tools/security/slsa-verify.sh --artifact build/release.tar.gz
 ## 📈 效能工具 / Performance Tools
 
 ### 效能分析
-
 ```bash
 node tools/ci/performance-analyzer.js \
   --input dist/ \
@@ -256,7 +247,6 @@ node tools/ci/performance-analyzer.js \
 ```
 
 ### 覆蓋率分析
-
 ```bash
 npm run test -- --coverage
 node tools/testing/coverage-analyzer.js coverage/lcov.info
@@ -267,7 +257,6 @@ node tools/testing/coverage-analyzer.js coverage/lcov.info
 ## 📚 文檔工具 / Documentation Tools
 
 ### Markdown 檢查
-
 ```bash
 npm run docs:lint
 
@@ -276,13 +265,11 @@ npx markdownlint --fix "**/*.md"
 ```
 
 ### 鏈接檢查
-
 ```bash
 node tools/documentation/link-checker.js --repo .
 ```
 
 ### API 文檔生成
-
 ```bash
 node tools/documentation/api-doc-generator.js \
   --source src/api/ \
@@ -294,7 +281,6 @@ node tools/documentation/api-doc-generator.js \
 ## 🔄 批量操作 / Batch Operations
 
 ### 部署清單
-
 ```bash
 # 備份所有資料
 bash tools/scripts/backup.sh --full
@@ -314,14 +300,12 @@ done
 ## 🧪 測試工具集 / Testing Toolkit
 
 ### 測試報告
-
 ```bash
 npm test -- --json --outputFile=test-results.json
 node tools/testing/test-reporter.js test-results.json
 ```
 
 ### 效能基準
-
 ```bash
 npm run test:performance -- --benchmark
 node tools/testing/performance-profiler.js --output perf-report.html
@@ -355,3 +339,4 @@ node tools/testing/performance-profiler.js --output perf-report.html
 - 📖 [工具文檔](./README.md)
 - 🐛 [報告問題](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
 - 💬 [討論](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+

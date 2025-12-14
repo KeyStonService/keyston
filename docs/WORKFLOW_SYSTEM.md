@@ -6,18 +6,13 @@
 
 ## 📋 Executive Summary | 執行摘要
 
-The SynergyMesh Workflow System is a comprehensive, production-ready workflow
-orchestration platform that integrates AI governance, multi-layer validation,
-and automated deployment capabilities. This system provides a complete solution
-for managing complex workflows with built-in security, monitoring, and
-self-improvement features.
+The SynergyMesh Workflow System is a comprehensive, production-ready workflow orchestration platform that integrates AI governance, multi-layer validation, and automated deployment capabilities. This system provides a complete solution for managing complex workflows with built-in security, monitoring, and self-improvement features.
 
 SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程編排平台，集成了AI治理、多層驗證和自動化部署功能。該系統為管理複雜工作流程提供了完整的解決方案，內建安全性、監控和自我改進功能。
 
 ## 🎯 Key Features | 核心功能
 
 ### 1. AI Governance Engine | AI 治理引擎
-
 - **Pattern Recognition** | 模式識別
   - Structural analysis with AST-based parsing
   - Semantic analysis using ML models (BERT)
@@ -39,14 +34,12 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 ### 2. Multi-Layer Validation System | 多層驗證系統
 
 #### Layer 1: Syntax Validation | 語法驗證
-
 - **Languages Supported:** Python, TypeScript, YAML, JSON
 - **Parsers:** AST-based for Python/TypeScript, spec-compliant for YAML/JSON
 - **Performance:** < 10 seconds per file
 - **Accuracy:** 100% syntax error detection with line-accurate reporting
 
 #### Layer 2: Semantic Validation | 語義驗證
-
 - **Scope Checking:** Variable scope validation across contexts
 - **Type Inference:** Advanced type consistency checking
 - **API Contract Validation:** Ensures API compatibility
@@ -54,22 +47,18 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 - **Performance:** < 30 seconds per analysis
 
 #### Layer 3: Security Validation | 安全驗證
-
 - **OWASP Top 10 Coverage:** Complete coverage of all 10 categories
-- **Vulnerability Scanners:** Trivy (containers), Snyk (dependencies), CodeQL
-  (SAST)
+- **Vulnerability Scanners:** Trivy (containers), Snyk (dependencies), CodeQL (SAST)
 - **Pattern Matching:** Hardcoded secrets, SQL injection, XSS detection
 - **CVE Detection Rate:** ≥ 98%
 - **Performance:** < 60 seconds per scan
 
 #### Layer 4: Performance Validation | 性能驗證
-
 - **Benchmarking:** Automated performance testing
 - **Metrics:** Response time (p95 ≤ 200ms), Memory usage, CPU utilization
 - **Profiling:** Identifies bottlenecks and optimization opportunities
 
 #### Layer 5: Compliance Validation | 合規驗證
-
 - **Policy Enforcement:** Automated policy compliance checking
 - **Standards:** PEP8, ESLint, security standards
 - **Audit Trails:** Complete audit log for compliance
@@ -77,35 +66,30 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 ### 3. Contract Engine | 契約引擎
 
 #### Contract Registry | 契約註冊表
-
 - Distributed storage with caching (300s TTL)
 - Version management with rollback support (5 versions)
 - Dependency resolution via topological sorting
 - Contract lookup by ID, name, or type
 
 #### Contract Validator | 契約驗證器
-
 - Pre-execution validation
 - Post-execution validation
 - Async validation support (timeout: 30s)
 - Multiple execution modes: strict | permissive | audit
 
 #### Contract Executor | 契約執行器
-
 - Async execution with timeout protection
 - Pre/post validation hooks
 - Execution tracing and metrics
 - Error handling and recovery
 
 #### Contract Lifecycle Manager | 契約生命週期管理器
-
 - Automated deprecation (90-day period)
 - Version upgrade with validation
 - Rollback capability
 - Maximum 5 versions retained per contract
 
 ### 4. Plugin System | 插件系統
-
 - **Auto-Discovery:** Automatic plugin discovery from configured directories
 - **Security:** Sandboxed execution with signature verification
 - **Capabilities:** Network, storage, compute permissions
@@ -114,14 +98,12 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 ### 5. Deployment Strategies | 部署策略
 
 #### Blue-Green Deployment | 藍綠部署
-
 - Zero-downtime deployments
 - Automated switch after 300s verification
 - Automatic rollback on failure
 - Health check validation
 
 #### Canary Deployment | 金絲雀部署
-
 - Gradual traffic shifting (10% → 50% → 100%)
 - Stage durations: 600s, 1800s, immediate
 - Metric-based promotion
@@ -130,21 +112,18 @@ SynergyMesh 工作流程系統是一個全面的、生產就緒的工作流程�
 ### 6. Observability | 可觀察性
 
 #### Logging | 日誌
-
 - Structured JSON logging
 - Elasticsearch aggregation
 - 30-day retention
 - Distributed tracing integration
 
 #### Metrics | 指標
-
 - Prometheus scraping (15s interval)
 - Request rate, error rate, response time
 - 15-day retention
 - Custom metrics support
 
 #### Tracing | 追蹤
-
 - Jaeger integration
 - Probabilistic sampling (0.1 rate)
 - Distributed context propagation
@@ -262,16 +241,16 @@ curl http://localhost:8080/health
 
 ## 📊 Performance Benchmarks | 性能基準
 
-| Component           | Metric   | Target  | Actual |
-| ------------------- | -------- | ------- | ------ |
-| Analysis            | Time     | < 300s  | 180s   |
-| Syntax Validation   | Time     | < 10s   | 5s     |
-| Semantic Validation | Time     | < 30s   | 22s    |
-| Security Validation | Time     | < 60s   | 45s    |
-| Build               | Time     | < 600s  | 420s   |
-| Test                | Coverage | ≥ 80%   | 85%    |
-| Deployment          | Downtime | 0s      | 0s     |
-| Response Time       | p95      | ≤ 200ms | 150ms  |
+| Component | Metric | Target | Actual |
+|-----------|--------|--------|--------|
+| Analysis | Time | < 300s | 180s |
+| Syntax Validation | Time | < 10s | 5s |
+| Semantic Validation | Time | < 30s | 22s |
+| Security Validation | Time | < 60s | 45s |
+| Build | Time | < 600s | 420s |
+| Test | Coverage | ≥ 80% | 85% |
+| Deployment | Downtime | 0s | 0s |
+| Response Time | p95 | ≤ 200ms | 150ms |
 
 ## 🔒 Security Features | 安全功能
 
@@ -308,24 +287,22 @@ curl http://localhost:8080/health
 
 ### Alert Rules | 警報規則
 
-| Alert             | Condition         | Severity | Channels         |
-| ----------------- | ----------------- | -------- | ---------------- |
-| High Error Rate   | error_rate > 1%   | Critical | PagerDuty, Slack |
-| Slow Response     | p95 > 500ms       | Warning  | Slack            |
-| Contract Failures | failure_rate > 5% | High     | PagerDuty        |
-| High CPU          | cpu > 80%         | Medium   | Slack            |
+| Alert | Condition | Severity | Channels |
+|-------|-----------|----------|----------|
+| High Error Rate | error_rate > 1% | Critical | PagerDuty, Slack |
+| Slow Response | p95 > 500ms | Warning | Slack |
+| Contract Failures | failure_rate > 5% | High | PagerDuty |
+| High CPU | cpu > 80% | Medium | Slack |
 
 ## 🔄 Self-Improvement | 自我改進
 
 ### Learning System | 學習系統
-
 - **Pattern Learning**: Min 100 samples, 0.90 confidence
 - **Feedback Loop**: Deployment outcomes, validation results, user feedback
 - **Update Frequency**: Daily pattern updates
 - **Improvement Cycle**: 7-day continuous improvement
 
 ### Model Updates | 模型更新
-
 - **Strategy**: Shadow mode with 14-day validation
 - **Metrics**: ≥ 2% accuracy improvement per cycle
 - **Rollback**: Automatic on regression detection
@@ -341,7 +318,7 @@ from core.validators import MultiLayerValidator
 class CustomValidator:
     def __init__(self, config):
         self.config = config
-
+    
     def validate(self, data):
         # Your validation logic
         return {
@@ -376,7 +353,7 @@ from core.plugin_system import Plugin
 class MyPlugin(Plugin):
     def __init__(self):
         super().__init__("my_plugin", "1.0.0")
-
+    
     def execute(self, context):
         # Plugin logic
         return {"status": "success"}
@@ -394,15 +371,13 @@ class MyPlugin(Plugin):
 ## 🤝 Support | 支持
 
 For issues and questions:
-
 - GitHub Issues: [Report Bug](https://github.com/synergymesh/issues)
 - Documentation: [Wiki](https://github.com/synergymesh/wiki)
 - Community: [Discussions](https://github.com/synergymesh/discussions)
 
 ## 📄 License | 許可證
 
-This project is licensed under the MIT License - see the LICENSE file for
-details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 

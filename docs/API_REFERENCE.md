@@ -5,17 +5,14 @@
 ### ContractRegistry
 
 #### register(contract: ContractDefinition) -> str
-
 Register a new contract.
 
 **Parameters:**
-
 - `contract`: Contract definition to register
 
 **Returns:** Contract ID
 
 **Example:**
-
 ```python
 from core.contract_engine import ContractRegistry, ContractDefinition, ContractMetadata, ContractType
 
@@ -39,13 +36,11 @@ contract_id = registry.register(contract)
 ### ContractValidator
 
 #### validate_definition(contract: ContractDefinition) -> ValidationResult
-
 Validate contract definition.
 
 ### ContractExecutor
 
 #### execute(contract_id: str, input_data: Dict, context: Dict) -> ExecutionResult
-
 Execute a contract.
 
 ## Validation System API
@@ -53,19 +48,16 @@ Execute a contract.
 ### MultiLayerValidator
 
 #### validate(data: Dict) -> List[ValidationResult]
-
 Run all validation layers.
 
 ### SyntaxValidator
 
 #### validate(data: Dict) -> ValidationResult
-
 Validate syntax.
 
 ### SecurityValidator
 
 #### validate(data: Dict) -> ValidationResult
-
 Validate security.
 
 For complete API documentation, see source code docstrings.

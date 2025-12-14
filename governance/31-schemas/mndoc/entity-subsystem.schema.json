@@ -36,7 +36,15 @@
     },
     "layer": {
       "type": "string",
-      "enum": ["control-plane", "data-plane", "compute", "governance", "automation", "infrastructure", "observability"],
+      "enum": [
+        "control-plane",
+        "data-plane",
+        "compute",
+        "governance",
+        "automation",
+        "infrastructure",
+        "observability"
+      ],
       "description": "Architecture layer"
     },
     "domain": {

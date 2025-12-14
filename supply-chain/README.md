@@ -14,25 +14,19 @@ supply-chain/
 ## Components
 
 ### SBOM (`sbom/`)
-
 Software Bill of Materials containing:
-
 - SPDX format SBOMs
 - Provenance information
 - Signing policies
 
 ### Attestations (`attestations/`)
-
 SLSA Level 3 attestation evidence:
-
 - Build attestations
 - Provenance records
 - Verification artifacts
 
 ### Registry (`registry/`)
-
 Optional component registry for:
-
 - Module versions
 - Service definitions
 - Contract schemas
@@ -40,7 +34,6 @@ Optional component registry for:
 ## SLSA Compliance
 
 SynergyMesh follows SLSA (Supply-chain Levels for Software Artifacts) framework:
-
 - Level 1: Documentation of build process
 - Level 2: Tamper resistance through hosted build
 - Level 3: Security against specific threats

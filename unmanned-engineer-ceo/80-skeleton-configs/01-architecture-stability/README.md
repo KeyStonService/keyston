@@ -8,8 +8,7 @@
 
 ### 核心原則
 
-- **分層隔離**: 明確的五層架構 (core → platform → services → agents →
-  applications)
+- **分層隔離**: 明確的五層架構 (core → platform → services → agents → applications)
 - **單向依賴**: 依賴必須由外向內，禁止反向依賴
 - **同層隔離**: 同層模組之間禁止直接依賴，必須通過 API 或 Event
 - **零信任**: 所有跨邊界調用需驗證身份和權限
@@ -17,7 +16,6 @@
 ## 📁 文件結構
 
 ### 文檔 (docs/)
-
 - **invariants.md** - 架構不變條件定義
   - 分層不變條件 (INV-001 ~ INV-003)
   - 資料存取不變條件 (INV-004 ~ INV-005)
@@ -35,7 +33,6 @@
   - 共享庫範圍和版本管理
 
 ### 工具 (tools/)
-
 - **arch-lint.config.yml** - Architecture Linter 配置
   - 分層檢查、循環依賴檢查
   - 命名規範、檔案組織要求
@@ -47,7 +44,6 @@
   - 生成詳細的違規報告
 
 ### 測試 (tests/)
-
 - **arch-lint.test.ts** - Linter 單元測試
   - 規則驗證測試
   - 邊界情況測試
@@ -72,9 +68,7 @@ npx ts-node tools/arch-lint.ts --config tools/arch-lint.config.yml
 ```yaml
 # .github/workflows/architecture-lint.yml
 - name: Architecture Lint
-  run:
-    npm exec --workspace architecture-stability -- npx ts-node
-    tools/arch-lint.ts
+  run: npm exec --workspace architecture-stability -- npx ts-node tools/arch-lint.ts
 ```
 
 ### 3. 新增豁免規則
@@ -84,7 +78,7 @@ npx ts-node tools/arch-lint.ts --config tools/arch-lint.config.yml
 ```yaml
 exemptions:
   - path: platform/legacy/**
-    reason: 'Gradual migration plan'
+    reason: "Gradual migration plan"
     adr: ADR-2025-001
     expires: 2025-12-31
 ```

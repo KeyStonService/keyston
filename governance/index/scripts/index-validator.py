@@ -50,7 +50,6 @@ class ValidationReport:
     passed: int = 0
 
     def add(self, result: ValidationResult):
-        """TODO: Add function documentation"""
         self.results.append(result)
         if result.passed:
             self.passed += 1
@@ -233,7 +232,6 @@ class GovernanceIndexValidator:
         )
 
     def validate_orphan_nodes(self) -> ValidationResult:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """Check for orphan nodes (no dependencies and not depended upon)."""
         if "dimensions" not in self.data:
             return ValidationResult(
@@ -539,7 +537,6 @@ class GovernanceIndexValidator:
 
 
 def main():
-    """TODO: Add function documentation"""
     parser = argparse.ArgumentParser(
         description="Validate the Governance Index",
         formatter_class=argparse.RawDescriptionHelpFormatter

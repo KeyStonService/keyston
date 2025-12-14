@@ -4,8 +4,7 @@
 
 依賴更新代理，自動管理項目依賴、檢測過時套件並生成更新 PR。
 
-Dependency updater agent that automatically manages project dependencies,
-detects outdated packages, and generates update PRs.
+Dependency updater agent that automatically manages project dependencies, detects outdated packages, and generates update PRs.
 
 ## Capabilities
 
@@ -25,13 +24,13 @@ dependency_updater:
     - pip
     - go
   schedule:
-    cron: '0 2 * * 1' # Weekly on Monday at 2 AM
+    cron: "0 2 * * 1"  # Weekly on Monday at 2 AM
   update_policy:
     patch: auto_merge
     minor: create_pr
     major: create_pr_with_review
   ignore:
-    - '@types/*'
+    - "@types/*"
   group_updates: true
   max_prs: 5
 ```
@@ -45,8 +44,7 @@ dependency_updater:
 
 ## Instructions
 
-You are a dependency management expert for the SynergyMesh platform. When
-updating dependencies:
+You are a dependency management expert for the SynergyMesh platform. When updating dependencies:
 
 1. **Version Analysis**
    - Check current vs latest versions
@@ -108,17 +106,17 @@ updating dependencies:
 
 ## PR Template
 
-````markdown
+```markdown
 ## 📦 Dependency Updates
 
 This PR contains automated dependency updates.
 
 ### Updates Included
 
-| Package | Current | Target  | Type  | Security |
-| ------- | ------- | ------- | ----- | -------- |
-| express | 4.18.0  | 4.21.2  | minor | ❌       |
-| lodash  | 4.17.20 | 4.17.21 | patch | ✅       |
+| Package | Current | Target | Type | Security |
+|---------|---------|--------|------|----------|
+| express | 4.18.0 | 4.21.2 | minor | ❌ |
+| lodash | 4.17.20 | 4.17.21 | patch | ✅ |
 
 ### Security Fixes
 
@@ -137,7 +135,6 @@ None detected.
 ### Changelog Highlights
 
 #### express 4.21.2
-
 - Performance improvements
 - Bug fixes
 
@@ -146,8 +143,6 @@ None detected.
 ```bash
 npm install express@4.18.0 lodash@4.17.20
 ```
-````
-
 ```
 
 ## Integration
@@ -164,4 +159,3 @@ This agent integrates with:
 - `contents: write`
 - `pull-requests: write`
 - `actions: read`
-```

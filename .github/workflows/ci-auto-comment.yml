@@ -1,0 +1,400 @@
+---
+name: CI 自動評論與錯誤導航系統
+
+# 注意：此 workflow 已被 dynamic-ci-assistant.yml 取代
+# 僅在明確修改 CI 相關文件時觸發，用於驗證 CI 工具本身
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - '.github/workflows/ci-auto-comment.yml'
+      - '.github/workflows/dynamic-ci-assistant.yml'
+      - 'scripts/check-env.sh'
+      - 'docs/ci-troubleshooting.md'
+      - 'docs/CI_AUTO_COMMENT_SYSTEM.md'
+  workflow_dispatch:
+    inputs:
+      test-mode:
+        description: '測試模式（僅驗證配置）'
+        required: false
+        type: boolean
+        default: true
+
+env:
+  DOCKER_COMPOSE_VERSION: "2.20.0"
+  NODE_VERSION: "18"
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  # ============================================
+  # 第一階段：環境檢查與依賴驗證
+  # ============================================
+  environment-check:
+    runs-on: ubuntu-latest
+    outputs:
+      docker_status: ${{ steps.docker-check.outputs.status }}
+      compose_status: ${{ steps.compose-check.outputs.status }}
+      error_message: ${{ steps.error-handler.outputs.message }}
+      error_type: ${{ steps.error-handler.outputs.type }}
+      solution: ${{ steps.error-handler.outputs.solution }}
+    
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      # ========== Docker 檢查 ==========
+      - name: 🐳 檢查 Docker 安裝
+        id: docker-check
+        run: |
+          if command -v docker &> /dev/null; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✓ Docker 已安裝：$(docker --version)"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "✗ Docker 未安裝"
+            exit 1
+          fi
+        continue-on-error: true
+      
+      # ========== Docker Compose 檢查 ==========
+      - name: 🔧 檢查 Docker Compose 安裝
+        id: compose-check
+        run: |
+          if command -v docker-compose &> /dev/null || docker compose version &> /dev/null; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            if command -v docker-compose &> /dev/null; then
+              echo "✓ Docker Compose 已安裝：$(docker-compose --version)"
+            else
+              echo "✓ Docker Compose Plugin 已安裝：$(docker compose version)"
+            fi
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "✗ Docker Compose 未安裝"
+            exit 1
+          fi
+        continue-on-error: true
+      
+      # ========== 錯誤處理與分類 ==========
+      - name: 🚨 錯誤分類與消息生成
+        id: error-handler
+        if: ${{ failure() }}
+        run: |
+          ERROR_TYPE="UNKNOWN"
+          ERROR_MSG="CI 檢查失敗"
+          SOLUTION=""
+          
+          if [ "${{ steps.docker-check.outputs.status }}" = "failed" ]; then
+            ERROR_TYPE="DOCKER_NOT_INSTALLED"
+            ERROR_MSG="❌ Docker 未安裝或不可用"
+            SOLUTION="請在本地執行：\`curl -fsSL https://get.docker.com | sh\`"
+          elif [ "${{ steps.compose-check.outputs.status }}" = "failed" ]; then
+            ERROR_TYPE="DOCKER_COMPOSE_NOT_INSTALLED"
+            ERROR_MSG="❌ Docker Compose 未安裝或版本過舊"
+            SOLUTION="請執行：\`sudo curl -L https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-\$(uname -s)-\$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose\`"
+          fi
+          
+          echo "type=$ERROR_TYPE" >> $GITHUB_OUTPUT
+          echo "message=$ERROR_MSG" >> $GITHUB_OUTPUT
+          echo "solution=$SOLUTION" >> $GITHUB_OUTPUT
+          
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## ⚠️ 環境檢查失敗
+          - **錯誤類型**：$ERROR_TYPE
+          - **詳情**：$ERROR_MSG
+          - **修正方案**：$SOLUTION
+          EOF
+      
+      # ========== GitHub Annotation（直接標記錯誤）==========
+      - name: 📍 標記錯誤位置（Annotation）
+        if: ${{ failure() }}
+        run: |
+          echo "::error title=環境檢查失敗::Docker 或 Docker Compose 未安裝。請參考 PR 評論獲取修正方案。"
+          echo "::notice title=修正步驟::執行本地環境檢查：bash scripts/check-env.sh"
+
+  # ============================================
+  # 第二階段：驗證 CI 工具（輕量級，不實際構建/測試）
+  # ============================================
+  validate-ci-tools:
+    needs: environment-check
+    runs-on: ubuntu-latest
+    if: ${{ needs.environment-check.outputs.docker_status == 'success' && needs.environment-check.outputs.compose_status == 'success' }}
+    
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      - name: 🔍 驗證 Docker Compose 配置
+        id: validate-compose
+        shell: bash
+        run: |
+          # 僅驗證配置，不實際構建（輕量級，快速）
+          if command -v docker-compose &> /dev/null; then
+            COMPOSE_CMD="docker-compose"
+          else
+            COMPOSE_CMD="docker compose"
+          fi
+          
+          echo "驗證 Docker Compose 配置..."
+          if $COMPOSE_CMD config > /dev/null 2>&1; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ Docker Compose 配置有效"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "❌ Docker Compose 配置無效"
+          fi
+        continue-on-error: true
+      
+      - name: 🔍 驗證環境檢查腳本
+        id: validate-script
+        shell: bash
+        run: |
+          echo "驗證環境檢查腳本..."
+          if bash scripts/check-env.sh; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ 環境檢查腳本執行成功"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "❌ 環境檢查腳本執行失敗"
+          fi
+        continue-on-error: true
+      
+      - name: 📊 生成驗證報告
+        if: always()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🔍 CI 工具驗證狀態
+          - Docker Compose 配置：${{ steps.validate-compose.outputs.status }}
+          - 環境檢查腳本：${{ steps.validate-script.outputs.status }}
+          
+          > 注意：此 workflow 僅驗證 CI 工具本身，不運行完整構建/測試
+          > 完整的 CI 檢查由其他專門的 workflows 負責
+          > 動態互動功能由 dynamic-ci-assistant.yml 提供
+          EOF
+
+  # ============================================
+  # 第三階段：自動評論（僅用於 CI 工具自身的驗證）
+  # ============================================
+  auto-comment:
+    needs: [environment-check, validate-ci-tools]
+    runs-on: ubuntu-latest
+    if: always()  # 無論成功或失敗都執行
+    
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      # ========== 情況 1：環境檢查失敗 ==========
+      - name: 💬 評論：環境檢查失敗
+        if: ${{ needs.environment-check.outputs.docker_status == 'failed' || needs.environment-check.outputs.compose_status == 'failed' }}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const errorType = "${{ needs.environment-check.outputs.error_message }}";
+            const prNumber = context.payload.pull_request?.number;
+            
+            if (!prNumber) {
+              console.log("非 PR 事件，跳過評論");
+              return;
+            }
+            
+            const comment = `## ⚠️ CI 環境檢查失敗
+            
+            **錯誤類型**：環境依賴缺失
+            
+            ### 🔍 失敗原因
+            - Docker 或 Docker Compose 未正確安裝
+            - Runner 環境配置不完整
+            
+            ### ✅ 修正步驟
+            
+            **本地修復**：
+            \`\`\`bash
+            # 1. 檢查環境
+            bash scripts/check-env.sh
+            
+            # 2. 安裝 Docker（如需要）
+            curl -fsSL https://get.docker.com | sh
+            
+            # 3. 安裝 Docker Compose
+            sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+            
+            # 4. 驗證安裝
+            docker --version
+            docker-compose --version
+            \`\`\`
+            
+            **Runner 修復**：
+            - 請聯繫 DevOps 團隊更新 GitHub Actions Runner 環境
+            - 或在 workflow 中添加初始化步驟
+            
+            ### 📚 相關文檔
+            - [Docker 安裝指南](https://docs.docker.com/get-docker/)
+            - [Docker Compose 安裝指南](https://docs.docker.com/compose/install/)
+            - [CI 故障排除](./docs/ci-troubleshooting.md)
+            
+            ---
+            *此評論由 CI 自動生成 | [查看完整日誌](${context.payload.pull_request?.html_url}/checks)*`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      # ========== 情況 2：CI 工具驗證失敗 ==========
+      - name: 💬 評論：CI 工具驗證失敗
+        if: ${{ needs.validate-ci-tools.result == 'failure' }}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            
+            if (!prNumber) return;
+            
+            const comment = `## ⚠️ CI 工具驗證失敗
+            
+            **階段**：CI 工具自身驗證
+            
+            ### 🔍 常見原因
+            - Docker Compose 配置語法錯誤
+            - 環境檢查腳本問題
+            - CI 配置文件格式錯誤
+            
+            ### ✅ 修正步驟
+            
+            **本地驗證**：
+            \`\`\`bash
+            # 1. 驗證 Docker Compose 配置
+            docker-compose config
+            
+            # 2. 測試環境檢查腳本
+            bash scripts/check-env.sh
+            
+            # 3. 檢查 YAML 語法
+            yamllint .github/workflows/
+            \`\`\`
+            
+            ### 📚 相關文檔
+            - [CI 系統文檔](./docs/CI_AUTO_COMMENT_SYSTEM.md)
+            - [故障排除指南](./docs/ci-troubleshooting.md)
+            
+            ---
+            *此評論由 CI 工具驗證系統自動生成*`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+
+      
+      # ========== 情況 3：CI 工具驗證成功 ==========
+      - name: 💬 評論：CI 工具驗證成功
+        if: ${{ success() && needs.environment-check.outputs.docker_status == 'success' }}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            
+            if (!prNumber) return;
+            
+            const comment = `## ✅ CI 工具驗證通過
+            
+            CI 工具相關文件的驗證已成功完成：
+            - ✓ 環境檢查
+            - ✓ Docker Compose 配置驗證
+            - ✓ 環境檢查腳本驗證
+            
+            ### 📌 注意
+            此 PR 修改了 CI 相關文件。完整的項目 CI 檢查由其他專門的 workflows 執行：
+            - Core Services CI
+            - Integration & Deployment
+            - 其他專案特定的 CI workflows
+            
+            ### 🤖 動態互動 CI
+            新的**動態 CI 助手**將監控所有 CI workflows，並在失敗時提供智能診斷和互動式反饋。
+            
+            ---
+            *此評論由 CI 工具驗證系統自動生成*`;
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      # ========== 自動標籤機制 ==========
+      - name: 🏷️ 添加失敗標籤
+        if: ${{ failure() }}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            
+            if (!prNumber) return;
+            
+            let labels = ['ci-failed'];
+            
+            if ("${{ needs.environment-check.outputs.docker_status }}" === "failed") {
+              labels.push('env-error');
+            }
+            
+            if ("${{ needs.validate-ci-tools.result }}" === "failure") {
+              labels.push('ci-tools-failed');
+            }
+            
+            // 先獲取現有標籤，避免重複添加
+            try {
+              const { data: existingLabels } = await github.rest.issues.listLabelsOnIssue({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              
+              const existingLabelNames = existingLabels.map(l => l.name);
+              labels = labels.filter(l => !existingLabelNames.includes(l));
+              
+              if (labels.length > 0) {
+                await github.rest.issues.addLabels({
+                  issue_number: prNumber,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: labels
+                });
+              }
+            } catch (e) {
+              console.log("標籤操作失敗：", e.message);
+            }
+      
+      - name: 🏷️ 移除失敗標籤（成功時）
+        if: ${{ success() && needs.environment-check.outputs.docker_status == 'success' }}
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            
+            if (!prNumber) return;
+            
+            const labelsToRemove = ['ci-failed', 'env-error', 'build-failed'];
+            
+            for (const label of labelsToRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  issue_number: prNumber,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label
+                });
+              } catch (e) {
+                console.log(`標籤 ${label} 不存在，跳過移除`);
+              }
+            }

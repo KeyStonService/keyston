@@ -36,7 +36,6 @@
 - `{topic}.scratch.md` - 後綴風格
 
 **範例**：
-
 - `scratch-three-layer-architecture.md`
 - `notes-2025-12-06-refactor-discussion.md`
 - `compare-typescript-vs-go-for-gateway.md`

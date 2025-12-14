@@ -1,0 +1,43 @@
+name: Governance Structure Validation
+
+on:
+  push:
+    paths:
+      - 'governance/**'
+      - '.github/workflows/governance-validation.yml'
+  pull_request:
+    paths:
+      - 'governance/**'
+  workflow_dispatch:
+
+jobs:
+  validate-governance:
+    name: Validate Governance Structure
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          
+      - name: Run governance structure validation
+        run: |
+          python governance/scripts/validate-governance-structure.py --verbose
+          
+      - name: Upload validation results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-validation-results
+          path: |
+            governance/governance-map.yaml
+          retention-days: 30

@@ -1,12 +1,9 @@
 # Auto Refactor & Evolution System
-
 # 自動重構與演化系統
 
 ## 📋 Overview / 概述
 
-The Auto Refactor & Evolution System is an automated workflow that orchestrates
-SynergyMesh's refactoring and evolution engines to continuously improve the
-codebase structure and functionality.
+The Auto Refactor & Evolution System is an automated workflow that orchestrates SynergyMesh's refactoring and evolution engines to continuously improve the codebase structure and functionality.
 
 自動重構與演化系統是一個自動化工作流，編排 SynergyMesh 的重構和演化引擎，持續改進代碼庫結構和功能。
 
@@ -14,11 +11,9 @@ codebase structure and functionality.
 
 **Response Type: CAN_COMPLETE**
 
-This system fulfills the requirement:
-"使用引擎自動化重構專案，並自動也演化拓展開發功能"
+This system fulfills the requirement: "使用引擎自動化重構專案，並自動也演化拓展開發功能"
 
-Translation: "Use the engine to automatically refactor the project and
-automatically evolve and expand development functionality"
+Translation: "Use the engine to automatically refactor the project and automatically evolve and expand development functionality"
 
 ## 🏗️ Architecture / 架構
 
@@ -150,76 +145,70 @@ Key settings:
 
 ```yaml
 workflow:
-  mode: 'autonomous' # autonomous | supervised | interactive
+  mode: "autonomous"  # autonomous | supervised | interactive
   max_iterations: 3
   confidence_threshold: 0.7
 
 engines:
   refactor_engine:
     enabled: true
-    path: 'tools/refactor/refactor_engine.py'
-
+    path: "tools/refactor/refactor_engine.py"
+  
   evolution_engine:
     enabled: true
-    path: 'automation/intelligent/synergymesh_core/self_evolution_engine.py'
-
+    path: "automation/intelligent/synergymesh_core/self_evolution_engine.py"
+  
   island_ai_agents:
     enabled: true
-    agents: ['architect', 'security', 'qa']
+    agents: ["architect", "security", "qa"]
 
 targets:
   primary:
-    - path: 'core/'
-      priority: 'high'
-    - path: 'automation/'
-      priority: 'high'
-    - path: 'services/'
-      priority: 'medium'
+    - path: "core/"
+      priority: "high"
+    - path: "automation/"
+      priority: "high"
+    - path: "services/"
+      priority: "medium"
 
 safety:
   pre_checks:
-    - 'git_status_clean'
-    - 'backup_created'
+    - "git_status_clean"
+    - "backup_created"
   post_checks:
-    - 'tests_still_passing'
-    - 'no_new_vulnerabilities'
+    - "tests_still_passing"
+    - "no_new_vulnerabilities"
 ```
 
 ## 🔄 Workflow Phases / 工作流階段
 
 ### Phase 1: Analysis (分析)
-
 - Scan target directories
 - Identify structural issues
 - Assess code quality
 - Generate analysis report
 
 ### Phase 2: Planning (規劃)
-
 - Create execution plan
 - Prioritize actions
 - Validate plan feasibility
 
 ### Phase 3: Execution (執行)
-
 - Apply refactoring changes
 - Track modifications
 - Handle errors gracefully
 
 ### Phase 4: Learning (學習)
-
 - Collect execution metrics
 - Identify patterns
 - Extract insights
 
 ### Phase 5: Evolution (演化)
-
 - Find optimization opportunities
 - Prioritize improvements
 - Apply safe optimizations
 
 ### Phase 6: Validation (驗證)
-
 - Run safety checks
 - Execute test suite
 - Verify stability
@@ -265,43 +254,34 @@ safety:
 ## 🔌 Integration Points / 整合點
 
 ### 1. With automation_launcher.py
-
-The system integrates with the existing automation launcher via pipeline
-definitions.
+The system integrates with the existing automation launcher via pipeline definitions.
 
 ### 2. With Island AI Agents
-
 Leverages Island AI agents for:
-
 - Architecture analysis (Architect Agent)
 - Security validation (Security Agent)
 - Quality assurance (QA Agent)
 
 ### 3. With Knowledge Graph
-
 Automatically updates knowledge graph after successful execution.
 
 ### 4. With CI/CD (Optional)
-
 Can be triggered via CI/CD pipelines (currently disabled by default).
 
 ## 🎛️ Execution Modes / 執行模式
 
 ### Autonomous Mode (自主模式)
-
 - Fully automated execution
 - Minimal human intervention
 - High confidence threshold
 - Safety checks enforced
 
 ### Supervised Mode (監督模式)
-
 - Human approval at key phases
 - Review before execution
 - Lower confidence threshold acceptable
 
 ### Interactive Mode (互動模式)
-
 - Step-by-step execution
 - Human guidance for each action
 - Maximum control and safety
@@ -315,17 +295,17 @@ Edit `config/refactor-evolution.yaml`:
 ```yaml
 targets:
   primary:
-    - path: 'my-new-module/'
-      priority: 'high'
-      focus: ['structure', 'organization']
+    - path: "my-new-module/"
+      priority: "high"
+      focus: ["structure", "organization"]
 ```
 
 ### Adjusting Safety Thresholds
 
 ```yaml
 workflow:
-  confidence_threshold: 0.8 # Higher = more conservative
-  max_iterations: 5 # More evolution cycles
+  confidence_threshold: 0.8  # Higher = more conservative
+  max_iterations: 5          # More evolution cycles
 ```
 
 ### Enabling Evolution Auto-Apply
@@ -334,7 +314,7 @@ workflow:
 engines:
   evolution_engine:
     config:
-      auto_optimize: true # Enable automatic optimizations
+      auto_optimize: true  # Enable automatic optimizations
 ```
 
 ## 📈 Usage Examples / 使用示例
@@ -347,7 +327,6 @@ python tools/refactor/auto_refactor.py quick-scan
 ```
 
 Output:
-
 ```
 🔍 Quick Scan - Analyzing codebase structure...
 
@@ -386,7 +365,6 @@ python automation_launcher.py pipeline refactor_evolution_pipeline
 ### Issue: Engine initialization failed
 
 **Solution**: Ensure all dependencies are installed:
-
 ```bash
 pip install -r requirements.txt
 ```
@@ -394,7 +372,6 @@ pip install -r requirements.txt
 ### Issue: Safety checks failing
 
 **Solution**: Ensure git working directory is clean:
-
 ```bash
 git status
 git stash  # If needed
@@ -403,15 +380,13 @@ git stash  # If needed
 ### Issue: Tests failing during validation
 
 **Solution**: Run tests manually to identify issues:
-
 ```bash
 npm test
 ```
 
 ### Issue: Evolution engine not available
 
-**Note**: This is expected if the evolution engine module is not fully
-implemented. The workflow will continue with refactor engine only.
+**Note**: This is expected if the evolution engine module is not fully implemented. The workflow will continue with refactor engine only.
 
 ## 📝 Development Notes / 開發說明
 
@@ -419,13 +394,10 @@ implemented. The workflow will continue with refactor engine only.
 
 This implementation follows the principle of minimal changes:
 
-1. **No modifications to existing engines** - Reuses `refactor_engine.py` and
-   `self_evolution_engine.py` as-is
+1. **No modifications to existing engines** - Reuses `refactor_engine.py` and `self_evolution_engine.py` as-is
 2. **Configuration-driven** - All behavior controlled via YAML configs
-3. **Thin orchestration layer** - `refactor_evolution_workflow.py` is pure glue
-   code
-4. **Leverages existing infrastructure** - Integrates with
-   `automation_launcher.py`
+3. **Thin orchestration layer** - `refactor_evolution_workflow.py` is pure glue code
+4. **Leverages existing infrastructure** - Integrates with `automation_launcher.py`
 
 ### Extension Points
 
@@ -458,13 +430,10 @@ Potential improvements (not included to keep changes minimal):
 
 This implementation complies with:
 
-- **AI Behavior Contract**: Binary responses (CAN_COMPLETE), concrete language,
-  no vague excuses
-- **Repository Guidelines**: Follows three-systems architecture,
-  configuration-driven approach
+- **AI Behavior Contract**: Binary responses (CAN_COMPLETE), concrete language, no vague excuses
+- **Repository Guidelines**: Follows three-systems architecture, configuration-driven approach
 - **Safety Standards**: Pre/post checks, backups, rollback support
-- **Minimal Changes**: Uses existing infrastructure, no modifications to core
-  engines
+- **Minimal Changes**: Uses existing infrastructure, no modifications to core engines
 
 ## 🎉 Success Criteria / 成功標準
 

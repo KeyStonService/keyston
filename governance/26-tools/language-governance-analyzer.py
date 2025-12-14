@@ -42,7 +42,6 @@ class LanguageGovernanceAnalyzer:
     }
     
     def __init__(self, repo_root: str, policy_file: str):
-        """TODO: Add function documentation"""
         self.repo_root = Path(repo_root)
         self.policy_file = Path(policy_file)
         self.policy = self._load_policy()
@@ -70,9 +69,7 @@ class LanguageGovernanceAnalyzer:
         """Check if language is in allowed list"""
         return language in allowed_list
     
-    # REFACTOR: Function '_check_directory_rules' has complexity 11. Consider extracting helper methods.
     def _check_directory_rules(self):
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """Check directory-level language rules"""
         directory_rules = self.policy.get('directory_rules', {})
         
@@ -186,7 +183,6 @@ class LanguageGovernanceAnalyzer:
             }
         }
     
-    # REFACTOR: Function 'generate_markdown_report' has complexity 12. Consider extracting helper methods.
     def generate_markdown_report(self) -> str:
         """Generate Markdown report for PR comments"""
         lines = []
@@ -287,7 +283,6 @@ class LanguageGovernanceAnalyzer:
         print("\n" + "=" * 70)
 
 def main():
-    # NOTE: Consider refactoring this function (complexity > 50 lines)
     """Main function"""
     parser = argparse.ArgumentParser(
         description='Language Governance Analyzer for CI/CD'

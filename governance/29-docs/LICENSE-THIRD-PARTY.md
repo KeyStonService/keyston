@@ -14,7 +14,8 @@ Copyright © 2014 by Armin Ronacher and contributors.
 
 ### PyYAML (MIT)
 
-Copyright © 2017-2021 Ingy döt Net Copyright © 2006-2016 Kirill Simonov
+Copyright © 2017-2021 Ingy döt Net
+Copyright © 2006-2016 Kirill Simonov
 
 ### Rich (MIT)
 
@@ -24,10 +25,10 @@ Copyright © 2020 Will McGugan
 
 See individual package documentation for complete license texts:
 
-- <https://flask.palletsprojects.com/license/>
-- <https://click.palletsprojects.com/license/>
-- <https://pyyaml.org/wiki/PyYAML>
-- <https://github.com/Textualize/rich/blob/master/LICENSE>
+- https://flask.palletsprojects.com/license/
+- https://click.palletsprojects.com/license/
+- https://pyyaml.org/wiki/PyYAML
+- https://github.com/Textualize/rich/blob/master/LICENSE
 
 ---
 

@@ -1,47 +1,39 @@
 # Scenario 3: Automation Iteration (自動化迭代)
-
 # 自動化工作流代碼質量優化
 
 ## 概述 Overview
 
 專為自動化迭代系統設計的代碼分析與修復解決方案，優化 CI/CD 管線、自動化腳本和工作流的質量與性能。
 
-Code analysis and repair solution specifically designed for automation iteration
-systems, optimizing CI/CD pipelines, automation scripts, and workflow quality
-and performance.
+Code analysis and repair solution specifically designed for automation iteration systems, optimizing CI/CD pipelines, automation scripts, and workflow quality and performance.
 
 ## 核心關注點 Focus Areas
 
 ### 1. 自動化腳本 (Automation Scripts)
-
 - **腳本質量**: 檢查腳本代碼質量
 - **錯誤處理**: 驗證異常處理邏輯
 - **冪等性**: 確保腳本可重複執行
 - **參數驗證**: 檢查輸入參數驗證
 
 ### 2. 工作流優化 (Workflow Optimization)
-
 - **管線效率**: 分析 CI/CD 管線效率
 - **並行執行**: 識別可並行的任務
 - **緩存策略**: 優化構建緩存
 - **資源使用**: 監控資源利用率
 
 ### 3. 依賴分析 (Dependency Analysis)
-
 - **依賴圖**: 生成依賴關係圖
 - **循環依賴**: 檢測循環依賴
 - **版本衝突**: 識別版本衝突
 - **安全漏洞**: 掃描依賴漏洞
 
 ### 4. 性能瓶頸 (Performance Bottlenecks)
-
 - **執行時間**: 識別慢速步驟
 - **資源消耗**: 分析 CPU/內存使用
 - **網絡延遲**: 檢測網絡瓶頸
 - **並發問題**: 識別並發競爭
 
 ### 5. 技術債務管理 (Tech Debt Management)
-
 - **代碼複雜度**: 追蹤代碼複雜度
 - **重複代碼**: 識別重複邏輯
 - **廢棄代碼**: 檢測未使用代碼
@@ -60,16 +52,15 @@ and performance.
 
 ```yaml
 analysis_priority:
-  security: high # 安全性重要
-  performance: medium # 性能適度關注
-  quality: high # 代碼質量重要
-  architecture: medium # 架構適度關注
+  security: high         # 安全性重要
+  performance: medium    # 性能適度關注
+  quality: high         # 代碼質量重要
+  architecture: medium  # 架構適度關注
 ```
 
 ## 典型問題檢測 Common Issues Detected
 
 ### 1. 腳本錯誤處理
-
 ```python
 # ❌ 錯誤：沒有錯誤處理
 def deploy_service(config):
@@ -92,7 +83,6 @@ def deploy_service(config):
 ```
 
 ### 2. 非冪等操作
-
 ```python
 # ❌ 錯誤：非冪等操作
 def setup_database():
@@ -108,7 +98,6 @@ def setup_database():
 ```
 
 ### 3. 資源洩漏
-
 ```python
 # ❌ 錯誤：資源未正確釋放
 def process_files(file_list):
@@ -126,7 +115,6 @@ def process_files(file_list):
 ```
 
 ### 4. 硬編碼配置
-
 ```python
 # ❌ 錯誤：硬編碼
 def connect_database():
@@ -188,7 +176,6 @@ print(f"Optimization suggestions: {len(result.optimizations)}")
 ## CI/CD 管線分析 Pipeline Analysis
 
 ### GitHub Actions 分析
-
 ```python
 from automation_architect.scenarios.automation_iteration import GHActionsAnalyzer
 
@@ -206,7 +193,6 @@ for suggestion in result.optimizations:
 ```
 
 ### 依賴分析
-
 ```python
 from automation_architect.scenarios.automation_iteration import DependencyAnalyzer
 
@@ -225,19 +211,16 @@ print(f"Security vulnerabilities: {issues.vulnerabilities}")
 ## 性能優化建議 Performance Optimization
 
 ### 1. 並行化機會
-
 - 識別可並行執行的任務
 - 建議 matrix 策略
 - 優化作業依賴
 
 ### 2. 緩存策略
-
 - 依賴緩存優化
 - 構建產物緩存
 - Docker 層緩存
 
 ### 3. 資源優化
-
 - 選擇合適的 runner
 - 優化資源限制
 - 減少不必要的步驟
@@ -247,29 +230,28 @@ print(f"Security vulnerabilities: {issues.vulnerabilities}")
 ```yaml
 tech_debt:
   high_priority:
-    - type: 'circular-dependency'
-      components: ['module-a', 'module-b']
-      impact: 'high'
-      effort: 'medium'
-
+    - type: "circular-dependency"
+      components: ["module-a", "module-b"]
+      impact: "high"
+      effort: "medium"
+    
   medium_priority:
-    - type: 'code-duplication'
-      files: ['script1.py', 'script2.py']
+    - type: "code-duplication"
+      files: ["script1.py", "script2.py"]
       lines: 150
-      impact: 'medium'
-      effort: 'low'
-
+      impact: "medium"
+      effort: "low"
+    
   low_priority:
-    - type: 'missing-docs'
+    - type: "missing-docs"
       functions: 25
-      impact: 'low'
-      effort: 'medium'
+      impact: "low"
+      effort: "medium"
 ```
 
 ## 集成與部署 Integration & Deployment
 
 ### 自動化分析
-
 ```yaml
 # .github/workflows/automation-analysis.yml
 name: Automation Analysis
@@ -286,13 +268,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Analyze Automation Code
         run: |
           python automation-architect/scenarios/automation-iteration/analyze.py \
             --generate-report \
             --suggest-optimizations
-
+      
       - name: Upload Report
         uses: actions/upload-artifact@v3
         with:
@@ -301,7 +283,6 @@ jobs:
 ```
 
 ### 持續優化
-
 ```python
 # 定期檢查和優化
 from automation_architect.scenarios.automation_iteration import ContinuousOptimizer

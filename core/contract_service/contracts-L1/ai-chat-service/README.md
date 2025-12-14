@@ -1,7 +1,6 @@
 # AI Chat Service - 無人機/自動駕駛應用
 
-AI-powered chat service for drone and autonomous vehicle operations, extracted
-and adapted from MateChat.
+AI-powered chat service for drone and autonomous vehicle operations, extracted and adapted from MateChat.
 
 ## 功能特性 (Features)
 
@@ -76,7 +75,7 @@ npm start
     "vehicleId": "DRONE-001",
     "missionId": "MISSION-2024-001",
     "location": {
-      "lat": 25.033,
+      "lat": 25.0330,
       "lon": 121.5654,
       "alt": 100.0
     },
@@ -129,14 +128,14 @@ npm start
 
 ### 環境變量
 
-| 變量             | 說明            | 預設值                |
-| ---------------- | --------------- | --------------------- |
-| `PORT`           | 服務端口        | `8100`                |
-| `OPENAI_API_KEY` | OpenAI API 金鑰 | 必填                  |
-| `AI_MODEL`       | 使用的模型      | `gpt-4-turbo-preview` |
-| `MAX_TOKENS`     | 最大 token 數   | `4096`                |
-| `TEMPERATURE`    | 回應創意度      | `0.7`                 |
-| `LOG_LEVEL`      | 日誌級別        | `info`                |
+| 變量 | 說明 | 預設值 |
+|------|------|--------|
+| `PORT` | 服務端口 | `8100` |
+| `OPENAI_API_KEY` | OpenAI API 金鑰 | 必填 |
+| `AI_MODEL` | 使用的模型 | `gpt-4-turbo-preview` |
+| `MAX_TOKENS` | 最大 token 數 | `4096` |
+| `TEMPERATURE` | 回應創意度 | `0.7` |
+| `LOG_LEVEL` | 日誌級別 | `info` |
 
 ### 使用本地 LLM
 

@@ -3,7 +3,6 @@
 ## 認證 (Authentication)
 
 ### 支援的認證方式
-
 1. **OAuth 2.0 / OpenID Connect**
    - 標準流程: Authorization Code Flow (with PKCE)
    - 用於: Web 應用、Mobile 應用

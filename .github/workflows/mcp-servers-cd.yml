@@ -1,0 +1,38 @@
+---
+name: MCP Servers CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'mcp-servers/**'
+      - '.github/workflows/mcp-servers-cd.yml'
+      - '.github/workflows/project-cd.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '部署環境'
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+        default: 'dev'
+
+jobs:
+  cd:
+    uses: ./.github/workflows/project-cd.yml
+    with:
+      working-directory: mcp-servers
+      service-name: mcp-servers
+      image-name: synergymesh/mcp-servers
+      registry: ghcr.io
+      environment: ${{ inputs.environment || 'dev' }}
+      enable-cosign: false  # 關閉 - 需要外部 secrets
+      enable-sbom: true
+      enable-policy-check: false  # 關閉 - 減少失敗點
+      deploy-to-k8s: false
+    secrets: inherit  # 使用 GITHUB_TOKEN 自動授權

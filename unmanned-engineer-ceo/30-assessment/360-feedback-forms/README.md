@@ -1,7 +1,6 @@
 # 360 Feedback Forms
 
 ## 結構
-
 ```
 ---
 id: 360-2025q4-<name>

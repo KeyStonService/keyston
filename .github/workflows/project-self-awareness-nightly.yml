@@ -1,0 +1,75 @@
+name: project-self-awareness-nightly
+
+on:
+    schedule:
+        - cron: "0 6 * * 1"  # Weekly on Monday instead of daily to reduce costs
+    workflow_dispatch:
+
+# Cost protection: prevent concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+    nightly-self-awareness:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20  # Prevent runaway costs
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "20"
+
+            - name: Install workspace dependencies
+              run: npm install --workspaces --include-workspace-root
+
+            - name: Install island-ai dependencies
+              working-directory: island-ai
+              run: npm install
+
+            - name: Generate report
+              run: |
+                  mkdir -p reports
+                  python3 automation/self_awareness_report.py \
+                    --output reports/self-awareness.md \
+                    --json-output reports/self-awareness.json \
+                    --lint-cmd "npm run lint --workspaces --if-present" \
+                    --test-cmd "npm test --workspaces --if-present" \
+                    --automation-cmd "Island AI Lint=cd island-ai && npm run lint" \
+                    --automation-cmd "Audit=npm audit --workspaces --include-workspace-root" \
+                    --max-log-lines 10 \
+                    --fail-on-errors
+
+            - name: Upload artifact
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: self-awareness-nightly
+                  path: |
+                      reports/self-awareness.md
+                      reports/self-awareness.json
+
+            - name: Open troubleshooting issue on failure
+              if: failure()
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+                      const title = `Nightly self-awareness failure (${new Date().toISOString()})`;
+                      const body = [
+                        'Nightly self-awareness signals failed.',
+                        '',
+                        `Workflow run: ${runUrl}`,
+                        'Artifacts: self-awareness-nightly (Markdown + JSON).',
+                        '',
+                        'Please consult docs/troubleshooting/INDEX.md for the remediation map.'
+                      ].join('\n');
+                      await github.rest.issues.create({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        title,
+                        body
+                      });

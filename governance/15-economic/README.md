@@ -1,7 +1,6 @@
 # 💰 Cost Management Governance
 
-> Cost Monitoring & Budgeting - Governance for cost allocation, budgeting, and
-> resource optimization
+> Cost Monitoring & Budgeting - Governance for cost allocation, budgeting, and resource optimization
 
 ## 📋 Overview
 
@@ -75,4 +74,5 @@ This governance domain integrates with:
 
 ---
 
-**Status**: Core Governance Domain **Last Updated**: 2025-12-09
+**Status**: Core Governance Domain
+**Last Updated**: 2025-12-09

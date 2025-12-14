@@ -4,8 +4,7 @@
 
 `services/` 目錄包含所有微服務、代理和 MCP 伺服器，負責各種業務邏輯的實現。
 
-The `services/` directory contains all microservices, agents, and MCP servers,
-responsible for implementing various business logic.
+The `services/` directory contains all microservices, agents, and MCP servers, responsible for implementing various business logic.
 
 ---
 
@@ -66,31 +65,26 @@ services/
 ### 代理服務 (Agent Services)
 
 #### 1. 自動修復代理 (Auto-Repair Agent)
-
 - 自動檢測和修復程式碼問題
 - CI/CD 失敗自動恢復
 - 缺陷自動補丁
 
 #### 2. 程式碼分析代理 (Code Analyzer Agent)
-
 - 程式碼品質分析
 - 複雜度評估
 - 效能瓶頸檢測
 
 #### 3. 依賴管理代理 (Dependency Manager)
-
 - 依賴版本更新
 - 安全漏洞掃描
 - 相容性檢查
 
 #### 4. 編排代理 (Orchestrator)
-
 - 多代理協調
 - 工作流管理
 - 資源分配
 
 #### 5. 漏洞檢測代理 (Vulnerability Detector)
-
 - 安全漏洞掃描
 - 風險等級評估
 - 修復建議
@@ -160,7 +154,6 @@ curl -X POST http://localhost:3001/api/agents/analyze \
 ## 📊 代理通訊協議 / Agent Communication Protocol
 
 ### 消息格式 (Message Format)
-
 ```json
 {
   "agent_id": "repair-agent-1",
@@ -175,7 +168,6 @@ curl -X POST http://localhost:3001/api/agents/analyze \
 ```
 
 ### 回應格式 (Response Format)
-
 ```json
 {
   "status": "success|failure",
@@ -192,18 +184,15 @@ curl -X POST http://localhost:3001/api/agents/analyze \
 ## 🔒 安全 & 認證 / Security & Authentication
 
 ### API 金鑰認證
-
 ```bash
 curl -H "Authorization: Bearer YOUR_API_KEY" \
   http://localhost:3001/api/agents/repair
 ```
 
 ### OAuth2 (可選)
-
 支持 GitHub、Google、Microsoft 登錄。
 
 ### JWT Token
-
 ```bash
 # 獲取 Token
 POST /auth/login
@@ -220,7 +209,6 @@ Content-Type: application/json
 ## 📈 監控 & 日誌 / Monitoring & Logging
 
 ### 代理度量 (Agent Metrics)
-
 ```
 agent_requests_total        # 總請求數
 agent_requests_duration_ms  # 請求耗時
@@ -229,7 +217,6 @@ agent_errors_total          # 錯誤總數
 ```
 
 ### 查看日誌 / View Logs
-
 ```bash
 # Docker
 docker logs -f synergymesh-agents
@@ -243,19 +230,16 @@ kubectl logs -f deployment/synergymesh-agents -n synergymesh
 ## 🧪 測試 / Testing
 
 ### 單元測試 / Unit Tests
-
 ```bash
 npm test --workspace services/agents
 ```
 
 ### 整合測試 / Integration Tests
-
 ```bash
 npm run test:integration --workspace services/agents
 ```
 
 ### 端到端測試 / E2E Tests
-
 ```bash
 npm run test:e2e --workspace services/agents
 ```
@@ -265,14 +249,12 @@ npm run test:e2e --workspace services/agents
 ## 📦 部署 / Deployment
 
 ### Docker 部署
-
 ```bash
 docker build -t synergymesh-services:latest .
 docker-compose up -d
 ```
 
 ### Kubernetes 部署
-
 ```bash
 kubectl apply -f services/k8s/
 
@@ -282,7 +264,6 @@ kubectl get svc -n synergymesh
 ```
 
 ### 伸縮 / Scaling
-
 ```bash
 # 手動伸縮
 kubectl scale deployment synergymesh-agents --replicas=3 -n synergymesh
@@ -329,3 +310,4 @@ curl http://localhost:3001/health/repair-agent
 - 📖 [服務文檔](./README.md)
 - 🐛 [報告問題](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
 - 💬 [討論](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+

@@ -1,0 +1,83 @@
+# Advisory Staging Branch Management
+# Based on GitHub Advisory Database's professional workflow patterns.
+#
+# This workflow automatically creates staging branches for advisory-related PRs
+# to ensure proper review and curation workflow.
+#
+# When a PR is opened that modifies advisories:
+# 1. Create a staging branch from main
+# 2. Update the PR's base branch to the staging branch
+# 3. This allows curation team to review and merge changes separately
+#
+# @see https://github.com/github/advisory-database
+
+name: Create PR staging branch
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+    paths:
+      - "advisories/**"
+      - "schemas/osv-advisory.schema.json"
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to create staging branch for'
+        required: true
+        type: number
+
+permissions:
+  contents: write        # Required to create and push branches
+  pull-requests: write   # Required to edit PR base branch
+
+jobs:
+  ensure-base-is-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create staging branch and update PR base
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login || github.actor }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -xeo pipefail
+          
+          # Validate inputs
+          if [ -z "$PR_NUMBER" ]; then
+            echo "❌ PR number is required"
+            exit 1
+          fi
+          
+          # Generate staging branch name following GitHub Advisory Database pattern
+          BRANCH_NAME="${PR_AUTHOR}/advisory-improvement-${PR_NUMBER}"
+          
+          echo "📋 Creating staging branch: $BRANCH_NAME"
+          
+          # Check if branch already exists
+          if git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
+            echo "ℹ️ Staging branch already exists, skipping creation"
+          else
+            # Create and push the staging branch
+            git checkout -b "$BRANCH_NAME"
+            git push origin "$BRANCH_NAME"
+            echo "✅ Staging branch created: $BRANCH_NAME"
+          fi
+          
+          # Update PR base branch
+          echo "🔄 Updating PR #${PR_NUMBER} base branch to: $BRANCH_NAME"
+          gh pr edit --repo ${{ github.repository }} "$PR_NUMBER" --base "$BRANCH_NAME"
+          echo "✅ PR base branch updated"
+
+      - name: Add advisory curation labels
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+        run: |
+          # Add advisory-related label if it exists
+          gh pr edit "$PR_NUMBER" --add-label "advisory" 2>/dev/null || true

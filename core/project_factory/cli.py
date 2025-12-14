@@ -85,12 +85,6 @@ def create_spec_from_args(args: argparse.Namespace) -> ProjectSpec:
         spec.governance.compliance = args.compliance.split(',')
     spec.governance.security_level = args.security_level
     spec.governance.license = args.license
-    if args.audit_trail is not None:
-        spec.governance.audit_trail = args.audit_trail
-    if args.sbom is not None:
-        spec.governance.sbom = args.sbom
-    if args.provenance:
-        spec.governance.provenance = args.provenance
 
     return spec
 
@@ -172,9 +166,6 @@ def load_spec_from_yaml(spec_file: Path) -> ProjectSpec:
         gov = spec_data['governance']
         spec.governance.compliance = gov.get('compliance', ['ISO-42001'])
         spec.governance.security_level = gov.get('security_level', 'high')
-        spec.governance.audit_trail = gov.get('audit_trail', spec.governance.audit_trail)
-        spec.governance.sbom = gov.get('sbom', spec.governance.sbom)
-        spec.governance.provenance = gov.get('provenance', spec.governance.provenance)
         spec.governance.license = gov.get('license', 'MIT')
 
     return spec
@@ -327,9 +318,6 @@ Examples:
     project_parser.add_argument('--compliance', type=str, help='Comma-separated compliance standards')
     project_parser.add_argument('--security-level', type=str, default='high', choices=['low', 'medium', 'high', 'critical'])
     project_parser.add_argument('--license', type=str, default='MIT', help='License type')
-    project_parser.add_argument('--audit-trail', action=argparse.BooleanOptionalAction, default=None, help='Enable or disable audit trail requirements')
-    project_parser.add_argument('--sbom', action=argparse.BooleanOptionalAction, default=None, help='Enable or disable SBOM generation')
-    project_parser.add_argument('--provenance', type=str, default=None, help='SLSA provenance level (e.g., slsa-level-3)')
 
     # Output
     project_parser.add_argument('--output', type=str, help='Output directory')

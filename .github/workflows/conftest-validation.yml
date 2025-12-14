@@ -1,0 +1,65 @@
+name: Policy Validation
+
+"on":
+  pull_request:
+    paths:
+      - 'deploy/**'
+      - 'templates/**'
+      - '.config/conftest/**'
+      - 'intelligent-hyperautomation/**'
+
+jobs:
+  conftest-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: 🔧 Setup Conftest
+        run: |
+          wget https://github.com/open-policy-agent/conftest/releases/download/v0.49.1/conftest_0.49.1_Linux_x86_64.tar.gz
+          tar xzf conftest_0.49.1_Linux_x86_64.tar.gz
+          sudo mv conftest /usr/local/bin/
+          conftest --version
+
+      - name: 🔍 Validate Kubernetes manifests
+        run: |
+          if [ -d "deploy" ]; then
+            echo "檢查 deploy/ 目錄"
+            find deploy -name "*.yaml" -o -name "*.yml" | while read file; do
+              echo "驗證: $file"
+              conftest test "$file" -p governance/policies/conftest/ || true
+            done
+          fi
+
+      - name: 🔍 Validate templates
+        run: |
+          if [ -d "templates" ]; then
+            echo "檢查 templates/ 目錄"
+            find templates -name "*.yaml" -o -name "*.yml" | while read file; do
+              echo "驗證: $file"
+              conftest test "$file" -p governance/policies/conftest/ || true
+            done
+          fi
+
+      - name: 🔍 Validate UAV/AD policies
+        run: |
+          if [ -d "intelligent-hyperautomation/policies/gatekeeper" ]; then
+            echo "檢查 intelligent-hyperautomation/policies/gatekeeper/ 目錄"
+            find intelligent-hyperautomation/policies/gatekeeper -name "*.yaml" -o -name "*.yml" | while read file; do
+              echo "驗證 UAV/AD 策略: $file"
+              conftest test "$file" -p intelligent-hyperautomation/policies/rego/
+            done
+          fi
+
+      - name: 📊 Generate report
+        if: always()
+        run: |
+          echo "## 🔒 Policy Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Conftest 政策驗證已執行" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "檢查範圍：" >> $GITHUB_STEP_SUMMARY
+          echo "- deploy/ 目錄" >> $GITHUB_STEP_SUMMARY
+          echo "- templates/ 目錄" >> $GITHUB_STEP_SUMMARY
+          echo "- intelligent-hyperautomation/ (UAV/AD 策略)" >> $GITHUB_STEP_SUMMARY

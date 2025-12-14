@@ -41,12 +41,10 @@ class GovernanceValidator:
     """治理邊界驗證器"""
     
     def __init__(self):
-        """TODO: Add function documentation"""
         self.contracts: Dict[str, APIContract] = {}
         self.load_contracts()
     
     def load_contracts(self):
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """載入所有 API 契約"""
         contracts_data = {
             "sensor_fusion": APIContract(

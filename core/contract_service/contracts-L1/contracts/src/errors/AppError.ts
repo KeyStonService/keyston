@@ -61,7 +61,7 @@ export class ValidationError extends AppError {
     message: string,
     validationErrors?: Array<{ field: string; message: string; code: string }>
   ) {
-    super(message, ErrorCode.VALIDATION_ERROR, 422);
+    super(message, ErrorCode.VALIDATION_ERROR, 400);
     this.validationErrors = validationErrors;
     Object.setPrototypeOf(this, ValidationError.prototype);
   }
@@ -71,8 +71,8 @@ export class ValidationError extends AppError {
  * Not found error - thrown when a resource is not found
  */
 export class NotFoundError extends AppError {
-  constructor(message: string) {
-    super(message, ErrorCode.NOT_FOUND, 404);
+  constructor(resource: string) {
+    super(`${resource} not found`, ErrorCode.NOT_FOUND, 404);
     Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }

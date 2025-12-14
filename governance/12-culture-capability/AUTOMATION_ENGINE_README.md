@@ -4,8 +4,7 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Governance
-Culture and Capability** dimension.
+This directory contains the autonomous automation engine for the **Governance Culture and Capability** dimension.
 
 ## 🚀 Features
 
@@ -30,8 +29,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main **Governance
-Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main
+**Governance Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -55,5 +54,6 @@ engine = GovernanceCultureEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: governance_culture **Dimension Name**: Governance Culture and
-Capability **Status**: Active
+**Dimension ID**: governance_culture
+**Dimension Name**: Governance Culture and Capability
+**Status**: Active

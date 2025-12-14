@@ -12,8 +12,7 @@
 
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality
-      to not work as expected)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] 📚 Documentation update
 - [ ] 🔧 Configuration change
 - [ ] ♻️ Code refactoring (no functional changes)
@@ -24,9 +23,9 @@
 
 <!-- List the specific changes made in this PR -->
 
--
--
--
+- 
+- 
+- 
 
 ## Testing
 
@@ -75,5 +74,4 @@
 
 ---
 
-**By submitting this pull request, I confirm that my contribution is made under
-the terms of the MIT License.**
+**By submitting this pull request, I confirm that my contribution is made under the terms of the MIT License.**

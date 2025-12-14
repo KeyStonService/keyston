@@ -59,8 +59,7 @@
 
 ### Delivery Requirements
 
-**All language refactoring, Auto-Fix plans, and Refactor Playbooks MUST
-include:**
+**All language refactoring, Auto-Fix plans, and Refactor Playbooks MUST include:**
 
 1. **Affected Directories List**
    - Explicitly list all directories involved in the refactoring
@@ -73,10 +72,8 @@ include:**
    - Must be clear and readable, showing directory hierarchies
 
 3. **File and Directory Annotations**
-   - For each important directory/file, provide a brief description of its
-     purpose
-   - Format: `path/to/file.ts` — One-line description of the file's
-     responsibility
+   - For each important directory/file, provide a brief description of its purpose
+   - Format: `path/to/file.ts` — One-line description of the file's responsibility
    - Format: `dir/` — Description of what type of content the directory contains
 
 **Why This Matters:**

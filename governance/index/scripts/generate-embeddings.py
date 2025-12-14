@@ -72,8 +72,6 @@ def save_vectors_json(path: Path, data: Dict[str, Any]):
 
 
 def main():
-    """TODO: Add function documentation"""
-    # NOTE: Consider refactoring this function (complexity > 50 lines)
     # Determine paths
     script_dir = Path(__file__).parent
     index_dir = script_dir.parent

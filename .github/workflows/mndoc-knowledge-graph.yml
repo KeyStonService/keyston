@@ -1,0 +1,286 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    MN-DOC & Knowledge Graph Generation Workflow
+#                    機器原生文檔與知識圖譜生成工作流
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# This workflow generates machine-native documentation (MN-DOC) from README.md
+# and builds a knowledge graph from the repository structure.
+#
+# Outputs:
+#   - docs/unmanned-island.mndoc.yaml - Machine-native documentation
+#   - docs/knowledge-graph.yaml - Repository knowledge graph
+#   - docs/superroot-entities.yaml - SuperRoot entity projections
+#
+# Philosophy:
+#   - README / code / config / docs = source of truth
+#   - generated-mndoc.yaml, knowledge-graph.yaml = build artifacts (never hand-edit)
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+name: MN-DOC & Knowledge Graph
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'docs/**'
+      - 'core/**'
+      - 'config/**'
+      - 'governance/**'
+      - 'tools/docs/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'docs/**'
+      - 'core/**'
+      - 'config/**'
+      - 'governance/**'
+      - 'tools/docs/**'
+  workflow_dispatch:
+    inputs:
+      regenerate:
+        description: 'Force regenerate all MN-DOC files'
+        required: false
+        default: 'false'
+        type: boolean
+
+
+# Cost protection: prevent concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-knowledge-graph:
+    timeout-minutes: 10  # Prevent runaway costs
+    name: Generate MN-DOC & Knowledge Graph
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml jsonschema
+
+      - name: Generate MN-DOC from README
+        run: |
+          python tools/docs/generate_mndoc_from_readme.py \
+            --readme README.md \
+            --output docs/generated-mndoc.yaml \
+            --verbose
+
+      - name: Build Knowledge Graph
+        run: |
+          python tools/docs/generate_knowledge_graph.py \
+            --repo-root . \
+            --output docs/knowledge-graph.yaml \
+            --verbose
+
+      - name: Project to SuperRoot entities
+        run: |
+          python tools/docs/project_to_superroot.py \
+            --kg docs/knowledge-graph.yaml \
+            --output docs/superroot-entities.yaml \
+            --verbose
+
+      - name: Validate generated files
+        run: |
+          python -c "
+          import yaml
+          import json
+          from pathlib import Path
+          
+          # Validate YAML syntax
+          files = [
+              'docs/generated-mndoc.yaml',
+              'docs/knowledge-graph.yaml',
+              'docs/superroot-entities.yaml',
+          ]
+          
+          for f in files:
+              path = Path(f)
+              if path.exists():
+                  with open(path) as file:
+                      data = yaml.safe_load(file)
+                  print(f'✅ {f}: Valid YAML')
+              else:
+                  print(f'⚠️  {f}: File not found (may be expected)')
+          "
+
+      - name: Display generation summary
+        run: |
+          echo "## MN-DOC Generation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f "docs/generated-mndoc.yaml" ]; then
+            echo "### Generated MN-DOC" >> $GITHUB_STEP_SUMMARY
+            echo '```yaml' >> $GITHUB_STEP_SUMMARY
+            head -30 docs/generated-mndoc.yaml >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ -f "docs/knowledge-graph.yaml" ]; then
+            echo "### Knowledge Graph Statistics" >> $GITHUB_STEP_SUMMARY
+            echo '```yaml' >> $GITHUB_STEP_SUMMARY
+            grep -A 10 "statistics:" docs/knowledge-graph.yaml >> $GITHUB_STEP_SUMMARY || echo "No statistics found"
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ -f "docs/superroot-entities.yaml" ]; then
+            echo "### SuperRoot Entities Summary" >> $GITHUB_STEP_SUMMARY
+            echo '```yaml' >> $GITHUB_STEP_SUMMARY
+            grep -A 15 "summary:" docs/superroot-entities.yaml >> $GITHUB_STEP_SUMMARY || echo "No summary found"
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mndoc-artifacts
+          path: |
+            docs/generated-mndoc.yaml
+            docs/knowledge-graph.yaml
+            docs/superroot-entities.yaml
+          retention-days: 30
+
+  # Drift check: ensure generated files are up-to-date with source
+  check-drift:
+    timeout-minutes: 10  # Prevent runaway costs
+    name: Check Generated Files Drift
+    runs-on: ubuntu-latest
+    needs: docs-knowledge-graph
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Regenerate all artifacts
+        run: |
+          python tools/docs/generate_mndoc_from_readme.py \
+            --readme README.md \
+            --output docs/generated-mndoc.yaml
+          
+          python tools/docs/generate_knowledge_graph.py \
+            --repo-root . \
+            --output docs/knowledge-graph.yaml
+          
+          python tools/docs/project_to_superroot.py \
+            --kg docs/knowledge-graph.yaml \
+            --output docs/superroot-entities.yaml
+
+      - name: Check for drift
+        run: |
+          echo "🔍 Checking if generated files are up-to-date..."
+          
+          if git diff --quiet docs/generated-mndoc.yaml docs/knowledge-graph.yaml docs/superroot-entities.yaml 2>/dev/null; then
+            echo "✅ Generated files are up-to-date with source of truth"
+          else
+            echo "❌ Generated files have drifted!"
+            echo ""
+            echo "The following files need to be regenerated:"
+            git diff --name-only docs/ 2>/dev/null || true
+            echo ""
+            echo "Run 'make all-kg' locally and commit the updated files."
+            echo ""
+            echo "## ⚠️ Drift Detected" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Generated files are out of sync with source. Please run:" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "make all-kg" >> $GITHUB_STEP_SUMMARY
+            echo "git add docs/" >> $GITHUB_STEP_SUMMARY
+            echo "git commit -m 'Update MN-DOC & KG artifacts'" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+  # Schema validation job
+  validate-schemas:
+    timeout-minutes: 10  # Prevent runaway costs
+    name: Validate MN-DOC Schemas
+    runs-on: ubuntu-latest
+    needs: docs-knowledge-graph
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml jsonschema
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: mndoc-artifacts
+          path: docs/
+
+      - name: Validate against schemas
+        run: |
+          python -c "
+          import json
+          import yaml
+          from pathlib import Path
+          from jsonschema import validate, ValidationError, Draft202012Validator
+          
+          # Validate JSON schemas are valid
+          schema_dir = Path('governance/schemas/mndoc')
+          for schema_file in schema_dir.glob('*.json'):
+              with open(schema_file) as f:
+                  schema = json.load(f)
+              try:
+                  Draft202012Validator.check_schema(schema)
+                  print(f'✅ {schema_file.name}: Valid JSON Schema')
+              except Exception as e:
+                  print(f'❌ {schema_file.name}: {e}')
+                  exit(1)
+          
+          # Validate knowledge graph against schema
+          kg_schema_path = schema_dir / 'knowledge-graph.schema.json'
+          kg_file_path = Path('docs/knowledge-graph.yaml')
+          
+          if kg_schema_path.exists() and kg_file_path.exists():
+              with open(kg_schema_path) as f:
+                  kg_schema = json.load(f)
+              with open(kg_file_path) as f:
+                  kg_data = yaml.safe_load(f)
+              
+              try:
+                  validate(instance=kg_data, schema=kg_schema)
+                  print('✅ Knowledge graph validates against schema')
+              except ValidationError as e:
+                  print(f'❌ Knowledge graph validation error: {e.message}')
+                  exit(1)
+          "

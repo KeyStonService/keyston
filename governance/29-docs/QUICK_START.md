@@ -22,7 +22,7 @@
 
 ### 層級 2: 核心 | Level 2: Core
 
-1. **決策治理** (`decision-governance/`) - 5階段決策流程
+2. **決策治理** (`decision-governance/`) - 5階段決策流程
 2. **變更治理** (`change-governance/`) - 7階段變更流程
 3. **風險治理** (`risk-governance/`) - 4階段風險流程
 4. **合規治理** (`compliance-governance/`) - 多層合規檢查
@@ -30,23 +30,23 @@
 
 ### 層級 3: 實施 | Level 3: Implementation
 
-1. **安全治理** (`security-governance/`) - 安全政策和控制
+7. **安全治理** (`security-governance/`) - 安全政策和控制
 2. **審計治理** (`audit-governance/`) - 5階段審計流程
 3. **流程治理** (`process-governance/`) - 流程管理和優化
 4. **績效治理** (`performance-governance/`) - KPI和評估
 
 ### 層級 4: 支撑 | Level 4: Support
 
-1. **治理工具與系統** (`governance-tools/`) - IT系統和工具
+11. **治理工具與系統** (`governance-tools/`) - IT系統和工具
 2. **治理文化與能力** (`governance-culture/`) - 培訓和能力建設
 
 ### 層級 5: 彙總 | Level 5: Aggregation
 
-1. **治理指標與報告** (`governance-metrics/`) - 儀表板和報告
+13. **治理指標與報告** (`governance-metrics/`) - 儀表板和報告
 
 ### 層級 6: 改進 | Level 6: Improvement
 
-1. **治理持續改進** (`governance-improvement/`) - 閉環改進
+14. **治理持續改進** (`governance-improvement/`) - 閉環改進
 
 ---
 
@@ -54,14 +54,14 @@
 
 ### 根級文檔
 
-| 文檔                             | 用途               |
-| -------------------------------- | ------------------ |
-| `README.md`                      | 治理目錄簡介       |
-| `GOVERNANCE_STRUCTURE_INDEX.md`  | 完整目錄和依賴映射 |
-| `GOVERNANCE_DEPENDENCY_MAP.yaml` | 依賴關係定義       |
-| `COMPLETENESS_REPORT.md`         | 完整性驗證報告     |
-| `IMPLEMENTATION_SUMMARY.md`      | 實施完成總結       |
-| `QUICK_START.md`                 | 本文件             |
+| 文檔 | 用途 |
+|------|------|
+| `README.md` | 治理目錄簡介 |
+| `GOVERNANCE_STRUCTURE_INDEX.md` | 完整目錄和依賴映射 |
+| `GOVERNANCE_DEPENDENCY_MAP.yaml` | 依賴關係定義 |
+| `COMPLETENESS_REPORT.md` | 完整性驗證報告 |
+| `IMPLEMENTATION_SUMMARY.md` | 實施完成總結 |
+| `QUICK_START.md` | 本文件 |
 
 ### 維度級 README
 
@@ -179,20 +179,21 @@ vim governance/[dimension-name]/[config-file].yaml
 
 ### 無循環依賴 | No Circular Dependencies
 
-✅ 所有依賴都形成有向無環圖 (DAG) ✅ 可以安全地實施變更而不產生衝突
+✅ 所有依賴都形成有向無環圖 (DAG)
+✅ 可以安全地實施變更而不產生衝突
 
 ---
 
 ## 📊 關鍵統計 | Key Statistics
 
-| 項目         | 數量 |
-| ------------ | ---- |
-| 治理維度     | 14   |
-| 配置文件     | 42+  |
-| 文檔         | 18+  |
-| 流程階段定義 | 26+  |
-| 驗證工具     | 2    |
-| 完成度       | 100% |
+| 項目 | 數量 |
+|------|------|
+| 治理維度 | 14 |
+| 配置文件 | 42+ |
+| 文檔 | 18+ |
+| 流程階段定義 | 26+ |
+| 驗證工具 | 2 |
+| 完成度 | 100% |
 
 ---
 
@@ -240,13 +241,13 @@ vim governance/[dimension-name]/[config-file].yaml
 
 ### 中級 (3-4 小時)
 
-1. 閱讀所有 14 個維度的 README
+5. 閱讀所有 14 個維度的 README
 2. 查看主配置文件
 3. 運行驗證工具
 
 ### 高級 (4+ 小時)
 
-1. 詳細閱讀配置文件
+8. 詳細閱讀配置文件
 2. 理解依賴關係
 3. 計劃修改或擴展
 
@@ -278,12 +279,12 @@ A: 請聯繫 <governance-team@synergymesh.io>
 
 ## 📞 快速聯繫 | Quick Links
 
-| 資源     | 位置                                                  |
-| -------- | ----------------------------------------------------- |
-| 根目錄   | `governance/`                                         |
-| 結構索引 | `governance/GOVERNANCE_STRUCTURE_INDEX.md`            |
-| 完整報告 | `governance/COMPLETENESS_REPORT.md`                   |
-| 實施總結 | `governance/IMPLEMENTATION_SUMMARY.md`                |
+| 資源 | 位置 |
+|------|------|
+| 根目錄 | `governance/` |
+| 結構索引 | `governance/GOVERNANCE_STRUCTURE_INDEX.md` |
+| 完整報告 | `governance/COMPLETENESS_REPORT.md` |
+| 實施總結 | `governance/IMPLEMENTATION_SUMMARY.md` |
 | 驗證工具 | `governance/scripts/validate-governance-structure.sh` |
 
 ---

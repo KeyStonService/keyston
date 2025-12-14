@@ -1,0 +1,77 @@
+name: GaC Auto-Sync
+
+# Auto-syncs strategic YAML changes to K8s resources
+# Phase 3 - CI/CD Integration
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'governance/00-vision-strategy/*.yaml'
+      - '!governance/00-vision-strategy/gac-*.yaml'
+      - '!governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md'
+      - '!governance/00-vision-strategy/README*.md'
+
+permissions:
+  contents: write
+
+jobs:
+  detect-changes:
+    name: Detect Strategic YAML Changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      changed_files: ${{ steps.changes.outputs.files }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect changes
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD | grep 'governance/00-vision-strategy/.*\.yaml' | grep -v 'gac-' || true)
+          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Changed files: $CHANGED"
+
+  regenerate-resources:
+    name: Regenerate GaC Resources
+    needs: detect-changes
+    if: needs.detect-changes.outputs.changed_files != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Regenerate GaC resources
+        run: |
+          cd governance/00-vision-strategy
+          ./tests/generate-resources.sh
+
+      - name: Validate regenerated resources
+        run: |
+          cd governance/00-vision-strategy
+          ./tests/validate-all.sh
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Auto-sync: Regenerated GaC resources from strategic YAML changes"
+          file_pattern: "governance/00-vision-strategy/crd/*.yaml governance/00-vision-strategy/k8s/*.yaml governance/00-vision-strategy/policy/*.rego"
+
+  trigger-deployment:
+    name: Trigger ArgoCD Sync
+    needs: regenerate-resources
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Trigger ArgoCD refresh
+        run: |
+          echo "✅ GaC resources updated - ArgoCD will auto-sync within 3 minutes"
+          echo "Manual sync: argocd app sync gac-governance-crds gac-governance-instances"

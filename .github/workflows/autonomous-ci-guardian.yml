@@ -1,0 +1,509 @@
+name: "🤖 Autonomous CI Guardian"
+
+on:
+  push:
+    branches: [main, develop, staging]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '*/5 * * * *'
+
+env:
+  SAFETY_THRESHOLD: "0.99"
+  PERFORMANCE_THRESHOLD: "1000ms"
+  MEMORY_THRESHOLD: "512MB"
+  CRITICAL_SERVICES: "flight-control,gps-nav,obstacle-detect"
+
+jobs:
+  predictive-failure-detection:
+    runs-on: ubuntu-latest
+    outputs:
+      risk_level: ${{ steps.risk-assessment.outputs.level }}
+      should_proceed: ${{ steps.risk-assessment.outputs.proceed }}
+      predicted_failures: ${{ steps.ml-predict.outputs.failures }}
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+
+      - name: 🧠 ML failure prediction
+        id: ml-predict
+        run: |
+          cat > predict_failures.py << 'PYCODE'
+          import json
+          import subprocess
+
+          result = subprocess.run(
+              ['git', 'log', '--oneline', '-50'],
+              capture_output=True,
+              text=True,
+              check=False,
+          )
+
+          commits = [line for line in result.stdout.strip().split('\n') if line]
+          failure_patterns = {
+              'docker': 0,
+              'test': 0,
+              'performance': 0,
+              'security': 0,
+              'memory': 0,
+          }
+
+          for commit in commits:
+              lowered = commit.lower()
+              if any(x in lowered for x in ['docker', 'compose', 'image']):
+                  failure_patterns['docker'] += 1
+              if any(x in lowered for x in ['test', 'spec', 'unit']):
+                  failure_patterns['test'] += 1
+              if any(x in lowered for x in ['perf', 'optimize', 'speed']):
+                  failure_patterns['performance'] += 1
+              if any(x in lowered for x in ['security', 'auth', 'encrypt']):
+                  failure_patterns['security'] += 1
+              if any(x in lowered for x in ['memory', 'leak', 'gc']):
+                  failure_patterns['memory'] += 1
+
+          total = sum(failure_patterns.values()) or 1
+          risk_score = max(failure_patterns.values()) / total
+
+          output = {
+              'patterns': failure_patterns,
+              'risk_score': risk_score,
+              'high_risk_areas': [k for k, v in failure_patterns.items() if v > 5],
+          }
+
+          print(json.dumps(output))
+          PYCODE
+
+          python3 predict_failures.py > prediction.json
+          cat prediction.json
+
+          PREDICTIONS=$(cat prediction.json | jq -c '.')
+          echo "failures=$PREDICTIONS" >> "$GITHUB_OUTPUT"
+
+      - name: 📈 Complexity and change analysis
+        id: complexity-analysis
+        run: |
+          cat > analyze_complexity.sh << 'BASH'
+          #!/bin/bash
+          set -uo pipefail
+
+          FILES=$(find . -type f \( -name "*.js" -o -name "*.ts" \) -not -path "*/node_modules/*" -not -path "*/.git/*" 2>/dev/null || true)
+          if [ -n "$FILES" ]; then
+            COMPLEXITY=$(echo "$FILES" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}')
+          else
+            COMPLEXITY=0
+          fi
+
+          # Handle shallow clone case - check if HEAD~1 exists before running git diff
+          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+            CHANGED_FILES=$(git diff --name-only HEAD~1 2>/dev/null | wc -l || echo "0")
+            CHANGED_LINES=$( (git diff HEAD~1 2>/dev/null | grep '^[+-]' || true) | wc -l)
+          else
+            # Shallow clone or first commit - use empty comparison
+            CHANGED_FILES=0
+            CHANGED_LINES=0
+          fi
+
+          if [ "$COMPLEXITY" -gt 5000 ]; then
+            RISK="HIGH"
+          elif [ "$COMPLEXITY" -gt 2000 ]; then
+            RISK="MEDIUM"
+          else
+            RISK="LOW"
+          fi
+
+          echo "complexity=$COMPLEXITY" >> "$GITHUB_OUTPUT"
+          echo "changed_files=$CHANGED_FILES" >> "$GITHUB_OUTPUT"
+          echo "changed_lines=$CHANGED_LINES" >> "$GITHUB_OUTPUT"
+          echo "complexity_risk=$RISK" >> "$GITHUB_OUTPUT"
+          BASH
+
+          bash analyze_complexity.sh
+
+      - name: 🔐 Dependency vulnerability scan
+        id: security-scan
+        run: |
+          if [ -f "package.json" ]; then
+            npm audit --json > audit.json 2>&1 || true
+
+            VULNERABILITIES=$(cat audit.json | jq '.metadata.vulnerabilities.total' 2>/dev/null || echo "0")
+            CRITICAL=$(cat audit.json | jq '.metadata.vulnerabilities.critical' 2>/dev/null || echo "0")
+          else
+            echo "非 Node.js 專案，跳過 npm audit"
+            VULNERABILITIES=0
+            CRITICAL=0
+          fi
+
+          echo "total_vulnerabilities=$VULNERABILITIES" >> "$GITHUB_OUTPUT"
+          echo "critical_vulnerabilities=$CRITICAL" >> "$GITHUB_OUTPUT"
+
+          if [ "$CRITICAL" -gt 0 ]; then
+            echo "security_status=CRITICAL" >> "$GITHUB_OUTPUT"
+          elif [ "$VULNERABILITIES" -gt 5 ]; then
+            echo "security_status=WARNING" >> "$GITHUB_OUTPUT"
+          else
+            echo "security_status=SAFE" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: ⚖️ Comprehensive risk assessment
+        id: risk-assessment
+        env:
+          PREDICTED_FAILURES: ${{ steps.ml-predict.outputs.failures }}
+          CRITICAL_VULNS: ${{ steps.security-scan.outputs.critical_vulnerabilities }}
+        run: |
+          python3 .github/scripts/risk_assessment.py > assessment.json
+          cat assessment.json
+
+          LEVEL=$(cat assessment.json | jq -r '.level')
+          PROCEED=$(cat assessment.json | jq -r '.proceed')
+
+          echo "level=$LEVEL" >> "$GITHUB_OUTPUT"
+          echo "proceed=$PROCEED" >> "$GITHUB_OUTPUT"
+
+  critical-service-health-check:
+    needs: predictive-failure-detection
+    runs-on: ubuntu-latest
+    if: ${{ needs.predictive-failure-detection.outputs.proceed == 'true' }}
+
+    strategy:
+      matrix:
+        service: [flight-control, gps-nav, obstacle-detect, telemetry]
+      fail-fast: true
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🏥 Check ${{ matrix.service }} health
+        id: health-check
+        timeout-minutes: 5
+        run: |
+          cat > health_check.sh << 'BASH'
+          #!/bin/bash
+          set -euo pipefail
+
+          SERVICE=$1
+          echo "檢查 $SERVICE 健康狀態..."
+
+          # 集中定義服務端口映射
+          declare -A SERVICE_PORTS=(
+            ["flight-control"]=8001
+            ["gps-nav"]=8002
+            ["obstacle-detect"]=8003
+            ["telemetry"]=8004
+          )
+
+          docker-compose up -d "$SERVICE" 2>&1 | tee startup.log
+          STARTUP_EXIT=${PIPESTATUS[0]}
+
+          sleep 3
+
+          PORT=${SERVICE_PORTS[$SERVICE]}
+          curl -f http://localhost:${PORT}/health || exit 1
+
+          HEALTH_EXIT=$?
+
+          RESPONSE_TIME=$(curl -w '%{time_total}' -o /dev/null -s http://localhost:${PORT}/health)
+          if (( $(echo "$RESPONSE_TIME > 1.0" | bc -l) )); then
+            echo "⚠️  性能警告：$SERVICE 響應時間 ${RESPONSE_TIME}s（閾值：1.0s）"
+            exit 1
+          fi
+
+          MEMORY=$(docker stats --no-stream "$SERVICE" | tail -1 | awk '{print $7}')
+          echo "內存使用：$MEMORY"
+
+          docker-compose down
+
+          exit $((STARTUP_EXIT + HEALTH_EXIT))
+          BASH
+
+          bash health_check.sh ${{ matrix.service }}
+
+      - name: 📊 Record service metrics
+        if: always()
+        run: |
+          cat > metrics.json << 'JSON'
+          {
+            "service": "${{ matrix.service }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": "${{ steps.health-check.outcome }}"
+          }
+          JSON
+
+          cat metrics.json
+
+  auto-remediation:
+    needs: [predictive-failure-detection, critical-service-health-check]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Remediation decision
+        id: remediation-decision
+        run: |
+          RISK_LEVEL="${{ needs.predictive-failure-detection.outputs.risk_level }}"
+
+          case "$RISK_LEVEL" in
+            CRITICAL)
+              echo "action=ROLLBACK" >> "$GITHUB_OUTPUT"
+              echo "reason=Critical risk detected" >> "$GITHUB_OUTPUT"
+              ;;
+            HIGH)
+              echo "action=CANARY_DEPLOY" >> "$GITHUB_OUTPUT"
+              echo "reason=High risk - deploying to 5% traffic" >> "$GITHUB_OUTPUT"
+              ;;
+            MEDIUM)
+              echo "action=STAGED_DEPLOY" >> "$GITHUB_OUTPUT"
+              echo "reason=Medium risk - staged deployment" >> "$GITHUB_OUTPUT"
+              ;;
+            LOW)
+              echo "action=FULL_DEPLOY" >> "$GITHUB_OUTPUT"
+              echo "reason=Low risk - full deployment" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "action=ROLLBACK" >> "$GITHUB_OUTPUT"
+              echo "reason=Unknown risk level" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+      - name: ⏮️ Automatic rollback when critical
+        if: ${{ steps.remediation-decision.outputs.action == 'ROLLBACK' }}
+        run: |
+          echo "🚨 觸發自動回滾..."
+          PREVIOUS_VERSION=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+          echo "回滾到版本：$PREVIOUS_VERSION"
+
+          # 驗證 tag 是否存在且格式正確（如 v1.2.3）
+          if [ -z "$PREVIOUS_VERSION" ]; then
+            echo "⚠️ 無法找到前一個版本標籤，跳過自動回滾"
+            echo "📋 建議：請手動檢查部署狀態並視需要回滾"
+            echo "📋 提示：使用 'git tag vX.Y.Z' 創建版本標籤以啟用自動回滾功能"
+            exit 0
+          fi
+          if ! [[ "$PREVIOUS_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "⚠️ 版本格式不正確: $PREVIOUS_VERSION (預期格式: vX.Y.Z)"
+            echo "📋 跳過自動回滾，請手動處理"
+            exit 0
+          fi
+          git checkout "$PREVIOUS_VERSION"
+          docker-compose build --no-cache
+          docker-compose up -d
+
+          sleep 5
+          curl -f http://localhost:8001/health
+          echo "✅ 回滾完成"
+
+      - name: 🐦 Canary deployment
+        if: ${{ steps.remediation-decision.outputs.action == 'CANARY_DEPLOY' }}
+        env:
+          DRY_RUN: ${{ (vars.DRY_RUN == 'false' && 'false') || 'true' }}
+        run: |
+          echo "🐦 啟動金絲雀部署..."
+          cat > canary-deploy.yaml << 'YAML'
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: autonomous-system-canary
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: autonomous-system
+                version: canary
+            template:
+              metadata:
+                labels:
+                  app: autonomous-system
+                  version: canary
+              spec:
+                containers:
+                - name: app
+                  image: autonomous-system:latest
+                  resources:
+                    limits:
+                      cpu: "500m"
+                      memory: "512Mi"
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: autonomous-system-canary
+          spec:
+            selector:
+              app: autonomous-system
+              version: canary
+            ports:
+            - port: 8080
+              targetPort: 8080
+          YAML
+
+          echo "部署到 5% 流量"
+          if [ "$DRY_RUN" != "true" ]; then
+            kubectl apply -f canary-deploy.yaml
+
+            echo "監控金絲雀部署 5 分鐘..."
+            sleep 300
+
+            ERROR_RATE=$(curl -s http://localhost:8080/metrics | grep -oP 'error_rate\s+\K[\d.]+' || echo "0")
+            if [ -z "$ERROR_RATE" ]; then
+              echo "❌ 無法取得錯誤率，假定為失敗"
+              ERROR_RATE="1.0"
+            fi
+            if (( $(echo "$ERROR_RATE > 0.01" | bc -l) )); then
+              echo "❌ 金絲雀部署失敗，錯誤率 $ERROR_RATE"
+              exit 1
+            fi
+          else
+            echo "[DRY-RUN] 模擬部署，跳過實際執行和健康檢查"
+          fi
+
+          echo "✅ 金絲雀部署成功"
+
+      - name: 📊 Staged deployment
+        if: ${{ steps.remediation-decision.outputs.action == 'STAGED_DEPLOY' }}
+        env:
+          DRY_RUN: ${{ (vars.DRY_RUN == 'false' && 'false') || 'true' }}
+        run: |
+          echo "📊 開始分階段部署..."
+
+          for PERCENTAGE in 25 50 100; do
+            echo "部署到 ${PERCENTAGE}% 流量..."
+            # kubectl set env deployment/autonomous-system TRAFFIC_PERCENTAGE=$PERCENTAGE
+
+            if [ "$DRY_RUN" != "true" ]; then
+              sleep 120
+
+              HEALTH=$(curl -s http://localhost:8080/health | jq '.status')
+              if [ "$HEALTH" != '"healthy"' ]; then
+                echo "❌ 部署失敗，回滾..."
+                exit 1
+              fi
+            else
+              echo "[DRY-RUN] 模擬部署，跳過健康檢查"
+            fi
+
+            echo "✅ ${PERCENTAGE}% 部署成功"
+          done
+
+      - name: 📝 準備 Docker Compose 檔案
+        run: |
+          if [ ! -f docker-compose.yml ]; then
+            cat > docker-compose.yml << 'EOF'
+          version: '3.8'
+          services:
+            app:
+              image: autonomous-system:latest
+              ports:
+                - '8001:8001'
+              environment:
+                - NODE_ENV=production
+              healthcheck:
+                test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+                interval: 30s
+                timeout: 10s
+                retries: 5
+          EOF
+          fi
+
+      - name: 🚀 Full deployment
+        if: ${{ steps.remediation-decision.outputs.action == 'FULL_DEPLOY' }}
+        env:
+          DRY_RUN: ${{ (vars.DRY_RUN == 'false' && 'false') || 'true' }}
+        run: |
+          echo "🚀 開始完整部署..."
+          if [ ! -f docker-compose.yml ]; then
+            echo "❌ docker-compose.yml 檔案不存在，部署失敗"
+            exit 1
+          fi
+
+          if [ "$DRY_RUN" != "true" ]; then
+            docker-compose build --no-cache
+            docker-compose up -d
+
+            echo "監控部署 30 秒..."
+            sleep 30
+
+            ERROR_RATE=$(curl -s http://localhost:8080/metrics 2>/dev/null | grep error_rate | awk '{print $NF}' || echo "0.0")
+            if [ -n "$ERROR_RATE" ] && [ "$ERROR_RATE" != "0.0" ]; then
+              # 使用 awk 進行浮點數比較，當 ERROR_RATE > 0.01 時返回 0（成功），觸發 if 條件
+              if awk "BEGIN {exit ($ERROR_RATE > 0.01 ? 0 : 1)}"; then
+                echo "❌ 部署失敗，錯誤率 $ERROR_RATE"
+                exit 1
+              fi
+            fi
+          else
+            echo "[DRY-RUN] 模擬完整部署，跳過實際執行和健康檢查"
+          fi
+
+          echo "✅ 完整部署成功"
+
+      - name: 📊 Collect metrics
+        id: metrics
+        if: always()
+        run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          CPU=$(docker stats --no-stream 2>/dev/null | tail -1 | awk '{print $3}' || echo "N/A")
+          MEMORY=$(docker stats --no-stream 2>/dev/null | tail -1 | awk '{print $7}' || echo "N/A")
+          LATENCY=$(ping -c 1 8.8.8.8 2>/dev/null | tail -1 | awk '{print $4}' | cut -d'/' -f2 || echo "N/A")
+          ERROR_RATE=$(curl -s http://localhost:8080/metrics 2>/dev/null | grep error_rate | awk '{print $NF}' || echo "0.0")
+
+          cat > metrics.json << EOF
+          {
+            "timestamp": "$TIMESTAMP",
+            "cpu_usage": "$CPU",
+            "memory_usage": "$MEMORY",
+            "network_latency": "${LATENCY}ms",
+            "error_rate": "$ERROR_RATE"
+          }
+          EOF
+
+          cat metrics.json
+
+      - name: 🚨 Critical alert on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+
+            const criticalAlert = `## 🚨 CRITICAL ALERT - 自動駕駛系統故障
+
+            **時間**：${new Date().toISOString()}
+            **風險等級**：CRITICAL
+            **狀態**：自動回滾已觸發
+
+            ### 故障詳情
+            - 預測風險分數：${{ needs.predictive-failure-detection.outputs.risk_level }}
+            - 關鍵服務檢查：失敗
+            - 自動修復操作：回滾到上一個穩定版本
+
+            ### 立即行動
+            1. ⚠️ 停止所有新部署
+            2. 📞 聯繫 DevOps 團隊進行人工審查
+            3. 📊 查看完整日誌：${context.payload.pull_request?.html_url}/checks
+            4. 🔍 分析根本原因
+
+            ### 聯繫方式
+            - **緊急熱線**：+1-XXX-XXX-XXXX
+            - **Slack**：#critical-alerts
+            - **PagerDuty**：autonomous-system-oncall
+
+            ---
+            *此告警由自動駕駛級 CI 系統自動生成*`;
+
+            if (prNumber) {
+              github.rest.issues.createComment({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: criticalAlert,
+              });
+            }
+
+            console.log("Sending Slack alert...");
+            // Integrate Slack webhook here

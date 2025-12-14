@@ -112,7 +112,6 @@ For each cluster in clusters:
 ### 3. 生成階段
 
 #### Stub Mode (Default)
-
 ```python
 generate_playbook_stub(cluster_name, cluster_score)
 ├── Build Markdown template
@@ -125,7 +124,6 @@ generate_playbook_stub(cluster_name, cluster_score)
 ```
 
 #### LLM Mode (--use-llm)
-
 ```python
 generate_cluster_prompt(cluster_name, cluster_score)
 ├── Build System Prompt (role definition)
@@ -146,7 +144,7 @@ generate_cluster_prompt(cluster_name, cluster_score)
 ```python
 class RefactorPlaybookGenerator:
     """Main generator class"""
-
+    
     # Properties
     repo_root: Path              # Repository root directory
     clusters: Dict               # {cluster_name: {score, ...}}
@@ -155,13 +153,13 @@ class RefactorPlaybookGenerator:
     semgrep_results: List[Dict] # [{path, severity, message}, ...]
     migration_flows: Dict       # {flows: [{source, target}, ...]}
     global_suggestions: str     # Full AI suggestions text
-
+    
     # Main Methods
     load_governance_data()      # Load all data sources
     generate_cluster_prompt()   # Generate LLM prompt
     generate_playbook_stub()    # Generate stub playbook
     generate_all_playbooks()    # Batch generate
-
+    
     # Helper Methods
     _parse_governance_report()  # Parse Markdown report
     _get_cluster_violations()   # Filter violations
@@ -174,7 +172,6 @@ class RefactorPlaybookGenerator:
 ### Prompt Templates
 
 #### System Prompt Structure
-
 ```
 角色定義
 ├── 首席軟體架構師
@@ -194,7 +191,6 @@ class RefactorPlaybookGenerator:
 ```
 
 #### User Prompt Structure
-
 ```
 [1] Cluster 基本資訊
     ├── Cluster 名稱
@@ -223,28 +219,33 @@ class RefactorPlaybookGenerator:
 # Refactor Playbook: {cluster_name}
 
 ## 1. Cluster 概覽
-
-├── 角色說明 └── 健康狀態
+├── 角色說明
+└── 健康狀態
 
 ## 2. 問題盤點
-
-├── 語言治理違規 ├── Hotspot 檔案 ├── Semgrep 安全問題 └── Migration Flow 觀察
+├── 語言治理違規
+├── Hotspot 檔案
+├── Semgrep 安全問題
+└── Migration Flow 觀察
 
 ## 3. 語言與結構重構策略
-
-├── 語言層級策略 ├── 目錄結構策略 └── 語言遷移建議
+├── 語言層級策略
+├── 目錄結構策略
+└── 語言遷移建議
 
 ## 4. 分級重構計畫
-
-├── P0（24-48 小時）├── P1（一週內）└── P2（持續重構）
+├── P0（24-48 小時）
+├── P1（一週內）
+└── P2（持續重構）
 
 ## 5. 適合交給 Auto-Fix Bot 的項目
-
-├── 可自動修復 └── 需人工審查
+├── 可自動修復
+└── 需人工審查
 
 ## 6. 驗收條件與成功指標
-
-├── 語言治理 CI 期望值 ├── Hotspot / Cluster Score 改善 └── 開發流程改善方向
+├── 語言治理 CI 期望值
+├── Hotspot / Cluster Score 改善
+└── 開發流程改善方向
 ```
 
 ## 🔌 整合點
@@ -287,7 +288,6 @@ Language Governance Score
 ## 📊 資料模型
 
 ### Violation
-
 ```python
 {
     "file": "path/to/file.ext",
@@ -296,7 +296,6 @@ Language Governance Score
 ```
 
 ### Hotspot
-
 ```python
 {
     "file": "path/to/file.ext",
@@ -307,7 +306,6 @@ Language Governance Score
 ```
 
 ### Semgrep Issue
-
 ```python
 {
     "path": "path/to/file.ext",
@@ -320,7 +318,6 @@ Language Governance Score
 ```
 
 ### Migration Flow
-
 ```python
 {
     "source": "services:cpp",
@@ -331,7 +328,6 @@ Language Governance Score
 ```
 
 ### Cluster Info
-
 ```python
 {
     "score": 75,
@@ -344,28 +340,24 @@ Language Governance Score
 ## 🎯 設計決策
 
 ### 1. 為什麼使用 Python？
-
 - ✅ 豐富的資料處理能力（JSON, YAML, Markdown）
 - ✅ 與現有工具鏈一致（language-governance-analyzer.py）
 - ✅ 易於擴展和整合 LLM API
 - ✅ 良好的檔案系統操作支援
 
 ### 2. 為什麼分離 LLM 與 Stub 模式？
-
 - ✅ 可在無 LLM API 情況下運行
 - ✅ 降低 API 成本
 - ✅ Stub 提供結構化模板
 - ✅ 靈活整合外部 LLM（ChatGPT, Claude）
 
 ### 3. 為什麼使用 Markdown 輸出？
-
 - ✅ 人類可讀、易於編輯
 - ✅ 支援版本控制（Git diff）
 - ✅ 易於轉換為其他格式（HTML, PDF）
 - ✅ GitHub 原生支援
 
 ### 4. 為什麼設計 P0/P1/P2 優先級？
-
 - ✅ 明確執行順序
 - ✅ 資源分配優化
 - ✅ 風險管理
@@ -379,7 +371,7 @@ Language Governance Score
 def load_governance_data(self):
     # 現有資料源
     self._load_existing_sources()
-
+    
     # 新增資料源（範例：測試覆蓋率）
     coverage_path = self.repo_root / "reports" / "coverage.json"
     if coverage_path.exists():
@@ -418,19 +410,16 @@ def generate_playbook_json(self, cluster_name: str) -> Dict:
 ## 📈 效能考量
 
 ### 載入優化
-
 - 延遲載入：只在需要時載入檔案
 - 快取機制：避免重複解析
 - 批次處理：一次載入所有資料
 
 ### 生成優化
-
 - 平行處理：可並行生成多個 playbooks
 - 增量更新：只重新生成變更的 clusters
 - 模板快取：重用 Markdown 模板
 
 ### 記憶體管理
-
 - 流式處理大檔案
 - 及時釋放不需要的資料
 - 使用 generator 減少記憶體占用

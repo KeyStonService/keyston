@@ -1,4 +1,4 @@
-# 🏝️ Unmanned Island
+# 🏝️ Unmanned Island System
 
 <div align="center">
 
@@ -13,12 +13,8 @@
 _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架_
 
 [快速開始](#-快速開始) • [系統架構](#-系統概述) • [核心功能](#-核心功能) •
-[全局優化](#-全局優化推理系統global-optimization-reasoning) •
-[重構系統](#-refactor-playbook-system) •
-[活體知識庫](#4️⃣-活體知識庫living-knowledge-base) •
-[Admin Copilot CLI](#-admin-copilot-cli-public-preview) •
-[Web 應用](#-web-前端與代碼分析-api-appsweb) • [配置總覽](#️-全局配置總覽) •
-[虛擬專家](#-虛擬專家團隊) • [智能代理](#-智能代理服務) •
+[全局優化](#-全局優化推理系統global-optimization-reasoning) • [重構系統](#-refactor-playbook-system) • [活體知識庫](#4️⃣-活體知識庫living-knowledge-base) • [Admin Copilot CLI](#-admin-copilot-cli-public-preview) • [Web 應用](#-web-前端與代碼分析-api-appsweb) •
+[配置總覽](#️-全局配置總覽) • [虛擬專家](#-虛擬專家團隊) • [智能代理](#-智能代理服務) •
 [無人機系統](#-無人機系統配置) • [自主框架](#-自主系統框架無人駕駛無人機) •
 [文檔](#-文檔導航) • [English](README.en.md)
 
@@ -99,15 +95,6 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 │   ├── ✅ CI/CD 自動化 (GitHub Actions)
 │   └── ✅ 完整文檔 (INSTALL/BUILD/RELEASE)
 │
-├── 🏭 Project Factory System (NEW! 2024-12)
-│   ├── ✅ 專案生成引擎 (Generator Engine)
-│   ├── ✅ 模板系統 (32+ Templates)
-│   ├── ✅ 治理整合 (Governance Integration)
-│   ├── ✅ Python/TypeScript 支持
-│   ├── ✅ Docker + K8s + CI/CD 自動生成
-│   ├── ✅ SBOM + 合規性文檔
-│   └── ✅ CLI 介面 (Command-line Interface)
-│
 └── 🤖 Island AI Multi-Agent System
     ├── ✅ Stage 1: 6 個基礎 Agent
     └── 🔄 Stage 2-4: 進行中
@@ -116,21 +103,18 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 ### 🎯 發展階段
 
 #### ✅ Phase 1: 核心基礎建設 (Completed)
-
 - [x] SynergyMesh 核心引擎
 - [x] 結構治理系統
 - [x] 自主系統框架
 - [x] 基礎文檔與測試
 
 #### ✅ Phase 2: 智能化與自動化 (Completed)
-
 - [x] Island AI Agent 系統 (Stage 1)
 - [x] 語言治理自動化
 - [x] 全局優化推理系統
 - [x] Refactor Playbook 系統
 
 #### ✅ Phase 3: 分發與部署系統 (Completed - v1.0.0)
-
 - [x] 跨平台構建系統 (60 個檔案)
 - [x] Windows/macOS/Linux 安裝程式
 - [x] Docker 容器化完整堆疊
@@ -139,7 +123,6 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 - [x] 完整安裝/構建文檔
 
 #### 🔄 Phase 4: 生產化與擴展 (In Progress)
-
 - [ ] Island AI Stage 2-4 (協作、自學習、生產化)
 - [ ] Architecture Reasoner Agent MVP
 - [ ] Dashboard Frontend & Backend
@@ -147,7 +130,6 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 - [ ] 多語言 SDK (Python/TypeScript/Go)
 
 #### 📋 Phase 5: 企業級增強 (Planned - Q1 2025)
-
 - [ ] 多租戶支持 (Multi-Tenancy)
 - [ ] 高可用性部署 (HA Deployment)
 - [ ] 進階身份認證 (Advanced IAM)
@@ -155,7 +137,6 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 - [ ] SLA 監控與自動報告
 
 #### 🌟 Phase 6: 生態系統擴展 (Planned - Q2-Q3 2025)
-
 - [ ] 插件市場 (Plugin Marketplace)
 - [ ] 第三方整合 (GitHub/GitLab/Azure DevOps)
 - [ ] 託管服務版本 (SaaS)
@@ -164,33 +145,30 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 
 ### 📊 技術債務與優化計劃
 
-| 領域           | 當前狀態      | 目標                                     | 優先級 |
-| -------------- | ------------- | ---------------------------------------- | ------ |
-| **語言收斂**   | 8 種語言      | 5 種 (TypeScript, Python, Go, C++, Rust) | P0     |
-| **架構合規**   | 92%           | 100%                                     | P0     |
-| **安全態勢**   | 93.5/100      | 100 (零 HIGH+)                           | P0     |
-| **測試覆蓋率** | 76% (+2%/週)  | 85%+                                     | P1     |
-| **重構進度**   | 58%           | 100%                                     | P1     |
-| **圈複雜度**   | 15.7 (改善中) | ≤15 平均                                 | P2     |
+| 領域 | 當前狀態 | 目標 | 優先級 |
+|------|---------|------|--------|
+| **語言收斂** | 8 種語言 | 5 種 (TypeScript, Python, Go, C++, Rust) | P0 |
+| **架構合規** | 92% | 100% | P0 |
+| **安全態勢** | 93.5/100 | 100 (零 HIGH+) | P0 |
+| **測試覆蓋率** | 76% (+2%/週) | 85%+ | P1 |
+| **重構進度** | 58% | 100% | P1 |
+| **圈複雜度** | 15.7 (改善中) | ≤15 平均 | P2 |
 
 ### 🎓 學習路徑建議
 
 **新用戶入門順序**:
-
 1. 📖 閱讀 [README.md](./README.md) - 系統概覽
 2. 📥 按照 [INSTALL.md](./INSTALL.md) 安裝
 3. 🚀 跟隨 [快速開始](#-快速開始) 啟動服務
 4. 📚 瀏覽 [文檔導航](#-文檔導航) 深入了解
 
 **開發者進階路徑**:
-
 1. 🔨 學習 [BUILD.md](./BUILD.md) - 構建系統
 2. 🏗️ 理解 [架構治理矩陣](./governance/ARCHITECTURE_GOVERNANCE_MATRIX.md)
 3. 🤖 探索 [Island AI 系統](./island-ai/README.md)
 4. 🔄 掌握 [Refactor Playbook](./docs/refactor_playbooks/README.md)
 
 **貢獻者完整路徑**:
-
 1. 📋 閱讀 [CONTRIBUTING.md](./CONTRIBUTING.md) - 貢獻指南
 2. 🔍 理解 [全局優化推理](#-全局優化推理系統global-optimization-reasoning)
 3. ✅ 遵循 [AI Behavior Contract](./.github/AI-BEHAVIOR-CONTRACT.md)
@@ -230,62 +208,7 @@ capabilities:
 - core/mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
 - core/safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
 - core/slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
-- **core/project_factory/** ⭐
-  **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
-- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage
-  1 已上線）
-
-#### 🏭 Project Factory（專案生成工廠）
-
-**一鍵生成完整專案交付物 - 將 SynergyMesh 轉變為「能生成專案的系統」**
-
-Project
-Factory 能夠自動生成符合治理標準的完整專案，包括源代碼、測試套件、Docker、Kubernetes、CI/CD 等所有交付物。
-
-```bash
-# 生成 FastAPI 微服務
-python -m core.project_factory.cli generate project \
-  --name user-service \
-  --type microservice \
-  --language python \
-  --framework fastapi \
-  --output ./projects/user-service
-
-# 生成 TypeScript 服務
-python -m core.project_factory.cli generate project \
-  --name auth-service \
-  --type microservice \
-  --language typescript \
-  --framework express \
-  --output ./projects/auth-service
-
-# 從 YAML 規格生成
-python -m core.project_factory.cli generate project \
-  --spec-file project-spec.yaml
-```
-
-**核心能力：**
-
-| 交付物類型        | 內容                                                |
-| ----------------- | --------------------------------------------------- |
-| 📦 **源代碼**     | Python/TypeScript/Go, 完整架構層次, API/服務/數據層 |
-| 🧪 **測試套件**   | 單元測試, 集成測試, E2E 測試                        |
-| 🐳 **容器化**     | 多階段 Dockerfile, docker-compose, 健康檢查         |
-| ☸️ **Kubernetes** | Deployment, Service, Ingress, HPA, NetworkPolicy    |
-| 🔄 **CI/CD**      | GitHub Actions, 自動測試/構建/部署                  |
-| 📋 **治理文檔**   | 架構文檔, SBOM, 合規性聲明, 安全評估                |
-| ✅ **治理整合**   | SLSA L3 溯源, Schema 驗證, 策略閘檢查               |
-
-**自動治理合規：**
-
-- ✅ 語言政策驗證
-- ✅ 安全標準檢查
-- ✅ 架構約束驗證
-- ✅ CI/CD 需求檢查
-- ✅ SBOM 自動生成
-- ✅ 合規性文檔
-
-詳見：[core/project_factory/README.md](./core/project_factory/README.md)
+- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
 
 #### 🤖 Island AI Multi-Agent System（智能代理系統）
 
@@ -298,35 +221,33 @@ import { runStageOne } from 'island-ai';
 const reports = await runStageOne({
   requestId: 'system-diagnostic',
   timestamp: new Date(),
-  payload: { deploymentsPerWeek: 15 },
+  payload: { deploymentsPerWeek: 15 }
 });
 
 // 取得各 Agent 的診斷報告
-reports.forEach((report) => {
+reports.forEach(report => {
   console.log(`${report.agent}: ${report.insights.length} insights`);
 });
 ```
 
 **可用 Agents：**
 
-| Agent                  | 職責             | 關鍵功能                         |
-| ---------------------- | ---------------- | -------------------------------- |
-| 🏗️ **Architect**       | 架構設計與優化   | 系統分析、設計模式建議、性能優化 |
-| 🔒 **Security**        | 安全審計與修補   | 漏洞掃描、OWASP/CWE 規則檢查     |
-| 🚀 **DevOps**          | 部署與監控       | CI/CD 管道、自動擴展、監控告警   |
-| ✅ **QA**              | 測試與驗證       | 單元/整合/E2E 測試策略           |
-| 📊 **Data Scientist**  | 數據分析與預測   | 回歸/分類/聚類模型、趨勢分析     |
+| Agent              | 職責               | 關鍵功能                          |
+| ------------------ | ------------------ | --------------------------------- |
+| 🏗️ **Architect**     | 架構設計與優化     | 系統分析、設計模式建議、性能優化 |
+| 🔒 **Security**      | 安全審計與修補     | 漏洞掃描、OWASP/CWE 規則檢查     |
+| 🚀 **DevOps**        | 部署與監控         | CI/CD 管道、自動擴展、監控告警   |
+| ✅ **QA**            | 測試與驗證         | 單元/整合/E2E 測試策略           |
+| 📊 **Data Scientist** | 數據分析與預測    | 回歸/分類/聚類模型、趨勢分析     |
 | 📋 **Product Manager** | 產品規劃與優先級 | KPI 追蹤、用戶反饋、功能排序     |
 
 **整合狀態：**
-
 - ✅ Stage 1 完成（6 個 Agents，TypeScript 實現）
 - ✅ npm workspace 整合
 - 🔄 與 SynergyMesh 核心引擎整合中
 - 📋 Stage 2-4 規劃中（協作機制、自學習、生產化）
 
-詳見：[island-ai/README.md](./island-ai/README.md) |
-[完整路線圖](./island-ai.md)
+詳見：[island-ai/README.md](./island-ai/README.md) | [完整路線圖](./island-ai.md)
 
 ### 2️⃣ Structural Governance System（結構治理系統）
 
@@ -338,19 +259,19 @@ SuperRoot 風格的 Schema 命名空間與自主治理基礎設施。
 
 ```yaml
 dashboard:
-  route: '/#/language-governance'
-  health_score: '85/100 (Grade B)'
+  route: "/#/language-governance"
+  health_score: "85/100 (Grade B)"
   visualizations:
     - layer_model: 六層架構圖 (L0-L5)
     - sankey_flow: 違規流向圖 (來源→類型→修復)
     - hotspot_heatmap: 違規強度熱力圖 (0-100 分)
     - migration_flow: 叢集遷移流模型 (歷史+建議)
-
+  
   api_endpoint: /api/v1/language-governance
-
+  
   ci_automation:
-    schedule: '每日 00:00 UTC'
-    triggers: ['push', 'pull_request']
+    schedule: "每日 00:00 UTC"
+    triggers: ["push", "pull_request"]
     generators:
       - tools/generate-sankey-data.py
       - tools/generate-hotspot-heatmap.py
@@ -358,7 +279,6 @@ dashboard:
 ```
 
 **快速開始：**
-
 ```bash
 # 存取儀表板
 cd apps/web && npm run dev
@@ -371,7 +291,6 @@ python3 tools/generate-migration-flow.py
 ```
 
 **主要功能：**
-
 - ✅ **健康分數監控**：85/100 (Grade B)，目標 90+ (Grade A)
 - ✅ **違規追蹤**：2 個活躍違規，12% 減少趨勢
 - ✅ **安全掃描**：Semgrep 整合，1 個警告
@@ -380,7 +299,6 @@ python3 tools/generate-migration-flow.py
 - ✅ **遷移建議**：9 個流程 (2 歷史 + 7 建議)
 
 📚 完整文檔：
-
 - [實作指南](docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md)
 - [Hotspot 演算法](docs/HOTSPOT_HEATMAP.md)
 - [遷移流模型](docs/MIGRATION_FLOW.md)
@@ -392,8 +310,7 @@ python3 tools/generate-migration-flow.py
 
 > **讓 AI 與架構師用「全局視野」做決策，而不只是打補丁**
 
-**Global Optimization Reasoning System**
-是一套完整的架構治理與優化框架，確保所有重構、語言治理、模組調整都遵循「全局優化優先」原則。
+**Global Optimization Reasoning System** 是一套完整的架構治理與優化框架，確保所有重構、語言治理、模組調整都遵循「全局優化優先」原則。
 
 ### 核心原則：Global Optimization First
 
@@ -402,25 +319,20 @@ python3 tools/generate-migration-flow.py
 ```yaml
 three_layer_structure:
   layer_1_global_view:
-    - 優化目標: '語言堆疊收斂至 5 種 (TypeScript, Python, Go, C++, Rust)'
-    - 硬約束:
-        [
-          'core 不依賴 apps',
-          '零 forbidden languages',
-          '零 HIGH security findings',
-        ]
-
+    - 優化目標: "語言堆疊收斂至 5 種 (TypeScript, Python, Go, C++, Rust)"
+    - 硬約束: ["core 不依賴 apps", "零 forbidden languages", "零 HIGH security findings"]
+  
   layer_2_local_plan:
-    - 範圍: '僅修改 core/contract_service/ 模組'
+    - 範圍: "僅修改 core/contract_service/ 模組"
     - 影響分析:
-        - 語言違規: '減少 3 → 0'
-        - 架構合規: '維持 100%'
-        - 測試覆蓋率: '76% → 82% (+6%)'
-
+        - 語言違規: "減少 3 → 0"
+        - 架構合規: "維持 100%"
+        - 測試覆蓋率: "76% → 82% (+6%)"
+  
   layer_3_self_check:
-    - 架構違規檢查: '✅ 無新增依賴反向'
-    - 問題轉移檢查: '✅ 不將問題推給其他模組'
-    - 骨架規則檢查: '✅ 符合 architecture-stability 骨架'
+    - 架構違規檢查: "✅ 無新增依賴反向"
+    - 問題轉移檢查: "✅ 不將問題推給其他模組"
+    - 骨架規則檢查: "✅ 符合 architecture-stability 骨架"
 ```
 
 ### 🏗️ Architecture Reasoner（架構推理代理）
@@ -429,39 +341,38 @@ three_layer_structure:
 
 ```yaml
 architecture_reasoner:
-  role: 'Global Reasoner'
-  authority: 'VETO (可否決違反約束的提案)'
-
+  role: "Global Reasoner"
+  authority: "VETO (可否決違反約束的提案)"
+  
   responsibilities:
     primary:
       - 評估所有重構提案的全局影響
       - 執行三層回應結構驗證
       - 判定是否違反架構骨架規則
-
+    
     secondary:
       - 監控 6 個目標函數趨勢
       - 生成優化差距報告
       - 建議架構改進方案
-
+  
   phase_integration:
-    phase_0_1_2: 'CRITICAL - 高階推理權重大'
-    phase_3_4: 'IMPORTANT - 執行期驗證'
-    phase_5: 'MONITORING - 持續監控優化指標'
-
+    phase_0_1_2: "CRITICAL - 高階推理權重大"
+    phase_3_4: "IMPORTANT - 執行期驗證"
+    phase_5: "MONITORING - 持續監控優化指標"
+  
   decision_flow:
-    input: 'Refactor Playbook (YAML) + 當前系統狀態'
+    input: "Refactor Playbook (YAML) + 當前系統狀態"
     process:
       - 檢查 Global Optimization View 完整性
       - 驗證 Local Plan 對全局指標影響
       - 執行 Self-Check 三項檢查
     output:
-      decision: 'APPROVE | VETO | CONDITIONAL_APPROVE'
-      reasoning: '詳細決策理由 (YAML 格式)'
-      recommendations: '改進建議 (if VETO)'
+      decision: "APPROVE | VETO | CONDITIONAL_APPROVE"
+      reasoning: "詳細決策理由 (YAML 格式)"
+      recommendations: "改進建議 (if VETO)"
 ```
 
-📚
-**完整文檔**：[services/agents/architecture-reasoner/README.md](services/agents/architecture-reasoner/README.md)
+📚 **完整文檔**：[services/agents/architecture-reasoner/README.md](services/agents/architecture-reasoner/README.md)
 
 ---
 
@@ -470,7 +381,6 @@ architecture_reasoner:
 監控與優化系統健康的 6 個關鍵指標：
 
 #### 1. Language Stack Convergence（語言堆疊收斂）
-
 ```yaml
 formula: convergence = 1 - (current_count - ideal_count) / ideal_count
 ideal_state: 5 種語言 (TypeScript, Python, Go, C++, Rust)
@@ -480,7 +390,6 @@ target: ≥ 0.90 (90%)
 ```
 
 #### 2. Architecture Compliance（架構合規分數）
-
 ```yaml
 formula: compliance = (valid_dependencies / total_dependencies) × 100%
 checks:
@@ -492,7 +401,6 @@ target: 100%
 ```
 
 #### 3. Security Posture Index（安全態勢指數）
-
 ```yaml
 formula: security = 100 - (critical×10 + high×5 + medium×2 + low×0.5)
 current_findings:
@@ -505,7 +413,6 @@ target: 100 (zero HIGH+)
 ```
 
 #### 4. Refactor Progress Index（重構進度指數）
-
 ```yaml
 formula: progress = (completed_tasks / total_tasks) × 100%
 tasks:
@@ -517,7 +424,6 @@ target: 100%
 ```
 
 #### 5. Test Coverage Momentum（測試覆蓋率動量）
-
 ```yaml
 formula: momentum = (current_coverage - baseline_coverage) / weeks
 baseline: 68% (4 weeks ago)
@@ -527,7 +433,6 @@ target: ≥ 75% coverage, ≥ 0% momentum
 ```
 
 #### 6. Cyclomatic Complexity Trend（圈複雜度趨勢）
-
 ```yaml
 formula: trend = (current_avg - baseline_avg) / baseline_avg
 baseline: avg_complexity = 18.2
@@ -536,15 +441,13 @@ trend: -13.7% (improving ✅)
 target: ≤ 15 avg, negative trend
 ```
 
-📚
-**完整規範**：[docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md](docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md)
+📚 **完整規範**：[docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md](docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md)
 
 ---
 
 ### 🌐 Dashboard & API
 
 **存取 Dashboard**：
-
 ```bash
 # 啟動 Dashboard（Phase 5 實施後）
 cd services/dashboard && npm run dev
@@ -565,7 +468,7 @@ api_endpoints:
       refactor_progress: 0.58
       coverage_momentum: 2.0
       complexity_trend: -0.137
-
+  
   gap_report:
     GET /api/architecture/gap-report
     response:
@@ -574,13 +477,13 @@ api_endpoints:
           description: "3 個語言未收斂 (Java, Shell, PHP)"
           impact: "阻擋達成 90% 收斂目標"
           recommendation: "執行 P0 語言遷移計畫"
-
+      
       projected_timeline: "18+ weeks to 100% health"
-
+  
   metrics:
     GET /api/architecture/metrics/{metric-name}
     # metric-name: language-convergence | architecture-compliance | security | ...
-
+  
   decision:
     POST /api/architecture/decision
     body:
@@ -639,23 +542,22 @@ cat config/system-module-map.example.yaml
 
 ### 📚 相關文檔
 
-| 文檔                                                                                                           | 說明                                      |
-| -------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| [AI-BEHAVIOR-CONTRACT.md](.github/AI-BEHAVIOR-CONTRACT.md)                                                     | Section 9: Global Optimization First 原則 |
-| [AI_PROMPTS.md](docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md)                                        | Section 1.5: 高階最佳化推理提示詞         |
-| [REFRACTOR_PLAYBOOK_TEMPLATE.md](docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md) | Sections 0 & 3: Playbook 模板與優化策略   |
-| [architecture-reasoner/README.md](services/agents/architecture-reasoner/README.md)                             | Architecture Reasoner 完整規範            |
-| [ARCHITECTURE_OPTIMIZATION_DASHBOARD.md](docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md)                          | Dashboard 規範與 API 文檔                 |
-| [system-module-map.example.yaml](config/system-module-map.example.yaml)                                        | 標準模組映射範本                          |
-| [validation/README.md](tools/validation/README.md)                                                             | 驗證腳本規範（待實施）                    |
-| [global-optimization/README.md](tests/integration/global-optimization/README.md)                               | E2E 測試策略（待實施）                    |
+| 文檔 | 說明 |
+|------|------|
+| [AI-BEHAVIOR-CONTRACT.md](.github/AI-BEHAVIOR-CONTRACT.md) | Section 9: Global Optimization First 原則 |
+| [AI_PROMPTS.md](docs/refactor_playbooks/03_refactor/meta/AI_PROMPTS.md) | Section 1.5: 高階最佳化推理提示詞 |
+| [REFRACTOR_PLAYBOOK_TEMPLATE.md](docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md) | Sections 0 & 3: Playbook 模板與優化策略 |
+| [architecture-reasoner/README.md](services/agents/architecture-reasoner/README.md) | Architecture Reasoner 完整規範 |
+| [ARCHITECTURE_OPTIMIZATION_DASHBOARD.md](docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md) | Dashboard 規範與 API 文檔 |
+| [system-module-map.example.yaml](config/system-module-map.example.yaml) | 標準模組映射範本 |
+| [validation/README.md](tools/validation/README.md) | 驗證腳本規範（待實施） |
+| [global-optimization/README.md](tests/integration/global-optimization/README.md) | E2E 測試策略（待實施） |
 
 ---
 
 ### 🗺️ Implementation Roadmap
 
 #### ✅ Phase 1-3: Core Documentation (已完成)
-
 - AI Behavior Contract Section 9
 - AI Prompts Section 1.5
 - Playbook Template Section 3
@@ -664,33 +566,27 @@ cat config/system-module-map.example.yaml
 - System Module Map Example
 
 #### ✅ Phase 4: Integration & Validation (已完成基礎架構)
-
 - 文檔交叉引用（本 README）
 - 驗證腳本規範與骨架
 - 測試結構與 fixtures
 
 #### 📋 Phase 5: Implementation (預計 3-4 weeks)
-
 **PR #1**: Dashboard Backend MVP
-
 - 6 個目標函數計算引擎
 - FastAPI 端點實現
 - 可驗證成果：`curl localhost:8080/api/architecture/health`
 
 **PR #2**: Architecture Reasoner Agent MVP
-
 - 決策邏輯與 Veto 引擎
 - CLI 介面
 - 可驗證成果：`python agent.py --check playbook.yaml`
 
 **PR #3**: Dashboard Frontend MVP
-
 - React 可視化介面
 - 指標卡片與 Gap Report UI
 - 可驗證成果：瀏覽器訪問 Dashboard
 
 #### 📋 Phase 6: Rollout & Training (預計 2-3 weeks)
-
 - Quick Start Guide（30 分鐘上手）
 - Training Workshops（理論 + 實作 + 分析）
 - Gradual Enablement（Advisory → Soft Veto → Full Enforcement）
@@ -729,7 +625,7 @@ optional_fields:
 | 9    | Cosign Sign    | Sigstore 無密鑰簽名   |
 | 10   | Audit          | 審計事件記錄          |
 
-### 🏗️ 治理工具
+### 🏗️ 治理工具：
 
 - tools/docs/validate_index.py - Schema 驗證器
 - tools/docs/scan_repo_generate_index.py - 倉庫掃描生成索引
@@ -765,43 +661,44 @@ optional_fields:
 
 > 讓系統自己感知變化、重建自身結構、自我檢查，並主動回報狀態。
 
-本模組**不是**人工智慧助理、命令列工具、Copilot 或聊天機器人。它的唯一目的，是讓程式碼倉庫「知道自己現在長怎樣、哪裡有問題」，並用**機器可讀的方式**表達出來。
+本模組**不是**人工智慧助理、命令列工具、Copilot 或聊天機器人。
+它的唯一目的，是讓程式碼倉庫「知道自己現在長怎樣、哪裡有問題」，並用**機器可讀的方式**表達出來。
 
 ```yaml
 # 知識循環四層次
 knowledge_cycle:
-  perception: # 感知層 - 偵測變化
+  perception:      # 感知層 - 偵測變化
     - Git 提交紀錄（檔案新增 / 修改 / 刪除）
     - GitHub Actions 工作流結果
     - 定期排程掃描
-
-  modeling: # 建模層 - 重建結構
+  
+  modeling:        # 建模層 - 重建結構
     outputs:
-      - docs/generated-mndoc.yaml # 系統說明書
-      - docs/knowledge-graph.yaml # 維度關係圖
-      - docs/superroot-entities.yaml # SuperRoot ontology 編碼
-
-  self_diagnosis: # 自我診斷層 - 找出問題
+      - docs/generated-mndoc.yaml      # 系統說明書
+      - docs/knowledge-graph.yaml      # 維度關係圖
+      - docs/superroot-entities.yaml   # SuperRoot ontology 編碼
+  
+  self_diagnosis:  # 自我診斷層 - 找出問題
     checks:
       - 孤兒元件（無關聯的 Component）
       - 死設定（未使用的 Config）
       - 重疊工作流
       - 斷鏈文件
     output: docs/knowledge-health-report.yaml
-
-  action: # 行動層 - 回報狀態
+  
+  action:          # 行動層 - 回報狀態
     - 更新 docs/KNOWLEDGE_HEALTH.md 儀表板
     - 必要時自動開 GitHub Issue
 ```
 
 **目錄佈局：**
 
-| 目錄       | 用途                                         |
-| ---------- | -------------------------------------------- |
-| knowledge/ | 純知識資料層（YAML/JSON），不放程式碼        |
-| runtime/   | 操作知識的程式碼：載入、建模、診斷、輸出報告 |
-| pipelines/ | 把 runtime 組合成完整活體流程                |
-| docs/      | 給人類看的說明與健康報告                     |
+| 目錄 | 用途 |
+|------|------|
+| knowledge/ | 純知識資料層（YAML/JSON），不放程式碼 |
+| runtime/ | 操作知識的程式碼：載入、建模、診斷、輸出報告 |
+| pipelines/ | 把 runtime 組合成完整活體流程 |
+| docs/ | 給人類看的說明與健康報告 |
 
 📚 詳見 docs/LIVING_KNOWLEDGE_BASE.md
 
@@ -885,15 +782,12 @@ unmanned-island/
 
 - **架構約束**: 依賴規則、骨架規則、語言策略（11 個架構骨架）
 - **品質指標**: 可量化的前後對比（語言違規、Semgrep、複雜度、測試覆蓋率）
-- **Proposer/Critic AI 工作流**: 雙層 AI 驗證（Proposer 生成 →
-  Critic 審查 → 迭代修正）
-- **配置整合**: 完全整合到 `system-module-map.yaml` 和
-  `unified-config-index.yaml`
+- **Proposer/Critic AI 工作流**: 雙層 AI 驗證（Proposer 生成 → Critic 審查 → 迭代修正）
+- **配置整合**: 完全整合到 `system-module-map.yaml` 和 `unified-config-index.yaml`
 
 ### 快速入門
 
 查看重構系統文檔：
-
 ```bash
 # 查看重構系統總覽
 cat docs/refactor_playbooks/README.md
@@ -915,15 +809,14 @@ python3 tools/validate-refactor-index.py
 
 **我們提供多種安裝方式，請選擇最適合您的：**
 
-| 用戶類型       | 推薦方式                 | 文檔                       |
-| -------------- | ------------------------ | -------------------------- |
-| **一般用戶**   | 下載對應平台的安裝程式   | [INSTALL.md](./INSTALL.md) |
-| **開發者**     | 從源碼安裝               | 見下方「從源碼安裝」       |
-| **企業部署**   | Docker Compose           | 見下方「Docker 部署」      |
+| 用戶類型 | 推薦方式 | 文檔 |
+|---------|---------|------|
+| **一般用戶** | 下載對應平台的安裝程式 | [INSTALL.md](./INSTALL.md) |
+| **開發者** | 從源碼安裝 | 見下方「從源碼安裝」 |
+| **企業部署** | Docker Compose | 見下方「Docker 部署」 |
 | **系統管理員** | 包管理器（apt/yum/brew） | [INSTALL.md](./INSTALL.md) |
 
-💡 **完整跨平台安裝指南**: 請查看
-[📦 跨平台安裝與構建系統](#-跨平台安裝與構建系統--cross-platform-build-system)
+💡 **完整跨平台安裝指南**: 請查看 [📦 跨平台安裝與構建系統](#-跨平台安裝與構建系統--cross-platform-build-system)
 
 ---
 
@@ -1129,21 +1022,18 @@ make build-all          # 所有平台
 #### 平台特定構建
 
 **Windows**:
-
 ```batch
 cd build\windows
 build-windows.bat
 ```
 
 **macOS**:
-
 ```bash
 cd build/macos
 ./build-macos.sh
 ```
 
 **Linux**:
-
 ```bash
 cd build/linux
 ./build-linux.sh
@@ -1219,22 +1109,21 @@ cd build/linux
 
 ### 📚 詳細文檔
 
-| 文檔                               | 說明                     |
-| ---------------------------------- | ------------------------ |
-| [INSTALL.md](./INSTALL.md)         | 完整安裝指南（所有平台） |
-| [BUILD.md](./BUILD.md)             | 構建指南與故障排除       |
-| [RELEASE.md](./RELEASE.md)         | 發布流程與版本管理       |
-| [build/windows/](./build/windows/) | Windows 構建檔案         |
-| [build/macos/](./build/macos/)     | macOS 構建檔案           |
-| [build/linux/](./build/linux/)     | Linux 構建檔案           |
-| [build/docker/](./build/docker/)   | Docker 配置              |
+| 文檔 | 說明 |
+|------|------|
+| [INSTALL.md](./INSTALL.md) | 完整安裝指南（所有平台） |
+| [BUILD.md](./BUILD.md) | 構建指南與故障排除 |
+| [RELEASE.md](./RELEASE.md) | 發布流程與版本管理 |
+| [build/windows/](./build/windows/) | Windows 構建檔案 |
+| [build/macos/](./build/macos/) | macOS 構建檔案 |
+| [build/linux/](./build/linux/) | Linux 構建檔案 |
+| [build/docker/](./build/docker/) | Docker 配置 |
 
 ---
 
 ## 🖥️ Admin Copilot CLI (Public Preview)
 
-Admin Copilot
-CLI 將 AI 驅動的程式碼分析與操作能力帶入命令列，使系統可透過自然語言理解自身程式碼，並執行建置、偵錯與維護流程。
+Admin Copilot CLI 將 AI 驅動的程式碼分析與操作能力帶入命令列，使系統可透過自然語言理解自身程式碼，並執行建置、偵錯與維護流程。
 
 詳見 docs/ADMIN_COPILOT_CLI.md 與 tools/cli/README.md。
 
@@ -1255,21 +1144,21 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 
 ### 🤖 智能自動化
 
-| 功能           | 說明                             | 入口                               |
-| -------------- | -------------------------------- | ---------------------------------- |
-| 自動程式碼審查 | PR 自動審查與合併                | .github/workflows/                 |
-| 智能派工系統   | 問題自動分配與負載均衡           | core/contract_service/             |
-| 進階升級系統   | 五級升級階梯 (L1 Auto → L5 客服) | docs/ADVANCED_ESCALATION_SYSTEM.md |
-| Auto-Fix Bot   | 自動修復 CI 失敗                 | config/auto-fix-bot.yml            |
+| 功能           | 說明                             | 入口                                 |
+| -------------- | -------------------------------- | ------------------------------------ |
+| 自動程式碼審查 | PR 自動審查與合併                | .github/workflows/                   |
+| 智能派工系統   | 問題自動分配與負載均衡           | core/contract_service/               |
+| 進階升級系統   | 五級升級階梯 (L1 Auto → L5 客服) | docs/ADVANCED_ESCALATION_SYSTEM.md   |
+| Auto-Fix Bot   | 自動修復 CI 失敗                 | config/auto-fix-bot.yml              |
 
 ### 🔒 安全與合規
 
-| 功能         | 說明                  | 入口                  |
-| ------------ | --------------------- | --------------------- |
-| SLSA L3 溯源 | 構建認證與簽名        | core/slsa_provenance/ |
-| Schema 驗證  | JSON Schema 合規檢查  | governance/schemas/   |
-| 策略閘       | OPA/Conftest 策略執行 | governance/policies/  |
-| SBOM 生成    | 軟體物料清單          | governance/sbom/      |
+| 功能         | 說明                  | 入口                    |
+| ------------ | --------------------- | ----------------------- |
+| SLSA L3 溯源 | 構建認證與簽名        | core/slsa_provenance/   |
+| Schema 驗證  | JSON Schema 合規檢查  | governance/schemas/     |
+| 策略閘       | OPA/Conftest 策略執行 | governance/policies/    |
+| SBOM 生成    | 軟體物料清單          | governance/sbom/        |
 
 ### 📊 監控與觀測
 
@@ -1283,18 +1172,18 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 
 ## 🎛️ 全局配置總覽
 
-| 配置檔案                                | 說明                            |
-| --------------------------------------- | ------------------------------- |
-| synergymesh.yaml                        | 統一主配置入口                  |
-| config/system-manifest.yaml             | 系統宣告清單                    |
-| config/unified-config-index.yaml        | 統一配置索引 v3.0.0             |
-| config/system-module-map.yaml           | 模組映射                        |
-| config/ai-constitution.yaml             | AI 最高指導憲章（三層憲法體系） |
-| config/agents/team/virtual-experts.yaml | 虛擬專家團隊配置                |
-| config/safety-mechanisms.yaml           | 安全機制配置                    |
-| config/topology-mind-matrix.yaml        | 心智矩陣拓撲配置                |
-| config/drone-config.yml                 | 無人機編隊與自動化系統配置      |
-| config/cloud-agent-delegation.yml       | 雲端代理程式委派配置            |
+| 配置檔案                          | 說明                             |
+|-----------------------------------|----------------------------------|
+| synergymesh.yaml                  | 統一主配置入口                   |
+| config/system-manifest.yaml       | 系統宣告清單                     |
+| config/unified-config-index.yaml  | 統一配置索引 v3.0.0             |
+| config/system-module-map.yaml     | 模組映射                         |
+| config/ai-constitution.yaml       | AI 最高指導憲章（三層憲法體系） |
+| config/agents/team/virtual-experts.yaml | 虛擬專家團隊配置                 |
+| config/safety-mechanisms.yaml     | 安全機制配置                     |
+| config/topology-mind-matrix.yaml  | 心智矩陣拓撲配置                 |
+| config/drone-config.yml           | 無人機編隊與自動化系統配置       |
+| config/cloud-agent-delegation.yml | 雲端代理程式委派配置             |
 
 ---
 
@@ -1330,31 +1219,27 @@ drone-config.yml 定義無人機編隊與協調策略，並透過 automation/aut
 
 **11 個完整架構骨架**，整合架構指南與實現代碼：
 
-- **入口**:
-  [`automation/architecture-skeletons/README.md`](./automation/architecture-skeletons/README.md)
-- **索引**:
-  [`automation/architecture-skeletons/unified-index.yaml`](./automation/architecture-skeletons/unified-index.yaml)
-- **分析報告**:
-  [`docs/ARCHITECTURE_SKELETON_ANALYSIS.md`](./docs/ARCHITECTURE_SKELETON_ANALYSIS.md)
+- **入口**: [`automation/architecture-skeletons/README.md`](./automation/architecture-skeletons/README.md)
+- **索引**: [`automation/architecture-skeletons/unified-index.yaml`](./automation/architecture-skeletons/unified-index.yaml)
+- **分析報告**: [`docs/ARCHITECTURE_SKELETON_ANALYSIS.md`](./docs/ARCHITECTURE_SKELETON_ANALYSIS.md)
 
 #### 骨架清單 (11個)
 
-| 骨架                    | 狀態    | 用途                   |
-| ----------------------- | ------- | ---------------------- |
-| architecture-stability  | ✅ 生產 | 系統架構設計、服務邊界 |
-| security-observability  | ✅ 生產 | 安全機制、監控追蹤     |
-| api-governance          | ✅ 生產 | API 設計、版本管理     |
-| testing-governance      | ✅ 生產 | 測試策略、品質保證     |
-| docs-governance         | ✅ 生產 | 文檔標準、知識管理     |
-| identity-tenancy        | 🟡 設計 | 認證授權、多租戶       |
-| data-governance         | 🟡 設計 | 資料分類、隱私合規     |
-| performance-reliability | 🟡 設計 | SLA、災難恢復          |
-| cost-management         | 🟡 設計 | 成本監控、預算規劃     |
-| knowledge-base          | 🟡 設計 | 知識組織、AI 上下文    |
-| nucleus-orchestrator    | 🟡 設計 | 工作流編排、代理協調   |
+| 骨架 | 狀態 | 用途 |
+|------|------|------|
+| architecture-stability | ✅ 生產 | 系統架構設計、服務邊界 |
+| security-observability | ✅ 生產 | 安全機制、監控追蹤 |
+| api-governance | ✅ 生產 | API 設計、版本管理 |
+| testing-governance | ✅ 生產 | 測試策略、品質保證 |
+| docs-governance | ✅ 生產 | 文檔標準、知識管理 |
+| identity-tenancy | 🟡 設計 | 認證授權、多租戶 |
+| data-governance | 🟡 設計 | 資料分類、隱私合規 |
+| performance-reliability | 🟡 設計 | SLA、災難恢復 |
+| cost-management | 🟡 設計 | 成本監控、預算規劃 |
+| knowledge-base | 🟡 設計 | 知識組織、AI 上下文 |
+| nucleus-orchestrator | 🟡 設計 | 工作流編排、代理協調 |
 
-**詳細說明**:
-[`automation/autonomous/README.md`](./automation/autonomous/README.md)
+**詳細說明**: [`automation/autonomous/README.md`](./automation/autonomous/README.md)
 
 ---
 
@@ -1379,7 +1264,6 @@ drone-config.yml 定義無人機編隊與協調策略，並透過 automation/aut
 ```
 
 **核心文檔**：
-
 - [README](./docs/refactor_playbooks/README.md) - 系統總覽與使用指南
 - [CONFIG_INTEGRATION_GUIDE](./docs/refactor_playbooks/CONFIG_INTEGRATION_GUIDE.md) - 配置整合指南
 - [PROPOSER_CRITIC_WORKFLOW](./docs/refactor_playbooks/03_refactor/meta/PROPOSER_CRITIC_WORKFLOW.md) - 雙層 AI 重構工作流程 ⭐
@@ -1387,7 +1271,6 @@ drone-config.yml 定義無人機編隊與協調策略，並透過 automation/aut
 - [INTEGRATION_REPORT](./docs/refactor_playbooks/INTEGRATION_REPORT.md) - 整合報告與使用方式
 
 **快速開始**：
-
 ```bash
 # 生成重構劇本
 python3 tools/generate-refactor-playbook.py --cluster "core/"
@@ -1400,7 +1283,6 @@ cat docs/refactor_playbooks/03_refactor/INDEX.md
 ```
 
 **關鍵特性**：
-
 - ✅ 三階段重構流程（解構 → 集成 → 重構）
 - ✅ 舊資產管理（實體隔離、知識保留）
 - ✅ 架構約束強制（11 個骨架規則、依賴方向、語言策略）

@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
 
+
 # Cost protection: prevent concurrent runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,7 +21,7 @@ jobs:
 
   build-matrix:
     needs: workflow-status
-    timeout-minutes: 15 # Prevent runaway costs
+    timeout-minutes: 15  # Prevent runaway costs
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -33,7 +34,7 @@ jobs:
         if: ${{ matrix.target == 'typescript' }}
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 18
           cache: npm
 
       - name: Build TypeScript workspaces
@@ -60,12 +61,7 @@ jobs:
 
       - name: Go build
         if: ${{ matrix.target == 'go' }}
-        run: |
-          if find . -name go.mod -print -quit | grep -q .; then
-            GOWORK=off go build ./...
-          else
-            echo "No Go modules found; skipping Go build."
-          fi
+        run: go build ./...
         working-directory: services
 
       - name: Setup Java
@@ -73,7 +69,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: '21'
           cache: maven
 
       - name: Maven build

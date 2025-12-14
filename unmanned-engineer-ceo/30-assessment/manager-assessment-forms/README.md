@@ -1,7 +1,6 @@
 # Manager Assessment Forms
 
 ## 結構
-
 ```
 ---
 id: ma-2025q4-<team>

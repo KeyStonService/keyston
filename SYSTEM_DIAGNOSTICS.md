@@ -4,8 +4,7 @@
 
 本指南涵蓋系統監控、診斷、日誌收集和故障排除程序。
 
-This guide covers system monitoring, diagnostics, log collection, and
-troubleshooting procedures.
+This guide covers system monitoring, diagnostics, log collection, and troubleshooting procedures.
 
 ---
 
@@ -143,7 +142,6 @@ tail -f logs/error.log
 ## 🆘 常見問題 / Troubleshooting
 
 ### Connection Timeout
-
 ```bash
 # 檢查防火牆
 sudo ufw status
@@ -157,7 +155,6 @@ tail -f logs/error.log
 ```
 
 ### Out of Memory
-
 ```bash
 # 檢查記憶體使用
 free -h
@@ -168,7 +165,6 @@ node --max-old-space-size=4096 app.js
 ```
 
 ### Database Connection Error
-
 ```bash
 # 檢查資料庫服務
 sudo systemctl status postgresql
@@ -185,7 +181,6 @@ sudo systemctl restart postgresql
 ## 📋 監控檢查清單 / Monitoring Checklist
 
 ### 日常檢查 / Daily Checks
-
 - [ ] 系統可用性 > 99%
 - [ ] 錯誤率 < 0.1%
 - [ ] 無待處理告警
@@ -193,7 +188,6 @@ sudo systemctl restart postgresql
 - [ ] 資料庫備份完成
 
 ### 周期性檢查 / Weekly Checks
-
 - [ ] 效能趨勢分析
 - [ ] 容量規劃評估
 - [ ] 安全掃描

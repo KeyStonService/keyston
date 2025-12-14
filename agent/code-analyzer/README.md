@@ -2,20 +2,17 @@
 
 ## 概述
 
-代碼分析代理 (Code Analyzer
-Agent) 是 SynergyMesh 智能自動化系統的核心組件之一，負責深度分析代碼質量、安全性和性能。
+代碼分析代理 (Code Analyzer Agent) 是 SynergyMesh 智能自動化系統的核心組件之一，負責深度分析代碼質量、安全性和性能。
 
 ## 功能特性
 
 ### 1. 多維度代碼分析
-
 - **靜態分析**: 語法、語義、類型檢查
 - **動態分析**: 運行時行為、記憶體使用
 - **安全分析**: 漏洞檢測、依賴掃描
 - **性能分析**: 複雜度、效率評估
 
 ### 2. 支援的語言
-
 - Python 3.9+
 - TypeScript / JavaScript (ES6+)
 - Go 1.18+
@@ -23,7 +20,6 @@ Agent) 是 SynergyMesh 智能自動化系統的核心組件之一，負責深度
 - Java 11+
 
 ### 3. 分析工具集成
-
 - **SonarQube**: 代碼質量平台
 - **ESLint**: JavaScript/TypeScript 靜態分析
 - **Pylint**: Python 靜態分析
@@ -91,12 +87,12 @@ max_workers: 8
 analyzers:
   static:
     enabled: true
-    tools: ['pylint', 'mypy']
-
+    tools: ["pylint", "mypy"]
+  
   security:
     enabled: true
-    tools: ['bandit', 'semgrep']
-
+    tools: ["bandit", "semgrep"]
+  
   performance:
     enabled: true
     complexity_threshold: 10

@@ -15,8 +15,7 @@ _Unified Control Layer + Governance Framework + Autonomous Systems + AI Agents_
 
 從軟體工程、雲原生、供應鏈安全到自主系統的完整 AI 驅動自動化生命週期。
 
-[快速開始](#-快速開始) • [核心架構](#-核心架構) • [文檔索引](#-文檔索引) •
-[island-cli](#-island-cli-ai-驅動的命令列工具) • [English](README.en.md)
+[快速開始](#-快速開始) • [核心架構](#-核心架構) • [文檔索引](#-文檔索引) • [island-cli](#-island-cli-ai-驅動的命令列工具) • [English](README.en.md)
 
 **🌍 island-ai.io** | **💬 "Island AI: Where AI Engineers Thrive"**
 
@@ -28,14 +27,14 @@ _Unified Control Layer + Governance Framework + Autonomous Systems + AI Agents_
 
 Island AI 是為現代 AI 工程團隊打造的**企業級智能自動化平台**，提供：
 
-| 核心能力              | 價值主張                                         |
-| --------------------- | ------------------------------------------------ |
+| 核心能力 | 價值主張 |
+|---------|---------|
 | **🤖 AI Agents 生態** | 7 種自啟動 AI 代理，自動檢測、自動修復、自動學習 |
-| **🔧 智能工程自動化** | 代碼審查、智能派工、Auto-Fix、測試生成           |
-| **⚖️ 結構化治理**     | Schema Pipeline、SLSA、策略閘門、安全檢查        |
-| **🧠 自我感知系統**   | 活體知識庫、結構重建、健康檢查、自我診斷         |
-| **🚁 自主系統框架**   | 五骨架架構、無人機編隊、自駕車整合               |
-| **🌐 多語言統一**     | Rust + Go + TypeScript + Python + Java 完美協作  |
+| **🔧 智能工程自動化** | 代碼審查、智能派工、Auto-Fix、測試生成 |
+| **⚖️ 結構化治理** | Schema Pipeline、SLSA、策略閘門、安全檢查 |
+| **🧠 自我感知系統** | 活體知識庫、結構重建、健康檢查、自我診斷 |
+| **🚁 自主系統框架** | 五骨架架構、無人機編隊、自駕車整合 |
+| **🌐 多語言統一** | Rust + Go + TypeScript + Python + Java 完美協作 |
 
 ---
 
@@ -69,15 +68,15 @@ Island AI 是為現代 AI 工程團隊打造的**企業級智能自動化平台*
 
 ### 🤖 AI Agents 生態系統（7 種自啟動代理）
 
-| Agent                   | 角色         | 自啟動觸發     | 決策權限 | 資源分配 |
-| ----------------------- | ------------ | -------------- | -------- | -------- |
-| 🏗️ **架構師 Agent**     | 系統設計優化 | 性能下降 > 20% | **高**   | 5-10%    |
-| 👨‍💻 **開發者 Agent**     | 代碼生成實現 | Bug/功能需求   | **中**   | 30-40%   |
-| 🔐 **安全官 Agent**     | 安全檢查加固 | 漏洞/異常檢測  | **高**   | 10-15%   |
-| 🚀 **DevOps Agent**     | 部署運維     | 告警/部署請求  | **高**   | 15-20%   |
-| 🧪 **QA Agent**         | 測試驗證     | 代碼提交/失敗  | **中**   | 15-20%   |
-| 📊 **數據科學家 Agent** | 數據分析     | 異常檢測/分析  | **中**   | 10-15%   |
-| 🎯 **產品經理 Agent**   | 需求優先級   | 用戶反饋       | **低**   | 5-10%    |
+| Agent | 角色 | 自啟動觸發 | 決策權限 | 資源分配 |
+|-------|------|-----------|---------|---------|
+| 🏗️ **架構師 Agent** | 系統設計優化 | 性能下降 > 20% | **高** | 5-10% |
+| 👨‍💻 **開發者 Agent** | 代碼生成實現 | Bug/功能需求 | **中** | 30-40% |
+| 🔐 **安全官 Agent** | 安全檢查加固 | 漏洞/異常檢測 | **高** | 10-15% |
+| 🚀 **DevOps Agent** | 部署運維 | 告警/部署請求 | **高** | 15-20% |
+| 🧪 **QA Agent** | 測試驗證 | 代碼提交/失敗 | **中** | 15-20% |
+| 📊 **數據科學家 Agent** | 數據分析 | 異常檢測/分析 | **中** | 10-15% |
+| 🎯 **產品經理 Agent** | 需求優先級 | 用戶反饋 | **低** | 5-10% |
 
 #### Agent 生命週期（完全自動化）
 
@@ -131,31 +130,26 @@ Island AI 是為現代 AI 工程團隊打造的**企業級智能自動化平台*
 
 #### 為何移除 L0 全自動層？
 
-**一句話結論：** L0 在高風險環境（production
-/ 金流 / 權限 / 治理核心）的前提是：**系統即使完全自動亂做，也必須被「自動檢測 + 自動回滾 + 有限爆炸半徑 + 完整審計」鎖死在可容忍範圍內。**
+**一句話結論：** L0 在高風險環境（production / 金流 / 權限 / 治理核心）的前提是：**系統即使完全自動亂做，也必須被「自動檢測 + 自動回滾 + 有限爆炸半徑 + 完整審計」鎖死在可容忍範圍內。**
 
 ##### 必要條件（L0 治理門檻）
 
 **A. 可回滾能力**
-
 - ✅ 所有操作必須可 atomic rollback
 - ✅ 回滾路徑事先演練
 - ❌ 不可逆操作（金流、永久刪除）禁止 L0
 
 **B. 爆炸半徑控制**
-
 - ✅ 預設只作用於子集（5% 流量、單一服務）
 - ✅ 明確 rate limit / concurrency 限制
 - ✅ 異常指標觸發自動降級
 
 **C. 事前驗證 & 事後監控**
-
 - ✅ staging 通過 N 次（100+）無異常
 - ✅ 全套觀測（metrics + logs + traces）
 - ✅ 自動告警與降級機制
 
 **D. 治理與審計**
-
 - ✅ 完整審計記錄（不可竄改）
 - ✅ 明確風險分級與白名單
 - ✅ 啟用/停用需治理流程
@@ -165,19 +159,19 @@ Island AI 是為現代 AI 工程團隊打造的**企業級智能自動化平台*
 ```yaml
 l0_policy:
   status: disabled_by_default
-  reason: '高風險環境需完整治理框架'
-
+  reason: "高風險環境需完整治理框架"
+  
   allowed_environments:
     - staging
     - development
     - non_critical_background_jobs
-
+  
   forbidden_resources:
     - payment_transfer
     - iam_root_policy
     - kms_key_rotation
     - production_database
-
+  
   enable_conditions:
     - has_canary_deployment
     - has_auto_rollback
@@ -256,12 +250,12 @@ l0_policy:
 
 #### 為什麼選擇多語言？
 
-| 優勢         | 說明                                                 |
-| ------------ | ---------------------------------------------------- |
-| **性能領先** | Rust 核心層性能提升 10 倍，Go 服務層並發提升 5 倍    |
+| 優勢 | 說明 |
+|------|------|
+| **性能領先** | Rust 核心層性能提升 10 倍，Go 服務層並發提升 5 倍 |
 | **生態完整** | Python AI/ML 最強、TypeScript Web 最強、無法單一替代 |
-| **市場競爭** | 技術領先 2-3 年，競爭對手難以複製                    |
-| **差異化**   | 業界罕見的完整多語言治理框架                         |
+| **市場競爭** | 技術領先 2-3 年，競爭對手難以複製 |
+| **差異化** | 業界罕見的完整多語言治理框架 |
 
 #### 複雜性管理投資
 
@@ -287,60 +281,60 @@ ROI：+1.8%（第一年）→ +42.5%（持續收益）
 
 ### 產品與架構
 
-| 文檔                                    | 說明                           |
-| --------------------------------------- | ------------------------------ |
-| [產品概覽](docs/PRODUCT_OVERVIEW.md)    | 系統定位、核心價值、MVP 三支柱 |
-| [系統架構](docs/SYSTEM_ARCHITECTURE.md) | 三大子系統、技術選型           |
+| 文檔 | 說明 |
+|------|------|
+| [產品概覽](docs/PRODUCT_OVERVIEW.md) | 系統定位、核心價值、MVP 三支柱 |
+| [系統架構](docs/SYSTEM_ARCHITECTURE.md) | 三大子系統、技術選型 |
 
 ### AI Agents 與自動化
 
-| 文檔                                           | 說明                        |
-| ---------------------------------------------- | --------------------------- |
-| [island-cli](docs/AGENTS/CLI.md)               | AI 驅動的命令列工具         |
-| [虛擬專家系統](docs/AGENTS/VIRTUAL_EXPERTS.md) | 7 種 AI Agent 詳解          |
-| [MCP 協議](docs/AGENTS/MCP.md)                 | Model Context Protocol 整合 |
-| [Agent 生命週期](docs/AGENTS/LIFECYCLE.md)     | 誕生、成長、協作、退休      |
+| 文檔 | 說明 |
+|------|------|
+| [island-cli](docs/AGENTS/CLI.md) | AI 驅動的命令列工具 |
+| [虛擬專家系統](docs/AGENTS/VIRTUAL_EXPERTS.md) | 7 種 AI Agent 詳解 |
+| [MCP 協議](docs/AGENTS/MCP.md) | Model Context Protocol 整合 |
+| [Agent 生命週期](docs/AGENTS/LIFECYCLE.md) | 誕生、成長、協作、退休 |
 
 ### 核心元件
 
-| 文檔                                                   | 說明          |
-| ------------------------------------------------------ | ------------- |
-| [活體知識庫](docs/COMPONENTS/LIVING_KNOWLEDGE_BASE.md) | 自我感知設計  |
-| [自動化概覽](docs/COMPONENTS/AUTOMATION_OVERVIEW.md)   | 自動化模組    |
-| [決策引擎](docs/COMPONENTS/DECISION_ENGINE.md)         | 多 Agent 協調 |
+| 文檔 | 說明 |
+|------|------|
+| [活體知識庫](docs/COMPONENTS/LIVING_KNOWLEDGE_BASE.md) | 自我感知設計 |
+| [自動化概覽](docs/COMPONENTS/AUTOMATION_OVERVIEW.md) | 自動化模組 |
+| [決策引擎](docs/COMPONENTS/DECISION_ENGINE.md) | 多 Agent 協調 |
 
 ### 治理框架
 
-| 文檔                                                 | 說明                        |
-| ---------------------------------------------------- | --------------------------- |
-| [治理概覽](docs/GOVERNANCE/overview.md)              | 十階段管道、Schema、AI 憲章 |
-| [L2-L4 決策模型](docs/GOVERNANCE/decision_levels.md) | 分層決策詳解                |
-| [L0 治理政策](docs/GOVERNANCE/l0_policy.md)          | 為何移除 L0 與未來規劃      |
-| [SLSA 溯源](docs/GOVERNANCE/slsa.md)                 | 供應鏈安全                  |
+| 文檔 | 說明 |
+|------|------|
+| [治理概覽](docs/GOVERNANCE/overview.md) | 十階段管道、Schema、AI 憲章 |
+| [L2-L4 決策模型](docs/GOVERNANCE/decision_levels.md) | 分層決策詳解 |
+| [L0 治理政策](docs/GOVERNANCE/l0_policy.md) | 為何移除 L0 與未來規劃 |
+| [SLSA 溯源](docs/GOVERNANCE/slsa.md) | 供應鏈安全 |
 
 ### 自主系統
 
-| 文檔                                      | 說明         |
-| ----------------------------------------- | ------------ |
-| [五骨架框架](docs/AUTONOMY/FRAMEWORK.md)  | 自主系統架構 |
-| [無人機配置](docs/AUTONOMY/UAV_CONFIG.md) | 編隊配置     |
+| 文檔 | 說明 |
+|------|------|
+| [五骨架框架](docs/AUTONOMY/FRAMEWORK.md) | 自主系統架構 |
+| [無人機配置](docs/AUTONOMY/UAV_CONFIG.md) | 編隊配置 |
 
 ### 多語言架構
 
-| 文檔                                                  | 說明              |
-| ----------------------------------------------------- | ----------------- |
+| 文檔 | 說明 |
+|------|------|
 | [多語言策略](docs/ARCHITECTURE/MULTILANG_STRATEGY.md) | 為何選擇 5 種語言 |
-| [統一工具鏈](docs/ARCHITECTURE/UNIFIED_TOOLCHAIN.md)  | Bazel 構建系統    |
-| [跨語言通信](docs/ARCHITECTURE/CROSS_LANG_COMM.md)    | API 合約系統      |
+| [統一工具鏈](docs/ARCHITECTURE/UNIFIED_TOOLCHAIN.md) | Bazel 構建系統 |
+| [跨語言通信](docs/ARCHITECTURE/CROSS_LANG_COMM.md) | API 合約系統 |
 
 ### 部署與維運
 
-| 文檔                                        | 說明               |
-| ------------------------------------------- | ------------------ |
+| 文檔 | 說明 |
+|------|------|
 | [安裝指南](docs/DEPLOYMENT/installation.md) | 環境需求、安裝流程 |
-| [CI/CD 配置](docs/DEPLOYMENT/ci_cd.md)      | 管道、品質閘門     |
-| [Docker 部署](docs/DEPLOYMENT/docker.md)    | 容器化部署         |
-| [Kubernetes](docs/DEPLOYMENT/kubernetes.md) | K8s 部署指南       |
+| [CI/CD 配置](docs/DEPLOYMENT/ci_cd.md) | 管道、品質閘門 |
+| [Docker 部署](docs/DEPLOYMENT/docker.md) | 容器化部署 |
+| [Kubernetes](docs/DEPLOYMENT/kubernetes.md) | K8s 部署指南 |
 
 ---
 
@@ -400,13 +394,13 @@ island-cli 將 AI 驅動的分析與自動化能力帶入終端。
 
 ### 核心特色
 
-| 特色               | 說明                               |
-| ------------------ | ---------------------------------- |
-| 🖥️ **終端原生**    | 直接在命令列與 AI 協作             |
-| 🔗 **GitHub 整合** | 自然語言存取倉庫、Issues、PR       |
-| 🤖 **智能分析**    | 代碼分析、自動修復、測試生成       |
-| 👨‍💼 **7 種 Agent**  | 架構/開發/安全/DevOps/QA/數據/產品 |
-| 🧠 **知識庫**      | 活體知識庫、自我學習               |
+| 特色 | 說明 |
+|------|------|
+| 🖥️ **終端原生** | 直接在命令列與 AI 協作 |
+| 🔗 **GitHub 整合** | 自然語言存取倉庫、Issues、PR |
+| 🤖 **智能分析** | 代碼分析、自動修復、測試生成 |
+| 👨‍💼 **7 種 Agent** | 架構/開發/安全/DevOps/QA/數據/產品 |
+| 🧠 **知識庫** | 活體知識庫、自我學習 |
 
 ### 快速使用
 
@@ -448,7 +442,6 @@ island-cli collaborate "重構支付模組" \
 ```
 
 📚 完整文檔：
-
 - [island-cli 詳解](docs/AGENTS/CLI.md)
 - [Agent 系統](docs/AGENTS/VIRTUAL_EXPERTS.md)
 - [MCP 協議](docs/AGENTS/MCP.md)
@@ -458,7 +451,6 @@ island-cli collaborate "重構支付模組" \
 ## 📊 實施計畫（18 個月）
 
 ### 第 1 階段：基礎設施（3 個月，$1.5M）
-
 - ✅ Agent 運行時框架
 - ✅ 開發者 Agent MVP
 - ✅ 知識庫系統 v1
@@ -466,7 +458,6 @@ island-cli collaborate "重構支付模組" \
 - ✅ 統一構建系統（Bazel）
 
 ### 第 2 階段：多 Agent 生態（6 個月，$3M）
-
 - ✅ 實現所有 7 種 Agent
 - ✅ 協作機制
 - ✅ 自動激活觸發器
@@ -474,7 +465,6 @@ island-cli collaborate "重構支付模組" \
 - ✅ 統一可觀測性層
 
 ### 第 3 階段：智能化升級（6 個月，$2.5M）
-
 - ✅ Agent 自學習
 - ✅ 治理框架（L2-L4）
 - ✅ 合規檢查
@@ -482,7 +472,6 @@ island-cli collaborate "重構支付模組" \
 - ✅ 跨語言 API 合約
 
 ### 第 4 階段：生產化（3 個月，$1.5M）
-
 - ✅ 規模化測試
 - ✅ 安全加固
 - ✅ 文檔和培訓
@@ -494,15 +483,15 @@ island-cli collaborate "重構支付模組" \
 
 ## 🎯 與傳統系統的對比
 
-| 維度         | 傳統系統         | Island AI             |
-| ------------ | ---------------- | --------------------- |
-| **核心**     | 操作系統內核     | Agent 運行時 + 知識庫 |
-| **進程**     | 應用程序進程     | AI Agent 實例         |
-| **自動化**   | 後台服務（被動） | 自啟動觸發器（主動）  |
-| **協調**     | 進程調度器       | 工作流編排引擎        |
-| **學習**     | 系統更新（人工） | Agent 自學習（自動）  |
-| **可擴展性** | 應用生態         | Agent 生態            |
-| **決策**     | 人工決策         | L2-L4 分層決策        |
+| 維度 | 傳統系統 | Island AI |
+|------|---------|-----------|
+| **核心** | 操作系統內核 | Agent 運行時 + 知識庫 |
+| **進程** | 應用程序進程 | AI Agent 實例 |
+| **自動化** | 後台服務（被動） | 自啟動觸發器（主動） |
+| **協調** | 進程調度器 | 工作流編排引擎 |
+| **學習** | 系統更新（人工） | Agent 自學習（自動） |
+| **可擴展性** | 應用生態 | Agent 生態 |
+| **決策** | 人工決策 | L2-L4 分層決策 |
 
 ---
 
@@ -585,7 +574,7 @@ island-cli test:integration
 ## 📞 聯繫我們
 
 - 🌐 官網：[island-ai.io](https://island-ai.io)
-- 📧 Email：<hello@island-ai.io>
+- 📧 Email：hello@island-ai.io
 - 💬 Discord：[加入社群](https://discord.gg/island-ai)
 - 🐦 Twitter：[@IslandAI](https://twitter.com/IslandAI)
 

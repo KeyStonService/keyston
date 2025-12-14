@@ -3,8 +3,7 @@
 > **版本**: 1.0.0  
 > **最後更新**: 2025-12-02
 
-本文件描述 MCP（Model Context
-Protocol）整合，說明如何將 Copilot 編碼代理連接到其他工具和服務。
+本文件描述 MCP（Model Context Protocol）整合，說明如何將 Copilot 編碼代理連接到其他工具和服務。
 
 ---
 
@@ -42,14 +41,14 @@ MCP 是一種開放標準，定義了應用程式如何與大型語言模型 (LL
 
 ### 可用的 MCP 服務器
 
-| 服務器                   | 路徑                                  | 功能                 |
-| ------------------------ | ------------------------------------- | -------------------- |
-| **Code Analyzer**        | `mcp-servers/code-analyzer.js`        | 代碼品質和複雜度分析 |
-| **Test Generator**       | `mcp-servers/test-generator.js`       | 自動生成測試         |
-| **Doc Generator**        | `mcp-servers/doc-generator.js`        | 文檔自動生成         |
-| **SLSA Validator**       | `mcp-servers/slsa-validator.js`       | SLSA 溯源驗證        |
-| **Security Scanner**     | `mcp-servers/security-scanner.js`     | 安全漏洞掃描         |
-| **Performance Analyzer** | `mcp-servers/performance-analyzer.js` | 性能分析             |
+| 服務器 | 路徑 | 功能 |
+|--------|------|------|
+| **Code Analyzer** | `mcp-servers/code-analyzer.js` | 代碼品質和複雜度分析 |
+| **Test Generator** | `mcp-servers/test-generator.js` | 自動生成測試 |
+| **Doc Generator** | `mcp-servers/doc-generator.js` | 文檔自動生成 |
+| **SLSA Validator** | `mcp-servers/slsa-validator.js` | SLSA 溯源驗證 |
+| **Security Scanner** | `mcp-servers/security-scanner.js` | 安全漏洞掃描 |
+| **Performance Analyzer** | `mcp-servers/performance-analyzer.js` | 性能分析 |
 
 ---
 
@@ -58,13 +57,11 @@ MCP 是一種開放標準，定義了應用程式如何與大型語言模型 (LL
 ### 1. Code Analyzer（代碼分析器）
 
 **能力：**
-
 - `analyze-code` - 綜合代碼品質和複雜度分析
 - `detect-issues` - 問題檢測與嚴重性篩選
 - `suggest-improvements` - AI 驅動的改進建議
 
 **功能：**
-
 - 循環複雜度和認知複雜度計算
 - 安全漏洞偵測
 - 性能問題識別
@@ -80,29 +77,26 @@ const request = {
     language: 'javascript',
     options: {
       checkComplexity: true,
-      checkSecurity: true,
-    },
-  },
+      checkSecurity: true
+    }
+  }
 };
 ```
 
 ### 2. Test Generator（測試生成器）
 
 **能力：**
-
 - `generate-unit-tests` - 為函數和類別生成單元測試
 - `generate-integration-tests` - 生成 API 整合測試
 - `generate-e2e-tests` - 生成端到端測試場景
 
 **支援框架：**
-
 - Jest, Mocha, Vitest (單元測試)
 - Playwright, Cypress (E2E 測試)
 
 ### 3. Doc Generator（文檔生成器）
 
 **能力：**
-
 - `generate-jsdoc` - 生成 JSDoc 文檔
 - `generate-api-docs` - 生成 API 文檔 (Markdown, OpenAPI)
 - `generate-guides` - 生成綜合指南
@@ -110,7 +104,6 @@ const request = {
 ### 4. SLSA Validator（SLSA 驗證器）
 
 **能力：**
-
 - `validate-provenance` - 驗證 SLSA 溯源數據
 - `check-slsa-compliance` - 檢查目標 SLSA 等級合規性
 - `generate-compliance-report` - 生成綜合合規報告
@@ -120,13 +113,11 @@ const request = {
 ### 5. Security Scanner（安全掃描器）
 
 **能力：**
-
 - `scan-vulnerabilities` - 掃描安全漏洞
 - `check-dependencies` - 檢查依賴項的已知 CVE
 - `analyze-secrets` - 偵測暴露的密鑰和憑證
 
 **偵測類型：**
-
 - SQL 注入
 - XSS 漏洞
 - 命令注入
@@ -135,7 +126,6 @@ const request = {
 ### 6. Performance Analyzer（性能分析器）
 
 **能力：**
-
 - `analyze-performance` - 分析代碼性能指標
 - `identify-bottlenecks` - 識別性能瓶頸
 - `suggest-optimizations` - 建議性能優化
@@ -149,7 +139,6 @@ const request = {
 ### 配置文件位置
 
 MCP 配置文件通常位於：
-
 - VS Code: `.vscode/mcp.json`
 - 專案根目錄: `mcp.json`
 
@@ -181,16 +170,16 @@ MCP 配置文件通常位於：
 
 ### 配置欄位說明
 
-| 欄位           | 類型   | 必填 | 說明                                     |
-| -------------- | ------ | ---- | ---------------------------------------- |
-| `servers`      | object | ✅   | 服務器定義集合                           |
-| `servers.<id>` | string | ✅   | 服務器唯一識別符                         |
-| `type`         | string | ✅   | 傳輸類型: `stdio`, `sse`, `websocket`    |
-| `command`      | string | ✅   | 執行命令 (如 `node`, `docker`, `python`) |
-| `args`         | array  | ❌   | 命令參數陣列                             |
-| `env`          | object | ❌   | 環境變數                                 |
-| `version`      | string | ❌   | 服務器版本                               |
-| `inputs`       | array  | ❌   | 用戶輸入定義（如密碼、令牌）             |
+| 欄位 | 類型 | 必填 | 說明 |
+|------|------|------|------|
+| `servers` | object | ✅ | 服務器定義集合 |
+| `servers.<id>` | string | ✅ | 服務器唯一識別符 |
+| `type` | string | ✅ | 傳輸類型: `stdio`, `sse`, `websocket` |
+| `command` | string | ✅ | 執行命令 (如 `node`, `docker`, `python`) |
+| `args` | array | ❌ | 命令參數陣列 |
+| `env` | object | ❌ | 環境變數 |
+| `version` | string | ❌ | 服務器版本 |
+| `inputs` | array | ❌ | 用戶輸入定義（如密碼、令牌） |
 
 ### 完整配置範例
 
@@ -322,11 +311,11 @@ MCP 配置文件通常位於：
 
 ### 傳輸類型
 
-| 類型        | 說明               | 使用場景               |
-| ----------- | ------------------ | ---------------------- |
-| `stdio`     | 標準輸入/輸出      | 本地進程通信（最常用） |
-| `sse`       | Server-Sent Events | HTTP 長連接            |
-| `websocket` | WebSocket          | 雙向實時通信           |
+| 類型 | 說明 | 使用場景 |
+|------|------|----------|
+| `stdio` | 標準輸入/輸出 | 本地進程通信（最常用） |
+| `sse` | Server-Sent Events | HTTP 長連接 |
+| `websocket` | WebSocket | 雙向實時通信 |
 
 ### 環境變數引用
 
@@ -335,8 +324,8 @@ MCP 配置文件通常位於：
 ```json
 {
   "env": {
-    "TOKEN": "${input:token}", // 從 inputs 引用
-    "PATH": "${env:PATH}", // 從系統環境引用
+    "TOKEN": "${input:token}",      // 從 inputs 引用
+    "PATH": "${env:PATH}",           // 從系統環境引用
     "HOME": "${env:HOME}"
   }
 }
@@ -345,33 +334,29 @@ MCP 配置文件通常位於：
 ### 最佳實踐
 
 1. **使用語義化的服務器 ID**
-
    ```json
    // ✅ Good
    "synergymesh/code-analyzer": { ... }
-
+   
    // ❌ Avoid
    "server1": { ... }
    ```
 
 2. **敏感資訊使用 inputs**
-
    ```json
    // ✅ Good - 使用 inputs
    "env": { "TOKEN": "${input:token}" }
-
+   
    // ❌ Bad - 硬編碼
    "env": { "TOKEN": "sk-xxxxx" }
    ```
 
 3. **指定版本號**
-
    ```json
    "version": "1.0.0"
    ```
 
 4. **適當設置環境變數**
-
    ```json
    "env": {
      "NODE_ENV": "production",
@@ -394,11 +379,8 @@ MCP 配置文件通常位於：
       "type": "stdio",
       "command": "docker",
       "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN=${input:token}",
+        "run", "-i", "--rm",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=${input:token}",
         "ghcr.io/github/github-mcp-server:0.21.0"
       ],
       "version": "0.21.0"
@@ -424,7 +406,7 @@ MCP 服務器可在代理配置中引用。參考 `mcp-servers/README.md` 中的
 mcp-servers:
   - name: code-analyzer
     command: node
-    args: ['./mcp-servers/code-analyzer.js']
+    args: ["./mcp-servers/code-analyzer.js"]
     capabilities:
       - analyze-code
       - detect-issues
@@ -534,21 +516,16 @@ npm run check:strict
 
 ```javascript
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
-const {
-  StdioServerTransport,
-} = require('@modelcontextprotocol/sdk/server/stdio.js');
+const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
 
-const server = new Server(
-  {
-    name: 'custom-server',
-    version: '1.0.0',
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
+const server = new Server({
+  name: 'custom-server',
+  version: '1.0.0'
+}, {
+  capabilities: {
+    tools: {}
   }
-);
+});
 
 // 註冊工具
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
@@ -559,11 +536,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       inputSchema: {
         type: 'object',
         properties: {
-          input: { type: 'string' },
-        },
-      },
-    },
-  ],
+          input: { type: 'string' }
+        }
+      }
+    }
+  ]
 }));
 
 // 處理調用

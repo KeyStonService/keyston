@@ -17,14 +17,12 @@ AI 在提出任何架構變更時，**必須遵守**以下原則。違反任何�
 ```
 
 **禁止行為：**
-
 - ❌ services 直接依賴 applications
 - ❌ agents 直接依賴 core 內部細節（只能透過明確的 API 或 SDK）
 - ❌ apps 層跳過 services 層直接存取 core
 - ❌ 任何下層模組反向依賴上層（例如 core 引用 services 的實現）
 
 **合法方式：**
-
 - ✅ 透過 REST/gRPC API 跨層通信
 - ✅ 透過事件驅動（Event Bus）進行異步通信
 - ✅ 透過公開 SDK 或介面層進行互動
@@ -32,14 +30,12 @@ AI 在提出任何架構變更時，**必須遵守**以下原則。違反任何�
 ### 2. 禁止跨 Bounded Context 的直接資料存取
 
 **禁止行為：**
-
 - ❌ Service A 直接存取 Service B 的資料庫
 - ❌ Agent 直接查詢其他 domain 的資料表
 - ❌ 共享資料庫連線池用於多個 bounded context
 - ❌ 跨 context 的外鍵約束
 
 **合法方式：**
-
 - ✅ Service A 透過 Service B 的 API 取得資料
 - ✅ 透過事件流（Event Stream）同步資料副本
 - ✅ 使用 API Gateway 進行跨界資料聚合
@@ -47,14 +43,12 @@ AI 在提出任何架構變更時，**必須遵守**以下原則。違反任何�
 ### 3. 禁止隱藏通道（No Hidden Channels）
 
 **禁止行為：**
-
 - ❌ 未記錄在案的 side-channel 通信（例如直接寫共享檔案系統作為整合渠道）
 - ❌ 硬編碼的 IP 位址或內部埠號直連
 - ❌ 繞過監控/審計的資料傳輸
 - ❌ 未在 manifests 中定義的 inter-service 通信
 
 **合法方式：**
-
 - ✅ 在 `config/system-module-map.yaml` 中明確定義所有依賴
 - ✅ 使用服務網格（Service Mesh）統一管理通信
 - ✅ 所有通道均需通過監控和日誌系統
@@ -105,11 +99,11 @@ AI 在提出任何架構變更時，**必須遵守**以下原則。違反任何�
 
 每個架構變更都應通過以下驗證：
 
-| 檢查項               | 工具                      | 觸發時機 |
-| -------------------- | ------------------------- | -------- |
-| Layer 檢查           | `check-layering.py`       | PR 提交  |
-| 依賴分析             | `analyze-dependencies.py` | PR 提交  |
-| Bounded Context 檢查 | `check-boundaries.py`     | PR 提交  |
-| 通道審計             | `audit-channels.yaml`     | 部署前   |
+| 檢查項 | 工具 | 觸發時機 |
+|--------|------|---------|
+| Layer 檢查 | `check-layering.py` | PR 提交 |
+| 依賴分析 | `analyze-dependencies.py` | PR 提交 |
+| Bounded Context 檢查 | `check-boundaries.py` | PR 提交 |
+| 通道審計 | `audit-channels.yaml` | 部署前 |
 
 所有檢查必須 pass 才能進入 `DEPLOYMENT_CHECKLIST`。

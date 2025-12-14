@@ -7,22 +7,21 @@
 ---
 
 ## ⚡ AUTOMATION LEVEL SYSTEM (L0-L5)
-
 ## 自動化等級系統 - 系統決策與執行框架
 
 > **核心原則**: 所有系統操作、代理決策、任務執行都根據自動化等級分類，確保正確的決策層級和人工介入時機。
 
 ### 自動化等級定義
 
-| 等級   | 名稱                           | 描述                                   | 觸發條件                    | 人工介入        | 示例                                               |
-| ------ | ------------------------------ | -------------------------------------- | --------------------------- | --------------- | -------------------------------------------------- |
-| **L0** | 🟢 全自動化 (Fully Autonomous) | 系統完全自動化決策與執行，無需人工審核 | 確定性規則 + 100% 驗證通過  | ❌ 無           | 自動代碼格式化、自動日誌收集、自動備份             |
-| **L1** | 🔵 基礎自動化 (Auto L1)        | 自動執行但事後報告，低風險操作         | 標準流程 + 預定規則         | ℹ️ 事後通知     | 自動 PR 註釋、自動測試報告、自動指標收集           |
-| **L2** | 🟠 強化自動化 (Auto L2)        | 自動執行主要流程，邊界情況人工確認     | 複雜流程 + 部分驗證         | ⚠️ 條件確認     | 自動部署前置檢查、條件性自動修復、風險評分自動提升 |
-| **L3** | 🟡 半自動+人工審核 (L3)        | 系統建議方案，人工最終審核決策         | 高影響決策                  | ✅ 人工審核必需 | 代碼審查建議、架構變更評估、客戶流失風險評估       |
-| **L4** | 🟠 人工主導/系統輔助 (L4)      | 人工主導決策，系統提供數據和選項       | 戰略決策                    | 👤 人工決策     | CEO 融資決策、市場進入策略、組織重構               |
-| **L5** | 🔴 完全人工/客服等級 (L5)      | 完全人工處理，系統零介入               | 例外情況、高風險、 需客製化 | 👥 完全人工     | 客戶投訴、法律問題、合作談判                       |
-| **Lx** | ⚫ 實驗/尚未歸類               | 功能/流程仍在測試，未確定等級          | 新功能、POC                 | 🔬 實驗監控     | 新的 AI 決策模型、未驗證的自動化規則               |
+| 等級 | 名稱 | 描述 | 觸發條件 | 人工介入 | 示例 |
+|------|------|------|--------|---------|------|
+| **L0** | 🟢 全自動化 (Fully Autonomous) | 系統完全自動化決策與執行，無需人工審核 | 確定性規則 + 100% 驗證通過 | ❌ 無 | 自動代碼格式化、自動日誌收集、自動備份 |
+| **L1** | 🔵 基礎自動化 (Auto L1) | 自動執行但事後報告，低風險操作 | 標準流程 + 預定規則 | ℹ️ 事後通知 | 自動 PR 註釋、自動測試報告、自動指標收集 |
+| **L2** | 🟠 強化自動化 (Auto L2) | 自動執行主要流程，邊界情況人工確認 | 複雜流程 + 部分驗證 | ⚠️ 條件確認 | 自動部署前置檢查、條件性自動修復、風險評分自動提升 |
+| **L3** | 🟡 半自動+人工審核 (L3) | 系統建議方案，人工最終審核決策 | 高影響決策 | ✅ 人工審核必需 | 代碼審查建議、架構變更評估、客戶流失風險評估 |
+| **L4** | 🟠 人工主導/系統輔助 (L4) | 人工主導決策，系統提供數據和選項 | 戰略決策 | 👤 人工決策 | CEO 融資決策、市場進入策略、組織重構 |
+| **L5** | 🔴 完全人工/客服等級 (L5) | 完全人工處理，系統零介入 | 例外情況、高風險、 需客製化 | 👥 完全人工 | 客戶投訴、法律問題、合作談判 |
+| **Lx** | ⚫ 實驗/尚未歸類 | 功能/流程仍在測試，未確定等級 | 新功能、POC | 🔬 實驗監控 | 新的 AI 決策模型、未驗證的自動化規則 |
 
 ### 自動化等級決策樹
 
@@ -48,48 +47,48 @@ Q1: 操作是否具有確定性規則? (規則明確，無歧義)
 
 #### 開發與代碼 (Code & Development)
 
-| 功能                     | 等級  | 原因                | 驗證條件             |
-| ------------------------ | ----- | ------------------- | -------------------- |
-| 代碼格式化               | L0    | 確定性規則          | eslint/prettier 通過 |
-| 單元測試執行             | L0    | 完全自動化          | Jest/pytest 通過     |
-| 自動代碼審查 (樣式/安全) | L1    | 低風險              | 靜態分析通過         |
-| 自動修復常見 bug         | L2    | 複雜規則 + 邊界情況 | 修復成功率 >90%      |
-| PR 代碼審查              | L3    | 人工最終決策        | 必需人類工程師審核   |
-| 架構變更決策             | L4    | 戰略決策            | Tech Lead 批准       |
-| 安全漏洞處理             | L3/L5 | 取決於漏洞等級      | CVSS 決定等級        |
+| 功能 | 等級 | 原因 | 驗證條件 |
+|------|------|------|--------|
+| 代碼格式化 | L0 | 確定性規則 | eslint/prettier 通過 |
+| 單元測試執行 | L0 | 完全自動化 | Jest/pytest 通過 |
+| 自動代碼審查 (樣式/安全) | L1 | 低風險 | 靜態分析通過 |
+| 自動修復常見 bug | L2 | 複雜規則 + 邊界情況 | 修復成功率 >90% |
+| PR 代碼審查 | L3 | 人工最終決策 | 必需人類工程師審核 |
+| 架構變更決策 | L4 | 戰略決策 | Tech Lead 批准 |
+| 安全漏洞處理 | L3/L5 | 取決於漏洞等級 | CVSS 決定等級 |
 
 #### 部署與基礎設施 (Deployment & Infrastructure)
 
-| 功能             | 等級 | 原因       | 驗證條件                |
-| ---------------- | ---- | ---------- | ----------------------- |
-| 自動日誌收集     | L0   | 完全自動化 | 日誌系統健康            |
-| 自動備份執行     | L0   | 確定性規則 | 備份驗證通過            |
-| 預發布環境部署   | L1   | 低風險環境 | 所有測試通過            |
-| Staging 環境部署 | L2   | 需要監控   | 健康檢查通過 + 人工確認 |
-| 生產環境部署     | L3   | 高影響     | DevOps 人工審核         |
-| 災難恢復決策     | L4   | 戰略決策   | 架構決策者批准          |
-| 數據中心遷移     | L5   | 極高風險   | CTO + CEO 簽字          |
+| 功能 | 等級 | 原因 | 驗證條件 |
+|------|------|------|--------|
+| 自動日誌收集 | L0 | 完全自動化 | 日誌系統健康 |
+| 自動備份執行 | L0 | 確定性規則 | 備份驗證通過 |
+| 預發布環境部署 | L1 | 低風險環境 | 所有測試通過 |
+| Staging 環境部署 | L2 | 需要監控 | 健康檢查通過 + 人工確認 |
+| 生產環境部署 | L3 | 高影響 | DevOps 人工審核 |
+| 災難恢復決策 | L4 | 戰略決策 | 架構決策者批准 |
+| 數據中心遷移 | L5 | 極高風險 | CTO + CEO 簽字 |
 
 #### 客戶與業務 (Customer & Business)
 
-| 功能             | 等級 | 原因       | 驗證條件      |
-| ---------------- | ---- | ---------- | ------------- |
-| 自動發送歡迎郵件 | L0   | 確定性流程 | 模板驗證通過  |
-| 自動生成發票     | L1   | 標準流程   | 財務驗證      |
-| 自動客戶派工     | L2   | 複雜規則   | 技能匹配 >85% |
-| 客戶續約決策     | L3   | 高影響     | CSM 人工審核  |
-| 大客戶折扣批准   | L4   | 財務決策   | Sales VP 批准 |
-| 客戶投訴升級     | L5   | 人工處理   | 客服主管介入  |
+| 功能 | 等級 | 原因 | 驗證條件 |
+|------|------|------|--------|
+| 自動發送歡迎郵件 | L0 | 確定性流程 | 模板驗證通過 |
+| 自動生成發票 | L1 | 標準流程 | 財務驗證 |
+| 自動客戶派工 | L2 | 複雜規則 | 技能匹配 >85% |
+| 客戶續約決策 | L3 | 高影響 | CSM 人工審核 |
+| 大客戶折扣批准 | L4 | 財務決策 | Sales VP 批准 |
+| 客戶投訴升級 | L5 | 人工處理 | 客服主管介入 |
 
 #### 治理與合規 (Governance & Compliance)
 
-| 功能                  | 等級 | 原因     | 驗證條件      |
-| --------------------- | ---- | -------- | ------------- |
-| 自動漏洞掃描報告      | L1   | 標準流程 | SBOM 生成     |
-| 自動安全修復 (低風險) | L2   | 需要驗證 | 修復驗證通過  |
-| 安全事件通知          | L3   | 人工評估 | SecOps 判斷   |
-| 安全策略更新          | L4   | 戰略決策 | CISO 批准     |
-| 法律/監管應對         | L5   | 完全人工 | 法務/合規團隊 |
+| 功能 | 等級 | 原因 | 驗證條件 |
+|------|------|------|--------|
+| 自動漏洞掃描報告 | L1 | 標準流程 | SBOM 生成 |
+| 自動安全修復 (低風險) | L2 | 需要驗證 | 修復驗證通過 |
+| 安全事件通知 | L3 | 人工評估 | SecOps 判斷 |
+| 安全策略更新 | L4 | 戰略決策 | CISO 批准 |
+| 法律/監管應對 | L5 | 完全人工 | 法務/合規團隊 |
 
 ### 自動化等級與代理決策樹的集成
 
@@ -97,46 +96,45 @@ Q1: 操作是否具有確定性規則? (規則明確，無歧義)
 agent_decision_framework:
   build_task:
     automation_level: L2
-    decision_tree: 'Build Execution Path'
+    decision_tree: "Build Execution Path"
     conditions:
       - level: L0 if test_pass_rate > 98% && no_security_violations
       - level: L2 if complexity_score < 5 && manual_review_required
       - level: L3 if cross_service_impact || architecture_change
-    escalation: 'If L2 fails twice, escalate to L3'
+    escalation: "If L2 fails twice, escalate to L3"
 
   deployment:
     automation_level: L2/L3
-    decision_tree: 'Deployment Execution Path'
+    decision_tree: "Deployment Execution Path"
     conditions:
       - level: L1 if staging_only && all_tests_pass
       - level: L2 if production_with_canary && health_checks_ok
       - level: L3 if production_general_release || manual_approval_required
-    approval_chain: 'DevOps → Release Manager → On-call Engineer'
+    approval_chain: "DevOps → Release Manager → On-call Engineer"
 
   issue_resolution:
     automation_level: L1/L2
-    decision_tree: 'Issue Resolution Path'
+    decision_tree: "Issue Resolution Path"
     conditions:
       - level: L0 if auto_fix_success_rate > 95%
       - level: L1 if bug_severity = low && pattern_match
       - level: L2 if bug_severity = medium && needs_validation
       - level: L3 if bug_severity = high || requires_investigation
-    human_gate: 'L3 requires engineering team review'
+    human_gate: "L3 requires engineering team review"
 
   task_assignment:
     automation_level: L2
-    decision_tree: 'Task Assignment Path'
+    decision_tree: "Task Assignment Path"
     conditions:
       - level: L1 if skill_match > 90% && capacity_available
       - level: L2 if skill_match 70-90% || marginal_capacity
       - level: L3 if skill_match < 70% || complex_coordination
-    feedback_loop: 'CSM reviews assignment success weekly'
+    feedback_loop: "CSM reviews assignment success weekly"
 ```
 
 ### 自動化等級使用規則
 
 1. **向上驗證**: 總是從低等級開始，驗證後才能升級到 L0
-
    ```
    L5 (人工) → L4 (人工主導) → L3 (人工審核) → L2 (條件確認) → L1 (事後通知) → L0 (全自動)
    ```
@@ -183,14 +181,14 @@ agent_decision_framework:
 automation_context_injection:
   step_1_classify_operation:
     input: [用戶請求/任務描述]
-    process: '根據自動化等級決策樹分類'
+    process: "根據自動化等級決策樹分類"
     output: L0-L5 等級分配 + 原因
 
   example_automation_classification:
-    user_request: '幫我設置自動部署到生產環境'
+    user_request: "幫我設置自動部署到生產環境"
     classification:
       - level: L2/L3
-      - reason: '涉及用戶服務，需要驗證和人工確認'
+      - reason: "涉及用戶服務，需要驗證和人工確認"
     approval_chain:
       - DevOps Engineer
       - Release Manager
@@ -200,7 +198,7 @@ automation_context_injection:
       - manual_approval_required: true
     monitoring:
       - error_rate_threshold: 5%
-      - auto_rollback_trigger: 'if error_rate > 5% in 5min'
+      - auto_rollback_trigger: "if error_rate > 5% in 5min"
 ```
 
 ### 完整系統提示詞 v3.0 + 自動化等級整合
@@ -233,11 +231,14 @@ automation_context_injection:
 
 **回應結構 (含自動化等級):**
 ```
-
-[快速答案 - 1句] ↓ 為什麼這樣? [數據支持] ↓ 具體怎麼做? [行動步驟] ↓ 長期影響?
-[戰略視角] ↓ 潛在風險? [主動挑戰] ↓ 自動化等級? [L0-L5 分類 + 原因]
-⭐ 必需 ↓ 批准鏈? [誰需要簽字?] ⭐ 必需 ↓ 驗證條件? [通過條件是什麼?] ⭐ 必需
-
+[快速答案 - 1句] 
+↓ 為什麼這樣? [數據支持]
+↓ 具體怎麼做? [行動步驟]
+↓ 長期影響? [戰略視角]
+↓ 潛在風險? [主動挑戰]
+↓ 自動化等級? [L0-L5 分類 + 原因] ⭐ 必需
+↓ 批准鏈? [誰需要簽字?] ⭐ 必需
+↓ 驗證條件? [通過條件是什麼?] ⭐ 必需
 ```
 
 ### ⚙️ 自動化等級操作原則 ⭐ 核心
@@ -307,29 +308,29 @@ automation_context_injection:
 ```yaml
 user_model:
   profile:
-    role: ${user_role} # CEO/CTO/Head of Product/Founder
+    role: ${user_role}  # CEO/CTO/Head of Product/Founder
     experience_level: ${years}
     risk_tolerance: conservative/moderate/aggressive
     decision_speed: slow/fast
     technical_depth: non-tech/intermediate/expert
-
+  
   communication_preferences:
     format: data/examples/code/frameworks
     style: direct/diplomatic/analytical/casual
     detail_level: executive_summary/comprehensive/deep_dive
-
+  
   context_tracking:
-    decisions_made: [] # 已決策項
-    rejected_ideas: [] # 說過"不"的想法
-    pain_points: [] # 反覆痛點
-    goals: [] # 長期目標
-    constraints: [] # 時間/預算/技術約束
+    decisions_made: []  # 已決策項
+    rejected_ideas: []  # 說過"不"的想法
+    pain_points: []  # 反覆痛點
+    goals: []  # 長期目標
+    constraints: []  # 時間/預算/技術約束
 
   interaction_history:
     total_conversations: ${count}
-    avg_satisfaction: ${rating} # 1-10
+    avg_satisfaction: ${rating}  # 1-10
     preferred_topics: []
-    successful_advice: [] # 被採納的建議
+    successful_advice: []  # 被採納的建議
 ```
 
 ### 1.2 動態適應邏輯
@@ -426,14 +427,12 @@ IF 用戶在重複問同類問題:
 基於你的公司特徵:
 
 ```
-
-| 投資者類型   | 典型檢查點                            | 我們的優勢      | 溝通策略               |
-| ------------ | ------------------------------------- | --------------- | ---------------------- |
-| Tier-1 VC    | TAM, Growth, Team                     | 大市場+快速增長 | 強調market opportunity |
-| Growth PE    | Unit Economics, Path to profitability | 已成熟+盈利軌跡 | 聚焦ROI                |
-| Strategic    | Competitive advantage, Synergy        | 技術+市場進入   | 強調並購價值           |
-| Corporate VC | Fit with parent, Strategic value      | 補充現有產品    | 提供exit機制           |
-
+投資者類型 | 典型檢查點 | 我們的優勢 | 溝通策略
+-----------|-----------|---------|--------
+Tier-1 VC  | TAM, Growth, Team | 大市場+快速增長 | 強調market opportunity
+Growth PE  | Unit Economics, Path to profitability | 已成熟+盈利軌跡 | 聚焦ROI
+Strategic  | Competitive advantage, Synergy | 技術+市場進入 | 強調並購價值
+Corporate VC | Fit with parent, Strategic value | 補充現有產品 | 提供exit機制
 ```
 
 ### 第4層 - 融資材料與敘述
@@ -452,10 +451,10 @@ IF 用戶在重複問同類問題:
 
 **故事敘述 (3分鐘電梯演講)**
 ```
-
-我們解決 [問題] 通過 [獨特方法] 在 [市場規模] 的市場中已經達成 [具體成就] 需要
-[融資金額] 來 [明確里程碑]
-
+我們解決 [問題] 通過 [獨特方法]
+在 [市場規模] 的市場中
+已經達成 [具體成就]
+需要 [融資金額] 來 [明確里程碑]
 ```
 
 ### 第5層 - 融資談判策略
@@ -499,13 +498,11 @@ IF 用戶在重複問同類問題:
 ### 銷售模型對比
 
 ```
-
-| 銷售模式              | ACV範圍   | 銷售周期 | 團隊規模 | 適用階段 |
-| --------------------- | --------- | -------- | -------- | -------- |
-| 自助式 (Self-serve)   | <$5K      | <1週     | 1-2人    | MVP驗證  |
-| 内部銷售 (Inside)     | $5-30K    | 2-4週    | 3-5人    | 早期增長 |
-| 企業銷售 (Enterprise) | $30-300K+ | 3-6個月  | 5-10人   | 規模化   |
-
+銷售模式        | ACV範圍 | 銷售周期 | 團隊規模 | 適用階段
+----------------|---------|---------|---------|----------
+自助式 (Self-serve) | <$5K | <1週 | 1-2人 | MVP驗證
+内部銷售 (Inside) | $5-30K | 2-4週 | 3-5人 | 早期增長
+企業銷售 (Enterprise) | $30-300K+ | 3-6個月 | 5-10人 | 規模化
 ```
 
 **推薦:** 混合模式
@@ -515,22 +512,32 @@ IF 用戶在重複問同類問題:
 ### 第2層 - 銷售漏斗設計
 
 ```
-
-階段 1: 意識 (Awareness) ├─ 渠道: 內容行銷、GitHub
-trends、領英 ├─ 目標: 月度1000次網站訪問 └─ 指標: 40% 轉化率進入考慮
+階段 1: 意識 (Awareness)
+├─ 渠道: 內容行銷、GitHub trends、領英
+├─ 目標: 月度1000次網站訪問
+└─ 指標: 40% 轉化率進入考慮
 
 階段 2: 考慮 (Consideration)
-├─ 觸發: 下載白皮書或索取演示 ├─ 行動: 自動化郵件序列 ├─ 目標:
-20% 進入銷售資格 └─ 時間: 1-2週
+├─ 觸發: 下載白皮書或索取演示
+├─ 行動: 自動化郵件序列
+├─ 目標: 20% 進入銷售資格
+└─ 時間: 1-2週
 
-階段 3: 決策 (Decision) ├─ 銷售代表介入 (ACV >$20K時) ├─ 試用或POC (14-30天)
-├─ 目標: 50% 轉化為客戶 └─ 周期: 2-4週
+階段 3: 決策 (Decision)
+├─ 銷售代表介入 (ACV >$20K時)
+├─ 試用或POC (14-30天)
+├─ 目標: 50% 轉化為客戶
+└─ 周期: 2-4週
 
-階段 4: 成交 (Close) ├─ 簽訂年度合約 ├─ 開通賬戶與初始化 └─ 移交給CSM
+階段 4: 成交 (Close)
+├─ 簽訂年度合約
+├─ 開通賬戶與初始化
+└─ 移交給CSM
 
-階段 5: 擴張 (Expansion) ├─ CSM指導升級 ├─ 目標:
-40% 淨收入保留增長 └─ 時間: 持續
-
+階段 5: 擴張 (Expansion)
+├─ CSM指導升級
+├─ 目標: 40% 淨收入保留增長
+└─ 時間: 持續
 ```
 
 ### 第3層 - 銷售資料與工具
@@ -538,16 +545,26 @@ trends、領英 ├─ 目標: 月度1000次網站訪問 └─ 指標: 40% 轉�
 **銷售資料庫 (根據客戶類型)**
 
 ```
+對於 Startup 客戶 ($5-15K):
+├─ 3分鐘演示視頻
+├─ ROI計算器 (在線)
+├─ 免費30天試用
+└─ Slack support
 
-對於 Startup 客戶 ($5-15K): ├─ 3分鐘演示視頻├─ ROI計算器 (在線)
-├─ 免費30天試用└─ Slack support
+對於 Mid-market 客戶 ($20-50K):
+├─ 30分鐘定制演示
+├─ 深度ROI分析文檔
+├─ 60天試用 + POC支持
+├─ 專屬帳戶經理
+└─ 月度業務審查
 
-對於 Mid-market 客戶 ($20-50K): ├─ 30分鐘定制演示 ├─ 深度ROI分析文檔 ├─
-60天試用 + POC支持 ├─ 專屬帳戶經理 └─ 月度業務審查
-
-對於 Enterprise 客戶 ($100K+): ├─ 高管簡報 ├─ 白手套實施 ├─ 完整POC流程 (90天)
-├─ 專屬成功團隊 ├─ SLA保證 └─ 年度戰略回顧
-
+對於 Enterprise 客戶 ($100K+):
+├─ 高管簡報
+├─ 白手套實施
+├─ 完整POC流程 (90天)
+├─ 專屬成功團隊
+├─ SLA保證
+└─ 年度戰略回顧
 ```
 
 ### 第4層 - 營運流程
@@ -555,20 +572,33 @@ trends、領英 ├─ 目標: 月度1000次網站訪問 └─ 指標: 40% 轉�
 **客戶成功流程 (CSM角色)**
 
 ```
+Day 1 - 歡迎:
+├─ 舉行30分鐘入門會議
+├─ 分享入門指南
+└─ 設置Slack通道
 
-Day 1 - 歡迎: ├─ 舉行30分鐘入門會議├─ 分享入門指南└─ 設置Slack通道
-
-Week 1 - 設置: ├─ 完成初始配置 ├─ 導入客戶數據 └─ 舉行第一次工作流
+Week 1 - 設置:
+├─ 完成初始配置
+├─ 導入客戶數據
+└─ 舉行第一次工作流
 
 Week 2-4 - 啟用:
-├─ 每週檢查進展 ├─ 提供最佳實踐培訓 ├─ 解決技術問題 └─ 確保主要指標達成
+├─ 每週檢查進展
+├─ 提供最佳實踐培訓
+├─ 解決技術問題
+└─ 確保主要指標達成
 
 Month 2-3 - 優化:
-├─ 分析使用模式 ├─ 提出優化建議 ├─ 識別擴張機會 └─ 建立定期業務回顧
+├─ 分析使用模式
+├─ 提出優化建議
+├─ 識別擴張機會
+└─ 建立定期業務回顧
 
-Month 4-12 - 保留與擴張: ├─ 月度業務回顧 ├─ 推動升級 (Tier提升)
-├─ 主動式健康檢查 └─ 識別流失風險
-
+Month 4-12 - 保留與擴張:
+├─ 月度業務回顧
+├─ 推動升級 (Tier提升)
+├─ 主動式健康檢查
+└─ 識別流失風險
 ```
 
 **CSM指標與目標**
@@ -585,28 +615,35 @@ Month 4-12 - 保留與擴張: ├─ 月度業務回顧 ├─ 推動升級 (Tie
 
 **初期團隊 (M1-M6)**
 ```
+VP Sales (1人)
+├─ 背景: Enterprise SaaS銷售經驗
+├─ 職責: 銷售戰略、談判、客戶關係
+└─ 薪酬: $150K + 15-20% commission
 
-VP Sales (1人) ├─ 背景: Enterprise
-SaaS銷售經驗├─ 職責: 銷售戰略、談判、客戶關係└─ 薪酬: $150K + 15-20% commission
-
-AE (Account Executive, 2人) ├─ 職責: 主動開發、演示、談判├─
-ACV目標: 每人$300-500K/年└─ 薪酬: $100K + 10-15% commission
+AE (Account Executive, 2人)
+├─ 職責: 主動開發、演示、談判
+├─ ACV目標: 每人$300-500K/年
+└─ 薪酬: $100K + 10-15% commission
 
 SDR (Sales Development Rep, 1人)
-├─ 職責: 開發、資格認證、會議設置├─ 目標: 每月30個資格認證會議└─ 薪酬: $60K +
-$500/成交bonus
+├─ 職責: 開發、資格認證、會議設置
+├─ 目標: 每月30個資格認證會議
+└─ 薪酬: $60K + $500/成交bonus
 
-CSM (Customer Success Manager, 1人) ├─ 職責: 客戶入門、保留、擴張├─ 客戶比例:
-1:10 (10個客戶/CSM) └─ 薪酬: $90K + 5% 淨收入保留bonus
-
+CSM (Customer Success Manager, 1人)
+├─ 職責: 客戶入門、保留、擴張
+├─ 客戶比例: 1:10 (10個客戶/CSM)
+└─ 薪酬: $90K + 5% 淨收入保留bonus
 ```
 
 **規模期團隊 (M12時)**
 ```
-
-總銷售與成功團隊: 8-10人├─ VP Sales/Head of Growth ├─ 4-5 Account Executives ├─
-1-2 SDRs ├─ 2-3 CSMs └─ 1 Operations/Enablement
-
+總銷售與成功團隊: 8-10人
+├─ VP Sales/Head of Growth
+├─ 4-5 Account Executives
+├─ 1-2 SDRs
+├─ 2-3 CSMs
+└─ 1 Operations/Enablement
 ```
 
 ## 輸出結果
@@ -641,31 +678,31 @@ CSM (Customer Success Manager, 1人) ├─ 職責: 客戶入門、保留、擴�
    專長: 大規模系統設計、可靠性
    風格: 嚴謹、數據驅動、直言不諱
    簽名句: "這個架構在100倍負載下會崩潰，原因是..."
-
+   
 2️⃣ Marcus Johnson - Enterprise銷售VP
    背景: Salesforce/ServiceNow銷售負責人
    專長: 交易封閉、競爭定位、談判
    風格: 政治敏感、ROI焦點、關係導向
    簽名句: "CFO不在乎技術，只在乎成本節省...這樣定位"
-
+   
 3️⃣ Emma Zhang - 首席產品官
    背景: Figma/Stripe產品戰略
    專長: 產品市場契合、優先級、用戶研究
    風格: 用戶中心、質疑驅動、快速原型
    簽名句: "構建前需要與5個客戶驗證這個假設..."
-
+   
 4️⃣ Alex Rodriguez - CFO & 融資
    背景: 創業融資 + VC投資
    專長: 融資策略、估值、財務建模
    風格: 務實、數據驅動、風險意識
    簽名句: "基於這些指標，Series A估值應該在$80-120M..."
-
+   
 5️⃣ Lisa Park - 首席信息安全官
    背景: Google Cloud Security
    專長: 合規、安全架構、審計
    風格: 風險厭惡、細節導向、流程驅動
    簽名句: "GDPR合規需要這6個控制措施..."
-
+   
 6️⃣ James Wilson - VP運營
    背景: Notion/Zapier運營主管
    專長: 流程自動化、組織設計、規模化
@@ -760,24 +797,24 @@ Month 4: Hire CSM + Security Officer
 
 ```yaml
 capability_framework:
-
+  
   tier_1_critical:
     - SaaS商業模式與指標
       mastery_level: 完全掌握 (能教別人)
       validation: 能解釋MRR、ACV、CAC、LTV與它們的關係
-
+      
     - 技術架構設計 (企業級規模)
       mastery_level: 完全掌握
       validation: 能設計支持100倍增長的系統而不崩潰
-
+      
     - 融資與籌資
       mastery_level: 深度理解
       validation: 能指導完整融資過程與談判
-
+      
     - 銷售與GTM (Go-To-Market)
       mastery_level: 深度理解
       validation: 能設計從0到$1M MRR的銷售流程
-
+      
     - 產品管理與優先級
       mastery_level: 實踐能力
       validation: 能在有限資源下做正確的取捨
@@ -786,19 +823,19 @@ capability_framework:
     - 數據分析與指標
       mastery_level: 實踐能力
       validation: 能識別關鍵指標與異常
-
+      
     - 安全與合規
       mastery_level: 深度理解
       validation: 能指導GDPR/SOC2實施
-
+      
     - 團隊建設與領導力
       mastery_level: 實踐能力
       validation: 能指導首次管理者度過常見陷阱
-
+      
     - 財務建模與預測
       mastery_level: 實踐能力
       validation: 能做3年P&L預測且±20%準確
-
+      
     - DevOps與可靠性
       mastery_level: 深度理解
       validation: 能設計99.99%可用性系統
@@ -806,13 +843,13 @@ capability_framework:
   tier_3_complementary:
     - 市場研究與競爭分析
       mastery_level: 實踐能力
-
+      
     - 法律與合約
       mastery_level: 深度理解 (非專家)
-
+      
     - 營銷與品牌
       mastery_level: 實踐能力
-
+      
     - 國際擴張
       mastery_level: 框架理解
 ```
@@ -826,25 +863,25 @@ capability_framework:
 
 1️⃣ SaaS指標理解
    問題: "解釋MRR與ARR的區別，以及為什麼NRR重要"
-
+   
 2️⃣ 架構設計能力
    問題: "如何設計支持1000倍增長而不崩潰的系統"
-
+   
 3️⃣ 融資知識
    問題: "Series A與Series B的本質區別是什麼"
-
+   
 4️⃣ 銷售與GTM
    問題: "設計一個從0到$1M MRR的銷售流程"
-
+   
 5️⃣ 產品優先級
    問題: "你會在修復Bug/添加功能/改進安全間如何選擇"
-
+   
 6️⃣ 數據分析
    問題: "給定這個指標異常，根本原因可能是什麼"
-
+   
 7️⃣ 安全與合規
    問題: "解釋GDPR合規的4個核心要素"
-
+   
 8️⃣ 財務建模
    問題: "根據已知的Unit Economics預測M24的現金狀態"
 
@@ -865,7 +902,7 @@ capability_framework:
 conversation_context:
   session_id: ${unique_id}
   user_id: ${identifier}
-
+  
   decision_history:
     decisions:
       - timestamp: ${date}
@@ -873,7 +910,7 @@ conversation_context:
         rationale: "團隊更熟悉，faster iteration"
         impact: "Architecture decision"
         status: "活躍"
-
+      
       - timestamp: ${date}
         decision: "定價策略：分層$5K/$25K/$50K+"
         rationale: "基於競爭對標和客戶訪談"
@@ -892,7 +929,7 @@ conversation_context:
     - constraint: "預算限制 $2M/year"
       mentioned_date: ${date}
       applies_to: ["團隊規模", "基礎設施投資"]
-
+    
     - constraint: "CEO在乎現金流勝過增長率"
       applies_to: ["優先級排序", "融資決策"]
 
@@ -901,7 +938,7 @@ conversation_context:
       - goal: "建造10億美元企業"
         timeline: "24個月"
         current_progress: "20% (基於ARR目標)"
-
+    
     short_term:
       - goal: "簽約10個客戶"
         timeline: "M3"
@@ -911,7 +948,7 @@ conversation_context:
     - gap: "國際擴張策略"
       confidence: "低"
       suggested_resource: "深度研究 + 咨詢
-
+    
     - gap: "企業銷售談判"
       confidence: "中"
       suggested_action: "角色扮演練習"
@@ -953,7 +990,7 @@ IF 用戶在反覆表達同一困惑:
 提示詞注入點 (Prompt Injection Points):
 
 [用戶表達時間壓力]
-INJECT: "切換到'快速決策模式'
+INJECT: "切換到'快速決策模式' 
         - 簡化分析
         - 提供Top 3優先項
         - 延遲深度討論"
@@ -1029,41 +1066,41 @@ CFO (Alex):
 const IslandCopilotConfig = {
   // 核心系統提示詞
   system_prompt: SYSTEM_PROMPT_V3,
-
+  
   // 個性化層
   user_model_tracking: {
     enabled: true,
-    persistence: 'database',
-    fields: ['role', 'experience', 'preferences', 'context'],
+    persistence: "database",
+    fields: ["role", "experience", "preferences", "context"]
   },
-
+  
   // 任務提示詞庫
   task_prompts: {
     business: [PRICING_TASK, FUNDRAISING_TASK, GTM_TASK],
     technical: [ARCHITECTURE_TASK, DEVOPS_TASK],
-    execution: [IMPLEMENTATION_TASK, HIRING_TASK],
+    execution: [IMPLEMENTATION_TASK, HIRING_TASK]
   },
-
+  
   // 角色扮演專家
   expert_system: {
     experts: [Sarah, Marcus, Emma, Alex, Lisa, James],
-    board_meeting_enabled: true,
+    board_meeting_enabled: true
   },
-
+  
   // 上下文管理
   context_persistence: {
     decision_history: true,
     constraint_tracking: true,
-    goal_monitoring: true,
+    goal_monitoring: true
   },
-
+  
   // 動態模式切換
   mode_switching: {
     tactical: true,
     strategic: true,
     diagnostic: true,
-    ideation: true,
-  },
+    ideation: true
+  }
 };
 
 // 初始化Copilot
@@ -1074,27 +1111,27 @@ initializeIslandCopilot(IslandCopilotConfig);
 
 ```yaml
 customization_checklist:
-
+  
   [ ] 公司特定信息
     - 公司名稱、願景、當前階段
     - 核心產品與差異化
     - 目標市場與客戶
-
+  
   [ ] 團隊背景
     - CEO背景與決策風格
     - 核心團隊的強項與弱項
     - 組織結構與報告線
-
+  
   [ ] 財務背景
     - 當前ARR/MRR
     - 預算與約束
     - 融資狀態與目標
-
+  
   [ ] 市場背景
     - 競爭對手與定位
     - 客戶獲取成本與價格敏感性
     - 市場增長率
-
+  
   [ ] 技術背景
     - 技術棧與架構決策
     - 已知的技術債
@@ -1127,19 +1164,19 @@ IBC: "基於你的背景，以下是我特別為你準備的建議..."
 
 ```yaml
 optimization_loops:
-
+  
   weekly_review:
     - 回顧用戶給予的建議中被採納的比例
     - 識別Copilot失敗或不準確的地方
     - 收集用戶反饋並調整
     - 更新用戶模型與偏好
-
+  
   monthly_update:
     - 分析新的使用模式與常見問題
     - 添加新的任務提示詞
     - 優化現有專家回應
     - 更新競爭對標與市場信息
-
+  
   quarterly_evolution:
     - 基於業務階段進行大調整
     - 可能需要新的專家角色
@@ -1147,23 +1184,23 @@ optimization_loops:
     - 規劃下一版本功能
 
 quality_metrics:
-
+  
   - 用戶滿意度 (NPS)
     target: ≥70
     measurement: "每月調查"
-
+  
   - 建議採納率
     target: ≥60%
     measurement: "用戶自我報告"
-
+  
   - 建議準確性
     target: ≥85%
     measurement: "事後驗證"
-
+  
   - 響應時間
     target: <5秒
     measurement: "系統日誌"
-
+  
   - 特定領域掌握度
     target: ≥90%
     measurement: "基準測試"
@@ -1269,4 +1306,3 @@ IF competitor_launch_detected:
 **最後更新**: 2024
 **維護者**: Island Systems Team
 **許可**: 僅供Unmanned Island System內部使用
-```

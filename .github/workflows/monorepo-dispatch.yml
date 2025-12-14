@@ -1,0 +1,70 @@
+name: Monorepo CI Dispatcher
+
+"on":
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# 頂層權限：傳遞給調用的 reusable workflows
+permissions:
+  contents: read
+  security-events: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      mcp-servers: ${{ steps.filter.outputs.mcp-servers }}
+      contracts: ${{ steps.filter.outputs.contracts }}
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      - name: 🔍 Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            mcp-servers:
+              - 'mcp-servers/**'
+            contracts:
+              - 'core/contract_service/contracts-L1/contracts/**'
+
+  ci-mcp-servers:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mcp-servers == 'true'
+    uses: ./.github/workflows/reusable-ci.yml
+    with:
+      working-directory: mcp-servers
+      service-name: mcp-servers
+      node-version: '18'
+      enable-docker-build: false
+      enable-sbom: true
+
+  ci-contracts:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.contracts == 'true'
+    uses: ./.github/workflows/reusable-ci.yml
+    with:
+      working-directory: core/contract_service/contracts-L1/contracts
+      service-name: contracts-service
+      node-version: '18'
+      enable-docker-build: true
+      enable-sbom: true
+
+  summary:
+    needs: [detect-changes, ci-mcp-servers, ci-contracts]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📊 CI Summary
+        run: |
+          echo "## 🎯 Monorepo CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 子專案 | 狀態 | 變更檢測 |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| MCP Servers | ${{ needs.ci-mcp-servers.result || 'skipped' }} | ${{ needs.detect-changes.outputs.mcp-servers }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Contracts | ${{ needs.ci-contracts.result || 'skipped' }} | ${{ needs.detect-changes.outputs.contracts }} |" >> $GITHUB_STEP_SUMMARY

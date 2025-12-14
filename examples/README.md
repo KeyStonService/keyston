@@ -17,7 +17,6 @@ examples/
 ## Usage
 
 Each example directory contains:
-
 - README with setup instructions
 - Sample code and configurations
 - Expected outputs

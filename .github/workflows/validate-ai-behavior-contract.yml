@@ -1,0 +1,168 @@
+name: Validate AI Behavior Contract
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  validate-pr-description:
+    name: Validate PR Description
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Validate PR description against AI Behavior Contract
+        id: validate
+        run: |
+          # Get PR description
+          PR_BODY="${{ github.event.pull_request.body }}"
+          
+          # Run validation script
+          .github/scripts/validate-ai-response.sh "$PR_BODY" > validation_result.txt 2>&1 || true
+          
+          # Check if validation passed
+          if grep -q "Contract compliance validated successfully" validation_result.txt; then
+            echo "✅ AI Behavior Contract validation passed"
+            echo "status=success" >> $GITHUB_OUTPUT
+          elif grep -q "Compliance check passed with warnings" validation_result.txt; then
+            echo "⚠️ AI Behavior Contract validation passed with warnings"
+            echo "status=warning" >> $GITHUB_OUTPUT
+          else
+            echo "❌ AI Behavior Contract violations detected"
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
+          
+          # Display results
+          cat validation_result.txt
+      
+      - name: Comment on PR (if violations found)
+        if: steps.validate.outputs.status == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const validationResult = fs.readFileSync('validation_result.txt', 'utf8');
+            
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ⚠️ AI Behavior Contract Violations Detected
+              
+              This PR description contains violations of the [AI Behavior Contract](.github/AI-BEHAVIOR-CONTRACT.md).
+              
+              ### Validation Results:
+              \`\`\`
+              ${validationResult}
+              \`\`\`
+              
+              ### How to Fix:
+              
+              1. **Remove vague language** - Replace phrases like "seems to be", "might be", "possibly" with concrete statements
+              2. **Provide binary responses** - Use clear CAN_COMPLETE or CANNOT_COMPLETE status
+              3. **List specific missing resources** - If blocked, provide exact file paths or data requirements
+              4. **Decompose large tasks** - Break complex tasks into 2-3 subtasks with execution order
+              
+              Please update your PR description to comply with the contract and re-run validation:
+              \`\`\`bash
+              .github/scripts/validate-ai-response.sh "Your PR description"
+              \`\`\`
+              
+              For more details, see [.github/AI-BEHAVIOR-CONTRACT.md](.github/AI-BEHAVIOR-CONTRACT.md)`
+            });
+      
+      - name: Set workflow status
+        if: steps.validate.outputs.status == 'failure'
+        run: exit 1
+
+  validate-commit-messages:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Validate recent commit messages
+        run: |
+          echo "Validating commit messages against AI Behavior Contract..."
+          
+          # Get commits in this PR
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          
+          # Get list of commits
+          COMMITS=$(git log --format="%H" $BASE_SHA..$HEAD_SHA)
+          
+          VIOLATIONS=0
+          for commit in $COMMITS; do
+            echo "Checking commit: $commit"
+            if ! .github/scripts/validate-ai-response.sh --commit $commit; then
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          done
+          
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo "❌ Found $VIOLATIONS commit(s) with AI Behavior Contract violations"
+            exit 1
+          else
+            echo "✅ All commit messages comply with AI Behavior Contract"
+          fi
+
+  validate-comments:
+    name: Validate Comments
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issue_comment'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Validate comment against AI Behavior Contract
+        id: validate
+        run: |
+          # Get comment body
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          
+          # Skip validation if comment is from a human (not a bot)
+          # GitHub API user.type can be: User, Bot, Organization
+          USER_TYPE="${{ github.event.comment.user.type }}"
+          USER_LOGIN="${{ github.event.comment.user.login }}"
+          
+          if [[ "$USER_TYPE" == "User" ]]; then
+            echo "Skipping validation for human user comment"
+            exit 0
+          fi
+          
+          # Only validate comments from AI agents (copilot, github-actions bot, etc.)
+          if [[ "$USER_LOGIN" != *"copilot"* ]] && [[ "$USER_LOGIN" != *"github-actions"* ]]; then
+            echo "Skipping validation for non-AI bot: $USER_LOGIN"
+            exit 0
+          fi
+          
+          # Run validation script
+          .github/scripts/validate-ai-response.sh "$COMMENT_BODY" > validation_result.txt 2>&1 || true
+          
+          # Check if validation passed
+          if grep -q "Contract compliance validated successfully" validation_result.txt; then
+            echo "✅ AI Behavior Contract validation passed"
+          elif grep -q "Compliance check passed with warnings" validation_result.txt; then
+            echo "⚠️ AI Behavior Contract validation passed with warnings"
+          else
+            echo "❌ AI Behavior Contract violations detected in comment"
+            cat validation_result.txt
+            # Note: We don't fail on comment violations, just report
+          fi

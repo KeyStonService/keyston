@@ -36,8 +36,8 @@ This avoids `npx` permission errors such as
 tsc -b tsconfig.json
 ```
 
-Run this from `/workspaces/unmanned-island` to confirm the solution-style config
-still compiles.
+Run this from `/workspaces/unmanned-island` to confirm the solution-style
+config still compiles.
 
 ### 5. Run the shared test suite
 
@@ -148,7 +148,7 @@ built-in tasks provided in this repo:
 - **🔍 NPM: Lint**, **🧪 NPM: 測試**, and **🔨 NPM: 建置** run lint, tests, and
   builds across all workspaces.
 
-1. Let the task finish; VS Code streams the logs so you can see progress without
+4. Let the task finish; VS Code streams the logs so you can see progress without
    touching the terminal.
 
 These tasks wrap the same commands shown earlier, ensuring non-CLI users can

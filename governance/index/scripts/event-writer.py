@@ -30,7 +30,6 @@ class EventWriter:
     """Handles event persistence and management."""
 
     def __init__(self, index_path: Optional[Path] = None):
-        """TODO: Add function documentation"""
         if index_path is None:
             index_path = Path(__file__).parent.parent
 
@@ -79,7 +78,6 @@ class EventWriter:
         return [round(x / norm, 6) for x in embeddings]
 
     def write_event(self, event_type: str, data: Dict,
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
                     causal_parent: Optional[str] = None,
                     source: str = "agent") -> str:
         """
@@ -166,7 +164,6 @@ class EventWriter:
         self._save_json(self.vector_path, vector_data)
 
     def compress_events(self, threshold: int = 100) -> int:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         Compress old events into summaries.
 
@@ -311,7 +308,6 @@ class EventWriter:
         return dot / (norm_a * norm_b) if norm_a and norm_b else 0
 
     def bootstrap(self) -> Dict:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         Bootstrap context for a new agent.
 
@@ -394,8 +390,6 @@ class EventWriter:
 
 
 def main():
-    """TODO: Add function documentation"""
-    # NOTE: Consider refactoring this function (complexity > 50 lines)
     parser = argparse.ArgumentParser(
         description="Event Writer for Governance Index",
         formatter_class=argparse.RawDescriptionHelpFormatter

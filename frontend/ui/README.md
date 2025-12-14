@@ -4,8 +4,7 @@
 
 ### 📋 概述
 
-這是 SynergyMesh 平台的 Phase
-2 核心服務開發，實現了企業級代碼分析服務，支持多語言、多策略的智能代碼分析。
+這是 SynergyMesh 平台的 Phase 2 核心服務開發，實現了企業級代碼分析服務，支持多語言、多策略的智能代碼分析。
 
 ### 🏗️ 架構
 
@@ -97,7 +96,6 @@ pytest --cov=services --cov-report=html
 #### 3. 檢測能力
 
 **安全漏洞 (6 類)**:
-
 - 硬編碼密鑰
 - SQL 注入
 - XSS 漏洞
@@ -106,32 +104,26 @@ pytest --cov=services --cov-report=html
 - 密碼學弱點
 
 **代碼質量**:
-
 - 圈複雜度
 - 代碼重複率
 - 類型註解缺失
 
 **性能問題**:
-
 - N+1 查詢
 - 低效循環
 
 **可維護性**:
-
 - 文件長度
 - 函數複雜度
 
 **依賴管理**:
-
 - 過時的依賴
 - 安全漏洞
 
 **可訪問性**:
-
 - 缺少 alt 屬性
 
 **合規性**:
-
 - 許可證聲明
 
 ### 💻 使用示例
@@ -149,20 +141,20 @@ async def main():
     # 創建分析引擎
     config = {'max_workers': 4}
     engine = CodeAnalysisEngine(config)
-
+    
     # 分析代碼庫
     result = await engine.analyze_repository(
         repo_path="/path/to/repo",
         commit_hash="abc123",
         strategy=AnalysisStrategy.STANDARD
     )
-
+    
     # 查看結果
     print(f"Total issues: {result.total_issues}")
     print(f"Critical issues: {result.critical_issues}")
     print(f"Quality score: {result.quality_score}")
     print(f"Risk level: {result.risk_level}")
-
+    
     # 查看問題詳情
     for issue in result.issues:
         print(f"[{issue.severity.value}] {issue.message}")
@@ -185,13 +177,13 @@ from services.code_analyzer import (
 async def analyze_file():
     config = {'max_workers': 2}
     engine = CodeAnalysisEngine(config)
-
+    
     # 分析文件
     issues = await engine.analyze_file(
         file_path="example.py",
         strategy=AnalysisStrategy.DEEP
     )
-
+    
     print(f"Found {len(issues)} issues")
     for issue in issues:
         print(f"- {issue.message}")

@@ -69,7 +69,7 @@ governance-cli validate --file path/to/file.yaml
 - Check [FAQ](docs/FAQ.md)
 - Review [Documentation](docs/)
 - Open GitHub Issue
-- Contact: <governance-support@synergymesh.io>
+- Contact: governance-support@synergymesh.io
 
 ---
 

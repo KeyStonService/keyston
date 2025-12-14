@@ -2,9 +2,7 @@
 
 ## 概述
 
-此 devcontainer 配置已整合自動啟動 Kind (Kubernetes in Docker)
-cluster，使用 Podman 作為容器引擎。當 GitHub
-Codespaces 或本地 devcontainer 啟動時，會自動建立一個完整的 Kubernetes 測試環境。
+此 devcontainer 配置已整合自動啟動 Kind (Kubernetes in Docker) cluster，使用 Podman 作為容器引擎。當 GitHub Codespaces 或本地 devcontainer 啟動時，會自動建立一個完整的 Kubernetes 測試環境。
 
 ## 🎯 功能特性
 
@@ -15,20 +13,20 @@ Codespaces 或本地 devcontainer 啟動時，會自動建立一個完整的 Kub
 
 ## 📦 已安裝工具與服務
 
-| 工具/服務      | 版本    | 用途                 | 自動部署 |
-| -------------- | ------- | -------------------- | -------- |
-| Kind           | v0.20.0 | 本地 Kubernetes 叢集 | ✅       |
-| kubectl        | latest  | Kubernetes 命令列    | ✅       |
-| Podman         | latest  | 容器引擎             | ✅       |
-| Azure CLI      | latest  | Azure 管理           | ✅       |
-| Helm           | latest  | 套件管理             | ✅       |
-| NGINX Ingress  | latest  | Ingress Controller   | ✅       |
-| Prometheus     | latest  | 監控系統             | ✅       |
-| Grafana        | latest  | 視覺化儀表板         | ✅       |
-| ArgoCD         | latest  | GitOps 部署          | ✅       |
-| Flux CD        | latest  | GitOps 同步          | ✅       |
-| cert-manager   | latest  | TLS 憑證管理         | ✅       |
-| Metrics Server | latest  | 資源監控             | ✅       |
+| 工具/服務 | 版本 | 用途 | 自動部署 |
+|------|------|------|---------|
+| Kind | v0.20.0 | 本地 Kubernetes 叢集 | ✅ |
+| kubectl | latest | Kubernetes 命令列 | ✅ |
+| Podman | latest | 容器引擎 | ✅ |
+| Azure CLI | latest | Azure 管理 | ✅ |
+| Helm | latest | 套件管理 | ✅ |
+| NGINX Ingress | latest | Ingress Controller | ✅ |
+| Prometheus | latest | 監控系統 | ✅ |
+| Grafana | latest | 視覺化儀表板 | ✅ |
+| ArgoCD | latest | GitOps 部署 | ✅ |
+| Flux CD | latest | GitOps 同步 | ✅ |
+| cert-manager | latest | TLS 憑證管理 | ✅ |
+| Metrics Server | latest | 資源監控 | ✅ |
 
 ## 🚀 使用方式
 
@@ -51,7 +49,6 @@ Codespaces 或本地 devcontainer 啟動時，會自動建立一個完整的 Kub
 ### 進階功能
 
 #### 多 Cluster 管理
-
 ```bash
 # 建立開發環境
 ./devcontainer/scripts/multi-cluster-manager.sh create dev 1
@@ -70,7 +67,6 @@ Codespaces 或本地 devcontainer 啟動時，會自動建立一個完整的 Kub
 ```
 
 #### GitOps 部署
-
 ```bash
 # ArgoCD 訪問
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -85,7 +81,6 @@ flux reconcile source git <repo>
 ```
 
 #### 健康監控
-
 ```bash
 # 查看即時監控日誌
 tail -f /tmp/kind-cluster-health.log
@@ -95,7 +90,6 @@ tail -f /tmp/kind-cluster-health.log
 ```
 
 #### 測試執行
-
 ```bash
 # 執行完整測試套件
 ./devcontainer/scripts/run-tests.sh
@@ -143,10 +137,10 @@ kubectl get svc
 
 ## 🔧 環境變數
 
-| 變數名稱                     | 預設值            | 說明                     |
-| ---------------------------- | ----------------- | ------------------------ |
-| `KIND_EXPERIMENTAL_PROVIDER` | `podman`          | 指定 Kind 使用的容器引擎 |
-| `KIND_CLUSTER_NAME`          | `governance-test` | Kind cluster 名稱        |
+| 變數名稱 | 預設值 | 說明 |
+|---------|--------|------|
+| `KIND_EXPERIMENTAL_PROVIDER` | `podman` | 指定 Kind 使用的容器引擎 |
+| `KIND_CLUSTER_NAME` | `governance-test` | Kind cluster 名稱 |
 
 ## 📋 技術架構
 
@@ -179,7 +173,6 @@ kubectl get svc
 ### 問題：叢集建立失敗
 
 **解決方案**:
-
 ```bash
 # 檢查 Podman 狀態
 podman ps
@@ -191,7 +184,6 @@ bash .devcontainer/scripts/setup-kind-cluster.sh
 ### 問題：kubectl 無法連接
 
 **解決方案**:
-
 ```bash
 # 確認 context
 kubectl config get-contexts
@@ -203,7 +195,6 @@ kubectl config use-context kind-governance-test
 ### 問題：需要重建叢集
 
 **解決方案**:
-
 ```bash
 # 完全清理
 kind delete cluster --name governance-test
@@ -215,13 +206,13 @@ podman system prune -a -f
 
 ## 📊 效能指標
 
-| 指標       | 目標    | 實際   |
-| ---------- | ------- | ------ |
-| 啟動時間   | < 60 秒 | ~45 秒 |
-| 記憶體使用 | < 2GB   | ~1.5GB |
-| CPU 使用   | < 50%   | ~30%   |
-| 理解時間   | < 1 秒  | ✅     |
-| 人工介入   | 0 次    | ✅     |
+| 指標 | 目標 | 實際 |
+|------|------|------|
+| 啟動時間 | < 60 秒 | ~45 秒 |
+| 記憶體使用 | < 2GB | ~1.5GB |
+| CPU 使用 | < 50% | ~30% |
+| 理解時間 | < 1 秒 | ✅ |
+| 人工介入 | 0 次 | ✅ |
 
 ## 🎓 學習資源
 
@@ -239,7 +230,6 @@ podman system prune -a -f
 ## 🔄 更新日誌
 
 ### v1.0.0 (2025-12-11)
-
 - ✅ 初始版本
 - ✅ 整合 Kind v0.20.0
 - ✅ 配置 Podman 作為容器引擎

@@ -27,7 +27,6 @@ class PythonSyntaxValidator:
     """Validator for Python syntax and code quality."""
 
     def __init__(self, repo_root: Path, verbose: bool = False):
-        """TODO: Add function documentation"""
         self.repo_root = repo_root
         self.verbose = verbose
         self.errors: List[str] = []
@@ -167,9 +166,7 @@ class PythonSyntaxValidator:
             )
             return True  # Don't fail on validation errors
 
-    # REFACTOR: Function 'validate_init_imports' has complexity 17. Consider extracting helper methods.
     def validate_init_imports(self, file_path: Path) -> bool:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """Validate __init__.py files have proper imports for __all__ items."""
         if file_path.name != '__init__.py':
             return True

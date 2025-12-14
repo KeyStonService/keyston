@@ -4,8 +4,7 @@
 
 `config/` 目錄是所有系統配置的統一中心，包含業務、基礎設施、安全、監控等配置。
 
-The `config/` directory is the unified center for all system configurations,
-including business, infrastructure, security, and monitoring configurations.
+The `config/` directory is the unified center for all system configurations, including business, infrastructure, security, and monitoring configurations.
 
 ---
 
@@ -67,7 +66,6 @@ config/
 ## 🔑 主要配置檔案說明 / Key Configuration Files
 
 ### 系統宣告 (system-manifest.yaml)
-
 定義系統的核心元件、依賴和服務聲明。
 
 ```yaml
@@ -82,25 +80,20 @@ system:
 ```
 
 ### 統一配置索引 (unified-config-index.yaml)
-
 所有配置的集中索引，便於快速查找。
 
 ### AI 憲法 (ai-constitution.yaml)
-
 三層憲法體系：
-
 - 第一層：系統原則
 - 第二層：業務規則
 - 第三層：實施指南
 
 ### 安全機制 (safety-mechanisms.yaml)
-
 - 斷路器 (Circuit Breaker)
 - 緊急停止 (Emergency Stop)
 - 回滾策略 (Rollback Policy)
 
 ### 監控配置 (monitoring.yaml)
-
 - Prometheus 指標收集
 - Grafana 儀表板定義
 - 告警規則配置
@@ -156,14 +149,12 @@ docker-compose -f docker-compose.yml up -d
 ## 🔐 敏感資訊管理 / Sensitive Information Management
 
 ### ❌ 不要在配置檔案中包含
-
 - API 金鑰
 - 資料庫密碼
 - JWT 密鑰
 - 任何密鑰
 
 ### ✅ 改用環境變數
-
 ```bash
 # .env 檔案
 DATABASE_URL=postgresql://...
@@ -172,7 +163,6 @@ API_KEY=<secret-key>
 ```
 
 ### 🔒 Git 保護
-
 ```bash
 # .gitignore
 .env
@@ -185,21 +175,18 @@ config/secrets/
 ## 🔄 配置同步 / Configuration Synchronization
 
 ### 本地開發
-
 ```bash
 cp .env.example .env
 # 編輯 .env 並填入本地值
 ```
 
 ### 預發佈環境 (Staging)
-
 ```bash
 cp .env.staging .env
 # 使用預發佈特定值
 ```
 
 ### 生產環境 (Production)
-
 ```bash
 # 從 CI/CD 系統注入，不在倉庫中儲存
 ```
@@ -208,14 +195,14 @@ cp .env.staging .env
 
 ## 📈 配置演變歷史 / Configuration Evolution
 
-| 版本  | 日期    | 更新         |
-| ----- | ------- | ------------ |
-| 1.0.0 | 2024-01 | 初始配置     |
+| 版本 | 日期 | 更新 |
+|------|------|------|
+| 1.0.0 | 2024-01 | 初始配置 |
 | 2.0.0 | 2024-06 | 引入統一索引 |
 | 2.5.0 | 2024-09 | 新增監控配置 |
 | 3.0.0 | 2024-11 | 統一配置索引 |
 | 3.5.0 | 2024-12 | Phase 4 整合 |
-| 4.0.0 | 2025-01 | 完全重構     |
+| 4.0.0 | 2025-01 | 完全重構 |
 
 ---
 
@@ -245,3 +232,4 @@ cp .env.staging .env
 - 📖 [配置文檔](./README.md)
 - 🐛 [報告問題](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
 - 💬 [討論](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+

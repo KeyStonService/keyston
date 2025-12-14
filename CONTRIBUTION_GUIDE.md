@@ -11,20 +11,17 @@ Thank you for your interest in contributing to the SynergyMesh project!
 ### 開始貢獻 / Getting Started
 
 1. **Fork 倉庫** / Fork the repository
-
    ```bash
    git clone https://github.com/your-username/unmanned-island.git
    cd unmanned-island
    ```
 
 2. **建立分支** / Create a feature branch
-
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 3. **進行更改** / Make your changes
-
    ```bash
    # 編輯檔案
    # 添加測試
@@ -32,7 +29,6 @@ Thank you for your interest in contributing to the SynergyMesh project!
    ```
 
 4. **運行測試** / Run tests
-
    ```bash
    npm run lint
    npm test
@@ -40,13 +36,11 @@ Thank you for your interest in contributing to the SynergyMesh project!
    ```
 
 5. **提交更改** / Commit your changes
-
    ```bash
    git commit -m "feat: 添加新功能"
    ```
 
 6. **推送分支** / Push to your fork
-
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -58,7 +52,6 @@ Thank you for your interest in contributing to the SynergyMesh project!
 ## ✅ 代碼質量標準 / Code Quality Standards
 
 ### TypeScript/JavaScript
-
 - [ ] 遵循 ESLint 規則
 - [ ] 無 TypeScript 錯誤
 - [ ] 功能有相應的測試
@@ -66,7 +59,6 @@ Thank you for your interest in contributing to the SynergyMesh project!
 - [ ] 文件已更新
 
 ### Python
-
 - [ ] 遵循 PEP 8 規範
 - [ ] 使用 Type Hints
 - [ ] 功能有相應的測試
@@ -88,7 +80,6 @@ Thank you for your interest in contributing to the SynergyMesh project!
 ```
 
 ### 類型 / Types
-
 - `feat`: 新功能
 - `fix`: 修復錯誤
 - `docs`: 文檔變更
@@ -102,21 +93,18 @@ Thank you for your interest in contributing to the SynergyMesh project!
 ## 🚀 貢獻類型 / Types of Contributions
 
 ### 代碼貢獻 / Code Contributions
-
 - 修復 bug
 - 實現新功能
 - 效能優化
 - 重構代碼
 
 ### 文檔貢獻 / Documentation
-
 - 編寫教程
 - 改進文檔
 - 翻譯文檔
 - 編寫範例
 
 ### 測試貢獻 / Testing
-
 - 編寫測試
 - 提高覆蓋率
 - 測試場景
@@ -127,18 +115,15 @@ Thank you for your interest in contributing to the SynergyMesh project!
 ## 👥 行為準則 / Code of Conduct
 
 ### 我們的承諾 / Our Pledge
-
 我們致力於創建一個包容性、尊重的社區環境。
 
 ### 預期行為 / Expected Behavior
-
 - 尊重他人意見
 - 接受建設性批評
 - 專注於對社區最好的事情
 - 對其他社區成員表示同情
 
 ### 不可接受的行為 / Unacceptable Behavior
-
 - 辱罵、貶低或骚擾
 - 發布他人隱私信息
 - 明顯不合適的行為

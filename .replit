@@ -1,4 +1,4 @@
-modules = ["python-3.11", "bash", "nodejs-20"]
+modules = ["bash", "web", "nodejs-20"]
 [agent]
 expertMode = true
 
@@ -42,3 +42,6 @@ externalPort = 3000
 deploymentTarget = "static"
 build = ["npm", "run", "build", "--workspace", "apps/web"]
 publicDir = "apps/web/dist"
+
+[objectStorage]
+defaultBucketID = "replit-objstore-98657056-8d82-4398-adf3-8efd472c387e"

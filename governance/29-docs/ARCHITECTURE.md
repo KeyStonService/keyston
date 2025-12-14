@@ -2,8 +2,7 @@
 
 ## Overview
 
-The SynergyMesh Governance Framework is a 23-dimension enterprise governance
-system designed for AI and autonomous systems.
+The SynergyMesh Governance Framework is a 23-dimension enterprise governance system designed for AI and autonomous systems.
 
 ## Architecture Layers
 

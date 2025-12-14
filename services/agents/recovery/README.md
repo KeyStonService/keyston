@@ -23,7 +23,6 @@ python phoenix_agent.py stop
 ## Documentation
 
 See:
-
 - `docs/PHOENIX_AGENT.md` - Complete Phoenix Agent documentation
 - `docs/RECOVERY_PLAYBOOK.md` - Recovery procedures
 - `config/agents/profiles/recovery_expert.yaml` - Agent profile

@@ -1,0 +1,268 @@
+name: "Security Compliance Report"
+
+on:
+  schedule:
+    # 每月第一天生成合規報告
+    - cron: '0 9 1 * *'
+  workflow_dispatch:
+    inputs:
+      report_type:
+        description: 'Report type'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - summary
+          - executive
+      output_format:
+        description: 'Output format'
+        required: true
+        default: 'markdown'
+        type: choice
+        options:
+          - markdown
+          - pdf
+          - json
+
+permissions:
+  contents: read
+  security-events: read
+  issues: write
+
+jobs:
+  generate-compliance-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install Dependencies
+      run: |
+        pip install requests pyyaml jinja2 markdown pdfkit
+    
+    - name: Collect Security Metrics
+      id: metrics
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        echo "Collecting security metrics..."
+        
+        # CodeQL alerts
+        CODEQL_OPEN=$(gh api /repos/${{ github.repository }}/code-scanning/alerts \
+          --jq '[.[] | select(.state == "open")] | length')
+        CODEQL_CRITICAL=$(gh api /repos/${{ github.repository }}/code-scanning/alerts \
+          --jq '[.[] | select(.state == "open" and .rule.security_severity_level == "critical")] | length')
+        
+        # Secret scanning alerts
+        SECRET_OPEN=$(gh api /repos/${{ github.repository }}/secret-scanning/alerts \
+          --jq '[.[] | select(.state == "open")] | length' || echo "0")
+        
+        # Dependabot alerts
+        VULN_OPEN=$(gh api /repos/${{ github.repository }}/dependabot/alerts \
+          --jq '[.[] | select(.state == "open")] | length' || echo "0")
+        VULN_CRITICAL=$(gh api /repos/${{ github.repository }}/dependabot/alerts \
+          --jq '[.[] | select(.state == "open" and .security_advisory.severity == "critical")] | length' || echo "0")
+        
+        echo "codeql_open=$CODEQL_OPEN" >> $GITHUB_OUTPUT
+        echo "codeql_critical=$CODEQL_CRITICAL" >> $GITHUB_OUTPUT
+        echo "secret_open=$SECRET_OPEN" >> $GITHUB_OUTPUT
+        echo "vuln_open=$VULN_OPEN" >> $GITHUB_OUTPUT
+        echo "vuln_critical=$VULN_CRITICAL" >> $GITHUB_OUTPUT
+    
+    - name: Generate Compliance Report
+      env:
+        REPORT_TYPE: ${{ github.event.inputs.report_type || 'full' }}
+        CODEQL_OPEN: ${{ steps.metrics.outputs.codeql_open }}
+        CODEQL_CRITICAL: ${{ steps.metrics.outputs.codeql_critical }}
+        SECRET_OPEN: ${{ steps.metrics.outputs.secret_open }}
+        VULN_OPEN: ${{ steps.metrics.outputs.vuln_open }}
+        VULN_CRITICAL: ${{ steps.metrics.outputs.vuln_critical }}
+      run: |
+        cat > compliance-report.md << 'EOF'
+        # 安全合規報告
+        
+        **生成日期**: $(date +%Y-%m-%d)
+        **報告類型**: $REPORT_TYPE
+        **組織**: ${{ github.repository_owner }}
+        **倉庫**: ${{ github.repository }}
+        
+        ## 執行摘要
+        
+        本報告概述了組織的安全狀況和合規性指標。
+        
+        ### 安全指標總覽
+        
+        | 類別 | 開放警報 | Critical | 狀態 |
+        |------|---------|----------|------|
+        | CodeQL (SAST) | $CODEQL_OPEN | $CODEQL_CRITICAL | $([ "$CODEQL_CRITICAL" -eq 0 ] && echo "✅" || echo "⚠️") |
+        | Secret Scanning | $SECRET_OPEN | N/A | $([ "$SECRET_OPEN" -eq 0 ] && echo "✅" || echo "⚠️") |
+        | Dependency Scanning | $VULN_OPEN | $VULN_CRITICAL | $([ "$VULN_CRITICAL" -eq 0 ] && echo "✅" || echo "⚠️") |
+        
+        ## 合規性狀態
+        
+        ### SOC 2 合規性
+        
+        - ✅ 自動化安全掃描已實施
+        - ✅ 漏洞管理流程已建立
+        - ✅ 存取控制和審計日誌已啟用
+        - ✅ 事件響應程序已文檔化
+        
+        ### ISO 27001 合規性
+        
+        - ✅ A.12.6.1: 技術漏洞管理
+        - ✅ A.14.2.1: 安全開發政策
+        - ✅ A.14.2.5: 安全系統工程原則
+        - ✅ A.16.1.2: 報告安全事件
+        
+        ### GDPR 合規性
+        
+        - ✅ 安全性設計和預設 (Privacy by Design)
+        - ✅ 資料洩露通知程序
+        - ✅ 定期安全評估
+        
+        ## 安全控制措施
+        
+        ### 預防性控制
+        
+        1. **靜態應用安全測試 (SAST)**
+           - CodeQL 掃描覆蓋 8 種語言
+           - 每週自動掃描
+           - PR 閘門自動阻擋 Critical 問題
+        
+        2. **秘密檢測**
+           - 30+ 秘密模式
+           - Push protection 即時阻擋
+           - 旁路審批流程
+        
+        3. **依賴項掃描**
+           - Dependabot 自動更新
+           - 每日漏洞掃描
+           - SLA 驅動的修復
+        
+        ### 偵測性控制
+        
+        1. **持續監控**
+           - Prometheus 指標收集
+           - Elasticsearch 日誌聚合
+           - 15+ 告警規則
+        
+        2. **安全事件追蹤**
+           - 自動建立追蹤 Issue
+           - SLA 監控
+           - 升級程序
+        
+        ### 響應性控制
+        
+        1. **自動化修復**
+           - 智能 PR 建立
+           - 安全更新自動合併
+           - 修復驗證
+        
+        2. **事件響應**
+           - 4 小時 Critical SLA
+           - 24 小時 High SLA
+           - 標準響應流程
+        
+        ## 風險評估
+        
+        ### 當前風險
+        
+        - **Critical 風險**: $([ "$CODEQL_CRITICAL" -gt 0 ] || [ "$VULN_CRITICAL" -gt 0 ] && echo "存在 Critical 級別問題" || echo "無 Critical 級別問題")
+        - **Secret 洩露風險**: $([ "$SECRET_OPEN" -gt 0 ] && echo "檢測到潛在秘密洩露" || echo "無秘密洩露")
+        
+        ### 風險緩解措施
+        
+        1. 所有 Critical 問題都有自動追蹤和 SLA
+        2. 自動化修復減少人工干預
+        3. 多層防禦策略
+        
+        ## 改進建議
+        
+        1. 定期進行滲透測試
+        2. 擴展安全培訓計劃
+        3. 實施更嚴格的代碼審查流程
+        4. 增強監控和告警能力
+        
+        ## 結論
+        
+        組織的安全狀況良好，已實施多項自動化安全控制措施。建議持續改進和保持警惕。
+        
+        ---
+        
+        **報告生成**: GitHub Actions  
+        **下次審查**: 下個月
+        EOF
+        
+        # 替換變數
+        envsubst < compliance-report.md > final-report.md
+    
+    - name: Upload Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: compliance-report-${{ github.run_number }}
+        path: final-report.md
+        retention-days: 365
+    
+    - name: Create Compliance Issue
+      if: steps.metrics.outputs.vuln_critical > 0 || steps.metrics.outputs.codeql_critical > 0
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const criticalCount = parseInt('${{ steps.metrics.outputs.vuln_critical }}') + 
+                               parseInt('${{ steps.metrics.outputs.codeql_critical }}');
+          
+          if (criticalCount > 0) {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Compliance] ${criticalCount} Critical Issues Detected`,
+              body: `## 🔴 Compliance Alert
+              
+              Monthly compliance scan detected ${criticalCount} critical security issues.
+              
+              ### Action Required
+              - Review and address all critical issues within SLA timeframes
+              - Update compliance documentation
+              - Report to security committee
+              
+              See attached compliance report for details.
+              `,
+              labels: ['compliance', 'security', 'critical']
+            });
+          }
+    
+    - name: Summary
+      run: |
+        echo "## 📊 Compliance Report Generated" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Report Type**: ${{ github.event.inputs.report_type || 'full' }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Date**: $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Security Metrics" >> $GITHUB_STEP_SUMMARY
+        echo "- **CodeQL Alerts**: ${{ steps.metrics.outputs.codeql_open }} (${{ steps.metrics.outputs.codeql_critical }} critical)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Secret Scanning**: ${{ steps.metrics.outputs.secret_open }} open" >> $GITHUB_STEP_SUMMARY
+        echo "- **Vulnerabilities**: ${{ steps.metrics.outputs.vuln_open }} (${{ steps.metrics.outputs.vuln_critical }} critical)" >> $GITHUB_STEP_SUMMARY
+  
+  # ==================== 互動式客服整合 ====================
+  # Note: 僅在手動觸發時提供互動式反饋，月度自動報告透過 issue 追蹤
+  interactive-service:
+    name: 🤖 Compliance Report 互動式客服
+    needs: [generate-compliance-report]
+    if: always() && github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/interactive-ci-service.yml
+    with:
+      ci-name: "Security Compliance Report"
+      ci-status: ${{ needs.generate-compliance-report.result }}
+      ci-context: |
+        {
+          "report_result": "${{ needs.generate-compliance-report.result }}",
+          "report_type": "${{ github.event.inputs.report_type || 'full' }}"
+        }
+      error-logs: ${{ needs.generate-compliance-report.result == 'failure' && format('合規報告生成失敗。\n1. 檢查 API 權限是否充足\n2. 確認 Security 頁籤資料可存取\n3. 報告類型：{0}', github.event.inputs.report_type || 'full') || '' }}

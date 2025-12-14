@@ -98,7 +98,7 @@ describe('Provenance API Endpoints', () => {
       const response = await request(app)
         .post('/api/v1/provenance/attestations')
         .send({
-          filePath: 'non/existent/file.txt',
+          filePath: '/non/existent/file.txt',
           builder: {
             id: 'test-builder',
             version: '1.0.0'
@@ -184,7 +184,7 @@ describe('Provenance API Endpoints', () => {
     });
 
     it('should return 404 for non-existent file', async () => {
-      const encodedPath = encodeURIComponent('non/existent/file.txt');
+      const encodedPath = encodeURIComponent('/non/existent/file.txt');
       const response = await request(app)
         .get(`/api/v1/provenance/digest/${encodedPath}`);
 

@@ -2,9 +2,7 @@
 
 ## 目录概述
 
-`.devcontainer` 目录包含开发容器配置，定义了一个完整的企业级开发环境。它使用 VS
-Code Remote Container 功能和 Docker
-Compose，为开发者提供一致的、隔离的开发环境，包含所有必需的工具链、依赖和服务。
+`.devcontainer` 目录包含开发容器配置，定义了一个完整的企业级开发环境。它使用 VS Code Remote Container 功能和 Docker Compose，为开发者提供一致的、隔离的开发环境，包含所有必需的工具链、依赖和服务。
 
 **核心目标：**
 
@@ -151,7 +149,6 @@ Compose，为开发者提供一致的、隔离的开发环境，包含所有必�
    - 从 requirements.txt 安装 Python 包
 
 6. **健康检查**（第58-59行）
-
    ```dockerfile
    HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
        CMD curl -f http://localhost:3000/health || exit 1
@@ -452,7 +449,6 @@ global:
    - 监控 Prometheus 自身
 
 3. **Node Exporter**
-
    ```yaml
    - job_name: 'node-exporter'
      static_configs:
@@ -762,8 +758,7 @@ npm update
 
 ## 相关文档和资源
 
-- **VSCode
-  Remote 容器官方文档**：https://code.visualstudio.com/docs/devcontainers/containers
+- **VSCode Remote 容器官方文档**：https://code.visualstudio.com/docs/devcontainers/containers
 - **Docker Compose 文档**：https://docs.docker.com/compose/
 - **Prometheus 文档**：https://prometheus.io/docs/
 - **Kubernetes 部署**：见 /ARCHITECTURE.md

@@ -2,42 +2,37 @@
 
 **Date**: 2025-12-10  
 **Scope**: Full repository scan for Jest configuration issues  
-**Trigger**: Deep Maintenance Project Fundamental Build Failure
-(深度維修專案建置根本性失敗問題)
+**Trigger**: Deep Maintenance Project Fundamental Build Failure (深度維修專案建置根本性失敗問題)
 
 ## Executive Summary
 
-Conducted comprehensive scan of all workspaces for Jest configuration issues
-similar to the initial advisory-database problem. Identified and fixed 2
-workspaces with Jest configuration/dependency issues.
+Conducted comprehensive scan of all workspaces for Jest configuration issues similar to the initial advisory-database problem. Identified and fixed 2 workspaces with Jest configuration/dependency issues.
 
 ## Scan Results
 
 ### Workspaces Scanned
 
-| Workspace                                      | Jest Config               | Status       | Action Taken                                 |
-| ---------------------------------------------- | ------------------------- | ------------ | -------------------------------------------- |
-| `core/advisory-database`                       | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest             |
+| Workspace | Jest Config | Status | Action Taken |
+|-----------|-------------|--------|--------------|
+| `core/advisory-database` | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest |
 | `core/contract_service/contracts-L1/contracts` | `jest.config.ts` → `.cjs` | ❌ **FIXED** | Converted to .cjs, added ts-jest + supertest |
-| `island-ai`                                    | `jest.config.js` (ESM)    | ✅ **OK**    | No action needed                             |
-| `tests/unit/hlp-executor`                      | `jest.config.js`          | ✅ **OK**    | No action needed                             |
-| Root                                           | `jest.config.js`          | ✅ **OK**    | No action needed                             |
-| `mcp-servers`                                  | No Jest                   | ✅ **OK**    | Uses validation scripts                      |
-| `services/mcp`                                 | No Jest                   | ✅ **OK**    | Uses validation scripts                      |
-| `tools/cli`                                    | No tests                  | ✅ **OK**    | No action needed                             |
+| `island-ai` | `jest.config.js` (ESM) | ✅ **OK** | No action needed |
+| `tests/unit/hlp-executor` | `jest.config.js` | ✅ **OK** | No action needed |
+| Root | `jest.config.js` | ✅ **OK** | No action needed |
+| `mcp-servers` | No Jest | ✅ **OK** | Uses validation scripts |
+| `services/mcp` | No Jest | ✅ **OK** | Uses validation scripts |
+| `tools/cli` | No tests | ✅ **OK** | No action needed |
 
 ### Issues Found and Fixed
 
 #### 1. Advisory Database (`@synergymesh/advisory-database`)
 
 **Problem:**
-
 - Jest config in TypeScript (`jest.config.ts`)
 - Missing `ts-node` loader
 - Package has `"type": "module"` requiring `.cjs` extension
 
 **Fix:**
-
 - Converted `jest.config.ts` → `jest.config.cjs`
 - Added `ts-jest: ^29.2.5` dependency
 - Tests: 60/60 passing ✅
@@ -47,13 +42,11 @@ workspaces with Jest configuration/dependency issues.
 #### 2. Contracts L1 (`@synergymesh/contracts-l1`)
 
 **Problem:**
-
 - Jest config in TypeScript (`jest.config.ts`)
 - Missing `ts-jest` dependency (jest not found error)
 - Missing `supertest` dependency (required by tests)
 
 **Fix:**
-
 - Converted `jest.config.ts` → `jest.config.cjs`
 - Added `ts-jest: ^29.2.5` dependency
 - Added `supertest: ^6.3.4` dependency
@@ -66,7 +59,6 @@ workspaces with Jest configuration/dependency issues.
 ### The Problem Pattern
 
 Workspaces with all of these characteristics need fixing:
-
 1. Jest configuration in TypeScript format (`jest.config.ts`)
 2. Missing `ts-jest` or `ts-node` dependencies
 3. Package may have `"type": "module"` (requiring `.cjs`)
@@ -106,13 +98,11 @@ module.exports = config;
 ## Test Results Summary
 
 ### Before Fixes
-
 - Advisory Database: ❌ Failed (ts-node not found)
 - Contracts L1: ❌ Failed (jest not found)
 - Total Passing: 38/98 tests (island-ai only)
 
 ### After Fixes
-
 - Advisory Database: ✅ 60/60 tests passing
 - Island AI: ✅ 38/38 tests passing
 - Contracts L1: ✅ Jest infrastructure functional
@@ -121,48 +111,39 @@ module.exports = config;
 ## Files Modified
 
 ### Advisory Database
-
 - `core/advisory-database/jest.config.ts` → `jest.config.cjs`
 - `core/advisory-database/package.json`
 
 ### Contracts L1
-
-- `core/contract_service/contracts-L1/contracts/jest.config.ts` →
-  `jest.config.cjs`
+- `core/contract_service/contracts-L1/contracts/jest.config.ts` → `jest.config.cjs`
 - `core/contract_service/contracts-L1/contracts/package.json`
 
 ### Documentation
-
 - `docs/fixes/advisory-database-jest-fix.md`
 - `docs/fixes/contracts-l1-jest-fix.md`
 - `docs/fixes/PROJECT_SCAN_SUMMARY.md` (this file)
 
 ### Dependencies
-
 - `package-lock.json` (updated with new dependencies)
 
 ## Prevention Recommendations
 
 ### 1. Workspace Standards
-
 - **Standardize Jest config format**: Use `.cjs` for all workspaces
 - **Explicit dependencies**: Always declare test infrastructure deps
 - **Configuration template**: Create shared preset for consistency
 
 ### 2. CI/CD Validation
-
 - **Pre-commit hooks**: Validate test dependencies before commit
 - **CI checks**: Verify all workspaces can run tests
 - **Dependency audit**: Regular scan for missing test dependencies
 
 ### 3. Documentation
-
 - **Workspace README**: Document required test dependencies
 - **Contributing guide**: Include test setup instructions
 - **Troubleshooting**: Add common Jest config issues to docs
 
 ### 4. Monorepo Best Practices
-
 - **Shared config**: Consider workspace-shared Jest preset
 - **Dependency management**: Use workspace protocol for common deps
 - **Consistent patterns**: Apply same fix across similar issues
@@ -170,13 +151,11 @@ module.exports = config;
 ## Impact Assessment
 
 ### Immediate Impact
-
 - ✅ All workspaces with tests can now run them
 - ✅ Test infrastructure dependencies complete
 - ✅ Build failures resolved
 
 ### Long-term Benefits
-
 - ✅ Consistent Jest configuration across workspaces
 - ✅ Explicit dependency declarations
 - ✅ Documented fix patterns for future issues
@@ -193,10 +172,7 @@ module.exports = config;
 
 ## Conclusion
 
-Successfully identified and fixed all Jest configuration issues in the
-repository. The systematic scan approach ensures no similar issues remain
-hidden. Future workspaces should follow the established patterns to avoid these
-issues.
+Successfully identified and fixed all Jest configuration issues in the repository. The systematic scan approach ensures no similar issues remain hidden. Future workspaces should follow the established patterns to avoid these issues.
 
 **Total Workspaces Fixed**: 2/8  
 **Test Coverage Restored**: 100% of testable workspaces  
@@ -205,6 +181,5 @@ issues.
 ---
 
 **Related PRs:**
-
 - PR #83: Initial discovery and fix (advisory-database)
 - PR #84: Comprehensive scan and additional fixes (this PR)

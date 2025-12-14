@@ -4,14 +4,11 @@
 
 此目錄包含 SynergyMesh 多語言自動化無人島系統的實作，作為高階應用整合層。
 
-**🏛️ Governance Integration:** This system is fully integrated with the
-`governance/30-agents` framework, implementing lifecycle management, compliance
-monitoring, and audit logging.
+**🏛️ Governance Integration:** This system is fully integrated with the `governance/30-agents` framework, implementing lifecycle management, compliance monitoring, and audit logging.
 
 ## 🏝️ 核心概念
 
 **無人島概念**比無人機更具抽象性和擴展性：
-
 - 🏝️ **無人島**：每個功能域都是獨立的自治島嶼
 - 🌊 **海洋連接**：島嶼間通過標準化協議通信
 - ⚡ **自主運行**：每個島嶼內部完全自動化運作
@@ -51,27 +48,26 @@ v2-multi-islands/
 
 ## 🌐 多語言島嶼分工
 
-| 語言          | 島嶼類型     | 功能域                           |
-| ------------- | ------------ | -------------------------------- |
-| 🦀 Rust       | 性能核心島   | 性能監控、安全守護、數據管道     |
-| 🌊 Go         | 雲原生服務島 | API 網關、微服務網格、容器管理   |
-| ⚡ TypeScript | 全棧開發島   | Web 儀表板、API 客戶端、實時監控 |
-| 🐍 Python     | AI 數據島    | AI 助手、數據分析、機器學習      |
-| ☕ Java       | 企業服務島   | 企業整合、消息隊列、批處理       |
+| 語言 | 島嶼類型 | 功能域 |
+|------|---------|--------|
+| 🦀 Rust | 性能核心島 | 性能監控、安全守護、數據管道 |
+| 🌊 Go | 雲原生服務島 | API 網關、微服務網格、容器管理 |
+| ⚡ TypeScript | 全棧開發島 | Web 儀表板、API 客戶端、實時監控 |
+| 🐍 Python | AI 數據島 | AI 助手、數據分析、機器學習 |
+| ☕ Java | 企業服務島 | 企業整合、消息隊列、批處理 |
 
 ## 🔗 與核心系統的映射關係
 
-| v2-multi-islands                      | .devcontainer/automation | v1-python-drones       |
-| ------------------------------------- | ------------------------ | ---------------------- |
-| `orchestrator/island_orchestrator.py` | `drone-coordinator.py`   | `coordinator_drone.py` |
-| `islands/python_island.py`            | `auto-pilot.js`          | `autopilot_drone.py`   |
-| `bridges/language_bridge.py`          | `code-generator.ts`      | -                      |
-| `config/island_config.py`             | `drone-config.yml`       | `drone_config.py`      |
+| v2-multi-islands | .devcontainer/automation | v1-python-drones |
+|------------------|-------------------------|------------------|
+| `orchestrator/island_orchestrator.py` | `drone-coordinator.py` | `coordinator_drone.py` |
+| `islands/python_island.py` | `auto-pilot.js` | `autopilot_drone.py` |
+| `bridges/language_bridge.py` | `code-generator.ts` | - |
+| `config/island_config.py` | `drone-config.yml` | `drone_config.py` |
 
 ## 🚀 使用方式
 
 ### 直接執行
-
 ```bash
 # 從專案根目錄
 python3 v2-multi-islands/main.py --mode=auto
@@ -83,14 +79,12 @@ python3 v2-multi-islands/main.py --island=go
 ```
 
 ### 透過自動化入口
-
 ```bash
 ./tools/scripts/automation-entry.sh
 # 選擇選項 8: v2-multi-islands
 ```
 
 ### 作為 Python 模組導入
-
 ```python
 from v2_multi_islands.orchestrator import IslandOrchestrator
 from v2_multi_islands.islands import PythonIsland, RustIsland
@@ -132,16 +126,13 @@ print(config.islands)
 
 ## 🏛️ Governance Integration
 
-This v2-multi-islands system is now fully integrated with the SynergyMesh
-governance framework (`governance/30-agents`):
+This v2-multi-islands system is now fully integrated with the SynergyMesh governance framework (`governance/30-agents`):
 
 ### Integration Features
 
 ✅ **Lifecycle Management**: Automated agent registration and lifecycle hooks  
-✅ **Compliance Monitoring**: ISO/IEC 42001, NIST AI RMF, AI Behavior Contract
-validation  
-✅ **Health Checks**: Continuous health monitoring per governance
-specifications  
+✅ **Compliance Monitoring**: ISO/IEC 42001, NIST AI RMF, AI Behavior Contract validation  
+✅ **Health Checks**: Continuous health monitoring per governance specifications  
 ✅ **Audit Logging**: Full audit trail with 90-day retention  
 ✅ **RBAC Permissions**: Role-based access control alignment  
 ✅ **Self-Healing**: Automated recovery and rollback capabilities
@@ -156,7 +147,6 @@ python3 v2-multi-islands/validate_governance.py
 ```
 
 This will check:
-
 - Agent catalog registration
 - Health check configuration
 - RBAC permission alignment
@@ -168,7 +158,7 @@ The governance integration is configured in `governance-config.yaml`:
 
 ```yaml
 lifecycle:
-  stage: 'production'
+  stage: "production"
   auto_register: true
 
 monitoring:

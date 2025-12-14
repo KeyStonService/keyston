@@ -2,8 +2,7 @@
 
 ## Overview | 概述
 
-This guide provides step-by-step instructions for deploying the SynergyMesh
-Workflow System in various environments.
+This guide provides step-by-step instructions for deploying the SynergyMesh Workflow System in various environments.
 
 本指南提供了在各種環境中部署 SynergyMesh 工作流程系統的分步說明。
 
@@ -127,7 +126,6 @@ export JWT_SECRET=your-jwt-secret
 Main configuration file: `config/main-configuration.yaml`
 
 Key sections:
-
 - `core_engine`: Engine settings
 - `ai_governance`: AI configuration
 - `validation_system`: Validation rules
@@ -152,21 +150,19 @@ curl http://localhost:8080/health/status
 ### Prometheus Metrics
 
 Access metrics:
-
 ```bash
 curl http://localhost:8080/metrics
 ```
 
 ### Grafana Dashboard
 
-1. Access Grafana: <http://localhost:3000>
+1. Access Grafana: http://localhost:3000
 2. Login (default: admin/admin)
 3. Import dashboard from `config/grafana-dashboard.json`
 
 ### Log Aggregation
 
 Logs are output to:
-
 - Console (stdout/stderr)
 - File: `logs/workflow.log`
 - Elasticsearch (if configured)
@@ -176,7 +172,6 @@ Logs are output to:
 ### Common Issues | 常見問題
 
 **Issue:** Port already in use
-
 ```bash
 # Find and kill process
 lsof -i :8080
@@ -184,7 +179,6 @@ kill -9 <PID>
 ```
 
 **Issue:** Permission denied
-
 ```bash
 # Fix permissions
 chmod +x scripts/run-instant-execution.sh
@@ -192,7 +186,6 @@ chown -R $USER:$USER config/
 ```
 
 **Issue:** Database connection failed
-
 ```bash
 # Check database
 psql -h localhost -U workflow -d workflow
@@ -246,11 +239,11 @@ core_engine:
   contract_engine:
     registry:
       cache_enabled: true
-      cache_ttl_seconds: 600 # Increase for better performance
+      cache_ttl_seconds: 600  # Increase for better performance
 
 pipeline:
   execution:
-    concurrency: 20 # Increase for higher throughput
+    concurrency: 20  # Increase for higher throughput
 ```
 
 ## Backup & Recovery | 備份與恢復
@@ -309,7 +302,6 @@ docker-compose up -d --no-deps --build workflow-system
 ### Log Rotation
 
 Configure logrotate:
-
 ```bash
 /app/logs/*.log {
     daily
@@ -324,7 +316,6 @@ Configure logrotate:
 ## Support | 支持
 
 For deployment issues:
-
 - Documentation: [docs/](../docs/)
 - Issues: [GitHub Issues](https://github.com/synergymesh/issues)
 - Community: [Discussions](https://github.com/synergymesh/discussions)

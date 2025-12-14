@@ -19,8 +19,7 @@
 2. Gather feedback
 3. Iterate and improve
 
-See [IMPLEMENTATION-ROADMAP.md](../IMPLEMENTATION-ROADMAP.md) for detailed
-roadmap.
+See [IMPLEMENTATION-ROADMAP.md](../IMPLEMENTATION-ROADMAP.md) for detailed roadmap.
 
 ---
 

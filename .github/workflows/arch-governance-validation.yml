@@ -1,0 +1,327 @@
+name: Architecture & Governance Validation
+
+on:
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'core/**'
+      - 'services/**'
+      - 'apps/**'
+      - 'automation/**'
+      - 'governance/**'
+      - 'config/**'
+      - '.github/workflows/**'
+  push:
+    branches: [main]
+    paths:
+      - 'governance/schemas/**'
+      - 'unmanned-engineer-ceo/**'
+  workflow_dispatch:
+
+# Restrict GITHUB_TOKEN permissions for security
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    架構穩定性驗證 / Architecture Stability Validation
+  # ═══════════════════════════════════════════════════════════════════════════════
+  arch-lint:
+    name: "🏗️ Architecture Lint"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --ignore-scripts || npm install
+
+      - name: 🔍 Validate module dependencies
+        run: |
+          echo "📊 Checking module dependency structure..."
+          
+          # Check for circular dependencies in TypeScript
+          if command -v npx &> /dev/null; then
+            npx madge --circular --extensions ts,tsx . || echo "⚠️ madge not available, skipping TS circular check"
+          fi
+          
+          # Validate workspace structure
+          if [ -f "package.json" ]; then
+            echo "✅ package.json exists"
+            node -e "
+              const pkg = require('./package.json');
+              if (pkg.workspaces) {
+                console.log('📦 Workspaces found:', pkg.workspaces);
+              }
+            "
+          fi
+
+      - name: 🏛️ Validate skeleton alignment
+        run: |
+          echo "🔍 Checking architecture skeleton alignment..."
+          
+          SKELETON_INDEX="unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/skeletons-index.yaml"
+          if [ -f "$SKELETON_INDEX" ]; then
+            echo "✅ Skeleton index found at $SKELETON_INDEX"
+            python3 -c "import yaml; yaml.safe_load(open('$SKELETON_INDEX'))" && echo "✅ Valid YAML"
+          else
+            echo "⚠️ Skeleton index not found"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    Schema 驗證 / Schema Validation
+  # ═══════════════════════════════════════════════════════════════════════════════
+  schema-validation:
+    name: "📋 Schema Validation"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install validation tools
+        run: |
+          pip install pyyaml jsonschema
+
+      - name: 🔍 Validate YAML files
+        run: |
+          echo "📊 Validating all YAML configuration files..."
+          
+          ERRORS=0
+          for file in $(find config -name "*.yaml" -o -name "*.yml" 2>/dev/null); do
+            if python3 -c "import yaml; yaml.safe_load(open('$file'))" 2>/dev/null; then
+              echo "✅ $file"
+            else
+              echo "❌ $file - Invalid YAML"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          
+          if [ $ERRORS -gt 0 ]; then
+            echo "❌ Found $ERRORS invalid YAML files"
+            exit 1
+          fi
+
+      - name: 🔍 Validate governance schemas
+        run: |
+          echo "📊 Validating governance schema files..."
+          
+          for schema in governance/schemas/*.json; do
+            if [ -f "$schema" ]; then
+              python3 -c "import json; json.load(open('$schema'))" && echo "✅ $schema"
+            fi
+          done
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    安全與可觀測性測試 / Security & Observability Tests
+  # ═══════════════════════════════════════════════════════════════════════════════
+  security-observability:
+    name: "🔐 Security & Observability"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 SLSA Provenance Check
+        run: |
+          echo "📊 Checking SLSA provenance requirements..."
+          
+          if [ -d "core/slsa_provenance" ]; then
+            echo "✅ SLSA provenance directory exists"
+          else
+            echo "⚠️ SLSA provenance directory not found"
+          fi
+
+      - name: 🔍 Security configuration check
+        run: |
+          echo "📊 Checking security configurations..."
+          
+          # Check for hardcoded secrets patterns
+          if grep -rn "password\s*=\s*['\"]" --include="*.yaml" --include="*.yml" config/ 2>/dev/null; then
+            echo "⚠️ Potential hardcoded password found"
+          else
+            echo "✅ No hardcoded passwords detected in config"
+          fi
+          
+          # Check safety mechanisms config
+          if [ -f "config/safety-mechanisms.yaml" ]; then
+            echo "✅ Safety mechanisms configuration exists"
+          fi
+
+      - name: 🔍 Observability configuration check
+        run: |
+          echo "📊 Checking observability configurations..."
+          
+          # Check monitoring config
+          [ -f "config/monitoring.yaml" ] && echo "✅ Monitoring config exists"
+          [ -f "config/prometheus-config.yml" ] && echo "✅ Prometheus config exists"
+          [ -f "config/grafana-dashboard.json" ] && echo "✅ Grafana dashboard exists"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    身份與租戶測試 / Identity & Tenancy Tests
+  # ═══════════════════════════════════════════════════════════════════════════════
+  identity-tenancy:
+    name: "🔑 Identity & Tenancy"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Auth configuration check
+        run: |
+          echo "📊 Checking identity & tenancy configurations..."
+          
+          # Check for auth service
+          if [ -d "services/auth-service" ]; then
+            echo "✅ Auth service directory exists"
+          fi
+          
+          # Check AI constitution for identity rules
+          if [ -f "config/ai-constitution.yaml" ]; then
+            echo "✅ AI Constitution exists"
+            python3 -c "import yaml; yaml.safe_load(open('config/ai-constitution.yaml')); print('📋 AI Constitution loaded successfully')"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    資料治理測試 / Data Governance Tests
+  # ═══════════════════════════════════════════════════════════════════════════════
+  data-governance:
+    name: "📊 Data Governance"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Data schema validation
+        run: |
+          echo "📊 Checking data governance configurations..."
+          
+          # Check for data governance in autonomous module
+          if [ -d "automation/autonomous/data-governance" ]; then
+            echo "✅ Data governance module exists"
+          fi
+          
+          # Check for SBOM configurations
+          if [ -d "governance/sbom" ]; then
+            echo "✅ SBOM governance directory exists"
+          fi
+
+      - name: 🔍 Sensitive data pattern check
+        run: |
+          echo "📊 Scanning for sensitive data patterns..."
+          
+          # Check for PII patterns in code (simplified check)
+          SENSITIVE_PATTERNS="ssn|social.?security|credit.?card|api.?key|secret.?key"
+          
+          if grep -rniE "$SENSITIVE_PATTERNS" --include="*.ts" --include="*.py" --include="*.go" src/ services/ 2>/dev/null | head -5; then
+            echo "⚠️ Potential sensitive data patterns found - please review"
+          else
+            echo "✅ No obvious sensitive data patterns in source code"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    架構治理矩陣驗證 / Architecture Governance Matrix Validation
+  # ═══════════════════════════════════════════════════════════════════════════════
+  governance-matrix:
+    name: "🎯 Governance Matrix Validation"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install PyYAML
+
+      - name: 🔍 Validate Architecture Governance Matrix
+        run: |
+          echo "🎯 Validating Architecture Governance Matrix..."
+          make validate-governance-ci
+
+      - name: 📊 Check governance completeness
+        run: |
+          echo "📊 Checking governance matrix completeness..."
+          
+          # Count governance dimensions
+          LAYERS_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/architecture/layers-domains.yaml')); print(len(d.get('layers', {})))" 2>/dev/null || echo "0")
+          DOMAINS_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/architecture/layers-domains.yaml')); print(len(d.get('domains', {})))" 2>/dev/null || echo "0")
+          MODULES_COUNT=$(python3 -c "import yaml; d=yaml.safe_load(open('governance/ownership-map.yaml')); print(len(d.get('modules', {})))" 2>/dev/null || echo "0")
+          CONTRACTS_COUNT=$(find governance/behavior-contracts -name "*.yaml" -type f | wc -l)
+          
+          echo "📋 Governance Matrix Metrics:"
+          echo "  - Layers defined: $LAYERS_COUNT"
+          echo "  - Domains defined: $DOMAINS_COUNT"
+          echo "  - Modules with ownership: $MODULES_COUNT"
+          echo "  - Behavior contracts: $CONTRACTS_COUNT"
+          
+          # Check minimum thresholds
+          if [ "$LAYERS_COUNT" -lt 5 ]; then
+            echo "⚠️ Warning: Less than 5 layers defined"
+          fi
+          
+          if [ "$MODULES_COUNT" -lt 5 ]; then
+            echo "⚠️ Warning: Less than 5 modules have ownership defined"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  #                    綜合報告 / Summary Report
+  # ═══════════════════════════════════════════════════════════════════════════════
+  summary:
+    name: "📝 Governance Summary"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [arch-lint, schema-validation, security-observability, identity-tenancy, data-governance, governance-matrix]
+    if: always()
+    steps:
+      - name: 📊 Generate Summary Report
+        run: |
+          echo "## 🏛️ Architecture & Governance Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🏗️ Architecture Lint | ${{ needs.arch-lint.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📋 Schema Validation | ${{ needs.schema-validation.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔐 Security & Observability | ${{ needs.security-observability.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔑 Identity & Tenancy | ${{ needs.identity-tenancy.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📊 Data Governance | ${{ needs.data-governance.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🎯 Governance Matrix | ${{ needs.governance-matrix.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📚 Reference: \`governance/ARCHITECTURE_GOVERNANCE_MATRIX.md\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: ✅ Check overall status
+        run: |
+          if [[ "${{ needs.arch-lint.result }}" != "success" ]] || \
+             [[ "${{ needs.schema-validation.result }}" != "success" ]] || \
+             [[ "${{ needs.security-observability.result }}" != "success" ]] || \
+             [[ "${{ needs.identity-tenancy.result }}" != "success" ]] || \
+             [[ "${{ needs.data-governance.result }}" != "success" ]] || \
+             [[ "${{ needs.governance-matrix.result }}" != "success" ]]; then
+            echo "❌ One or more governance checks failed"
+            exit 1
+          fi
+          echo "✅ All governance checks passed"

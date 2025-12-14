@@ -2,9 +2,7 @@
 
 ## Overview
 
-This guide explains how the workflow system has been integrated into the
-SynergyMesh project structure, following the three-systems architecture
-(SynergyMesh Core, Structural Governance, Autonomous/Drone Stack).
+This guide explains how the workflow system has been integrated into the SynergyMesh project structure, following the three-systems architecture (SynergyMesh Core, Structural Governance, Autonomous/Drone Stack).
 
 ## Quick Start
 
@@ -24,7 +22,6 @@ docker-compose --profile workflow down
 ```
 
 Services started:
-
 - **workflow-system** (port 8081) - Main workflow engine
 - **workflow-postgres** - PostgreSQL database
 - **workflow-redis** - Redis cache
@@ -52,7 +49,6 @@ python tools/generators/contract_generator.py \
 ### Three-Systems Integration
 
 #### 1. SynergyMesh Core
-
 Core engine components for workflow execution:
 
 - **Contract Engine** (`core/contract_engine.py`)
@@ -60,10 +56,12 @@ Core engine components for workflow execution:
   - Contract validation
   - Contract execution with timeout
   - Lifecycle management (deprecation, retirement)
+  
 - **Plugin System** (`core/plugin_system.py`)
   - Plugin discovery and loading
   - Plugin registry
   - Sandboxed execution
+  
 - **Multi-Layer Validator** (`core/validators/multi_layer_validator.py`)
   - Syntax validation
   - Semantic validation
@@ -72,23 +70,21 @@ Core engine components for workflow execution:
   - Compliance validation
 
 #### 2. Structural Governance
-
 Policy and contract definitions:
 
-- **Behavior Contracts**
-  (`governance/policies/workflow/behavior-contracts.yaml`)
+- **Behavior Contracts** (`governance/policies/workflow/behavior-contracts.yaml`)
   - AI governance contracts
   - Validation phase contracts
   - Deployment phase contracts
   - Plugin contracts
   - Self-improvement contracts
+  
 - **Validation Rules** (`governance/policies/workflow/validation-rules.yaml`)
   - Syntax rules
   - Semantic rules
   - Security rules
 
 #### 3. Autonomous/Drone Stack
-
 Automation tools and generators:
 
 - **Contract Generator** (`tools/generators/contract_generator.py`)
@@ -97,29 +93,26 @@ Automation tools and generators:
 
 ## Configuration
 
-The workflow system is configured through `config/system-manifest.yaml` under
-the `workflow_system` section.
+The workflow system is configured through `config/system-manifest.yaml` under the `workflow_system` section.
 
 ### Key Configuration Sections
 
 #### Core Engine
-
 ```yaml
 workflow_system:
   core_engine:
     contract_engine:
       enabled: true
-      execution_mode: 'strict' # strict | permissive | audit
+      execution_mode: "strict"  # strict | permissive | audit
       registry:
-        type: 'distributed'
-        storage_backend: 'postgresql'
+        type: "distributed"
+        storage_backend: "postgresql"
     plugin_system:
       enabled: true
       auto_discovery: true
 ```
 
 #### AI Governance
-
 ```yaml
 workflow_system:
   ai_governance:
@@ -134,7 +127,6 @@ workflow_system:
 ```
 
 #### Validation System
-
 ```yaml
 workflow_system:
   validation_system:
@@ -143,27 +135,26 @@ workflow_system:
       fail_fast: false
       parallel_execution: true
       layers:
-        - name: 'syntax'
-          severity: 'critical'
-        - name: 'semantic'
-          severity: 'high'
-        - name: 'security'
-          severity: 'critical'
+        - name: "syntax"
+          severity: "critical"
+        - name: "semantic"
+          severity: "high"
+        - name: "security"
+          severity: "critical"
 ```
 
 #### Pipeline Configuration
-
 ```yaml
 workflow_system:
   pipeline:
     execution:
-      mode: 'orchestrated'
+      mode: "orchestrated"
       concurrency: 10
       timeout_seconds: 3600
     quality_gates:
-      - name: 'code_quality'
+      - name: "code_quality"
         blocking: true
-      - name: 'security'
+      - name: "security"
         blocking: true
 ```
 
@@ -250,20 +241,20 @@ async def main():
         # Process input
         result = input_data["input"].upper()
         return {"output": result}
-
+    
     # Register handler
     engine.executor.register_handler(
         ContractType.SERVICE,
         service_handler
     )
-
+    
     # Execute contract
     result = await engine.executor.execute(
         contract_id=contract_id,
         input_data={"input": "hello world"},
         context={"user": "test"}
     )
-
+    
     print(f"Execution successful: {result.success}")
     print(f"Output: {result.output}")
     print(f"Duration: {result.duration_ms}ms")
@@ -418,7 +409,6 @@ docker-compose --profile workflow down
 Access Prometheus at `http://localhost:9090` when running with Docker.
 
 Key metrics:
-
 - `contract_executions_total` - Total contract executions
 - `contract_execution_duration_seconds` - Execution duration histogram
 - `contract_validation_errors_total` - Validation errors
@@ -457,17 +447,17 @@ workflow_system:
   security:
     authentication:
       enabled: true
-      provider: 'oauth2'
+      provider: "oauth2"
       token_expiry_seconds: 3600
     authorization:
       enabled: true
-      model: 'rbac'
+      model: "rbac"
       rbac:
         roles:
-          - name: 'admin'
-            permissions: ['*']
-          - name: 'developer'
-            permissions: ['deploy:dev', 'deploy:staging', 'view:*']
+          - name: "admin"
+            permissions: ["*"]
+          - name: "developer"
+            permissions: ["deploy:dev", "deploy:staging", "view:*"]
 ```
 
 ### Encryption
@@ -479,7 +469,6 @@ workflow_system:
 ### Vulnerability Scanning
 
 Integrated security validation includes:
-
 - OWASP Top 10 checks
 - Dependency vulnerability scanning (NVD database)
 - Code analysis with CodeQL
@@ -546,8 +535,7 @@ LOG_LEVEL=debug python -m core.contract_engine --config config/system-manifest.y
 
 When adding new workflow components:
 
-1. **Follow naming conventions:** `snake_case` for Python, `camelCase` for
-   TypeScript
+1. **Follow naming conventions:** `snake_case` for Python, `camelCase` for TypeScript
 2. **Add type hints:** All Python functions should have type annotations
 3. **Write tests:** Minimum 80% code coverage
 4. **Update documentation:** Include docstrings and update relevant guides
@@ -589,11 +577,11 @@ class CustomValidator:
     def validate(self, data):
         errors = []
         warnings = []
-
+        
         # Your validation logic here
         if some_condition:
             errors.append("Validation error message")
-
+        
         return ValidationResult(
             layer="custom",
             is_valid=len(errors) == 0,
@@ -615,15 +603,15 @@ from core.plugin_system import Plugin
 class MyCustomPlugin(Plugin):
     def __init__(self):
         super().__init__("my_plugin", "1.0.0")
-
+    
     def initialize(self) -> bool:
         # Plugin initialization logic
         return True
-
+    
     def execute(self, context):
         # Plugin execution logic
         return {"result": "success"}
-
+    
     def cleanup(self):
         # Plugin cleanup logic
         pass
@@ -632,8 +620,7 @@ class MyCustomPlugin(Plugin):
 ## References
 
 - **Main Documentation:** [README.md](../README.md)
-- **Integration Summary:**
-  [WORKFLOW_INTEGRATION_SUMMARY.md](../WORKFLOW_INTEGRATION_SUMMARY.md)
+- **Integration Summary:** [WORKFLOW_INTEGRATION_SUMMARY.md](../WORKFLOW_INTEGRATION_SUMMARY.md)
 - **API Reference:** [docs/API_REFERENCE.md](API_REFERENCE.md)
 - **Deployment Guide:** [docs/DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
 - **Workflow System Details:** [docs/WORKFLOW_SYSTEM.md](WORKFLOW_SYSTEM.md)
@@ -642,10 +629,11 @@ class MyCustomPlugin(Plugin):
 
 For issues, questions, or contributions:
 
-- **GitHub Issues:** <https://github.com/SynergyMesh/SynergyMesh/issues>
-- **Documentation:** <https://docs.synergymesh.io>
-- **Community:** <https://community.synergymesh.io>
+- **GitHub Issues:** https://github.com/SynergyMesh/SynergyMesh/issues
+- **Documentation:** https://docs.synergymesh.io
+- **Community:** https://community.synergymesh.io
 
 ---
 
-**Last Updated:** 2025-12-09 **Version:** 2.0.0
+**Last Updated:** 2025-12-09
+**Version:** 2.0.0

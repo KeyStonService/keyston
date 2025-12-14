@@ -114,7 +114,6 @@ class AppendOnlyLogClient:
         return hmac.new(secret.encode(), data.encode(), hashlib.sha256).hexdigest()
 
     def append(self, event: Dict[str, Any]) -> Dict[str, Any]:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         添加事件到審計日誌
 
@@ -188,7 +187,6 @@ class AppendOnlyLogClient:
             raise
 
     def verify(self) -> Dict[str, Any]:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         驗證日誌完整性
 

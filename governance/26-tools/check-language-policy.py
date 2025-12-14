@@ -39,7 +39,6 @@ class LanguagePolicyChecker:
     }
     
     def __init__(self, repo_root: str, policy_file: str):
-        """TODO: Add function documentation"""
         self.repo_root = Path(repo_root)
         self.policy_file = Path(policy_file)
         self.policy = self._load_policy()
@@ -92,9 +91,7 @@ class LanguagePolicyChecker:
         
         return best_pattern, best_match
     
-    # REFACTOR: Function '_check_directory_rules' has complexity 14. Consider extracting helper methods.
     def _check_directory_rules(self):
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """檢查目錄級別的語言規則"""
         directory_rules = self.policy.get('directory_rules', {})
         

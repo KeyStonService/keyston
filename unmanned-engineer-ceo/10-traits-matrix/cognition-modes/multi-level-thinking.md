@@ -1,7 +1,6 @@
 # Multi-Level Thinking
 
 ## 層級
-
 - **Strategy**：長期技術地圖。
 - **Tactics**：季度 OKR + roadmap。
 - **Execution**：衝刺任務。

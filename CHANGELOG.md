@@ -6,8 +6,7 @@
 
 本檔案記錄所有對監控目錄的重要變更。請遵循以下格式：
 
-This file records all important changes to monitored directories. Please follow
-this format:
+This file records all important changes to monitored directories. Please follow this format:
 
 ```
 YYYY-MM-DD | <username> | <path> | <change_type> | <reason>
@@ -68,7 +67,6 @@ YYYY-MM-DD | <username> | <path> | <change_type> | <reason>
 **說明**: HLP Executor Core Plugin P1 階段整合完成（21項任務）
 
 **Added**:
-
 - **HLP Executor Core Plugin** (v1.0.0): 新增 Async DAG 編排引擎
   - 狀態機 JSON Schema 規範與驗證
   - 檢查點管理模組（支援壓縮、保留策略、檢查和驗證）
@@ -88,11 +86,9 @@ YYYY-MM-DD | <username> | <path> | <change_type> | <reason>
   - 單元測試（partial_rollback.py）
   - Jest 測試配置
 
-**Description**: Completed HLP Executor Core Plugin P1 phase integration (21
-tasks)
+**Description**: Completed HLP Executor Core Plugin P1 phase integration (21 tasks)
 
 **Added**:
-
 - **HLP Executor Core Plugin** (v1.0.0): New Async DAG orchestration engine
   - State machine JSON schema for validation
   - Checkpoint management with compression and retention policies
@@ -122,14 +118,11 @@ tasks)
 
 **說明**: 將 `apps/web` 子目錄的建置說明與文檔完整整合入根目錄 README.md。
 
-**Description**: Integrated all build instructions and documentation from
-`apps/web` subdirectory into the root README.md.
+**Description**: Integrated all build instructions and documentation from `apps/web` subdirectory into the root README.md.
 
 **主要變更 | Key Changes**:
-
 - 新增 `apps/web` 到目錄結構說明 (Added `apps/web` to directory structure)
-- 新增 Web 前端與代碼分析 API 完整章節 (Added complete Web Frontend & Code
-  Analysis API section)
+- 新增 Web 前端與代碼分析 API 完整章節 (Added complete Web Frontend & Code Analysis API section)
   - 安裝與設定指南 (Installation and setup guide)
   - 測試運行說明 (Test execution instructions)
   - API 服務端點說明 (API service endpoints)
@@ -150,22 +143,18 @@ tasks)
 2025-12-02 | copilot | docs/ADMIN_COPILOT_CLI.md | add | Add CLI documentation (PR#16)
 ```
 
-**說明**: 系統重大更新 - 版本同步至 4.0.0，反映第四階段目錄整合完成。新增 Admin
-Copilot CLI 工具。
+**說明**: 系統重大更新 - 版本同步至 4.0.0，反映第四階段目錄整合完成。新增 Admin Copilot CLI 工具。
 
-**Description**: Major system update - Version synchronized to 4.0.0, reflecting
-Phase 4 directory consolidation completion. Added Admin Copilot CLI tool.
+**Description**: Major system update - Version synchronized to 4.0.0, reflecting Phase 4 directory consolidation completion. Added Admin Copilot CLI tool.
 
 **主要變更 | Key Changes**:
-
 - 版本號更新至 4.0.0 (Version updated to 4.0.0)
 - Phase 4 目錄整合完成 (Phase 4 directory consolidation complete)
 - 深度執行系統 (Deep Execution System) 已整合 (PR#10)
 - 知識圖譜驗證修正 (Knowledge Graph validation fixes) (PR#9)
 - CI 工作流程修正 (CI workflow fixes) (PR#7)
 - Agent 配置修正 (Agent configuration fixes) (PR#11)
-- **新增 Admin Copilot CLI** - 終端機 AI 助手 (New: Admin Copilot CLI - Terminal
-  AI assistant)
+- **新增 Admin Copilot CLI** - 終端機 AI 助手 (New: Admin Copilot CLI - Terminal AI assistant)
   - 自然語言對話功能 (Natural language chat)
   - 程式碼分析與修復 (Code analysis and fixes)
   - MCP 伺服器整合 (MCP server integration)
@@ -186,9 +175,7 @@ Phase 4 directory consolidation completion. Added Admin Copilot CLI tool.
 
 **說明**: 建立監控系統參照文件，提供工作人員、代理與智能體明確的操作指引與監控目錄清單。
 
-**Description**: Created monitoring system reference documentation to provide
-workers, agents, and intelligent systems with clear operational guidelines and
-monitored directory lists.
+**Description**: Created monitoring system reference documentation to provide workers, agents, and intelligent systems with clear operational guidelines and monitored directory lists.
 
 ---
 
@@ -263,38 +250,36 @@ cut -d'|' -f3 CHANGELOG.md | cut -d'/' -f1 | sort | uniq -c | sort -rn
 
 本節提供快速摘要視圖，顯示各監控目錄的最近變更次數：
 
-This section provides a quick summary view showing recent change counts for each
-monitored directory:
+This section provides a quick summary view showing recent change counts for each monitored directory:
 
 ### 2025-12 (當前月份 | Current Month)
 
-| 目錄 Directory              | 變更次數 Changes | 最後變更 Last Change | 風險等級 Risk Level |
-| --------------------------- | ---------------- | -------------------- | ------------------- |
-| `config/`                   | 0                | -                    | 🔴 高 High          |
-| `core/contract_service/`    | 0                | -                    | 🔴 高 High          |
-| `README.md`                 | 2                | 2025-12-02           | 🟡 中 Medium        |
-| `CHANGELOG.md`              | 2                | 2025-12-02           | 🟡 中 Medium        |
-| `tools/cli/`                | 3                | 2025-12-02           | 🟢 低 Low           |
-| `docs/ADMIN_COPILOT_CLI.md` | 1                | 2025-12-02           | 🟢 低 Low           |
+| 目錄 Directory | 變更次數 Changes | 最後變更 Last Change | 風險等級 Risk Level |
+|---|---|---|---|
+| `config/` | 0 | - | 🔴 高 High |
+| `core/contract_service/` | 0 | - | 🔴 高 High |
+| `README.md` | 2 | 2025-12-02 | 🟡 中 Medium |
+| `CHANGELOG.md` | 2 | 2025-12-02 | 🟡 中 Medium |
+| `tools/cli/` | 3 | 2025-12-02 | 🟢 低 Low |
+| `docs/ADMIN_COPILOT_CLI.md` | 1 | 2025-12-02 | 🟢 低 Low |
 
 ### 2025-11 (上月 | Previous Month)
 
-| 目錄 Directory                  | 變更次數 Changes | 最後變更 Last Change | 風險等級 Risk Level |
-| ------------------------------- | ---------------- | -------------------- | ------------------- |
-| `config/`                       | 0                | -                    | 🔴 高 High          |
-| `core/contract_service/`        | 0                | -                    | 🔴 高 High          |
-| `advanced-system-src/`          | 0                | -                    | 🔴 高 High          |
-| `advanced-system-dist/`         | 0                | -                    | 🔴 高 High          |
-| `mcp-servers/`                  | 0                | -                    | 🟠 中高 Med-High    |
-| `scripts/`                      | 0                | -                    | 🟠 中高 Med-High    |
-| `governance/policies/conftest/` | 0                | -                    | 🟠 中高 Med-High    |
-| `schemas/`                      | 0                | -                    | 🟡 中 Medium        |
-| `docs/`                         | 0                | -                    | 🟡 中 Medium        |
+| 目錄 Directory | 變更次數 Changes | 最後變更 Last Change | 風險等級 Risk Level |
+|---|---|---|---|
+| `config/` | 0 | - | 🔴 高 High |
+| `core/contract_service/` | 0 | - | 🔴 高 High |
+| `advanced-system-src/` | 0 | - | 🔴 高 High |
+| `advanced-system-dist/` | 0 | - | 🔴 高 High |
+| `mcp-servers/` | 0 | - | 🟠 中高 Med-High |
+| `scripts/` | 0 | - | 🟠 中高 Med-High |
+| `governance/policies/conftest/` | 0 | - | 🟠 中高 Med-High |
+| `schemas/` | 0 | - | 🟡 中 Medium |
+| `docs/` | 0 | - | 🟡 中 Medium |
 
 **說明**: 此摘要表格應定期更新（建議每月更新一次）。可考慮使用自動化腳本產生此統計。
 
-**Note**: This summary table should be updated regularly (recommended monthly).
-Consider using an automated script to generate this statistics.
+**Note**: This summary table should be updated regularly (recommended monthly). Consider using an automated script to generate this statistics.
 
 ---
 
@@ -302,8 +287,7 @@ Consider using an automated script to generate this statistics.
 
 以下變更因觸發異常規則而被標記，需要額外審查：
 
-The following changes have been flagged due to anomaly rules and require
-additional review:
+The following changes have been flagged due to anomaly rules and require additional review:
 
 ### 格式 | Format
 

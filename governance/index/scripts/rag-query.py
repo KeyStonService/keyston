@@ -179,7 +179,6 @@ class GovernanceRAG:
         return results[:top_k]
 
     def _keyword_search(self, query: str, top_k: int,
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
                         include_compliance: bool,
                         security_filter: Optional[str]) -> List[SearchResult]:
         """Perform keyword-based search as fallback."""
@@ -324,7 +323,6 @@ class GovernanceRAG:
 
 
 def main():
-    """TODO: Add function documentation"""
     parser = argparse.ArgumentParser(
         description="RAG Query for Governance Index",
         formatter_class=argparse.RawDescriptionHelpFormatter,

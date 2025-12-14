@@ -3,20 +3,16 @@
 ## 📋 概述 / Overview
 
 本目錄作為 **統一架構骨架系統** 的入口點，整合了：
-
 - **unmanned-engineer-ceo** 的完整架構指南（11個骨架）
 - **automation/autonomous** 的實現代碼
 
-This directory serves as the entry point for the **Unified Architecture
-Skeletons System**, integrating:
-
+This directory serves as the entry point for the **Unified Architecture Skeletons System**, integrating:
 - **unmanned-engineer-ceo** complete architecture guides (11 skeletons)
 - **automation/autonomous** implementation code
 
 ## 🎯 目的 / Purpose
 
 提供統一的架構決策框架，讓 AI 和工程師能夠：
-
 1. 快速找到相關的架構指南
 2. 參考實際的實現代碼
 3. 遵循標準化的設計流程
@@ -24,11 +20,11 @@ Skeletons System**, integrating:
 
 ## 📚 核心文件 / Core Files
 
-| 文件                                       | 用途                 | 受眾        |
-| ------------------------------------------ | -------------------- | ----------- |
+| 文件 | 用途 | 受眾 |
+|------|------|------|
 | [unified-index.yaml](./unified-index.yaml) | 完整的骨架索引和映射 | AI + 工程師 |
-| [mapping.yaml](./mapping.yaml)             | 指南與實現的雙向映射 | AI          |
-| [README.md](./README.md)                   | 本檔案 - 使用指南    | 工程師      |
+| [mapping.yaml](./mapping.yaml) | 指南與實現的雙向映射 | AI |
+| [README.md](./README.md) | 本檔案 - 使用指南 | 工程師 |
 
 ## 🏗️ 11 個核心骨架 / 11 Core Skeletons
 
@@ -39,72 +35,61 @@ Skeletons System**, integrating:
 1. **architecture-stability** - 架構穩定性
    - 狀態: ✅ 生產就緒
    - 用途: 系統架構設計、服務邊界、模組依賴
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/)
-     | [實現](../autonomous/architecture-stability/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/) | [實現](../autonomous/architecture-stability/)
 
 2. **security-observability** - 安全與可觀測性
    - 狀態: ✅ 生產就緒
    - 用途: 安全機制、監控告警、分散式追蹤
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/security-observability/)
-     | [實現](../autonomous/security-observability/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/security-observability/) | [實現](../autonomous/security-observability/)
 
 3. **identity-tenancy** - 身份與多租戶
    - 狀態: 🟡 設計階段
    - 用途: 認證授權、RBAC/ABAC、租戶隔離
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/)
-     | [實現](../autonomous/identity-tenancy/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/) | [實現](../autonomous/identity-tenancy/)
 
 4. **data-governance** - 資料治理
    - 狀態: 🟡 設計階段
    - 用途: 資料模式、分類、流向、隱私合規
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/)
-     | [實現](../autonomous/data-governance/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/) | [實現](../autonomous/data-governance/)
 
 5. **knowledge-base** - 知識庫
    - 狀態: 🟡 設計階段
    - 用途: 知識組織、查詢介面、AI 上下文管理
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/)
-     | [實現](../autonomous/knowledge-base/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/knowledge-base/) | [實現](../autonomous/knowledge-base/)
 
 6. **nucleus-orchestrator** - 核心編排
    - 狀態: 🟡 設計階段
    - 用途: 工作流編排、代理協調、任務分派
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/)
-     | [實現](../autonomous/nucleus-orchestrator/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/nucleus-orchestrator/) | [實現](../autonomous/nucleus-orchestrator/)
 
 #### 🟡 高優先級骨架 (High - 應該實現)
 
-1. **api-governance** - API 治理
+7. **api-governance** - API 治理
    - 狀態: ✅ 生產就緒
    - 用途: API 設計、版本管理、合約驗證
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/api-governance/)
-     | [實現](../autonomous/api-governance/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/api-governance/) | [實現](../autonomous/api-governance/)
 
-2. **testing-governance** - 測試治理
+8. **testing-governance** - 測試治理
    - 狀態: ✅ 生產就緒
    - 用途: 測試策略、覆蓋率標準、品質門檻
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/)
-     | [實現](../autonomous/testing-compatibility/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/) | [實現](../autonomous/testing-compatibility/)
 
-3. **performance-reliability** - 性能與可靠性
+9. **performance-reliability** - 性能與可靠性
    - 狀態: 🟡 設計階段
    - 用途: SLA 目標、容量規劃、故障恢復
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/)
-     | [實現](../autonomous/performance-reliability/)
+   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/performance-reliability/) | [實現](../autonomous/performance-reliability/)
 
 #### 🟢 中優先級骨架 (Medium - 可以實現)
 
-1. **cost-management** - 成本管理
-   - 狀態: 🟡 設計階段
-   - 用途: 成本監控、預算規劃、資源優化
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/)
-     | [實現](../autonomous/cost-management/)
+10. **cost-management** - 成本管理
+    - 狀態: 🟡 設計階段
+    - 用途: 成本監控、預算規劃、資源優化
+    - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/) | [實現](../autonomous/cost-management/)
 
-2. **docs-governance** - 文檔治理
-   - 狀態: ✅ 生產就緒
-   - 用途: 文檔標準、更新流程、機器可讀文檔
-   - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/)
-     | [實現](../autonomous/docs-examples/)
+11. **docs-governance** - 文檔治理
+    - 狀態: ✅ 生產就緒
+    - 用途: 文檔標準、更新流程、機器可讀文檔
+    - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/) | [實現](../autonomous/docs-examples/)
 
 ## 🚀 快速開始 / Quick Start
 
@@ -137,14 +122,12 @@ check_with_checklists(guide_path + 'checklists.md')
 ### 對於工程師 / For Engineers
 
 #### 步驟 1: 識別需求
-
 ```bash
 # 我需要設計一個多租戶系統
 # → 查看 identity-tenancy 骨架
 ```
 
 #### 步驟 2: 閱讀指南
-
 ```bash
 # 1. 查看概述
 cat unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/overview.md
@@ -157,7 +140,6 @@ cat unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-t
 ```
 
 #### 步驟 3: 參考實現
-
 ```bash
 # 查看實現目錄
 cd automation/autonomous/identity-tenancy/
@@ -165,7 +147,6 @@ cat README.md
 ```
 
 #### 步驟 4: 自檢
-
 ```bash
 # 使用 Checklist 驗證設計
 cat unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/checklists.md
@@ -275,20 +256,20 @@ cat unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-t
 
 ### 實現狀態 / Implementation Status
 
-| 狀態        | 數量 | 骨架列表                                                                                                          |
-| ----------- | ---- | ----------------------------------------------------------------------------------------------------------------- |
-| ✅ 生產就緒 | 5    | architecture-stability, security-observability, api-governance, testing-governance, docs-governance               |
-| 🟡 設計階段 | 6    | identity-tenancy, data-governance, performance-reliability, cost-management, knowledge-base, nucleus-orchestrator |
-| 🔴 規劃中   | 0    | -                                                                                                                 |
+| 狀態 | 數量 | 骨架列表 |
+|------|------|---------|
+| ✅ 生產就緒 | 5 | architecture-stability, security-observability, api-governance, testing-governance, docs-governance |
+| 🟡 設計階段 | 6 | identity-tenancy, data-governance, performance-reliability, cost-management, knowledge-base, nucleus-orchestrator |
+| 🔴 規劃中 | 0 | - |
 
 ### 技術棧分布 / Tech Stack Distribution
 
-| 技術            | 骨架數量 | 骨架列表                                                                                                                                              |
-| --------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Python          | 8        | api-governance, identity-tenancy, data-governance, testing-governance, performance-reliability, cost-management, knowledge-base, nucleus-orchestrator |
-| C++ + ROS 2     | 1        | architecture-stability                                                                                                                                |
-| Go              | 1        | security-observability                                                                                                                                |
-| YAML + Markdown | 1        | docs-governance                                                                                                                                       |
+| 技術 | 骨架數量 | 骨架列表 |
+|------|---------|---------|
+| Python | 8 | api-governance, identity-tenancy, data-governance, testing-governance, performance-reliability, cost-management, knowledge-base, nucleus-orchestrator |
+| C++ + ROS 2 | 1 | architecture-stability |
+| Go | 1 | security-observability |
+| YAML + Markdown | 1 | docs-governance |
 
 ## 🔗 整合點 / Integration Points
 
@@ -297,27 +278,27 @@ cat unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-t
 ```yaml
 integrations:
   core_systems:
-    - core/unified_integration/ # 統一整合層
-    - core/mind_matrix/ # 心智矩陣
-    - core/safety_mechanisms/ # 安全機制
-    - core/slsa_provenance/ # SLSA 溯源
-
+    - core/unified_integration/     # 統一整合層
+    - core/mind_matrix/             # 心智矩陣
+    - core/safety_mechanisms/       # 安全機制
+    - core/slsa_provenance/         # SLSA 溯源
+  
   governance:
-    - governance/schemas/ # 治理模式
-    - governance/policies/ # 策略定義
-
+    - governance/schemas/           # 治理模式
+    - governance/policies/          # 策略定義
+  
   services:
-    - services/mcp/ # MCP 伺服器
-    - services/agents/ # 智能代理
-
+    - services/mcp/                 # MCP 伺服器
+    - services/agents/              # 智能代理
+  
   infrastructure:
-    - infrastructure/monitoring/ # 監控系統
-    - infrastructure/drift/ # 漂移檢測
-
+    - infrastructure/monitoring/    # 監控系統
+    - infrastructure/drift/         # 漂移檢測
+  
   documentation:
-    - docs/knowledge-graph.yaml # 知識圖譜
+    - docs/knowledge-graph.yaml     # 知識圖譜
     - docs/LIVING_KNOWLEDGE_BASE.md # 活體知識庫
-    - DOCUMENTATION_INDEX.md # 文檔索引
+    - DOCUMENTATION_INDEX.md        # 文檔索引
 ```
 
 ## 📝 維護指南 / Maintenance Guide
@@ -327,21 +308,18 @@ integrations:
 當您需要更新骨架時：
 
 1. **更新指南文件** (unmanned-engineer-ceo)
-
    ```bash
    cd unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/<skeleton-name>/
    # 更新相關的 .md 和 .yaml 文件
    ```
 
 2. **更新實現代碼** (automation/autonomous)
-
    ```bash
    cd automation/autonomous/<skeleton-name>/
    # 更新代碼和 README.md
    ```
 
 3. **更新統一索引**
-
    ```bash
    cd automation/architecture-skeletons/
    # 更新 unified-index.yaml
@@ -349,7 +327,6 @@ integrations:
    ```
 
 4. **同步知識庫**
-
    ```bash
    make all-kg  # 重新生成知識圖譜
    ```
@@ -389,7 +366,7 @@ usage_stats:
     - architecture-stability: 45%
     - api-governance: 25%
     - security-observability: 15%
-
+  
   by_agent:
     architect_agent:
       - architecture-stability
@@ -406,7 +383,6 @@ usage_stats:
 ### Q: 如何選擇合適的骨架？
 
 **A**: 根據任務類型：
-
 - 架構設計 → architecture-stability
 - API 開發 → api-governance
 - 安全需求 → security-observability, identity-tenancy
@@ -420,16 +396,14 @@ usage_stats:
 
 ### Q: 指南和實現不一致怎麼辦？
 
-**A**:
-
+**A**: 
 1. 以指南為準（設計標準）
 2. 更新實現代碼以符合指南
 3. 如果指南有誤，更新指南並提 PR
 
 ### Q: 如何貢獻新的骨架？
 
-**A**:
-
+**A**: 
 1. 提出 Issue 說明需求
 2. 創建指南文件（5 個標準文件）
 3. 創建實現目錄和 README
@@ -441,7 +415,7 @@ usage_stats:
 ### 維護團隊 / Maintainers
 
 - **Owner**: SynergyMesh Architecture Guild
-- **Contact**: <governance@unmanned.island>
+- **Contact**: governance@unmanned.island
 
 ### 相關資源 / Related Resources
 

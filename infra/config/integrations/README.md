@@ -11,11 +11,9 @@
 **用途**: 發送安全告警到 Slack 頻道
 
 **環境變數**:
-
 - `SLACK_WEBHOOK_URL` (必需): Slack incoming webhook URL
 
 **使用方式**:
-
 ```bash
 # 設定 webhook URL
 export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
@@ -25,14 +23,12 @@ export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 ```
 
 **參數**:
-
 1. Severity: critical, high, medium, low
 2. Message: 告警訊息
 3. Details: 詳細資訊
 4. Repository: 倉庫名稱
 
 **特性**:
-
 - 根據嚴重度使用不同顏色
 - 包含時間戳和倉庫信息
 - 標準化的消息格式
@@ -46,7 +42,6 @@ export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 **用途**: 自動將安全告警建立為 Jira Issues
 
 **環境變數**:
-
 - `JIRA_URL` (必需): Jira 實例 URL
 - `JIRA_USERNAME` (必需): Jira 用戶名
 - `JIRA_API_TOKEN` (必需): Jira API Token
@@ -59,7 +54,6 @@ export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 - `ALERT_URL`: 告警 URL
 
 **使用方式**:
-
 ```bash
 # 設定環境變數
 export JIRA_URL="https://your-company.atlassian.net"
@@ -72,13 +66,11 @@ export JIRA_PROJECT="SEC"
 ```
 
 **參數** (命令行或環境變數):
-
 1. Severity: critical, high, medium, low
 2. Summary: Issue 標題
 3. Description: Issue 描述
 
 **特性**:
-
 - 自動映射嚴重度到 Jira 優先級
 - 包含 SLA 目標
 - 添加相關標籤
@@ -114,9 +106,8 @@ export JIRA_PROJECT="SEC"
     JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
     JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
     ALERT_SEVERITY: critical
-    ALERT_SUMMARY: 'Critical security vulnerabilities detected'
-    ALERT_DESCRIPTION:
-      'Found ${{ steps.scan.outputs.critical_count }} critical issues'
+    ALERT_SUMMARY: "Critical security vulnerabilities detected"
+    ALERT_DESCRIPTION: "Found ${{ steps.scan.outputs.critical_count }} critical issues"
   run: |
     python3 ./config/integrations/jira-integration.py
 ```
@@ -155,7 +146,6 @@ export JIRA_PROJECT="SEC"
 要添加新的整合服務，請遵循以下步驟：
 
 1. **建立腳本文件**
-
    ```bash
    touch config/integrations/new-service.sh
    chmod +x config/integrations/new-service.sh
@@ -231,11 +221,9 @@ fi
 **問題**: 消息未出現在 Slack
 
 **解決方案**:
-
 1. 驗證 webhook URL 正確
 2. 檢查頻道權限
 3. 測試 webhook:
-
    ```bash
    curl -X POST $SLACK_WEBHOOK_URL \
      -H 'Content-Type: application/json' \
@@ -247,12 +235,10 @@ fi
 **問題**: 認證失敗
 
 **解決方案**:
-
 1. 確認 API token 有效
 2. 驗證 username 正確（應為 email）
 3. 檢查專案權限
 4. 測試連接:
-
    ```bash
    curl -u "email@example.com:api-token" \
      https://your-company.atlassian.net/rest/api/2/myself

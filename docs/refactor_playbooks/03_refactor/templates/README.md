@@ -11,13 +11,11 @@
 **用途**：建立新的重構劇本（Refactor Playbook）
 
 **使用時機**：
-
 - 為新的 cluster 建立重構計畫
 - 需要完整的 P0/P1/P2 行動清單
 - 需要定義 Auto-Fix 範圍與驗收條件
 
 **使用方法**：
-
 ```bash
 # 複製模板
 cp docs/refactor_playbooks/03_refactor/templates/REFRACTOR_PLAYBOOK_TEMPLATE.md \
@@ -30,7 +28,6 @@ python tools/generate-refactor-playbook.py \
 ```
 
 **必填欄位**：
-
 - Cluster ID
 - 對應目錄
 - 對應集成劇本
@@ -43,14 +40,12 @@ python tools/generate-refactor-playbook.py \
 **用途**：建立設計草稿、探索筆記、方案比較
 
 **使用時機**：
-
 - 探索多個設計方案
 - 記錄架構思考過程
 - 進行技術實驗與驗證
 - 會議討論筆記
 
 **使用方法**：
-
 ```bash
 # 全域草稿
 cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
@@ -66,7 +61,6 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 ```
 
 **特點**：
-
 - 輕量級格式
 - 支援多方案比較
 - 包含實驗結果記錄
@@ -79,13 +73,13 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 **用途**：常用章節的可重複使用片段
 
 **內容**：
-
 - P0/P1/P2 行動模板
 - Auto-Fix 範圍範例
 - 驗收條件表格
 - 常見語言遷移場景
 
-**使用方法**：直接複製需要的 snippet 到你的劇本中。
+**使用方法**：
+直接複製需要的 snippet 到你的劇本中。
 
 ---
 
@@ -94,7 +88,6 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 **用途**：命名規則與結構規範
 
 **內容**：
-
 - 檔名命名規則
 - Cluster ID 格式
 - 目錄結構對應
@@ -104,7 +97,6 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 - 驗證檢查清單
 
 **使用時機**：
-
 - 建立新劇本前參考
 - 進行 code review 時驗證
 - 設定 CI 檢查規則
@@ -130,13 +122,13 @@ cp docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md \
 
 ### 與 Legacy Scratch 的區別
 
-| 特性     | Scratch Notes                  | Legacy Scratch                             |
-| -------- | ------------------------------ | ------------------------------------------ |
-| 位置     | `docs/scratch/`, `*/_scratch/` | `docs/refactor_playbooks/_legacy_scratch/` |
-| 內容     | 設計草稿、筆記、探索           | 舊程式碼、舊模板                           |
-| Git      | ✅ 可進 git                    | ❌ 不進 git (.gitignore)                   |
-| 用途     | 創作與思考空間                 | 臨時程式碼暫存                             |
-| 生命週期 | 升級為正式文件或歸檔           | 重構完成後刪除                             |
+| 特性 | Scratch Notes | Legacy Scratch |
+|------|---------------|----------------|
+| 位置 | `docs/scratch/`, `*/_scratch/` | `docs/refactor_playbooks/_legacy_scratch/` |
+| 內容 | 設計草稿、筆記、探索 | 舊程式碼、舊模板 |
+| Git | ✅ 可進 git | ❌ 不進 git (.gitignore) |
+| 用途 | 創作與思考空間 | 臨時程式碼暫存 |
+| 生命週期 | 升級為正式文件或歸檔 | 重構完成後刪除 |
 
 ---
 

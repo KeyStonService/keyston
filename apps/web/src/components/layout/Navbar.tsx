@@ -1,64 +1,24 @@
-/**
- * @fileoverview Main navigation bar component with responsive mobile menu.
- *
- * This component provides the primary navigation for the application,
- * featuring a scroll-aware design and mobile-responsive hamburger menu.
- *
- * @module components/layout/Navbar
- */
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { Menu, X, Terminal, Code2, Server, Layers, Mail, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-/**
- * Responsive navigation bar component with scroll effects and mobile menu.
- *
- * Features:
- * - **Scroll-aware styling**: Background becomes semi-transparent with blur on scroll
- * - **Active route highlighting**: Current page link is highlighted in blue
- * - **Mobile hamburger menu**: Collapsible menu for smaller screens
- * - **Auto-close on navigation**: Mobile menu closes when route changes
- *
- * Navigation items include: Home, Architecture, Frontend, Backend,
- * Language Governance, and Contact pages.
- *
- * @returns The rendered Navbar component
- *
- * @example
- * // Typical usage in page components
- * function MyPage() {
- *   return (
- *     <div>
- *       <Navbar />
- *       <main>Page content...</main>
- *       <Footer />
- *     </div>
- *   );
- * }
- */
 export default function Navbar() {
-  /** Controls mobile menu open/closed state */
   const [isOpen, setIsOpen] = useState(false);
-  /** Tracks whether page has scrolled beyond 20px threshold */
   const [scrolled, setScrolled] = useState(false);
-  /** Current route location for active link highlighting */
   const location = useLocation();
 
-  /** Effect: Attaches scroll listener to update scrolled state */
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /** Effect: Closes mobile menu when route changes */
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
-  /** Navigation items configuration with name, path, and icon */
   const navItems = [
     { name: '首頁', path: '/', icon: Terminal },
     { name: '系統架構', path: '/architecture', icon: Layers },

@@ -6,26 +6,24 @@
 
 ### Emergency Contacts | 緊急聯絡
 
-| Scenario                | Action                   | Command                                                  |
-| ----------------------- | ------------------------ | -------------------------------------------------------- |
-| Launcher crashed        | Auto-recovery by Phoenix | `python emergency_recovery.py`                           |
-| Phoenix not responding  | Manual restart           | `python services/agents/recovery/phoenix_agent.py start` |
-| Watchdog not running    | Start watchdog           | `python services/watchdog/system_watchdog.py start`      |
-| Complete system failure | Emergency bootstrap      | `python emergency_recovery.py`                           |
+| Scenario | Action | Command |
+|----------|--------|---------|
+| Launcher crashed | Auto-recovery by Phoenix | `python emergency_recovery.py` |
+| Phoenix not responding | Manual restart | `python services/agents/recovery/phoenix_agent.py start` |
+| Watchdog not running | Start watchdog | `python services/watchdog/system_watchdog.py start` |
+| Complete system failure | Emergency bootstrap | `python emergency_recovery.py` |
 
 ## 🔥 Emergency Procedures | 緊急程序
 
 ### Level 1: Launcher Failure | 啟動器故障
 
 **Automatic Response:**
-
 1. Watchdog detects failure within 30s
 2. Phoenix Agent triggered
 3. Quick restart attempted
 4. System restored
 
 **Manual Override:**
-
 ```bash
 # If automatic recovery fails
 python emergency_recovery.py
@@ -37,7 +35,6 @@ python automation_launcher.py start
 ### Level 2: Phoenix Agent Failure | Phoenix 代理故障
 
 **Steps:**
-
 1. Check if watchdog is running: `ps aux | grep system_watchdog`
 2. Restart watchdog: `python services/watchdog/system_watchdog.py start`
 3. Watchdog will restart Phoenix automatically
@@ -46,7 +43,6 @@ python automation_launcher.py start
 ### Level 3: Complete System Failure | 完全系統故障
 
 **Emergency Recovery:**
-
 ```bash
 # Run emergency recovery system
 python emergency_recovery.py
@@ -66,7 +62,6 @@ python emergency_recovery.py
 **When:** First attempt, simple process crash
 
 **Steps:**
-
 1. Terminate failed process
 2. Wait 5 seconds
 3. Restart process
@@ -74,7 +69,6 @@ python emergency_recovery.py
 5. Monitor for 1 minute
 
 **Command:**
-
 ```bash
 # Manual execution
 pkill -f automation_launcher.py
@@ -87,7 +81,6 @@ python automation_launcher.py start &
 **When:** Configuration suspected, quick restart failed
 
 **Steps:**
-
 1. Backup current configuration
 2. Load minimal configuration
 3. Restart with safe settings
@@ -95,7 +88,6 @@ python automation_launcher.py start &
 5. Gradually restore features
 
 **Files:**
-
 - Backup: `.automation_logs/config_backup_TIMESTAMP.tar.gz`
 - Minimal config: `config/minimal-config.yaml`
 
@@ -104,7 +96,6 @@ python automation_launcher.py start &
 **When:** Recent configuration change caused failure
 
 **Steps:**
-
 1. Identify last known good configuration
 2. Stop all affected services
 3. Restore previous configuration
@@ -112,7 +103,6 @@ python automation_launcher.py start &
 5. Full system verification
 
 **Command:**
-
 ```bash
 # Manual rollback
 cp config/.backup/TIMESTAMP/synergymesh.yaml config/
@@ -124,7 +114,6 @@ python automation_launcher.py start
 **When:** Service dependency issues
 
 **Steps:**
-
 1. Map service dependencies
 2. Stop services in reverse dependency order
 3. Restart in correct dependency order
@@ -136,7 +125,6 @@ python automation_launcher.py start
 **When:** Data corruption, major failure
 
 **Steps:**
-
 1. Stop all services
 2. Identify latest valid backup
 3. Restore backup data
@@ -151,7 +139,6 @@ python automation_launcher.py start
 **When:** All other strategies failed
 
 **Steps:**
-
 1. Emergency system shutdown
 2. Run `emergency_recovery.py`
 3. Bootstrap core components
@@ -182,14 +169,12 @@ tail -f .automation_logs/*.log
 ### Identify Failure Root Cause | 識別故障根本原因
 
 1. **Check recent changes:**
-
    ```bash
    git log --oneline -10
    grep -r "ERROR" .automation_logs/
    ```
 
 2. **Review incident history:**
-
    ```bash
    cat .automation_logs/incidents.log
    python -c "import json; print(json.dumps(json.load(open('.phoenix_state.json')), indent=2))"
@@ -205,12 +190,12 @@ tail -f .automation_logs/*.log
 
 ### Incident Classification | 事件分類
 
-| Level | Description         | Response Time | Escalation   |
-| ----- | ------------------- | ------------- | ------------ |
-| P1    | System down         | Immediate     | Auto + Human |
-| P2    | Critical degraded   | < 5 min       | Auto         |
-| P3    | Non-critical issues | < 30 min      | Auto         |
-| P4    | Minor issues        | < 2 hours     | Log only     |
+| Level | Description | Response Time | Escalation |
+|-------|-------------|---------------|------------|
+| P1 | System down | Immediate | Auto + Human |
+| P2 | Critical degraded | < 5 min | Auto |
+| P3 | Non-critical issues | < 30 min | Auto |
+| P4 | Minor issues | < 2 hours | Log only |
 
 ### Response Workflow | 響應工作流程
 
@@ -247,25 +232,23 @@ Post-Mortem
 ### Intervention Steps | 介入步驟
 
 1. **Assess Situation:**
-
    ```bash
    # Check Phoenix status
    python services/agents/recovery/phoenix_agent.py status
-
+   
    # Review recent incidents
    tail -100 .automation_logs/incidents.log
-
+   
    # Check system resources
    htop
    df -h
    ```
 
 2. **Stabilize System:**
-
    ```bash
    # Stop auto-recovery temporarily
    pkill -f phoenix_agent.py
-
+   
    # Stop problematic services
    pkill -f automation_launcher.py
    ```
@@ -287,7 +270,6 @@ Post-Mortem
    - Monitor for 30 minutes
 
 6. **Resume Auto-Recovery:**
-
    ```bash
    python services/watchdog/system_watchdog.py start
    ```
@@ -337,19 +319,16 @@ Post-Mortem
 ### Common Issues | 常見問題
 
 **Issue:** Launcher keeps crashing
-
 - **Cause:** Memory leak or resource exhaustion
 - **Solution:** Check resource usage, restart with clean state
 - **Prevention:** Monitor memory usage, implement memory limits
 
 **Issue:** Phoenix not detecting failures
-
 - **Cause:** Health check interval too long
 - **Solution:** Reduce `health_check_interval` in config
 - **Prevention:** Verify monitoring configuration regularly
 
 **Issue:** Configuration rollback fails
-
 - **Cause:** No valid backup available
 - **Solution:** Use emergency recovery, rebuild config
 - **Prevention:** Ensure regular backups are created
@@ -357,7 +336,6 @@ Post-Mortem
 ### Recovery Success Patterns | 恢復成功模式
 
 Based on historical data:
-
 - Quick restart: 85% success rate
 - Configuration rollback: 70% success rate
 - Full bootstrap: 95% success rate (when reached)
@@ -381,8 +359,6 @@ Based on historical data:
 
 ---
 
-**Remember | 記住:** This playbook is a living document. Update it based on
-actual incidents and learnings. Phoenix learns from every recovery - so should
-we.
+**Remember | 記住:** This playbook is a living document. Update it based on actual incidents and learnings. Phoenix learns from every recovery - so should we.
 
 **Emergency Hotline | 緊急熱線:** `python emergency_recovery.py`

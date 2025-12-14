@@ -1,0 +1,330 @@
+---
+# SynergyMesh Governance 依賴關係映射 | Dependency Mapping
+version: "1.0"
+lastUpdated: "2025-12-09"
+description: "Complete dependency relationships between 14 governance dimensions"
+
+# 依賴關係定義 | Dependency Definitions
+dependencies:
+
+  # 維度 1: 治理架構層
+  governance_architecture:
+    name: "治理架構層 | Governance Architecture"
+    type: "foundation"
+    provides_to:
+      - decision_governance
+      - change_governance
+      - risk_governance
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - process_governance
+      - performance_governance
+      - stakeholder_governance
+      - governance_culture
+    depends_on: []
+    definition_file: "01-architecture/governance-model.yaml"
+    description: "Foundation layer providing organizational structure and framework"
+
+  # 維度 2: 決策治理
+  decision_governance:
+    name: "決策治理 | Decision Governance"
+    type: "core"
+    provides_to:
+      - change_governance
+      - risk_governance
+      - process_governance
+      - stakeholder_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+    definition_file: "decision-governance/decision-framework.yaml"
+    description: "Defines decision processes, authority matrix, and audit trails"
+
+  # 維度 3: 變更治理
+  change_governance:
+    name: "變更治理 | Change Governance"
+    type: "core"
+    provides_to:
+      - risk_governance
+      - compliance_governance
+      - audit_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - decision_governance
+    definition_file: "change-governance/change-policy.yaml"
+    description: "Manages change classification, processes, and control points"
+
+  # 維度 4: 風險治理
+  risk_governance:
+    name: "風險治理 | Risk Governance"
+    type: "core"
+    provides_to:
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - decision_governance
+      - change_governance
+    definition_file: "risk-governance/risk-policy.yaml"
+    description: "Handles risk identification, assessment, response, and monitoring"
+
+  # 維度 5: 合規治理
+  compliance_governance:
+    name: "合規治理 | Compliance Governance"
+    type: "core"
+    provides_to:
+      - security_governance
+      - audit_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - decision_governance
+      - change_governance
+      - risk_governance
+    definition_file: "compliance-governance/compliance-policy.yaml"
+    description: "Defines compliance framework, checks, and violation handling"
+
+  # 維度 6: 安全治理
+  security_governance:
+    name: "安全治理 | Security Governance"
+    type: "implementation"
+    provides_to:
+      - audit_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - compliance_governance
+      - risk_governance
+    definition_file: "security-governance/security-policy.yaml"
+    description: "Manages security policies, controls, and incident response"
+
+  # 維度 7: 審計治理
+  audit_governance:
+    name: "審計治理 | Audit Governance"
+    type: "implementation"
+    provides_to:
+      - governance_improvement
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - compliance_governance
+      - security_governance
+      - change_governance
+      - risk_governance
+    definition_file: "audit-governance/audit-policy.yaml"
+    description: "Defines audit framework, planning, execution, and reporting"
+
+  # 維度 8: 流程治理
+  process_governance:
+    name: "流程治理 | Process Governance"
+    type: "implementation"
+    provides_to:
+      - performance_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - decision_governance
+    definition_file: "process-governance/process-policy.yaml"
+    description: "Manages process design, optimization, and automation"
+
+  # 維度 9: 績效治理
+  performance_governance:
+    name: "績效治理 | Performance Governance"
+    type: "implementation"
+    provides_to:
+      - governance_improvement
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+      - process_governance
+    definition_file: "performance-governance/performance-policy.yaml"
+    description: "Handles performance goals, metrics, assessment, and improvement"
+
+  # 維度 10: 利益相關方治理
+  stakeholder_governance:
+    name: "利益相關方治理 | Stakeholder Governance"
+    type: "core"
+    provides_to:
+      - decision_governance
+      - change_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+    definition_file: "stakeholder-governance/stakeholder-policy.yaml"
+    description: "Manages stakeholder identification, engagement, and communication"
+
+  # 維度 11: 治理工具與系統
+  governance_tools:
+    name: "治理工具與系統 | Governance Tools and Systems"
+    type: "support"
+    provides_to:
+      - decision_governance
+      - change_governance
+      - risk_governance
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - process_governance
+      - performance_governance
+      - stakeholder_governance
+      - governance_culture
+      - governance_metrics
+      - governance_improvement
+    depends_on:
+      - governance_architecture
+    definition_file: "governance-tools/tools-inventory.yaml"
+    description: "Provides information systems and tools for governance activities"
+
+  # 維度 12: 治理文化與能力
+  governance_culture:
+    name: "治理文化與能力 | Governance Culture and Capability"
+    type: "support"
+    provides_to:
+      - decision_governance
+      - change_governance
+      - risk_governance
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - process_governance
+      - performance_governance
+      - stakeholder_governance
+      - governance_metrics
+    depends_on:
+      - governance_architecture
+    definition_file: "governance-culture/culture-strategy.yaml"
+    description: "Develops governance culture, capability, and training"
+
+  # 維度 13: 治理指標與報告
+  governance_metrics:
+    name: "治理指標與報告 | Governance Metrics and Reporting"
+    type: "aggregation"
+    provides_to:
+      - governance_improvement
+    depends_on:
+      - governance_architecture
+      - decision_governance
+      - change_governance
+      - risk_governance
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - process_governance
+      - performance_governance
+      - stakeholder_governance
+    definition_file: "governance-metrics/metrics-framework.yaml"
+    description: "Aggregates governance metrics and generates reports"
+
+  # 維度 14: 治理持續改進
+  governance_improvement:
+    name: "治理持續改進 | Governance Continuous Improvement"
+    type: "improvement"
+    provides_to: []
+    depends_on:
+      - governance_architecture
+      - decision_governance
+      - change_governance
+      - risk_governance
+      - compliance_governance
+      - security_governance
+      - audit_governance
+      - process_governance
+      - performance_governance
+      - stakeholder_governance
+      - governance_metrics
+    definition_file: "governance-improvement/improvement-policy.yaml"
+    description: "Identifies improvements, plans, implements, and accumulates knowledge"
+
+# 依賴深度分析 | Dependency Depth Analysis
+depth_analysis:
+  foundation_layers:
+    - governance_architecture
+
+  core_layers:
+    - decision_governance
+    - change_governance
+    - risk_governance
+    - compliance_governance
+    - stakeholder_governance
+
+  implementation_layers:
+    - security_governance
+    - audit_governance
+    - process_governance
+    - performance_governance
+
+  support_layers:
+    - governance_tools
+    - governance_culture
+
+  aggregation_layers:
+    - governance_metrics
+
+  improvement_layers:
+    - governance_improvement
+
+# 信息流向 | Information Flow Directions
+information_flow:
+  upstream:
+    - from: governance_improvement
+    - to: [all other dimensions]
+    - type: "feedback_and_improvements"
+
+  metrics_flow:
+    - from: [all core and implementation dimensions]
+    - to: governance_metrics
+    - type: "metrics_aggregation"
+
+  tools_flow:
+    - from: governance_tools
+    - to: [all operational dimensions]
+    - type: "system_support"
+
+  culture_flow:
+    - from: governance_culture
+    - to: [all operational dimensions]
+    - type: "capability_support"
+
+# 驗證規則 | Validation Rules
+validation_rules:
+  no_circular_dependencies:
+    description: "No circular dependencies allowed in governance structure"
+    severity: "critical"
+
+  all_dimensions_connected:
+    description: "All 14 dimensions must be connected in dependency graph"
+    severity: "critical"
+
+  definition_files_exist:
+    description: "All definition files must exist and be properly formatted"
+    severity: "critical"
+
+  cross_reference_integrity:
+    description: "All cross-references must point to existing dimensions"
+    severity: "high"
+
+# 整合檢查 | Integration Checks
+integration_checks:
+  - check: "Dependency closure"
+    status: "pending"
+    description: "Verify all dependencies are transitively closed"
+
+  - check: "No isolated dimensions"
+    status: "pending"
+    description: "Ensure no dimension is isolated from the rest"
+
+  - check: "Tool coverage"
+    status: "pending"
+    description: "Verify governance_tools supports all dimensions"
+
+  - check: "Metrics coverage"
+    status: "pending"
+    description: "Verify governance_metrics collects from all dimensions"
+
+  - check: "Improvement loops"
+    status: "pending"
+    description: "Verify governance_improvement receives input from all dimensions"

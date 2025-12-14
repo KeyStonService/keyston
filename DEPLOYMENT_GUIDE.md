@@ -1,5 +1,4 @@
 # 🚀 SynergyMesh 部署指南
-
 # Deployment Guide
 
 **文档版本**: 1.0.0  
@@ -52,21 +51,21 @@
 
 ### 必需环境
 
-| 组件    | 版本要求  | 说明                |
-| ------- | --------- | ------------------- |
+| 组件 | 版本要求 | 说明 |
+|------|----------|------|
 | Node.js | >= 18.0.0 | TypeScript 项目构建 |
-| npm     | >= 8.0.0  | 工作空间管理        |
-| Python  | >= 3.10   | 自动化脚本执行      |
+| npm | >= 8.0.0 | 工作空间管理 |
+| Python | >= 3.10 | 自动化脚本执行 |
 
 ### 可选环境（完整功能）
 
-| 组件           | 版本要求            | 用途              |
-| -------------- | ------------------- | ----------------- |
-| Docker         | >= 20.10            | 容器化部署        |
-| Docker Compose | >= 2.0              | 服务编排          |
-| ROS 2          | Humble              | 无人机/自驾车组件 |
-| Go             | >= 1.20             | Go 服务（未来）   |
-| C++            | GCC 11+ / Clang 14+ | ROS/C++ 组件      |
+| 组件 | 版本要求 | 用途 |
+|------|----------|------|
+| Docker | >= 20.10 | 容器化部署 |
+| Docker Compose | >= 2.0 | 服务编排 |
+| ROS 2 | Humble | 无人机/自驾车组件 |
+| Go | >= 1.20 | Go 服务（未来） |
+| C++ | GCC 11+ / Clang 14+ | ROS/C++ 组件 |
 
 ### 系统要求
 
@@ -180,11 +179,11 @@ python3 automation_launcher.py stop
 
 ### 运行模式
 
-| 模式          | 说明       | 使用场景 |
-| ------------- | ---------- | -------- |
-| `autonomous`  | 100% 自动  | 生产环境 |
-| `supervised`  | 需人工批准 | 测试环境 |
-| `interactive` | 交互式     | 开发调试 |
+| 模式 | 说明 | 使用场景 |
+|------|------|----------|
+| `autonomous` | 100% 自动 | 生产环境 |
+| `supervised` | 需人工批准 | 测试环境 |
+| `interactive` | 交互式 | 开发调试 |
 
 ```bash
 # 指定运行模式
@@ -210,14 +209,14 @@ python3 -c "import yaml; yaml.safe_load(open('synergymesh.yaml'))"
 
 ### 关键配置文件
 
-| 文件                               | 用途                |
-| ---------------------------------- | ------------------- |
-| `synergymesh.yaml`                 | 统一主配置入口      |
-| `config/system-manifest.yaml`      | 系统宣告清单        |
+| 文件 | 用途 |
+|------|------|
+| `synergymesh.yaml` | 统一主配置入口 |
+| `config/system-manifest.yaml` | 系统宣告清单 |
 | `config/unified-config-index.yaml` | 统一配置索引 v3.0.0 |
-| `config/system-module-map.yaml`    | 模块映射            |
-| `config/drone-config.yml`          | 无人机编队配置      |
-| `config/ai-constitution.yaml`      | AI 最高指导宪章     |
+| `config/system-module-map.yaml` | 模块映射 |
+| `config/drone-config.yml` | 无人机编队配置 |
+| `config/ai-constitution.yaml` | AI 最高指导宪章 |
 
 ### 五骨架架构验证
 
@@ -267,7 +266,6 @@ automation/autonomous/architecture-stability/
 ```
 
 待实现功能：
-
 - 100Hz 控制循环
 - IMU 传感器融合
 - PID 控制器
@@ -320,14 +318,14 @@ docker compose up -d
 
 ### 服务端点
 
-| 服务             | 端口 | 健康检查   | 用途               |
-| ---------------- | ---- | ---------- | ------------------ |
-| Contracts L1 API | 3000 | `/healthz` | 合约管理服务       |
-| MCP Servers      | 3001 | `/health`  | MCP 协议服务器     |
-| Dashboard        | 8080 | N/A        | 管理仪表板         |
-| Workflow System  | 8081 | N/A        | 工作流引擎（可选） |
-| Prometheus       | 9090 | N/A        | 监控指标（可选）   |
-| Grafana          | 3010 | N/A        | 可视化（可选）     |
+| 服务 | 端口 | 健康检查 | 用途 |
+|------|------|----------|------|
+| Contracts L1 API | 3000 | `/healthz` | 合约管理服务 |
+| MCP Servers | 3001 | `/health` | MCP 协议服务器 |
+| Dashboard | 8080 | N/A | 管理仪表板 |
+| Workflow System | 8081 | N/A | 工作流引擎（可选）|
+| Prometheus | 9090 | N/A | 监控指标（可选）|
+| Grafana | 3010 | N/A | 可视化（可选）|
 
 ### 健康检查
 
@@ -371,18 +369,22 @@ npm run test
   - [ ] Node.js 版本 >= 18.0.0
   - [ ] Python 版本 >= 3.10
   - [ ] Docker 和 Compose 可用
+  
 - [ ] **依赖安装**
   - [ ] npm 工作空间依赖已安装
   - [ ] Python 包已安装
   - [ ] TypeScript 项目已构建
+  
 - [ ] **配置验证**
   - [ ] synergymesh.yaml 语法正确
   - [ ] 所有骨架目录存在
   - [ ] go.work 占位符确认
+  
 - [ ] **服务部署**
   - [ ] Docker 容器运行中
   - [ ] 健康检查通过
   - [ ] 端口可访问
+  
 - [ ] **自动化引擎**
   - [ ] automation_launcher.py 可执行
   - [ ] 主控协调器启动成功
@@ -412,7 +414,6 @@ npm run test:unit
 **症状**: `npm install` 报错或超时
 
 **解决方案**:
-
 ```bash
 # 清除缓存
 npm cache clean --force
@@ -432,7 +433,6 @@ npm install --registry=https://registry.npmmirror.com
 **症状**: `pip install` 报错
 
 **解决方案**:
-
 ```bash
 # 升级 pip
 python3 -m pip install --upgrade pip
@@ -451,7 +451,6 @@ python3 -m pip install -e .
 **症状**: `docker compose build` 失败
 
 **解决方案**:
-
 ```bash
 # 清理 Docker 资源
 docker system prune -af
@@ -468,7 +467,6 @@ docker compose config
 **症状**: `ImportError: No module named 'master_orchestrator'`
 
 **解决方案**:
-
 ```bash
 # 确保在正确的目录
 cd /path/to/SynergyMesh
@@ -485,7 +483,6 @@ python3 -c "import sys; sys.path.insert(0, 'tools/automation'); import automatio
 **症状**: 服务无法启动，端口已被占用
 
 **解决方案**:
-
 ```bash
 # 检查端口占用
 lsof -i :3000
@@ -535,8 +532,7 @@ NODE_ENV=development npm run dev:stack
 - **主文档**: [README.md](README.md)
 - **快速开始**: [QUICK_START.md](QUICK_START.md)
 - **部署清单**: [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)
-- **验证报告**:
-  [DEPLOYMENT_VALIDATION_REPORT.md](DEPLOYMENT_VALIDATION_REPORT.md)
+- **验证报告**: [DEPLOYMENT_VALIDATION_REPORT.md](DEPLOYMENT_VALIDATION_REPORT.md)
 - **架构文档**: [docs/architecture/](docs/architecture/)
 - **API 文档**: [docs/AUTO_ASSIGNMENT_API.md](docs/AUTO_ASSIGNMENT_API.md)
 
@@ -544,9 +540,9 @@ NODE_ENV=development npm run dev:stack
 
 ## 🆘 获取支持
 
-- **GitHub Issues**: <https://github.com/SynergyMesh/SynergyMesh/issues>
-- **Discussions**: <https://github.com/SynergyMesh/SynergyMesh/discussions>
-- **Email**: <admin@synergymesh.io>
+- **GitHub Issues**: https://github.com/SynergyMesh/SynergyMesh/issues
+- **Discussions**: https://github.com/SynergyMesh/SynergyMesh/discussions
+- **Email**: admin@synergymesh.io
 
 ---
 

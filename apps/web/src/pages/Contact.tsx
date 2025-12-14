@@ -1,11 +1,3 @@
-/**
- * @fileoverview Contact page component with form submission functionality.
- *
- * This page provides users with contact information and a form to submit
- * inquiries about architecture consulting, code review, or project development.
- *
- * @module pages/Contact
- */
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -13,46 +5,9 @@ import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-/**
- * Contact page component with contact form and information.
- *
- * The page is divided into two main sections:
- * 1. **Contact Information**: Email, location, and phone details
- * 2. **Contact Form**: Name, email, and message input fields
- *
- * Features:
- * - Form validation via HTML5 required attributes
- * - Loading state during form submission
- * - Toast notification on successful submission
- * - Form reset after successful submission
- * - Responsive two-column layout on desktop
- *
- * @returns The rendered Contact page component
- *
- * @example
- * // Used in router configuration
- * <Route path="/contact" element={<Contact />} />
- */
 export default function Contact() {
-  /**
-   * Tracks whether the form is currently being submitted.
-   * Used to disable the submit button and show loading state.
-   */
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /**
-   * Handles contact form submission.
-   *
-   * This function:
-   * 1. Prevents default form submission behavior
-   * 2. Sets loading state to true
-   * 3. Simulates an API call with setTimeout (1.5 seconds)
-   * 4. Shows success toast notification
-   * 5. Resets the form fields
-   * 6. Restores the submit button state
-   *
-   * @param e - The form submission event
-   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);

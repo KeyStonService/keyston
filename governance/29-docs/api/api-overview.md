@@ -2,8 +2,7 @@
 
 ## Governance API
 
-The Governance Framework provides RESTful APIs for managing governance
-operations.
+The Governance Framework provides RESTful APIs for managing governance operations.
 
 ### Base URL
 

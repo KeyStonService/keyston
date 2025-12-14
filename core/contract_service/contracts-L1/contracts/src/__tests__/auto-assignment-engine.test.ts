@@ -329,16 +329,16 @@ describe('AutoAssignmentEngine', () => {
       };
 
       const assignment = await engine.assignResponsibility(incident);
-      const updated = await engine.updateAssignmentStatus(assignment.id, 'IN_PROGRESS');
+      const updated = engine.updateAssignmentStatus(assignment.id, 'IN_PROGRESS');
 
       expect(updated).toBeDefined();
       expect(updated?.status).toBe('IN_PROGRESS');
     });
 
-    it('should throw error for non-existent assignment', async () => {
-      await expect(
-        engine.updateAssignmentStatus('non-existent-id', 'IN_PROGRESS')
-      ).rejects.toThrow('Assignment non-existent-id not found');
+    it('should throw error for non-existent assignment', () => {
+      expect(() => {
+        engine.updateAssignmentStatus('non-existent-id', 'IN_PROGRESS');
+      }).toThrow('Assignment non-existent-id not found');
     });
   });
 

@@ -14,18 +14,14 @@ infra/
 ## Components
 
 ### Infrastructure (`infrastructure/`)
-
 Infrastructure definitions including:
-
 - Kubernetes configurations
 - Monitoring setup
 - Canary deployments
 - Drift detection
 
 ### Config (`config/`)
-
 System configurations:
-
 - AI constitution
 - Auto-fix bot settings
 - Cloud agent delegation
@@ -33,9 +29,7 @@ System configurations:
 - Security settings
 
 ### Runtime Profiles (`runtime-profiles/`)
-
 Runtime environment profiles for:
-
 - Development environments
 - Staging environments
 - Production environments

@@ -2,9 +2,9 @@ apiVersion: governance.synergymesh.io/v2
 kind: GovernanceStructureMap
 metadata:
   name: governance-structure-registry
-  version: 2.0.0
+  version: 1.0.0
   created_at: '2025-12-11T21:54:00Z'
-  updated_at: '2025-12-12T17:24:34Z'
+  updated_at: '2025-12-11T21:54:00Z'
   owner: governance-bot
   description: Central registry of all governance directories and their relationships
 validation_rules:
@@ -129,13 +129,11 @@ dimensions:
   type: dimension
   category: policy
   owner: stakeholder-team
-  path: governance/_legacy/10-stakeholder
+  path: governance/10-stakeholder
   depends_on:
   - 00-vision-strategy
   purpose: Stakeholder management and engagement
-  status: deprecated
-  deprecated_reason: Conflicting number with new layered framework
-  migration_target: 11-tools-systems or other dimensions
+  status: active
 - name: 11-tools-systems
   type: dimension
   category: policy
@@ -221,13 +219,11 @@ dimensions:
   type: dimension
   category: orchestration
   owner: information-team
-  path: governance/_legacy/20-information
+  path: governance/20-information
   depends_on:
   - 29-docs
   purpose: Information architecture and knowledge management
-  status: deprecated
-  deprecated_reason: Conflicting number with new layered framework
-  migration_target: Content consolidated into other dimensions
+  status: active
 - name: 20-intent
   type: dimension
   category: orchestration
@@ -332,13 +328,11 @@ dimensions:
   type: dimension
   category: execution
   owner: integration-team
-  path: governance/_legacy/30-integration
+  path: governance/30-integration
   depends_on:
   - 01-architecture
   purpose: Integration patterns and orchestration
-  status: deprecated
-  deprecated_reason: Conflicting number with new layered framework
-  migration_target: 30-agents/coordination
+  status: active
 - name: 31-schemas
   type: dimension
   category: execution
@@ -468,379 +462,6 @@ dimensions:
   - 70-audit
   purpose: Closed-loop feedback and continuous optimization
   status: active
-- name: 41-orchestration
-  type: dimension
-  category: execution
-  owner: platform-team
-  path: governance/41-orchestration
-  depends_on:
-    - 20-intent
-    - 30-agents
-  purpose: Container orchestration, service mesh, and workload management governance
-  status: active
-- name: 42-deployment
-  type: dimension
-  category: execution
-  owner: devops-team
-  path: governance/42-deployment
-  depends_on:
-    - 41-orchestration
-- name: 46-migration
-  type: dimension
-  category: execution
-  owner: change-management-team
-  path: governance/46-migration
-  depends_on:
-    - 03-change
-    - 42-deployment
-  purpose: Data migration, system migration, and version upgrade governance
-  status: active
-- name: 47-versioning
-  type: dimension
-  category: execution
-  owner: release-management-team
-  path: governance/47-versioning
-  depends_on:
-    - 60-contracts
-    - 42-deployment
-  purpose: Version strategy, semantic versioning, and compatibility governance
-  status: active
-- name: 48-rollback
-  type: dimension
-  category: execution
-  owner: devops-team
-  path: governance/48-rollback
-  depends_on:
-    - 42-deployment
-    - 47-versioning
-  purpose: Rollback strategies, version reversion, and recovery procedures governance
-  status: active
-- name: 49-canary
-  type: dimension
-  category: execution
-  owner: devops-team
-  path: governance/49-canary
-  depends_on:
-    - 42-deployment
-    - 43-scaling
-  purpose: Progressive rollout, canary releases, and traffic management governance
-  status: active
-- name: 54-dashboards
-  type: dimension
-  category: observability
-  owner: observability-team
-  path: governance/54-dashboards
-  depends_on:
-    - 50-monitoring
-    - 68-visualization
-  purpose: Visualization dashboards, reporting interfaces, and metrics display governance
-  status: active
-- name: 55-slo-sli
-  type: dimension
-  category: observability
-  owner: sre-team
-  path: governance/55-slo-sli
-  depends_on:
-    - 09-performance
-    - 50-monitoring
-  purpose: Service Level Objectives, Service Level Indicators, and SLA governance
-  status: active
-  execution: required
-- name: 57-postmortems
-  type: dimension
-  category: observability
-  owner: sre-team
-  path: governance/57-postmortems
-  depends_on:
-    - 56-incidents
-  purpose: Incident retrospectives, lessons learned, and improvement tracking governance
-  status: active
-- name: 59-forecasting
-  type: dimension
-  category: observability
-  owner: platform-team
-  path: governance/59-forecasting
-  depends_on:
-    - 58-capacity
-    - 67-analytics
-  purpose: Demand forecasting, trend analysis, and predictive analytics governance
-  status: active
-- name: 63-evidence
-  type: dimension
-  category: observability
-  owner: compliance-team
-  path: governance/63-evidence
-  depends_on:
-    - 70-audit
-    - 05-compliance
-  purpose: Compliance evidence, audit evidence, and proof collection governance
-  status: active
-- name: 64-attestation
-  type: dimension
-  category: observability
-  owner: security-team
-  path: governance/64-attestation
-  depends_on:
-    - 05-compliance
-    - 06-security
-  purpose: Attestation records, digital signatures, and verification governance
-  status: active
-- name: 65-certification
-  type: dimension
-  category: observability
-  owner: security-team
-  path: governance/65-certification
-  depends_on:
-    - 06-security
-    - 64-attestation
-  purpose: Certificate management, rotation, and compliance certification governance
-  status: active
-  execution: required
-- name: 66-reporting
-  type: dimension
-  category: observability
-  owner: reporting-team
-  path: governance/66-reporting
-  depends_on:
-    - 13-metrics-reporting
-    - 67-analytics
-  purpose: Compliance reporting, analytics reports, and executive dashboards governance
-  status: active
-- name: 67-analytics
-  type: dimension
-  category: observability
-  owner: data-team
-  path: governance/67-analytics
-  depends_on:
-    - 13-metrics-reporting
-    - 51-logging
-  purpose: Data analytics, insights mining, and intelligence analysis governance
-  status: active
-- name: 68-visualization
-  type: dimension
-  category: observability
-  owner: ux-team
-  path: governance/68-visualization
-  depends_on:
-    - 67-analytics
-  purpose: Data visualization, chart design, and information presentation governance
-  status: active
-- name: 69-correlation
-  type: dimension
-  category: observability
-  owner: sre-team
-  path: governance/69-correlation
-  depends_on:
-    - 56-incidents
-    - 67-analytics
-  purpose: Event correlation, root cause localization, and pattern analysis governance
-  status: active
-- name: 71-feedback-loops
-  type: dimension
-  category: feedback
-  owner: platform-team
-  path: governance/71-feedback-loops
-  depends_on:
-    - 80-feedback
-    - 72-optimization
-  purpose: Closed-loop feedback, continuous improvement cycles, and optimization loops governance
-  status: active
-- name: 75-evolution
-  type: dimension
-  category: feedback
-  owner: architecture-team
-  path: governance/75-evolution
-  depends_on:
-    - 19-evolutionary
-    - 74-adaptation
-  purpose: System evolution, version progression, and architectural evolution governance
-  status: active
-- name: 76-innovation
-  type: dimension
-  category: feedback
-  owner: innovation-team
-  path: governance/76-innovation
-  depends_on:
-    - 77-experimentation
-    - 14-improvement
-  purpose: Innovation experiments, new technology adoption, and R&D governance
-  status: active
-- name: 78-simulation
-  type: dimension
-  category: feedback
-  owner: platform-team
-  path: governance/78-simulation
-  depends_on:
-    - 20-intent
-    - 73-learning
-  purpose: Digital twin simulation, testing simulation, and scenario modeling governance
-  status: active
-- name: 79-prediction
-  type: dimension
-  category: feedback
-  owner: ai-governance-team
-  path: governance/79-prediction
-  depends_on:
-    - 73-learning
-    - 59-forecasting
-  purpose: Predictive models, trend prediction, and forecasting governance
-  status: active
-    - 03-change
-  purpose: Deployment strategies, release management, and rollout governance
-  status: active
-  execution: required
-- name: 43-scaling
-  type: dimension
-  category: execution
-  owner: platform-team
-  path: governance/43-scaling
-  depends_on:
-    - 41-orchestration
-    - 58-capacity
-  purpose: Auto-scaling, load management, and elasticity governance
-  status: active
-- name: 44-resilience
-  type: dimension
-  category: execution
-  owner: sre-team
-  path: governance/44-resilience
-  depends_on:
-    - 40-self-healing
-    - 56-incidents
-  purpose: Fault tolerance, circuit breaking, and degradation governance
-  status: active
-  execution: required
-- name: 45-recovery
-  type: dimension
-  category: execution
-  owner: sre-team
-  path: governance/45-recovery
-  depends_on:
-    - 44-resilience
-    - 04-risk
-  purpose: Backup, disaster recovery, and business continuity governance
-  status: active
-  execution: required
-- name: 50-monitoring
-  type: dimension
-  category: observability
-  owner: observability-team
-  path: governance/50-monitoring
-  depends_on:
-    - 09-performance
-  purpose: System monitoring, health checks, and metrics collection governance
-  status: active
-  execution: required
-- name: 51-logging
-  type: dimension
-  category: observability
-  owner: observability-team
-  path: governance/51-logging
-  depends_on:
-    - 50-monitoring
-  purpose: Log collection, analysis, storage, and retention governance
-  status: active
-  execution: required
-- name: 52-tracing
-  type: dimension
-  category: observability
-  owner: observability-team
-  path: governance/52-tracing
-  depends_on:
-    - 50-monitoring
-  purpose: Distributed tracing, call chain analysis, and performance tracking governance
-  status: active
-- name: 53-alerting
-  type: dimension
-  category: observability
-  owner: observability-team
-  path: governance/53-alerting
-  depends_on:
-    - 50-monitoring
-    - 56-incidents
-  purpose: Alert rules, notification management, and incident response governance
-  status: active
-  execution: required
-- name: 56-incidents
-  type: dimension
-  category: observability
-  owner: sre-team
-  path: governance/56-incidents
-  depends_on:
-    - 53-alerting
-  purpose: Incident response, root cause analysis, and problem management governance
-  status: active
-  execution: required
-- name: 58-capacity
-  type: dimension
-  category: observability
-  owner: platform-team
-  path: governance/58-capacity
-  depends_on:
-    - 50-monitoring
-    - 09-performance
-  purpose: Capacity planning, resource forecasting, and scalability governance
-  status: active
-- name: 61-lineage
-  type: dimension
-  category: observability
-  owner: data-governance-team
-  path: governance/61-lineage
-  depends_on:
-    - 70-audit
-  purpose: Data flow tracking, impact analysis, and lineage governance
-  status: active
-- name: 62-provenance
-  type: dimension
-  category: observability
-  owner: ai-governance-team
-  path: governance/62-provenance
-  depends_on:
-    - 61-lineage
-    - 30-agents
-  purpose: Data provenance, model origin tracking, and source traceability governance
-  status: active
-  execution: required
-- name: 72-optimization
-  type: dimension
-  category: feedback
-  owner: performance-team
-  path: governance/72-optimization
-  depends_on:
-    - 80-feedback
-    - 09-performance
-  purpose: Continuous optimization, performance tuning, and efficiency governance
-  status: active
-- name: 73-learning
-  type: dimension
-  category: feedback
-  owner: ai-governance-team
-  path: governance/73-learning
-  depends_on:
-    - 30-agents
-    - 80-feedback
-  purpose: Machine learning, knowledge accumulation, and predictive analytics governance
-  status: active
-- name: 74-adaptation
-  type: dimension
-  category: feedback
-  owner: platform-team
-  path: governance/74-adaptation
-  depends_on:
-    - 73-learning
-    - 40-self-healing
-  purpose: Self-adaptation, dynamic adjustment, and responsive governance
-  status: active
-- name: 77-experimentation
-  type: dimension
-  category: feedback
-  owner: innovation-team
-  path: governance/77-experimentation
-  depends_on:
-    - 80-feedback
-    - 14-improvement
-  purpose: A/B testing, experiment management, and innovation governance
-  status: active
 shared_resources:
 - name: ci
   type: shared
@@ -849,31 +470,31 @@ shared_resources:
   purpose: CI/CD workflows and reusable actions
   consumers:
   - all dimensions
-- name: 23-policies
+- name: policies
   type: shared
   owner: policy-engine
-  path: governance/23-policies
+  path: governance/policies
   purpose: Global policy library (Rego/OPA/Conftest)
   consumers:
   - 10-policy
+  - 23-policies
   - all dimensions
-  note: Previously named 'policies', renamed to 23-policies for consistency
-- name: 31-schemas
+- name: schemas
   type: shared
   owner: schema-team
-  path: governance/31-schemas
+  path: governance/schemas
   purpose: JSON Schema definitions and validation rules
   consumers:
+  - 31-schemas
   - all dimensions
-  note: Previously named 'schemas', renamed to 31-schemas for consistency
-- name: 35-scripts
+- name: scripts
   type: shared
   owner: automation-team
-  path: governance/35-scripts
+  path: governance/scripts
   purpose: Utility scripts and automation helpers
   consumers:
+  - 35-scripts
   - all dimensions
-  note: Previously named 'scripts', renamed to 35-scripts for consistency
 - name: packages
   type: shared
   owner: infra-team
@@ -889,15 +510,6 @@ shared_resources:
   consumers:
   - governance-bot
   - validation-pipeline
-- name: index
-  type: shared
-  owner: governance-bot
-  path: governance/index
-  purpose: Central index files (dimensions.json, events.json, compliance.json, etc.)
-  consumers:
-  - governance-bot
-  - validation-pipeline
-  - all dimensions
 - name: _scratch
   type: shared
   owner: development-team
@@ -905,21 +517,6 @@ shared_resources:
   purpose: Temporary workspace for development and testing
   consumers:
   - development-team
-- name: _legacy
-  type: shared
-  owner: governance-bot
-  path: governance/_legacy
-  purpose: Deprecated and legacy governance artifacts for reference
-  consumers:
-  - governance-bot
-  note: Contains deprecated directories and files for historical reference
-- name: examples
-  type: shared
-  owner: governance-team
-  path: governance/examples
-  purpose: Example configurations and reference implementations
-  consumers:
-  - all dimensions
 root_documentation:
 - name: README.md
   type: documentation

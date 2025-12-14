@@ -1,0 +1,330 @@
+# Intelligent File Router Configuration
+# Defines patterns, keywords, and rules for content-based file routing
+
+version: 1.0.0
+
+# Confidence thresholds
+thresholds:
+  auto_route: 90      # Auto-route if confidence >= 90%
+  suggest_route: 70   # Suggest route if confidence >= 70%
+  warn_low: 50        # Warn if confidence < 50%
+  manual_review: 30   # Manual review needed if < 30%
+
+# Dimension routing patterns
+dimensions:
+  
+  00-vision-strategy:
+    description: "Vision statements, strategic goals, roadmaps, transformation plans"
+    keywords:
+      high_weight: 10
+      terms:
+        - vision
+        - strategy
+        - strategic
+        - roadmap
+        - objectives
+        - mission
+        - instant
+        - execution
+        - transformation
+        - executive
+      medium_weight: 5
+      medium_terms:
+        - goal
+        - direction
+        - future
+        - plan
+        - initiative
+        - target
+        - milestone
+    
+    patterns:
+      - "strategic\\s+(?:plan|goal|objective)"
+      - "vision\\s+(?:statement|document)"
+      - "instant\\s+execution"
+      - "executive\\s+summary"
+      - "transformation\\s+(?:plan|roadmap)"
+    
+    file_indicators:
+      - "VISION"
+      - "STRATEGY"
+      - "ROADMAP"
+      - "TRANSFORMATION"
+  
+  01-architecture:
+    description: "System architecture, design blueprints, structural patterns"
+    keywords:
+      high_weight: 10
+      terms:
+        - architecture
+        - architectural
+        - design
+        - blueprint
+        - pattern
+        - structure
+        - component
+        - system
+        - integration
+        - dag
+        - dependency
+        - topology
+      medium_weight: 5
+      medium_terms:
+        - module
+        - layer
+        - interface
+        - diagram
+        - model
+    
+    patterns:
+      - "architecture\\s+(?:design|pattern|diagram)"
+      - "system\\s+(?:architecture|design|blueprint)"
+      - "dag\\s+(?:architecture|structure)"
+      - "dependency\\s+(?:graph|architecture)"
+    
+    file_indicators:
+      - "ARCHITECTURE"
+      - "DESIGN"
+      - "BLUEPRINT"
+  
+  06-security:
+    description: "Security policies, threat models, controls, vulnerabilities"
+    keywords:
+      high_weight: 10
+      terms:
+        - security
+        - threat
+        - vulnerability
+        - attack
+        - breach
+        - encryption
+        - authentication
+        - authorization
+        - control
+        - secure
+      medium_weight: 5
+      medium_terms:
+        - protect
+        - defense
+        - risk
+        - exploit
+        - firewall
+    
+    patterns:
+      - "security\\s+(?:policy|control|measure|requirement)"
+      - "threat\\s+(?:model|analysis|assessment)"
+      - "(?:iso-27001|nist-csf|cis-controls)"
+    
+    frameworks:
+      - ISO-27001
+      - NIST-CSF
+      - CIS-Controls
+    
+    file_indicators:
+      - "SECURITY"
+      - "THREAT"
+  
+  05-compliance:
+    description: "Compliance requirements, regulations, standards, frameworks"
+    keywords:
+      high_weight: 10
+      terms:
+        - compliance
+        - regulation
+        - gdpr
+        - sox
+        - hipaa
+        - standard
+        - regulatory
+        - mandate
+      medium_weight: 5
+      medium_terms:
+        - requirement
+        - legal
+        - audit
+        - conformance
+    
+    patterns:
+      - "(?:iso|nist|gdpr|sox|hipaa)[-\\s]\\d+"
+      - "compliance\\s+(?:framework|requirement|standard)"
+    
+    frameworks:
+      - ISO-42001
+      - GDPR
+      - SOC-2
+      - HIPAA
+      - NIST-AI-RMF
+    
+    file_indicators:
+      - "COMPLIANCE"
+      - "REGULATION"
+  
+  39-automation:
+    description: "CI/CD pipelines, workflows, automation scripts"
+    keywords:
+      high_weight: 10
+      terms:
+        - automation
+        - ci
+        - cd
+        - pipeline
+        - workflow
+        - github-actions
+        - jenkins
+        - gitlab-ci
+        - circleci
+        - automated
+      medium_weight: 5
+      medium_terms:
+        - build
+        - deploy
+        - release
+        - continuous
+        - integration
+        - delivery
+    
+    patterns:
+      - "\\.github/workflows/"
+      - "(?:ci|cd)\\s+(?:pipeline|workflow)"
+      - "github\\s+actions"
+      - "automated\\s+(?:build|deploy|test)"
+    
+    file_indicators:
+      - "AUTOMATION"
+      - "CI"
+      - "CD"
+      - "PIPELINE"
+  
+  13-metrics-reporting:
+    description: "KPIs, dashboards, analytics, performance metrics"
+    keywords:
+      high_weight: 10
+      terms:
+        - metric
+        - metrics
+        - kpi
+        - measurement
+        - dashboard
+        - analytics
+        - report
+        - reporting
+        - indicator
+        - performance
+        - telemetry
+      medium_weight: 5
+      medium_terms:
+        - measure
+        - tracking
+        - monitoring
+        - observability
+    
+    patterns:
+      - "(?:kpi|metric|measurement)\\s+(?:dashboard|report)"
+      - "performance\\s+(?:metric|indicator|report)"
+    
+    file_indicators:
+      - "METRICS"
+      - "KPI"
+      - "REPORT"
+      - "DASHBOARD"
+  
+  29-docs:
+    description: "Documentation, guides, tutorials, manuals"
+    keywords:
+      high_weight: 10
+      terms:
+        - documentation
+        - guide
+        - tutorial
+        - manual
+        - readme
+        - how-to
+        - quickstart
+        - getting-started
+      medium_weight: 5
+      medium_terms:
+        - instruction
+        - help
+        - reference
+        - example
+        - usage
+    
+    patterns:
+      - "readme(?:\\.md)?"
+      - "(?:user|admin|developer)\\s+guide"
+      - "getting\\s+started"
+    
+    file_indicators:
+      - "README"
+      - "GUIDE"
+      - "TUTORIAL"
+  
+  23-policies:
+    description: "Global policy library, Rego policies, OPA rules"
+    keywords:
+      high_weight: 10
+      terms:
+        - policy
+        - policies
+        - rego
+        - opa
+        - conftest
+        - constraint
+      medium_weight: 5
+      medium_terms:
+        - rule
+        - gate
+        - validation
+        - enforcement
+    
+    patterns:
+      - "policy\\.(?:yaml|rego)"
+      - "conftest\\s+policy"
+    
+    file_indicators:
+      - "POLICY"
+      - "POLICIES"
+
+# Routing rules
+rules:
+  # Prefer specific dimensions over generic ones
+  priority_order:
+    - 06-security          # Security is high priority
+    - 05-compliance        # Compliance is high priority
+    - 39-automation        # Automation files are specific
+    - 23-policies          # Policy files are specific
+    - 01-architecture      # Architecture documents
+    - 00-vision-strategy   # Vision/strategy documents
+    - 13-metrics-reporting # Metrics/reporting
+    - 29-docs             # Generic documentation (lower priority)
+  
+  # Conflict resolution
+  conflicts:
+    # If multiple dimensions have similar scores, use these rules
+    security_vs_compliance:
+      rule: "If both security and compliance score high, prefer security if threat/vulnerability mentioned"
+    
+    architecture_vs_design:
+      rule: "If both architecture and design score high, prefer architecture"
+    
+    docs_vs_specific:
+      rule: "Always prefer specific dimension over generic docs if confidence >= 60%"
+
+# Special handling
+special_cases:
+  # Files that should always stay in root
+  root_files:
+    - "README.md"
+    - "LICENSE"
+    - "CONTRIBUTING.md"
+    - ".gitignore"
+  
+  # Files that need manual review
+  manual_review_patterns:
+    - "COMPREHENSIVE_SYSTEM_ANALYSIS.md"  # Large, multi-topic files
+  
+  # Auto-route exceptions
+  exceptions:
+    - pattern: "\\.github/workflows/.*\\.yml"
+      destination: "39-automation"
+      reason: "GitHub Actions workflows always go to automation"

@@ -1,153 +1,64 @@
-/**
- * @fileoverview Centralized error handling middleware for Express applications.
- *
- * This module provides robust error handling that:
- * - Normalizes all errors to a consistent format
- * - Distinguishes between application errors and unexpected exceptions
- * - Provides appropriate error responses based on environment
- * - Maintains trace IDs for distributed debugging
- * - Handles 404 Not Found responses
- *
- * @module middleware/error
- */
-
 import { randomUUID } from 'crypto';
 
 import { Request, Response, NextFunction } from 'express';
 
 import config from '../config';
-import { AppError, ErrorCode, createError } from '../errors';
 
-/**
- * Safely converts any thrown value to an Error object.
- *
- * JavaScript allows throwing any value, not just Error objects. This function
- * ensures that any caught value is converted to a proper Error instance for
- * consistent error handling and logging.
- *
- * Conversion rules:
- * - Error instances: returned as-is
- * - null/undefined: returns Error with 'Unknown error' message
- * - strings: wraps in Error with the string as message
- * - numbers/booleans: converts to string, wraps in Error
- * - objects: attempts JSON.stringify, wraps result in Error
- * - other types (symbol, bigint, function): returns Error with type indicator
- *
- * @param err - Any value that was thrown
- * @returns A proper Error object
- *
- * @example
- * try {
- *   throw 'Something went wrong'; // Bad practice, but supported
- * } catch (e) {
- *   const error = convertToError(e);
- *   console.log(error.message); // 'Something went wrong'
- * }
- *
- * @example
- * try {
- *   throw { code: 'ERR_001', reason: 'Invalid input' };
- * } catch (e) {
- *   const error = convertToError(e);
- *   console.log(error.message); // '{"code":"ERR_001","reason":"Invalid input"}'
- * }
- */
-const convertToError = (err: unknown): Error => {
-  if (err instanceof Error) {
-    return err;
+export enum ErrorCode {
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  NOT_FOUND = 'NOT_FOUND',
+  UNAUTHORIZED = 'UNAUTHORIZED',
+  FORBIDDEN = 'FORBIDDEN',
+  INTERNAL_ERROR = 'INTERNAL_ERROR',
+  SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
+  RATE_LIMIT = 'RATE_LIMIT',
+}
+
+export class AppError extends Error {
+  public readonly code: ErrorCode;
+  public readonly statusCode: number;
+  public readonly traceId: string;
+  public readonly timestamp: string;
+  public readonly isOperational: boolean;
+
+  constructor(message: string, code: ErrorCode, statusCode = 500, isOperational = true) {
+    super(message);
+    this.code = code;
+    this.statusCode = statusCode;
+    this.traceId = randomUUID();
+    this.timestamp = new Date().toISOString();
+    this.isOperational = isOperational;
+    Error.captureStackTrace(this, this.constructor);
   }
-  if (err === null || err === undefined) {
-    return new Error('Unknown error');
-  }
-  // Safely convert to string for non-Error types
-  let message: string;
-  if (typeof err === 'string') {
-    message = err;
-  } else if (typeof err === 'number' || typeof err === 'boolean') {
-    message = String(err);
-  } else if (typeof err === 'object') {
-    try {
-      message = JSON.stringify(err);
-    } catch {
-      message = 'Unknown error (could not stringify)';
-    }
-  } else {
-    // symbol, bigint, function, etc.
-    message = 'Unknown error (unsupported type)';
-  }
-  return new Error(message);
+}
+
+export const createError = {
+  validation: (message: string) => new AppError(message, ErrorCode.VALIDATION_ERROR, 400),
+  notFound: (resource: string) => new AppError(`${resource} not found`, ErrorCode.NOT_FOUND, 404),
+  unauthorized: (message = 'Unauthorized') => new AppError(message, ErrorCode.UNAUTHORIZED, 401),
+  forbidden: (message = 'Forbidden') => new AppError(message, ErrorCode.FORBIDDEN, 403),
+  internal: (message = 'Internal server error') =>
+    new AppError(message, ErrorCode.INTERNAL_ERROR, 500, false),
+  serviceUnavailable: (service: string) =>
+    new AppError(`${service} is unavailable`, ErrorCode.SERVICE_UNAVAILABLE, 503),
 };
 
-/**
- * Global error handling middleware for Express applications.
- *
- * This middleware catches all errors passed to `next(error)` and provides
- * consistent error responses. It differentiates between:
- *
- * 1. **AppError instances**: Custom application errors with structured data
- *    - Uses the error's status code, message, and trace ID
- *    - Includes validation errors if present
- *    - Logs at appropriate level based on status code
- *
- * 2. **Unexpected errors**: All other errors (programming errors, etc.)
- *    - Returns 500 Internal Server Error
- *    - Hides internal details in production (security)
- *    - Shows full details in development for debugging
- *    - Generates new trace ID if not present
- *
- * Response format:
- * ```json
- * {
- *   "error": {
- *     "code": "ERROR_CODE",
- *     "message": "Human-readable message",
- *     "status": 400,
- *     "traceId": "uuid-v4",
- *     "timestamp": "2025-12-01T00:00:00.000Z",
- *     "details": {} // Optional validation errors
- *   }
- * }
- * ```
- *
- * @param err - The error that was thrown or passed to next()
- * @param req - Express request object
- * @param res - Express response object
- * @param _next - Express next function (unused but required for error middleware signature)
- *
- * @example
- * // Usage in Express app
- * app.use(errorMiddleware);
- *
- * // In route handlers, throw AppError for expected errors:
- * throw createError.badRequest('Invalid user ID');
- *
- * // Or pass to next() for unexpected errors:
- * try {
- *   await riskyOperation();
- * } catch (error) {
- *   next(error);
- * }
- */
 export const errorMiddleware = (
-  err: unknown,
+  err: Error | AppError,
   req: Request,
   res: Response,
   _next: NextFunction
 ): void => {
-  const isAppError = err instanceof AppError;
-  const safeError = convertToError(err);
-  const traceId = req.traceId || (isAppError ? err.traceId : randomUUID());
+  const traceId = req.traceId || randomUUID();
   let logLevel: 'error' | 'warn' = 'error';
 
-  if (isAppError) {
+  if (err instanceof AppError) {
     const errorResponse = {
       error: {
         code: err.code,
-        message: err.message || 'Unknown error',
-        status: err.statusCode,
+        message: err.message,
         traceId: err.traceId,
         timestamp: err.timestamp,
-        details: (err as AppError & { validationErrors?: unknown }).validationErrors,
       },
     };
     if (err.statusCode < 500) {
@@ -158,11 +69,7 @@ export const errorMiddleware = (
     const errorResponse = {
       error: {
         code: ErrorCode.INTERNAL_ERROR,
-        message:
-          config.NODE_ENV === 'production'
-            ? 'Internal server error'
-            : safeError.message || 'Unknown error',
-        status: 500,
+        message: config.NODE_ENV === 'production' ? 'Internal server error' : err.message,
         traceId,
         timestamp: new Date().toISOString(),
       },
@@ -173,18 +80,15 @@ export const errorMiddleware = (
   const errorLog = {
     traceId,
     error: {
-      name: safeError.name,
-      message: safeError.message || 'Unknown error',
-      code: isAppError ? err.code : ErrorCode.INTERNAL_ERROR,
-      stack: config.NODE_ENV !== 'production' ? safeError.stack : undefined,
+      name: err.name,
+      message: err.message,
+      code: err instanceof AppError ? err.code : ErrorCode.INTERNAL_ERROR,
+      stack: config.NODE_ENV !== 'production' ? err.stack : undefined,
     },
     request: {
       method: req.method,
       url: req.url,
-      userAgent:
-        typeof (req as Request & { get?: Request['get'] }).get === 'function'
-          ? req.get('user-agent')
-          : req.headers?.['user-agent'],
+      userAgent: req.get('user-agent'),
       ip: req.ip,
     },
     timestamp: new Date().toISOString(),
@@ -197,49 +101,8 @@ export const errorMiddleware = (
   }
 };
 
-/**
- * Middleware to handle requests to undefined routes (404 Not Found).
- *
- * This middleware should be registered AFTER all valid routes but BEFORE
- * the error handling middleware. It catches any requests that don't match
- * defined routes and returns a standardized 404 response.
- *
- * Response format:
- * ```json
- * {
- *   "error": {
- *     "code": "NOT_FOUND",
- *     "message": "Route GET /undefined-path not found",
- *     "traceId": "uuid-v4",
- *     "timestamp": "2025-12-01T00:00:00.000Z"
- *   }
- * }
- * ```
- *
- * @param req - Express request object
- * @param res - Express response object
- * @param _next - Express next function (unused, responds directly)
- *
- * @example
- * // Correct middleware ordering in Express app:
- * app.use('/api', apiRoutes);           // 1. Define routes first
- * app.use(notFoundMiddleware);           // 2. Catch undefined routes
- * app.use(errorMiddleware);              // 3. Handle errors last
- *
- * @example
- * // Response for GET /undefined-route:
- * // HTTP 404
- * // {
- * //   "error": {
- * //     "code": "NOT_FOUND",
- * //     "message": "Route GET /undefined-route not found",
- * //     "traceId": "a1b2c3d4-...",
- * //     "timestamp": "2025-12-01T10:00:00.000Z"
- * //   }
- * // }
- */
 export const notFoundMiddleware = (req: Request, res: Response, _next: NextFunction): void => {
-  const error = createError.notFound(`Route ${req.method} ${req.url} not found`);
+  const error = createError.notFound(`Route ${req.method} ${req.url}`);
   const traceId = req.traceId || randomUUID();
 
   res.status(404).json({

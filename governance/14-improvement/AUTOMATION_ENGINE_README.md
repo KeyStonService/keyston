@@ -4,8 +4,7 @@
 
 ## 📋 Overview
 
-This directory contains the autonomous automation engine for the **Governance
-Continuous Improvement** dimension.
+This directory contains the autonomous automation engine for the **Governance Continuous Improvement** dimension.
 
 ## 🚀 Features
 
@@ -30,8 +29,8 @@ This engine handles the following automation task types:
 
 ## 🔗 Integration
 
-This engine is automatically discovered and initialized by the main **Governance
-Automation Launcher** on startup.
+This engine is automatically discovered and initialized by the main
+**Governance Automation Launcher** on startup.
 
 ## 📈 Metrics
 
@@ -55,5 +54,6 @@ engine = GovernanceImprovementEngine(Path(__file__).parent)
 
 ---
 
-**Dimension ID**: governance_improvement **Dimension Name**: Governance
-Continuous Improvement **Status**: Active
+**Dimension ID**: governance_improvement
+**Dimension Name**: Governance Continuous Improvement
+**Status**: Active

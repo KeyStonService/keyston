@@ -1,37 +1,9 @@
-/**
- * @fileoverview Home page component for the Auto-Fix Bot application.
- *
- * This is the landing page that introduces the Auto-Fix Bot development assistant,
- * showcasing core values, capabilities, and providing navigation to other sections.
- *
- * @module pages/Home
- */
 
 import { ArrowRight, ShieldCheck, Cpu, Users, Zap } from 'lucide-react';
 import { Link } from 'react-router';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-/**
- * Home page component displaying the main landing page content.
- *
- * The page is structured into several sections:
- * 1. **Hero Section**: Main headline with call-to-action buttons
- * 2. **Core Values**: Four key principles displayed in a responsive grid
- * 3. **Role Definition**: Detailed explanation of the bot's capabilities
- *
- * Features:
- * - Responsive design with mobile-first approach
- * - Gradient backgrounds and hover animations
- * - Code snippet preview demonstrating the bot's mission
- * - Navigation links to architecture and contact pages
- *
- * @returns The rendered Home page component
- *
- * @example
- * // Used in router configuration
- * <Route path="/" element={<Home />} />
- */
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-50 font-sans selection:bg-blue-500/30">

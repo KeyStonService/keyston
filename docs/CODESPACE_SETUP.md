@@ -2,8 +2,7 @@
 
 ## Overview
 
-This document describes the default GitHub Codespace configuration for the
-SynergyMesh project.
+This document describes the default GitHub Codespace configuration for the SynergyMesh project.
 
 ## Configuration Files
 
@@ -11,8 +10,7 @@ SynergyMesh project.
 
 The development container configuration includes:
 
-- **Base Image**:
-  `mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye`
+- **Base Image**: `mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye`
 - **Node.js Version**: 18+ (matching project requirements)
 - **Features**:
   - Node.js 18
@@ -52,8 +50,7 @@ The following ports are automatically forwarded:
 
 ### Post-Create Command
 
-When the container is created, `npm install` is automatically run to install
-dependencies.
+When the container is created, `npm install` is automatically run to install dependencies.
 
 ### User
 

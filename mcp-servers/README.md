@@ -1,18 +1,14 @@
 # SynergyMesh MCP Servers
-
 # MCP 服務器
 
-Enterprise-grade Model Context Protocol (MCP) servers for the
-AutoExecutionEngine Agent.
+Enterprise-grade Model Context Protocol (MCP) servers for the AutoExecutionEngine Agent.
 
-> LLM 工具端點，提供 MCP 協議的工具供 LLM 調用。LLM tool endpoints, providing
-> MCP protocol tools for LLM invocation.
+> LLM 工具端點，提供 MCP 協議的工具供 LLM 調用。
+> LLM tool endpoints, providing MCP protocol tools for LLM invocation.
 
 ## 🎯 Overview 概述
 
-This directory contains specialized MCP servers that provide advanced
-capabilities for code analysis, testing, documentation, SLSA validation,
-security scanning, and performance optimization.
+This directory contains specialized MCP servers that provide advanced capabilities for code analysis, testing, documentation, SLSA validation, security scanning, and performance optimization.
 
 本目錄包含專門的 MCP 服務器，提供代碼分析、測試、文檔、SLSA 驗證、安全掃描和性能優化等高級功能。
 
@@ -35,32 +31,29 @@ security scanning, and performance optimization.
 
 ### ✅ Allowed Dependencies 允許的依賴
 
-| Dependency 依賴 | Purpose 用途       |
-| --------------- | ------------------ |
-| `core/`         | 調用平台級 AI 能力 |
-| `shared/`       | 共用工具和配置     |
+| Dependency 依賴 | Purpose 用途 |
+|----------------|--------------|
+| `core/` | 調用平台級 AI 能力 |
+| `shared/` | 共用工具和配置 |
 
 ### ❌ Prohibited Dependencies 禁止的依賴
 
-| Should NOT depend on 不應依賴 | Reason 原因               |
-| ----------------------------- | ------------------------- |
-| `agent/`                      | MCP 端點不應依賴業務代理  |
-| `automation/intelligent/`     | MCP 端點不應依賴 pipeline |
+| Should NOT depend on 不應依賴 | Reason 原因 |
+|------------------------------|-------------|
+| `agent/` | MCP 端點不應依賴業務代理 |
+| `automation/intelligent/` | MCP 端點不應依賴 pipeline |
 
 ---
 
 ## 📦 MCP Servers
 
 ### 1. Code Analyzer (`code-analyzer.js`)
-
 **Capabilities:**
-
 - `analyze-code` - Comprehensive code quality and complexity analysis
 - `detect-issues` - Issue detection with severity filtering
 - `suggest-improvements` - AI-powered code improvement suggestions
 
 **Features:**
-
 - Cyclomatic and cognitive complexity calculation
 - Security vulnerability detection
 - Performance issue identification
@@ -68,60 +61,48 @@ security scanning, and performance optimization.
 - Code smell detection
 
 ### 2. Test Generator (`test-generator.js`)
-
 **Capabilities:**
-
 - `generate-unit-tests` - Generate unit tests for functions and classes
 - `generate-integration-tests` - Generate API integration tests
 - `generate-e2e-tests` - Generate end-to-end test scenarios
 
 **Features:**
-
 - Multiple framework support (Jest, Mocha, Vitest, Playwright, Cypress)
 - Configurable coverage levels (basic, comprehensive, exhaustive)
 - Automatic test scaffold generation
 - Edge case and error handling tests
 
 ### 3. Documentation Generator (`doc-generator.js`)
-
 **Capabilities:**
-
 - `generate-jsdoc` - Generate JSDoc documentation
 - `generate-api-docs` - Generate API documentation (Markdown, OpenAPI)
 - `generate-guides` - Generate comprehensive guides
 
 **Features:**
-
 - Multiple documentation styles (standard, Google, TypeScript)
 - Automatic API reference generation
 - Context-aware guide generation
 - Multiple output formats (Markdown, OpenAPI, Postman)
 
 ### 4. SLSA Validator (`slsa-validator.js`)
-
 **Capabilities:**
-
 - `validate-provenance` - Validate SLSA provenance data
 - `check-slsa-compliance` - Check compliance for target SLSA level
 - `generate-compliance-report` - Generate comprehensive compliance reports
 
 **Features:**
-
 - SLSA Level 1-4 validation
 - Compliance gap analysis
 - Remediation recommendations
 - Detailed compliance reporting
 
 ### 5. Security Scanner (`security-scanner.js`)
-
 **Capabilities:**
-
 - `scan-vulnerabilities` - Scan for security vulnerabilities
 - `check-dependencies` - Check dependencies for known CVEs
 - `analyze-secrets` - Detect exposed secrets and credentials
 
 **Features:**
-
 - SQL injection detection
 - XSS vulnerability detection
 - Command injection detection
@@ -130,15 +111,12 @@ security scanning, and performance optimization.
 - CWE and OWASP mapping
 
 ### 6. Performance Analyzer (`performance-analyzer.js`)
-
 **Capabilities:**
-
 - `analyze-performance` - Analyze code performance metrics
 - `identify-bottlenecks` - Identify performance bottlenecks
 - `suggest-optimizations` - Suggest performance optimizations
 
 **Features:**
-
 - Complexity analysis (cyclomatic, cognitive, Halstead)
 - Memory usage analysis
 - Loop optimization detection
@@ -179,7 +157,6 @@ npm run check:strict
 ### Validation Features
 
 #### 1. **Deployment Configuration Validator**
-
 - ✅ Required files check (package.json, README.md, .gitignore)
 - ✅ Package.json structure validation
 - ✅ Security configuration verification
@@ -187,23 +164,16 @@ npm run check:strict
 - ✅ Node.js version compatibility check
 
 #### 2. **Logic Validator**
-
-- ✅ **Authenticity checks**: Detects suspicious patterns (eval, dynamic
-  functions)
+- ✅ **Authenticity checks**: Detects suspicious patterns (eval, dynamic functions)
 - ✅ **Obfuscation detection**: Identifies potentially obfuscated code
 - ✅ **Integrity hashing**: SHA-256 hash for code verification
-- ✅ **Logic validation**: Detects unreachable code, infinite loops, empty catch
-  blocks
-- ✅ **Consistency checks**: Validates indentation, naming conventions, quote
-  styles
-- ✅ **Pattern validation**: Checks error handling, async/await usage, resource
-  cleanup
+- ✅ **Logic validation**: Detects unreachable code, infinite loops, empty catch blocks
+- ✅ **Consistency checks**: Validates indentation, naming conventions, quote styles
+- ✅ **Pattern validation**: Checks error handling, async/await usage, resource cleanup
 - ✅ **Dependency analysis**: Validates import/require statements
 
 #### 3. **Comprehensive Validator**
-
 Combines all validators and provides:
-
 - 📊 Overall quality score and grade
 - 📈 Per-file analysis with warnings count
 - 🎯 Prioritized recommendations
@@ -262,14 +232,13 @@ export LOG_LEVEL="info"
 
 ### Integration with Agent
 
-The MCP servers are automatically configured in
-`.github/agents/my-agent.agent.md`:
+The MCP servers are automatically configured in `.github/agents/my-agent.agent.md`:
 
 ```yaml
 mcp-servers:
   - name: code-analyzer
     command: node
-    args: ['./mcp-servers/code-analyzer.js']
+    args: ["./mcp-servers/code-analyzer.js"]
     capabilities:
       - analyze-code
       - detect-issues
@@ -390,7 +359,6 @@ MIT License - see [LICENSE](../LICENSE) for details.
 ## 🆘 Support
 
 For issues and questions:
-
 - Open an issue in the repository
 - Check documentation at `/docs`
 - Contact the SynergyMesh team

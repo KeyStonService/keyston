@@ -1,47 +1,39 @@
 # Scenario 2: Autonomous Driving (無人駕駛)
-
 # 自動駕駛決策系統質量保障
 
 ## 概述 Overview
 
 專為自動駕駛系統設計的代碼分析與修復解決方案，確保決策算法的安全性、可靠性和實時性能。
 
-Code analysis and repair solution specifically designed for autonomous driving
-systems, ensuring safety, reliability, and real-time performance of
-decision-making algorithms.
+Code analysis and repair solution specifically designed for autonomous driving systems, ensuring safety, reliability, and real-time performance of decision-making algorithms.
 
 ## 核心關注點 Focus Areas
 
 ### 1. 決策算法 (Decision Algorithms)
-
 - **路徑規劃**: 驗證路徑規劃算法正確性
 - **障礙物避讓**: 檢查避障邏輯安全性
 - **行為預測**: 驗證其他車輛行為預測
 - **決策樹**: 檢查決策邏輯完整性
 
 ### 2. 傳感器融合 (Sensor Fusion)
-
 - **多傳感器融合**: 驗證數據融合算法
 - **時間同步**: 確保傳感器時間戳對齊
 - **數據關聯**: 檢查目標跟蹤關聯
 - **不確定性處理**: 驗證協方差計算
 
 ### 3. 路徑規劃 (Path Planning)
-
 - **全局規劃**: 檢查長距離路徑規劃
 - **局部規劃**: 驗證實時避障規劃
 - **軌跡優化**: 檢查軌跡平滑性
 - **約束滿足**: 驗證動力學約束
 
 ### 4. 實時監控 (Real-time Monitoring)
-
 - **延遲監控**: 測量端到端延遲
 - **CPU/GPU 使用**: 監控計算資源
 - **內存管理**: 檢查內存使用模式
 - **性能基準**: 持續性能測試
 
 ### 5. 安全驗證 (Safety Validation)
-
 - **安全距離**: 驗證安全距離計算
 - **緊急制動**: 檢查緊急制動邏輯
 - **失效保護**: 驗證故障處理機制
@@ -59,16 +51,15 @@ decision-making algorithms.
 
 ```yaml
 analysis_priority:
-  security: critical # 安全性最高優先級
-  performance: critical # 實時性能關鍵
-  quality: high # 代碼質量重要
-  architecture: high # 架構設計重要
+  security: critical      # 安全性最高優先級
+  performance: critical   # 實時性能關鍵
+  quality: high          # 代碼質量重要
+  architecture: high     # 架構設計重要
 ```
 
 ## 典型問題檢測 Common Issues Detected
 
 ### 1. 決策算法問題
-
 ```python
 # ❌ 錯誤：沒有處理邊界情況
 def calculate_steering(target_point, current_pose):
@@ -85,7 +76,6 @@ def calculate_steering(target_point, current_pose, max_steering):
 ```
 
 ### 2. 傳感器融合問題
-
 ```python
 # ❌ 錯誤：沒有時間同步檢查
 def fuse_sensors(camera_data, lidar_data):
@@ -101,7 +91,6 @@ def fuse_sensors(camera_data, lidar_data, time_threshold=0.05):
 ```
 
 ### 3. 安全距離計算
-
 ```python
 # ❌ 錯誤：沒有考慮制動距離
 def is_safe_distance(distance, speed):
@@ -169,7 +158,6 @@ print(f"Performance bottlenecks: {result.performance_bottlenecks}")
 ## 集成與部署 Integration & Deployment
 
 ### CI/CD 集成
-
 ```yaml
 # .github/workflows/autonomous-driving-ci.yml
 name: Autonomous Driving CI
@@ -190,7 +178,6 @@ jobs:
 ```
 
 ### 模擬測試
-
 ```python
 # 結合模擬器測試
 from carla import Client
@@ -210,14 +197,12 @@ results = await tester.run_scenarios([
 ## 機器學習模型分析 ML Model Analysis
 
 ### 模型驗證
-
 - **輸入驗證**: 檢查輸入數據範圍
 - **輸出校驗**: 驗證預測輸出合理性
 - **模型版本**: 追蹤模型版本和性能
 - **推理延遲**: 測量推理時間
 
 ### 數據質量
-
 - **數據分佈**: 檢查訓練數據分佈
 - **邊界情況**: 驗證極端場景表現
 - **對抗樣本**: 測試模型魯棒性

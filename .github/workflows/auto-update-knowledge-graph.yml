@@ -1,0 +1,154 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    自動更新知識圖譜 (Auto-Update Knowledge Graph)
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 這個 Workflow 會在 main 分支有新的 commit 時自動執行：
+#   1. 重新產生 MN-DOC (generated-mndoc.yaml)
+#   2. 重新產生知識圖譜 (knowledge-graph.yaml)
+#   3. 重新產生 SuperRoot 實體 (superroot-entities.yaml)
+#   4. 如果有變更，自動 commit 回 main 分支
+#
+# 使用者完全不需要：
+#   - 記住任何指令
+#   - 執行 make all-kg
+#   - 手動 commit 生成的檔案
+#
+# 只要正常編輯檔案、Push 到 main，機器人會自動處理所有事情。
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+name: 自動更新知識圖譜
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'docs/**'
+      - 'core/**'
+      - 'config/**'
+      - 'governance/**'
+      - 'tools/**'
+      - 'synergymesh.yaml'
+      - '!docs/generated-mndoc.yaml'
+      - '!docs/knowledge-graph.yaml'
+      - '!docs/superroot-entities.yaml'
+  workflow_dispatch:  # Allow manual trigger
+
+# Cost protection: prevent concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  auto-update:
+    name: 自動產生並提交知識圖譜
+    runs-on: ubuntu-latest
+    timeout-minutes: 10  # Prevent runaway costs
+    
+    # 避免機器人 commit 觸發無限迴圈
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '🤖 自動更新')"
+
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: 安裝 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: 安裝相依套件
+        run: |
+          pip install pyyaml
+
+      - name: 產生 MN-DOC（從 README.md 抽取機器原生文檔）
+        run: |
+          echo "📄 正在產生 MN-DOC..."
+          python tools/docs/generate_mndoc_from_readme.py \
+            --readme README.md \
+            --output docs/generated-mndoc.yaml
+
+      - name: 產生知識圖譜（掃描整個 repo 結構）
+        run: |
+          echo "🔗 正在產生知識圖譜..."
+          python tools/docs/generate_knowledge_graph.py \
+            --repo-root . \
+            --output docs/knowledge-graph.yaml
+
+      - name: 產生 SuperRoot 實體（映射到治理框架）
+        run: |
+          echo "🏗️ 正在產生 SuperRoot 實體..."
+          python tools/docs/project_to_superroot.py \
+            --kg docs/knowledge-graph.yaml \
+            --output docs/superroot-entities.yaml
+
+      - name: 檢查並自動提交變更
+        run: |
+          # 設定 Git 使用者資訊
+          git config user.name "unmanned-island-bot"
+          git config user.email "bot@unmanned-island.system"
+          
+          # 檢查是否有變更
+          if git diff --quiet docs/generated-mndoc.yaml docs/knowledge-graph.yaml docs/superroot-entities.yaml 2>/dev/null; then
+            echo "✅ 沒有需要更新的內容，知識圖譜已是最新狀態"
+            exit 0
+          fi
+          
+          # 顯示變更摘要
+          echo "📊 偵測到以下檔案有變更："
+          git diff --stat docs/generated-mndoc.yaml docs/knowledge-graph.yaml docs/superroot-entities.yaml 2>/dev/null || true
+          
+          # 取得統計資訊
+          NODES=$(grep -oP 'total_nodes:\s*\K\d+' docs/knowledge-graph.yaml 2>/dev/null || echo "N/A")
+          EDGES=$(grep -oP 'total_edges:\s*\K\d+' docs/knowledge-graph.yaml 2>/dev/null || echo "N/A")
+          ENTITIES=$(grep -oP 'total_entities:\s*\K\d+' docs/superroot-entities.yaml 2>/dev/null || echo "N/A")
+          
+          # 加入變更並提交
+          git add docs/generated-mndoc.yaml docs/knowledge-graph.yaml docs/superroot-entities.yaml
+          
+          git commit -m "🤖 自動更新知識圖譜
+
+          - 節點數: ${NODES}
+          - 關係數: ${EDGES}
+          - 實體數: ${ENTITIES}
+          
+          此 commit 由 GitHub Actions 自動產生。
+          觸發來源: ${{ github.event.head_commit.message }}"
+          
+          # 推送變更
+          git push
+          
+          echo "✅ 已自動提交並推送知識圖譜更新"
+
+      - name: 輸出執行摘要
+        run: |
+          echo "## 🤖 自動更新知識圖譜完成" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 產生的檔案" >> $GITHUB_STEP_SUMMARY
+          echo "| 檔案 | 說明 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| \`docs/generated-mndoc.yaml\` | 從 README.md 抽取的機器原生文檔 |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`docs/knowledge-graph.yaml\` | 整個 repo 的知識圖譜 |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`docs/superroot-entities.yaml\` | SuperRoot 治理框架實體 |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f "docs/knowledge-graph.yaml" ]; then
+            echo "### 知識圖譜統計" >> $GITHUB_STEP_SUMMARY
+            echo '```yaml' >> $GITHUB_STEP_SUMMARY
+            grep -A 10 "statistics:" docs/knowledge-graph.yaml >> $GITHUB_STEP_SUMMARY || echo "無統計資訊"
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "💡 **使用說明**：你不需要手動執行任何指令！" >> $GITHUB_STEP_SUMMARY
+          echo "只要正常編輯檔案並推送到 main 分支，機器人會自動更新知識圖譜。" >> $GITHUB_STEP_SUMMARY

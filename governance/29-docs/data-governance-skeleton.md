@@ -4,8 +4,7 @@
 
 本骨架定義資料模式、資料分類、資料流向和隱私合規策略，確保資料的安全性、完整性和合規性。
 
-This skeleton defines data schemas, classification, data flow, and privacy
-compliance strategies to ensure data security, integrity, and compliance.
+This skeleton defines data schemas, classification, data flow, and privacy compliance strategies to ensure data security, integrity, and compliance.
 
 ## 🎯 用途 / Purpose
 
@@ -18,11 +17,9 @@ compliance strategies to ensure data security, integrity, and compliance.
 
 完整的架構設計指南請參考：
 
-**主要指南**:
-`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/`
+**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/`
 
 ### 指南文件結構
-
 ```
 data-governance/
 ├── overview.md              # 骨架簡介與應用場景
@@ -37,7 +34,6 @@ data-governance/
 ### 使用時機 / When to Use
 
 當您需要：
-
 - 設計新的資料結構
 - 處理敏感個人資料
 - 實現資料加密策略
@@ -94,8 +90,7 @@ data-governance/
    - API 資料契約
    - 資料格式驗證
 
-4. **Security & Observability**
-   (`automation/autonomous/security-observability/`)
+4. **Security & Observability** (`automation/autonomous/security-observability/`)
    - 資料訪問審計
    - 異常檢測
 
@@ -103,12 +98,12 @@ data-governance/
 
 ### 敏感度級別 / Sensitivity Levels
 
-| 級別             | 描述     | 範例               | 保護要求                 |
-| ---------------- | -------- | ------------------ | ------------------------ |
-| **PUBLIC**       | 公開資料 | 產品目錄、公告     | 基本保護                 |
-| **INTERNAL**     | 內部資料 | 內部文檔、報告     | 訪問控制                 |
-| **CONFIDENTIAL** | 機密資料 | 商業策略、財務     | 加密 + 嚴格訪問控制      |
-| **RESTRICTED**   | 限制資料 | 個人資料、健康資料 | 強加密 + 審計 + 最小權限 |
+| 級別 | 描述 | 範例 | 保護要求 |
+|------|------|------|----------|
+| **PUBLIC** | 公開資料 | 產品目錄、公告 | 基本保護 |
+| **INTERNAL** | 內部資料 | 內部文檔、報告 | 訪問控制 |
+| **CONFIDENTIAL** | 機密資料 | 商業策略、財務 | 加密 + 嚴格訪問控制 |
+| **RESTRICTED** | 限制資料 | 個人資料、健康資料 | 強加密 + 審計 + 最小權限 |
 
 ### 資料類型 / Data Types
 
@@ -122,7 +117,6 @@ data-governance/
 ### GDPR 合規要求
 
 ✅ **必須實現**:
-
 - 資料主體訪問權 (Right to Access)
 - 資料可攜權 (Right to Data Portability)
 - 被遺忘權 (Right to be Forgotten)
@@ -132,7 +126,6 @@ data-governance/
 ### CCPA 合規要求
 
 ✅ **必須實現**:
-
 - 透明度通知 (Transparency Notice)
 - 選擇退出權 (Right to Opt-Out)
 - 資料刪除權 (Right to Deletion)
@@ -141,25 +134,21 @@ data-governance/
 ## 🔐 資料保護策略 / Data Protection Strategies
 
 ### 傳輸中加密 / Encryption in Transit
-
 - TLS 1.3 用於所有網路傳輸
 - mTLS 用於服務間通信
 - 禁用過時的加密協議
 
 ### 靜態加密 / Encryption at Rest
-
 - AES-256 用於敏感資料
 - 密鑰分離和輪換
 - 硬體安全模組 (HSM) 用於密鑰管理
 
 ### 訪問控制 / Access Control
-
 - 最小權限原則
 - 基於角色的訪問控制 (RBAC)
 - 定期訪問審查
 
 ### 資料遮罩 / Data Masking
-
 - 生產資料脫敏
 - 測試環境匿名化
 - 日誌資料清洗
@@ -192,25 +181,23 @@ data-governance/
 
 ### 關鍵指標
 
-| 指標           | 目標值 | 重要性 |
-| -------------- | ------ | ------ |
-| 資料分類覆蓋率 | > 95%  | 🔴 高  |
-| 未授權訪問嘗試 | 0      | 🔴 高  |
-| 資料洩露事件   | 0      | 🔴 高  |
-| 合規檢查通過率 | 100%   | 🔴 高  |
-| 資料保留違規   | 0      | 🟡 中  |
+| 指標 | 目標值 | 重要性 |
+|------|--------|--------|
+| 資料分類覆蓋率 | > 95% | 🔴 高 |
+| 未授權訪問嘗試 | 0 | 🔴 高 |
+| 資料洩露事件 | 0 | 🔴 高 |
+| 合規檢查通過率 | 100% | 🔴 高 |
+| 資料保留違規 | 0 | 🟡 中 |
 
 ## 📞 支援與參考 / Support and References
 
 ### 相關文檔
-
 - [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/data-governance/)
 - [Identity & Tenancy Skeleton](../identity-tenancy/README.md)
 - [Security & Observability Skeleton](../security-observability/README.md)
 - [API Governance Skeleton](../api-governance/README.md)
 
 ### 外部資源
-
 - [GDPR 官方指南](https://gdpr.eu/)
 - [CCPA 法規文本](https://oag.ca.gov/privacy/ccpa)
 - [NIST 資料管理框架](https://www.nist.gov/privacy-framework)

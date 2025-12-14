@@ -1,0 +1,372 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    🔧 Self-Healing CI System
+#                    自體修復 CI 系統
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 功能：
+# 1. 監控 CI 失敗並自動分析
+# 2. 嘗試自動修復常見問題
+# 3. 學習並記錄修復模式
+# 4. 提供修復建議
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+name: 🔧 Self-Healing CI
+
+on:
+    workflow_run:
+        workflows: ["*"]
+        types: [completed]
+        branches: [main]
+    schedule:
+        # 每小時檢查一次失敗的 workflows
+        - cron: "0 * * * *"
+    workflow_dispatch:
+        inputs:
+            run_id:
+                description: "要分析的 workflow run ID"
+                required: false
+                type: string
+            auto_fix:
+                description: "是否自動修復"
+                required: false
+                type: boolean
+                default: false
+
+
+# Cost protection: prevent concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+    contents: write
+    actions: read
+    pull-requests: write
+    issues: write
+
+env:
+    HEALING_LOG_PATH: ".github/healing-logs"
+    MAX_AUTO_FIX_ATTEMPTS: 3
+
+jobs:
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 監控失敗的 workflows
+    # ─────────────────────────────────────────────────────────────────────────────
+    monitor-failures:
+        name: 📊 Monitor CI Failures
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'failure' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+        outputs:
+            has_failures: ${{ steps.check.outputs.has_failures }}
+            failure_details: ${{ steps.check.outputs.failure_details }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Check for failures
+              id: check
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  echo "🔍 Checking for CI failures..."
+
+                  # 獲取最近失敗的 workflows
+                  FAILURES=$(gh run list --status failure --limit 10 --json databaseId,name,conclusion,headBranch,event,createdAt 2>/dev/null || echo "[]")
+
+                  if [ "$FAILURES" == "[]" ] || [ -z "$FAILURES" ]; then
+                    echo "✅ No recent failures found"
+                    echo "has_failures=false" >> $GITHUB_OUTPUT
+                  else
+                    echo "⚠️ Found failures:"
+                    echo "$FAILURES" | jq -r '.[] | "- \(.name): \(.conclusion) (\(.createdAt))"'
+                    echo "has_failures=true" >> $GITHUB_OUTPUT
+                    echo "failure_details<<EOF" >> $GITHUB_OUTPUT
+                    echo "$FAILURES" >> $GITHUB_OUTPUT
+                    echo "EOF" >> $GITHUB_OUTPUT
+                  fi
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 分析失敗原因
+    # ─────────────────────────────────────────────────────────────────────────────
+    analyze-failure:
+        name: 🔬 Analyze Failure
+        runs-on: ubuntu-latest
+        needs: monitor-failures
+        if: ${{ needs.monitor-failures.outputs.has_failures == 'true' || github.event.workflow_run.conclusion == 'failure' }}
+        outputs:
+            error_type: ${{ steps.analyze.outputs.error_type }}
+            fix_suggestion: ${{ steps.analyze.outputs.fix_suggestion }}
+            can_auto_fix: ${{ steps.analyze.outputs.can_auto_fix }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Analyze failure patterns
+              id: analyze
+              env:
+                  GH_TOKEN: ${{ secrets.WE_TONKE || secrets.GITHUB_TOKEN }}
+                  RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
+              run: |
+                  echo "🔬 Analyzing failure patterns..."
+
+                  # 常見錯誤模式
+                  declare -A ERROR_PATTERNS=(
+                    ["startup_failure"]="Workflow 檔案語法錯誤"
+                    ["npm_install_failed"]="NPM 安裝失敗"
+                    ["test_failed"]="測試失敗"
+                    ["build_failed"]="建置失敗"
+                    ["permission_denied"]="權限不足"
+                    ["timeout"]="執行超時"
+                    ["rate_limit"]="API 速率限制"
+                  )
+
+                  # 嘗試獲取失敗日誌
+                  if [ -n "$RUN_ID" ]; then
+                    LOGS=$(gh run view "$RUN_ID" --log-failed 2>/dev/null || echo "")
+                  else
+                    LOGS=""
+                  fi
+
+                  # 分析錯誤類型
+                  ERROR_TYPE="unknown"
+                  CAN_AUTO_FIX="false"
+                  FIX_SUGGESTION=""
+
+                  if echo "$LOGS" | grep -q "startup_failure\|workflow file issue"; then
+                    ERROR_TYPE="startup_failure"
+                    FIX_SUGGESTION="檢查 workflow YAML 語法，確保 hashFiles() 只用在 step 層級"
+                    CAN_AUTO_FIX="true"
+                  elif echo "$LOGS" | grep -q "npm ERR!\|ENOENT"; then
+                    ERROR_TYPE="npm_install_failed"
+                    FIX_SUGGESTION="檢查 package.json 和 package-lock.json 一致性"
+                    CAN_AUTO_FIX="true"
+                  elif echo "$LOGS" | grep -q "FAILED\|AssertionError\|test.*failed"; then
+                    ERROR_TYPE="test_failed"
+                    FIX_SUGGESTION="檢查測試邏輯和測試數據"
+                    CAN_AUTO_FIX="false"
+                  elif echo "$LOGS" | grep -q "Build failed\|compilation error"; then
+                    ERROR_TYPE="build_failed"
+                    FIX_SUGGESTION="檢查編譯錯誤和依賴"
+                    CAN_AUTO_FIX="false"
+                  fi
+
+                  echo "error_type=$ERROR_TYPE" >> $GITHUB_OUTPUT
+                  echo "fix_suggestion=$FIX_SUGGESTION" >> $GITHUB_OUTPUT
+                  echo "can_auto_fix=$CAN_AUTO_FIX" >> $GITHUB_OUTPUT
+
+                  echo "📋 Analysis Result:"
+                  echo "  Error Type: $ERROR_TYPE"
+                  echo "  Fix Suggestion: $FIX_SUGGESTION"
+                  echo "  Can Auto Fix: $CAN_AUTO_FIX"
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 嘗試自動修復
+    # ─────────────────────────────────────────────────────────────────────────────
+    auto-fix:
+        name: 🔧 Auto Fix
+        runs-on: ubuntu-latest
+        needs: analyze-failure
+        if: ${{ needs.analyze-failure.outputs.can_auto_fix == 'true' && (inputs.auto_fix == true || github.event_name == 'workflow_run') }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.WE_TONKE || secrets.GITHUB_TOKEN }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: 20
+
+            - name: Apply auto-fix
+              id: fix
+              env:
+                  ERROR_TYPE: ${{ needs.analyze-failure.outputs.error_type }}
+              run: |
+                  echo "🔧 Attempting auto-fix for: $ERROR_TYPE"
+
+                  case "$ERROR_TYPE" in
+                    "startup_failure")
+                      echo "Validating workflow files..."
+                      # 使用 actionlint 檢查語法
+                      if command -v actionlint &> /dev/null; then
+                        actionlint .github/workflows/*.yml || true
+                      fi
+                      
+                      # 檢查並修復常見問題
+                      for file in .github/workflows/*.yml; do
+                        # 檢查 job 層級的 hashFiles
+                        if grep -q "^[[:space:]]*if:.*hashFiles" "$file"; then
+                          echo "⚠️ Found potential hashFiles issue in $file"
+                          echo "fix_needed=true" >> $GITHUB_OUTPUT
+                        fi
+                      done
+                      ;;
+                      
+                    "npm_install_failed")
+                      echo "Attempting npm fix..."
+                      rm -rf node_modules package-lock.json
+                      npm install
+                      echo "fix_applied=true" >> $GITHUB_OUTPUT
+                      ;;
+                      
+                    *)
+                      echo "No auto-fix available for: $ERROR_TYPE"
+                      echo "fix_applied=false" >> $GITHUB_OUTPUT
+                      ;;
+                  esac
+
+            - name: Create fix PR
+              if: ${{ steps.fix.outputs.fix_applied == 'true' }}
+              env:
+                  GH_TOKEN: ${{ secrets.WE_TONKE || secrets.GITHUB_TOKEN }}
+              run: |
+                  BRANCH="auto-fix/ci-healing-$(date +%Y%m%d-%H%M%S)"
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+                  git checkout -b "$BRANCH"
+                  git add -A
+                  git commit -m "fix(ci): 🔧 自動修復 CI 問題
+
+                  - 錯誤類型: ${{ needs.analyze-failure.outputs.error_type }}
+                  - 修復建議: ${{ needs.analyze-failure.outputs.fix_suggestion }}
+
+                  由 Self-Healing CI 自動生成" || exit 0
+
+                  git push origin "$BRANCH"
+
+                  gh pr create \
+                    --title "🔧 Auto-fix: CI 自動修復" \
+                    --body "## 🔧 CI 自動修復
+
+                  ### 錯誤類型
+                  \`${{ needs.analyze-failure.outputs.error_type }}\`
+
+                  ### 修復建議
+                  ${{ needs.analyze-failure.outputs.fix_suggestion }}
+
+                  ### 變更內容
+                  此 PR 由 Self-Healing CI 系統自動生成，包含針對 CI 失敗的自動修復。
+
+                  ---
+                  🤖 由 Self-Healing CI 自動生成" \
+                    --base main \
+                    --head "$BRANCH"
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 記錄學習結果
+    # ─────────────────────────────────────────────────────────────────────────────
+    learn-and-log:
+        name: 📚 Learn & Log
+        runs-on: ubuntu-latest
+        needs: [analyze-failure]
+        if: always()
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Log healing event
+              env:
+                  ERROR_TYPE: ${{ needs.analyze-failure.outputs.error_type }}
+                  FIX_SUGGESTION: ${{ needs.analyze-failure.outputs.fix_suggestion }}
+              run: |
+                  mkdir -p ${{ env.HEALING_LOG_PATH }}
+
+                  LOG_FILE="${{ env.HEALING_LOG_PATH }}/healing-$(date +%Y%m%d).json"
+
+                  # 創建或更新日誌
+                  if [ -f "$LOG_FILE" ]; then
+                    EXISTING=$(cat "$LOG_FILE")
+                  else
+                    EXISTING="[]"
+                  fi
+
+                  NEW_ENTRY=$(jq -n \
+                    --arg timestamp "$(date -Iseconds)" \
+                    --arg error_type "$ERROR_TYPE" \
+                    --arg fix_suggestion "$FIX_SUGGESTION" \
+                    --arg run_id "${{ github.run_id }}" \
+                    --arg workflow "${{ github.workflow }}" \
+                    '{
+                      timestamp: $timestamp,
+                      error_type: $error_type,
+                      fix_suggestion: $fix_suggestion,
+                      run_id: $run_id,
+                      workflow: $workflow
+                    }')
+
+                  echo "$EXISTING" | jq ". + [$NEW_ENTRY]" > "$LOG_FILE"
+
+                  echo "📚 Logged healing event to $LOG_FILE"
+
+            - name: Update healing statistics
+              run: |
+                  STATS_FILE="${{ env.HEALING_LOG_PATH }}/statistics.json"
+
+                  # 計算統計數據
+                  if [ -d "${{ env.HEALING_LOG_PATH }}" ]; then
+                    TOTAL_EVENTS=$(find ${{ env.HEALING_LOG_PATH }} -name "healing-*.json" -exec cat {} \; | jq -s 'add | length')
+                    
+                    # 按錯誤類型統計
+                    ERROR_STATS=$(find ${{ env.HEALING_LOG_PATH }} -name "healing-*.json" -exec cat {} \; | \
+                      jq -s 'add | group_by(.error_type) | map({key: .[0].error_type, value: length}) | from_entries')
+                    
+                    jq -n \
+                      --argjson total "$TOTAL_EVENTS" \
+                      --argjson by_type "$ERROR_STATS" \
+                      --arg updated "$(date -Iseconds)" \
+                      '{
+                        total_events: $total,
+                        by_error_type: $by_type,
+                        last_updated: $updated
+                      }' > "$STATS_FILE"
+                    
+                    echo "📊 Updated statistics:"
+                    cat "$STATS_FILE"
+                  fi
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 發送通知
+    # ─────────────────────────────────────────────────────────────────────────────
+    notify:
+        name: 📢 Notify
+        runs-on: ubuntu-latest
+        needs: [analyze-failure, auto-fix]
+        if: always() && needs.analyze-failure.outputs.error_type != 'unknown'
+        steps:
+            - name: Create issue for manual intervention
+              if: ${{ needs.analyze-failure.outputs.can_auto_fix != 'true' }}
+              env:
+                  GH_TOKEN: ${{ secrets.WE_TONKE || secrets.GITHUB_TOKEN }}
+              run: |
+                  # 檢查是否已有相同問題的 issue
+                  EXISTING=$(gh issue list --label "ci-failure" --state open --json number,title --jq '.[0].number')
+
+                  if [ -z "$EXISTING" ]; then
+                    gh issue create \
+                      --title "🔧 CI 失敗需要手動修復: ${{ needs.analyze-failure.outputs.error_type }}" \
+                      --body "## CI 失敗報告
+
+                  ### 錯誤類型
+                  \`${{ needs.analyze-failure.outputs.error_type }}\`
+
+                  ### 修復建議
+                  ${{ needs.analyze-failure.outputs.fix_suggestion }}
+
+                  ### Workflow Run
+                  - Run ID: ${{ github.run_id }}
+                  - Workflow: ${{ github.workflow }}
+                  - 時間: $(date -Iseconds)
+
+                  ---
+                  🤖 由 Self-Healing CI 自動生成" \
+                      --label "ci-failure,needs-attention"
+                  else
+                    echo "Issue already exists: #$EXISTING"
+                    gh issue comment "$EXISTING" --body "🔄 再次檢測到相同類型的 CI 失敗
+
+                  - 時間: $(date -Iseconds)
+                  - Run ID: ${{ github.run_id }}"
+                  fi

@@ -1,0 +1,304 @@
+---
+name: 互動式 CI 客服系統（可重用）
+
+# 此 workflow 可被任何 CI workflow 調用，為其添加互動式客服能力
+on:
+  workflow_call:
+    inputs:
+      ci-name:
+        description: 'CI 工作流程名稱'
+        required: true
+        type: string
+      ci-status:
+        description: 'CI 執行狀態（success/failure）'
+        required: true
+        type: string
+      ci-context:
+        description: 'CI 執行上下文資訊（JSON 格式）'
+        required: false
+        type: string
+        default: '{}'
+      error-logs:
+        description: '錯誤日誌（如有）'
+        required: false
+        type: string
+        default: ''
+      pr-number:
+        description: 'PR 編號'
+        required: false
+        type: string
+        default: ''
+    outputs:
+      service-response:
+        description: "客服回應內容"
+        value: ${{ jobs.interactive-service.outputs.response }}
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  interactive-service:
+    name: 🤖 互動式客服
+    runs-on: ubuntu-latest
+    outputs:
+      response: ${{ steps.generate-response.outputs.response }}
+    
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      - name: 🔍 獲取 PR 編號
+        id: get-pr
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            let prNumber = '${{ inputs.pr-number }}';
+            
+            if (!prNumber && context.payload.pull_request) {
+              prNumber = context.payload.pull_request.number;
+            }
+            
+            console.log(`PR Number: ${prNumber}`);
+            core.setOutput('pr_number', prNumber);
+            return prNumber;
+      
+      - name: 🤖 生成互動式回應
+        id: generate-response
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const ciName = '${{ inputs.ci-name }}';
+            const ciStatus = '${{ inputs.ci-status }}';
+            const errorLogs = `${{ inputs.error-logs }}`;
+            const prNumber = '${{ steps.get-pr.outputs.pr_number }}';
+            
+            if (!prNumber) {
+              console.log('無 PR 編號，跳過評論');
+              return;
+            }
+            
+            let response = '';
+            let emoji = '';
+            let color = '';
+            
+            if (ciStatus === 'success') {
+              emoji = '✅';
+              color = '🟢';
+              response = `## ${emoji} ${ciName} - 客服報告
+              
+              ${color} **狀態**：執行成功
+              
+              ### 📋 服務摘要
+              - ✓ 所有檢查項目已完成
+              - ✓ 品質標準符合要求
+              - ✓ 準備進行下一階段
+              
+              ### 🤝 互動服務
+              如需協助，可使用以下命令：
+              - \`@copilot help ${ciName}\` - 獲取此 CI 的詳細說明
+              - \`@copilot analyze ${ciName}\` - 深度分析執行結果
+              - \`@copilot report ${ciName}\` - 生成詳細報告
+              
+              ---
+              *此評論由 ${ciName} 互動式客服自動生成*
+              `;
+            } else {
+              emoji = '❌';
+              color = '🔴';
+              
+              // 智能分析錯誤類型
+              let errorType = '未知錯誤';
+              let recommendations = [];
+              let quickFixes = [];
+              
+              if (errorLogs.includes('npm') || errorLogs.includes('node')) {
+                errorType = 'Node.js/npm 相關問題';
+                recommendations = [
+                  '檢查 package.json 依賴版本',
+                  '清理 node_modules：`rm -rf node_modules && npm install`',
+                  '檢查 Node.js 版本是否 >= 18'
+                ];
+                quickFixes = [
+                  { cmd: 'npm install', desc: '重新安裝依賴' },
+                  { cmd: 'npm audit fix', desc: '修復安全問題' }
+                ];
+              } else if (errorLogs.includes('docker') || errorLogs.includes('Docker')) {
+                errorType = 'Docker 相關問題';
+                recommendations = [
+                  '檢查 Dockerfile 語法',
+                  '驗證基礎鏡像是否可用',
+                  '清理 Docker 快取：`docker system prune -a`'
+                ];
+                quickFixes = [
+                  { cmd: 'docker-compose config', desc: '驗證配置' },
+                  { cmd: 'docker system df', desc: '檢查磁盤空間' }
+                ];
+              } else if (errorLogs.includes('test') || errorLogs.includes('Test')) {
+                errorType = '測試執行問題';
+                recommendations = [
+                  '本地運行測試：`npm test`',
+                  '檢查測試環境配置',
+                  '查看失敗的具體測試案例'
+                ];
+                quickFixes = [
+                  { cmd: 'npm test -- --verbose', desc: '詳細測試輸出' },
+                  { cmd: 'npm run test:coverage', desc: '查看覆蓋率' }
+                ];
+              } else if (errorLogs.includes('lint') || errorLogs.includes('format')) {
+                errorType = '代碼格式問題';
+                recommendations = [
+                  '運行 linter：`npm run lint`',
+                  '自動修復：`npm run lint:fix`',
+                  '檢查 ESLint 配置'
+                ];
+                quickFixes = [
+                  { cmd: 'npm run lint:fix', desc: '自動修復格式' },
+                  { cmd: 'npm run format', desc: '格式化代碼' }
+                ];
+              } else {
+                recommendations = [
+                  '查看完整日誌以了解具體錯誤',
+                  '檢查最近的代碼變更',
+                  '參考 CI 故障排除文檔'
+                ];
+                quickFixes = [
+                  { cmd: 'bash scripts/check-env.sh', desc: '檢查環境' }
+                ];
+              }
+              
+              response = `## ${emoji} ${ciName} - 客服報告
+              
+              ${color} **狀態**：執行失敗
+              
+              ### 🔍 問題診斷
+              **錯誤類型**：${errorType}
+              
+              ### 💡 修復建議
+              ${recommendations.map((r, i) => `${i + 1}. ${r}`).join('\n')}
+              
+              ### ⚡ 快速修復命令
+              ${quickFixes.map(f => `**${f.desc}**\n\`\`\`bash\n${f.cmd}\n\`\`\`\n`).join('\n')}
+              
+              ### 📊 錯誤摘要
+              \`\`\`
+              ${errorLogs ? errorLogs.substring(0, 500) + (errorLogs.length > 500 ? '...' : '') : '查看完整日誌以獲取詳細資訊'}
+              \`\`\`
+              
+              ### 🤝 互動式客服
+              需要更多協助？使用以下命令：
+              - \`@copilot analyze ${ciName}\` - 深度分析此錯誤
+              - \`@copilot fix ${ciName}\` - 獲取自動修復建議
+              - \`@copilot help ${ciName}\` - 查看此 CI 的完整文檔
+              - \`@copilot similar ${ciName}\` - 查找相似問題的解決方案
+              
+              ### 📚 相關資源
+              - [CI 故障排除文檔](./docs/ci-troubleshooting.md)
+              - [${ciName} 特定文檔](./docs/)
+              - [環境檢查工具](./scripts/check-env.sh)
+              
+              ---
+              *此評論由 ${ciName} 互動式客服自動生成*
+              `;
+            }
+            
+            core.setOutput('response', response);
+            
+            // 發布或更新評論
+            try {
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber
+              });
+              
+              // 查找此 CI 的現有評論
+              const existingComment = comments.find(c => 
+                c.user.type === 'Bot' && c.body.includes(`${ciName} - 客服報告`)
+              );
+              
+              if (existingComment) {
+                // 更新現有評論
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existingComment.id,
+                  body: response
+                });
+                console.log(`更新了 ${ciName} 的評論`);
+              } else {
+                // 創建新評論
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: response
+                });
+                console.log(`創建了 ${ciName} 的新評論`);
+              }
+            } catch (error) {
+              console.error('評論操作失敗：', error.message);
+            }
+            
+            return response;
+      
+      - name: 🏷️ 管理標籤
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const ciName = '${{ inputs.ci-name }}';
+            const ciStatus = '${{ inputs.ci-status }}';
+            const prNumber = '${{ steps.get-pr.outputs.pr_number }}';
+            
+            if (!prNumber) return;
+            
+            // 清理 CI 名稱作為標籤
+            const labelName = `ci-${ciName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+            
+            try {
+              if (ciStatus === 'failure') {
+                // 添加失敗標籤
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  labels: [labelName + '-failed', 'ci-needs-attention']
+                });
+                console.log(`添加標籤: ${labelName}-failed`);
+              } else {
+                // 移除失敗標籤
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: prNumber,
+                    name: labelName + '-failed'
+                  });
+                  console.log(`移除標籤: ${labelName}-failed`);
+                } catch (e) {
+                  console.log('標籤不存在，跳過移除');
+                }
+              }
+            } catch (error) {
+              console.error('標籤管理失敗：', error.message);
+            }
+      
+      - name: 📊 生成服務摘要
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🤖 ${{ inputs.ci-name }} 互動式客服報告
+          
+          **狀態**: ${{ inputs.ci-status == 'success' && '✅ 成功' || '❌ 失敗' }}
+          
+          **服務功能**:
+          - ✓ 自動診斷問題
+          - ✓ 提供修復建議
+          - ✓ 互動式命令支援
+          - ✓ 智能標籤管理
+          
+          **互動命令**:
+          - \`@copilot analyze ${{ inputs.ci-name }}\`
+          - \`@copilot fix ${{ inputs.ci-name }}\`
+          - \`@copilot help ${{ inputs.ci-name }}\`
+          EOF

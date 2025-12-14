@@ -124,7 +124,6 @@ class SelfHealingIntegrationEngine:
         """創建 mock Island Orchestrator 用於測試"""
         class MockOrchestrator:
             def __init__(self):
-                """TODO: Add function documentation"""
                 self.status = "active"
                 self.islands = {}
             
@@ -153,7 +152,6 @@ class SelfHealingIntegrationEngine:
         return MockOrchestrator()
     
     def register_ai_agents(self) -> bool:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         註冊 7 種 AI Agents
         
@@ -242,7 +240,6 @@ class SelfHealingIntegrationEngine:
         return True
     
     def integrate_governance_dimensions(self) -> bool:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """
         整合治理維度 (00-39)
         

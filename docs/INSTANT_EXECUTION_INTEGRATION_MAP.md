@@ -10,9 +10,7 @@
 
 ## 📋 Overview / 概覽
 
-This document provides a complete integration map for the AI-powered Instant
-Execution Pipeline, showing how all components connect and work together to
-achieve zero-touch deployment.
+This document provides a complete integration map for the AI-powered Instant Execution Pipeline, showing how all components connect and work together to achieve zero-touch deployment.
 
 這份文件提供了 AI 驅動即時執行管線的完整整合架構圖，展示所有元件如何連結並協同工作以實現零接觸部署。
 
@@ -118,13 +116,11 @@ SynergyMesh/
 **Purpose:** Orchestrates all 3 stages and coordinates between components
 
 **Key Classes:**
-
 - `InstantExecutionPipeline` - Main orchestrator
 - `PipelineContext` - Execution context
 - `StageResult` - Stage execution results
 
 **Integration Points:**
-
 ```python
 # Stage 1: AI Analysis
 from ai.governance_engine import AIGovernanceEngine
@@ -153,7 +149,6 @@ subprocess.run(["bash", "scripts/k8s/deploy-baselines.sh"])
 **Purpose:** ML-powered decision making and risk assessment
 
 **Key Classes:**
-
 - `AIGovernanceEngine` - Main AI engine
 - `AnalysisResult` - AI decision output
 - `CodebaseMetrics` - Repository metrics
@@ -161,7 +156,6 @@ subprocess.run(["bash", "scripts/k8s/deploy-baselines.sh"])
 - `DecisionType` - Decision types
 
 **Capabilities:**
-
 - ✅ Codebase analysis (AST-based)
 - ✅ Pattern recognition (ML-ready interface)
 - ✅ Conflict detection
@@ -170,7 +164,6 @@ subprocess.run(["bash", "scripts/k8s/deploy-baselines.sh"])
 - ✅ Decision making (Approve/Reject/Review)
 
 **Mock Implementation:**
-
 - Current: Rule-based algorithms
 - Future: Can be enhanced with TensorFlow/PyTorch models
 
@@ -183,7 +176,6 @@ subprocess.run(["bash", "scripts/k8s/deploy-baselines.sh"])
 **Purpose:** Kubernetes resource validation and health checks
 
 **Key Features:**
-
 - ✅ Namespace validation
 - ✅ ConfigMap checks
 - ✅ Deployment health monitoring
@@ -192,7 +184,6 @@ subprocess.run(["bash", "scripts/k8s/deploy-baselines.sh"])
 - ✅ JSON report generation
 
 **Integration:**
-
 ```python
 engine = BaselineValidationEngine(namespace="synergymesh-system")
 success = engine.run_all_validations()
@@ -208,14 +199,12 @@ report = engine.generate_report()
 **Purpose:** Automated testing and quality assurance
 
 **Test Types:**
-
 - ✅ YAML validation
 - ✅ Code quality checks
 - ✅ Directory structure validation
 - ✅ Configuration file checks
 
 **Integration:**
-
 ```python
 runner = TestSuiteRunner()
 results = runner.run_all_tests()
@@ -231,7 +220,6 @@ runner.generate_test_report()
 **Purpose:** Kubernetes resource deployment with rollback
 
 **Features:**
-
 - ✅ Namespace management
 - ✅ YAML validation
 - ✅ Progressive deployment
@@ -240,7 +228,6 @@ runner.generate_test_report()
 - ✅ Dry-run support
 
 **Usage:**
-
 ```bash
 # Normal deployment
 ./scripts/k8s/deploy-baselines.sh --namespace synergymesh-system
@@ -258,7 +245,6 @@ runner.generate_test_report()
 **Purpose:** One-command pipeline execution
 
 **Features:**
-
 - ✅ Prerequisites checking
 - ✅ Environment setup
 - ✅ Progress tracking
@@ -266,7 +252,6 @@ runner.generate_test_report()
 - ✅ Log management
 
 **Usage:**
-
 ```bash
 # Complete pipeline
 ./scripts/run-instant-execution.sh
@@ -320,7 +305,6 @@ export PYTHONPATH="$PWD:$PWD/tools:$PWD/tools/automation/engines:$PWD/tests/auto
 ```
 
 **Expected Output:**
-
 ```
 🚀 SynergyMesh Instant Execution Pipeline
 ⚡ AI-Powered 3-Stage Automated Deployment
@@ -488,11 +472,11 @@ Output:
 # Stage configurations
 stages:
   - id: ai-analysis
-    timeout: 5 # seconds
+    timeout: 5  # seconds
   - id: synthetic-validation
-    timeout: 30 # seconds
+    timeout: 30  # seconds
   - id: automated-deployment
-    timeout: 1800 # seconds
+    timeout: 1800  # seconds
 
 # Integration points
 integrations:
@@ -526,14 +510,14 @@ export PYTHONPATH="$PWD:$PWD/tools:..."
 
 ### Target Metrics
 
-| Metric                   | Target   | Current                |
-| ------------------------ | -------- | ---------------------- |
-| **Stage 1 Duration**     | < 5s     | ✅ 2-3s                |
-| **Stage 2 Duration**     | < 30s    | ✅ 15-20s              |
-| **Stage 3 Duration**     | < 30min  | ✅ 5-10min             |
-| **AI Accuracy**          | 97%      | ✅ Mock (ready for ML) |
-| **Confidence Threshold** | 85%      | ✅ Configurable        |
-| **Risk Threshold**       | < 75/100 | ✅ Configurable        |
+| Metric | Target | Current |
+|--------|--------|---------|
+| **Stage 1 Duration** | < 5s | ✅ 2-3s |
+| **Stage 2 Duration** | < 30s | ✅ 15-20s |
+| **Stage 3 Duration** | < 30min | ✅ 5-10min |
+| **AI Accuracy** | 97% | ✅ Mock (ready for ML) |
+| **Confidence Threshold** | 85% | ✅ Configurable |
+| **Risk Threshold** | < 75/100 | ✅ Configurable |
 
 ### Success Criteria
 
@@ -662,7 +646,7 @@ python3 automation/pipelines/instant_execution_pipeline.py run --dry-run
 ```python
 class InstantExecutionPipeline:
     def __init__(self, context: PipelineContext)
-
+    
     async def run_pipeline(self) -> Dict[str, Any]
     async def run_stage_1_ai_analysis(self) -> StageResult
     async def run_stage_2_synthetic_validation(self) -> StageResult
@@ -674,7 +658,7 @@ class InstantExecutionPipeline:
 ```python
 class AIGovernanceEngine:
     def __init__(self, config: Dict[str, Any])
-
+    
     def analyze_codebase(self, repo_path: Path) -> CodebaseMetrics
     def detect_naming_patterns(self, resources: List[Dict]) -> Dict
     def assess_risk(self, change_type: str, ...) -> Tuple[RiskLevel, float]
@@ -686,7 +670,7 @@ class AIGovernanceEngine:
 ```python
 class BaselineValidationEngine:
     def __init__(self, namespace: str)
-
+    
     def run_all_validations(self) -> bool
     def validate_namespace(self) -> bool
     def validate_deployments(self) -> bool
@@ -730,8 +714,7 @@ class BaselineValidationEngine:
 
 ### Issues
 
-Report issues at:
-[GitHub Issues](https://github.com/your-org/SynergyMesh/issues)
+Report issues at: [GitHub Issues](https://github.com/your-org/SynergyMesh/issues)
 
 ### Contributing
 

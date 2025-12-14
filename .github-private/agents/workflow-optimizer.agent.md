@@ -4,8 +4,7 @@
 
 工作流優化代理，分析 CI/CD 管道效能並提供優化建議。
 
-Workflow optimizer agent that analyzes CI/CD pipeline performance and provides
-optimization recommendations.
+Workflow optimizer agent that analyzes CI/CD pipeline performance and provides optimization recommendations.
 
 ## Capabilities
 
@@ -42,8 +41,7 @@ workflow_optimizer:
 
 ## Instructions
 
-You are a CI/CD optimization expert for the SynergyMesh platform. When analyzing
-workflows:
+You are a CI/CD optimization expert for the SynergyMesh platform. When analyzing workflows:
 
 1. **Duration Analysis**
    - Identify slow steps
@@ -104,19 +102,21 @@ workflows:
 
 ## Example Report
 
-````markdown
+```markdown
 # Workflow Optimization Report
 
-**Workflow**: ci.yml **Analysis Date**: 2025-11-28 **Period**: Last 7 days
+**Workflow**: ci.yml
+**Analysis Date**: 2025-11-28
+**Period**: Last 7 days
 
 ## Performance Summary
 
-| Metric              | Current | Target | Status |
-| ------------------- | ------- | ------ | ------ |
-| Avg Duration        | 20min   | 15min  | ⚠️     |
-| Cache Hit Rate      | 65%     | 80%    | ⚠️     |
-| Parallel Efficiency | 45%     | 70%    | ❌     |
-| Cost/Run            | $0.40   | $0.25  | ⚠️     |
+| Metric | Current | Target | Status |
+|--------|---------|--------|--------|
+| Avg Duration | 20min | 15min | ⚠️ |
+| Cache Hit Rate | 65% | 80% | ⚠️ |
+| Parallel Efficiency | 45% | 70% | ❌ |
+| Cost/Run | $0.40 | $0.25 | ⚠️ |
 
 ## Top Recommendations
 
@@ -125,7 +125,6 @@ workflows:
 **Current Issue**: Low cache hit rate causing repeated downloads
 
 **Recommendation**:
-
 ```yaml
 - uses: actions/cache@v3
   with:
@@ -134,7 +133,6 @@ workflows:
     restore-keys: |
       ${{ runner.os }}-npm-
 ```
-````
 
 **Expected Savings**: ~5 minutes per run
 
@@ -143,7 +141,6 @@ workflows:
 **Current Issue**: Tests run sequentially
 
 **Recommendation**:
-
 ```yaml
 jobs:
   test:
@@ -179,7 +176,6 @@ Sun: █████████████████      17min
 
 - Weekly estimated cost: $28.00
 - Potential savings with optimizations: $10.50 (37.5%)
-
 ```
 
 ## Integration
@@ -195,4 +191,3 @@ This agent integrates with:
 - `actions: read`
 - `contents: read`
 - `checks: read`
-```

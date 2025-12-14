@@ -7,6 +7,7 @@ on:
         description: Release tag or commit to deploy
         required: true
 
+
 # Cost protection: prevent concurrent runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   deploy:
-    timeout-minutes: 20 # Prevent runaway costs
+    timeout-minutes: 20  # Prevent runaway costs
     runs-on: ubuntu-latest
     environment:
       name: production

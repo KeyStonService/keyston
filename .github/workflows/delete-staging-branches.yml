@@ -1,0 +1,68 @@
+# Advisory Branch Cleanup
+# Based on GitHub Advisory Database's professional workflow patterns.
+#
+# This workflow automatically cleans up staging branches after PRs are closed/merged.
+# It deletes both the staging branch and the head branch to keep the repository clean.
+#
+# @see https://github.com/github/advisory-database
+
+name: Delete PR staging and head branches
+
+on:
+  pull_request_target:
+    branches: ["*/advisory-improvement-*"]
+    types: [closed]
+    paths:
+      - "advisories/**"
+      - "schemas/osv-advisory.schema.json"
+  workflow_dispatch:
+    inputs:
+      staging_branch:
+        description: 'Staging branch to delete'
+        required: true
+        type: string
+      head_branch:
+        description: 'Head branch to delete'
+        required: true
+        type: string
+
+permissions:
+  contents: write   # Required to delete branches
+
+jobs:
+  delete-staging-and-head-branches:
+    # Only run for non-fork PRs (forked PRs don't have permission to delete branches)
+    if: ${{ !github.event.pull_request.head.repo.fork }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete staging and head branches
+        env:
+          STAGING_BRANCH: ${{ github.event.pull_request.base.ref || inputs.staging_branch }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref || inputs.head_branch }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -xeo pipefail
+          
+          echo "🧹 Cleaning up branches after PR closure"
+          
+          # Delete staging branch
+          if [ -n "$STAGING_BRANCH" ]; then
+            echo "🗑️ Deleting staging branch: $STAGING_BRANCH"
+            git push origin --delete --force "$STAGING_BRANCH" 2>/dev/null && \
+              echo "✅ Staging branch deleted: $STAGING_BRANCH" || \
+              echo "ℹ️ Staging branch not found or already deleted: $STAGING_BRANCH"
+          fi
+          
+          # Delete head branch
+          if [ -n "$HEAD_BRANCH" ]; then
+            echo "🗑️ Deleting head branch: $HEAD_BRANCH"
+            git push origin --delete --force "$HEAD_BRANCH" 2>/dev/null && \
+              echo "✅ Head branch deleted: $HEAD_BRANCH" || \
+              echo "ℹ️ Head branch not found or already deleted: $HEAD_BRANCH"
+          fi
+          
+          echo "✅ Branch cleanup completed"

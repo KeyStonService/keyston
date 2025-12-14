@@ -32,16 +32,7 @@
     {
       "files": "*.json",
       "options": {
-        "tabWidth": 2,
-        "printWidth": 200,
-        "singleQuote": false
-      }
-    },
-    {
-      "files": ["package.json", "tsconfig*.json", "*.config.json"],
-      "options": {
-        "tabWidth": 2,
-        "printWidth": 100
+        "tabWidth": 2
       }
     }
   ]

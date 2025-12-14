@@ -4,14 +4,11 @@
 
 ## 🏗️ Architecture Overview | 架構概述
 
-The SynergyMesh platform now includes a comprehensive self-healing recovery
-system that ensures **zero-downtime** operation through autonomous detection and
-recovery of system failures.
+The SynergyMesh platform now includes a comprehensive self-healing recovery system that ensures **zero-downtime** operation through autonomous detection and recovery of system failures.
 
 ### Core Principle | 核心原則
 
-> **"If the launcher breaks, Phoenix rises. If Phoenix breaks, the Watchdog
-> revives it. If everything breaks, Emergency Recovery rebuilds from scratch."**
+> **"If the launcher breaks, Phoenix rises. If Phoenix breaks, the Watchdog revives it. If everything breaks, Emergency Recovery rebuilds from scratch."**
 >
 > **"如果啟動器壞了，鳳凰會升起。如果鳳凰壞了，看門狗會復活它。如果一切都壞了，緊急恢復會從頭開始重建。"**
 
@@ -76,8 +73,7 @@ recovery of system failures.
 
 ### Identity | 身份
 
-Dr. Phoenix (鳳凰博士) is not just code - it's a **fully characterized virtual
-expert** with:
+Dr. Phoenix (鳳凰博士) is not just code - it's a **fully characterized virtual expert** with:
 
 - **Personality:** Calm, methodical, resilient, never gives up
 - **Expertise:** System recovery, fault tolerance, emergency response
@@ -93,7 +89,6 @@ config/agents/profiles/recovery_expert.yaml ← Phoenix's profile
 ```
 
 **Dr. Phoenix is:**
-
 - ✅ Always available
 - ✅ Cannot be disabled
 - ✅ Runs independently
@@ -125,21 +120,21 @@ graph LR
 
 Phoenix employs a **graduated response** approach:
 
-| Attempt | Strategy           | Duration | Use Case             |
-| ------- | ------------------ | -------- | -------------------- |
-| 1       | Quick Restart      | 30s      | Simple crashes       |
-| 2       | Safe Mode          | 2m       | Config issues        |
-| 3       | Config Rollback    | 5m       | Bad configuration    |
-| 4       | Dependency Restart | 10m      | Service dependencies |
-| 5       | Backup Restore     | 30m      | Data corruption      |
-| 6       | Full Bootstrap     | 2h       | Total failure        |
+| Attempt | Strategy | Duration | Use Case |
+|---------|----------|----------|----------|
+| 1 | Quick Restart | 30s | Simple crashes |
+| 2 | Safe Mode | 2m | Config issues |
+| 3 | Config Rollback | 5m | Bad configuration |
+| 4 | Dependency Restart | 10m | Service dependencies |
+| 5 | Backup Restore | 30m | Data corruption |
+| 6 | Full Bootstrap | 2h | Total failure |
 
 ### Recovery Decision Tree | 恢復決策樹
 
 ```
 Failure Detected
     ↓
-First Time?
+First Time? 
     ↓ Yes
 Quick Restart (30s)
     ↓ Success? → Yes → Monitor
@@ -236,9 +231,9 @@ automation_launcher.py                 system_watchdog.py
 # config/recovery-system.yaml
 monitoring:
   heartbeat:
-    interval: 20 # Send every 20 seconds
-    timeout: 90 # Alert after 90 seconds
-    file: '.launcher_heartbeat.json'
+    interval: 20      # Send every 20 seconds
+    timeout: 90       # Alert after 90 seconds
+    file: ".launcher_heartbeat.json"
 ```
 
 ## 🎯 Recovery Scenarios | 恢復場景
@@ -246,7 +241,6 @@ monitoring:
 ### Scenario 1: Launcher Process Crash | 啟動器進程崩潰
 
 **What Happens:**
-
 1. Launcher crashes (e.g., unhandled exception)
 2. Watchdog detects missing process (within 30s)
 3. Phoenix triggered immediately
@@ -259,7 +253,6 @@ monitoring:
 ### Scenario 2: Configuration Error | 配置錯誤
 
 **What Happens:**
-
 1. Bad config causes launcher to fail on startup
 2. Watchdog detects repeated failures
 3. Phoenix tries quick restart (fails)
@@ -273,7 +266,6 @@ monitoring:
 ### Scenario 3: Phoenix Agent Failure | Phoenix 代理故障
 
 **What Happens:**
-
 1. Phoenix agent crashes (rare)
 2. Watchdog detects Phoenix is down
 3. Watchdog restarts Phoenix directly
@@ -285,7 +277,6 @@ monitoring:
 ### Scenario 4: Complete System Failure | 完全系統故障
 
 **What Happens:**
-
 1. Multiple components fail
 2. Phoenix attempts all strategies (all fail)
 3. Phoenix escalates to Level 5
@@ -300,7 +291,6 @@ monitoring:
 ### Scenario 5: Watchdog + Phoenix Both Down | 看門狗和 Phoenix 都停止
 
 **What Happens:**
-
 1. Operator notices system issues
 2. Manually runs: `python emergency_recovery.py`
 3. Emergency recovery diagnoses system
@@ -353,7 +343,6 @@ Recovery Metrics:
 ### Phoenix Authority Limits | Phoenix 權限限制
 
 **Can Do:**
-
 - Restart processes
 - Rollback configurations
 - Restore backups
@@ -361,7 +350,6 @@ Recovery Metrics:
 - Create incidents
 
 **Cannot Do:**
-
 - Delete production data (requires approval)
 - Modify security policies
 - Change safety mechanisms
@@ -371,7 +359,6 @@ Recovery Metrics:
 ### Audit Trail | 審計追蹤
 
 Every Phoenix action is logged with:
-
 - Timestamp
 - Action taken
 - Reason
@@ -407,13 +394,13 @@ services:
     volumes:
       - ./config:/config
       - ./logs:/logs
-
+    
   phoenix:
     image: synergymesh/phoenix:latest
     restart: always
     depends_on:
       - watchdog
-
+    
   launcher:
     image: synergymesh/launcher:latest
     restart: unless-stopped
@@ -436,10 +423,10 @@ spec:
   template:
     spec:
       containers:
-        - name: watchdog
-          image: synergymesh/watchdog:latest
-          securityContext:
-            privileged: true # Needs to monitor/restart processes
+      - name: watchdog
+        image: synergymesh/watchdog:latest
+        securityContext:
+          privileged: true  # Needs to monitor/restart processes
 ```
 
 ## 📈 Benefits of This Architecture | 此架構的優勢
@@ -494,7 +481,4 @@ spec:
 
 **Architecture Status:** ✅ **IMPLEMENTED AND OPERATIONAL**
 
-**Key Achievement:** Answered the question "如果啟動器也壞掉了，現在怎麼辦？"
-(If the launcher breaks, what do we do?) with a comprehensive, autonomous,
-multi-layer recovery system powered by Dr. Phoenix, a virtual expert agent with
-personality, skills, and tools.
+**Key Achievement:** Answered the question "如果啟動器也壞掉了，現在怎麼辦？" (If the launcher breaks, what do we do?) with a comprehensive, autonomous, multi-layer recovery system powered by Dr. Phoenix, a virtual expert agent with personality, skills, and tools.

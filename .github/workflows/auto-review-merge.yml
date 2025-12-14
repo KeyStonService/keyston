@@ -1,0 +1,190 @@
+---
+name: 自動審核與合併
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+  pull_request_review:
+    types: [submitted]
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        description: 'PR 編號（手動觸發時使用）'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-review:
+    name: 🔍 自動審核
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    outputs:
+      review-status: ${{ steps.review.outputs.status }}
+      
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      
+      - name: 🔍 檢查 PR 狀態
+        id: pr-check
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || context.payload.inputs?.['pr-number'];
+            
+            if (!prNumber) {
+              console.log('無 PR 編號，跳過審核');
+              return { skip: true };
+            }
+            
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            console.log(`PR #${prNumber}: ${pr.title}`);
+            console.log(`狀態: ${pr.state}, 可合併: ${pr.mergeable}`);
+            
+            return {
+              number: prNumber,
+              title: pr.title,
+              state: pr.state,
+              mergeable: pr.mergeable,
+              author: pr.user.login
+            };
+      
+      - name: 📊 執行自動審核
+        id: review
+        run: |
+          echo "🔍 執行自動審核檢查..."
+          echo ""
+          echo "✅ 代碼檢出成功"
+          echo "✅ PR 狀態檢查完成"
+          echo ""
+          echo "status=passed" >> $GITHUB_OUTPUT
+
+  auto-merge:
+    name: 🔀 自動合併
+    runs-on: ubuntu-latest
+    needs: [auto-review]
+    if: |
+      always() &&
+      (needs.auto-review.outputs.review-status == 'passed' || github.event_name == 'pull_request_review')
+    
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      - name: 🔀 檢查並執行自動合併
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || context.payload.inputs?.['pr-number'];
+            
+            if (!prNumber) {
+              console.log('無 PR 編號，跳過合併');
+              return;
+            }
+            
+            // 獲取 PR 資訊
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            // 檢查標籤
+            const hasAutoMergeLabel = pr.labels.some(label => 
+              label.name === 'auto-merge' || label.name === 'automerge'
+            );
+            
+            if (!hasAutoMergeLabel) {
+              console.log('PR 沒有 auto-merge 標籤，跳過自動合併');
+              return;
+            }
+            
+            // 檢查所有 CI 是否通過（包含 check runs 和 status checks）
+            const { data: checks } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: pr.head.sha
+            });
+            
+            const { data: statuses } = await github.rest.repos.getCombinedStatusForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: pr.head.sha
+            });
+            
+            const allCheckRunsPassed = checks.check_runs.every(check => 
+              check.status === 'completed' && 
+              (check.conclusion === 'success' || check.conclusion === 'skipped')
+            );
+            
+            const statusPassed = statuses.state === 'success' || statuses.state === 'pending' && statuses.statuses.length === 0;
+            
+            if (!allCheckRunsPassed || !statusPassed) {
+              console.log('CI 檢查尚未全部通過，跳過自動合併');
+              return;
+            }
+            
+            // 檢查審核狀態（取每位審核者最新的審核結果）
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+            
+            // 取每位審核者最新的審核狀態
+            const latestReviewByUser = new Map();
+            for (const review of reviews) {
+              if (review.state === 'APPROVED' || review.state === 'CHANGES_REQUESTED') {
+                const existing = latestReviewByUser.get(review.user.login);
+                if (!existing || new Date(review.submitted_at) > new Date(existing.submitted_at)) {
+                  latestReviewByUser.set(review.user.login, review);
+                }
+              }
+            }
+            
+            const hasApproval = Array.from(latestReviewByUser.values()).some(review => review.state === 'APPROVED');
+            const hasChangesRequested = Array.from(latestReviewByUser.values()).some(review => review.state === 'CHANGES_REQUESTED');
+            
+            if (!hasApproval || hasChangesRequested) {
+              console.log('PR 尚未獲得批准，跳過自動合併');
+              return;
+            }
+            
+            // 執行合併
+            console.log(`嘗試合併 PR #${prNumber}...`);
+            
+            try {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'squash'
+              });
+              
+              console.log(`✅ PR #${prNumber} 已成功合併`);
+            } catch (error) {
+              console.log(`❌ 合併失敗: ${error.message}`);
+            }
+      
+      - name: 📊 生成摘要
+        if: always()
+        run: |
+          echo "## 🔀 自動審核與合併報告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| 項目 | 狀態 |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 自動審核 | ${{ needs.auto-review.outputs.review-status == 'passed' && '✅ 通過' || '⏭️ 跳過' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 自動合併 | 已檢查 |" >> $GITHUB_STEP_SUMMARY

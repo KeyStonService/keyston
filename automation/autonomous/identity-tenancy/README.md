@@ -4,8 +4,7 @@
 
 本骨架負責認證授權、RBAC/ABAC 策略、租戶隔離和資料分離等身份管理功能。
 
-This skeleton handles authentication, authorization, RBAC/ABAC policies, tenant
-isolation, and data separation for identity management.
+This skeleton handles authentication, authorization, RBAC/ABAC policies, tenant isolation, and data separation for identity management.
 
 ## 🎯 用途 / Purpose
 
@@ -18,11 +17,9 @@ isolation, and data separation for identity management.
 
 完整的架構設計指南請參考：
 
-**主要指南**:
-`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/`
+**主要指南**: `unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/`
 
 ### 指南文件結構
-
 ```
 identity-tenancy/
 ├── overview.md              # 骨架簡介與應用場景
@@ -37,7 +34,6 @@ identity-tenancy/
 ### 使用時機 / When to Use
 
 當您需要：
-
 - 實現用戶認證流程
 - 設計角色權限系統
 - 管理多租戶隔離
@@ -99,21 +95,18 @@ identity-tenancy/
 ## 📊 關鍵特性 / Key Features
 
 ### 認證特性
-
 - ✅ OAuth2 / OpenID Connect 支援
 - ✅ JWT token 驗證
 - ✅ 多因素認證 (MFA)
 - ✅ 單點登入 (SSO)
 
 ### 授權特性
-
 - ✅ 角色基於訪問控制 (RBAC)
 - ✅ 屬性基於訪問控制 (ABAC)
 - ✅ 細粒度權限管理
 - ✅ 動態策略評估
 
 ### 多租戶特性
-
 - ✅ 租戶隔離保證
 - ✅ 資料分離策略
 - ✅ 資源配額管理
@@ -133,14 +126,12 @@ identity-tenancy/
 ### 常見安全陷阱 / Common Security Pitfalls
 
 ❌ **禁止**:
-
 - 在日誌中記錄密碼或 token
 - 在 URL 中傳遞敏感資訊
 - 跨租戶資料洩露
 - 繞過授權檢查
 
 ✅ **推薦**:
-
 - 使用加密存儲憑證
 - 實施 token 輪換
 - 定期審計權限
@@ -174,24 +165,22 @@ identity-tenancy/
 
 ### 目標指標
 
-| 指標         | 目標值  | 重要性 |
-| ------------ | ------- | ------ |
-| 認證延遲     | < 100ms | 🔴 高  |
-| 授權檢查     | < 10ms  | 🔴 高  |
-| Token 驗證   | < 5ms   | 🔴 高  |
-| 審計日誌寫入 | < 50ms  | 🟡 中  |
+| 指標 | 目標值 | 重要性 |
+|------|--------|--------|
+| 認證延遲 | < 100ms | 🔴 高 |
+| 授權檢查 | < 10ms | 🔴 高 |
+| Token 驗證 | < 5ms | 🔴 高 |
+| 審計日誌寫入 | < 50ms | 🟡 中 |
 
 ## 📞 支援與參考 / Support and References
 
 ### 相關文檔
-
 - [架構指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/identity-tenancy/)
 - [Security & Observability Skeleton](../security-observability/README.md)
 - [API Governance Skeleton](../api-governance/README.md)
 - [Data Governance Skeleton](../data-governance/README.md)
 
 ### 外部資源
-
 - [OAuth 2.0 規範](https://oauth.net/2/)
 - [OpenID Connect 規範](https://openid.net/connect/)
 - [NIST 訪問控制指南](https://csrc.nist.gov/publications/detail/sp/800-162/final)

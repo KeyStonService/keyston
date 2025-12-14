@@ -20,7 +20,10 @@
       "label": "🤖 無人機: 啟動協調器",
       "type": "shell",
       "command": "python3",
-      "args": [".devcontainer/automation/drone-coordinator.py", "--mode=auto"],
+      "args": [
+        ".devcontainer/automation/drone-coordinator.py",
+        "--mode=auto"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -48,7 +51,11 @@
       "label": "🔧 無人機: 代碼生成器",
       "type": "shell",
       "command": "npx",
-      "args": ["ts-node", ".devcontainer/automation/code-generator.ts", "help"],
+      "args": [
+        "ts-node",
+        ".devcontainer/automation/code-generator.ts",
+        "help"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -76,7 +83,10 @@
       "label": "📊 系統: 診斷",
       "type": "shell",
       "command": "python3",
-      "args": [".devcontainer/automation/drone-coordinator.py", "--mode=health"],
+      "args": [
+        ".devcontainer/automation/drone-coordinator.py",
+        "--mode=health"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },

@@ -1,7 +1,6 @@
 # 🤝 Contributing to SynergyMesh
 
-Thank you for your interest in contributing to **SynergyMesh**! We welcome
-contributions of all kinds.
+Thank you for your interest in contributing to **SynergyMesh**! We welcome contributions of all kinds.
 
 ## 🌟 Ways to Contribute
 
@@ -9,8 +8,7 @@ contributions of all kinds.
 
 If you find a bug, please:
 
-1. Check [Issues](https://github.com/SynergyMesh/SynergyMesh/issues) to ensure
-   the issue hasn't been reported
+1. Check [Issues](https://github.com/SynergyMesh/SynergyMesh/issues) to ensure the issue hasn't been reported
 2. Create a new Issue with:
    - Clear title and description
    - Steps to reproduce
@@ -107,8 +105,7 @@ Before submitting a PR, please confirm:
 
 ### AI-Generated Contributions
 
-If your PR includes AI-generated content or assistance, ensure compliance with
-the **[AI Behavior Contract](.github/AI-BEHAVIOR-CONTRACT.md)**:
+If your PR includes AI-generated content or assistance, ensure compliance with the **[AI Behavior Contract](.github/AI-BEHAVIOR-CONTRACT.md)**:
 
 - [ ] No vague language used (e.g., "seems to be", "might be")
 - [ ] Clear binary status (CAN_COMPLETE or CANNOT_COMPLETE)
@@ -132,8 +129,7 @@ Thanks to all contributors for their efforts!
 
 ## 📄 License
 
-By contributing code, you agree that your contributions will be released under
-the MIT License.
+By contributing code, you agree that your contributions will be released under the MIT License.
 
 ## 📞 Contact
 

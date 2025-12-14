@@ -1,5 +1,4 @@
 # Plugin Architecture Pattern
-
 # 插件架構模式
 
 **創建日期 (Created Date)**: 2025-12-07  
@@ -11,13 +10,9 @@
 
 ## 1. 概述 (Overview)
 
-本文檔定義了 Unmanned Island
-System 的通用插件架構模式。插件架構是系統擴展性的基礎，允許動態註冊、依賴管理和能力擴展，同時保持系統核心的穩定性和安全性。
+本文檔定義了 Unmanned Island System 的通用插件架構模式。插件架構是系統擴展性的基礎，允許動態註冊、依賴管理和能力擴展，同時保持系統核心的穩定性和安全性。
 
-This document defines the generic plugin architecture pattern for the Unmanned
-Island System. The plugin architecture is the foundation of system
-extensibility, enabling dynamic registration, dependency management, and
-capability extension while maintaining core system stability and security.
+This document defines the generic plugin architecture pattern for the Unmanned Island System. The plugin architecture is the foundation of system extensibility, enabling dynamic registration, dependency management, and capability extension while maintaining core system stability and security.
 
 ### 關鍵特性 (Key Features)
 
@@ -35,30 +30,30 @@ capability extension while maintaining core system stability and security.
 
 ```yaml
 plugin_specification:
-  id: 'plugin-identifier' # 唯一識別符
-  name: 'Plugin Display Name' # 顯示名稱
-  version: '1.0.0' # 語義化版本
-  kind: ['category1', 'category2'] # 插件類別
-  priority: 80 # 優先級 (0-100)
-  author: 'Team Name' # 作者
-  license: 'License Type' # 授權類型
-
-  provides: # 提供的能力
-    - 'capability-1'
-    - 'capability-2'
-
-  requires: # 依賴的能力
-    - 'required-capability-1'
-    - 'required-capability-2'
-
-  dependencies: # 依賴插件
-    hard_dependencies: # 硬依賴（必須）
-      - plugin_id: 'core-plugin'
-        version_constraint: '>= 1.0.0'
-
-    soft_dependencies: # 軟依賴（可選）
-      - plugin_id: 'optional-plugin'
-        version_constraint: '>= 0.9.0'
+  id: "plugin-identifier"                    # 唯一識別符
+  name: "Plugin Display Name"                # 顯示名稱
+  version: "1.0.0"                           # 語義化版本
+  kind: ["category1", "category2"]           # 插件類別
+  priority: 80                               # 優先級 (0-100)
+  author: "Team Name"                        # 作者
+  license: "License Type"                    # 授權類型
+  
+  provides:                                  # 提供的能力
+    - "capability-1"
+    - "capability-2"
+  
+  requires:                                  # 依賴的能力
+    - "required-capability-1"
+    - "required-capability-2"
+  
+  dependencies:                              # 依賴插件
+    hard_dependencies:                       # 硬依賴（必須）
+      - plugin_id: "core-plugin"
+        version_constraint: ">= 1.0.0"
+    
+    soft_dependencies:                       # 軟依賴（可選）
+      - plugin_id: "optional-plugin"
+        version_constraint: ">= 0.9.0"
         graceful_degradation: true
 ```
 
@@ -75,14 +70,14 @@ stateDiagram-v2
     Suspended --> Active: 恢復
     Active --> Deactivated: 停用
     Deactivated --> [*]
-
+    
     note right of Validated
       檢查：
       - 規範語法
       - 版本約束
       - 能力聲明
     end note
-
+    
     note right of DependencyResolved
       解析：
       - 硬依賴必須滿足
@@ -121,19 +116,18 @@ stateDiagram-v2
 ```yaml
 vector_alignment_map:
   semantic_vectors:
-    - intent: 'entity-extraction' # 意圖類型
-      embedding_model: 'system-embed-v2' # 嵌入模型引用
-      dimension: 1024 # 向量維度
-      similarity_threshold: 0.75 # 相似度閾值
-
-    - intent: 'relation-classification'
-      embedding_model: 'relation-embed'
+    - intent: "entity-extraction"           # 意圖類型
+      embedding_model: "system-embed-v2"    # 嵌入模型引用
+      dimension: 1024                       # 向量維度
+      similarity_threshold: 0.75            # 相似度閾值
+    
+    - intent: "relation-classification"
+      embedding_model: "relation-embed"
       dimension: 768
       similarity_threshold: 0.70
 ```
 
 **配置化原則**:
-
 - 嵌入模型名稱引用 `config/ai-models/` 中定義的模型
 - 維度與閾值可根據任務類型調整
 - 系統提供默認嵌入模型，插件可覆蓋
@@ -147,7 +141,6 @@ vector_alignment_map:
 **決策**: 每個插件運行在獨立的命名空間，使用明確的 API 邊界。
 
 **理由**:
-
 - 防止插件間的非預期交互
 - 限制插件故障影響範圍
 - 簡化安全審計與權限管理
@@ -157,7 +150,6 @@ vector_alignment_map:
 **決策**: 強制使用語義化版本 (Semantic Versioning) 並嚴格檢查。
 
 **理由**:
-
 - 避免 "依賴地獄" (Dependency Hell)
 - 明確向後兼容性保證
 - 支持自動化依賴更新
@@ -167,13 +159,11 @@ vector_alignment_map:
 **決策**: 使用中央能力註冊表管理所有系統能力。
 
 **理由**:
-
 - 防止能力命名衝突
 - 提供能力發現機制
 - 支持能力版本演進
 
 **實現**:
-
 - 能力註冊表位於 `core/unified_integration/service_registry.py`
 - 映射定義在 `config/system-module-map.yaml` 的 `capability_matrix` 區塊
 
@@ -183,10 +173,10 @@ vector_alignment_map:
 
 ### 4.1 權衡
 
-| 權衡項               | 選擇       | 代價             |
-| -------------------- | ---------- | ---------------- |
-| **性能 vs 隔離性**   | 優先隔離性 | 插件間通信開銷   |
-| **靈活性 vs 穩定性** | 優先穩定性 | 需嚴格版本管理   |
+| 權衡項 | 選擇 | 代價 |
+|--------|------|------|
+| **性能 vs 隔離性** | 優先隔離性 | 插件間通信開銷 |
+| **靈活性 vs 穩定性** | 優先穩定性 | 需嚴格版本管理 |
 | **易用性 vs 安全性** | 優先安全性 | 插件開發門檻較高 |
 
 ### 4.2 限制
@@ -204,7 +194,6 @@ vector_alignment_map:
 **考慮但未採用**: 純微內核架構（所有功能作為外部模組）
 
 **原因**:
-
 - 通信開銷過大
 - 系統啟動時間延長
 - 調試複雜度增加
@@ -216,7 +205,6 @@ vector_alignment_map:
 **考慮但未採用**: 靜態連結所有插件
 
 **原因**:
-
 - 失去動態擴展能力
 - 增加核心系統體積
 - 無法在運行時更新插件
@@ -243,7 +231,6 @@ vector_alignment_map:
 ### 6.3 審計日誌 (Audit Logging)
 
 所有插件操作記錄在審計日誌：
-
 - 插件註冊/停用事件
 - 能力調用記錄
 - 異常與錯誤事件
@@ -328,20 +315,17 @@ plugin-registry disable <plugin-id>
 ## 10. 參考資料 (References)
 
 ### 內部文檔
-
 - `config/templates/plugin-specification-template.yaml` - 插件規範模板
 - `governance/schemas/plugin-specification.schema.json` - JSON Schema 定義
 - `governance/policies/plugin-quality-gates.yaml` - 插件質量門檻
 - `config/system-module-map.yaml` - 系統模組映射
 
 ### 外部標準
-
 - [Semantic Versioning 2.0.0](https://semver.org/)
 - [JSON Schema Draft 7](https://json-schema.org/draft-07/schema)
 - [OpenAPI 3.0 Specification](https://swagger.io/specification/)
 
 ### 相關架構文檔
-
 - `docs/ARCHITECTURE/knowledge-graph-processing.md` - 知識圖譜處理
 - `docs/ARCHITECTURE/storage-architecture.md` - 存儲架構
 - `docs/ARCHITECTURE/vector-alignment-strategy.md` - 向量對齊策略

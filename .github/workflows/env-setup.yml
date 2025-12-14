@@ -1,0 +1,40 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Environment Setup - Reusable Workflow
+#                    統一 Token 管理工作流程
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 使用方式：
+#   在其他工作流程中引用：
+#   jobs:
+#     setup:
+#       uses: ./.github/workflows/env-setup.yml
+#       secrets: inherit
+#
+# Token 策略 (Development-Friendly):
+#   - 開發階段: 使用 GitHub 自動提供的 token (github.token)
+#   - 無需配置額外的 secrets 或 permissions
+#   - 生產環境: 可選擇性覆蓋 GITHUB_TOKEN 環境變數
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+name: Environment Setup
+
+on:
+    workflow_call:
+        outputs:
+            token:
+                description: "The resolved GitHub token (defaults to automatic token)"
+                value: ${{ jobs.setup.outputs.token }}
+
+jobs:
+    setup:
+        runs-on: ubuntu-latest
+        outputs:
+            token: ${{ steps.resolve-token.outputs.token }}
+        steps:
+            - name: Resolve GitHub Token
+              id: resolve-token
+              run: |
+                  # 使用 GitHub 自動提供的 token，無需額外配置
+                  echo "token=${{ github.token }}" >> $GITHUB_OUTPUT
+                  echo "Using automatic GitHub token (no configuration required)"

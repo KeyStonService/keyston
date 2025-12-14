@@ -2,12 +2,9 @@
 
 ## 概述 / Overview
 
-`automation/`
-目錄包含所有自動化邏輯，從智能自動化、自主系統、建築分析到超自動化策略。
+`automation/` 目錄包含所有自動化邏輯，從智能自動化、自主系統、建築分析到超自動化策略。
 
-The `automation/` directory contains all automation logic, from intelligent
-automation, autonomous systems, architectural analysis to hyperautomation
-strategies.
+The `automation/` directory contains all automation logic, from intelligent automation, autonomous systems, architectural analysis to hyperautomation strategies.
 
 ---
 
@@ -82,7 +79,6 @@ automation/
 ## 🔑 核心能力 / Core Capabilities
 
 ### 智能自動化 (Intelligent Automation)
-
 - 自動缺陷檢測和修復
 - 自動治理與合規
 - 自主信任引擎
@@ -91,43 +87,36 @@ automation/
 ### 五骨架自主系統 (Five-Skeleton Autonomous Framework)
 
 #### 骨架 1: 架構穩定性 (Architecture Stability)
-
 - 即時飛控系統 (C++ + ROS 2, 100Hz)
 - IMU 融合
 - PID 控制器
 
 #### 骨架 2: API 治理 (API Governance)
-
 - 模組責任矩陣
 - API 合約驗證
 - 依賴鏈檢查
 
 #### 骨架 3: 測試與相容性 (Testing & Compatibility)
-
 - 自動化測試套件
 - 跨版本相容性測試
 - 迴歸測試
 
 #### 骨架 4: 安全與可觀測性 (Security & Observability)
-
 - 分散式事件日誌
 - 安全監控
 - 追蹤 ID 傳播
 
 #### 骨架 5: 文件與範例 (Documentation & Examples)
-
 - 治理矩陣定義
 - 完整 API 文檔
 - 快速入門指南
 
 ### 建築分析 (Architectural Analysis)
-
 - 代碼模式檢測
 - 複雜度分析
 - 重構建議
 
 ### 超自動化 (Hyperautomation)
-
 - 工作流編排
 - RPA 自動化
 - 流程挖掘
@@ -177,7 +166,6 @@ python3 .devcontainer/automation/drone-coordinator.py --mode=health
 ## 📊 配置範例 / Configuration Examples
 
 ### 無人機配置 (drone-config.yml)
-
 ```yaml
 drone:
   mode: autonomous
@@ -187,7 +175,6 @@ drone:
 ```
 
 ### 雲端代理委派 (cloud-agent-delegation.yml)
-
 ```yaml
 cloud_delegation:
   agents:
@@ -221,7 +208,6 @@ cloud_delegation:
 ## 🔄 自我感知 / Self-Awareness
 
 ### 自我感知報告 (self_awareness_report.py)
-
 系統自動生成狀態報告：
 
 ```bash
@@ -229,7 +215,6 @@ python3 automation/self_awareness_report.py --verbose
 ```
 
 輸出包含：
-
 - 系統健康狀態
 - 元件狀態
 - 問題診斷
@@ -253,3 +238,4 @@ python3 automation/self_awareness_report.py --verbose
 - 📖 [自動化文檔](./README.md)
 - 🐛 [報告問題](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
 - 💬 [討論](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+

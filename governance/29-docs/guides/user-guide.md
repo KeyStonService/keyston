@@ -14,7 +14,7 @@ governance-cli validate --all
 
 ## Using the Dashboard
 
-Access dashboard at <http://localhost:8080>
+Access dashboard at http://localhost:8080
 
 ---
 

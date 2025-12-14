@@ -2,8 +2,7 @@
 
 ## 概述
 
-SynergyMesh MCP
-Servers 實現了企業級的多層次驗證系統，確保程式碼品質、部署安全性、邏輯正確性和真實性。
+SynergyMesh MCP Servers 實現了企業級的多層次驗證系統，確保程式碼品質、部署安全性、邏輯正確性和真實性。
 
 ## 驗證架構
 
@@ -42,6 +41,7 @@ Servers 實現了企業級的多層次驗證系統，確保程式碼品質、部
   - `scripts` - 執行腳本
   - `license` - 授權條款
   - `engines` - 環境需求
+  
 - 必要腳本檢查：
   - `start` - 啟動命令
   - `test` - 測試命令
@@ -52,6 +52,7 @@ Servers 實現了企業級的多層次驗證系統，確保程式碼品質、部
   - `node_modules` - 依賴套件
   - `.env` - 環境變數
   - `*.log` - 日誌文件
+  
 - ✅ 偵測不應提交的敏感文件
   - `.env` 文件
   - `secrets.json`
@@ -86,9 +87,9 @@ Servers 實現了企業級的多層次驗證系統，確保程式碼品質、部
 
 ```javascript
 // ❌ 危險模式
-eval('malicious code'); // 動態執行
-Function('return ' + userInput); // 動態函數
-document.write(untrusted); // DOM 注入
+eval('malicious code')           // 動態執行
+Function('return ' + userInput)  // 動態函數
+document.write(untrusted)        // DOM 注入
 ```
 
 **程式碼混淆偵測：**
@@ -140,12 +141,10 @@ while (true) {
 
 ```javascript
 // ⚠️ 鬆散相等
-if (value == null) {
-} // 建議使用 ===
+if (value == null) { }  // 建議使用 ===
 
 // ✅ 嚴格相等
-if (value === null) {
-}
+if (value === null) { }
 ```
 
 **Promise 錯誤處理：**
@@ -240,12 +239,12 @@ const something = require('package');
 ```json
 {
   "rules": {
-    "no-eval": "error", // 禁用 eval
-    "no-implied-eval": "error", // 禁用隱式 eval
-    "no-new-func": "error", // 禁用 Function 建構子
-    "require-await": "error", // async 函數需使用 await
-    "max-complexity": ["warn", 15], // 複雜度上限 15
-    "max-depth": ["warn", 4], // 巢狀深度上限 4
+    "no-eval": "error",              // 禁用 eval
+    "no-implied-eval": "error",      // 禁用隱式 eval
+    "no-new-func": "error",          // 禁用 Function 建構子
+    "require-await": "error",        // async 函數需使用 await
+    "max-complexity": ["warn", 15],  // 複雜度上限 15
+    "max-depth": ["warn", 4],        // 巢狀深度上限 4
     "max-nested-callbacks": ["warn", 3], // 回調巢狀上限 3
     "max-lines-per-function": ["warn", 100] // 函數長度上限 100 行
   }
@@ -271,12 +270,12 @@ const something = require('package');
 **等級標準：**
 
 - A+ : 95-100 分
-- A : 90-94 分
+- A  : 90-94 分
 - A- : 85-89 分
 - B+ : 80-84 分
-- B : 75-79 分
-- C : 70-74 分
-- F : < 70 分
+- B  : 75-79 分
+- C  : 70-74 分
+- F  : < 70 分
 
 ---
 
@@ -413,8 +412,7 @@ Top Files by Warnings:
 
 ```javascript
 // 使用嚴格相等
-if (value === null) {
-}
+if (value === null) { }
 
 // 適當的錯誤處理
 try {
@@ -425,7 +423,9 @@ try {
 }
 
 // Promise 錯誤處理
-promise.then(handler).catch(errorHandler);
+promise
+  .then(handler)
+  .catch(errorHandler);
 
 // 資源清理
 const timer = setInterval(work, 1000);
@@ -440,13 +440,12 @@ clearInterval(timer);
 eval(untrustedCode);
 
 // 鬆散相等
-if (value == null) {
-}
+if (value == null) { }
 
 // 空白 catch
 try {
   riskyOperation();
-} catch (error) {}
+} catch (error) { }
 
 // 無限迴圈無中斷
 while (true) {

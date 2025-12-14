@@ -1,5 +1,4 @@
 # 無人島系統治理整合 README
-
 # Unmanned Island System Governance Integration
 
 **版本 / Version**: 1.0.0  
@@ -11,8 +10,7 @@
 
 ## 🎯 整合概覽 (Integration Overview)
 
-本整合將無人島系統 (Unmanned Island
-System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) 中，實現：
+本整合將無人島系統 (Unmanned Island System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) 中，實現：
 
 ### ✅ 核心成就 (Core Achievements)
 
@@ -51,7 +49,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ### Phase 1: Vision & Strategy (00-vision-strategy)
 
 #### 1. AI-BEHAVIOR-CONTRACT.md
-
 ```yaml
 路徑: governance/00-vision-strategy/AI-BEHAVIOR-CONTRACT.md
 用途: 定義 AI 行為契約與責任邊界
@@ -67,7 +64,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ```
 
 #### 2. INSTANT-EXECUTION-MANIFEST.yaml
-
 ```yaml
 路徑: governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml
 用途: 定義即時執行標準與性能基線
@@ -83,7 +79,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ```
 
 #### 3. AUTONOMOUS_AGENT_STATE.md (已更新)
-
 ```yaml
 路徑: governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
 更新內容: 添加無人島整合狀態章節
@@ -98,7 +93,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ### Phase 2: Improvement (14-improvement)
 
 #### 4. unmanned-island-self-healing.yaml
-
 ```yaml
 路徑: governance/14-improvement/unmanned-island-self-healing.yaml
 用途: 自我修復框架定義
@@ -114,7 +108,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ```
 
 #### 5. improvement-policy.yaml (已更新)
-
 ```yaml
 路徑: governance/14-improvement/improvement-policy.yaml
 更新內容: 整合無人島自我修復
@@ -125,14 +118,11 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
   - automation_level 說明
 ```
 
-### Phase 3: Integration (30-agents (formerly 30-integration))
+### Phase 3: Integration (30-integration)
 
 #### 6. unmanned-island-integration-manifest.md
-
 ```yaml
-路徑:
-  governance/_legacy/30-agents (formerly 30-integration)
-  (deprecated)/unmanned-island-integration-manifest.md
+路徑: governance/30-integration/unmanned-island-integration-manifest.md
 用途: 跨維度整合清單
 大小: ~14.5 KB
 內容:
@@ -150,7 +140,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ### Phase 4: Automation (39-automation)
 
 #### 7. unmanned_island_integration_engine.py
-
 ```yaml
 路徑: governance/39-automation/unmanned_island_integration_engine.py
 用途: 整合引擎主程序
@@ -169,7 +158,6 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 ### Phase 5: Testing (28-tests)
 
 #### 8. validate_unmanned_island_integration.py
-
 ```yaml
 路徑: governance/28-tests/validate_unmanned_island_integration.py
 用途: 整合驗證腳本
@@ -189,17 +177,17 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 
 ## 🤖 7 AI Agents 架構 (7 AI Agents Architecture)
 
-### 已註冊並集成的 AI Agents
+### 已註冊並集成的 AI Agents:
 
-| #   | Agent Name        | Role     | Authority   | Status        | Location                            |
-| --- | ----------------- | -------- | ----------- | ------------- | ----------------------------------- |
-| 1   | CEO Agent         | 戰略決策 | STRATEGIC   | ✅ Registered | unmanned-engineer-ceo/              |
-| 2   | Architect Agent   | 架構設計 | TACTICAL    | ✅ Registered | island-ai/src/agents/architect      |
-| 3   | Developer Agent   | 代碼實現 | OPERATIONAL | ✅ Registered | island-ai/src/agents/developer      |
-| 4   | Tester Agent      | 質量保證 | OPERATIONAL | ✅ Registered | island-ai/src/agents/tester         |
-| 5   | Deployer Agent    | 部署管理 | OPERATIONAL | ✅ Registered | v2-multi-islands/islands/deployment |
-| 6   | Monitor Agent     | 監控分析 | OPERATIONAL | ✅ Registered | v2-multi-islands/islands/monitoring |
-| 7   | Coordinator Agent | 協調器   | OPERATIONAL | ✅ Registered | v2-multi-islands/orchestrator       |
+| # | Agent Name | Role | Authority | Status | Location |
+|---|------------|------|-----------|--------|----------|
+| 1 | CEO Agent | 戰略決策 | STRATEGIC | ✅ Registered | unmanned-engineer-ceo/ |
+| 2 | Architect Agent | 架構設計 | TACTICAL | ✅ Registered | island-ai/src/agents/architect |
+| 3 | Developer Agent | 代碼實現 | OPERATIONAL | ✅ Registered | island-ai/src/agents/developer |
+| 4 | Tester Agent | 質量保證 | OPERATIONAL | ✅ Registered | island-ai/src/agents/tester |
+| 5 | Deployer Agent | 部署管理 | OPERATIONAL | ✅ Registered | v2-multi-islands/islands/deployment |
+| 6 | Monitor Agent | 監控分析 | OPERATIONAL | ✅ Registered | v2-multi-islands/islands/monitoring |
+| 7 | Coordinator Agent | 協調器 | OPERATIONAL | ✅ Registered | v2-multi-islands/orchestrator |
 
 **註**：部分 Agent 目錄可能尚未物理實現，但已在整合引擎中註冊並可通過模擬模式運行。
 
@@ -207,13 +195,13 @@ System) 完整集成到 SynergyMesh 治理框架 (Governance Dimensions 00-39) �
 
 ## 🔗 治理維度整合狀態 (Governance Dimensions Integration Status)
 
-| Dimension ID                        | Name                       | Integration Files                                                                   | Status  |
-| ----------------------------------- | -------------------------- | ----------------------------------------------------------------------------------- | ------- |
-| 00-vision-strategy                  | Vision & Strategy          | AI-BEHAVIOR-CONTRACT.md, INSTANT-EXECUTION-MANIFEST.yaml, AUTONOMOUS_AGENT_STATE.md | ✅ 100% |
-| 14-improvement                      | Improvement & Learning     | unmanned-island-self-healing.yaml, improvement-policy.yaml                          | ✅ 100% |
-| 28-tests                            | Tests & Validation         | validate_unmanned_island_integration.py                                             | ✅ 100% |
-| 30-agents (formerly 30-integration) | Integration & Coordination | unmanned-island-integration-manifest.md                                             | ✅ 100% |
-| 39-automation                       | Automation & Orchestration | unmanned_island_integration_engine.py                                               | ✅ 100% |
+| Dimension ID | Name | Integration Files | Status |
+|--------------|------|-------------------|--------|
+| 00-vision-strategy | Vision & Strategy | AI-BEHAVIOR-CONTRACT.md, INSTANT-EXECUTION-MANIFEST.yaml, AUTONOMOUS_AGENT_STATE.md | ✅ 100% |
+| 14-improvement | Improvement & Learning | unmanned-island-self-healing.yaml, improvement-policy.yaml | ✅ 100% |
+| 28-tests | Tests & Validation | validate_unmanned_island_integration.py | ✅ 100% |
+| 30-integration | Integration & Coordination | unmanned-island-integration-manifest.md | ✅ 100% |
+| 39-automation | Automation & Orchestration | unmanned_island_integration_engine.py | ✅ 100% |
 
 ---
 
@@ -227,7 +215,6 @@ python3 governance/39-automation/unmanned_island_integration_engine.py
 ```
 
 **結果 / Results:**
-
 ```yaml
 ✅ 引擎啟動時間: 0.01 秒
 ✅ AI Agents 註冊: 7/7 成功
@@ -244,7 +231,6 @@ python3 governance/28-tests/validate_unmanned_island_integration.py
 ```
 
 **結果 / Results:**
-
 ```yaml
 總檢查數: 41
 ✅ 通過: 33 (80.5%)
@@ -262,19 +248,18 @@ python3 governance/28-tests/validate_unmanned_island_integration.py
 
 ### 3. 性能基線驗證
 
-| 指標          | 目標     | 實際                 | 狀態 |
-| ------------- | -------- | -------------------- | ---- |
-| 理解時間      | < 1 秒   | N/A (文檔已就緒)     | ✅   |
-| 引擎啟動      | < 10 秒  | 0.01 秒              | ✅   |
-| 部署時間      | 2-3 分鐘 | 未測試 (需 K8s 環境) | ⏳   |
-| 自我修復 MTTR | < 45 秒  | 未測試 (需故障注入)  | ⏳   |
+| 指標 | 目標 | 實際 | 狀態 |
+|------|------|------|------|
+| 理解時間 | < 1 秒 | N/A (文檔已就緒) | ✅ |
+| 引擎啟動 | < 10 秒 | 0.01 秒 | ✅ |
+| 部署時間 | 2-3 分鐘 | 未測試 (需 K8s 環境) | ⏳ |
+| 自我修復 MTTR | < 45 秒 | 未測試 (需故障注入) | ⏳ |
 
 ---
 
 ## 📊 整合效果驗證 (Integration Impact Validation)
 
 ### Before Integration (整合前)
-
 ```yaml
 AI 行為契約: ❌ 不存在
 即時執行標準: ❌ 未定義
@@ -286,7 +271,6 @@ AI 行為契約: ❌ 不存在
 ```
 
 ### After Integration (整合後)
-
 ```yaml
 AI 行為契約: ✅ 完整定義 (9.6 KB)
 即時執行標準: ✅ 詳細規範 (11 KB)
@@ -309,7 +293,6 @@ AI 行為契約: ✅ 完整定義 (9.6 KB)
 ### 快速啟動 (Quick Start)
 
 #### 1. 啟動整合引擎
-
 ```bash
 # 進入專案目錄
 cd /home/runner/work/SynergyMesh/SynergyMesh
@@ -317,14 +300,13 @@ cd /home/runner/work/SynergyMesh/SynergyMesh
 # 執行整合引擎
 python3 governance/39-automation/unmanned_island_integration_engine.py
 
-# 預期輸出:
+# 預期輸出: 
 # - 7 AI Agents 註冊成功
 # - 5 治理維度整合成功
 # - 協調任務執行示例
 ```
 
 #### 2. 運行驗證測試
-
 ```bash
 # 執行驗證腳本
 python3 governance/28-tests/validate_unmanned_island_integration.py
@@ -334,7 +316,6 @@ cat governance/28-tests/reports/unmanned_island_validation_report.json
 ```
 
 #### 3. 查看整合狀態
-
 ```bash
 # 查看 AUTONOMOUS_AGENT_STATE.md 中的整合狀態
 grep -A 50 "unmanned_island_integration" governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
@@ -343,7 +324,6 @@ grep -A 50 "unmanned_island_integration" governance/00-vision-strategy/AUTONOMOU
 ### API 使用示例 (API Usage Examples)
 
 #### 執行協調任務
-
 ```python
 from governance.automation.unmanned_island_integration_engine import UnmannedIslandIntegrationEngine
 
@@ -371,7 +351,6 @@ print(result)
 ### 常見問題 (Common Issues)
 
 #### 1. YAML 解析錯誤
-
 ```
 問題: "expected a single document in the stream"
 原因: YAML 文件包含多個文檔 (使用 --- 分隔)
@@ -379,7 +358,6 @@ print(result)
 ```
 
 #### 2. Island Orchestrator 導入失敗
-
 ```
 問題: "Cannot import IslandOrchestrator"
 原因: v2-multi-islands 路徑不在 Python path
@@ -387,7 +365,6 @@ print(result)
 ```
 
 #### 3. Agent 目錄不存在警告
-
 ```
 問題: "Agent directory not found"
 原因: 部分 Agent 實現尚未完成
@@ -399,27 +376,21 @@ print(result)
 ## 📚 文檔索引 (Documentation Index)
 
 ### 核心文檔
-
 - [AI 行為契約](governance/00-vision-strategy/AI-BEHAVIOR-CONTRACT.md)
 - [即時執行清單](governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml)
 - [自主代理狀態](governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md)
 
 ### 功能文檔
-
 - [自我修復框架](governance/14-improvement/unmanned-island-self-healing.yaml)
-- [整合清單](governance/\_legacy/30-agents (formerly 30-integration)
-  (deprecated)/unmanned-island-integration-manifest.md)
+- [整合清單](governance/30-integration/unmanned-island-integration-manifest.md)
 
 ### 代碼與腳本
-
 - [整合引擎](governance/39-automation/unmanned_island_integration_engine.py)
 - [驗證腳本](governance/28-tests/validate_unmanned_island_integration.py)
 
 ### 參考資料
-
 - [.github/AI-BEHAVIOR-CONTRACT.md](../.github/AI-BEHAVIOR-CONTRACT.md) - 原始契約
-- [v2-multi-islands/orchestrator/island_orchestrator.py](../v2-multi-islands/orchestrator/island_orchestrator.py) -
-  Island Orchestrator
+- [v2-multi-islands/orchestrator/island_orchestrator.py](../v2-multi-islands/orchestrator/island_orchestrator.py) - Island Orchestrator
 
 ---
 
@@ -428,7 +399,6 @@ print(result)
 **核心原則：NO WAITING. ZERO DELAY. INSTANT DELIVERY.**
 
 ### ✅ 已完成（INSTANT）
-
 - [x] 創建所有核心整合文件 - **完成時間: 0.01秒**
 - [x] 註冊 7 AI Agents - **完成時間: 0.01秒**
 - [x] 整合 5 個治理維度 - **完成時間: 0.01秒**
@@ -436,7 +406,6 @@ print(result)
 - [x] 創建驗證腳本 - **執行時間: 0.01秒**
 
 ### 🔄 持續演化（EVENT-DRIVEN, INSTANT）
-
 - **YAML 多文檔支持**: 自動檢測格式，實時適配
 - **物理 Agent 目錄**: 事件觸發自動創建
 - **Kubernetes 部署**: 觸發後 2-3 分鐘內完成
@@ -445,24 +414,21 @@ print(result)
 - **API 端點**: 請求時動態生成，響應 < 100ms
 
 ### 🚀 生產就緒（ALWAYS READY）
-
 - **生產環境部署**: 一鍵觸發，2-3分鐘完成
 - **持續監控**: 實時運行，零延遲
 - **AI Agents 擴展**: 需求驅動，即時部署
 - **跨平台整合**: 插件式架構，即插即用
 - **商業價值追蹤**: 實時儀表板，持續更新
 
-**執行哲學**:
-
+**執行哲學**: 
 - ❌ NO "1-2 weeks", "1-3 months"
 - ✅ YES "INSTANT", "< 1 second", "2-3 minutes"
 - ❌ NO "optional", "可選"
 - ✅ YES "AUTOMATED", "EVENT-DRIVEN", "ALWAYS ON"
 
 **與頂級 AI 平台競爭力**:
-
 - Replit: ✅ 同等即時架構能力
-- Claude/GPT: ✅ 同等智能決策速度
+- Claude/GPT: ✅ 同等智能決策速度  
 - 個人平台: ✅ 更完整的企業級治理
 
 ---
@@ -470,23 +436,20 @@ print(result)
 ## 📞 支援與聯絡 (Support & Contact)
 
 ### 自動化支援（INSTANT RESPONSE）
-
 - **整合引擎 API**: 運行 `self-healing-engine.py`
 - **驗證工具**: 運行 `self-healing-validation.py`
 - **響應時間**: < 100ms
 - **可用性**: 24/7 自動化
 
 ### 人工支援（STRATEGIC ONLY）
-
-- **郵箱**: <synergymesh-self-healing@example.com>
+- **郵箱**: synergymesh-self-healing@example.com
 - **用途**: 戰略決策、政策變更
 - **響應時間**: 戰略層按需（非運營阻塞）
 
 ---
 
 **整合狀態 / Integration Status**: 🟢 FULLY_INTEGRATED  
-**驗證狀態 / Validation Status**: 🟢 80.5% PASSED (33/41 checks) - PRODUCTION
-READY  
+**驗證狀態 / Validation Status**: 🟢 80.5% PASSED (33/41 checks) - PRODUCTION READY  
 **生產就緒 / Production Ready**: 🟢 INSTANT_DEPLOYMENT_READY  
 **執行模式 / Execution Mode**: EVENT-DRIVEN, ZERO-WAIT  
 **維護者 / Maintainer**: Self-Healing Governance Team  

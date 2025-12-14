@@ -1,0 +1,78 @@
+name: Build Windows Installers
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'build/windows/**'
+      - 'governance/**'
+      - 'core/**'
+      - '.github/workflows/build-windows.yml'
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r build/windows/windows-requirements.txt
+      
+      - name: Install Node.js dependencies
+        run: npm install
+      
+      - name: Build Windows installers
+        run: |
+          cd build/windows
+          ./build-windows.bat
+      
+      - name: Sign executables (if certificate available)
+        if: ${{ secrets.WINDOWS_CERT_PASSWORD != '' }}
+        env:
+          CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+        run: |
+          cd build/windows
+          ./sign-windows.ps1
+      
+      - name: Upload EXE installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe-installer
+          path: build/windows/dist/SynergyMesh-Governance.exe
+          retention-days: 30
+      
+      - name: Upload MSI installer
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-msi-installer
+          path: build/windows/SynergyMesh-Governance-*.msi
+          retention-days: 30
+      
+      - name: Test installation
+        run: |
+          # Test EXE installer (silent install for testing)
+          # ./build/windows/dist/SynergyMesh-Governance.exe /VERYSILENT /SUPPRESSMSGBOXES
+          # synergymesh --version
+          Write-Host "Installation test placeholder"

@@ -322,9 +322,6 @@ class ProjectFactory:
             # Governance
             "compliance_standards": spec.governance.compliance,
             "security_level": spec.governance.security_level,
-            "provenance_level": spec.governance.provenance,
-            "sbom_enabled": spec.governance.sbom,
-            "audit_trail_enabled": spec.governance.audit_trail,
             "license": spec.governance.license,
 
             # Generation metadata
@@ -362,11 +359,6 @@ class ProjectFactory:
             },
             "governance": {
                 "compliance": spec.governance.compliance,
-                "security_level": spec.governance.security_level,
-                "audit_trail": spec.governance.audit_trail,
-                "sbom": spec.governance.sbom,
-                "provenance": spec.governance.provenance,
-                "license": spec.governance.license,
                 "validation_performed": True,
             }
         }

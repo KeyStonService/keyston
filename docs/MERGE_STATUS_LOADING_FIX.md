@@ -35,11 +35,10 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    - cron: '*/5 * * * *' # 每 5 分鐘執行一次！
+    - cron: "*/5 * * * *"  # 每 5 分鐘執行一次！
 ```
 
 **問題點：**
-
 - 排程觸發（每 5 分鐘）會創建"幽靈"狀態檢查
 - 沒有正確的 PR 上下文時仍然執行
 - 導致大量無效的狀態檢查累積
@@ -48,13 +47,11 @@ on:
 ### 3. 缺少並發控制
 
 部分工作流程缺少 `concurrency` 設定：
-
 - `conftest-validation.yml`
 - `language-check.yml`
 - `monorepo-dispatch.yml`
 
 這會導致：
-
 - 多個相同工作流程同時執行
 - 產生重複的狀態檢查
 - 資源浪費並增加 UI 負擔
@@ -70,7 +67,7 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "*/5 * * * *"
 
 jobs:
   predictive-failure-detection:
@@ -91,7 +88,6 @@ jobs:
 ```
 
 **效果：**
-
 - ✅ 移除每 5 分鐘的自動執行
 - ✅ 只在 PR 事件時執行
 - ✅ 添加明確的事件類型檢查
@@ -109,13 +105,11 @@ concurrency:
 ```
 
 **影響的檔案：**
-
 1. `.github/workflows/conftest-validation.yml`
 2. `.github/workflows/language-check.yml`
 3. `.github/workflows/monorepo-dispatch.yml`
 
 **效果：**
-
 - ✅ 同一 PR 的新提交會取消舊的工作流程執行
 - ✅ 減少重複的狀態檢查
 - ✅ 節省 CI/CD 資源
@@ -129,12 +123,12 @@ concurrency:
 
 ### 改善指標
 
-| 指標                            | 修改前     | 修改後     | 改善      |
-| ------------------------------- | ---------- | ---------- | --------- |
-| autonomous-ci-guardian 執行次數 | ~288 次/天 | 僅 PR 觸發 | -99%      |
-| 並發工作流程執行                | 不受控制   | 受控制     | 100%      |
-| 狀態檢查混亂                    | 高         | 低         | 顯著改善  |
-| PR 合併狀態載入                 | 失敗       | 成功       | ✅ 已修復 |
+| 指標 | 修改前 | 修改後 | 改善 |
+|------|--------|--------|------|
+| autonomous-ci-guardian 執行次數 | ~288 次/天 | 僅 PR 觸發 | -99% |
+| 並發工作流程執行 | 不受控制 | 受控制 | 100% |
+| 狀態檢查混亂 | 高 | 低 | 顯著改善 |
+| PR 合併狀態載入 | 失敗 | 成功 | ✅ 已修復 |
 
 ### 成本節省
 
@@ -172,7 +166,6 @@ gh run list --workflow=autonomous-ci-guardian.yml --limit 10
 ```
 
 確認：
-
 - ✅ 只有 PR 事件觸發執行
 - ✅ 沒有排程觸發的執行
 - ✅ 執行次數大幅減少
@@ -203,7 +196,7 @@ jobs:
 on:
   pull_request:
   schedule:
-    - cron: '*/5 * * * *' # 會創建幽靈狀態檢查
+    - cron: "*/5 * * * *"  # 會創建幽靈狀態檢查
 ```
 
 ### 2. 必須使用並發控制
@@ -237,7 +230,7 @@ on:
 jobs:
   scheduled-job:
     if: github.event_name == 'schedule'
-
+    
   pr-job:
     if: github.event_name == 'pull_request'
 ```
@@ -250,11 +243,11 @@ jobs:
 
 ## 📝 變更記錄
 
-| 日期       | 變更內容                               | 影響                 |
-| ---------- | -------------------------------------- | -------------------- |
-| 2025-12-06 | 移除 autonomous-ci-guardian 排程觸發器 | 減少 99% 執行次數    |
-| 2025-12-06 | 添加 3 個工作流程並發控制              | 避免重複執行         |
-| 2025-12-06 | 修正 YAML 語法問題                     | 確保工作流程正確解析 |
+| 日期 | 變更內容 | 影響 |
+|------|---------|------|
+| 2025-12-06 | 移除 autonomous-ci-guardian 排程觸發器 | 減少 99% 執行次數 |
+| 2025-12-06 | 添加 3 個工作流程並發控制 | 避免重複執行 |
+| 2025-12-06 | 修正 YAML 語法問題 | 確保工作流程正確解析 |
 
 ---
 

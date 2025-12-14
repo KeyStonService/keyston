@@ -1,19 +1,14 @@
 # @synergymesh/advisory-database
 
-Professional advisory database service for SynergyMesh - GitHub Advisory
-Database compatible implementation.
+Professional advisory database service for SynergyMesh - GitHub Advisory Database compatible implementation.
 
 ## Features
 
-- **OSV Format Compliance**: Full support for
-  [Open Source Vulnerability (OSV)](https://ossf.github.io/osv-schema/) format
+- **OSV Format Compliance**: Full support for [Open Source Vulnerability (OSV)](https://ossf.github.io/osv-schema/) format
 - **GHSA ID Generation**: Generate and validate GitHub Security Advisory IDs
-- **Advisory Validation**: Comprehensive validation rules matching GitHub
-  Advisory Database standards
-- **Bot Workflow Engine**: Automated workflows for PR staging, stale PR
-  management, and curation
-- **Multi-Ecosystem Support**: npm, pip, maven, go, rust, cargo, rubygems,
-  nuget, composer, erlang, swift, pub, actions
+- **Advisory Validation**: Comprehensive validation rules matching GitHub Advisory Database standards
+- **Bot Workflow Engine**: Automated workflows for PR staging, stale PR management, and curation
+- **Multi-Ecosystem Support**: npm, pip, maven, go, rust, cargo, rubygems, nuget, composer, erlang, swift, pub, actions
 
 ## Installation
 
@@ -29,7 +24,7 @@ npm install @synergymesh/advisory-database
 import {
   AdvisoryService,
   generateGHSAId,
-  validateGHSAId,
+  validateGHSAId
 } from '@synergymesh/advisory-database';
 
 // Create a service instance
@@ -38,27 +33,24 @@ const service = new AdvisoryService();
 // Create a new advisory
 const { advisory } = await service.create({
   summary: 'SQL Injection in example-package',
-  affected: [
-    {
-      package: { name: 'example-package', ecosystem: 'npm' },
-      ranges: [
-        {
-          type: 'SEMVER',
-          events: [{ introduced: '1.0.0' }, { fixed: '1.0.5' }],
-        },
-      ],
-    },
-  ],
-  references: [
-    {
-      type: 'ADVISORY',
-      url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-1234',
-    },
-  ],
+  affected: [{
+    package: { name: 'example-package', ecosystem: 'npm' },
+    ranges: [{
+      type: 'SEMVER',
+      events: [
+        { introduced: '1.0.0' },
+        { fixed: '1.0.5' }
+      ]
+    }]
+  }],
+  references: [{
+    type: 'ADVISORY',
+    url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-1234'
+  }],
   database_specific: {
     severity: 'HIGH',
-    cwe_ids: ['CWE-89'],
-  },
+    cwe_ids: ['CWE-89']
+  }
 });
 
 console.log(`Created advisory: ${advisory.id}`);
@@ -66,7 +58,7 @@ console.log(`Created advisory: ${advisory.id}`);
 // Search advisories
 const npmAdvisories = await service.list({
   ecosystem: 'npm',
-  severity: 'HIGH',
+  severity: 'HIGH'
 });
 
 // Get statistics
@@ -82,7 +74,7 @@ import {
   validateGHSAId,
   parseGHSAId,
   extractGHSAIds,
-  GHSAIdGenerator,
+  GHSAIdGenerator
 } from '@synergymesh/advisory-database';
 
 // Generate a new GHSA ID
@@ -132,7 +124,7 @@ validator.addRule({
       return 'Advisory should include detailed description';
     }
     return null;
-  },
+  }
 });
 ```
 
@@ -149,8 +141,8 @@ const bot = new AdvisoryBotEngine({
     staleLabel: 'Stale',
     exemptLabels: ['Keep', 'Priority'],
     staleMessage: 'This PR has been marked as stale...',
-    closeMessage: 'This PR has been closed due to inactivity.',
-  },
+    closeMessage: 'This PR has been closed due to inactivity.'
+  }
 });
 
 // Check if a PR is stale
@@ -171,58 +163,58 @@ const cleanupWorkflow = bot.generateCleanupWorkflow();
 
 ## Supported Ecosystems
 
-| Ecosystem  | Registry                   |
-| ---------- | -------------------------- |
-| `actions`  | GitHub Actions Marketplace |
-| `composer` | packagist.org              |
-| `erlang`   | hex.pm                     |
-| `go`       | pkg.go.dev                 |
-| `maven`    | repo.maven.apache.org      |
-| `npm`      | npmjs.com                  |
-| `nuget`    | nuget.org                  |
-| `pip`      | pypi.org                   |
-| `pub`      | pub.dev                    |
-| `rubygems` | rubygems.org               |
-| `rust`     | crates.io                  |
-| `swift`    | Swift Package Registry     |
+| Ecosystem | Registry |
+|-----------|----------|
+| `actions` | GitHub Actions Marketplace |
+| `composer` | packagist.org |
+| `erlang` | hex.pm |
+| `go` | pkg.go.dev |
+| `maven` | repo.maven.apache.org |
+| `npm` | npmjs.com |
+| `nuget` | nuget.org |
+| `pip` | pypi.org |
+| `pub` | pub.dev |
+| `rubygems` | rubygems.org |
+| `rust` | crates.io |
+| `swift` | Swift Package Registry |
 
 ## API Reference
 
 ### AdvisoryService
 
-| Method                              | Description                  |
-| ----------------------------------- | ---------------------------- |
-| `create(input)`                     | Create a new advisory        |
-| `get(id)`                           | Get advisory by GHSA ID      |
-| `update(id, input)`                 | Update an existing advisory  |
-| `delete(id)`                        | Delete an advisory           |
-| `list(filters)`                     | List advisories with filters |
-| `searchByCVE(cveId)`                | Search by CVE ID             |
-| `searchByPackage(name, ecosystem?)` | Search by package name       |
-| `getStats()`                        | Get statistics               |
-| `validate(advisory)`                | Validate without storing     |
+| Method | Description |
+|--------|-------------|
+| `create(input)` | Create a new advisory |
+| `get(id)` | Get advisory by GHSA ID |
+| `update(id, input)` | Update an existing advisory |
+| `delete(id)` | Delete an advisory |
+| `list(filters)` | List advisories with filters |
+| `searchByCVE(cveId)` | Search by CVE ID |
+| `searchByPackage(name, ecosystem?)` | Search by package name |
+| `getStats()` | Get statistics |
+| `validate(advisory)` | Validate without storing |
 
 ### AdvisoryValidator
 
-| Method               | Description                |
-| -------------------- | -------------------------- |
-| `validate(advisory)` | Validate an advisory       |
-| `isValid(advisory)`  | Quick validation check     |
-| `addRule(rule)`      | Add custom validation rule |
-| `removeRule(ruleId)` | Remove a validation rule   |
-| `getRules()`         | Get all active rules       |
+| Method | Description |
+|--------|-------------|
+| `validate(advisory)` | Validate an advisory |
+| `isValid(advisory)` | Quick validation check |
+| `addRule(rule)` | Add custom validation rule |
+| `removeRule(ruleId)` | Remove a validation rule |
+| `getRules()` | Get all active rules |
 
 ### AdvisoryBotEngine
 
-| Method                            | Description                      |
-| --------------------------------- | -------------------------------- |
-| `checkStaleStatus(pr)`            | Check if PR is stale             |
-| `generateStagingBranchName(pr)`   | Generate staging branch name     |
-| `shouldCreateStagingBranch(pr)`   | Check if staging branch needed   |
-| `validateForCuration(advisory)`   | Validate for curation workflow   |
-| `generateStalePRWorkflow()`       | Generate GitHub Actions workflow |
+| Method | Description |
+|--------|-------------|
+| `checkStaleStatus(pr)` | Check if PR is stale |
+| `generateStagingBranchName(pr)` | Generate staging branch name |
+| `shouldCreateStagingBranch(pr)` | Check if staging branch needed |
+| `validateForCuration(advisory)` | Validate for curation workflow |
+| `generateStalePRWorkflow()` | Generate GitHub Actions workflow |
 | `generateStagingBranchWorkflow()` | Generate staging branch workflow |
-| `generateCleanupWorkflow()`       | Generate cleanup workflow        |
+| `generateCleanupWorkflow()` | Generate cleanup workflow |
 
 ## Contributing
 

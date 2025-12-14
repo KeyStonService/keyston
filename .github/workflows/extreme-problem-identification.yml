@@ -1,0 +1,107 @@
+name: Extreme Problem Identification
+
+on:
+  push:
+    paths:
+      - 'governance/**'
+      - '.github/workflows/extreme-problem-identification.yml'
+  pull_request:
+    paths:
+      - 'governance/**'
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  identify-problems:
+    name: Run Extreme Problem Identifier
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          
+      - name: Run extreme problem identifier
+        id: problem_scan
+        continue-on-error: true
+        run: |
+          python governance/scripts/extreme-problem-identifier.py --verbose --export json --output governance-problems.json
+          
+      - name: Upload problem report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-problem-report
+          path: |
+            governance-problems.json
+          retention-days: 90
+          
+      - name: Check for critical/high problems
+        run: |
+          if [ -f governance-problems.json ]; then
+            CRITICAL=$(jq '.problems | map(select(.severity == "CRITICAL")) | length' governance-problems.json)
+            HIGH=$(jq '.problems | map(select(.severity == "HIGH")) | length' governance-problems.json)
+            
+            echo "Critical problems: $CRITICAL"
+            echo "High severity problems: $HIGH"
+            
+            if [ "$CRITICAL" -gt "0" ]; then
+              echo "::error::Found $CRITICAL critical problems that require immediate attention"
+              exit 1
+            fi
+            
+            if [ "$HIGH" -gt "5" ]; then
+              echo "::warning::Found $HIGH high severity problems"
+            fi
+          fi
+          
+      - name: Comment PR with problems
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('governance-problems.json')) {
+              const report = JSON.parse(fs.readFileSync('governance-problems.json', 'utf8'));
+              const critical = report.problems.filter(p => p.severity === 'CRITICAL').length;
+              const high = report.problems.filter(p => p.severity === 'HIGH').length;
+              const medium = report.problems.filter(p => p.severity === 'MEDIUM').length;
+              
+              let body = `## 🔍 Extreme Problem Identification Results\n\n`;
+              body += `**Total Problems Found**: ${report.total_problems}\n\n`;
+              body += `| Severity | Count |\n`;
+              body += `|----------|-------|\n`;
+              body += `| 🔴 CRITICAL | ${critical} |\n`;
+              body += `| 🔴 HIGH | ${high} |\n`;
+              body += `| 🟠 MEDIUM | ${medium} |\n\n`;
+              
+              if (critical > 0) {
+                body += `### ⚠️ Critical Issues Require Immediate Attention\n\n`;
+                const criticalIssues = report.problems.filter(p => p.severity === 'CRITICAL').slice(0, 5);
+                for (const issue of criticalIssues) {
+                  body += `- **${issue.title}** (${issue.category})\n`;
+                  body += `  - Location: \`${issue.location}\`\n`;
+                  body += `  - Impact: ${issue.impact}\n\n`;
+                }
+              }
+              
+              body += `\n_Full report available in workflow artifacts_`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }

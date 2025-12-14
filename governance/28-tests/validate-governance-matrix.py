@@ -22,7 +22,6 @@ except ImportError:
 
 class GovernanceValidator:
     def __init__(self, repo_root: Path, verbose: bool = False):
-        """TODO: Add function documentation"""
         self.repo_root = repo_root
         self.verbose = verbose
         self.errors: list[str] = []
@@ -268,7 +267,6 @@ class GovernanceValidator:
         return True
     
     def run(self) -> int:
-        # NOTE: Consider refactoring this function (complexity > 50 lines)
         """Run all validations and return exit code"""
         print("🔍 Validating Architecture Governance Matrix...")
         print()
@@ -324,7 +322,6 @@ class GovernanceValidator:
 
 
 def main():
-    """TODO: Add function documentation"""
     parser = argparse.ArgumentParser(
         description="Validate Architecture Governance Matrix completeness"
     )

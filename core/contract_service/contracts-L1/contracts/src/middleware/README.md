@@ -2,9 +2,7 @@
 
 ## Purpose
 
-Middleware handles **cross-cutting concerns** that apply across multiple routes
-and controllers. Middleware functions process requests before they reach
-controllers and responses before they're sent to clients.
+Middleware handles **cross-cutting concerns** that apply across multiple routes and controllers. Middleware functions process requests before they reach controllers and responses before they're sent to clients.
 
 ## Middleware Components
 
@@ -13,18 +11,12 @@ controllers and responses before they're sent to clients.
 **Purpose:** Tracks critical operations for audit trail.
 
 **Usage:**
-
 ```typescript
 import { auditLogMiddleware } from './middleware/audit-log';
-router.post(
-  '/api/v1/critical',
-  auditLogMiddleware('CREATE'),
-  controller.create
-);
+router.post('/api/v1/critical', auditLogMiddleware('CREATE'), controller.create);
 ```
 
 **Features:**
-
 - Records user actions
 - Tracks sensitive operations
 - Maintains audit trail
@@ -34,24 +26,21 @@ router.post(
 **Purpose:** Centralized error handling and formatting.
 
 **Usage:**
-
 ```typescript
 import { errorMiddleware, notFoundMiddleware } from './middleware/error';
 
 app.use(routes);
 app.use(notFoundMiddleware); // Handle 404s
-app.use(errorMiddleware); // Handle all errors
+app.use(errorMiddleware);    // Handle all errors
 ```
 
 **Features:**
-
 - Consistent error responses
 - Stack trace handling (dev/prod)
 - Error logging
 - HTTP status code mapping
 
 **Error Response Format:**
-
 ```json
 {
   "error": {
@@ -59,7 +48,7 @@ app.use(errorMiddleware); // Handle all errors
     "message": "Resource not found",
     "traceId": "uuid-v4",
     "timestamp": "2024-12-09T00:00:00.000Z",
-    "validationErrors": [] // Optional
+    "validationErrors": []  // Optional
   }
 }
 ```
@@ -69,14 +58,12 @@ app.use(errorMiddleware); // Handle all errors
 **Purpose:** Request/response logging with performance tracking.
 
 **Usage:**
-
 ```typescript
 import { loggingMiddleware } from './middleware/logging';
 app.use(loggingMiddleware);
 ```
 
 **Features:**
-
 - Request logging (method, URL, IP, user-agent)
 - Response logging (status code, duration)
 - Trace ID generation
@@ -84,7 +71,6 @@ app.use(loggingMiddleware);
 - Sensitive data redaction
 
 **Log Levels:**
-
 - `debug`: Full request/response details
 - `info`: Basic request/response info
 - `warn`: Client errors (4xx)
@@ -95,7 +81,6 @@ app.use(loggingMiddleware);
 **Purpose:** Protects endpoints from abuse.
 
 **Usage:**
-
 ```typescript
 import { rateLimitMiddleware } from './middleware/rate-limit';
 
@@ -103,15 +88,13 @@ import { rateLimitMiddleware } from './middleware/rate-limit';
 app.use(rateLimitMiddleware);
 
 // Per-route rate limiting
-router.post(
-  '/api/v1/expensive',
-  rateLimitMiddleware({ max: 10, windowMs: 60000 }),
+router.post('/api/v1/expensive', 
+  rateLimitMiddleware({ max: 10, windowMs: 60000 }), 
   controller.expensiveOperation
 );
 ```
 
 **Features:**
-
 - Configurable limits per endpoint
 - Time window configuration
 - IP-based tracking
@@ -122,13 +105,8 @@ router.post(
 **Purpose:** Standardized response formatting.
 
 **Usage:**
-
 ```typescript
-import {
-  sendSuccess,
-  sendError,
-  handleControllerError,
-} from './middleware/response';
+import { sendSuccess, sendError, handleControllerError } from './middleware/response';
 
 // Success response
 sendSuccess(res, data, { status: 201 });
@@ -146,12 +124,9 @@ try {
 ```
 
 **Success Response Format:**
-
 ```json
 {
-  "data": {
-    /* your data */
-  },
+  "data": { /* your data */ },
   "metadata": {
     "timestamp": "2024-12-09T00:00:00.000Z",
     "traceId": "uuid-v4"
@@ -164,13 +139,8 @@ try {
 **Purpose:** Zod-based input validation.
 
 **Usage:**
-
 ```typescript
-import {
-  validateBody,
-  validateQuery,
-  validateParams,
-} from './middleware/validation';
+import { validateBody, validateQuery, validateParams } from './middleware/validation';
 import { createUserSchema } from './models/user.model';
 
 // Validate request body
@@ -184,7 +154,6 @@ router.get('/api/v1/users/:id', validateParams(userIdSchema), controller.get);
 ```
 
 **Features:**
-
 - Schema-based validation
 - Type coercion
 - Detailed error messages
@@ -196,7 +165,6 @@ router.get('/api/v1/users/:id', validateParams(userIdSchema), controller.get);
 **Purpose:** Formats Zod validation errors.
 
 **Usage:**
-
 ```typescript
 import { formatZodError, isZodError } from './middleware/zodErrorHandler';
 
@@ -207,7 +175,6 @@ if (isZodError(error)) {
 ```
 
 **Features:**
-
 - Human-readable error messages
 - Field-level error details
 - Integration with error middleware
@@ -252,9 +219,9 @@ export const loggingMiddleware = (req, res, next) => {
 
 // ❌ BAD: Multiple responsibilities
 export const megaMiddleware = (req, res, next) => {
-  console.log(req.url); // Logging
-  validateInput(req.body); // Validation
-  checkAuth(req.headers); // Authentication
+  console.log(req.url);        // Logging
+  validateInput(req.body);     // Validation
+  checkAuth(req.headers);      // Authentication
   next();
 };
 ```
@@ -296,7 +263,7 @@ export const middleware = (req, res, next) => {
     validate(req.body);
     next();
   } catch (error) {
-    next(error); // Error middleware will handle it
+    next(error);  // Error middleware will handle it
   }
 };
 
@@ -387,7 +354,7 @@ Create middleware factories:
 export const rateLimitMiddleware = (options?: RateLimitOptions) => {
   const max = options?.max || 100;
   const windowMs = options?.windowMs || 60000;
-
+  
   return (req: Request, res: Response, next: NextFunction) => {
     // Implementation using options
     next();
@@ -437,7 +404,7 @@ describe('loggingMiddleware', () => {
 
   it('should log request and call next', () => {
     const consoleSpy = jest.spyOn(console, 'log');
-
+    
     loggingMiddleware(
       mockRequest as Request,
       mockResponse as Response,
@@ -453,7 +420,6 @@ describe('loggingMiddleware', () => {
 ## Adding New Middleware
 
 1. **Create middleware file:**
-
 ```typescript
 // middleware/example.ts
 import { Request, Response, NextFunction } from 'express';
@@ -468,8 +434,7 @@ export const exampleMiddleware = (
 };
 ```
 
-1. **Add tests:**
-
+2. **Add tests:**
 ```typescript
 // __tests__/middleware-example.test.ts
 import { exampleMiddleware } from '../middleware/example';
@@ -481,8 +446,7 @@ describe('exampleMiddleware', () => {
 });
 ```
 
-1. **Register in app:**
-
+3. **Register in app:**
 ```typescript
 // server.ts
 import { exampleMiddleware } from './middleware/example';

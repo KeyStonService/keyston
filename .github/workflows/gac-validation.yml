@@ -1,0 +1,93 @@
+name: GaC Validation
+
+# Validates Governance-as-Code resources on PR
+# Phase 3 - CI/CD Integration
+
+on:
+  pull_request:
+    paths:
+      - 'governance/00-vision-strategy/**/*.yaml'
+      - 'governance/00-vision-strategy/**/*.rego'
+  push:
+    branches:
+      - main
+    paths:
+      - 'governance/00-vision-strategy/**/*.yaml'
+      - 'governance/00-vision-strategy/**/*.rego'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-gac:
+    name: Validate GaC Resources
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate YAML syntax
+        run: |
+          cd governance/00-vision-strategy
+          ./tests/validate-all.sh
+
+      - name: Check file counts
+        run: |
+          cd governance/00-vision-strategy
+          CRD_COUNT=$(find crd -name "*.yaml" | wc -l)
+          K8S_COUNT=$(find k8s -name "*.yaml" | wc -l)
+          POLICY_COUNT=$(find policy -name "*.rego" | wc -l)
+          
+          echo "CRDs: $CRD_COUNT (expected: 9)"
+          echo "K8s instances: $K8S_COUNT (expected: 9)"
+          echo "OPA policies: $POLICY_COUNT (expected: 9)"
+          
+          if [ "$CRD_COUNT" -ne 9 ] || [ "$K8S_COUNT" -ne 9 ] || [ "$POLICY_COUNT" -ne 9 ]; then
+            echo "::error::File count mismatch!"
+            exit 1
+          fi
+
+      - name: Validate traceability annotations
+        run: |
+          cd governance/00-vision-strategy/k8s
+          for file in *.yaml; do
+            if ! yq eval '.metadata.annotations["strategic-doc-path"]' "$file" > /dev/null; then
+              echo "::error::Missing strategic-doc-path annotation in $file"
+              exit 1
+            fi
+          done
+          echo "✅ All resources have traceability annotations"
+
+      - name: Validate CRD schemas
+        run: |
+          cd governance/00-vision-strategy/crd
+          for file in *.yaml; do
+            if ! yq eval '.spec.group' "$file" | grep -q "governance.kai"; then
+              echo "::error::Invalid CRD group in $file"
+              exit 1
+            fi
+          done
+          echo "✅ All CRDs have correct group"
+
+      - name: Summary
+        run: |
+          echo "## GaC Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All GaC resources validated successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- CRDs: 9/9" >> $GITHUB_STEP_SUMMARY
+          echo "- K8s instances: 9/9" >> $GITHUB_STEP_SUMMARY
+          echo "- OPA policies: 9/9" >> $GITHUB_STEP_SUMMARY
+          echo "- Traceability: 100%" >> $GITHUB_STEP_SUMMARY

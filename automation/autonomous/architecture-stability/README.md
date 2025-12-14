@@ -3,7 +3,6 @@
 ## 概述
 
 **Layer 0 (OS/Hardware)** 優化實現 - 多語言系統級控制層：
-
 - **C++17**: 高性能即時飛行控制器（ROS 2）
 - **Rust**: 記憶體安全的低階運行時
 - **C**: 硬體抽象層（HAL）與系統介面
@@ -11,7 +10,6 @@
 ## 功能特性
 
 ### C++ Flight Controller（優化版）
-
 - ✅ **即時控制**：100Hz 控制迴圈，多執行緒執行器
 - ✅ **PID 控制器**：完整實現（比例、積分、微分 + 抗飽和）
 - ✅ **感測器融合**：IMU 資料處理與四元數運算
@@ -19,14 +17,12 @@
 - ✅ **ROS 2 整合**：使用 ROS 2 Humble/Iron/Jazzy
 
 ### Rust Runtime Library
-
 - ✅ **記憶體安全**：零成本抽象、無垃圾回收
 - ✅ **即時統計**：延遲監控、截止時間追蹤
 - ✅ **鎖無感測器緩衝**：高效能並發資料存取
 - ✅ **PID 控制器**：Rust 實現版本
 
 ### C Hardware Abstraction Layer
-
 - ✅ **高精度計時**：微秒/奈秒級延遲
 - ✅ **快取管理**：DMA 一致性支援
 - ✅ **記憶體操作**：對齊記憶體分配
@@ -35,26 +31,22 @@
 ## 系統需求
 
 ### 基本需求
-
 - Ubuntu 20.04 或更高版本
 - CMake >= 3.8
 - GCC 11+ 或 Clang 14+ (C++17 支援)
 - GCC (C11 支援)
 
 ### ROS 2 需求（C++ 飛行控制器）
-
 - ROS 2 (Humble, Iron, 或 Jazzy)
 - rclcpp, geometry_msgs, sensor_msgs
 
 ### Rust 需求（Rust 運行時）
-
 - Rust 1.75+
 - Cargo
 
 ## 構建說明
 
 ### 完整構建（All Components）
-
 ```bash
 # 1. 構建 Rust 運行時
 cd rust-layer0
@@ -75,7 +67,6 @@ make -j$(nproc)
 ```
 
 ### ROS 2 構建（僅飛行控制器）
-
 ```bash
 # 安裝 ROS 2 依賴
 rosdep install --from-paths . --ignore-src -r -y
@@ -88,7 +79,6 @@ colcon build --symlink-install \
 ```
 
 ### 快速構建（開發模式）
-
 ```bash
 # Debug 模式（無優化）
 mkdir build && cd build
@@ -99,14 +89,12 @@ make -j$(nproc)
 ## 運行示例
 
 ### C HAL 測試
-
 ```bash
 cd build
 ./test_system_hal
 ```
 
 **預期輸出：**
-
 ```
 Running Layer 0 HAL tests...
 
@@ -120,7 +108,6 @@ All tests passed! ✓
 ```
 
 ### Rust 運行時測試
-
 ```bash
 cd rust-layer0
 cargo test --release
@@ -130,7 +117,6 @@ cargo test --release -- --nocapture test_pid_controller
 ```
 
 ### C++ 飛行控制器
-
 ```bash
 # 啟動飛行控制器（需要 ROS 2 環境）
 source /opt/ros/humble/setup.bash
@@ -138,7 +124,6 @@ ros2 run autonomy_core flight_controller
 ```
 
 **預期輸出：**
-
 ```
 [INFO] [flight_controller]: Flight Controller initialized - Layer 0 optimized
 [INFO] [flight_controller]: Control frequency: 100Hz, PID tuning: altitude(0.5,0.1,0.2), yaw(0.8,0.05,0.15)
@@ -146,7 +131,6 @@ ros2 run autonomy_core flight_controller
 ```
 
 ### IMU 測試資料發布
-
 ```bash
 # 在另一個終端發送測試資料
 ros2 topic pub /imu/data sensor_msgs/msg/Imu "{

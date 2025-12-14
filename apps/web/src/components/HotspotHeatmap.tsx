@@ -1,26 +1,5 @@
-/**
- * @fileoverview Treemap-style heatmap component for visualizing code hotspots.
- *
- * This component renders a canvas-based treemap visualization showing files
- * with code quality issues, using color intensity to represent severity scores.
- *
- * @module components/HotspotHeatmap
- */
-
 import { useEffect, useRef } from 'react';
 
-/**
- * Data structure representing a code hotspot (file with quality issues).
- *
- * @interface HotspotData
- * @property {string} file - Full path to the file
- * @property {string} layer - Architectural layer (e.g., 'Frontend', 'Backend')
- * @property {string} language - Programming language of the file
- * @property {string[]} violations - Array of violation type identifiers
- * @property {number} security_issues - Count of security-related issues
- * @property {number} repeated_count - Number of times violations have occurred
- * @property {number} score - Aggregate severity score (0-100)
- */
 interface HotspotData {
   file: string;
   layer: string;
@@ -31,56 +10,10 @@ interface HotspotData {
   score: number;
 }
 
-/**
- * Props for the HotspotHeatmap component.
- *
- * @interface HotspotHeatmapProps
- * @property {HotspotData[]} hotspots - Array of hotspot data to visualize
- */
 interface HotspotHeatmapProps {
   hotspots: HotspotData[];
 }
 
-/**
- * Canvas-based treemap heatmap component for code hotspot visualization.
- *
- * Renders a treemap where:
- * - Rectangle size is proportional to the hotspot's severity score
- * - Rectangle color indicates severity level (red = critical, amber = moderate)
- * - File names and scores are displayed on sufficiently large rectangles
- *
- * Color Legend (as displayed in UI):
- * - Red (#dc2626): Critical (score 70-100)
- * - Amber (#f59e0b): High (score 40-69)
- * - Yellow (#fbbf24): Moderate (score 1-39)
- *   (Moderate and Low are combined in the visual legend)
- *
- * Features:
- * - Canvas-based rendering for performance with many hotspots
- * - Responsive width with fixed 400px height
- * - Squarified treemap algorithm for optimal rectangle proportions
- * - Auto-truncation of long file names
- * - Color-coded legend below the visualization
- *
- * @param props - Component props
- * @param props.hotspots - Array of hotspot data to display
- * @returns The rendered HotspotHeatmap component
- *
- * @example
- * <HotspotHeatmap
- *   hotspots={[
- *     {
- *       file: 'src/components/Form.tsx',
- *       layer: 'Frontend',
- *       language: 'TypeScript',
- *       violations: ['type-error', 'unused-var'],
- *       security_issues: 0,
- *       repeated_count: 3,
- *       score: 45
- *     }
- *   ]}
- * />
- */
 export default function HotspotHeatmap({ hotspots }: HotspotHeatmapProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -161,24 +94,6 @@ export default function HotspotHeatmap({ hotspots }: HotspotHeatmapProps) {
   );
 }
 
-/**
- * Maps a severity score to a heat color for the treemap visualization.
- *
- * Color scale:
- * - Critical (70-100): Red (#dc2626) - Tailwind red-600
- * - High (40-69): Orange (#f59e0b) - Tailwind amber-500
- * - Moderate (20-39): Yellow (#fbbf24) - Tailwind amber-400
- * - Low (0-19): Light yellow (#fcd34d) - Tailwind amber-300
- *
- * @param score - Severity score from 0-100
- * @returns Hex color string for the given score
- *
- * @example
- * getHeatColor(85);  // Returns '#dc2626' (critical - red)
- * getHeatColor(50);  // Returns '#f59e0b' (high - orange)
- * getHeatColor(25);  // Returns '#fbbf24' (moderate - yellow)
- * getHeatColor(10);  // Returns '#fcd34d' (low - light yellow)
- */
 function getHeatColor(score: number): string {
   if (score >= 70) return '#dc2626'; // red-600
   if (score >= 40) return '#f59e0b'; // amber-500
@@ -186,28 +101,6 @@ function getHeatColor(score: number): string {
   return '#fcd34d'; // amber-300
 }
 
-/**
- * Calculates a squarified treemap layout for the given hotspots.
- *
- * Uses a simplified squarified treemap algorithm that alternates between
- * horizontal and vertical splits to create rectangles proportional to each
- * hotspot's score relative to the total.
- *
- * Algorithm:
- * 1. Calculate total score sum for proportional sizing
- * 2. For each hotspot, calculate area based on score ratio
- * 3. Alternate between horizontal and vertical placement
- * 4. Enforce minimum dimensions (40px) for visibility
- *
- * @param hotspots - Array of hotspot data with scores
- * @param width - Total width of the treemap area
- * @param height - Total height of the treemap area
- * @returns Array of rectangle coordinates and dimensions
- *
- * @example
- * const layout = calculateTreemap(hotspots, 800, 400);
- * // Returns: [{ x: 0, y: 0, width: 200, height: 400 }, ...]
- */
 function calculateTreemap(
   hotspots: HotspotData[],
   width: number,

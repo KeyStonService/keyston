@@ -2,13 +2,11 @@
 
 ## Purpose
 
-Services contain the **business logic** of the Contracts-L1 application. They
-are framework-agnostic and can be tested independently of the HTTP layer.
+Services contain the **business logic** of the Contracts-L1 application. They are framework-agnostic and can be tested independently of the HTTP layer.
 
 ## Responsibilities
 
 ✅ **Services SHOULD:**
-
 - Implement all business logic and rules
 - Orchestrate workflows and operations
 - Validate business constraints
@@ -17,7 +15,6 @@ are framework-agnostic and can be tested independently of the HTTP layer.
 - Be framework-agnostic (no Express/HTTP dependencies)
 
 ❌ **Services SHOULD NOT:**
-
 - Access HTTP objects (Request/Response)
 - Handle HTTP status codes
 - Format responses for HTTP
@@ -68,7 +65,6 @@ export class SomeService {
 **Purpose:** Core engine for intelligent responsibility assignment.
 
 **Key Methods:**
-
 - `assignResponsibility(incident)` - Assign incident to team member
 - `analyzeProblemType(incident)` - Analyze and categorize problem
 - `identifyRelevantTeams(problemType)` - Find teams for problem type
@@ -80,7 +76,6 @@ export class SomeService {
 - `getAllAssignments()` - Get all assignments
 
 **Dependencies:**
-
 - `ResponsibilityMatrix`
 - `WorkloadBalancer`
 
@@ -89,7 +84,6 @@ export class SomeService {
 **Purpose:** Governance and compliance tracking for assignments.
 
 **Key Methods:**
-
 - `validateAssignment(assignment)` - Validate assignment compliance
 - `trackAssignment(assignment)` - Track assignment for governance
 - `getComplianceReport()` - Generate compliance report
@@ -100,7 +94,6 @@ export class SomeService {
 **Purpose:** Maps problem types to responsible teams and members.
 
 **Key Methods:**
-
 - `identifyRelevantTeams(problemType)` - Get teams for problem
 - `getTeamStructure(teamName)` - Get team details
 - `getSpecialties(teamName)` - Get team specialties
@@ -111,7 +104,6 @@ export class SomeService {
 **Purpose:** Balances workload across team members.
 
 **Key Methods:**
-
 - `selectOptimalAssignee(members, incident)` - Choose best member
 - `calculateExpertiseMatch(member, incident)` - Match expertise
 - `calculateAvailability(member)` - Check member availability
@@ -127,7 +119,6 @@ export class SomeService {
 **Purpose:** Manages incident escalation workflows.
 
 **Key Methods:**
-
 - `createEscalation(incident, reason)` - Create new escalation
 - `getEscalation(id)` - Get escalation details
 - `updateStatus(id, status)` - Update escalation status
@@ -142,7 +133,6 @@ export class SomeService {
 **Purpose:** Handles Sigstore attestation creation and verification.
 
 **Key Methods:**
-
 - `createAttestation(subject, predicate)` - Create signed attestation
 - `verifyAttestation(attestation)` - Verify attestation signature
 - `signWithSigstore(data)` - Sign data with Sigstore
@@ -153,7 +143,6 @@ export class SomeService {
 **Purpose:** Manages build provenance tracking.
 
 **Key Methods:**
-
 - `createAttestation(filePath, builder)` - Create build attestation
 - `verifyAttestation(attestation)` - Verify build attestation
 - `importAttestation(data)` - Import external attestation
@@ -171,16 +160,12 @@ Services should not depend on HTTP frameworks:
 // ❌ BAD: Depends on Express
 import { Request, Response } from 'express';
 export class BadService {
-  create(req: Request, res: Response) {
-    /* ... */
-  }
+  create(req: Request, res: Response) { /* ... */ }
 }
 
 // ✅ GOOD: Pure business logic
 export class GoodService {
-  create(input: CreateInput): Promise<CreateOutput> {
-    /* ... */
-  }
+  create(input: CreateInput): Promise<CreateOutput> { /* ... */ }
 }
 ```
 
@@ -191,31 +176,17 @@ Each service should have one clear purpose:
 ```typescript
 // ✅ GOOD: Focused service
 export class UserService {
-  async createUser(data: CreateUserInput): Promise<User> {
-    /* ... */
-  }
-  async updateUser(id: string, data: UpdateUserInput): Promise<User> {
-    /* ... */
-  }
-  async deleteUser(id: string): Promise<void> {
-    /* ... */
-  }
+  async createUser(data: CreateUserInput): Promise<User> { /* ... */ }
+  async updateUser(id: string, data: UpdateUserInput): Promise<User> { /* ... */ }
+  async deleteUser(id: string): Promise<void> { /* ... */ }
 }
 
 // ❌ BAD: Too many responsibilities
 export class MegaService {
-  async createUser() {
-    /* ... */
-  }
-  async sendEmail() {
-    /* ... */
-  }
-  async processPayment() {
-    /* ... */
-  }
-  async generateReport() {
-    /* ... */
-  }
+  async createUser() { /* ... */ }
+  async sendEmail() { /* ... */ }
+  async processPayment() { /* ... */ }
+  async generateReport() { /* ... */ }
 }
 ```
 
@@ -228,7 +199,10 @@ export class AssignmentService {
   private matrix: ResponsibilityMatrix;
   private balancer: WorkloadBalancer;
 
-  constructor(matrix?: ResponsibilityMatrix, balancer?: WorkloadBalancer) {
+  constructor(
+    matrix?: ResponsibilityMatrix,
+    balancer?: WorkloadBalancer
+  ) {
     this.matrix = matrix || new ResponsibilityMatrix();
     this.balancer = balancer || new WorkloadBalancer();
   }
@@ -245,15 +219,15 @@ import { createError } from '../errors';
 export class UserService {
   async getUser(id: string): Promise<User> {
     const user = await this.findById(id);
-
+    
     if (!user) {
       throw createError.notFound(`User ${id} not found`);
     }
-
+    
     if (!user.isActive) {
       throw createError.forbidden('User is not active');
     }
-
+    
     return user;
   }
 }
@@ -329,13 +303,13 @@ export class OrderService {
   async createOrder(input: CreateOrderInput): Promise<Order> {
     // Validate user
     const user = await this.userService.getUser(input.userId);
-
+    
     // Validate products
     const products = await this.productService.getProducts(input.productIds);
-
+    
     // Process payment
     const payment = await this.paymentService.charge(user, products);
-
+    
     // Create order
     return this.save({ user, products, payment });
   }
@@ -365,7 +339,7 @@ describe('UserService', () => {
     it('should create user successfully', async () => {
       const input = { email: 'test@example.com', name: 'Test' };
       const expected = { id: '123', ...input, createdAt: new Date() };
-
+      
       mockRepository.save.mockResolvedValue(expected);
 
       const result = await service.create(input);
@@ -376,7 +350,7 @@ describe('UserService', () => {
 
     it('should throw error for duplicate email', async () => {
       const input = { email: 'duplicate@example.com', name: 'Test' };
-
+      
       mockRepository.save.mockRejectedValue(new Error('Duplicate'));
 
       await expect(service.create(input)).rejects.toThrow();
@@ -388,7 +362,6 @@ describe('UserService', () => {
 ## Adding a New Service
 
 1. **Create the service file:**
-
 ```typescript
 // services/example.service.ts
 import { ExampleInput, ExampleOutput } from '../models/example.model';
@@ -427,8 +400,7 @@ export class ExampleService {
 }
 ```
 
-1. **Create tests:**
-
+2. **Create tests:**
 ```typescript
 // __tests__/example.service.test.ts
 import { ExampleService } from '../services/example.service';
@@ -443,15 +415,14 @@ describe('ExampleService', () => {
   it('should create example', async () => {
     const input = { name: 'Test' };
     const result = await service.create(input);
-
+    
     expect(result).toHaveProperty('id');
     expect(result.name).toBe('Test');
   });
 });
 ```
 
-1. **Use in controller:**
-
+3. **Use in controller:**
 ```typescript
 // controllers/example.controller.ts
 import { ExampleService } from '../services/example.service';

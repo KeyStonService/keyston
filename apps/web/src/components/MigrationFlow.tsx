@@ -1,24 +1,5 @@
-/**
- * @fileoverview Migration flow visualization component using Mermaid Sankey diagrams.
- *
- * This component visualizes language/technology migration patterns showing the flow
- * of migrations from source technologies to target technologies, distinguishing
- * between historical (completed) and suggested migrations.
- *
- * @module components/MigrationFlow
- */
-
 import Mermaid from './Mermaid';
 
-/**
- * Represents a single migration path between two technologies.
- *
- * @interface MigrationEdge
- * @property {string} source - Source technology/language being migrated from
- * @property {string} target - Target technology/language being migrated to
- * @property {number} count - Number of migrations along this path
- * @property {'history' | 'suggested'} type - Whether this is a historical or suggested migration
- */
 interface MigrationEdge {
   source: string;
   target: string;
@@ -26,13 +7,6 @@ interface MigrationEdge {
   type: 'history' | 'suggested';
 }
 
-/**
- * Props for the MigrationFlow component.
- *
- * @interface MigrationFlowProps
- * @property {MigrationEdge[]} edges - Array of migration paths to visualize
- * @property {Object} [statistics] - Optional aggregate statistics about migrations
- */
 interface MigrationFlowProps {
   edges: MigrationEdge[];
   statistics?: {
@@ -44,57 +18,8 @@ interface MigrationFlowProps {
   };
 }
 
-/**
- * Migration flow visualization component displaying Sankey diagrams and statistics.
- *
- * This component renders:
- * 1. **Sankey Diagram**: Visual flow chart showing migration paths using Mermaid
- * 2. **Statistics Cards**: Summary metrics (total, historical, suggested migrations)
- * 3. **Migration Table**: Top 10 migration paths with details
- * 4. **Legend**: Explanation of historical vs suggested migration indicators
- *
- * Features:
- * - Dark theme styling consistent with the application design
- * - Color-coded migration types (green for historical, blue for suggested)
- * - Responsive grid layout for statistics cards
- * - Fallback display when no migration data is available
- *
- * @param props - Component props
- * @param props.edges - Array of migration edges to display
- * @param props.statistics - Optional statistics object for summary cards
- * @returns The rendered MigrationFlow component
- *
- * @example
- * // Basic usage with edges
- * <MigrationFlow
- *   edges={[
- *     { source: 'JavaScript', target: 'TypeScript', count: 15, type: 'history' },
- *     { source: 'Java', target: 'Kotlin', count: 8, type: 'suggested' }
- *   ]}
- * />
- *
- * @example
- * // With statistics
- * <MigrationFlow
- *   edges={edges}
- *   statistics={{
- *     totalMigrations: 100,
- *     historicalMigrations: 75,
- *     suggestedMigrations: 25,
- *     mostCommonSource: 'JavaScript',
- *     mostCommonTarget: 'TypeScript'
- *   }}
- * />
- */
 export default function MigrationFlow({ edges, statistics }: MigrationFlowProps) {
-  /**
-   * Generates a Mermaid Sankey diagram definition from migration edges.
-   *
-   * Converts the edges array into Mermaid sankey-beta format with dark theme.
-   * Returns a simple flowchart with "No Migration Data" if edges array is empty.
-   *
-   * @returns Mermaid diagram definition string
-   */
+  // Generate Mermaid sankey diagram from edges
   const generateSankeyDiagram = (): string => {
     if (edges.length === 0) {
       return `
@@ -114,22 +39,10 @@ flowchart LR
     return lines.join('\n');
   };
 
-  /**
-   * Returns the Tailwind CSS color class for a migration type.
-   *
-   * @param type - The migration type ('history' or 'suggested')
-   * @returns Tailwind text color class string
-   */
   const getTypeColor = (type: string): string => {
     return type === 'history' ? 'text-green-500' : 'text-blue-500';
   };
 
-  /**
-   * Returns the display icon for a migration type.
-   *
-   * @param type - The migration type ('history' or 'suggested')
-   * @returns Icon character (✓ for history, → for suggested)
-   */
   const getTypeIcon = (type: string): string => {
     return type === 'history' ? '✓' : '→';
   };

@@ -15,7 +15,7 @@
 ## Configuration
 
 ```yaml
-{ agent_name }:
+{agent_name}:
   enabled: true
   # Add agent-specific configuration here
 ```
@@ -28,8 +28,7 @@
 
 ## Instructions
 
-You are a {domain} expert for the SynergyMesh platform. When performing your
-tasks:
+You are a {domain} expert for the SynergyMesh platform. When performing your tasks:
 
 1. **{Task Category 1}**
    - {Subtask 1.1}
@@ -66,7 +65,8 @@ tasks:
 ```markdown
 # {Report Title}
 
-**Date**: {date} **Status**: {status}
+**Date**: {date}
+**Status**: {status}
 
 ## Summary
 
@@ -84,7 +84,6 @@ tasks:
 ## Integration
 
 This agent integrates with:
-
 - {Integration 1}
 - {Integration 2}
 - {Integration 3}

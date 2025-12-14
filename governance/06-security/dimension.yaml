@@ -1,137 +1,66 @@
 apiVersion: governance.synergymesh.io/v2
 kind: DimensionModule
 metadata:
-  id: "06-security"
-  name: "安全治理"
-  name_en: "Security Governance"
-  version: "1.0.0"
-  created_at: "2025-12-11T22:17:20.904323Z"
-  updated_at: "2025-12-11T22:17:20.904330Z"
+  id: 06-security
+  name: 安全治理
+  name_en: Security Governance
+  version: 1.0.0
+  created_at: '2025-12-11T22:17:20.904323Z'
+  updated_at: '2025-12-11T22:17:20.904330Z'
   owner: governance-bot
   category: strategic
   tags:
-    - security
-    - access
-    - threat
-    - protection
-
+  - 06_security
+  - strategic
 spec:
-  description: "資訊安全、存取控制與威脅管理"
-
+  description: Security Governance dimension for SynergyMesh governance framework
   schema:
-    path: ../dimensions/06-security/schema.json
+    path: ./schema.json
     format: json-schema
-    validation: required
-
+    validation: optional
   policy:
-    path: ../dimensions/06-security/policy.rego
+    path: ./policy.rego
     engine: opa
     enforcement: required
-
   dependencies:
-    required:
-      - "04-risk"
-      - "05-compliance"
+    required: []
     optional: []
-
   interface:
     inputs:
-      - name: config
-        type: object
-        required: true
-        schema_ref: "#/definitions/config"
-      - name: context
-        type: object
-        required: false
-        schema_ref: "#/definitions/context"
+    - name: config
+      type: object
+      required: true
     outputs:
-      - name: result
-        type: object
-        schema_ref: "#/definitions/result"
-      - name: audit_log
-        type: object
-        schema_ref: "#/definitions/audit_log"
-    errors:
-      - code: "E06001"
-        name: "ValidationError"
-        description: "Input validation failed"
-      - code: "E06002"
-        name: "PolicyViolation"
-        description: "Policy check failed"
-      - code: "E06003"
-        name: "DependencyError"
-        description: "Required dependency unavailable"
-
-  behavior:
-    invariants:
-      - "All operations must be auditable"
-      - "State changes require validation"
-      - "Dependencies must be satisfied"
-    preconditions:
-      - "Input must conform to schema"
-      - "Required dependencies available"
-    postconditions:
-      - "Output conforms to schema"
-      - "Audit log generated"
-    side_effects:
-      - "Generates audit trail"
-      - "May update metrics"
-
-  lifecycle:
-    states:
-      - pending
-      - initializing
-      - active
-      - degraded
-      - maintenance
-      - retiring
-      - retired
-    transitions:
-      - from: pending
-        to: initializing
-        trigger: initialize
-      - from: initializing
-        to: active
-        trigger: activation_complete
-      - from: active
-        to: degraded
-        trigger: health_check_failed
-      - from: degraded
-        to: active
-        trigger: recovery_complete
-      - from: active
-        to: maintenance
-        trigger: maintenance_start
-      - from: maintenance
-        to: active
-        trigger: maintenance_complete
-      - from: active
-        to: retiring
-        trigger: deprecation_start
-      - from: retiring
-        to: retired
-        trigger: retirement_complete
-
-  metrics:
-    - name: "security_operations_total"
-      type: counter
-      description: "Total operations executed"
-    - name: "security_operation_duration_seconds"
-      type: histogram
-      description: "Operation duration in seconds"
-    - name: "security_errors_total"
-      type: counter
-      description: "Total errors encountered"
-    - name: "security_health_status"
-      type: gauge
-      description: "Current health status (0=unhealthy, 1=healthy)"
-
+    - name: result
+      type: object
+  status: active
   compliance:
     frameworks:
-      - ISO-42001
-      - NIST-AI-RMF
-      - COBIT-2019
+    - ISO-27001
+    - NIST-CSF
+    - CIS-Controls
+    framework_mappings:
+    - framework: ISO-27001
+      controls: []
+      compliance_status: in_progress
+    - framework: NIST-CSF
+      controls: []
+      compliance_status: in_progress
+    - framework: CIS-Controls
+      controls: []
+      compliance_status: in_progress
+compliance:
+  frameworks:
+  - ISO-27001
+  - NIST-CSF
+  - CIS-Controls
+  framework_mappings:
+  - framework: ISO-27001
     controls: []
-    audit_frequency: continuous
-
-status: active
+    compliance_status: in_progress
+  - framework: NIST-CSF
+    controls: []
+    compliance_status: in_progress
+  - framework: CIS-Controls
+    controls: []
+    compliance_status: in_progress

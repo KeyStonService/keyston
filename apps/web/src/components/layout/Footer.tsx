@@ -1,54 +1,6 @@
-/**
- * @fileoverview Footer component with site information and quick links.
- *
- * Provides consistent footer across all pages with branding,
- * description, navigation links, and contact information.
- *
- * @module components/layout/Footer
- */
 
 import { Terminal } from 'lucide-react';
 
-/**
- * Site-wide footer component displaying branding and navigation.
- *
- * The footer is organized into a responsive 4-column grid:
- * 1. **Brand section** (spans 2 columns): Logo, name, and description
- * 2. **Quick links**: Navigation to main sections
- * 3. **Contact info**: Email, location, and system status
- *
- * Features:
- * - Responsive grid layout (1 column on mobile, 4 on desktop)
- * - Consistent dark theme styling matching the site design
- * - Dynamic copyright year using Date object
- * - Hover effects on navigation links
- *
- * @returns The rendered Footer component
- *
- * @example
- * // Typical usage in page components
- * function MyPage() {
- *   return (
- *     <div>
- *       <Navbar />
- *       <main>Page content...</main>
- *       <Footer />
- *     </div>
- *   );
- * }
- *
- * @example
- * // In a layout component
- * function Layout({ children }) {
- *   return (
- *     <>
- *       <Navbar />
- *       {children}
- *       <Footer />
- *     </>
- *   );
- * }
- */
 export default function Footer() {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 text-slate-400 py-12">

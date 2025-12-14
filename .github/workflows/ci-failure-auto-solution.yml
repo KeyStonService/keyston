@@ -1,0 +1,620 @@
+name: 🔧 CI 失敗自動化深度解決方案
+
+# 此工作流程監控 CI 失敗，自動生成兩個深度解決方案並建立 GitHub Issue
+# 設計理念：當 CI 失敗時，自動分析問題並提供兩個不同角度的解決方案
+#
+# 觸發方式：
+# 1. workflow_run: 當監控的工作流程失敗時自動觸發
+# 2. workflow_dispatch: 手動觸發（用於測試或模擬失敗情境）
+on:
+  workflow_run:
+    workflows:
+      - "Core Services CI"
+      - "🚀 持續整合與部署 (Integration & Deployment)"
+      - "🤖 Auto-Fix Bot"
+      - "CodeQL Advanced Security Scan"
+      - "Stage 1: Basic CI"
+      - "Docker Image CI"
+      - "Contracts Service CD"
+      - "🤖 Autonomous CI Guardian"
+    types:
+      - completed
+  
+  # 手動觸發：用於測試或模擬失敗情境
+  workflow_dispatch:
+    inputs:
+      simulate_failure:
+        description: '模擬 CI 失敗類型'
+        required: true
+        default: 'build'
+        type: choice
+        options:
+          - build
+          - test
+          - docker
+          - security
+          - deployment
+          - lint
+          - integration
+      workflow_name:
+        description: '模擬失敗的工作流程名稱'
+        required: false
+        default: 'Core Services CI'
+        type: string
+      pr_number:
+        description: '關聯的 PR 編號（可選）'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  actions: read
+  checks: read
+
+env:
+  SOLUTION_COUNT: 2
+
+jobs:
+  # ============================================
+  # 偵測 CI 失敗並收集資訊
+  # ============================================
+  detect-failure:
+    name: 🔍 偵測 CI 失敗
+    runs-on: ubuntu-latest
+    # 觸發條件：工作流程失敗 或 手動觸發
+    if: github.event.workflow_run.conclusion == 'failure' || github.event_name == 'workflow_dispatch'
+    outputs:
+      has_failure: ${{ steps.check.outputs.has_failure }}
+      workflow_name: ${{ steps.check.outputs.workflow_name }}
+      run_url: ${{ steps.check.outputs.run_url }}
+      pr_number: ${{ steps.check.outputs.pr_number }}
+      pr_url: ${{ steps.check.outputs.pr_url }}
+      branch: ${{ steps.check.outputs.branch }}
+      commit_sha: ${{ steps.check.outputs.commit_sha }}
+      failure_jobs: ${{ steps.analyze-jobs.outputs.failure_jobs }}
+      failure_type: ${{ steps.check.outputs.failure_type }}
+
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: 🔍 檢查失敗狀態
+        id: check
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            // 判斷是自動觸發還是手動觸發
+            const isManualTrigger = context.eventName === 'workflow_dispatch';
+            
+            let workflowName, runUrl, branch, commitSha, failureType;
+            let prNumber = null;
+            let prUrl = null;
+            
+            if (isManualTrigger) {
+              // 手動觸發：使用輸入參數
+              workflowName = '${{ inputs.workflow_name }}' || 'Core Services CI';
+              failureType = '${{ inputs.simulate_failure }}';
+              runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+              branch = context.ref.replace('refs/heads/', '');
+              commitSha = context.sha;
+              const prInput = '${{ inputs.pr_number }}';
+              prNumber = prInput && prInput.trim() !== '' ? prInput : null;
+              
+              console.log('=== 手動觸發模式 ===');
+              console.log(`模擬失敗類型: ${failureType}`);
+              console.log(`模擬工作流程: ${workflowName}`);
+            } else {
+              // 自動觸發：從 workflow_run 事件獲取資訊
+              const workflowRun = context.payload.workflow_run;
+              workflowName = workflowRun.name;
+              runUrl = workflowRun.html_url;
+              branch = workflowRun.head_branch;
+              commitSha = workflowRun.head_sha;
+              failureType = 'auto'; // 自動偵測
+              
+              console.log('=== 自動觸發模式 ===');
+              console.log(`Workflow: ${workflowRun.name}`);
+              console.log(`Conclusion: ${workflowRun.conclusion}`);
+              console.log(`Branch: ${workflowRun.head_branch}`);
+            }
+            
+            // 獲取關聯的 PR
+            if (!prNumber) {
+              try {
+                const pulls = await github.rest.pulls.list({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  head: `${context.repo.owner}:${branch}`,
+                  state: 'open'
+                });
+                
+                if (pulls.data.length > 0) {
+                  prNumber = pulls.data[0].number;
+                  prUrl = pulls.data[0].html_url;
+                }
+              } catch (error) {
+                console.log(`無法獲取 PR: ${error.message}`);
+              }
+            } else if (prNumber) {
+              prUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/pull/${prNumber}`;
+            }
+            
+            core.setOutput('has_failure', 'true');
+            core.setOutput('workflow_name', workflowName);
+            core.setOutput('run_url', runUrl);
+            core.setOutput('pr_number', prNumber || '');
+            core.setOutput('pr_url', prUrl || '');
+            core.setOutput('branch', branch);
+            core.setOutput('commit_sha', commitSha);
+            core.setOutput('failure_type', failureType);
+
+      - name: 📊 分析失敗的 Jobs
+        id: analyze-jobs
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const isManualTrigger = context.eventName === 'workflow_dispatch';
+            let failedJobs = [];
+            
+            if (isManualTrigger) {
+              // 手動觸發：模擬失敗的 jobs
+              const failureType = '${{ inputs.simulate_failure }}' || 'build';
+              const workflowName = '${{ inputs.workflow_name }}' || 'Core Services CI';
+              
+              // 根據失敗類型生成模擬的失敗 jobs
+              const simulatedJobs = {
+                'build': [
+                  { name: `${workflowName} - Build`, conclusion: 'failure', steps: [{ name: 'npm run build', conclusion: 'failure' }] }
+                ],
+                'test': [
+                  { name: `${workflowName} - Test`, conclusion: 'failure', steps: [{ name: 'npm test', conclusion: 'failure' }] }
+                ],
+                'docker': [
+                  { name: `${workflowName} - Docker Build`, conclusion: 'failure', steps: [{ name: 'docker build', conclusion: 'failure' }] }
+                ],
+                'security': [
+                  { name: `${workflowName} - Security Scan`, conclusion: 'failure', steps: [{ name: 'npm audit', conclusion: 'failure' }] }
+                ],
+                'deployment': [
+                  { name: `${workflowName} - Deploy`, conclusion: 'failure', steps: [{ name: 'deploy to production', conclusion: 'failure' }] }
+                ],
+                'lint': [
+                  { name: `${workflowName} - Lint`, conclusion: 'failure', steps: [{ name: 'npm run lint', conclusion: 'failure' }] }
+                ],
+                'integration': [
+                  { name: `${workflowName} - Integration Test`, conclusion: 'failure', steps: [{ name: 'npm run test:integration', conclusion: 'failure' }] }
+                ]
+              };
+              
+              // 使用選擇的失敗類型，如果無效則使用 build 作為預設
+              if (!simulatedJobs[failureType]) {
+                console.log(`警告：未知的失敗類型 '${failureType}'，使用預設類型 'build'`);
+                failureType = 'build';
+              }
+              failedJobs = simulatedJobs[failureType];
+              failedJobs = failedJobs.map(job => ({
+                ...job,
+                html_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                started_at: new Date().toISOString(),
+                completed_at: new Date().toISOString()
+              }));
+              
+              console.log(`[手動模式] 模擬 ${failedJobs.length} 個失敗的 jobs (類型: ${failureType})`);
+            } else {
+              // 自動觸發：從實際工作流程獲取失敗的 jobs
+              const runId = context.payload.workflow_run.id;
+              
+              // 獲取所有 jobs
+              const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: runId
+              });
+              
+              // 過濾失敗的 jobs
+              failedJobs = jobs.jobs.filter(job => 
+                job.conclusion === 'failure' || job.conclusion === 'timed_out'
+              ).map(job => ({
+                name: job.name,
+                conclusion: job.conclusion,
+                html_url: job.html_url,
+                started_at: job.started_at,
+                completed_at: job.completed_at,
+                steps: job.steps?.filter(step => step.conclusion === 'failure').map(step => ({
+                  name: step.name,
+                  conclusion: step.conclusion
+                })) || []
+              }));
+              
+              console.log(`[自動模式] 發現 ${failedJobs.length} 個失敗的 jobs`);
+            }
+            
+            core.setOutput('failure_jobs', JSON.stringify(failedJobs));
+
+  # ============================================
+  # 生成深度解決方案
+  # ============================================
+  generate-solutions:
+    name: 🧠 生成深度解決方案
+    needs: detect-failure
+    runs-on: ubuntu-latest
+    if: needs.detect-failure.outputs.has_failure == 'true'
+    outputs:
+      solution_1: ${{ steps.generate.outputs.solution_1 }}
+      solution_2: ${{ steps.generate.outputs.solution_2 }}
+      root_cause_analysis: ${{ steps.generate.outputs.root_cause_analysis }}
+
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: 🐍 設置 Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+
+      - name: 🧠 生成深度解決方案
+        id: generate
+        env:
+          WORKFLOW_NAME: ${{ needs.detect-failure.outputs.workflow_name }}
+          RUN_URL: ${{ needs.detect-failure.outputs.run_url }}
+          PR_NUMBER: ${{ needs.detect-failure.outputs.pr_number }}
+          BRANCH: ${{ needs.detect-failure.outputs.branch }}
+          COMMIT_SHA: ${{ needs.detect-failure.outputs.commit_sha }}
+          FAILURE_JOBS: ${{ needs.detect-failure.outputs.failure_jobs }}
+          FAILURE_TYPE: ${{ needs.detect-failure.outputs.failure_type }}
+        run: |
+          python3 .github/scripts/solution_generator.py > solutions.json
+          cat solutions.json
+          
+          # 提取解決方案
+          SOLUTION_1=$(cat solutions.json | jq -r '.solutions[0]' | jq -c '.')
+          SOLUTION_2=$(cat solutions.json | jq -r '.solutions[1]' | jq -c '.')
+          ROOT_CAUSE=$(cat solutions.json | jq -r '.root_cause_analysis' | jq -c '.')
+          
+          # 設置輸出（使用 heredoc 處理多行）
+          echo "solution_1<<EOF" >> $GITHUB_OUTPUT
+          echo "$SOLUTION_1" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "solution_2<<EOF" >> $GITHUB_OUTPUT
+          echo "$SOLUTION_2" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo "root_cause_analysis<<EOF" >> $GITHUB_OUTPUT
+          echo "$ROOT_CAUSE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  # ============================================
+  # 建立 GitHub Issue
+  # ============================================
+  create-issue:
+    name: 📋 建立自動化 Issue
+    needs: [detect-failure, generate-solutions]
+    runs-on: ubuntu-latest
+    outputs:
+      issue_number: ${{ steps.create.outputs.issue_number }}
+      issue_url: ${{ steps.create.outputs.issue_url }}
+
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: 📋 建立 Issue 與深度解決方案
+        id: create
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        env:
+          SOLUTION_1: ${{ needs.generate-solutions.outputs.solution_1 }}
+          SOLUTION_2: ${{ needs.generate-solutions.outputs.solution_2 }}
+          ROOT_CAUSE_ANALYSIS: ${{ needs.generate-solutions.outputs.root_cause_analysis }}
+        with:
+          script: |
+            const workflowName = '${{ needs.detect-failure.outputs.workflow_name }}';
+            const runUrl = '${{ needs.detect-failure.outputs.run_url }}';
+            const prNumber = '${{ needs.detect-failure.outputs.pr_number }}';
+            const prUrl = '${{ needs.detect-failure.outputs.pr_url }}';
+            const branch = '${{ needs.detect-failure.outputs.branch }}';
+            const commitSha = '${{ needs.detect-failure.outputs.commit_sha }}';
+            const failedJobsRaw = `${{ needs.detect-failure.outputs.failure_jobs }}`;
+            
+            let failedJobs = [];
+            try {
+              failedJobs = JSON.parse(failedJobsRaw);
+            } catch (e) {
+              console.log('無法解析失敗的 jobs:', e.message);
+            }
+            
+            // 解析解決方案
+            let solution1 = {};
+            let solution2 = {};
+            let rootCause = {};
+            
+            try {
+              solution1 = JSON.parse(process.env.SOLUTION_1);
+              solution2 = JSON.parse(process.env.SOLUTION_2);
+              rootCause = JSON.parse(process.env.ROOT_CAUSE_ANALYSIS);
+            } catch (e) {
+              console.log('解析解決方案時出錯:', e.message);
+              solution1 = { title: '方案一', description: '請查看 CI 日誌', steps: ['檢查錯誤日誌', '分析根本原因', '實施修復'] };
+              solution2 = { title: '方案二', description: '請聯繫團隊', steps: ['回報問題', '請求協助', '共同解決'] };
+              rootCause = { summary: '需要進一步分析', details: '請查看完整的 CI 日誌' };
+            }
+            
+            // 建立 Issue 內容
+            const timestamp = new Date().toISOString();
+            const shortSha = commitSha.substring(0, 7);
+            
+            let issueBody = `## 🚨 CI 工作流程失敗報告
+            
+            **時間**：${timestamp}
+            **工作流程**：${workflowName}
+            **分支**：\`${branch}\`
+            **Commit**：\`${shortSha}\`
+            
+            ---
+            
+            ### 🔗 相關連結
+            
+            | 項目 | 連結 |
+            |------|------|
+            | CI 執行結果 | [查看日誌](${runUrl}) |
+            ${prNumber ? `| 關聯 PR | [#${prNumber}](${prUrl}) |` : '| 關聯 PR | 無 |'}
+            | Commit | [\`${shortSha}\`](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${commitSha}) |
+            
+            ---
+            
+            ### ❌ 失敗的 Jobs
+            
+            `;
+            
+            if (failedJobs.length > 0) {
+              for (const job of failedJobs) {
+                issueBody += `#### ${job.name}\n`;
+                issueBody += `- **狀態**：${job.conclusion === 'failure' ? '❌ 失敗' : '⏱️ 超時'}\n`;
+                issueBody += `- **日誌**：[查看詳情](${job.html_url})\n`;
+                
+                if (job.steps && job.steps.length > 0) {
+                  issueBody += `- **失敗步驟**：\n`;
+                  for (const step of job.steps) {
+                    issueBody += `  - ${step.name}\n`;
+                  }
+                }
+                issueBody += '\n';
+              }
+            } else {
+              issueBody += '無法獲取詳細的失敗 Jobs 資訊，請查看 CI 日誌。\n\n';
+            }
+            
+            issueBody += `---
+            
+            ### 🔬 根本原因分析
+            
+            **摘要**：${rootCause.summary || '需要進一步分析'}
+            
+            ${rootCause.details || '請查看完整的 CI 日誌以獲取更多資訊。'}
+            
+            ---
+            
+            ## 💡 深度解決方案
+            
+            以下提供兩個不同角度的解決方案，請根據實際情況選擇適合的方案：
+            
+            ### 🔵 方案一：${solution1.title || '快速修復'}
+            
+            **描述**：${solution1.description || '針對當前問題的直接修復方案'}
+            
+            **實施步驟**：
+            `;
+            
+            if (solution1.steps && solution1.steps.length > 0) {
+              for (let i = 0; i < solution1.steps.length; i++) {
+                issueBody += `${i + 1}. ${solution1.steps[i]}\n`;
+              }
+            }
+            
+            if (solution1.code_example) {
+              issueBody += `\n**參考程式碼**：\n\`\`\`${solution1.code_language || ''}\n${solution1.code_example}\n\`\`\`\n`;
+            }
+            
+            issueBody += `
+            **預期效果**：${solution1.expected_outcome || '修復 CI 錯誤'}
+            
+            **風險評估**：${solution1.risk_level || '低'}
+            
+            ---
+            
+            ### 🟢 方案二：${solution2.title || '深度重構'}
+            
+            **描述**：${solution2.description || '從根本上解決問題的方案'}
+            
+            **實施步驟**：
+            `;
+            
+            if (solution2.steps && solution2.steps.length > 0) {
+              for (let i = 0; i < solution2.steps.length; i++) {
+                issueBody += `${i + 1}. ${solution2.steps[i]}\n`;
+              }
+            }
+            
+            if (solution2.code_example) {
+              issueBody += `\n**參考程式碼**：\n\`\`\`${solution2.code_language || ''}\n${solution2.code_example}\n\`\`\`\n`;
+            }
+            
+            issueBody += `
+            **預期效果**：${solution2.expected_outcome || '徹底解決問題並預防未來發生'}
+            
+            **風險評估**：${solution2.risk_level || '中'}
+            
+            ---
+            
+            ### 📊 解決方案比較
+            
+            | 比較項目 | 方案一 | 方案二 |
+            |----------|--------|--------|
+            | 實施時間 | ${solution1.implementation_time || '短'} | ${solution2.implementation_time || '長'} |
+            | 風險等級 | ${solution1.risk_level || '低'} | ${solution2.risk_level || '中'} |
+            | 長期效益 | ${solution1.long_term_benefit || '一般'} | ${solution2.long_term_benefit || '高'} |
+            
+            ---
+            
+            ### 🤝 需要協助？
+            
+            - 💬 在此 Issue 留言討論
+            - 📚 查看 [CI 故障排除文檔](./docs/ci-troubleshooting.md)
+            - 🔧 執行 \`bash scripts/check-env.sh\` 檢查本地環境
+            
+            ---
+            
+            *此 Issue 由 CI 失敗自動化系統自動生成*
+            *最後更新：${timestamp}*
+            `;
+            
+            // 建立 Issue
+            const { data: issue } = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔧 [CI 失敗] ${workflowName} - ${branch} (${shortSha})`,
+              body: issueBody,
+              labels: ['ci-failure', 'auto-generated', 'needs-attention']
+            });
+            
+            console.log(`建立 Issue #${issue.number}: ${issue.html_url}`);
+            
+            core.setOutput('issue_number', issue.number);
+            core.setOutput('issue_url', issue.html_url);
+
+  # ============================================
+  # 在 PR 上評論（如有關聯）
+  # ============================================
+  comment-on-pr:
+    name: 💬 在 PR 上評論
+    needs: [detect-failure, generate-solutions, create-issue]
+    runs-on: ubuntu-latest
+    if: needs.detect-failure.outputs.pr_number != ''
+
+    steps:
+      - name: 📥 檢出代碼
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: 💬 在 PR 上發布解決方案摘要
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = parseInt('${{ needs.detect-failure.outputs.pr_number }}');
+            const issueNumber = '${{ needs.create-issue.outputs.issue_number }}';
+            const issueUrl = '${{ needs.create-issue.outputs.issue_url }}';
+            const workflowName = '${{ needs.detect-failure.outputs.workflow_name }}';
+            
+            // 解析解決方案
+            let solution1 = {};
+            let solution2 = {};
+            
+            try {
+              solution1 = JSON.parse(`${{ needs.generate-solutions.outputs.solution_1 }}`);
+              solution2 = JSON.parse(`${{ needs.generate-solutions.outputs.solution_2 }}`);
+            } catch (e) {
+              solution1 = { title: '快速修復', description: '請查看 Issue 詳情' };
+              solution2 = { title: '深度重構', description: '請查看 Issue 詳情' };
+            }
+            
+            const comment = `## 🚨 CI 失敗：${workflowName}
+            
+            CI 工作流程 **${workflowName}** 執行失敗。我已自動分析問題並生成了兩個深度解決方案。
+            
+            ### 📋 詳細 Issue
+            
+            👉 **[Issue #${issueNumber}](${issueUrl})** - 包含完整的分析和解決方案
+            
+            ---
+            
+            ### 💡 快速摘要
+            
+            | 方案 | 標題 | 描述 |
+            |------|------|------|
+            | 🔵 方案一 | ${solution1.title || '快速修復'} | ${solution1.description || '直接修復當前問題'} |
+            | 🟢 方案二 | ${solution2.title || '深度重構'} | ${solution2.description || '從根本解決問題'} |
+            
+            ---
+            
+            請查看 Issue 以獲取詳細的實施步驟和程式碼範例。
+            
+            *此評論由 CI 失敗自動化系統自動生成*`;
+            
+            // 檢查是否已有相同的評論
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            });
+            
+            const existingComment = comments.find(c => 
+              c.body.includes('CI 失敗自動化系統自動生成') &&
+              c.body.includes(`Issue #${issueNumber}`)
+            );
+            
+            if (existingComment) {
+              // 更新現有評論
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: comment
+              });
+              console.log('更新現有評論');
+            } else {
+              // 建立新評論
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: comment
+              });
+              console.log('建立新評論');
+            }
+
+  # ============================================
+  # 生成報告摘要
+  # ============================================
+  summary:
+    name: 📊 生成執行摘要
+    needs: [detect-failure, generate-solutions, create-issue]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: 📊 生成 GitHub Actions 摘要
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const workflowName = '${{ needs.detect-failure.outputs.workflow_name }}' || 'Unknown';
+            const issueNumber = '${{ needs.create-issue.outputs.issue_number }}' || 'N/A';
+            const issueUrl = '${{ needs.create-issue.outputs.issue_url }}' || '#';
+            const prNumber = '${{ needs.detect-failure.outputs.pr_number }}' || 'N/A';
+            
+            await core.summary
+              .addHeading('🔧 CI 失敗自動化深度解決方案', 1)
+              .addTable([
+                [{data: '項目', header: true}, {data: '結果', header: true}],
+                ['失敗的工作流程', workflowName],
+                ['建立的 Issue', `[#${issueNumber}](${issueUrl})`],
+                ['關聯的 PR', prNumber !== 'N/A' ? `#${prNumber}` : '無'],
+                ['生成的解決方案數量', '2']
+              ])
+              .addHeading('✅ 完成動作', 2)
+              .addList([
+                '分析 CI 失敗原因',
+                '生成兩個深度解決方案',
+                '建立詳細的 GitHub Issue',
+                prNumber !== 'N/A' ? '在 PR 上發布摘要評論' : '（無關聯 PR）'
+              ])
+              .write();

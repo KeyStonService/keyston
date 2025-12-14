@@ -194,7 +194,11 @@ class TemplateBuilder:
         >>> builder = TemplateBuilder()
         >>> builder.add_file(
         ...     "src/{{package_name}}/main.py",
-        ...     'Main module content'
+        ...     '''
+        ...     """Main module"""
+        ...     def main():
+        ...         print("Hello {{project_name}}")
+        ...     '''
         ... )
         >>> builder.save(Path("./custom-template"))
     """
