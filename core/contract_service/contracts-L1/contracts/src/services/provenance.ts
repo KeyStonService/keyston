@@ -77,10 +77,9 @@ async function validateAndNormalizePath(
   if (
     filePath.includes('\0') ||
     filePath.split(path.sep).includes('..') ||
-    filePath.includes('//') ||
-    path.isAbsolute(filePath)
+    filePath.includes('//')
   ) {
-    throw new Error('Invalid file path: Directory traversal or absolute paths are not permitted.');
+    throw new Error('Invalid file path: Directory traversal is not permitted.');
   }
 
   const systemTmpDir = tmpdir();
