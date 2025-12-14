@@ -3,45 +3,7 @@ import { randomUUID } from 'crypto';
 import { Request, Response, NextFunction } from 'express';
 
 import config from '../config';
-
-export enum ErrorCode {
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
-  NOT_FOUND = 'NOT_FOUND',
-  UNAUTHORIZED = 'UNAUTHORIZED',
-  FORBIDDEN = 'FORBIDDEN',
-  INTERNAL_ERROR = 'INTERNAL_ERROR',
-  SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
-  RATE_LIMIT = 'RATE_LIMIT',
-}
-
-export class AppError extends Error {
-  public readonly code: ErrorCode;
-  public readonly statusCode: number;
-  public readonly traceId: string;
-  public readonly timestamp: string;
-  public readonly isOperational: boolean;
-
-  constructor(message: string, code: ErrorCode, statusCode = 500, isOperational = true) {
-    super(message);
-    this.code = code;
-    this.statusCode = statusCode;
-    this.traceId = randomUUID();
-    this.timestamp = new Date().toISOString();
-    this.isOperational = isOperational;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-export const createError = {
-  validation: (message: string) => new AppError(message, ErrorCode.VALIDATION_ERROR, 400),
-  notFound: (resource: string) => new AppError(`${resource} not found`, ErrorCode.NOT_FOUND, 404),
-  unauthorized: (message = 'Unauthorized') => new AppError(message, ErrorCode.UNAUTHORIZED, 401),
-  forbidden: (message = 'Forbidden') => new AppError(message, ErrorCode.FORBIDDEN, 403),
-  internal: (message = 'Internal server error') =>
-    new AppError(message, ErrorCode.INTERNAL_ERROR, 500, false),
-  serviceUnavailable: (service: string) =>
-    new AppError(`${service} is unavailable`, ErrorCode.SERVICE_UNAVAILABLE, 503),
-};
+import { ErrorCode, AppError, createError } from '../errors';
 
 export const errorMiddleware = (
   err: Error | AppError,
