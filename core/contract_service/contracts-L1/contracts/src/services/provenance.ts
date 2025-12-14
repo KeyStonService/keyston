@@ -83,9 +83,6 @@ async function validateAndNormalizePath(
 
     // FINAL GUARD: Path must start with SAFE_ROOT or allowed test directory, comparing canonical (real) paths
     if (isInTestTmpDir(canonicalPath, systemTmpDir)) {
-      if (!isPathContained(canonicalPath, systemTmpDir)) {
-        throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
-      }
       return canonicalPath;
     }
     // Fallback for non-existent file, use normalized path and re-check boundaries
