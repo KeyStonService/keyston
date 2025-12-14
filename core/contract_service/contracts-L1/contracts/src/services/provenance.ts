@@ -38,7 +38,6 @@ function isInTestTmpDir(targetPath: string, systemTmpDir: string): boolean {
 function validateNoTraversal(filePath: string): void {
   if (
     filePath.includes('\0') ||
-    filePath.includes('..') ||
     filePath.includes('//') ||
     filePath.split(path.sep).includes('..')
   ) {
