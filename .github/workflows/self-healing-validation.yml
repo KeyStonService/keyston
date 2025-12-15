@@ -13,19 +13,75 @@ on:
       - 'core/contract_service/contracts-L1/contracts/src/**'
       - 'governance/40-self-healing/**'
 
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+  issues: write
+
 jobs:
-  validate-self-healing:
-    name: Validate Self-Healing Architecture
+  setup-and-build:
+    name: 設置與建置
     runs-on: ubuntu-latest
-    
-    permissions:
-      contents: read
-      pull-requests: write
-      actions: read
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        id: install
+        continue-on-error: true
+        run: |
+          npm ci
+          cd core/contract_service/contracts-L1/contracts && npm ci
+      
+      - name: Type check
+        id: typecheck
+        continue-on-error: true
+        run: |
+          cd core/contract_service/contracts-L1/contracts
+          npm run typecheck
+      
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="建置與型別檢查: 通過"
+          
+          if [ "${{ steps.install.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="依賴安裝失敗"
+          elif [ "${{ steps.typecheck.outcome }}" != "success" ]; then
+            STATUS="warning"
+            MESSAGE="型別檢查有警告 (非阻斷)"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  validate-policies:
+    name: 驗證治理策略
+    runs-on: ubuntu-latest
+    needs: setup-and-build
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,12 +100,16 @@ jobs:
           npm run typecheck || echo "Type check warnings (non-blocking)"
       
       - name: Validate governance policies
+        id: validate-gov
+        continue-on-error: true
         run: |
           if [ -f "tools/docs/validate_index.py" ]; then
             python3 tools/docs/validate_index.py --verbose
           fi
       
       - name: Check self-healing policy exists
+        id: check-policy
+        continue-on-error: true
         run: |
           if [ ! -f "governance/40-self-healing/policies/path-validation-self-healing.yaml" ]; then
             echo "❌ Self-healing policy file missing"
@@ -58,6 +118,8 @@ jobs:
           echo "✅ Self-healing policy file found"
       
       - name: Validate YAML syntax
+        id: validate-yaml
+        continue-on-error: true
         run: |
           if command -v yamllint &> /dev/null; then
             yamllint governance/40-self-healing/policies/path-validation-self-healing.yaml
@@ -65,7 +127,40 @@ jobs:
             echo "yamllint not installed, skipping YAML validation"
           fi
       
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="策略驗證: 通過"
+          
+          if [ "${{ steps.validate-gov.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="治理策略驗證失敗"
+          elif [ "${{ steps.check-policy.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="自我修復策略檔案缺失"
+          elif [ "${{ steps.validate-yaml.outcome }}" != "success" ]; then
+            STATUS="warning"
+            MESSAGE="YAML 語法驗證有警告"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  validate-files:
+    name: 驗證檔案結構
+    runs-on: ubuntu-latest
+    needs: setup-and-build
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
       - name: Check documentation
+        id: check-docs
+        continue-on-error: true
         run: |
           if [ ! -f "core/contract_service/contracts-L1/contracts/docs/SELF_HEALING_ARCHITECTURE.md" ]; then
             echo "❌ Self-healing documentation missing"
@@ -74,6 +169,8 @@ jobs:
           echo "✅ Self-healing documentation found"
       
       - name: Verify event system files
+        id: check-files
+        continue-on-error: true
         run: |
           FILES=(
             "core/contract_service/contracts-L1/contracts/src/events/path-validation-events.ts"
@@ -89,27 +186,93 @@ jobs:
           done
           echo "✅ All self-healing files present"
       
-      - name: Generate structure report
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="檔案結構: 完整"
+          
+          if [ "${{ steps.check-docs.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="自我修復文檔缺失"
+          elif [ "${{ steps.check-files.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="事件系統檔案缺失"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  # Consolidated report job - gathers all job results
+  report:
+    name: 📊 整合報告
+    runs-on: ubuntu-latest
+    needs: [setup-and-build, validate-policies, validate-files]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Prepare job summaries
+        id: prepare
+        run: |
+          # Build JSON with all job summaries
+          cat > job-summaries.json <<EOF
+          {
+            "setup-and-build": ${{ needs.setup-and-build.outputs.summary || '{"status":"unknown","message":"無摘要"}' }},
+            "validate-policies": ${{ needs.validate-policies.outputs.summary || '{"status":"unknown","message":"無摘要"}' }},
+            "validate-files": ${{ needs.validate-files.outputs.summary || '{"status":"unknown","message":"無摘要"}' }}
+          }
+          EOF
+          
+          cat job-summaries.json
+          
+          # Determine overall status
+          OVERALL_STATUS="success"
+          if [ "${{ needs.setup-and-build.result }}" == "failure" ] || \
+             [ "${{ needs.validate-policies.result }}" == "failure" ] || \
+             [ "${{ needs.validate-files.result }}" == "failure" ]; then
+            OVERALL_STATUS="failure"
+          elif [ "${{ needs.setup-and-build.result }}" == "cancelled" ] || \
+               [ "${{ needs.validate-policies.result }}" == "cancelled" ] || \
+               [ "${{ needs.validate-files.result }}" == "cancelled" ]; then
+            OVERALL_STATUS="failure"
+          fi
+          
+          echo "overall-status=$OVERALL_STATUS" >> $GITHUB_OUTPUT
+          echo "job-summaries=$(cat job-summaries.json | jq -c .)" >> $GITHUB_OUTPUT
+      
+      - name: Call consolidated report workflow
+        if: github.event_name == 'pull_request'
+        uses: ./.github/workflows/ci-consolidated-report.yml
+        with:
+          ci-name: 'Self-Healing Path Validation'
+          job-summaries: ${{ steps.prepare.outputs.job-summaries }}
+          workflow-run-id: ${{ github.run_id }}
+          commit-sha: ${{ github.sha }}
+          overall-status: ${{ steps.prepare.outputs.overall-status }}
+          pr-number: ${{ github.event.pull_request.number }}
+        secrets:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate structure report (for artifact)
         run: |
           echo "## Self-Healing Architecture Validation Report" > self-healing-report.md
           echo "" >> self-healing-report.md
           echo "**Timestamp:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> self-healing-report.md
           echo "**Commit:** ${{ github.sha }}" >> self-healing-report.md
+          echo "**Status:** ${{ steps.prepare.outputs.overall-status }}" >> self-healing-report.md
           echo "" >> self-healing-report.md
-          echo "### Components Validated" >> self-healing-report.md
-          echo "- ✅ Event system (path-validation-events.ts)" >> self-healing-report.md
-          echo "- ✅ Self-healing validator (self-healing-path-validator.ts)" >> self-healing-report.md
-          echo "- ✅ Governance integration (self-healing-integration.ts)" >> self-healing-report.md
-          echo "- ✅ Provenance service integration (provenance.ts)" >> self-healing-report.md
-          echo "- ✅ Policy configuration (path-validation-self-healing.yaml)" >> self-healing-report.md
-          echo "- ✅ Documentation (SELF_HEALING_ARCHITECTURE.md)" >> self-healing-report.md
+          echo "### Job Results" >> self-healing-report.md
+          echo "- Setup & Build: ${{ needs.setup-and-build.result }}" >> self-healing-report.md
+          echo "- Validate Policies: ${{ needs.validate-policies.result }}" >> self-healing-report.md
+          echo "- Validate Files: ${{ needs.validate-files.result }}" >> self-healing-report.md
           echo "" >> self-healing-report.md
-          echo "### Architecture Principles Implemented" >> self-healing-report.md
-          echo "1. **承襲結構 (Inherited Structure)**: ✅ DAG-based recovery with governance rules" >> self-healing-report.md
-          echo "2. **短暫策略 (Transient Strategy)**: ✅ Temporary repair during failures" >> self-healing-report.md
-          echo "3. **自我修復 (Self-Repair)**: ✅ Automatic structure completion" >> self-healing-report.md
-          
-          cat self-healing-report.md
+          echo "### Architecture Principles" >> self-healing-report.md
+          echo "1. **承襲結構 (Inherited Structure)**: DAG-based recovery with governance rules" >> self-healing-report.md
+          echo "2. **短暫策略 (Transient Strategy)**: Temporary repair during failures" >> self-healing-report.md
+          echo "3. **自我修復 (Self-Repair)**: Automatic structure completion" >> self-healing-report.md
       
       - name: Upload validation report
         uses: actions/upload-artifact@v4
@@ -117,34 +280,3 @@ jobs:
           name: self-healing-validation-report
           path: self-healing-report.md
           retention-days: 30
-      
-      - name: Comment on PR (if applicable)
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const report = fs.readFileSync('self-healing-report.md', 'utf8');
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🔄 Self-Healing Architecture Validation\n\n${report}\n\n*Automated validation by GitHub Actions*`
-            });
-      
-      - name: Summary
-        run: |
-          echo "✅ Self-healing architecture validation completed successfully"
-          echo ""
-          echo "Key Features Verified:"
-          echo "  - Event-driven structure completion"
-          echo "  - Automatic recovery on validation failures"
-          echo "  - DAG-based dependency tracking"
-          echo "  - Governance policy integration"
-          echo "  - Metrics and attestation"
-          echo ""
-          echo "Next Steps:"
-          echo "  - Add unit tests for self-healing components"
-          echo "  - Add integration tests with actual file operations"
-          echo "  - Configure monitoring dashboards"

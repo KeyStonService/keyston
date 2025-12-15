@@ -1,0 +1,114 @@
+---
+name: CI Consolidated Report
+
+# Reusable workflow for generating consolidated CI job reports
+# Consolidates multiple job results into a single PR comment
+# Template follows Chinese format specified in problem statement
+
+on:
+  workflow_call:
+    inputs:
+      ci-name:
+        description: 'CI workflow name (e.g., "Core Services CI")'
+        required: true
+        type: string
+      job-summaries:
+        description: 'JSON string with job summaries: {"job1": {"status": "success", "message": "..."}, ...}'
+        required: true
+        type: string
+      workflow-run-id:
+        description: 'GitHub workflow run ID'
+        required: true
+        type: string
+      commit-sha:
+        description: 'Git commit SHA'
+        required: true
+        type: string
+      overall-status:
+        description: 'Overall CI status: success, failure, or warning'
+        required: true
+        type: string
+      pr-number:
+        description: 'PR number for commenting'
+        required: false
+        type: string
+    secrets:
+      token:
+        description: 'GitHub token with PR write permissions'
+        required: true
+
+jobs:
+  generate-report:
+    name: 生成整合報告
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Generate consolidated comment
+        id: generate
+        env:
+          CI_NAME: ${{ inputs.ci-name }}
+          JOB_SUMMARIES: ${{ inputs.job-summaries }}
+          WORKFLOW_RUN_ID: ${{ inputs.workflow-run-id }}
+          COMMIT_SHA: ${{ inputs.commit-sha }}
+          OVERALL_STATUS: ${{ inputs.overall-status }}
+        run: |
+          python3 .github/scripts/generate-consolidated-comment.py
+      
+      - name: Find existing comment
+        if: inputs.pr-number != ''
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        continue-on-error: true
+        with:
+          token: ${{ secrets.token }}
+          issue-number: ${{ inputs.pr-number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'CI_REPORT:'
+      
+      - name: Create new comment
+        if: inputs.pr-number != '' && steps.find-comment.outputs.comment-id == ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.token }}
+          issue-number: ${{ inputs.pr-number }}
+          body-path: comment_body.md
+      
+      - name: Update existing comment
+        if: inputs.pr-number != '' && steps.find-comment.outputs.comment-id != ''
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.token }}
+          issue-number: ${{ inputs.pr-number }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          body-path: comment_body.md
+          edit-mode: replace
+      
+      - name: Upload comment as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: consolidated-ci-report
+          path: comment_body.md
+          retention-days: 7
+      
+      - name: Summary
+        run: |
+          echo "## ✅ Consolidated CI Report Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **CI Name**: ${{ inputs.ci-name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ inputs.overall-status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run ID**: ${{ inputs.workflow-run-id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ inputs.commit-sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Comment has been posted/updated on PR #${{ inputs.pr-number }}" >> $GITHUB_STEP_SUMMARY
