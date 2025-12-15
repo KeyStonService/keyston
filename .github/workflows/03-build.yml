@@ -1,4 +1,7 @@
 name: Governed Build Pipeline
+# Consolidated workflows: lint/test/build across Node/Rust/Go/Python/Java and governance validation
+# Removed optional workflows: docker image builds (use release workflow), deployment/CD pipelines, SARIF security uploads
+# Behavior: single governed job runs sequentially to preserve ordering and reduce runner concurrency cost; adjust to matrix if speed outweighs ordering needs
 
 on:
   push:
@@ -61,3 +64,4 @@ jobs:
         env:
           PR_BODY: ${{ github.event.pull_request.body || '' }}
         run: bash scripts/ci/governed-build.sh
+        # Governance coverage: validate-governance-structure.py, make validate-governance-ci, optional scan-governance-directory.py (auto-discovered)
