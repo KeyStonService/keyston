@@ -32,7 +32,7 @@ class SecretPatternManager:
             response = requests.post(url, headers=self.headers, json=pattern_data)
             
             if response.status_code == 201:
-                print(f"✅ Custom pattern '{pattern_data['name']}' created successfully")
+                print("✅ Custom pattern created successfully")
                 return response.json()
             else:
                 print(f"❌ Failed to create pattern: {response.status_code}")

@@ -71,8 +71,8 @@ export class ValidationError extends AppError {
  * Not found error - thrown when a resource is not found
  */
 export class NotFoundError extends AppError {
-  constructor(resource: string) {
-    super(`${resource} not found`, ErrorCode.NOT_FOUND, 404);
+  constructor(message: string) {
+    super(message, ErrorCode.NOT_FOUND, 404);
     Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }
@@ -133,7 +133,7 @@ export class InternalError extends AppError {
 export const createError = {
   validation: (message: string, errors?: Array<{ field: string; message: string; code: string }>) =>
     new ValidationError(message, errors),
-  notFound: (resource: string) => new NotFoundError(resource),
+  notFound: (resource: string) => new NotFoundError(`${resource} not found`),
   unauthorized: (message?: string) => new UnauthorizedError(message),
   forbidden: (message?: string) => new ForbiddenError(message),
   conflict: (message: string) => new ConflictError(message),
