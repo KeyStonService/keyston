@@ -391,9 +391,12 @@ const reports = await runStageOne({
 | [docs/CI_BATCH_UPGRADE_SUMMARY.md](./docs/CI_BATCH_UPGRADE_SUMMARY.md)         | CI 批量升級摘要    | 批量升級      |
 | [docs/CI_DEPLOYMENT_UPGRADE_PLAN.md](./docs/CI_DEPLOYMENT_UPGRADE_PLAN.md)     | CI 部署升級計劃    | 升級計劃      |
 | [docs/CI_GLOBAL_STATUS_FIX.md](./docs/CI_GLOBAL_STATUS_FIX.md)                 | CI 全局狀態修復    | 狀態修復      |
-| [docs/INTERACTIVE_CI_UPGRADE_GUIDE.md](./docs/INTERACTIVE_CI_UPGRADE_GUIDE.md) | 互動式 CI 升級指南 | 升級指南      |
-| [docs/ci-troubleshooting.md](./docs/ci-troubleshooting.md)                     | CI 故障排除        | 問題排查      |
-| [docs/autonomous-ci-compliance.md](./docs/autonomous-ci-compliance.md)         | 自主 CI 合規       | 合規檢查      |
+| [docs/INTERACTIVE_CI_UPGRADE_GUIDE.md](./docs/INTERACTIVE_CI_UPGRADE_GUIDE.md)                           | 互動式 CI 升級指南         | 升級指南                 |
+| [docs/CI_CONSOLIDATED_REPORT.md](./docs/CI_CONSOLIDATED_REPORT.md) ⭐ **NEW**                            | CI 整合報告系統            | 單一評論整合、中文模板   |
+| [docs/CI_CONSOLIDATED_REPORT_MIGRATION_GUIDE.md](./docs/CI_CONSOLIDATED_REPORT_MIGRATION_GUIDE.md) ⭐   | CI 整合報告遷移指南        | 遷移步驟、常見場景       |
+| [docs/examples/ci-consolidated-report-example.yml](./docs/examples/ci-consolidated-report-example.yml)   | CI 整合報告範例 Workflow   | 完整範例模板             |
+| [docs/ci-troubleshooting.md](./docs/ci-troubleshooting.md)                                               | CI 故障排除                | 問題排查                 |
+| [docs/autonomous-ci-compliance.md](./docs/autonomous-ci-compliance.md)                                   | 自主 CI 合規               | 合規檢查                 |
 
 ### 運維文檔 (`docs/operations/`)
 
@@ -432,8 +435,10 @@ const reports = await runStageOne({
 | [.github/workflows/monorepo-dispatch.yml](./.github/workflows/monorepo-dispatch.yml)                   | Monorepo CI 調度器      | 基礎 CI，路徑偵測、快速反饋            |
 | [.github/workflows/core-services-ci.yml](./.github/workflows/core-services-ci.yml)                     | 核心服務 CI             | 包含 Docker 建置的完整 CI              |
 | [.github/workflows/integration-deployment.yml](./.github/workflows/integration-deployment.yml)         | 整合與部署              | 全面系統整合測試、四層驗證             |
-| [.github/workflows/arch-governance-validation.yml](./.github/workflows/arch-governance-validation.yml) | 架構與治理驗證工作流程  | 自動驗證架構、安全、資料治理           |
-| [scripts/hooks/pre-commit](./scripts/hooks/pre-commit)                                                 | Stage 0 提交前檢查      | YAML 驗證、Workflow 檢查、敏感資料掃描 |
+| [.github/workflows/arch-governance-validation.yml](./.github/workflows/arch-governance-validation.yml) | 架構與治理驗證工作流程  | 自動驗證架構、安全、資料治理                          |
+| [.github/workflows/ci-consolidated-report.yml](./.github/workflows/ci-consolidated-report.yml) ⭐ **NEW** | CI 整合報告可重用工作流 | 整合多個 job 結果為單一 PR 評論，使用中文模板         |
+| [.github/workflows/self-healing-validation.yml](./.github/workflows/self-healing-validation.yml) ⭐      | 自我修復路徑驗證        | 使用整合報告的範例實作，展示多 job 整合               |
+| [scripts/hooks/pre-commit](./scripts/hooks/pre-commit)                                                 | Stage 0 提交前檢查      | YAML 驗證、Workflow 檢查、敏感資料掃描                |
 | [scripts/hooks/pre-push](./scripts/hooks/pre-push)                                                     | Stage 0 推送前驗證      | 必要檔案、目錄結構、骨架索引檢查       |
 | [scripts/hooks/install-hooks.sh](./scripts/hooks/install-hooks.sh)                                     | Git Hooks 安裝腳本      | 一鍵安裝本地 hooks                     |
 | [docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md](./docs/reports/PR73_CI_GOVERNANCE_ANALYSIS.md)           | CI 治理框架分析報告     | 完整架構分析與整合說明                 |
