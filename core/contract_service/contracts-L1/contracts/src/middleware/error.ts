@@ -29,8 +29,8 @@ const SAFE_ERROR_PATTERNS = [
  */
 const SENSITIVE_PATTERNS = [
   /at\s+[^\n:]+:\d+:\d+/gi, // Stack trace locations (at file.ts:10:5)
-  /\/[\w\-./]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Unix file paths
-  /\\[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Windows file paths
+  /\/(?:[\w\-.]+\/)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Unix file paths (require at least one directory)
+  /(?:[a-zA-Z]:)?\\(?:[\w\-.]+\\)+[\w\-.]+\.(?:js|ts|py|java|go|rb|json|yaml|yml|env|config)/gi, // Windows file paths (require drive or UNC and at least one directory)
   /\/(?:etc|proc|var|usr|home)\/[^\s]*/gi, // System paths
   /Error:\s+[\w\s]+\n\s+at/gi, // Stack trace beginnings
   /\w+:\/\/[^\s]+/gi, // Generic connection strings (mongodb://, postgres://, etc.)
