@@ -311,12 +311,7 @@ describe('Error Middleware', () => {
     it('should sanitize error messages with file paths in development', () => {
       const error = new Error('Cannot read property at /app/src/secret/file.ts:123:45');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -327,12 +322,7 @@ describe('Error Middleware', () => {
     it('should sanitize error messages with stack traces in development', () => {
       const error = new Error('Error: Something failed\n    at /home/user/app.ts:10:5');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -343,12 +333,7 @@ describe('Error Middleware', () => {
     it('should sanitize error messages with database connection strings', () => {
       const error = new Error('Connection failed to mongodb://user:pass@localhost:27017/db');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -359,12 +344,7 @@ describe('Error Middleware', () => {
     it('should sanitize error messages with passwords', () => {
       const error = new Error('Auth failed with password=secretpass123');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -375,12 +355,7 @@ describe('Error Middleware', () => {
     it('should sanitize error messages with API keys', () => {
       const error = new Error('Request failed with api_key=abc123xyz');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -391,12 +366,7 @@ describe('Error Middleware', () => {
     it('should allow safe error messages to pass through in development', () => {
       const error = new Error('Invalid input provided');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -407,12 +377,7 @@ describe('Error Middleware', () => {
       const longMessage = 'A'.repeat(150);
       const error = new Error(longMessage);
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -422,12 +387,7 @@ describe('Error Middleware', () => {
     it('should handle Windows-style file paths', () => {
       const error = new Error('Error at C:\\Users\\App\\src\\file.ts:50');
 
-      errorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];
@@ -446,12 +406,7 @@ describe('Error Middleware', () => {
 
       const error = new Error('Invalid input provided');
 
-      prodErrorMiddleware(
-        error,
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext
-      );
+      prodErrorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(statusMock).toHaveBeenCalledWith(500);
       const response = jsonMock.mock.calls[0][0];

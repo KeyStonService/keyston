@@ -1,12 +1,8 @@
 import { createHash, randomUUID } from 'crypto';
 import { readFile, stat, realpath } from 'fs/promises';
-import { relative, resolve } from 'path';
+import { relative, resolve, sep } from 'path';
 
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
-
-// Define safe root directories for file operations to prevent path traversal attacks
-const SAFE_ROOT = resolve(process.cwd());
-const TEMP_ROOT = resolve(tmpdir());
 
 export interface BuildAttestation {
   id: string;
@@ -68,7 +64,7 @@ export interface Dependency {
 
 export class ProvenanceService {
   private slsaService: SLSAAttestationService;
-  
+
   // Define the root directory for allowed files. Change as needed for your project needs
   // Use a fixed absolute path or environment variable for SAFE_ROOT
   private static getSafeRoot(): string {
@@ -93,21 +89,23 @@ export class ProvenanceService {
     const realAbsPath = await realpath(absPath);
     // Ensure the realAbsPath is strictly under canonicalRoot (not equal nor outside)
     if (
-      realAbsPath.length <= canonicalRoot.length ||    // Must not be root itself
+      realAbsPath.length <= canonicalRoot.length || // Must not be root itself
       realAbsPath.slice(0, canonicalRoot.length) !== canonicalRoot ||
       (realAbsPath.length > canonicalRoot.length && realAbsPath[canonicalRoot.length] !== sep)
     ) {
-      throw new Error(`Access to file path '${userInputPath}' (resolved as '${realAbsPath}') is not allowed - path must be strictly within ${canonicalRoot}`);
+      throw new Error(
+        `Access to file path '${userInputPath}' (resolved as '${realAbsPath}') is not allowed - path must be strictly within ${canonicalRoot}`
+      );
     }
 
-    return resolvedPath;
+    return realAbsPath;
   }
 
   /**
    * 生成文件的 SHA256 摘要
    */
   async generateFileDigest(filePath: string): Promise<string> {
-    const validatedPath = this.validatePath(filePath);
+    const validatedPath = await this.resolveSafePath(filePath);
     const content = await readFile(validatedPath);
     const hash = createHash('sha256');
     hash.update(content);
@@ -123,7 +121,7 @@ export class ProvenanceService {
     metadata: Partial<MetadataInfo> = {}
   ): Promise<BuildAttestation> {
     // Validate path to prevent directory traversal attacks
-    const validatedPath = this.validatePath(subjectPath);
+    const validatedPath = await this.resolveSafePath(subjectPath);
 
     const stats = await stat(validatedPath);
     if (!stats.isFile()) {
