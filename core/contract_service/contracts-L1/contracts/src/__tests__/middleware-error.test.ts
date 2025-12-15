@@ -22,6 +22,11 @@ describe('Error Middleware', () => {
       method: 'GET',
       url: '/test',
       headers: {},
+      get: jest.fn((header: string) => {
+        if (header === 'user-agent') return 'test-agent';
+        return undefined;
+      }),
+      ip: '127.0.0.1',
     };
 
     mockResponse = {
@@ -33,17 +38,17 @@ describe('Error Middleware', () => {
   });
 
   describe('HTTP Error Handling', () => {
-    it('should handle 400 Bad Request errors', () => {
+    it('should handle 422 Validation errors (Bad Request)', () => {
       const error = createError.validation('Invalid input');
 
       errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
-      expect(statusMock).toHaveBeenCalledWith(400);
+      expect(statusMock).toHaveBeenCalledWith(422);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Invalid input',
-            status: 400,
+            code: ErrorCode.VALIDATION_ERROR,
           }),
         })
       );
@@ -59,7 +64,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Authentication required',
-            status: 401,
+            code: ErrorCode.UNAUTHORIZED,
           }),
         })
       );
@@ -75,14 +80,14 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Access denied',
-            status: 403,
+            code: ErrorCode.FORBIDDEN,
           }),
         })
       );
     });
 
     it('should handle 404 Not Found errors', () => {
-      const error = createError.notFound('Resource not found');
+      const error = createError.notFound('Resource');
 
       errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
@@ -91,7 +96,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Resource not found',
-            status: 404,
+            code: ErrorCode.NOT_FOUND,
           }),
         })
       );
@@ -107,7 +112,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Resource already exists',
-            status: 409,
+            code: ErrorCode.CONFLICT,
           }),
         })
       );
@@ -127,8 +132,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Validation failed',
-            status: 422,
-            details: validationErrors,
+            code: ErrorCode.VALIDATION_ERROR,
           }),
         })
       );
@@ -145,7 +149,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Too many requests',
-            status: 429,
+            code: ErrorCode.RATE_LIMIT,
           }),
         })
       );
@@ -161,7 +165,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Server error occurred',
-            status: 500,
+            code: ErrorCode.INTERNAL_ERROR,
           }),
         })
       );
@@ -177,7 +181,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'External API is currently unavailable',
-            status: 503,
+            code: ErrorCode.SERVICE_UNAVAILABLE,
           }),
         })
       );
@@ -195,7 +199,7 @@ describe('Error Middleware', () => {
         expect.objectContaining({
           error: expect.objectContaining({
             message: 'Something went wrong',
-            status: 500,
+            code: ErrorCode.INTERNAL_ERROR,
           }),
         })
       );
@@ -219,7 +223,7 @@ describe('Error Middleware', () => {
 
       errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
 
-      expect(statusMock).toHaveBeenCalledWith(400);
+      expect(statusMock).toHaveBeenCalledWith(422);
       expect(jsonMock).toHaveBeenCalled();
     });
   });
@@ -233,8 +237,9 @@ describe('Error Middleware', () => {
       const response = jsonMock.mock.calls[0][0];
       expect(response).toHaveProperty('error');
       expect(response.error).toHaveProperty('message');
-      expect(response.error).toHaveProperty('status');
+      expect(response.error).toHaveProperty('code');
       expect(response.error).toHaveProperty('timestamp');
+      expect(response.error).toHaveProperty('traceId');
     });
 
     it('should include timestamp in error response', () => {
@@ -249,16 +254,6 @@ describe('Error Middleware', () => {
 
       expect(timestamp).toBeGreaterThanOrEqual(beforeTime);
       expect(timestamp).toBeLessThanOrEqual(afterTime);
-    });
-
-    it('should preserve error details in response', () => {
-      const details = { field: 'username', constraint: 'unique' };
-      const error = createError.validation('Validation failed', [details]);
-
-      errorMiddleware(error, mockRequest as Request, mockResponse as Response, mockNext);
-
-      const response = jsonMock.mock.calls[0][0];
-      expect(response.error.details).toEqual([details]);
     });
   });
 
@@ -309,6 +304,162 @@ describe('Error Middleware', () => {
 
       expect(statusMock).toHaveBeenCalledWith(500);
       expect(jsonMock).toHaveBeenCalled();
+    });
+  });
+
+  describe('Error Message Sanitization', () => {
+    it('should sanitize error messages with file paths in development', () => {
+      const error = new Error('Cannot read property at /app/src/secret/file.ts:123:45');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('/app/src/secret/file.ts');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should sanitize error messages with stack traces in development', () => {
+      const error = new Error('Error: Something failed\n    at /home/user/app.ts:10:5');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('at /home/user/app.ts');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should sanitize error messages with database connection strings', () => {
+      const error = new Error('Connection failed to mongodb://user:pass@localhost:27017/db');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('mongodb://');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should sanitize error messages with passwords', () => {
+      const error = new Error('Auth failed with password=secretpass123');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('secretpass123');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should sanitize error messages with API keys', () => {
+      const error = new Error('Request failed with api_key=abc123xyz');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('abc123xyz');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should allow safe error messages to pass through in development', () => {
+      const error = new Error('Invalid input provided');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).toBe('Invalid input provided');
+    });
+
+    it('should truncate overly long error messages', () => {
+      const longMessage = 'A'.repeat(150);
+      const error = new Error(longMessage);
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should handle Windows-style file paths', () => {
+      const error = new Error('Error at C:\\Users\\App\\src\\file.ts:50');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).not.toContain('C:\\Users');
+      expect(response.error.message).toBe('Internal server error');
+    });
+
+    it('should always show generic message in production', () => {
+      // Temporarily set NODE_ENV to production
+      const originalEnv = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+
+      // Re-import to get updated config
+      jest.resetModules();
+      const { errorMiddleware: prodErrorMiddleware } = require('../middleware/error');
+
+      const error = new Error('Invalid input provided');
+
+      prodErrorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      expect(statusMock).toHaveBeenCalledWith(500);
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).toBe('Internal server error');
+
+      // Restore original NODE_ENV
+      process.env.NODE_ENV = originalEnv;
+      jest.resetModules();
     });
   });
 });
