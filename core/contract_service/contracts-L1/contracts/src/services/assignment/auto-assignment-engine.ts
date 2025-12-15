@@ -160,10 +160,7 @@ export class AutoAssignmentEngine {
    * Note: This method is synchronous as it only performs in-memory Map operations.
    * Controllers may still use `await` for consistency in async flow.
    */
-  updateAssignmentStatus(
-    assignmentId: string,
-    status: AssignmentStatus
-  ): Assignment {
+  updateAssignmentStatus(assignmentId: string, status: AssignmentStatus): Assignment {
     const assignment = this.assignments.get(assignmentId);
 
     if (!assignment) {

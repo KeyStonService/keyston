@@ -12,7 +12,7 @@ describe('ProvenanceService', () => {
     // Set SAFE_ROOT_PATH to tmpdir for testing
     originalSafeRoot = process.env.SAFE_ROOT_PATH;
     process.env.SAFE_ROOT_PATH = tmpdir();
-    
+
     service = new ProvenanceService();
     testFilePath = join(tmpdir(), `test-${Date.now()}.txt`);
     await writeFile(testFilePath, 'test content for attestation');
@@ -25,7 +25,7 @@ describe('ProvenanceService', () => {
     } else {
       delete process.env.SAFE_ROOT_PATH;
     }
-    
+
     try {
       await unlink(testFilePath);
     } catch {
@@ -42,13 +42,13 @@ describe('ProvenanceService', () => {
     });
 
     it('should throw error for non-existent file', async () => {
-      await expect(service.generateFileDigest('non/existent/file'))
-        .rejects.toThrow();
+      await expect(service.generateFileDigest('non/existent/file')).rejects.toThrow();
     });
-    
+
     it('should reject path traversal attempts', async () => {
-      await expect(service.generateFileDigest('../../../etc/passwd'))
-        .rejects.toThrow(/not allowed/);
+      await expect(service.generateFileDigest('../../../etc/passwd')).rejects.toThrow(
+        /not allowed/
+      );
     });
   });
 
@@ -69,7 +69,7 @@ describe('ProvenanceService', () => {
         subject: {
           name: expect.stringContaining('test-'),
           digest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-          path: expect.any(String)
+          path: expect.any(String),
         },
         predicate: {
           type: 'https://slsa.dev/provenance/v1',

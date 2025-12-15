@@ -336,9 +336,9 @@ describe('AutoAssignmentEngine', () => {
     });
 
     it('should throw error for non-existent assignment', async () => {
-      await expect(
-        engine.updateAssignmentStatus('non-existent-id', 'IN_PROGRESS')
-      ).rejects.toThrow('Assignment non-existent-id not found');
+      await expect(engine.updateAssignmentStatus('non-existent-id', 'IN_PROGRESS')).rejects.toThrow(
+        'Assignment non-existent-id not found'
+      );
     });
   });
 
