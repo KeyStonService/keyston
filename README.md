@@ -1366,6 +1366,7 @@ drone-config.yml 定義無人機編隊與協調策略，並透過 automation/aut
 - **快速入門**：docs/QUICK_START.md
 - **API 文檔**：docs/AUTO_ASSIGNMENT_API.md
 - **運維手冊**：docs/operations/
+- **AI 模型部署** ⭐ **NEW**：[docs/AI_MODEL_DEPLOYMENT.md](./docs/AI_MODEL_DEPLOYMENT.md)
 - **語言治理**：docs/LANGUAGE_GOVERNANCE_IMPLEMENTATION.md
 - **重構劇本** ⭐：[docs/refactor_playbooks/](./docs/refactor_playbooks/)
 

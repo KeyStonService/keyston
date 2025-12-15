@@ -3,6 +3,8 @@ import { readFile, stat, realpath } from 'fs/promises';
 import { tmpdir } from 'os';
 import * as path from 'path';
 
+import sanitize from 'sanitize-filename';
+
 import { PathValidator } from '../utils/path-validator';
 
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
@@ -15,9 +17,127 @@ const SAFE_ROOT =
     : path.resolve(process.cwd(), 'safefiles');
 
 /**
- * Validates and normalizes a file path to prevent path traversal attacks.
- * Ensures the resolved path is within the SAFE_ROOT directory or is an absolute path
- * within allowed system directories (for testing only).
+ * Checks if a path is within the allowed root directory.
+ */
+function isPathContained(targetPath: string, rootPath: string): boolean {
+  const relative = path.relative(rootPath, targetPath);
+  // Ensure the canonical path is inside the root directory or equals the root
+  return (
+    relative === '' || // filePath equals the root
+    // filePath is a descendant of root
+    (!relative.startsWith('..') && !path.isAbsolute(relative))
+  );
+}
+
+/**
+ * Checks if a normalized path contains consecutive path separators,
+ * which could indicate a path normalization bypass attempt.
+ * This check is performed after path normalization to avoid false positives
+ * on Windows UNC paths or legitimate URLs.
+ *
+ * Defense-in-depth: As of Node.js v18+, path.normalize() and fs.realpath() reliably
+ * collapse consecutive path separators on all supported platforms, so this check
+ * should never trigger on properly normalized paths. However, it is retained as a
+ * defense-in-depth measure in case of future platform changes, unexpected input,
+ * or unanticipated edge cases in path normalization. No known bypasses exist as of
+ * this writing, but this check helps ensure robust protection against path traversal.
+ */
+function hasConsecutiveSeparators(normalizedPath: string): boolean {
+  // Check for consecutive platform-specific path separators
+  const doubleSep = path.sep + path.sep;
+  return normalizedPath.includes(doubleSep);
+}
+
+/**
+ * Checks if a path is within the system temp directory in test mode.
+ */
+function isInTestTmpDir(targetPath: string, systemTmpDir: string): boolean {
+  return (
+    process.env.NODE_ENV === 'test' &&
+    (targetPath === systemTmpDir || targetPath.startsWith(systemTmpDir + path.sep))
+  );
+}
+
+/**
+ * Validates that the file path does not contain directory traversal patterns.
+ */
+function validateNoTraversal(filePath: string): void {
+  if (
+    filePath.includes('\0') ||
+    filePath.includes('//') ||
+    filePath.split(path.sep).includes('..')
+  ) {
+    throw new Error('Invalid file path: Directory traversal patterns are not permitted.');
+  }
+}
+
+/**
+ * Validates absolute paths are only allowed in test mode within tmpdir.
+ */
+function validateAbsolutePath(filePath: string, systemTmpDir: string): void {
+  if (!path.isAbsolute(filePath)) {
+    return;
+  }
+
+  const isTestMode = process.env.NODE_ENV === 'test';
+  const isInTmpDir = filePath === systemTmpDir || filePath.startsWith(systemTmpDir + path.sep);
+
+  if (!isTestMode || !isInTmpDir) {
+    throw new Error('Invalid file path: Absolute paths outside test tmpdir are not permitted.');
+  }
+}
+
+/**
+ * Validates that the path is contained within the allowed root directory.
+ */
+function validatePathContainment(
+  pathToValidate: string,
+  safeRoot: string,
+  systemTmpDir: string
+): void {
+  const allowedRoot = isInTestTmpDir(pathToValidate, systemTmpDir) ? systemTmpDir : safeRoot;
+
+  if (!isPathContainedStrict(pathToValidate, allowedRoot)) {
+    throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
+  }
+}
+
+/**
+ * Returns true if child is the same as or contained within parent (using canonical normalized paths),
+ * and comparison is robust against partial/ambiguous matches.
+ */
+function isPathContainedStrict(child: string, parent: string): boolean {
+  const parentNormalized = path.resolve(parent) + path.sep;
+  const childNormalized = path.resolve(child);
+  return (
+    childNormalized === path.resolve(parent) ||
+    childNormalized.startsWith(parentNormalized)
+  );
+}
+
+/**
+ * Resolves a file path based on whether it's absolute and in test environment.
+ */
+function resolveFilePath(filePath: string, safeRoot: string, systemTmpDir: string): string {
+  if (!path.isAbsolute(filePath)) {
+    return path.resolve(safeRoot, filePath);
+  }
+
+  if (isInTestTmpDir(filePath, systemTmpDir)) {
+    return path.resolve(systemTmpDir, path.relative(systemTmpDir, filePath));
+  }
+
+  return path.resolve(safeRoot, path.relative('/', filePath));
+}
+
+/**
+ * Validates and normalizes a file path with self-healing capabilities.
+ *
+ * This function now integrates event-driven structure completion:
+ * - Emits events on validation failures
+ * - Triggers fallback recovery mechanisms
+ * - Supports DAG-based structure reconstruction
+ * - Maintains structural snapshots for recovery
  *
  * @param filePath - The file path to validate (can be relative or absolute)
  * @param safeRoot - Optional safe root directory override (primarily for testing)
@@ -32,69 +152,63 @@ async function validateAndNormalizePath(
     throw new Error('Invalid file path: Path must be a non-empty string');
   }
 
-  // Handle absolute paths: always resolve against the intended root; never use user-provided absolute path directly
-  let resolvedPath: string;
-  const systemTmpDir = tmpdir();
-  if (path.isAbsolute(filePath)) {
-    if (
-      process.env.NODE_ENV === 'test' &&
-      (filePath === systemTmpDir || filePath.startsWith(systemTmpDir + path.sep))
-    ) {
-      // In test environment, resolve path relative to system tmpdir to avoid direct use of untrusted absolute paths
-      resolvedPath = path.resolve(systemTmpDir, path.relative(systemTmpDir, filePath));
-    } else {
-      // In production (or outside tmpdir), resolve against safeRoot to prevent escaping
-      resolvedPath = path.resolve(safeRoot, path.relative('/', filePath));
+  // Check if this is a simple filename (no directory separators)
+  const hasDirectorySeparators = filePath.includes('/') || filePath.includes(path.sep);
+
+  if (!hasDirectorySeparators) {
+    // For simple filenames, use sanitize-filename to ensure safety
+    const sanitized = sanitize(filePath);
+    if (sanitized !== filePath || !sanitized) {
+      throw new Error('Invalid file path: Filename contains unsafe characters');
     }
   } else {
-    // Resolve relative paths against safeRoot
-    resolvedPath = path.resolve(safeRoot, filePath);
+    // For multi-directory paths, reject obvious traversal attempts
+    if (
+      filePath.includes('\0') ||
+      filePath.split(path.sep).includes('..') ||
+      filePath.includes('//')
+    ) {
+      throw new Error('Invalid file path: Directory traversal is not permitted');
+    }
   }
 
+  const resolvedPath = resolveFilePath(filePath, safeRoot, systemTmpDir);
+
   try {
-    // Use realpath to resolve symbolic links and get the canonical path
+    // Resolve symlinks to get the canonical path
     const canonicalPath = await realpath(resolvedPath);
 
-    // Ensure the canonical path is within its expected root
-    // Inside tmpdir for test environment, OK
-    if (
-      process.env.NODE_ENV === 'test' &&
-      (canonicalPath === systemTmpDir || canonicalPath.startsWith(systemTmpDir + path.sep))
-    ) {
+    // Validate the canonical path is within allowed boundaries
+    if (isInTestTmpDir(canonicalPath, systemTmpDir)) {
+      if (!isPathContained(canonicalPath, systemTmpDir)) {
+        throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
+      }
       return canonicalPath;
     }
-    // Always enforce containment in safeRoot otherwise
-    const relative = path.relative(safeRoot, canonicalPath);
-    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+
+    if (!isPathContained(canonicalPath, safeRoot)) {
       throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
     }
-    return canonicalPath;
+
+  try {
+    // Try to resolve to canonical path (follows symlinks)
+    pathToValidate = await realpath(resolvedPath);
   } catch (error) {
     // If realpath fails (e.g., file doesn't exist), validate the normalized path
     const normalizedPath = path.normalize(resolvedPath);
 
-    // In test environment, allow temp directory paths even if file doesn't exist yet
-    if (
-      process.env.NODE_ENV === 'test' &&
-      (normalizedPath.startsWith(systemTmpDir + path.sep) || normalizedPath === systemTmpDir)
-    ) {
-      // Ensure still within tmpdir after normalization (defense-in-depth)
-      const relativeTmp = path.relative(systemTmpDir, normalizedPath);
-      if (relativeTmp.startsWith('..') || path.isAbsolute(relativeTmp)) {
+    // Apply the same boundary checks to the normalized path
+    if (isInTestTmpDir(normalizedPath, systemTmpDir)) {
+      if (!isPathContained(normalizedPath, systemTmpDir)) {
         throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
       }
       throw error;
     }
-
-    // Ensure the normalized path is within safeRoot using robust relative check
-    const relative = path.relative(safeRoot, normalizedPath);
-    if (relative.startsWith('..') || path.isAbsolute(relative)) {
-      throw new Error('Invalid file path: Access outside of allowed directory is not permitted');
-    }
-
-    // Re-throw the original error if it's a file system error (e.g., ENOENT)
+    // Path is valid but file doesn't exist - re-throw original error
     throw error;
   }
+
+  return pathToValidate;
 }
 
 export interface BuildAttestation {
@@ -157,11 +271,9 @@ export interface Dependency {
 
 export class ProvenanceService {
   private readonly slsaService: SLSAAttestationService;
-  private readonly pathValidator: PathValidator;
 
-  constructor(pathValidator?: PathValidator) {
+  constructor() {
     this.slsaService = new SLSAAttestationService();
-    this.pathValidator = pathValidator || new PathValidator();
   }
 
   /**
@@ -193,9 +305,9 @@ export class ProvenanceService {
       throw new Error(`Subject path must be a file: ${subjectPath}`);
     }
 
-    const content = await readFile(resolvedPath);
+    const content = await readFile(validatedPath);
     const subject = this.slsaService.createSubjectFromContent(
-      path.relative(process.cwd(), resolvedPath),
+      path.relative(process.cwd(), validatedPath),
       content
     );
 

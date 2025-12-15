@@ -63,8 +63,8 @@ class ProblemCategory:
 
 class Problem:
     def __init__(self, category: str, severity: str, title: str, description: str, 
-        """TODO: Add function documentation"""
                  location: str, impact: str, recommendation: str, auto_fixable: bool = False):
+        """TODO: Add function documentation"""
         self.id = hashlib.sha256(f"{category}{title}{location}".encode()).hexdigest()[:8]
         self.category = category
         self.severity = severity
@@ -84,8 +84,7 @@ class ExtremeProblemIdentifier:
         self.stats = defaultdict(int)
         
     def log(self, message: str, level: str = "info"):
-        """Log message with color. Redacts obvious secrets in logs."""
-            """TODO: Add function documentation"""
+        """Log message with color. Redacts obvious secrets in logs. Suppresses possible sensitive data logs."""
         def redact_sensitive(msg: str) -> str:
             # Remove common possible secret substrings (passwords/keys/tokens) from msg (rudimentary)
             patterns = [
@@ -93,11 +92,24 @@ class ExtremeProblemIdentifier:
                 r'(api[_-]?key\s*=\s*)(["\']?)[^"\',]+(\2)',
                 r'(secret\s*=\s*)(["\']?)[^"\',]+(\2)',
                 r'(token\s*=\s*)(["\']?)[^"\',]+(\2)',
+                r'([pP]assword:?\s*)([^,;"\']+)',
+                r'([sS]ecret:?\s*)([^,;"\']+)',
+                r'([tT]oken:?\s*)([^,;"\']+)',
+                r'([Kk]ey:?\s*)([^,;"\']+)',
             ]
             redacted = msg
             for p in patterns:
-                redacted = re.sub(p, r'\1***\3', redacted, flags=re.IGNORECASE)
+                redacted = re.sub(p, r'\1***', redacted, flags=re.IGNORECASE)
             return redacted
+
+        # Suppress logging if the message contains indications of sensitive value exposure
+        sensitive_indicative = ["hardcoded password", "hardcoded api key", "hardcoded secret", "hardcoded token"]
+        lowered_message = message.lower()
+        # Suppress/generic log for all log levels if the message matches secret-detection phrases (applies BEFORE all prints)
+        if any(ph in lowered_message for ph in sensitive_indicative):
+            # Always print a generic message, never include details
+            print(f"{Colors.FAIL}❌ HIGH: Sensitive secret detected at specified location. (details not shown for security){Colors.ENDC}")
+            return
 
         redacted_message = redact_sensitive(message)
         if level == "critical":
@@ -110,12 +122,12 @@ class ExtremeProblemIdentifier:
             if self.verbose:
                 print(f"{Colors.OKBLUE}ℹ️  INFO: {redacted_message}{Colors.ENDC}")
         elif level == "success":
-            # Suppress all logs at success level containing secret-indicative words to prevent information disclosure
+            # Suppress all logs containing secret-indicative words at the "success" level to prevent information disclosure
             lowered = redacted_message.lower()
             if any(s in lowered for s in ["password", "api key", "secret", "token"]):
                 return  # Do not log if message contains secret-indicative keywords
             print(f"{Colors.OKGREEN}✅ {redacted_message}{Colors.ENDC}")
-    
+
     def add_problem(self, problem: Problem):
         """Add identified problem"""
         self.problems.append(problem)
@@ -130,8 +142,17 @@ class ExtremeProblemIdentifier:
         elif problem.severity == ProblemSeverity.MEDIUM:
             self.log(f"[{problem.category}] {problem.title} @ {problem.location}", "warning")
         else:
-            self.log(f"[{problem.category}] {problem.title} @ {problem.location}", "info")
-    
+            # Only log non-secret detection at info; suppress details otherwise
+            hardcoded_phrases = [
+                "Hardcoded password", "Hardcoded secret", "Hardcoded API key", "Hardcoded token"
+            ]
+            # If not a hardcoded secret match, log normally; else suppress
+            if not any(ph in problem.title for ph in hardcoded_phrases):
+                self.log(f"[{problem.category}] {problem.title} @ {problem.location}", "info")
+            else:
+                # Optionally, log a generic sanitized info message
+                if self.verbose:
+                    self.log(f"[security] Credential exposure detected (details suppressed for security)", "info")
     def detect_security_vulnerabilities(self):
         # NOTE: Consider refactoring this function (complexity > 50 lines)
         """Category 1: Security vulnerability detection"""

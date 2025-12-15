@@ -1,0 +1,34 @@
+{
+  "name": "@synergymesh/identity-tenancy",
+  "version": "1.0.0",
+  "description": "Identity and tenancy skeleton - multi-tenant identity management and resource isolation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "npm run clean && npm run build",
+    "lint": "tsc --noEmit",
+    "test": "echo \"No tests yet\" && exit 0",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "identity",
+    "tenancy",
+    "multi-tenant",
+    "isolation"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.19.26",
+    "typescript": "^5.9.3"
+  }
+}

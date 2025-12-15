@@ -5,7 +5,6 @@
  */
 
 import * as fs from 'fs'
-import * as path from 'path'
 import { glob } from 'glob'
 
 interface SecurityIssue {
@@ -91,11 +90,11 @@ class SecurityScanner {
     const lines = content.split('\n')
 
     for (const rule of this.rules) {
-      let match
       const regex = new RegExp(rule.pattern)
 
       lines.forEach((line, index) => {
         regex.lastIndex = 0  // 重置 regex
+        let match
         while ((match = regex.exec(line)) !== null) {
           // 跳過註釋中的匹配
           if (line.trim().startsWith('//') || line.trim().startsWith('*')) {
@@ -161,8 +160,8 @@ class SecurityScanner {
     })
 
     // 如果有 critical 或 high，建議失敗
-    const criticalCount = (grouped.critical || []).length
-    const highCount = (grouped.high || []).length
+    const criticalCount = (grouped['critical'] || []).length
+    const highCount = (grouped['high'] || []).length
 
     if (criticalCount > 0 || highCount > 0) {
       console.log('\n❌ 存在高風險問題，建議修復後再繼續\n')

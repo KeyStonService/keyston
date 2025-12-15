@@ -4,7 +4,7 @@
     "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": ".",
-    "types": ["node", "vitest/globals"]
+    "types": ["node"]
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist", "build"]

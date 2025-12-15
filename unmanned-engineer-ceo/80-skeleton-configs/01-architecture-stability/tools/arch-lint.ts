@@ -33,6 +33,31 @@ interface Layer {
   cannotDependOn?: string[]
 }
 
+interface ExternalDepsRule {
+  enabled: boolean
+  allowedPackages?: string[]
+}
+
+interface NamingRule {
+  enabled: boolean
+  patterns: {
+    service: string
+    [key: string]: string
+  }
+}
+
+interface FileOrgRule {
+  enabled: boolean
+  requireReadme: boolean
+  requireTests: boolean
+}
+
+interface Exemption {
+  rule: string
+  path: string
+  reason: string
+}
+
 interface Violation {
   rule: string
   severity: 'error' | 'warning'
@@ -125,7 +150,7 @@ class ArchitectureLinter {
           this.violations.push({
             rule: 'circular-dependencies',
             severity: 'error',
-            file: cycle[0],
+            file: cycle[0] || 'unknown',
             message: `Circular dependency detected: ${cycle.join(' -> ')}`
           })
         })
@@ -197,13 +222,17 @@ class ArchitectureLinter {
     const es6Regex = /import\s+(?:.*?\s+from\s+)?['"]([^'"]+)['"]/g
     let match
     while ((match = es6Regex.exec(content)) !== null) {
-      imports.push(match[1])
+      if (match[1]) {
+        imports.push(match[1])
+      }
     }
 
     // CommonJS requires
     const cjsRegex = /require\s*\(['"]([^'"]+)['"]\)/g
     while ((match = cjsRegex.exec(content)) !== null) {
-      imports.push(match[1])
+      if (match[1]) {
+        imports.push(match[1])
+      }
     }
 
     return imports

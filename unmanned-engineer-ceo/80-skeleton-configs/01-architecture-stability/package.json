@@ -1,0 +1,41 @@
+{
+  "name": "@synergymesh/architecture-stability",
+  "version": "1.0.0",
+  "description": "Architecture stability skeleton - ensures architectural stability through layering rules and automated validation",
+  "main": "dist/tools/arch-lint.js",
+  "types": "dist/tools/arch-lint.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "npm run clean && npm run build",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "arch-lint": "ts-node tools/arch-lint.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "architecture",
+    "stability",
+    "linting",
+    "governance"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "glob": "^10.3.10",
+    "js-yaml": "^4.1.0",
+    "madge": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/madge": "^5.0.3",
+    "@types/node": "^20.19.26",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "vitest": "^1.0.0"
+  }
+}

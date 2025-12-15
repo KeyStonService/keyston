@@ -153,7 +153,7 @@ export class PathValidator {
     let canonicalSafeRoot: string;
     try {
       canonicalSafeRoot = await realpath(this.config.safeRoot);
-    } catch (err) {
+    } catch {
       // If SAFE_ROOT doesn't exist yet, refuse to validate paths
       throw new PathValidationError(
         'Safe root directory does not exist or cannot be resolved; cannot validate relative paths securely',

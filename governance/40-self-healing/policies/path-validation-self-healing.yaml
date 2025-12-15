@@ -1,0 +1,241 @@
+# Path Validation Self-Healing Policies
+# 路徑驗證自我修復策略
+
+version: "1.0.0"
+last_updated: "2025-12-14"
+status: "ACTIVE"
+execution_mode: "EVENT_DRIVEN"
+
+metadata:
+  owner: "Security & Compliance Team"
+  category: "self-healing"
+  subcategory: "path-validation"
+  priority: "HIGH"
+  scope: "system-wide"
+
+# 自我修復策略原則
+principles:
+  inherited_structure:
+    description: "承襲結構 - 依賴既有治理規範進行自動補齊"
+    enabled: true
+    rationale: "系統已具備完整的治理DAG、路徑邊界、規範化策略，故障時應自動依循這些規範修復"
+
+  transient_strategy:
+    description: "短暫策略 - 異常情境下的臨時修復邏輯"
+    enabled: true
+    rationale: "非永久改動，而是確保系統在異常時仍可繼續運作的臨時措施"
+
+  self_repair:
+    description: "自我修復 - 透過fallback、normalize、DAG重建補足缺失結構"
+    enabled: true
+    rationale: "避免系統整體崩潰，讓缺失節點或截斷結構能被自動補齊"
+
+# 啟用配置
+enabled_features:
+  auto_recovery: true
+  snapshotting: true
+  dag_tracking: true
+  event_emission: true
+  governance_attestation: true
+
+# 恢復策略
+recovery_strategies:
+  snapshot_recovery:
+    enabled: true
+    priority: 1
+    description: "從結構快照恢復缺失路徑"
+    max_snapshot_age_minutes: 60
+
+  dag_rebuild:
+    enabled: true
+    priority: 2
+    description: "基於DAG依賴關係重建缺失節點"
+    rebuild_dependencies: true
+
+  directory_creation:
+    enabled: true
+    priority: 3
+    description: "創建缺失的目錄結構"
+    respect_boundaries: true
+    require_parent_exists: true
+
+# 恢復限制
+recovery_limits:
+  max_attempts_per_path: 3
+  max_attempts_per_minute: 5
+  max_concurrent_recoveries: 10
+  recovery_timeout_seconds: 30
+  cooldown_period_seconds: 60
+
+# 邊界檢查
+boundary_enforcement:
+  strict_mode: true
+  allowed_roots:
+    - type: "safe_root"
+      path: "${SAFE_ROOT}"
+      description: "主要安全根目錄"
+    - type: "test_tmpdir"
+      path: "${TMPDIR}"
+      condition: "NODE_ENV === 'test'"
+      description: "測試環境臨時目錄"
+  
+  boundary_violations:
+    action: "REJECT_AND_LOG"
+    emit_event: true
+    create_attestation: true
+    escalate_on_repeated: true
+
+# 事件驅動配置
+event_driven_config:
+  events_enabled: true
+  event_types:
+    - VALIDATION_FAILED
+    - STRUCTURE_MISSING
+    - STRUCTURE_RECOVERED
+    - FALLBACK_TRIGGERED
+    - BOUNDARY_VIOLATION
+    - SNAPSHOT_CREATED
+    - DAG_NODE_MISSING
+    - DAG_NODE_REBUILT
+  
+  event_handlers:
+    - event: STRUCTURE_MISSING
+      handler: "attemptStructureRecovery"
+      async: true
+      timeout_ms: 5000
+    
+    - event: DAG_NODE_MISSING
+      handler: "rebuildDAGNode"
+      async: true
+      timeout_ms: 3000
+    
+    - event: VALIDATION_FAILED
+      handler: "logAndAttest"
+      async: false
+      timeout_ms: 1000
+
+# 快照策略
+snapshot_strategy:
+  enabled: true
+  interval_ms: 60000  # 1 minute
+  retention_count: 10
+  include:
+    - path_mappings
+    - dag_nodes
+    - boundaries
+    - metadata
+  
+  snapshot_on_events:
+    - STRUCTURE_RECOVERED
+    - DAG_NODE_REBUILT
+
+# 治理整合
+governance_integration:
+  attestation_required: true
+  attestation_format: "SLSA"
+  metrics_collection: true
+  policy_compliance_check: true
+  
+  policy_violations:
+    excessive_recovery_attempts:
+      threshold: 5
+      time_window_seconds: 60
+      action: "LOG_AND_ALERT"
+      severity: "WARNING"
+    
+    boundary_violation:
+      action: "REJECT_AND_ESCALATE"
+      severity: "CRITICAL"
+    
+    recovery_failure:
+      threshold: 3
+      consecutive: true
+      action: "LOG_AND_ALERT"
+      severity: "ERROR"
+
+# 監控與報告
+monitoring:
+  metrics_enabled: true
+  metrics_export_interval_ms: 30000
+  
+  tracked_metrics:
+    - total_validations
+    - total_failures
+    - total_recoveries
+    - successful_recoveries
+    - failed_recoveries
+    - snapshots_created
+    - dag_nodes_rebuilt
+    - average_recovery_time_ms
+    - success_rate_percentage
+  
+  alerting:
+    - condition: "success_rate < 0.90"
+      severity: "WARNING"
+      notification: "team-ops"
+    
+    - condition: "success_rate < 0.75"
+      severity: "CRITICAL"
+      notification: "team-ops, team-security"
+    
+    - condition: "failed_recoveries > 10 in 5m"
+      severity: "ERROR"
+      notification: "team-ops"
+
+# 審計與合規
+audit:
+  enabled: true
+  log_all_events: true
+  attestation_retention_days: 90
+  
+  audit_events:
+    - STRUCTURE_RECOVERED
+    - BOUNDARY_VIOLATION
+    - RECOVERY_FAILURE
+    - DAG_NODE_REBUILT
+  
+  compliance_checks:
+    - check: "recovery_within_bounds"
+      description: "確保所有恢復操作都在允許的邊界內"
+      critical: true
+    
+    - check: "attestation_completeness"
+      description: "確保所有恢復事件都有完整的證明"
+      critical: true
+    
+    - check: "success_rate_threshold"
+      description: "成功率必須高於90%"
+      threshold: 0.90
+      critical: false
+
+# CI/CD 整合
+cicd_integration:
+  enabled: true
+  validation_on_push: true
+  report_generation: true
+  
+  quality_gates:
+    - metric: "success_rate"
+      minimum: 0.95
+      blocking: true
+    
+    - metric: "policy_compliance"
+      minimum: 1.0
+      blocking: true
+    
+    - metric: "average_recovery_time_ms"
+      maximum: 5000
+      blocking: false
+
+# 演進策略
+evolution_strategy:
+  learning_enabled: false  # Future: ML-based prediction
+  adaptive_thresholds: false  # Future: Dynamic threshold adjustment
+  distributed_snapshots: false  # Future: Multi-instance sync
+  
+  planned_enhancements:
+    - "Multi-level DAG recovery with complex dependency chains"
+    - "Predictive recovery using ML to prevent failures"
+    - "Distributed snapshot synchronization"
+    - "Configurable recovery strategies per path pattern"
+    - "Real-time dashboard for monitoring"

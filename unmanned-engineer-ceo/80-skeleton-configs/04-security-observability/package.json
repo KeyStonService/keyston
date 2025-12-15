@@ -1,0 +1,41 @@
+{
+  "name": "@synergymesh/security-observability",
+  "version": "1.0.0",
+  "description": "Security and observability skeleton - enterprise-grade security, identity, and observability infrastructure",
+  "main": "dist/tools/security-scan.js",
+  "types": "dist/tools/security-scan.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "npm run clean && npm run build",
+    "lint": "tsc --noEmit",
+    "test": "echo \"No tests yet\" && exit 0",
+    "security-scan": "ts-node tools/security-scan.ts",
+    "log-validator": "ts-node tools/log-validator.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "security",
+    "observability",
+    "rbac",
+    "logging",
+    "tracing"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "glob": "^10.3.10",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.19.26",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

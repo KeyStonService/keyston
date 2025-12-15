@@ -1,0 +1,207 @@
+---
+# Example CI Workflow with Consolidated Reporting
+# This is a template showing how to implement consolidated CI reports
+# Copy and modify this file to create your own CI workflows
+
+name: Example CI with Consolidated Report
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  # Job 1: Build
+  build:
+    name: 🏗️ 建置
+    runs-on: ubuntu-latest
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        id: install
+        continue-on-error: true
+        run: npm ci
+      
+      - name: Build project
+        id: build
+        continue-on-error: true
+        run: npm run build
+      
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="建置: 通過"
+          
+          if [ "${{ steps.install.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="依賴安裝失敗"
+          elif [ "${{ steps.build.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="建置失敗"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  # Job 2: Test
+  test:
+    name: 🧪 測試
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        id: test
+        continue-on-error: true
+        run: npm test
+      
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="測試: 通過"
+          
+          if [ "${{ steps.test.outcome }}" != "success" ]; then
+            STATUS="failure"
+            MESSAGE="測試失敗"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  # Job 3: Lint
+  lint:
+    name: 🔍 代碼檢查
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      summary: ${{ steps.summary.outputs.text }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linter
+        id: lint
+        continue-on-error: true
+        run: npm run lint
+      
+      - name: Create summary
+        id: summary
+        if: always()
+        run: |
+          STATUS="success"
+          MESSAGE="Lint: 通過"
+          
+          if [ "${{ steps.lint.outcome }}" != "success" ]; then
+            STATUS="warning"
+            MESSAGE="Lint 有警告"
+          fi
+          
+          echo "text={\"status\":\"$STATUS\",\"message\":\"$MESSAGE\"}" >> $GITHUB_OUTPUT
+  
+  # Final Job: Consolidated Report
+  report:
+    name: 📊 整合報告
+    runs-on: ubuntu-latest
+    needs: [build, test, lint]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Prepare job summaries
+        id: prepare
+        run: |
+          # Build JSON with all job summaries
+          cat > job-summaries.json <<EOF
+          {
+            "build": ${{ needs.build.outputs.summary || '{"status":"unknown","message":"無摘要"}' }},
+            "test": ${{ needs.test.outputs.summary || '{"status":"unknown","message":"無摘要"}' }},
+            "lint": ${{ needs.lint.outputs.summary || '{"status":"unknown","message":"無摘要"}' }}
+          }
+          EOF
+          
+          cat job-summaries.json
+          
+          # Determine overall status
+          OVERALL_STATUS="success"
+          if [ "${{ needs.build.result }}" == "failure" ] || \
+             [ "${{ needs.test.result }}" == "failure" ] || \
+             [ "${{ needs.lint.result }}" == "failure" ]; then
+            OVERALL_STATUS="failure"
+          elif [ "${{ needs.lint.result }}" == "success" ] && \
+               [ "${{ needs.test.result }}" == "success" ] && \
+               [ "${{ needs.build.result }}" == "success" ]; then
+            OVERALL_STATUS="success"
+          else
+            OVERALL_STATUS="warning"
+          fi
+          
+          echo "overall-status=$OVERALL_STATUS" >> $GITHUB_OUTPUT
+          echo "job-summaries=$(cat job-summaries.json | jq -c .)" >> $GITHUB_OUTPUT
+      
+      - name: Call consolidated report workflow
+        if: github.event_name == 'pull_request'
+        uses: ./.github/workflows/ci-consolidated-report.yml
+        with:
+          ci-name: 'Example CI Pipeline'
+          job-summaries: ${{ steps.prepare.outputs.job-summaries }}
+          workflow-run-id: ${{ github.run_id }}
+          commit-sha: ${{ github.sha }}
+          overall-status: ${{ steps.prepare.outputs.overall-status }}
+          pr-number: ${{ github.event.pull_request.number }}
+        secrets:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Summary
+        run: |
+          echo "## 📊 CI 執行摘要" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build**: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Test**: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Lint**: ${{ needs.lint.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Overall Status**: ${{ steps.prepare.outputs.overall-status }}" >> $GITHUB_STEP_SUMMARY

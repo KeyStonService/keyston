@@ -2,7 +2,6 @@
   "name": "@synergymesh/governance-auto-comment-scripts",
   "version": "1.0.0",
   "description": "Auto Comment Engine scripts for 81-auto-comment governance dimension",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "generate-comment": "ts-node generate-comment.ts",

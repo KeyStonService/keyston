@@ -31,9 +31,6 @@ import { randomUUID } from 'crypto';
 import { Router, Request, Response } from 'express';
 import type { Router as RouterType } from 'express';
 import rateLimit, { type RateLimitRequestHandler } from 'express-rate-limit';
-import { Redis } from 'ioredis';
-import rateLimitRedisStore from 'rate-limit-redis';
-
 import { AssignmentController } from './controllers/assignment';
 import { EscalationController } from './controllers/escalation';
 import { ProvenanceController } from './controllers/provenance';

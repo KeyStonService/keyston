@@ -1,7 +1,7 @@
 {
   "$schema": "../schemas/event-registry.schema.json",
   "version": "1.0.0",
-  "timestamp": "2025-12-12T00:00:00Z",
+  "timestamp": "2025-12-13T16:06:39.556Z",
   "metadata": {
     "name": "Governance Event Registry",
     "description": "持久化事件索引 - 解決代理失憶問題",
@@ -11,7 +11,11 @@
   },
   "bootstrap_contract": {
     "description": "入口協定 - 強制代理讀取事件",
-    "required_context": ["events/registry.json", "events/vector-index.json", "events/current-session.json"],
+    "required_context": [
+      "events/registry.json",
+      "events/vector-index.json",
+      "events/current-session.json"
+    ],
     "validation": {
       "ci_gate": true,
       "block_on_missing": true,
@@ -38,33 +42,63 @@
     "flow_patterns": [
       {
         "id": "policy-flow",
-        "chain": ["policy.created", "policy.validated", "policy.enforced", "audit.logged"],
+        "chain": [
+          "policy.created",
+          "policy.validated",
+          "policy.enforced",
+          "audit.logged"
+        ],
         "closes_at": "feedback.collected"
       },
       {
         "id": "agent-flow",
-        "chain": ["agent.registered", "agent.deployed", "agent.monitored"],
-        "on_failure": ["healing.triggered", "healing.completed"],
+        "chain": [
+          "agent.registered",
+          "agent.deployed",
+          "agent.monitored"
+        ],
+        "on_failure": [
+          "healing.triggered",
+          "healing.completed"
+        ],
         "closes_at": "audit.logged"
       },
       {
         "id": "decision-flow",
-        "chain": ["intent.received", "intent.mapped", "automation.started", "automation.completed"],
+        "chain": [
+          "intent.received",
+          "intent.mapped",
+          "automation.started",
+          "automation.completed"
+        ],
         "closes_at": "feedback.analyzed"
       },
       {
         "id": "auto-comment-flow",
         "dimension": "81-auto-comment",
-        "chain": ["ci.failed", "auto-comment.triggered", "auto-comment.generated", "auto-comment.posted", "event.registered"],
-        "on_auto_fix": ["auto-fix.triggered", "auto-fix.completed", "commit.created"],
+        "chain": [
+          "ci.failed",
+          "auto-comment.triggered",
+          "auto-comment.generated",
+          "auto-comment.posted",
+          "event.registered"
+        ],
+        "on_auto_fix": [
+          "auto-fix.triggered",
+          "auto-fix.completed",
+          "commit.created"
+        ],
         "closes_at": "feedback.collected",
-        "depends_on": ["39-automation", "71-feedback-loops"]
+        "depends_on": [
+          "39-automation",
+          "71-feedback-loops"
+        ]
       }
     ]
   },
   "files": [],
   "statistics": {
-    "total_events": 1,
+    "total_events": 2,
     "total_files": 0,
     "last_event_id": "evt-20251212004747-d807207d",
     "last_update": "2025-12-12T00:47:47.591155Z",
@@ -72,12 +106,39 @@
       "total_auto_comments": 0,
       "total_auto_fixes": 0,
       "auto_fix_success_rate": 0
-    }
+    },
+    "successes": 1,
+    "by_type": {},
+    "by_workflow": {
+      "Performance Test": 1
+    },
+    "by_status": {
+      "success": 1
+    },
+    "last_updated": "2025-12-13T16:06:39.556Z"
   },
   "shared_context": {
     "enabled": true,
     "scope": "all_agents",
     "sync_interval": "10s",
     "max_context_size": 10000
-  }
+  },
+  "events": [
+    {
+      "id": "test-perf-123",
+      "timestamp": "2025-12-13T16:06:39.556Z",
+      "status": "success",
+      "workflow": "Performance Test",
+      "commit": "unknown-commit",
+      "branch": null,
+      "pr_number": null,
+      "auto_fixed": false,
+      "error_type": null,
+      "fix_type": null,
+      "metadata": {
+        "agent_version": "2.0.0",
+        "recorded_by": "auto-comment-system"
+      }
+    }
+  ]
 }

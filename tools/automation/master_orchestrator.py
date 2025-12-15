@@ -534,7 +534,6 @@ class EngineRegistry:
         -------
         List[Dict[str, Any]]
             List of metadata dictionaries for each discovered engine class, or an empty list.
-        """
         Engine Class Criteria:
         ----------------------
         A class is considered a valid engine if ALL of these conditions are met:

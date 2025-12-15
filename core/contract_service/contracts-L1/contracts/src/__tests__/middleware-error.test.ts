@@ -4,7 +4,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { errorMiddleware } from '../middleware/error';
+import { errorMiddleware, ErrorCleanupPatterns } from '../middleware/error';
 import { createError, AppError, ErrorCode } from '../errors';
 
 describe('Error Middleware', () => {
@@ -404,6 +404,27 @@ describe('Error Middleware', () => {
 
       expect(statusMock).toHaveBeenCalledWith(500);
       expect(jsonMock).toHaveBeenCalled();
+    });
+
+    it('should strip ANSI escape sequences from error messages', () => {
+      const error = new Error('\u001b[31mCritical\u001b[0m failure');
+
+      errorMiddleware(
+        error,
+        mockRequest as Request,
+        mockResponse as Response,
+        mockNext
+      );
+
+      const response = jsonMock.mock.calls[0][0];
+      expect(response.error.message).toBe('Critical failure');
+    });
+
+    it('should reuse precompiled cleanup regex patterns', () => {
+      const first = ErrorCleanupPatterns.ansiEscapePattern;
+      const second = ErrorCleanupPatterns.ansiEscapePattern;
+
+      expect(first).toBe(second);
     });
   });
 });

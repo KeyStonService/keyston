@@ -1,0 +1,64 @@
+name: Governance Trigger
+
+# CI acts only as an event trigger; governance scripts handle analysis/remediation.
+# Workflow is non-blocking (continue-on-error) but logs failures for visibility.
+# Replaces legacy validation/test/build workflows with an event-dispatcher to governance tools.
+# Governance tooling records events/comments; pipeline stays green even if tooling fails.
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  trigger-governance:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      SCRIPT_DIR: governance/dimensions/81-auto-comment/scripts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install governance tool dependencies
+        working-directory: ${{ env.SCRIPT_DIR }}
+        run: npm install
+
+      - name: Run governance tool
+        working-directory: ${{ env.SCRIPT_DIR }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number || '' }}"
+          PR_ARGS=()
+          if [ "$PR_NUMBER" != "" ]; then
+            PR_ARGS+=(--pr-number "$PR_NUMBER")
+          fi
+
+          npx ts-node --transpile-only generate-comment.ts \
+            --workflow "GitHub CI Trigger" \
+            --run-id "${{ github.run_id }}" \
+            --commit "${{ github.sha }}" \
+            --branch "${{ github.ref_name }}" \
+            "${PR_ARGS[@]}"
+          node update-registry.js \
+            --event-id "auto-comment-${{ github.run_id }}" \
+            --status "triggered" \
+            --workflow "GitHub CI Trigger" \
+            --commit "${{ github.sha }}" \
+            --branch "${{ github.ref_name }}" \
+            "${PR_ARGS[@]}"
+
+      - name: Governance tool failed (non-blocking notice)
+        if: failure()
+        run: echo "::warning::Governance trigger failed; review logs. CI remains non-blocking by design."
