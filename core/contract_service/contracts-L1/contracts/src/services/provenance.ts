@@ -3,6 +3,10 @@ import { readFile, stat, realpath } from 'fs/promises';
 import { tmpdir } from 'os';
 import * as path from 'path';
 
+import sanitize from 'sanitize-filename';
+
+import { PathValidator } from '../utils/path-validator';
+
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
 // Define a safe root directory for allowed file operations
@@ -148,13 +152,24 @@ async function validateAndNormalizePath(
     throw new Error('Invalid file path: Path must be a non-empty string');
   }
 
-  // If you need multi-directory paths, reject obvious traversal
-  if (
-    filePath.includes('\0') ||
-    filePath.split(path.sep).includes('..') ||
-    filePath.includes('//')
-  ) {
-    throw new Error('Invalid file path: Directory traversal is not permitted');
+  // Check if this is a simple filename (no directory separators)
+  const hasDirectorySeparators = filePath.includes('/') || filePath.includes(path.sep);
+
+  if (!hasDirectorySeparators) {
+    // For simple filenames, use sanitize-filename to ensure safety
+    const sanitized = sanitize(filePath);
+    if (sanitized !== filePath || !sanitized) {
+      throw new Error('Invalid file path: Filename contains unsafe characters');
+    }
+  } else {
+    // For multi-directory paths, reject obvious traversal attempts
+    if (
+      filePath.includes('\0') ||
+      filePath.split(path.sep).includes('..') ||
+      filePath.includes('//')
+    ) {
+      throw new Error('Invalid file path: Directory traversal is not permitted');
+    }
   }
 
   const resolvedPath = resolveFilePath(filePath, safeRoot, systemTmpDir);
