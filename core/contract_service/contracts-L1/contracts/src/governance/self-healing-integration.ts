@@ -1,11 +1,15 @@
 /**
  * Self-Healing Governance Integration
- * 
+ *
  * Connects the self-healing path validation system with governance policies,
  * attestation, and monitoring systems.
  */
 
-import { pathValidationEvents, PathValidationEventType, PathValidationEvent } from '../events/path-validation-events';
+import {
+  pathValidationEvents,
+  PathValidationEventType,
+  PathValidationEvent,
+} from '../events/path-validation-events';
 import { SLSAAttestationService } from '../services/attestation';
 
 export interface SelfHealingMetrics {
@@ -28,7 +32,7 @@ export interface SelfHealingAttestation {
   recoverySuccessful: boolean;
   governanceCompliant: boolean;
   policyViolations: string[];
-  attestation?: any;
+  attestation?: unknown;
 }
 
 /**
@@ -180,7 +184,9 @@ export class SelfHealingGovernanceIntegration {
    * Get success rate
    */
   getSuccessRate(): number {
-    if (this.metrics.totalRecoveries === 0) return 0;
+    if (this.metrics.totalRecoveries === 0) {
+      return 0;
+    }
     return this.metrics.successfulRecoveries / this.metrics.totalRecoveries;
   }
 

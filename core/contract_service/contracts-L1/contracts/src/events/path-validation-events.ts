@@ -1,6 +1,6 @@
 /**
  * Path Validation Events
- * 
+ *
  * Event-driven structure completion and self-healing events
  * for path validation failures and recovery.
  */
@@ -63,7 +63,8 @@ export interface DAGNodeState {
  * Event emitter for path validation events
  */
 export class PathValidationEventEmitter {
-  private listeners: Map<PathValidationEventType, Array<(event: PathValidationEvent) => void>> = new Map();
+  private listeners: Map<PathValidationEventType, Array<(event: PathValidationEvent) => void>> =
+    new Map();
 
   /**
    * Subscribe to a specific event type

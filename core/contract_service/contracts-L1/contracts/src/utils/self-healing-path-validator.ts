@@ -1,6 +1,6 @@
 /**
  * Self-Healing Path Validator
- * 
+ *
  * Extends path validation with event-driven self-healing capabilities:
  * - Structure snapshots for state preservation
  * - Automatic recovery on validation failures
@@ -8,12 +8,10 @@
  * - Integration with governance policies
  */
 
-import { realpath, mkdir } from 'fs/promises';
-import { tmpdir } from 'os';
-import * as path from 'path';
 import { createHash } from 'crypto';
+import { realpath, mkdir } from 'fs/promises';
+import * as path from 'path';
 
-import { PathValidator, PathValidationError, PathValidatorConfig } from './path-validator';
 import {
   PathValidationEventType,
   PathValidationEventData,
@@ -21,6 +19,8 @@ import {
   DAGNodeState,
   pathValidationEvents,
 } from '../events/path-validation-events';
+
+import { PathValidator, PathValidationError, PathValidatorConfig } from './path-validator';
 
 export interface SelfHealingConfig extends Partial<PathValidatorConfig> {
   enableAutoRecovery?: boolean;
@@ -116,7 +116,11 @@ export class SelfHealingPathValidator extends PathValidator {
       pathValidationEvents.emitValidationFailed(eventData);
 
       // Check if this is a structure missing error (ENOENT)
-      if (error instanceof Error && 'code' in error && (error as any).code === 'ENOENT') {
+      if (
+        error instanceof Error &&
+        'code' in error &&
+        (error as Error & { code: string }).code === 'ENOENT'
+      ) {
         pathValidationEvents.emitStructureMissing(eventData);
 
         // Attempt recovery if enabled and within retry limits
@@ -162,7 +166,9 @@ export class SelfHealingPathValidator extends PathValidator {
       }
 
       // Try to create missing directory structure
-      const resolvedDir = path.dirname(path.resolve(this.config.safeRoot || process.cwd(), filePath));
+      const resolvedDir = path.dirname(
+        path.resolve(this.config.safeRoot || process.cwd(), filePath)
+      );
       await mkdir(resolvedDir, { recursive: true });
 
       pathValidationEvents.emitStructureRecovered({
@@ -194,7 +200,9 @@ export class SelfHealingPathValidator extends PathValidator {
    * Handle DAG node missing event
    */
   private async handleDAGNodeMissing(data: PathValidationEventData): Promise<void> {
-    if (!data.dagNodeId) return;
+    if (!data.dagNodeId) {
+      return;
+    }
 
     try {
       // Attempt to rebuild DAG node from snapshot or governance rules
@@ -255,7 +263,9 @@ export class SelfHealingPathValidator extends PathValidator {
    * Recover path from snapshot
    */
   private async recoverFromSnapshot(filePath: string): Promise<string | null> {
-    if (!this.currentSnapshot) return null;
+    if (!this.currentSnapshot) {
+      return null;
+    }
 
     // Check if path exists in snapshot
     const mapping = this.currentSnapshot.pathMappings.get(filePath);
@@ -264,7 +274,8 @@ export class SelfHealingPathValidator extends PathValidator {
     }
 
     // Check DAG nodes for related paths
-    for (const [nodeId, node] of this.currentSnapshot.dagNodes) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [, node] of this.currentSnapshot.dagNodes) {
       if (node.path === filePath && node.status === 'valid') {
         return node.canonicalPath;
       }
@@ -338,7 +349,7 @@ export class SelfHealingPathValidator extends PathValidator {
     if (this.snapshotIntervalId) {
       clearInterval(this.snapshotIntervalId);
     }
-    
+
     this.snapshotIntervalId = setInterval(() => {
       this.createSnapshot().catch((error) => {
         this.logger.error('Error creating periodic snapshot:', error);

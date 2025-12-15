@@ -3,9 +3,9 @@ import { readFile, stat, realpath } from 'fs/promises';
 import { tmpdir } from 'os';
 import * as path from 'path';
 
+import { pathValidationEvents } from '../events/path-validation-events';
 import { PathValidator } from '../utils/path-validator';
 import { SelfHealingPathValidator } from '../utils/self-healing-path-validator';
-import { pathValidationEvents, PathValidationEventType } from '../events/path-validation-events';
 
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
@@ -23,11 +23,9 @@ function isPathContained(targetPath: string, rootPath: string): boolean {
   const relative = path.relative(rootPath, targetPath);
   // Ensure the canonical path is inside the root directory or equals the root
   return (
-    relative === '' // filePath equals the root
-    || (
-      // filePath is a descendant of root
-      !relative.startsWith('..') && !path.isAbsolute(relative)
-    )
+    relative === '' || // filePath equals the root
+    // filePath is a descendant of root
+    (!relative.startsWith('..') && !path.isAbsolute(relative))
   );
 }
 
@@ -58,7 +56,7 @@ function resolveFilePath(filePath: string, safeRoot: string, systemTmpDir: strin
 
 /**
  * Validates and normalizes a file path with self-healing capabilities.
- * 
+ *
  * This function now integrates event-driven structure completion:
  * - Emits events on validation failures
  * - Triggers fallback recovery mechanisms
@@ -87,7 +85,7 @@ async function validateAndNormalizePath(
   // This prevents path.normalize() from resolving .. segments before we can check them
   // Split on both forward and backward slashes to catch all path separator variants
   const segments = filePath.split(/[/\\]/);
-  if (segments.some(segment => segment === '..')) {
+  if (segments.some((segment) => segment === '..')) {
     throw new Error('Invalid file path: Directory traversal is not permitted.');
   }
 
@@ -100,8 +98,8 @@ async function validateAndNormalizePath(
     // Verify canonical path is within allowed boundaries
     // Always enforce path containment within either the test temp dir or safe root
     if (
-      (process.env.NODE_ENV === 'test' && isInTestTmpDir(canonicalPath, systemTmpDir))
-      || isPathContained(canonicalPath, safeRoot)
+      (process.env.NODE_ENV === 'test' && isInTestTmpDir(canonicalPath, systemTmpDir)) ||
+      isPathContained(canonicalPath, safeRoot)
     ) {
       return canonicalPath;
     }
@@ -115,7 +113,10 @@ async function validateAndNormalizePath(
       resolvedPath,
       safeRoot,
       error: error instanceof Error ? error.message : String(error),
-      errorCode: (error as any).code,
+      errorCode:
+        error instanceof Error && 'code' in error
+          ? (error as Error & { code: string }).code
+          : undefined,
     });
 
     const normalizedPath = path.normalize(resolvedPath);
@@ -201,7 +202,7 @@ export class ProvenanceService {
   constructor(pathValidator?: PathValidator | SelfHealingPathValidator, enableSelfHealing = true) {
     this.slsaService = new SLSAAttestationService();
     this.selfHealingEnabled = enableSelfHealing;
-    
+
     // Use self-healing validator by default if enabled
     if (enableSelfHealing && !pathValidator) {
       this.pathValidator = new SelfHealingPathValidator({
