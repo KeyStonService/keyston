@@ -3,7 +3,7 @@
 # Instant query: < 1 second
 
 phase_4:
-  status: "ACTIVE"
+  status: "COMPLETE"
   deployment_time: "INSTANT"
   execution_model: "CONTINUOUS"
   
