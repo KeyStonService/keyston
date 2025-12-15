@@ -6,6 +6,7 @@ cd "$ROOT"
 
 SUMMARY_FILE="${GITHUB_STEP_SUMMARY:-}"
 PR_BODY="${PR_BODY:-}"
+GOV_SCAN_SCRIPT="governance/35-scripts/scan-governance-directory.py" # legacy path retained for compatibility
 
 log() {
   echo "[governed-build] $*"
@@ -60,7 +61,7 @@ if [[ -d services ]]; then
   (cd services && go build ./...)
 fi
 
-if compgen -G "*.py" >/dev/null || [[ -f requirements.txt || -f pyproject.toml ]]; then
+if [[ -n "$(find . -name '*.py' -type f -print -quit 2>/dev/null)" ]] || [[ -f requirements.txt || -f pyproject.toml ]]; then
   PY_PRESENT=true
   log "Python dependencies and tests"
   if [[ -f requirements.txt ]]; then
@@ -85,10 +86,18 @@ python3 tools/bootstrap_from_manifest.py island.bootstrap.stage0.yaml --steps sc
 
 log "Governance validation"
 python -m pip install --upgrade pip
-pip install -r requirements-workflow.txt || pip install pyyaml jsonschema
+if [[ -f requirements-workflow.txt ]]; then
+  pip install -r requirements-workflow.txt || {
+    log "requirements-workflow.txt install failed; installing minimal governance deps"
+    pip install pyyaml jsonschema
+  }
+else
+  log "requirements-workflow.txt missing; installing minimal governance deps"
+  pip install pyyaml jsonschema
+fi
 python governance/scripts/validate-governance-structure.py --verbose
 make validate-governance-ci
-python governance/35-scripts/scan-governance-directory.py --deep
+python "${GOV_SCAN_SCRIPT}" --deep
 
 if [[ -n "${PR_BODY}" ]]; then
   log "Validate AI Behavior Contract response body"
