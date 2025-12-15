@@ -7,6 +7,7 @@ cd "$ROOT"
 SUMMARY_FILE="${GITHUB_STEP_SUMMARY:-}"
 PR_BODY="${PR_BODY:-}"
 GOV_SCAN_SCRIPT="governance/35-scripts/scan-governance-directory.py" # numeric prefix retained for governance conventions
+PYTEST_VERSION="${PYTEST_VERSION:-7.4.4}"
 
 log() {
   echo "[governed-build] $*"
@@ -66,13 +67,13 @@ if [[ -d services ]]; then
   (cd services && go build ./...)
 fi
 
-if [[ -f requirements.txt || -f pyproject.toml || -n "$(find . -name '*.py' -type f -print -quit 2>/dev/null)" ]]; then
+if [[ -f requirements.txt || -f pyproject.toml || -n "$(find . -maxdepth 3 -name '*.py' -type f -print -quit 2>/dev/null)" ]]; then
   PY_PRESENT=true
   log "Python dependencies and tests"
   if [[ -f requirements.txt ]]; then
     pip install -r requirements.txt
   else
-    pip install pytest==7.4.4
+    pip install "pytest==${PYTEST_VERSION}"
   fi
   pytest
 fi
@@ -92,10 +93,7 @@ python3 tools/bootstrap_from_manifest.py island.bootstrap.stage0.yaml --steps sc
 log "Governance validation"
 python -m pip install --upgrade pip
 if [[ -f requirements-workflow.txt ]]; then
-  pip install -r requirements-workflow.txt || {
-    log "requirements-workflow.txt install failed; installing minimal governance deps"
-    install_minimal_governance_deps
-  }
+  pip install -r requirements-workflow.txt
 else
   log "requirements-workflow.txt missing; installing minimal governance deps"
   install_minimal_governance_deps
