@@ -379,7 +379,7 @@ items:
     tags: ["naming", "conventions", "best-practices", "tutorial", "learning"]
     owner: "docs-team"
     status: "stable"
-    last_reviewed: "2024-12-17"
+    last_reviewed: "2025-12-17"
     description: "Comprehensive learning manual for naming conventions from beginner to enterprise level."
 
   # ===== Security Documents 安全文檔 =====
