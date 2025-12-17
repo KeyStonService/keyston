@@ -57,7 +57,7 @@ _成為全球領先的企業級智能自動化平台，透過整合 AI 決策引
 
 | 原則           | 說明                                                 |
 | -------------- | ---------------------------------------------------- |
-| **統一入口**   | 單一配置檔 `machinenativeops.yaml`（相容連結：`machine-native-ops.yaml`）作為所有系統的真實來源 |
+| **統一入口**   | 單一配置檔 `machinenativeops.yaml` 作為所有系統的真實來源 |
 | **模組化設計** | 三大子系統獨立運作，透過統一接口協作                 |
 | **零信任安全** | SLSA L3 溯源 + Sigstore 簽名 + 策略閘驗證            |
 | **自主運維**   | AI 驅動的自動修復、智能派工、升級管理                |
@@ -858,7 +858,7 @@ knowledge_cycle:
 ```
 unmanned-island/
 │
-├── machinenativeops.yaml         # 🔑 統一主配置入口（相容連結：machine-native-ops.yaml）
+├── machinenativeops.yaml         # 🔑 統一主配置入口
 │
 ├── core/                         # 🏛️ 核心平台服務
 │   ├── unified_integration/      # 統一整合層
@@ -1333,7 +1333,7 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 
 | 配置檔案                          | 說明                             |
 |-----------------------------------|----------------------------------|
-| machinenativeops.yaml            | 統一主配置入口（兼容連結：machine-native-ops.yaml） |
+| machinenativeops.yaml            | 統一主配置入口 |
 | config/system-manifest.yaml       | 系統宣告清單                     |
 | config/unified-config-index.yaml  | 統一配置索引 v3.0.0             |
 | config/system-module-map.yaml     | 模組映射                         |

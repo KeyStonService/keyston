@@ -214,9 +214,7 @@ class TestSuiteRunner:
                 'package.json',
                 'pyproject.toml'
             ]
-            legacy_aliases = {
-                'machinenativeops.yaml': ['machine-native-ops.yaml'],
-            }
+            legacy_aliases = {}
             
             missing_configs = []
             legacy_used = []

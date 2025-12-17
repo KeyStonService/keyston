@@ -58,7 +58,7 @@ sync:
   trigger_files:
     - "templates/**"
     - "island.bootstrap.stage0.yaml"
-    - "machine-native-ops.yaml"
+    - "machinenativeops.yaml"
     - "synergymesh.yaml"
     - "config/system-manifest.yaml"
     - "config/unified-config-index.yaml"

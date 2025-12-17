@@ -55,7 +55,7 @@ platform that integrates three core subsystems:
 
 | Principle                 | Description                                                                |
 | ------------------------- | -------------------------------------------------------------------------- |
-| **Single Entry Point**    | machinenativeops.yaml as the single source of truth (compatibility link: machine-native-ops.yaml)     |
+| **Single Entry Point**    | machinenativeops.yaml as the single source of truth     |
 | **Modular Design**        | Three subsystems operate independently, collaborate via unified interfaces |
 | **Zero-Trust Security**   | SLSA L3 provenance + Sigstore signing + policy gate validation             |
 | **Autonomous Operations** | AI-driven auto-repair, intelligent assignment, escalation management       |
@@ -110,7 +110,7 @@ Node.js >= 18.0.0
 
   High-level layout (see README.md for Chinese version):
 
-  - machine-native-ops.yaml – unified configuration entry (legacy symlink: synergymesh.yaml)
+  - machinenativeops.yaml – unified configuration entry
   - core/ – core platform services
   - automation/ – intelligent, autonomous, architect, hyperautomation modules
   - config/ – system manifests, AI constitution, safety mechanisms
@@ -244,7 +244,7 @@ Node.js >= 18.0.0
 
   Key configuration files:
 
-- machine-native-ops.yaml – global entry (legacy symlink: synergymesh.yaml)
+- machinenativeops.yaml – global entry
 - config/system-manifest.yaml – system manifest
 - config/unified-config-index.yaml – unified config index
 - config/system-module-map.yaml – module mapping

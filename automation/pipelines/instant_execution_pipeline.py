@@ -458,12 +458,7 @@ class InstantExecutionPipeline:
     def _validate_configurations(self) -> bool:
         """Validate configuration files"""
         try:
-            primary_config = REPO_ROOT / "machine-native-ops.yaml"
-            legacy_config = REPO_ROOT / "synergymesh.yaml"
-            config_target = primary_config
-            if not primary_config.exists() and legacy_config.exists():
-                self.log("  ⚠️  Using legacy config path synergymesh.yaml (primary missing)", level="WARNING")
-                config_target = legacy_config
+            config_target = REPO_ROOT / "machinenativeops.yaml"
 
             # Check required configs
             required_configs = [

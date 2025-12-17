@@ -143,7 +143,7 @@ docker-compose -f docker-compose.yml up -d
     ↓
 命令行參數 (CLI args)
     ↓
-系統配置 (machinenativeops.yaml，向下相容連結：machine-native-ops.yaml)
+系統配置 (machinenativeops.yaml)
     ↓
 本地配置 (config/*.yaml)
     ↓

@@ -78,9 +78,7 @@ class SelfHealingIntegrationEngine:
         while current != current.parent:
             if (current / 'governance').exists():
                 return current
-            if (current / 'machine-native-ops.yaml').exists():
-                return current
-            if (current / 'synergymesh.yaml').exists():
+            if (current / 'machinenativeops.yaml').exists():
                 return current
             if (current / 'package.json').exists():
                 return current
