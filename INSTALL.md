@@ -1,4 +1,4 @@
-# SynergyMesh 安裝指南 | Installation Guide
+# MachineNativeOps 安裝指南 | Installation Guide
 
 <div align="center">
 
@@ -55,13 +55,13 @@
 1. **下載安裝程式**
 
    ```
-   下載: SynergyMesh-Governance-setup.exe
+   下載: MachineNativeOps-Governance-setup.exe
    ```
 
 2. **執行安裝程式**
    - 雙擊下載的 `.exe` 檔案
    - 按照安裝精靈的指示操作
-   - 選擇安裝目錄（預設：`C:\Program Files\SynergyMesh`）
+   - 選擇安裝目錄（預設：`C:\Program Files\MachineNativeOps`）
 
 3. **完成安裝**
    - 安裝程式會自動添加到 PATH
@@ -71,17 +71,17 @@
 
 ```powershell
 # 使用管理員權限執行
-msiexec /i SynergyMesh-Governance-1.0.0.msi /qn
+msiexec /i MachineNativeOps-Governance-1.0.0.msi /qn
 ```
 
 ### 方式 3: 手動安裝
 
 ```batch
 # 1. 解壓縮安裝包
-unzip SynergyMesh-Governance-windows.zip
+unzip MachineNativeOps-Governance-windows.zip
 
 # 2. 進入目錄
-cd SynergyMesh-Governance-windows
+cd MachineNativeOps-Governance-windows
 
 # 3. 執行安裝腳本（需要管理員權限）
 install.bat
@@ -91,7 +91,7 @@ install.bat
 
 ```batch
 # 執行卸載腳本
-"C:\Program Files\SynergyMesh\uninstall.bat"
+"C:\Program Files\MachineNativeOps\uninstall.bat"
 
 # 或使用 Windows 設定 > 應用程式 > 解除安裝
 ```
@@ -104,13 +104,13 @@ install.bat
 
 ```bash
 # 添加 tap
-brew tap synergymesh/tap
+brew tap machinenativeops/tap
 
 # 安裝
-brew install synergymesh-governance
+brew install machinenativeops-governance
 
 # 更新
-brew upgrade synergymesh-governance
+brew upgrade machinenativeops-governance
 ```
 
 ### 方式 2: 使用 DMG 安裝程式
@@ -118,12 +118,12 @@ brew upgrade synergymesh-governance
 1. **下載 DMG**
 
    ```bash
-   # 下載: SynergyMesh-Governance-1.0.0.dmg
+   # 下載: MachineNativeOps-Governance-1.0.0.dmg
    ```
 
 2. **安裝**
    - 雙擊 `.dmg` 檔案
-   - 將 `SynergyMesh-Governance.app` 拖拽到 `Applications` 資料夾
+   - 將 `MachineNativeOps-Governance.app` 拖拽到 `Applications` 資料夾
 
 3. **首次啟動**
 
@@ -136,20 +136,20 @@ brew upgrade synergymesh-governance
 
 ```bash
 # 安裝
-sudo installer -pkg SynergyMesh-Governance-1.0.0.pkg -target /
+sudo installer -pkg MachineNativeOps-Governance-1.0.0.pkg -target /
 
 # 驗證
-synergymesh --version
+machinenativeops --version
 ```
 
 ### 方式 4: 手動安裝
 
 ```bash
 # 1. 下載並解壓
-curl -L https://github.com/SynergyMesh-admin/SynergyMesh/releases/download/v1.0.0/SynergyMesh-Governance-macos.tar.gz | tar xz
+curl -L https://github.com/MachineNativeOps-admin/MachineNativeOps/releases/download/v1.0.0/MachineNativeOps-Governance-macos.tar.gz | tar xz
 
 # 2. 進入目錄
-cd SynergyMesh-Governance-macos
+cd MachineNativeOps-Governance-macos
 
 # 3. 執行安裝腳本
 sudo ./install-macos.sh
@@ -159,10 +159,10 @@ sudo ./install-macos.sh
 
 ```bash
 # 使用 Homebrew
-brew uninstall synergymesh-governance
+brew uninstall machinenativeops-governance
 
 # 或執行卸載腳本
-sudo /Applications/SynergyMesh-Governance.app/Contents/Resources/uninstall-macos.sh
+sudo /Applications/MachineNativeOps-Governance.app/Contents/Resources/uninstall-macos.sh
 ```
 
 ---
@@ -173,31 +173,31 @@ sudo /Applications/SynergyMesh-Governance.app/Contents/Resources/uninstall-macos
 
 ```bash
 # 1. 下載 AppImage
-wget https://github.com/SynergyMesh-admin/SynergyMesh/releases/download/v1.0.0/SynergyMesh-Governance-x86_64.AppImage
+wget https://github.com/MachineNativeOps-admin/MachineNativeOps/releases/download/v1.0.0/MachineNativeOps-Governance-x86_64.AppImage
 
 # 2. 賦予執行權限
-chmod +x SynergyMesh-Governance-x86_64.AppImage
+chmod +x MachineNativeOps-Governance-x86_64.AppImage
 
 # 3. 執行
-./SynergyMesh-Governance-x86_64.AppImage
+./MachineNativeOps-Governance-x86_64.AppImage
 
 # 4. （可選）整合到系統
-./SynergyMesh-Governance-x86_64.AppImage --appimage-extract
-sudo mv squashfs-root /opt/synergymesh
-sudo ln -s /opt/synergymesh/AppRun /usr/local/bin/synergymesh
+./MachineNativeOps-Governance-x86_64.AppImage --appimage-extract
+sudo mv squashfs-root /opt/machinenativeops
+sudo ln -s /opt/machinenativeops/AppRun /usr/local/bin/machinenativeops
 ```
 
 ### 方式 2: Debian/Ubuntu (DEB)
 
 ```bash
 # 1. 下載 DEB 包
-wget https://github.com/SynergyMesh-admin/SynergyMesh/releases/download/v1.0.0/synergymesh-governance_1.0.0_amd64.deb
+wget https://github.com/MachineNativeOps-admin/MachineNativeOps/releases/download/v1.0.0/machinenativeops-governance_1.0.0_amd64.deb
 
 # 2. 安裝
-sudo apt install ./synergymesh-governance_1.0.0_amd64.deb
+sudo apt install ./machinenativeops-governance_1.0.0_amd64.deb
 
 # 或使用 dpkg
-sudo dpkg -i synergymesh-governance_1.0.0_amd64.deb
+sudo dpkg -i machinenativeops-governance_1.0.0_amd64.deb
 sudo apt-get install -f  # 修復依賴
 ```
 
@@ -205,40 +205,40 @@ sudo apt-get install -f  # 修復依賴
 
 ```bash
 # 1. 下載 RPM 包
-wget https://github.com/SynergyMesh-admin/SynergyMesh/releases/download/v1.0.0/synergymesh-governance-1.0.0-1.x86_64.rpm
+wget https://github.com/MachineNativeOps-admin/MachineNativeOps/releases/download/v1.0.0/machinenativeops-governance-1.0.0-1.x86_64.rpm
 
 # 2. 安裝
-sudo rpm -i synergymesh-governance-1.0.0-1.x86_64.rpm
+sudo rpm -i machinenativeops-governance-1.0.0-1.x86_64.rpm
 
 # 或使用 yum/dnf
-sudo yum install ./synergymesh-governance-1.0.0-1.x86_64.rpm
+sudo yum install ./machinenativeops-governance-1.0.0-1.x86_64.rpm
 ```
 
 ### 方式 4: Snap Store
 
 ```bash
 # 安裝
-sudo snap install synergymesh-governance
+sudo snap install machinenativeops-governance
 
 # 授予權限
-sudo snap connect synergymesh-governance:home
+sudo snap connect machinenativeops-governance:home
 ```
 
 ### 卸載 | Uninstall
 
 ```bash
 # Debian/Ubuntu
-sudo apt remove synergymesh-governance
+sudo apt remove machinenativeops-governance
 
 # RHEL/CentOS/Fedora
-sudo rpm -e synergymesh-governance
+sudo rpm -e machinenativeops-governance
 
 # AppImage
-sudo rm /opt/synergymesh
-sudo rm /usr/local/bin/synergymesh
+sudo rm /opt/machinenativeops
+sudo rm /usr/local/bin/machinenativeops
 
 # Snap
-sudo snap remove synergymesh-governance
+sudo snap remove machinenativeops-governance
 ```
 
 ---
@@ -249,21 +249,21 @@ sudo snap remove synergymesh-governance
 
 ```bash
 # 拉取映像
-docker pull synergymesh/governance:latest
+docker pull machinenativeops/governance:latest
 
 # 運行容器
 docker run -d \
-  --name synergymesh-governance \
+  --name machinenativeops-governance \
   -p 8000:8000 \
-  -v synergymesh-data:/var/lib/synergymesh \
-  synergymesh/governance:latest
+  -v machinenativeops-data:/var/lib/machinenativeops \
+  machinenativeops/governance:latest
 ```
 
 ### 方式 2: Docker Compose（完整堆疊，推薦）
 
 ```bash
 # 1. 下載 docker-compose.yml
-wget https://raw.githubusercontent.com/SynergyMesh-admin/SynergyMesh/main/build/docker/docker-compose.yml
+wget https://raw.githubusercontent.com/MachineNativeOps-admin/MachineNativeOps/main/build/docker/docker-compose.yml
 
 # 2. 啟動服務
 docker-compose up -d
@@ -279,22 +279,22 @@ docker-compose down
 
 ```bash
 # 1. Clone 倉庫
-git clone https://github.com/SynergyMesh-admin/SynergyMesh.git
-cd SynergyMesh
+git clone https://github.com/MachineNativeOps-admin/MachineNativeOps.git
+cd MachineNativeOps
 
 # 2. 構建映像
-docker build -f build/docker/Dockerfile -t synergymesh/governance:custom .
+docker build -f build/docker/Dockerfile -t machinenativeops/governance:custom .
 
 # 3. 運行
-docker run -d --name synergymesh synergymesh/governance:custom
+docker run -d --name machinenativeops machinenativeops/governance:custom
 ```
 
 ### Windows 容器
 
 ```powershell
 # 使用 Windows Server Core
-docker pull synergymesh/governance:windows-latest
-docker run -d synergymesh/governance:windows-latest
+docker pull machinenativeops/governance:windows-latest
+docker run -d machinenativeops/governance:windows-latest
 ```
 
 ---
@@ -318,8 +318,8 @@ git --version
 
 ```bash
 # 1. Clone 倉庫
-git clone https://github.com/SynergyMesh-admin/SynergyMesh.git
-cd SynergyMesh
+git clone https://github.com/MachineNativeOps-admin/MachineNativeOps.git
+cd MachineNativeOps
 
 # 2. 安裝 Python 依賴
 pip install -r requirements.txt
@@ -332,7 +332,7 @@ npm install
 npm run build
 
 # 5. 驗證
-synergymesh --version
+machinenativeops --version
 ```
 
 ### 開發模式安裝
@@ -355,17 +355,17 @@ npm test
 
 ```bash
 # 查看版本信息
-synergymesh --version
+machinenativeops --version
 
 # 預期輸出：
-# SynergyMesh Governance v1.0.0
+# MachineNativeOps Governance v1.0.0
 ```
 
 ### 運行健康檢查
 
 ```bash
 # 執行健康檢查
-synergymesh health
+machinenativeops health
 
 # 預期輸出：
 # ✓ System: OK
@@ -378,10 +378,10 @@ synergymesh health
 
 ```bash
 # 查看命令列表
-synergymesh --help
+machinenativeops --help
 
 # 查看特定命令幫助
-synergymesh <command> --help
+machinenativeops <command> --help
 ```
 
 ---
@@ -412,7 +412,7 @@ synergymesh <command> --help
 sudo spctl --master-disable
 
 # 或為特定應用授權
-xattr -d com.apple.quarantine /Applications/SynergyMesh-Governance.app
+xattr -d com.apple.quarantine /Applications/MachineNativeOps-Governance.app
 ```
 
 **問題：Homebrew 安裝失敗**
@@ -455,7 +455,7 @@ sudo yum install python3 nodejs
 
 ```bash
 # 查看日誌
-docker logs synergymesh-governance
+docker logs machinenativeops-governance
 
 # 檢查資源
 docker stats
@@ -471,27 +471,27 @@ docker-compose up -d
 
 <<<<<<< HEAD
 <<<<<<< HEAD
-- **文檔**: <https://github.com/SynergyMesh-admin/SynergyMesh/tree/main/docs>
-- **Issues**: <https://github.com/SynergyMesh-admin/SynergyMesh/issues>
+- **文檔**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/tree/main/docs>
+- **Issues**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/issues>
 - **Discussions**:
-  <https://github.com/SynergyMesh-admin/SynergyMesh/discussions>
+  <https://github.com/MachineNativeOps-admin/MachineNativeOps/discussions>
 =======
-- **文檔**: https://github.com/SynergyMesh-admin/SynergyMesh/tree/main/docs
-- **Issues**: https://github.com/SynergyMesh-admin/SynergyMesh/issues
-- **Discussions**: https://github.com/SynergyMesh-admin/SynergyMesh/discussions
+- **文檔**: https://github.com/MachineNativeOps-admin/MachineNativeOps/tree/main/docs
+- **Issues**: https://github.com/MachineNativeOps-admin/MachineNativeOps/issues
+- **Discussions**: https://github.com/MachineNativeOps-admin/MachineNativeOps/discussions
 >>>>>>> origin/alert-autofix-37
 =======
-- **文檔**: <https://github.com/SynergyMesh-admin/SynergyMesh/tree/main/docs>
-- **Issues**: <https://github.com/SynergyMesh-admin/SynergyMesh/issues>
-- **Discussions**: <https://github.com/SynergyMesh-admin/SynergyMesh/discussions>
+- **文檔**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/tree/main/docs>
+- **Issues**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/issues>
+- **Discussions**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/discussions>
 >>>>>>> origin/copilot/sub-pr-402
 
 ---
 
 <div align="center">
 
-**感謝使用 SynergyMesh！**
+**感謝使用 MachineNativeOps！**
 
-**Thank you for using SynergyMesh!**
+**Thank you for using MachineNativeOps!**
 
 </div>

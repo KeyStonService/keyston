@@ -25,7 +25,7 @@
 
 本 cluster 是 **Unmanned Island System 的核心引擎層**，在系統中扮演以下角色：
 
-- **SynergyMesh Core Engine** 的主要實作
+- **MachineNativeOps Core Engine** 的主要實作
 - 提供認知處理、服務管理、AI 決策引擎
 - 實作安全機制（斷路器、緊急停止、回滾系統）
 - 管理 SLSA 溯源與證明系統

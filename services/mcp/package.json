@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/mcp-servers",
+  "name": "@machinenativeops/mcp-servers",
   "version": "1.0.0",
   "description": "Enterprise-grade MCP servers for SynergyMesh AutoExecutionEngine Agent",
   "main": "index.js",
@@ -19,7 +19,7 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "synergymesh",
+    "machinenativeops",
     "enterprise-integration",
     "slsa",
     "provenance",

@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/api-gateway",
+  "name": "@machinenativeops/api-gateway",
   "version": "1.0.0",
   "description": "API Gateway for external integrations",
   "main": "dist/index.js",

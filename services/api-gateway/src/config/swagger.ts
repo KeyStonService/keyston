@@ -8,7 +8,7 @@ export const swaggerDocument = {
     description: 'REST API for external integrations with the Unmanned Island System',
     contact: {
       name: 'API Support',
-      email: 'api-support@synergymesh.io'
+      email: 'api-support@machinenativeops.io'
     },
     license: {
       name: 'MIT',
@@ -21,7 +21,7 @@ export const swaggerDocument = {
       description: 'Development server'
     },
     {
-      url: 'https://api.synergymesh.io',
+      url: 'https://api.machinenativeops.io',
       description: 'Production server'
     }
   ],

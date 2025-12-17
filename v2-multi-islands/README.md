@@ -2,7 +2,7 @@
 
 第二版：多語言自動化無人島系統 (Automated Unmanned Islands)
 
-此目錄包含 SynergyMesh 多語言自動化無人島系統的實作，作為高階應用整合層。
+此目錄包含 MachineNativeOps 多語言自動化無人島系統的實作，作為高階應用整合層。
 
 **🏛️ Governance Integration:** This system is fully integrated with the `governance/30-agents` framework, implementing lifecycle management, compliance monitoring, and audit logging.
 
@@ -130,7 +130,7 @@ print(config.islands)
 
 ## 🏛️ Governance Integration
 
-This v2-multi-islands system is now fully integrated with the SynergyMesh governance framework (`governance/30-agents`):
+This v2-multi-islands system is now fully integrated with the MachineNativeOps governance framework (`governance/30-agents`):
 
 ### Integration Features
 

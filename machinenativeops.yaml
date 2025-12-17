@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh Master Configuration
+#                    MachineNativeOps Master Configuration
 #                    主系統配置 - 統一入口點
 # ═══════════════════════════════════════════════════════════════════════════════
 #
@@ -14,7 +14,7 @@
 
 version: "4.0.0"
 vision_version: "1.0.0"
-name: "SynergyMesh"
+name: "MachineNativeOps"
 description: |
   次世代雲原生智能自動化平台 - 成為全球領先的企業級智能自動化平台，
   透過整合 AI 決策引擎、結構化治理系統與自主框架，實現「無人值守」的智能運維，

@@ -69,55 +69,55 @@
 
 ## 📁 Files Modified
 
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/instant_debt_resolution.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests/validate-governance-matrix.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests/self-healing-validation.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/13-metrics-reporting/generate-consolidated-report.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/07-audit/append_only_log_client.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/check-language-policy.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/api_contract.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/language-governance-analyzer.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/auto-fix-medium-issues.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/generate_dimensions.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/logical-consistency-engine.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/instant-migration.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/extreme-problem-identifier.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/validate-governance-structure.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/validate-python-syntax.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/intelligent-file-router.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/39-automation/self-healing-engine.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests/unit/test_api_contract.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/33-common/tools/schema_validator.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/33-common/tools/governance_policy_checker.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/generate-embeddings.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/index-validator.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/event-writer.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/rag-query.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/instant-governance-cli.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/api_contract.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests/validate-governance-matrix.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests/self-healing-validation.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/13-metrics-reporting/generate-consolidated-report.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/check-language-policy.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/api_contract.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/26-tools/language-governance-analyzer.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/logical-consistency-engine.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/instant-migration.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/extreme-problem-identifier.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/validate-governance-structure.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/validate-python-syntax.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/35-scripts/intelligent-file-router.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/39-automation/self-healing-engine.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/33-common/tools/dependency_analyzer.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/generate-embeddings.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/index-validator.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/event-writer.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/index/scripts/rag-query.py`
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/DEBT_TRACKING.md`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/instant_debt_resolution.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/28-tests/validate-governance-matrix.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/28-tests/self-healing-validation.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/13-metrics-reporting/generate-consolidated-report.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/07-audit/append_only_log_client.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/check-language-policy.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/api_contract.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/language-governance-analyzer.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/auto-fix-medium-issues.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/generate_dimensions.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/logical-consistency-engine.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/instant-migration.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/extreme-problem-identifier.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/validate-governance-structure.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/validate-python-syntax.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/intelligent-file-router.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/39-automation/self-healing-engine.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/28-tests/unit/test_api_contract.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/33-common/tools/schema_validator.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/33-common/tools/governance_policy_checker.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/generate-embeddings.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/index-validator.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/event-writer.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/rag-query.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/instant-governance-cli.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/api_contract.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/28-tests/validate-governance-matrix.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/28-tests/self-healing-validation.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/13-metrics-reporting/generate-consolidated-report.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/check-language-policy.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/api_contract.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/26-tools/language-governance-analyzer.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/logical-consistency-engine.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/instant-migration.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/extreme-problem-identifier.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/validate-governance-structure.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/validate-python-syntax.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/35-scripts/intelligent-file-router.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/39-automation/self-healing-engine.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/33-common/tools/dependency_analyzer.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/generate-embeddings.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/index-validator.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/event-writer.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/index/scripts/rag-query.py`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/DEBT_TRACKING.md`
 
 ## 🗑️ Files Deleted
 
-- `/home/runner/work/SynergyMesh/SynergyMesh/governance/scripts`
+- `/home/runner/work/MachineNativeOps/MachineNativeOps/governance/scripts`
 
 ## 🎯 Modern AI Standards Compliance
 

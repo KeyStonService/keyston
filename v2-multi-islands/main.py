@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SynergyMesh v2-multi-islands 主執行入口
+MachineNativeOps v2-multi-islands 主執行入口
 
 多語言自動化無人島系統的主要入口點，提供命令行介面。
 """
@@ -23,7 +23,7 @@ def show_banner() -> None:
     """顯示啟動標題"""
     print(f"{Colors.CYAN}")
     print("╔═══════════════════════════════════════╗")
-    print("║    SynergyMesh v2-multi-islands       ║")
+    print("║    MachineNativeOps v2-multi-islands       ║")
     print("║   多語言自動化無人島系統 v2.0         ║")
     print("╚═══════════════════════════════════════╝")
     print(f"{Colors.NC}")
@@ -108,7 +108,7 @@ def run_all_islands() -> int:
 def main() -> int:
     """主程式"""
     parser = argparse.ArgumentParser(
-        description='SynergyMesh v2-multi-islands - 多語言自動化無人島系統',
+        description='MachineNativeOps v2-multi-islands - 多語言自動化無人島系統',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 範例:

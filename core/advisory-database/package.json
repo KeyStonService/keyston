@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/advisory-database",
+  "name": "@machinenativeops/advisory-database",
   "version": "1.0.0",
   "description": "Professional advisory database service - GitHub Advisory Database compatible implementation for SynergyMesh",
   "main": "dist/index.js",

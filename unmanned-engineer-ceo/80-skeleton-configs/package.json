@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/skeleton-configs",
+  "name": "@machinenativeops/skeleton-configs",
   "version": "1.0.0",
   "description": "Architecture skeleton configurations for Unmanned Island System",
   "private": true,

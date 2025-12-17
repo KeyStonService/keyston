@@ -9,7 +9,7 @@
  *   ts-node contract-checker.ts <contract-file>
  *   ts-node contract-checker.ts contracts/external-api.json
  * 
- * @author platform@isynergymesh.com
+ * @author platform@machinenativeops.io
  * @version 1.0.0
  * @language zh-TW
  */

@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/governance-auto-comment-scripts",
+  "name": "@machinenativeops/governance-auto-comment-scripts",
   "version": "1.0.0",
   "description": "Auto Comment Engine scripts for 81-auto-comment governance dimension",
   "scripts": {
@@ -27,7 +27,7 @@
     "auto-comment",
     "ci",
     "automation",
-    "synergymesh"
+    "machinenativeops"
   ],
   "author": "SynergyMesh Governance Bot",
   "license": "MIT",

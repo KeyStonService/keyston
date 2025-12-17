@@ -171,7 +171,7 @@
 |------|--------|---------|
 | `axiom-system` | `unmanned-island-system` | 所有 K8s namespace 引用 |
 | `axiom-critical` | `system-cluster-critical` | Priority Class |
-| `registry.local/axiom/` | `ghcr.io/synergymesh-admin/` | Container images |
+| `registry.local/axiom/` | `ghcr.io/machinenativeops-admin/` | Container images |
 | `/etc/axiom/` | `/etc/unmanned-island/` | 配置與信任包路徑 |
 | `/var/lib/axiom/` | `/var/lib/unmanned-island/` | 狀態存儲路徑 |
 | `axiom.io` | `unmanned-island.io` | K8s API Group |

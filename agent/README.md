@@ -7,9 +7,9 @@
 
 ## 📋 Overview 概述
 
-本目錄包含 SynergyMesh 平台的智能業務代理。這些代理是獨立運行的服務，負責執行特定的自動化任務，如代碼修復、安全掃描和任務編排。
+本目錄包含 MachineNativeOps 平台的智能業務代理。這些代理是獨立運行的服務，負責執行特定的自動化任務，如代碼修復、安全掃描和任務編排。
 
-This directory contains intelligent business agents for the SynergyMesh platform. These agents are independent services that handle specific automation tasks such as code repair, security scanning, and task orchestration.
+This directory contains intelligent business agents for the MachineNativeOps platform. These agents are independent services that handle specific automation tasks such as code repair, security scanning, and task orchestration.
 
 ## 📁 Directory Structure 目錄結構
 

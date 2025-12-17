@@ -1,4 +1,4 @@
-# SynergyMesh 發布指南 | Release Guide
+# MachineNativeOps 發布指南 | Release Guide
 
 <div align="center">
 
@@ -210,20 +210,20 @@ pip list --outdated
 ```bash
 # 驗證安裝檔
 # Windows
-.\SynergyMesh-Governance-setup.exe /VERYSILENT
-synergymesh --version
+.\MachineNativeOps-Governance-setup.exe /VERYSILENT
+machinenativeops --version
 
 # macOS
-open SynergyMesh-Governance-1.0.0.dmg
-synergymesh --version
+open MachineNativeOps-Governance-1.0.0.dmg
+machinenativeops --version
 
 # Linux
-./SynergyMesh-Governance-x86_64.AppImage --version
-sudo dpkg -i synergymesh-governance_1.0.0_amd64.deb
-synergymesh --version
+./MachineNativeOps-Governance-x86_64.AppImage --version
+sudo dpkg -i machinenativeops-governance_1.0.0_amd64.deb
+machinenativeops --version
 
 # Docker
-docker run --rm synergymesh/governance:latest synergymesh --version
+docker run --rm machinenativeops/governance:latest machinenativeops --version
 ```
 
 ---
@@ -238,7 +238,7 @@ cd build/windows
 .\sign-windows.ps1 -CertificatePath "cert.pfx"
 
 # 驗證簽名
-Get-AuthenticodeSignature .\dist\SynergyMesh-Governance.exe
+Get-AuthenticodeSignature .\dist\MachineNativeOps-Governance.exe
 ```
 
 ### macOS 代碼簽名與公證
@@ -249,27 +249,27 @@ cd build/macos
 ./sign-macos.sh
 
 # 公證
-xcrun notarytool submit SynergyMesh-Governance.zip \
+xcrun notarytool submit MachineNativeOps-Governance.zip \
   --apple-id "$APPLE_ID" \
   --password "$APP_PASSWORD" \
   --team-id "$TEAM_ID"
 
 # 附加公證票據
-xcrun stapler staple SynergyMesh-Governance.app
+xcrun stapler staple MachineNativeOps-Governance.app
 ```
 
 ### Linux 包簽名
 
 ```bash
 # GPG 簽名 DEB
-dpkg-sig --sign builder synergymesh-governance_1.0.0_amd64.deb
+dpkg-sig --sign builder machinenativeops-governance_1.0.0_amd64.deb
 
 # GPG 簽名 RPM
-rpm --addsign synergymesh-governance-1.0.0-1.x86_64.rpm
+rpm --addsign machinenativeops-governance-1.0.0-1.x86_64.rpm
 
 # 驗證
-dpkg-sig --verify synergymesh-governance_1.0.0_amd64.deb
-rpm --checksig synergymesh-governance-1.0.0-1.x86_64.rpm
+dpkg-sig --verify machinenativeops-governance_1.0.0_amd64.deb
+rpm --checksig machinenativeops-governance-1.0.0-1.x86_64.rpm
 ```
 
 ---
@@ -281,15 +281,15 @@ rpm --checksig synergymesh-governance-1.0.0-1.x86_64.rpm
 ```bash
 # 使用 GitHub CLI
 gh release create v1.0.0 \
-  --title "SynergyMesh v1.0.0" \
+  --title "MachineNativeOps v1.0.0" \
   --notes-file RELEASE_NOTES.md \
-  build/windows/SynergyMesh-Governance-setup.exe \
-  build/windows/SynergyMesh-Governance-1.0.0.msi \
-  build/macos/SynergyMesh-Governance-1.0.0.dmg \
-  build/macos/SynergyMesh-Governance-1.0.0.pkg \
-  build/linux/SynergyMesh-Governance-x86_64.AppImage \
-  build/linux/debian/synergymesh-governance_1.0.0_amd64.deb \
-  build/linux/redhat/synergymesh-governance-1.0.0-1.x86_64.rpm
+  build/windows/MachineNativeOps-Governance-setup.exe \
+  build/windows/MachineNativeOps-Governance-1.0.0.msi \
+  build/macos/MachineNativeOps-Governance-1.0.0.dmg \
+  build/macos/MachineNativeOps-Governance-1.0.0.pkg \
+  build/linux/MachineNativeOps-Governance-x86_64.AppImage \
+  build/linux/debian/machinenativeops-governance_1.0.0_amd64.deb \
+  build/linux/redhat/machinenativeops-governance-1.0.0-1.x86_64.rpm
 ```
 
 ### Docker Hub
@@ -299,12 +299,12 @@ gh release create v1.0.0 \
 docker login
 
 # 推送映像
-docker push synergymesh/governance:1.0.0
-docker push synergymesh/governance:latest
+docker push machinenativeops/governance:1.0.0
+docker push machinenativeops/governance:latest
 
 # 推送 Windows 映像
-docker push synergymesh/governance:windows-1.0.0
-docker push synergymesh/governance:windows-latest
+docker push machinenativeops/governance:windows-1.0.0
+docker push machinenativeops/governance:windows-latest
 ```
 
 ### PyPI 發布
@@ -349,9 +349,9 @@ sed -i 's/version-.*-blue/version-1.0.0-blue/' README.md
 ```markdown
 # 發布公告模板
 
-## SynergyMesh v1.0.0 發布！🎉
+## MachineNativeOps v1.0.0 發布！🎉
 
-我們很高興宣布 SynergyMesh v1.0.0 正式發布！
+我們很高興宣布 MachineNativeOps v1.0.0 正式發布！
 
 ### 🌟 主要新增功能
 
@@ -365,7 +365,7 @@ sed -i 's/version-.*-blue/version-1.0.0-blue/' README.md
 - Windows: [EXE](link) | [MSI](link)
 - macOS: [DMG](link) | [PKG](link) | [Homebrew](link)
 - Linux: [AppImage](link) | [DEB](link) | [RPM](link)
-- Docker: `docker pull synergymesh/governance:1.0.0`
+- Docker: `docker pull machinenativeops/governance:1.0.0`
 
 ### 📖 文檔
 
@@ -393,19 +393,19 @@ sed -i 's/version-.*-blue/version-1.0.0-blue/' README.md
 
 ```
 Windows (11 個檔案):
-✓ SynergyMesh-Governance-setup.exe
-✓ SynergyMesh-Governance-1.0.0.msi
+✓ MachineNativeOps-Governance-setup.exe
+✓ MachineNativeOps-Governance-1.0.0.msi
 ✓ build-windows.bat
 ✓ install.bat / uninstall.bat
 ✓ windows-config.yaml
 ✓ windows-requirements.txt
 ✓ windows-environment.bat
 ✓ sign-windows.ps1
-✓ SynergyMesh-Governance-Setup.iss
+✓ MachineNativeOps-Governance-Setup.iss
 
 macOS (12 個檔案):
-✓ SynergyMesh-Governance-1.0.0.dmg
-✓ SynergyMesh-Governance-1.0.0.pkg
+✓ MachineNativeOps-Governance-1.0.0.dmg
+✓ MachineNativeOps-Governance-1.0.0.pkg
 ✓ build-macos.sh
 ✓ install-macos.sh / uninstall-macos.sh
 ✓ macos-config.yaml
@@ -414,20 +414,20 @@ macOS (12 個檔案):
 ✓ sign-macos.sh
 ✓ entitlements.plist
 ✓ Info.plist
-✓ synergymesh-governance.rb
+✓ machinenativeops-governance.rb
 
 Linux (15 個檔案):
-✓ SynergyMesh-Governance-x86_64.AppImage
-✓ synergymesh-governance_1.0.0_amd64.deb
-✓ synergymesh-governance-1.0.0-1.x86_64.rpm
+✓ MachineNativeOps-Governance-x86_64.AppImage
+✓ machinenativeops-governance_1.0.0_amd64.deb
+✓ machinenativeops-governance-1.0.0-1.x86_64.rpm
 ✓ build-linux.sh / build-appimage.sh
 ✓ build-deb.sh / build-rpm.sh
 ✓ install-linux.sh / uninstall-linux.sh
 ✓ linux-config.yaml
 ✓ linux-requirements.txt
 ✓ debian/control, changelog, rules
-✓ redhat/synergymesh-governance.spec
-✓ systemd/synergymesh-governance.service
+✓ redhat/machinenativeops-governance.spec
+✓ systemd/machinenativeops-governance.service
 
 Docker (4 個檔案):
 ✓ Dockerfile
@@ -464,12 +464,12 @@ git push origin :refs/tags/v1.0.0
 
 # 3. 撤回 Docker 映像
 # （無法刪除，但可以標記為 deprecated）
-docker tag synergymesh/governance:1.0.0 synergymesh/governance:deprecated
+docker tag machinenativeops/governance:1.0.0 machinenativeops/governance:deprecated
 
 # 4. 撤回 PyPI 包
 # （無法刪除，但可以 yank）
 pip install twine
-twine yank synergymesh 1.0.0
+twine yank machinenativeops 1.0.0
 
 # 5. 發布修復版本
 # 修復問題後發布 v1.0.1

@@ -8,7 +8,7 @@ Phase 5 單元測試 - 策略模組測試
 - 資源優化器
 - 演進追蹤器
 
-Copyright (c) 2024 SynergyMesh
+Copyright (c) 2024 MachineNativeOps
 MIT License
 """
 

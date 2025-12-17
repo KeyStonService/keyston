@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/scheduler",
+  "name": "@machinenativeops/scheduler",
   "version": "1.0.0",
   "description": "Advanced task scheduler with cron-like capabilities",
   "main": "dist/index.js",

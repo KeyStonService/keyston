@@ -1,5 +1,5 @@
 {
-  "name": "@synergymesh/ai-chat-service",
+  "name": "@machinenativeops/ai-chat-service",
   "version": "1.0.0",
   "description": "AI-powered chat service for drone and autonomous vehicle operations",
   "type": "module",

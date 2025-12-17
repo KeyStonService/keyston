@@ -1,6 +1,6 @@
 # Examples Directory
 
-This directory contains usage examples for SynergyMesh.
+This directory contains usage examples for MachineNativeOps.
 
 ## Structure
 

@@ -467,4 +467,4 @@ except yaml.YAMLError as e:
 
 **版本:** 1.0.0  
 **日期:** 2025-12-06  
-**維護:** SynergyMesh Development Team
+**維護:** MachineNativeOps Development Team

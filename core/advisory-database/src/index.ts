@@ -4,7 +4,7 @@
  * Professional advisory database service - GitHub Advisory Database compatible
  * Implements OSV format compliance for security vulnerability management
  *
- * @module @synergymesh/advisory-database
+ * @module @machinenativeops/advisory-database
  * @author SynergyMesh Team
  * @license MIT
  *
@@ -14,7 +14,7 @@
  *   AdvisoryBotEngine,
  *   AdvisoryValidator,
  *   generateGHSAId
- * } from '@synergymesh/advisory-database';
+ * } from '@machinenativeops/advisory-database';
  *
  * // Create a new advisory service
  * const service = new AdvisoryService();

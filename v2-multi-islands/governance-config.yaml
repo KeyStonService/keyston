@@ -123,7 +123,7 @@ integrations:
     validation_script: "v2-multi-islands/validate_governance.py"
   
   dependencies:
-    - "SynergyMesh Core"
+    - "MachineNativeOps Core"
     - "Governance Framework 30-agents"
     - "Python 3.10+"
     - "PyYAML"

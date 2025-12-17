@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SynergyMesh 島嶼配置載入器
+MachineNativeOps 島嶼配置載入器
 
 此模組負責從 island-control.yml 或 drone-config.yml 載入配置。
 """
@@ -75,7 +75,7 @@ class IslandConfig:
         return {
             'meta': {
                 'version': '2.0.0',
-                'name': 'SynergyMesh Multi-Islands',
+                'name': 'MachineNativeOps Multi-Islands',
             },
             'islands': {
                 'rust': {

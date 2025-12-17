@@ -135,7 +135,7 @@
 | `axiom-kernel-compute` | 映射到 `core/` 下的計算模組 | P1 |
 | `axiom-bootstrap-core` | 整合到 `core/unified_integration/` | P1 |
 | `axiom-trace-collector` | 使用標準 OpenTelemetry Collector | P1 |
-| `axiom.io` API Group | 改用 `unmanned-island.io` 或 `synergymesh.io` | P0 |
+| `axiom.io` API Group | 改用 `unmanned-island.io` 或 `machinenativeops.io` | P0 |
 
 #### Priority Class 適配
 
@@ -145,7 +145,7 @@
 #### Image Registry 適配
 
 - **原始**: `registry.local/axiom/`
-- **適配**: 使用專案實際 registry（例如 `ghcr.io/synergymesh-admin/`）
+- **適配**: 使用專案實際 registry（例如 `ghcr.io/machinenativeops-admin/`）
 
 #### 路徑與端點適配
 

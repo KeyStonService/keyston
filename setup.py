@@ -25,10 +25,10 @@ if requirements_path.exists():
     ]
 
 setup(
-    name="synergymesh-workflow",
+    name="machinenativeops-workflow",
     version="2.0.0",
     author="SynergyMesh Team",
-    author_email="team@synergymesh.io",
+    author_email="team@machinenativeops.io",
     description="Production-ready workflow orchestration platform",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -67,9 +67,9 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "synergymesh-workflow=automation.pipelines.instant_execution_pipeline:main",
-            "synergymesh-contract=core.contract_engine:main",
-            "synergymesh-generate-contract=tools.generators.contract_generator:main",
+            "machinenativeops-workflow=automation.pipelines.instant_execution_pipeline:main",
+            "machinenativeops-contract=core.contract_engine:main",
+            "machinenativeops-generate-contract=tools.generators.contract_generator:main",
             "synergymesh-generate-validator=tools.generators.validator_generator:main",
             "synergymesh-generate-docs=tools.generators.documentation_generator:main",
         ],

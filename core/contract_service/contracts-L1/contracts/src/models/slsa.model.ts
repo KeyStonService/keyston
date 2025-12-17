@@ -15,7 +15,7 @@ export const slsaCreateAttestationSchema = z
     subjectPath: z.string().optional(),
     subjectDigest: z.string().optional(),
     subjectName: z.string().optional(),
-    buildType: z.string().default('https://synergymesh.dev/contracts/build/v1'),
+    buildType: z.string().default('https://machinenativeops.dev/contracts/build/v1'),
     builder: z.object({
       id: z.string().min(1, 'Builder ID is required'),
       version: z.string().min(1, 'Builder version is required'),

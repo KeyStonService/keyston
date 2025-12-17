@@ -1,4 +1,4 @@
-# SynergyMesh MCP Servers
+# MachineNativeOps MCP Servers
 
 # MCP 服務器
 
@@ -401,4 +401,4 @@ For issues and questions:
 
 **Version:** 1.0.0  
 **Last Updated:** November 2025  
-**Maintainer:** SynergyMesh Team
+**Maintainer:** MachineNativeOps Team

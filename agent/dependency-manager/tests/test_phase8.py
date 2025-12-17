@@ -8,7 +8,7 @@ import unittest
 from datetime import datetime
 
 import sys
-sys.path.insert(0, '/home/runner/work/SynergyMesh/SynergyMesh/agent/dependency-manager/src')
+sys.path.insert(0, '/home/runner/work/MachineNativeOps/MachineNativeOps/agent/dependency-manager/src')
 
 from combination.core_satellite import (
     CoreSatelliteArchitecture,

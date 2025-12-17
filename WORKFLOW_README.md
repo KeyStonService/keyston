@@ -1,4 +1,4 @@
-# SynergyMesh Workflow System v2.0.0
+# MachineNativeOps Workflow System v2.0.0
 
 # 工作流程系統 v2.0.0
 
@@ -113,7 +113,7 @@ Workflow Orchestrator
 ## 📁 Project Structure | 項目結構
 
 ```
-SynergyMesh/
+MachineNativeOps/
 ├── config/
 │   ├── main-configuration.yaml      # Main config
 │   ├── behavior-contracts.yaml      # 11 contracts
@@ -229,7 +229,7 @@ kubectl apply -f deployment/kubernetes/
 ```bash
 # From source | 從源碼
 git clone https://github.com/synergymesh/SynergyMesh.git
-cd SynergyMesh
+cd MachineNativeOps
 pip install -e .
 
 # From PyPI (when published)
@@ -294,5 +294,5 @@ MIT License - see LICENSE file
 
 ---
 
-**Built with ❤️ by the SynergyMesh Team**  
+**Built with ❤️ by the MachineNativeOps Team**  
 **Version 2.0.0 | 2025-12-08**

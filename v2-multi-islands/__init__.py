@@ -1,11 +1,11 @@
 """
-SynergyMesh v2-multi-islands 套件
+MachineNativeOps v2-multi-islands 套件
 
 多語言自動化無人島系統 - 高階應用整合層
 """
 
 __version__ = "2.0.0"
-__author__ = "SynergyMesh Team"
+__author__ = "MachineNativeOps Team"
 
 # 使用延遲導入以避免循環依賴
 def get_islands():

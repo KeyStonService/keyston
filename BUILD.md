@@ -1,4 +1,4 @@
-# SynergyMesh 構建指南 | Build Guide
+# MachineNativeOps 構建指南 | Build Guide
 
 <div align="center">
 
@@ -27,8 +27,8 @@
 
 ```bash
 # 克隆倉庫
-git clone https://github.com/SynergyMesh-admin/SynergyMesh.git
-cd SynergyMesh
+git clone https://github.com/MachineNativeOps-admin/MachineNativeOps.git
+cd MachineNativeOps
 
 # 安裝基礎工具
 python3 --version  # 需要 3.10+
@@ -68,8 +68,8 @@ call windows-environment.bat
 call build-windows.bat
 
 :: 構建產物：
-:: - dist\SynergyMesh-Governance.exe (EXE 安裝程式)
-:: - SynergyMesh-Governance-1.0.0.msi (MSI 安裝程式)
+:: - dist\MachineNativeOps-Governance.exe (EXE 安裝程式)
+:: - MachineNativeOps-Governance-1.0.0.msi (MSI 安裝程式)
 ```
 
 ### 代碼簽名（可選）
@@ -95,7 +95,7 @@ build:
     timestamp_server: http://timestamp.digicert.com
 
 installation:
-  default_path: "%ProgramFiles%\\SynergyMesh"
+  default_path: "%ProgramFiles%\\MachineNativeOps"
   create_shortcuts: true
 ```
 
@@ -135,8 +135,8 @@ chmod +x build-macos.sh
 ./build-macos.sh
 
 # 構建產物：
-# - SynergyMesh-Governance-1.0.0.dmg (DMG 磁碟映像)
-# - SynergyMesh-Governance-1.0.0.pkg (PKG 安裝程式)
+# - MachineNativeOps-Governance-1.0.0.dmg (DMG 磁碟映像)
+# - MachineNativeOps-Governance-1.0.0.pkg (PKG 安裝程式)
 ```
 
 ### 代碼簽名
@@ -149,43 +149,43 @@ export SIGNING_IDENTITY="Developer ID Application: Your Name"
 ./sign-macos.sh
 
 # 驗證簽名
-codesign --verify --deep --strict SynergyMesh-Governance.app
-spctl --assess --verbose SynergyMesh-Governance.app
+codesign --verify --deep --strict MachineNativeOps-Governance.app
+spctl --assess --verbose MachineNativeOps-Governance.app
 ```
 
 ### 公證（Notarization）
 
 ```bash
 # 1. 壓縮應用程式
-ditto -c -k --keepParent SynergyMesh-Governance.app SynergyMesh-Governance.zip
+ditto -c -k --keepParent MachineNativeOps-Governance.app MachineNativeOps-Governance.zip
 
 # 2. 提交公證
-xcrun notarytool submit SynergyMesh-Governance.zip \
+xcrun notarytool submit MachineNativeOps-Governance.zip \
   --apple-id "your-email@example.com" \
   --password "app-specific-password" \
   --team-id "TEAM_ID" \
   --wait
 
 # 3. 附加公證票據
-xcrun stapler staple SynergyMesh-Governance.app
+xcrun stapler staple MachineNativeOps-Governance.app
 
 # 4. 驗證
-spctl --assess -vv --type install SynergyMesh-Governance.app
+spctl --assess -vv --type install MachineNativeOps-Governance.app
 ```
 
 ### 構建 Homebrew Formula
 
 ```bash
 # 1. 計算 SHA256
-shasum -a 256 SynergyMesh-Governance-1.0.0.tar.gz
+shasum -a 256 MachineNativeOps-Governance-1.0.0.tar.gz
 
 # 2. 更新 Formula
-# 編輯 build/macos/synergymesh-governance.rb
+# 編輯 build/macos/machinenativeops-governance.rb
 # 替換 url 和 sha256
 
 # 3. 測試 Formula
-brew install --build-from-source ./synergymesh-governance.rb
-brew audit synergymesh-governance
+brew install --build-from-source ./machinenativeops-governance.rb
+brew audit machinenativeops-governance
 ```
 
 ---
@@ -233,9 +233,9 @@ chmod +x build-linux.sh
 ./build-linux.sh
 
 # 構建產物：
-# - SynergyMesh-Governance-x86_64.AppImage
-# - debian/synergymesh-governance_1.0.0_amd64.deb
-# - redhat/synergymesh-governance-1.0.0-1.x86_64.rpm
+# - MachineNativeOps-Governance-x86_64.AppImage
+# - debian/machinenativeops-governance_1.0.0_amd64.deb
+# - redhat/machinenativeops-governance-1.0.0-1.x86_64.rpm
 ```
 
 ### 單獨構建各格式
@@ -258,14 +258,14 @@ chmod +x build-linux.sh
 gpg --full-generate-key
 
 # 簽名 DEB 包
-dpkg-sig --sign builder synergymesh-governance_1.0.0_amd64.deb
+dpkg-sig --sign builder machinenativeops-governance_1.0.0_amd64.deb
 
 # 簽名 RPM 包
-rpm --addsign synergymesh-governance-1.0.0-1.x86_64.rpm
+rpm --addsign machinenativeops-governance-1.0.0-1.x86_64.rpm
 
 # 驗證簽名
-dpkg-sig --verify synergymesh-governance_1.0.0_amd64.deb
-rpm --checksig synergymesh-governance-1.0.0-1.x86_64.rpm
+dpkg-sig --verify machinenativeops-governance_1.0.0_amd64.deb
+rpm --checksig machinenativeops-governance-1.0.0-1.x86_64.rpm
 ```
 
 ---
@@ -278,17 +278,17 @@ rpm --checksig synergymesh-governance-1.0.0-1.x86_64.rpm
 # 1. 構建映像
 docker build \
   -f build/docker/Dockerfile \
-  -t synergymesh/governance:1.0.0 \
-  -t synergymesh/governance:latest \
+  -t machinenativeops/governance:1.0.0 \
+  -t machinenativeops/governance:latest \
   .
 
 # 2. 測試映像
-docker run --rm synergymesh/governance:latest synergymesh --version
+docker run --rm machinenativeops/governance:latest machinenativeops --version
 
 # 3. 推送到 Docker Hub（需要登錄）
 docker login
-docker push synergymesh/governance:1.0.0
-docker push synergymesh/governance:latest
+docker push machinenativeops/governance:1.0.0
+docker push machinenativeops/governance:latest
 ```
 
 ### 構建 Windows 容器
@@ -297,11 +297,11 @@ docker push synergymesh/governance:latest
 # 構建 Windows 容器映像
 docker build `
   -f build/docker/Dockerfile.windows `
-  -t synergymesh/governance:windows-1.0.0 `
+  -t machinenativeops/governance:windows-1.0.0 `
   .
 
 # 測試
-docker run --rm synergymesh/governance:windows-1.0.0 synergymesh --version
+docker run --rm machinenativeops/governance:windows-1.0.0 machinenativeops --version
 ```
 
 ### 使用 Docker Compose
@@ -330,7 +330,7 @@ docker buildx create --name multiplatform --use
 docker buildx build \
   --platform linux/amd64,linux/arm64,linux/arm/v7 \
   -f build/docker/Dockerfile \
-  -t synergymesh/governance:latest \
+  -t machinenativeops/governance:latest \
   --push \
   .
 ```
@@ -476,7 +476,7 @@ chmod +x appimagetool-x86_64.AppImage
 
 ```bash
 # 安裝所有構建依賴
-sudo apt build-dep synergymesh-governance
+sudo apt build-dep machinenativeops-governance
 ```
 
 ### Docker
@@ -485,7 +485,7 @@ sudo apt build-dep synergymesh-governance
 
 ```bash
 # 使用 dive 分析映像層
-dive synergymesh/governance:latest
+dive machinenativeops/governance:latest
 
 # 優化 Dockerfile
 # - 使用 multi-stage builds
