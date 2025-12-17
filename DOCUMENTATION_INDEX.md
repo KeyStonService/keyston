@@ -80,6 +80,43 @@
 
 ---
 
+## 🎯 戰略與治理框架 (`governance/00-vision-strategy/`)
+
+**戰略層核心文檔** - 定義組織願景、使命、戰略目標與治理框架。
+
+| 文件路徑 | 說明 | 關鍵內容 |
+|---------|------|---------|
+| [governance/00-vision-strategy/README.md](./governance/00-vision-strategy/README.md) ⭐ | 治理框架總覽 | GaC 架構、部署指南、資源清單 |
+| [governance/00-vision-strategy/vision-statement.yaml](./governance/00-vision-strategy/vision-statement.yaml) | 願景與使命聲明 | 4 大核心成果、5 項核心價值觀、戰略主題 |
+| [governance/00-vision-strategy/strategic-objectives.yaml](./governance/00-vision-strategy/strategic-objectives.yaml) | 戰略目標 (OKR) | 5 個核心目標、關鍵結果、季度目標 |
+| [governance/00-vision-strategy/governance-charter.yaml](./governance/00-vision-strategy/governance-charter.yaml) | 治理憲章 | 治理結構、決策機制、審查流程 |
+| [governance/00-vision-strategy/alignment-framework.yaml](./governance/00-vision-strategy/alignment-framework.yaml) | 對齊框架 | 4 層對齊結構、驗證機制 |
+| [governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md](./governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md) ⚡ | AI 代理狀態 | < 1 秒即時專案狀態載入 |
+| [governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md](./governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md) | 專案狀態快照 | 完整專案狀態、Phase 1-5 進度 |
+| [docs/00-VISION-STRATEGY-ANALYSIS.md](./docs/00-VISION-STRATEGY-ANALYSIS.md) | 深度分析報告 | 戰略要素分析、對齊建議 |
+
+**快速開始：**
+
+```bash
+# 閱讀戰略框架總覽
+cat governance/00-vision-strategy/README.md
+
+# 查看戰略目標 OKR
+cat governance/00-vision-strategy/strategic-objectives.yaml | grep -A 5 "objectives:"
+
+# AI 代理即時載入專案狀態
+cat governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
+```
+
+**關鍵概念：**
+
+- **4 大核心成果**: 零接觸運維 (95%+ 自動化)、AI 驅動治理 (100% 合規)、自主框架 (99.9%+ 可用性)、企業級可靠性 (99.99%+ SLA)
+- **5 個戰略目標**: OBJ-01 到 OBJ-05，採用 OKR 框架追蹤
+- **23 維度治理矩陣**: 從 00-vision-strategy 到 39-automation 的完整治理維度
+- **GaC (Governance-as-Code)**: 73 個文件，5 個 Phase 完成，100% 生產就緒
+
+---
+
 ## 🏗️ 架構設計文檔 (`docs/architecture/`)
 
 系統架構、設計原則與技術決策文檔。

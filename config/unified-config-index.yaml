@@ -13,9 +13,55 @@
 # - 確保無重複定義 (Ensure no duplicate definitions)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-version: "2.0.0"
+version: "2.1.0"
 id: "synergymesh.unified-config"
-description: "SynergyMesh 統一配置索引 - 所有配置的單一真實來源"
+description: "SynergyMesh 統一配置索引 - 所有配置的單一真實來源 (對齊 governance/00-vision-strategy)"
+
+# ============================================================================
+# Governance Framework (治理框架)
+# ============================================================================
+# Reference to governance/00-vision-strategy - strategic foundation
+governance_dimensions:
+  vision_strategy:
+    id: "00-vision-strategy"
+    path: "governance/00-vision-strategy/"
+    status: "production_ready"
+    completion: "100%"
+    
+    files:
+      vision: "vision-statement.yaml"
+      objectives: "strategic-objectives.yaml"
+      charter: "governance-charter.yaml"
+      alignment: "alignment-framework.yaml"
+      risk_register: "risk-register.yaml"
+      roadmap: "implementation-roadmap.yaml"
+      communication: "communication-plan.yaml"
+      metrics: "success-metrics-dashboard.yaml"
+    
+    key_outcomes:
+      - zero_touch_operations: "95%+ automation"
+      - ai_driven_governance: "100% compliance"
+      - autonomous_framework: "99.9%+ availability"
+      - enterprise_reliability: "99.99%+ SLA"
+
+# ============================================================================
+# Strategic Tracking (戰略追蹤)
+# ============================================================================
+strategic_tracking:
+  okr_framework: 
+    enabled: true
+    objectives_count: 5
+    review_frequency: "Quarterly"
+  
+  metrics_dashboard:
+    file: "governance/00-vision-strategy/success-metrics-dashboard.yaml"
+    update_frequency: "Weekly"
+    reporting_schedule: "Every Monday 10:00 UTC"
+  
+  alignment_verification:
+    enabled: true
+    check_frequency: "Monthly"
+    compliance_target: "100%"
 
 # ============================================================================
 # Master Configuration References (主配置引用)

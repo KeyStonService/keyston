@@ -9,9 +9,47 @@
 # This is the root configuration that references all other configs.
 # ═══════════════════════════════════════════════════════════════════════════════
 
-version: "2.0.0"
+version: "2.1.0"
 id: "synergymesh.system"
-description: "SynergyMesh 系統宣告清單（整合心智矩陣 + 執行長系統 + 增強統一整合 + Phase 2 配置整合）"
+description: |
+  SynergyMesh 系統宣告清單 - 次世代雲原生智能自動化平台
+  整合心智矩陣 + 執行長系統 + 增強統一整合 + Phase 2 配置整合 + 治理框架對齊
+  
+  Strategic Vision: 實現「無人值守」的智能運維，讓企業專注於創新而非維運
+  Governance: 遵循 23 維度治理矩陣，確保全局優化與架構合規
+
+# ============================================================================
+# Governance Framework (治理框架)
+# ============================================================================
+governance:
+  vision_strategy:
+    dimension: "00-vision-strategy"
+    charter: "governance/00-vision-strategy/governance-charter.yaml"
+    objectives: "governance/00-vision-strategy/strategic-objectives.yaml"
+    vision: "governance/00-vision-strategy/vision-statement.yaml"
+    status: "PRODUCTION_READY"
+    compliance_rate: "100%"
+  
+  executive_team:
+    - role: "CEO"
+      responsibility: "最終決策權威、戰略方向制定"
+    - role: "CTO"
+      responsibility: "技術戰略制定、架構方向把關"
+    - role: "VP Engineering"
+      responsibility: "工程實踐標準、交付質量保證"
+    - role: "VP Product"
+      responsibility: "產品方向定義、功能路線圖"
+    - role: "VP Architecture"
+      responsibility: "架構治理執行、23維度矩陣維護"
+  
+  architecture_review_board:
+    chair: "VP Architecture"
+    members:
+      - "Principal Architect"
+      - "Lead Platform Engineer"
+      - "Lead Security Engineer"
+    meeting_frequency: "Weekly"
+    decision_authority: "Architectural & Technical"
 
 # ============================================================================
 # Configuration Hierarchy (配置層級) - Phase 2 Consolidated

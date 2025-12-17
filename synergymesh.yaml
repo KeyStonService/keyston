@@ -4,7 +4,8 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 #
 # Version: 4.0.0
-# Updated: 2025-11-30
+# Vision Version: 1.0.0 (aligned with governance/00-vision-strategy)
+# Updated: 2025-12-16
 # Purpose: Phase 4 整合 - 進一步壓縮目錄結構與統一服務管理
 #
 # This is THE single source of truth for all system configurations.
@@ -12,8 +13,16 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 version: "4.0.0"
+vision_version: "1.0.0"
 name: "SynergyMesh"
-description: "Next-generation cloud-native platform for intelligent business automation"
+description: |
+  次世代雲原生智能自動化平台 - 成為全球領先的企業級智能自動化平台，
+  透過整合 AI 決策引擎、結構化治理系統與自主框架，實現「無人值守」的智能運維，
+  讓企業專注於創新而非維運。
+  
+  Next-Generation Cloud-Native Intelligent Automation Platform - 
+  Achieve "unmanned" intelligent operations through integrated AI decision engines,
+  structural governance systems, and autonomous frameworks.
 
 # ============================================================================
 # System Identity (系統身份)
@@ -44,6 +53,54 @@ configs:
   monitoring: "config/monitoring.yaml"
   ci_error_handler: "config/ci-error-handler.yaml"
   auto_fix_bot: "config/auto-fix-bot.yml"
+
+# ============================================================================
+# Strategic Alignment (戰略對齊)
+# ============================================================================
+# References to governance/00-vision-strategy - the strategic foundation
+strategic_alignment:
+  vision_file: "governance/00-vision-strategy/vision-statement.yaml"
+  objectives_file: "governance/00-vision-strategy/strategic-objectives.yaml"
+  charter_file: "governance/00-vision-strategy/governance-charter.yaml"
+  alignment_file: "governance/00-vision-strategy/alignment-framework.yaml"
+  
+  # Four Key Outcomes (四大核心成果)
+  key_outcomes:
+    zero_touch_operations:
+      target: "95%+ automation"
+      metrics: ["自動化率 ≥ 95%", "MTTR ≤ 5分鐘"]
+    ai_driven_governance:
+      target: "100% compliance"
+      metrics: ["架構合規率 = 100%", "安全漏洞自動修復率 ≥ 90%"]
+    autonomous_framework:
+      target: "99.9%+ availability"
+      metrics: ["系統可用性 ≥ 99.9%", "自主決策準確率 ≥ 98%"]
+    enterprise_reliability:
+      target: "99.99%+ SLA"
+      metrics: ["SLA 可用性 ≥ 99.99%", "零數據丟失"]
+  
+  # Strategic Objectives (戰略目標)
+  objectives:
+    - id: "OBJ-01"
+      title: "建立世界級智能自動化平台"
+      priority: "P0"
+      owner: "CTO"
+    - id: "OBJ-02"
+      title: "實現 95%+ 運維自動化"
+      priority: "P0"
+      owner: "VP Engineering"
+    - id: "OBJ-03"
+      title: "建立完整的 23 維度治理矩陣"
+      priority: "P0"
+      owner: "VP Architecture"
+    - id: "OBJ-04"
+      title: "提供世界級開發者體驗"
+      priority: "P1"
+      owner: "VP Product"
+    - id: "OBJ-05"
+      title: "建立市場領導地位"
+      priority: "P1"
+      owner: "CEO"
 
 # ============================================================================
 # Machine-Native Documentation Layer (機器原生文檔層)
