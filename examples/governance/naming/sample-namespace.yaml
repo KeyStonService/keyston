@@ -1,0 +1,125 @@
+# Sample Namespace Examples
+# 展示符合 Canonical Naming Governance 的 Namespace 配置
+
+---
+# 示例 1: 模式 1 - team-domain-env (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:frontend:env:prod:v1"
+    machinenativeops.io/description: "Frontend team production environment"
+    machinenativeops.io/owner: "frontend-team@example.com"
+    machinenativeops.io/slack-channel: "#team-frontend"
+    machinenativeops.io/cost-center: "CC-1234"
+    machinenativeops.io/created-by: "platform-team"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    team: "frontend-team"
+    domain: "frontend"
+    app.kubernetes.io/name: "frontend"
+    app.kubernetes.io/managed-by: "helm"
+    criticality: "high"
+
+---
+# 示例 2: 模式 2 - tenant-workload-env-region (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant-payment-prod-uswest
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:tenant:payment:env:prod:region:uswest"
+    machinenativeops.io/description: "Payment service for multi-tenant platform in US West"
+    machinenativeops.io/owner: "payment-team@example.com"
+    machinenativeops.io/tenant-id: "enterprise-customer-a"
+    machinenativeops.io/region: "us-west-2"
+    machinenativeops.io/data-residency: "us"
+    machinenativeops.io/compliance: "pci"
+  labels:
+    environment: "prod"
+    tenant: "enterprise-customer-a"
+    workload: "payment"
+    region: "us-west-2"
+    app.kubernetes.io/name: "payment"
+    app.kubernetes.io/managed-by: "terraform"
+    criticality: "critical"
+    multi-tenant: "true"
+
+---
+# 示例 3: 模式 3 - env-app-version (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-api-v2
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:env:prod:app:api:version:v2"
+    machinenativeops.io/description: "API version 2 production deployment"
+    machinenativeops.io/owner: "api-team@example.com"
+    machinenativeops.io/app-version: "v2"
+    machinenativeops.io/deployment-strategy: "canary"
+    machinenativeops.io/traffic-split: "20"
+    machinenativeops.io/predecessor-version: "v1"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    app: "api"
+    version: "v2"
+    app.kubernetes.io/name: "api"
+    app.kubernetes.io/version: "v2.1.0"
+    app.kubernetes.io/managed-by: "argocd"
+    deployment-strategy: "canary"
+
+---
+# 示例 4: 開發環境 - team-domain-dev (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-backend-dev
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:backend:env:dev:v1"
+    machinenativeops.io/description: "Backend team development environment"
+    machinenativeops.io/owner: "backend-team@example.com"
+  labels:
+    environment: "dev"
+    tenant: "platform-team"
+    team: "backend-team"
+    domain: "backend"
+    app.kubernetes.io/name: "backend"
+    app.kubernetes.io/managed-by: "kubectl"
+
+---
+# 示例 5: Staging 環境 - team-domain-staging (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-data-staging
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:data:env:staging:v1"
+    machinenativeops.io/description: "Data team staging environment"
+    machinenativeops.io/owner: "data-team@example.com"
+  labels:
+    environment: "staging"
+    tenant: "platform-team"
+    team: "data-team"
+    domain: "data"
+    app.kubernetes.io/name: "data-platform"
+    app.kubernetes.io/managed-by: "helm"
+
+---
+# 示例 6: 學習環境 - learn-app (✅ 合規)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: learn-ml-sandbox
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:learn:ml:sandbox:v1"
+    machinenativeops.io/description: "Machine learning sandbox for experimentation"
+    machinenativeops.io/owner: "ml-team@example.com"
+  labels:
+    environment: "learn"
+    tenant: "platform-team"
+    team: "ml-team"
+    app.kubernetes.io/name: "ml-sandbox"
+    app.kubernetes.io/managed-by: "kubectl"

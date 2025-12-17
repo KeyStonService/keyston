@@ -1,0 +1,277 @@
+# Canonical Naming Modes - Complete Examples
+# 三種標準命名模式的完整示例
+
+---
+##############################################
+# 模式 1: team-domain-env
+# 適用場景: 團隊級命名空間、微服務
+##############################################
+
+# 模式: team-{domain}-{environment}
+# Regex: ^team-[a-z0-9-]+-(?:dev|test|staging|prod|learn)$
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:frontend:env:prod:v1"
+    machinenativeops.io/naming-mode: "team-domain-env"
+    machinenativeops.io/description: "Frontend team production namespace"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    team: "frontend-team"
+    domain: "frontend"
+
+---
+# 更多 team-domain-env 示例
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-backend-staging
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:backend:env:staging:v1"
+    machinenativeops.io/naming-mode: "team-domain-env"
+  labels:
+    environment: "staging"
+    tenant: "platform-team"
+    team: "backend-team"
+    domain: "backend"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-mobile-dev
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:mobile:env:dev:v1"
+    machinenativeops.io/naming-mode: "team-domain-env"
+  labels:
+    environment: "dev"
+    tenant: "platform-team"
+    team: "mobile-team"
+    domain: "mobile"
+
+---
+##############################################
+# 模式 2: tenant-workload-env-region
+# 適用場景: 多租戶、跨區域部署
+##############################################
+
+# 模式: tenant-{workload}-{environment}-{region}
+# Regex: ^tenant-[a-z0-9-]+-(?:dev|test|staging|prod)-[a-z0-9-]+$
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant-payment-prod-uswest
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:tenant:payment:env:prod:region:uswest"
+    machinenativeops.io/naming-mode: "tenant-workload-env-region"
+    machinenativeops.io/description: "Payment workload for tenant in US West region"
+    machinenativeops.io/region: "us-west-2"
+    machinenativeops.io/data-residency: "us"
+  labels:
+    environment: "prod"
+    tenant: "enterprise-customer-a"
+    workload: "payment"
+    region: "us-west-2"
+    multi-tenant: "true"
+
+---
+# 更多 tenant-workload-env-region 示例
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant-analytics-staging-eucentral
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:tenant:analytics:env:staging:region:eucentral"
+    machinenativeops.io/naming-mode: "tenant-workload-env-region"
+    machinenativeops.io/region: "eu-central-1"
+  labels:
+    environment: "staging"
+    tenant: "enterprise-customer-b"
+    workload: "analytics"
+    region: "eu-central-1"
+    multi-tenant: "true"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenant-auth-prod-apsouth
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:tenant:auth:env:prod:region:apsouth"
+    machinenativeops.io/naming-mode: "tenant-workload-env-region"
+    machinenativeops.io/region: "ap-south-1"
+  labels:
+    environment: "prod"
+    tenant: "enterprise-customer-c"
+    workload: "auth"
+    region: "ap-south-1"
+    multi-tenant: "true"
+
+---
+##############################################
+# 模式 3: env-app-version
+# 適用場景: 多版本共存、藍綠部署、金絲雀發布
+##############################################
+
+# 模式: {environment}-{app}-{version}
+# Regex: ^(?:dev|test|staging|prod)-[a-z0-9-]+-v[0-9]+$
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-api-v2
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:env:prod:app:api:version:v2"
+    machinenativeops.io/naming-mode: "env-app-version"
+    machinenativeops.io/description: "API version 2 in production"
+    machinenativeops.io/app-version: "v2"
+    machinenativeops.io/deployment-strategy: "blue-green"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    app: "api"
+    version: "v2"
+    deployment-strategy: "blue-green"
+
+---
+# 更多 env-app-version 示例
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: staging-frontend-v3
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:env:staging:app:frontend:version:v3"
+    machinenativeops.io/naming-mode: "env-app-version"
+    machinenativeops.io/app-version: "v3"
+    machinenativeops.io/deployment-strategy: "canary"
+    machinenativeops.io/traffic-split: "10"
+  labels:
+    environment: "staging"
+    tenant: "platform-team"
+    app: "frontend"
+    version: "v3"
+    deployment-strategy: "canary"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-backend-v1
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:env:prod:app:backend:version:v1"
+    machinenativeops.io/naming-mode: "env-app-version"
+    machinenativeops.io/app-version: "v1"
+    machinenativeops.io/deployment-strategy: "rolling"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    app: "backend"
+    version: "v1"
+    deployment-strategy: "rolling"
+
+---
+##############################################
+# 命名模式選擇指南
+##############################################
+
+# 使用 team-domain-env 當:
+# - 小到中型團隊 (10-50 人)
+# - 每個團隊負責 1-3 個微服務
+# - 團隊自主管理命名空間
+# - 不需要跨區域部署
+
+# 使用 tenant-workload-env-region 當:
+# - SaaS 提供商
+# - 多租戶隔離需求
+# - 跨區域部署
+# - 需要數據駐留管理
+
+# 使用 env-app-version 當:
+# - 需要多版本 API 共存
+# - 藍綠部署或金絲雀發布
+# - 長期維護多個版本
+# - A/B 測試場景
+
+---
+##############################################
+# 錯誤示例 (❌ 不合規)
+##############################################
+
+# ❌ 錯誤 1: 使用大寫
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: Team-Frontend-Prod  # 違反: 包含大寫字母
+#   labels:
+#     environment: "prod"
+
+---
+# ❌ 錯誤 2: 使用底線
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: team_frontend_prod  # 違反: 使用底線而非破折號
+#   labels:
+#     environment: "prod"
+
+---
+# ❌ 錯誤 3: 不符合任何模式
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: frontend-production  # 違反: 不符合任何 canonical 模式
+#   labels:
+#     environment: "prod"
+
+---
+# ❌ 錯誤 4: 包含保留關鍵字
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: team-core-prod  # 違反: 'core' 是保留關鍵字
+#   labels:
+#     environment: "prod"
+
+---
+# ❌ 錯誤 5: 缺少必需標籤
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: team-frontend-prod  # 符合命名格式
+#   labels:
+#     # 違反: 缺少 'environment' 和 'tenant' 標籤
+#     team: "frontend-team"
+
+---
+# ❌ 錯誤 6: 環境標籤值錯誤
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: team-frontend-prod  # 符合命名格式
+#   labels:
+#     environment: "production"  # 違反: 應該是 'prod' 而非 'production'
+#     tenant: "platform-team"
+
+---
+##############################################
+# 驗證命令
+##############################################
+
+# 使用 Conftest 驗證:
+# conftest test examples/governance/naming/sample-naming-modes.yaml --policy templates/conftest/
+
+# 使用 Python 工具驗證:
+# python tools/governance/python/validate_naming.py \
+#   --spec canonical/machine-spec.yaml \
+#   --resource examples/governance/naming/
+
+# 使用 Gatekeeper (需要集群):
+# kubectl apply -f examples/governance/naming/sample-naming-modes.yaml --dry-run=server

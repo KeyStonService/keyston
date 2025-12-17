@@ -1,0 +1,378 @@
+# GitHub Actions Workflow for Canonical Naming Governance Validation
+# 自動驗證 PR 中的 Kubernetes manifests 是否符合命名規範
+
+name: Canonical Naming Validation
+
+on:
+  pull_request:
+    paths:
+      - 'manifests/**'
+      - 'kubernetes/**'
+      - 'k8s/**'
+      - 'helm/**'
+      - 'terraform/**'
+      - 'kustomize/**'
+    branches:
+      - main
+      - master
+      - develop
+      - 'release/**'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'canonical/**'
+      - 'policies/**'
+      - 'templates/**'
+
+  # 支持手動觸發
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: 'Custom paths to validate (comma-separated)'
+        required: false
+        default: 'manifests/'
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  # Job 1: 驗證命名規範
+  validate-naming:
+    name: Validate Naming Compliance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 獲取完整歷史以進行比較
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml jsonschema
+
+      - name: Install Conftest
+        run: |
+          wget https://github.com/open-policy-agent/conftest/releases/download/v0.48.0/conftest_0.48.0_Linux_x86_64.tar.gz
+          tar xzf conftest_0.48.0_Linux_x86_64.tar.gz
+          sudo mv conftest /usr/local/bin/
+          conftest --version
+
+      - name: Validate machine-spec.yaml structure
+        run: |
+          echo "🔍 Validating canonical/machine-spec.yaml structure..."
+          python -c "
+          import yaml
+          import json
+          import sys
+          from jsonschema import validate, ValidationError
+
+          # 讀取 machine-spec.yaml
+          with open('canonical/machine-spec.yaml', 'r') as f:
+              spec = yaml.safe_load(f)
+
+          # 讀取 schema
+          with open('schemas/naming-spec.schema.yaml', 'r') as f:
+              schema = yaml.safe_load(f)
+
+          # 驗證
+          try:
+              validate(instance=spec, schema=schema)
+              print('✅ machine-spec.yaml is valid')
+          except ValidationError as e:
+              print(f'❌ machine-spec.yaml validation failed: {e}')
+              sys.exit(1)
+          "
+
+      - name: Run Conftest validation
+        id: conftest
+        continue-on-error: true
+        run: |
+          echo "🔍 Running Conftest validation..."
+
+          # 查找所有 Kubernetes manifest 文件
+          MANIFEST_FILES=$(find manifests/ kubernetes/ k8s/ helm/ -name '*.yaml' -o -name '*.yml' 2>/dev/null | head -100)
+
+          if [ -z "$MANIFEST_FILES" ]; then
+            echo "⚠️  No manifest files found, skipping validation"
+            exit 0
+          fi
+
+          # 運行 Conftest
+          conftest test $MANIFEST_FILES \
+            --policy templates/conftest/ \
+            --output json \
+            --all-namespaces \
+            2>&1 | tee conftest-results.json || true
+
+          # 生成摘要
+          python -c "
+          import json
+          import sys
+
+          try:
+              with open('conftest-results.json', 'r') as f:
+                  results = [json.loads(line) for line in f if line.strip()]
+
+              total = len(results)
+              failures = sum(1 for r in results if r.get('failures'))
+              warnings = sum(1 for r in results if r.get('warnings'))
+
+              print(f'\n📊 Conftest Results:')
+              print(f'  Total files: {total}')
+              print(f'  Failures: {failures}')
+              print(f'  Warnings: {warnings}')
+
+              if failures > 0:
+                  sys.exit(1)
+          except Exception as e:
+              print(f'Error processing results: {e}')
+              sys.exit(0)
+          "
+
+      - name: Custom Python validation
+        id: python-validation
+        continue-on-error: true
+        run: |
+          echo "🔍 Running custom Python validation..."
+
+          python tools/governance/python/validate_naming.py \
+            --spec canonical/machine-spec.yaml \
+            --resource manifests/ \
+            --strict \
+            --output validation-report.json \
+            2>&1 | tee validation.log || true
+
+      - name: Generate validation report
+        if: always()
+        run: |
+          echo "📝 Generating validation report..."
+
+          python -c "
+          import yaml
+          import json
+          import os
+          from datetime import datetime
+
+          report = {
+              'timestamp': datetime.now().isoformat(),
+              'pr_number': os.environ.get('GITHUB_REF', 'N/A'),
+              'commit_sha': os.environ.get('GITHUB_SHA', 'N/A'),
+              'conftest_passed': '${{ steps.conftest.outcome }}' == 'success',
+              'python_validation_passed': '${{ steps.python-validation.outcome }}' == 'success',
+              'overall_status': 'pass' if ('${{ steps.conftest.outcome }}' == 'success' and '${{ steps.python-validation.outcome }}' == 'success') else 'fail'
+          }
+
+          # 讀取 Conftest 結果
+          try:
+              with open('conftest-results.json', 'r') as f:
+                  report['conftest_results'] = [json.loads(line) for line in f if line.strip()]
+          except:
+              report['conftest_results'] = []
+
+          # 讀取 Python 驗證結果
+          try:
+              with open('validation-report.json', 'r') as f:
+                  report['python_validation_results'] = json.load(f)
+          except:
+              report['python_validation_results'] = {}
+
+          # 寫入報告
+          with open('full-validation-report.json', 'w') as f:
+              json.dump(report, f, indent=2)
+
+          print('✅ Report generated: full-validation-report.json')
+          "
+
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-results
+          path: |
+            conftest-results.json
+            validation-report.json
+            full-validation-report.json
+            validation.log
+          retention-days: 30
+
+      - name: Comment on PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## ❌ Canonical Naming Validation Failed\n\n';
+
+            // 讀取驗證結果
+            try {
+              const report = JSON.parse(fs.readFileSync('full-validation-report.json', 'utf8'));
+
+              comment += '### Summary\n';
+              comment += `- **Conftest**: ${report.conftest_passed ? '✅ Passed' : '❌ Failed'}\n`;
+              comment += `- **Python Validation**: ${report.python_validation_passed ? '✅ Passed' : '❌ Failed'}\n`;
+              comment += '\n';
+
+              // 添加失敗詳情
+              if (!report.conftest_passed && report.conftest_results) {
+                comment += '### Conftest Violations\n';
+                const failures = report.conftest_results.filter(r => r.failures && r.failures.length > 0);
+                failures.slice(0, 5).forEach(f => {
+                  comment += `\n**${f.filename}:**\n`;
+                  f.failures.forEach(fail => {
+                    comment += `- ${fail.msg}\n`;
+                  });
+                });
+                if (failures.length > 5) {
+                  comment += `\n... and ${failures.length - 5} more files with violations\n`;
+                }
+              }
+
+              comment += '\n### How to Fix\n';
+              comment += '1. Review the [Canonical Naming Governance Guide](../canonical/README.md)\n';
+              comment += '2. Ensure all namespaces follow one of the three canonical patterns:\n';
+              comment += '   - `team-{domain}-{environment}`\n';
+              comment += '   - `tenant-{workload}-{environment}-{region}`\n';
+              comment += '   - `{environment}-{app}-{version}`\n';
+              comment += '3. Add required labels: `environment`, `tenant`\n';
+              comment += '4. Add required annotation: `machinenativeops.io/canonical-urn`\n';
+              comment += '\n';
+              comment += '📚 [Full Documentation](../docs/governance/04-canonical-naming-governance.md)\n';
+
+            } catch (e) {
+              comment += `Error reading validation report: ${e.message}\n`;
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Fail workflow if validation failed
+        if: steps.conftest.outcome == 'failure' || steps.python-validation.outcome == 'failure'
+        run: |
+          echo "❌ Validation failed. Please fix the naming violations before merging."
+          exit 1
+
+  # Job 2: 檢測命名衝突
+  detect-conflicts:
+    name: Detect Naming Conflicts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Run conflict detection
+        run: |
+          echo "🔍 Detecting naming conflicts..."
+
+          python tools/governance/python/naming-migration.py \
+            --spec canonical/machine-spec.yaml \
+            --detect-conflicts \
+            --output conflicts.json \
+            2>&1 | tee conflict-detection.log || true
+
+      - name: Upload conflict report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conflict-report
+          path: |
+            conflicts.json
+            conflict-detection.log
+          retention-days: 30
+
+  # Job 3: 合規率統計
+  compliance-metrics:
+    name: Calculate Compliance Metrics
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Calculate metrics
+        run: |
+          echo "📊 Calculating naming compliance metrics..."
+
+          python -c "
+          import yaml
+          import os
+          from pathlib import Path
+
+          total = 0
+          compliant = 0
+
+          # 查找所有 Namespace 定義
+          for path in Path('manifests/').rglob('*.yaml'):
+              try:
+                  with open(path, 'r') as f:
+                      for doc in yaml.safe_load_all(f):
+                          if doc and doc.get('kind') == 'Namespace':
+                              total += 1
+                              name = doc.get('metadata', {}).get('name', '')
+
+                              # 簡單檢查是否符合基本格式
+                              if len(name) >= 3 and len(name) <= 63 and name.islower():
+                                  compliant += 1
+              except:
+                  pass
+
+          if total > 0:
+              rate = (compliant / total) * 100
+              print(f'📊 Naming Compliance Rate: {rate:.1f}% ({compliant}/{total})')
+              print(f'NCR={rate:.1f}' >> '$GITHUB_ENV')
+          else:
+              print('⚠️  No namespaces found')
+          "
+
+      - name: Create status check
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ncr = process.env.NCR || '0';
+            const status = parseFloat(ncr) >= 99.0 ? 'success' : 'failure';
+
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: status,
+              context: 'naming/compliance-rate',
+              description: `NCR: ${ncr}% (Target: 99.0%)`,
+              target_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            });

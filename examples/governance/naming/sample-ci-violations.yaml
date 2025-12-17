@@ -1,0 +1,344 @@
+# CI/CD Validation Test Cases - Intentional Violations
+# 用於測試 CI/CD 驗證流程的故意違規示例
+# 這些示例應該被 Conftest、Gatekeeper 和 CI 工具拒絕
+
+---
+##############################################
+# 違規類型 1: 命名格式不符合 (RULE-001)
+##############################################
+
+# 違規: 使用大寫字母
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: Team-Frontend-Prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 包含大寫字母
+
+---
+# 違規: 使用底線
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team_frontend_prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 使用底線而非破折號
+
+---
+# 違規: 不符合任何 canonical 模式
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend-production
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 不匹配任何 canonical pattern
+
+---
+# 違規: 名稱太短
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ab
+  labels:
+    environment: "dev"
+    tenant: "test"
+# 預期結果: ❌ FAIL - 少於 3 字符
+
+---
+# 違規: 名稱太長 (超過 63 字符)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-very-long-namespace-name-that-exceeds-the-kubernetes-limit-of-sixtythree-characters
+  labels:
+    environment: "dev"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 超過 63 字符限制
+
+---
+##############################################
+# 違規類型 2: 缺少必需標籤 (RULE-002)
+##############################################
+
+# 違規: 缺少 'environment' 標籤
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  labels:
+    tenant: "platform-team"
+    # missing: environment
+# 預期結果: ❌ FAIL - 缺少必需標籤 'environment'
+
+---
+# 違規: 缺少 'tenant' 標籤
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-backend-dev
+  labels:
+    environment: "dev"
+    # missing: tenant
+# 預期結果: ❌ FAIL - 缺少必需標籤 'tenant'
+
+---
+# 違規: 缺少所有必需標籤
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-mobile-staging
+  labels:
+    app: "mobile"
+    # missing: environment, tenant
+# 預期結果: ❌ FAIL - 缺少多個必需標籤
+
+---
+##############################################
+# 違規類型 3: 保留關鍵字 (RULE-004)
+##############################################
+
+# 違規: 包含 'core' 關鍵字
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-core-prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 'core' 是保留關鍵字
+
+---
+# 違規: 包含 'system' 關鍵字
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-system-dev
+  labels:
+    environment: "dev"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 'system' 是保留關鍵字
+
+---
+# 違規: 包含 'internal' 關鍵字
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-internal-staging
+  labels:
+    environment: "staging"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 'internal' 是保留關鍵字
+
+---
+# 違規: 包含 'legacy' 關鍵字
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-legacy-prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 'legacy' 是保留關鍵字
+
+---
+##############################################
+# 違規類型 4: 環境標籤值錯誤 (RULE-005)
+##############################################
+
+# 違規: 使用 'production' 而非 'prod'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  labels:
+    environment: "production"  # 應該是 'prod'
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 環境值不合法
+
+---
+# 違規: 使用 'development' 而非 'dev'
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-backend-dev
+  labels:
+    environment: "development"  # 應該是 'dev'
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 環境值不合法
+
+---
+# 違規: 使用自定義環境名稱
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-mobile-custom
+  labels:
+    environment: "custom"  # 不在允許列表中
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 環境值不在允許列表
+
+---
+##############################################
+# 違規類型 5: 特殊字符和格式問題
+##############################################
+
+# 違規: 包含特殊字符
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend@prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 包含非法字符 '@'
+
+---
+# 違規: 連續破折號
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team--frontend--prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 包含連續破折號
+
+---
+# 違規: 以破折號開頭
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: -team-frontend-prod
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 以破折號開頭
+
+---
+# 違規: 以破折號結尾
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod-
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ❌ FAIL - 以破折號結尾
+
+---
+##############################################
+# 警告類型: 缺少推薦 annotations (不阻止，僅警告)
+##############################################
+
+# 警告: 缺少 URN annotation
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  # missing: machinenativeops.io/canonical-urn annotation
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+# 預期結果: ⚠️ WARNING - 缺少 URN annotation
+
+---
+# 警告: 缺少描述 annotation
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-backend-dev
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:backend:env:dev:v1"
+    # missing: machinenativeops.io/description
+  labels:
+    environment: "dev"
+    tenant: "platform-team"
+# 預期結果: ⚠️ WARNING - 缺少描述 annotation
+
+---
+##############################################
+# 複合違規: 多個問題同時出現
+##############################################
+
+# 複合違規: 大寫 + 缺少標籤 + 保留關鍵字
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: Team-Core-Production
+  labels:
+    app: "frontend"
+    # missing: environment, tenant
+# 預期結果: ❌ FAIL - 多個違規
+# - 包含大寫字母
+# - 不符合 canonical pattern
+# - 包含保留關鍵字 'core'
+# - 缺少必需標籤
+
+---
+# 複合違規: 底線 + 錯誤環境值 + 缺少 URN
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team_frontend_staging
+  labels:
+    environment: "stage"  # 應該是 'staging'
+    tenant: "platform-team"
+    # missing URN annotation
+# 預期結果: ❌ FAIL + ⚠️ WARNING
+# - 使用底線
+# - 環境值錯誤
+# - 缺少 URN annotation (警告)
+
+---
+##############################################
+# 測試命令
+##############################################
+
+# 驗證這些違規會被正確檢測:
+#
+# 1. 使用 Conftest:
+# conftest test examples/governance/naming/sample-ci-violations.yaml \
+#   --policy templates/conftest/naming.rego
+#
+# 預期: 所有 ❌ FAIL 的資源應該被拒絕
+#
+# 2. 使用 Python 工具:
+# python tools/governance/python/validate_naming.py \
+#   --spec canonical/machine-spec.yaml \
+#   --resource examples/governance/naming/sample-ci-violations.yaml
+#
+# 預期: 返回非零退出碼，列出所有違規
+#
+# 3. 使用 Gatekeeper (需要集群):
+# kubectl apply -f examples/governance/naming/sample-ci-violations.yaml --dry-run=server
+#
+# 預期: Admission webhook 拒絕這些資源
+
+---
+##############################################
+# 正確示例 (作為對比)
+##############################################
+
+# ✅ 正確: 完全符合規範
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-frontend-prod
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:team:frontend:env:prod:v1"
+    machinenativeops.io/description: "Frontend team production environment"
+    machinenativeops.io/owner: "frontend-team@example.com"
+  labels:
+    environment: "prod"
+    tenant: "platform-team"
+    team: "frontend-team"
+    domain: "frontend"
+    app.kubernetes.io/name: "frontend"
+    app.kubernetes.io/managed-by: "helm"
+# 預期結果: ✅ PASS - 完全符合所有規則
