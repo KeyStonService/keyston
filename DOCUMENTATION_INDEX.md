@@ -715,6 +715,7 @@ CLI 工具與腳本文檔。
 | [docs/README.md](./docs/README.md)                               | 文檔入口          | 文檔總覽              |
 | [docs/index.md](./docs/index.md)                                 | 文檔索引          | 索引頁面              |
 | [docs/QUICK_START.md](./docs/QUICK_START.md)                     | 快速開始          | Auto-Fix Bot 快速上手 |
+| [docs/NAMING_GUIDELINES_MANUAL.md](./docs/NAMING_GUIDELINES_MANUAL.md) ⭐ **NEW** | 命名規範學習手冊 | 從零開始到企業級實戰 |
 | [docs/EXAMPLES.md](./docs/EXAMPLES.md)                           | 範例              | 使用範例              |
 | [docs/INTEGRATION_GUIDE.md](./docs/INTEGRATION_GUIDE.md)         | 整合指南          | 外部系統整合          |
 | [docs/COPILOT_SETUP.md](./docs/COPILOT_SETUP.md)                 | Copilot 設置      | GitHub Copilot 整合   |

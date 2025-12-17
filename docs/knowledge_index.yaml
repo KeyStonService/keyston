@@ -370,6 +370,18 @@ items:
     last_reviewed: "2025-11-01"
     description: "GitHub Copilot integration setup."
 
+  - id: "naming_guidelines_manual"
+    path: "docs/NAMING_GUIDELINES_MANUAL.md"
+    title: "Naming Guidelines Learning Manual 彈性命名規範完整學習手冊"
+    domain: "guides"
+    layer: "enablement"
+    type: "guide"
+    tags: ["naming", "conventions", "best-practices", "tutorial", "learning"]
+    owner: "docs-team"
+    status: "stable"
+    last_reviewed: "2024-12-17"
+    description: "Comprehensive learning manual for naming conventions from beginner to enterprise level."
+
   # ===== Security Documents 安全文檔 =====
   - id: "vulnerability_management"
     path: "docs/VULNERABILITY_MANAGEMENT.md"
