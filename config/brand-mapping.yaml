@@ -60,28 +60,28 @@ brand_mapping:
 
   # 檔案名稱替換
   files:
-    - old: "island-ai-instructions.md"
-      new: "island-ai-instructions.md"
+    - old: "src/ai-instructions.md"
+      new: "src/ai-instructions.md"
       description: "AI 指令檔案"
 
-    - old: "island-ai-setup-steps.yml"
-      new: "island-ai-setup-steps.yml"
+    - old: "src/ai-setup-steps.yml"
+      new: "src/ai-setup-steps.yml"
       description: "AI 設定工作流程"
 
-    - old: "validate-island-ai-instructions.yml"
-      new: "validate-island-ai-instructions.yml"
+    - old: "validate-src/ai-instructions.yml"
+      new: "validate-src/ai-instructions.yml"
       description: "指令驗證工作流程"
 
     - old: "ISLAND_AI_SETUP.md"
       new: "ISLAND_AI_SETUP.md"
       description: "AI 設定文檔"
 
-    - old: "fix-island-ai.sh"
-      new: "fix-island-ai.sh"
+    - old: "fix-src/ai.sh"
+      new: "fix-src/ai.sh"
       description: "AI 修復腳本"
 
     - old: "github-copilot-agent-fix.md"
-      new: "island-ai-agent-fix.md"
+      new: "src/ai-agent-fix.md"
       description: "代理修復指南"
 
   # 指令替換
@@ -126,7 +126,7 @@ island_ai_runtime:
   modules:
     model_gateway:
       name: "Model Gateway"
-      path: "island-ai-runtime/model-gateway"
+      path: "src/ai-runtime/model-gateway"
       description: "LLM 提供者選擇 (本地模型, BYOM)"
       capabilities:
         - "多模型路由"
@@ -136,7 +136,7 @@ island_ai_runtime:
 
     agent_framework:
       name: "Agent Framework"
-      path: "island-ai-runtime/agent-framework"
+      path: "src/ai-runtime/agent-framework"
       description: "多代理系統 (Architect/Dev/QA/Security)"
       capabilities:
         - "代理編排"
@@ -146,7 +146,7 @@ island_ai_runtime:
 
     knowledge_engine:
       name: "Knowledge Engine"
-      path: "island-ai-runtime/knowledge-engine"
+      path: "src/ai-runtime/knowledge-engine"
       description: "知識庫和 Repo Graph Embeddings"
       capabilities:
         - "程式碼索引"
@@ -156,7 +156,7 @@ island_ai_runtime:
 
     safety_constitution:
       name: "Safety Constitution"
-      path: "island-ai-runtime/safety-constitution"
+      path: "src/ai-runtime/safety-constitution"
       description: "Guardrails, Red Flags, AI 憲法"
       capabilities:
         - "安全護欄"
@@ -166,7 +166,7 @@ island_ai_runtime:
 
     tool_executor:
       name: "Tool Executor"
-      path: "island-ai-runtime/tool-executor"
+      path: "src/ai-runtime/tool-executor"
       description: "Code-runner, MCP, Filesystem Sandbox"
       capabilities:
         - "程式碼執行"
@@ -176,7 +176,7 @@ island_ai_runtime:
 
     session_memory:
       name: "Session Memory"
-      path: "island-ai-runtime/session-memory"
+      path: "src/ai-runtime/session-memory"
       description: "短期記憶和計畫管理"
       capabilities:
         - "對話記憶"

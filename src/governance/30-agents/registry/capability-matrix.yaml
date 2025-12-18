@@ -1,0 +1,230 @@
+---
+# Agent Capability Matrix
+# Agent 能力矩陣
+
+metadata:
+  name: "Agent Capability Matrix"
+  version: "1.0.0"
+  description: "Defines capabilities available to AI agents and their permission requirements"
+  created_at: "2025-12-11"
+  updated_at: "2025-12-11"
+
+# Capability Definitions
+capabilities:
+  
+  # Automation Capabilities
+  intelligent_automation:
+    category: "automation"
+    description: "Automated task execution and workflow orchestration"
+    risk_level: "medium"
+    approval_required: false
+    permissions_required:
+      - "automation.execute"
+    resource_requirements:
+      memory: "512MB"
+      cpu: "0.5 cores"
+  
+  platform_integration:
+    category: "integration"
+    description: "Integration with SynergyMesh platform components"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "core.read"
+      - "config.read"
+  
+  autonomous_operation:
+    category: "autonomy"
+    description: "Self-directed operation without human intervention"
+    risk_level: "medium"
+    approval_required: true
+    permissions_required:
+      - "automation.deploy"
+      - "automation.monitor"
+      - "automation.heal"
+    resource_requirements:
+      memory: "1GB"
+      cpu: "1 core"
+  
+  governance_compliance:
+    category: "governance"
+    description: "Compliance checking and policy enforcement"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "governance.read"
+      - "policy.validate"
+  
+  behavior_contract_enforcement:
+    category: "governance"
+    description: "Enforce AI Behavior Contract standards"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "contract.read"
+      - "contract.validate"
+  
+  # Data Capabilities
+  data_analysis:
+    category: "analytics"
+    description: "Data analysis and reporting"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "data.read"
+      - "analytics.execute"
+  
+  data_modification:
+    category: "data"
+    description: "Modify system data"
+    risk_level: "high"
+    approval_required: true
+    permissions_required:
+      - "data.write"
+      - "data.validate"
+  
+  # Deployment Capabilities
+  service_deployment:
+    category: "deployment"
+    description: "Deploy and manage services"
+    risk_level: "high"
+    approval_required: true
+    permissions_required:
+      - "deploy.execute"
+      - "service.manage"
+  
+  configuration_management:
+    category: "deployment"
+    description: "Manage system configuration"
+    risk_level: "medium"
+    approval_required: true
+    permissions_required:
+      - "config.write"
+      - "config.validate"
+  
+  # Security Capabilities
+  security_scanning:
+    category: "security"
+    description: "Security vulnerability scanning"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "security.scan"
+  
+  security_remediation:
+    category: "security"
+    description: "Automated security remediation"
+    risk_level: "high"
+    approval_required: true
+    permissions_required:
+      - "security.remediate"
+      - "security.validate"
+  
+  # Monitoring Capabilities
+  system_monitoring:
+    category: "observability"
+    description: "Monitor system health and performance"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "monitor.read"
+      - "metrics.collect"
+  
+  alert_management:
+    category: "observability"
+    description: "Manage alerts and notifications"
+    risk_level: "low"
+    approval_required: false
+    permissions_required:
+      - "alert.create"
+      - "alert.resolve"
+
+# Capability Groups
+capability_groups:
+  basic_agent:
+    capabilities:
+      - intelligent_automation
+      - platform_integration
+      - governance_compliance
+    description: "Basic agent capabilities for standard operations"
+  
+  advanced_agent:
+    capabilities:
+      - intelligent_automation
+      - platform_integration
+      - autonomous_operation
+      - governance_compliance
+      - behavior_contract_enforcement
+      - system_monitoring
+    description: "Advanced agent with autonomous operation"
+  
+  security_agent:
+    capabilities:
+      - security_scanning
+      - security_remediation
+      - governance_compliance
+      - alert_management
+    description: "Security-focused agent capabilities"
+  
+  deployment_agent:
+    capabilities:
+      - service_deployment
+      - configuration_management
+      - system_monitoring
+      - governance_compliance
+    description: "Deployment and configuration management"
+
+# Risk Level Matrix
+risk_levels:
+  low:
+    approval_required: false
+    monitoring_level: "standard"
+    audit_frequency: "quarterly"
+  
+  medium:
+    approval_required: false
+    monitoring_level: "enhanced"
+    audit_frequency: "monthly"
+  
+  high:
+    approval_required: true
+    monitoring_level: "intensive"
+    audit_frequency: "weekly"
+
+# Permission Mappings
+permission_mappings:
+  automation.execute:
+    scope: "automation/*"
+    type: "execute"
+    
+  automation.deploy:
+    scope: "automation/src/autonomous/deployment/*"
+    type: "execute"
+    
+  automation.monitor:
+    scope: "automation/monitoring/*"
+    type: "read"
+    
+  automation.heal:
+    scope: "automation/healing/*"
+    type: "execute"
+    
+  core.read:
+    scope: "core/*"
+    type: "read"
+    
+  config.read:
+    scope: "config/*"
+    type: "read"
+    
+  config.write:
+    scope: "config/*"
+    type: "write"
+    
+  governance.read:
+    scope: "governance/*"
+    type: "read"
+    
+  policy.validate:
+    scope: "governance/policies/*"
+    type: "execute"

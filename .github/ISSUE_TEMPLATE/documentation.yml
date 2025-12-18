@@ -31,7 +31,7 @@ body:
     attributes:
       label: Documentation URL
       description: Link to the documentation page (if applicable)
-      placeholder: https://docs.synergymesh.io/...
+      placeholder: https://docs.machinenativeops.io/...
 
   - type: dropdown
     id: issue-type

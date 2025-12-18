@@ -59,6 +59,63 @@ npm test
 npm run lint
 ```
 
+### Project Structure Guidelines
+
+**📂 Directory Structure** (as of v5.0.0 restructuring plan)
+
+When adding new code or files, follow this structure:
+
+#### Where to Place Your Code
+
+| Type | Location | Example |
+|------|----------|---------|
+| **Core Engine Code** | `src/core/` | AI decision engine, registries |
+| **Governance Code** | `src/governance/` | Schema, policies, validation |
+| **Autonomous System** | `src/autonomous/` | Deployment, infrastructure |
+| **AI & Agents** | `src/ai/` | Agent logic, ML models |
+| **Microservices** | `src/services/` | MCP servers, APIs |
+| **Applications** | `src/apps/` | Web UI, CLI tools |
+| **Shared Libraries** | `src/shared/` | Common utilities, types |
+| **Development Config** | `config/dev/` | DevContainer, VSCode settings |
+| **System Config** | `config/` | YAML manifests, env configs |
+| **Scripts** | `scripts/{dev,ci,ops}/` | Build, deploy, maintenance |
+| **Documentation** | `docs/` | Guides, API docs, architecture |
+| **Tests** | `tests/` | Unit, integration, e2e tests |
+| **Examples** | `examples/` | Sample code, tutorials |
+
+**📋 Full Structure Reference**: See [docs/ARCHITECTURE_RESTRUCTURING_PLAN.md](./docs/ARCHITECTURE_RESTRUCTURING_PLAN.md)
+
+#### Naming Conventions
+
+**Directories**: Always use `kebab-case` (lowercase with hyphens)
+
+```bash
+✅ CORRECT:
+src/ai/virtual-experts/
+config/dev/devcontainer/
+scripts/ci/deploy-staging/
+
+❌ INCORRECT:
+src/ai/VirtualExperts/        # PascalCase
+config/dev/dev_container/     # snake_case
+scripts/CI/DeployStaging/     # Mixed case
+```
+
+**Files**:
+- Configuration files: `kebab-case.yaml`, `kebab-case.json`
+- Scripts: `kebab-case.sh`, `kebab-case.py`
+- TypeScript/JavaScript: `kebab-case.ts`, `PascalCase.tsx` (React components)
+- Python: `snake_case.py`
+
+**Code Naming** (Language-specific):
+- TypeScript: `camelCase` (variables/functions), `PascalCase` (classes/interfaces)
+- Python: `snake_case` (variables/functions), `PascalCase` (classes)
+
+**Prohibited Practices**:
+- ❌ Overly short names (e.g., `ai/`, `ops/`) - use descriptive names
+- ❌ Synonyms coexisting (e.g., `infra/` AND `infrastructure/`)
+- ❌ Version prefixes in directory names (e.g., `v1-python-drones/`) - use Git tags
+
 ### Code Style
 
 - Follow existing code style conventions
@@ -67,6 +124,7 @@ npm run lint
 - Keep code clean and readable
 - TypeScript strict mode is required
 - Follow the project's ESLint configuration
+- Adhere to naming conventions above
 
 ### Commit Message Convention
 

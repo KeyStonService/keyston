@@ -1,0 +1,434 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.dev/schemas/repair.schema.json",
+  "title": "Repair Result",
+  "description": "Schema for automated repair results from SynergyMesh auto-repair engine",
+  "type": "object",
+  "required": [
+    "repair_id",
+    "timestamp",
+    "issue",
+    "repair",
+    "validation"
+  ],
+  "properties": {
+    "repair_id": {
+      "type": "string",
+      "description": "Unique identifier for this repair",
+      "pattern": "^repair-[a-zA-Z0-9_-]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of repair"
+    },
+    "repository": {
+      "type": "string",
+      "description": "Repository identifier"
+    },
+    "branch": {
+      "type": "string",
+      "description": "Git branch name"
+    },
+    "issue": {
+      "type": "object",
+      "description": "Original issue being repaired",
+      "required": [
+        "id",
+        "type",
+        "severity"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Issue identifier",
+          "pattern": "^[A-Z]+-[0-9]+$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "SECURITY",
+            "PERFORMANCE",
+            "CODE_QUALITY",
+            "MAINTAINABILITY",
+            "DEPENDENCY"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        },
+        "file": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "repair": {
+      "type": "object",
+      "description": "Repair details",
+      "required": [
+        "strategy",
+        "status"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "description": "Repair strategy used",
+          "enum": [
+            "rule_based",
+            "ast_based",
+            "ml_based",
+            "manual"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Repair status",
+          "enum": [
+            "success",
+            "failed",
+            "partial",
+            "low_confidence"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Confidence score (0-1)",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "duration": {
+          "type": "number",
+          "description": "Repair duration in seconds",
+          "minimum": 0
+        },
+        "changes": {
+          "type": "object",
+          "description": "Code changes made",
+          "properties": {
+            "files_modified": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lines_added": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lines_removed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lines_modified": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "diff": {
+          "type": "string",
+          "description": "Unified diff of changes"
+        },
+        "original_code": {
+          "type": "string",
+          "description": "Original code snippet"
+        },
+        "fixed_code": {
+          "type": "string",
+          "description": "Fixed code snippet"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Explanation of the fix"
+        },
+        "applied": {
+          "type": "boolean",
+          "description": "Whether fix was applied"
+        },
+        "auto_applied": {
+          "type": "boolean",
+          "description": "Whether fix was automatically applied"
+        },
+        "rule_id": {
+          "type": "string",
+          "description": "Repair rule ID used"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation results",
+      "required": [
+        "overall_passed"
+      ],
+      "properties": {
+        "overall_passed": {
+          "type": "boolean",
+          "description": "Whether all validations passed"
+        },
+        "tests": {
+          "type": "object",
+          "description": "Test results",
+          "properties": {
+            "ran": {
+              "type": "boolean"
+            },
+            "passed": {
+              "type": "boolean"
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "passed_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "failed_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "duration": {
+              "type": "number",
+              "minimum": 0
+            },
+            "coverage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "failures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "test": {
+                    "type": "string"
+                  },
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security_scan": {
+          "type": "object",
+          "description": "Security scan results",
+          "properties": {
+            "ran": {
+              "type": "boolean"
+            },
+            "passed": {
+              "type": "boolean"
+            },
+            "issues_fixed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "new_issues": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "remaining_issues": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "performance_check": {
+          "type": "object",
+          "description": "Performance check results",
+          "properties": {
+            "ran": {
+              "type": "boolean"
+            },
+            "passed": {
+              "type": "boolean"
+            },
+            "before": {
+              "type": "object",
+              "properties": {
+                "duration": {
+                  "type": "number"
+                },
+                "memory": {
+                  "type": "number"
+                },
+                "cpu": {
+                  "type": "number"
+                }
+              }
+            },
+            "after": {
+              "type": "object",
+              "properties": {
+                "duration": {
+                  "type": "number"
+                },
+                "memory": {
+                  "type": "number"
+                },
+                "cpu": {
+                  "type": "number"
+                }
+              }
+            },
+            "improvement": {
+              "type": "number",
+              "description": "Performance improvement ratio"
+            }
+          }
+        },
+        "code_quality": {
+          "type": "object",
+          "description": "Code quality check",
+          "properties": {
+            "ran": {
+              "type": "boolean"
+            },
+            "passed": {
+              "type": "boolean"
+            },
+            "before_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "after_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "improvement": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "description": "Review information",
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "description": "Whether review is required"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "rejected",
+            "not_required"
+          ]
+        },
+        "reviewers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "comment": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "description": "Rollback information",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "performed": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "evidence_hash": {
+      "type": "string",
+      "description": "SHA256 hash of repair evidence for SLSA compliance",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "SLSA provenance information",
+      "properties": {
+        "builder_id": {
+          "type": "string"
+        },
+        "build_type": {
+          "type": "string"
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "uri": {
+                "type": "string"
+              },
+              "digest": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "agent_version": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "rules_version": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

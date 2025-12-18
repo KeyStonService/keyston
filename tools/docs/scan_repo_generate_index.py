@@ -34,7 +34,7 @@ DOMAIN_MAPPING = {
     'automation': ['automation/', 'automation/'],
     'core': ['core/'],
     'frontend': ['frontend/', 'ui/'],
-    'infrastructure': ['infrastructure/', 'deploy/', 'k8s/'],
+    'infrastructure': ['infrastructure/', 'src/autonomous/deployment/', 'k8s/'],
     'tests': ['tests/', 'test-vectors/'],
     'governance': ['governance/'],
     'tools': ['tools/'],

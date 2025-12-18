@@ -1,0 +1,513 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Module Ownership & Lifecycle Map
+#                    模組所有權與生命週期映射
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Track ownership, lifecycle state, and SLA commitments for all modules
+# 用途: 追蹤所有模組的所有權、生命週期狀態和 SLA 承諾
+#
+# Version: 1.0.0
+# Owner: Architecture Team
+# Last Updated: 2025-12-07
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "1.0.0"
+id: "machinenativeops.ownership-map"
+description: "Module ownership, lifecycle, and SLA definitions"
+
+# ============================================================================
+# Lifecycle States | 生命週期狀態
+# ============================================================================
+
+lifecycle_states:
+  experimental:
+    description: "Under active development, API may change frequently"
+    stability: "unstable"
+    support_level: "best_effort"
+    breaking_changes_allowed: true
+    
+  active:
+    description: "Production-ready with stable API"
+    stability: "stable"
+    support_level: "full_support"
+    breaking_changes_allowed: false
+    
+  maintenance:
+    description: "Stable but not actively developed"
+    stability: "stable"
+    support_level: "bug_fixes_only"
+    breaking_changes_allowed: false
+    
+  legacy:
+    description: "Deprecated, use alternatives instead"
+    stability: "frozen"
+    support_level: "critical_fixes_only"
+    breaking_changes_allowed: false
+    
+  deprecated:
+    description: "Will be removed in future release"
+    stability: "frozen"
+    support_level: "none"
+    breaking_changes_allowed: true  # For removal
+
+# ============================================================================
+# Core Platform Modules | 核心平台模組
+# ============================================================================
+
+modules:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core - Unified Integration
+  # ─────────────────────────────────────────────────────────────────────────
+  core.unified_integration:
+    owner: "@core-platform-team"
+    backup_owner: "@architecture-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "core-platform@machinenativeops.io"
+      slack_channel: "#core-platform"
+      oncall_rotation: "core-platform-oncall"
+    
+    sla:
+      availability: "99.9%"
+      response_time_p50: "< 50ms"
+      response_time_p99: "< 200ms"
+      mttr: "< 1 hour"
+      upgrade_cadence: "monthly"
+    
+    dependencies_owned:
+      - "core.unified_integration.service_registry"
+      - "core.unified_integration.cognitive_processor"
+      - "core.unified_integration.configuration_optimizer"
+    
+    risk_level: "critical"
+    technical_debt_score: 2  # 1-5 scale, 1=low, 5=high
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core - Contract Service L1
+  # ─────────────────────────────────────────────────────────────────────────
+  core.contract_service.L1:
+    owner: "@core-platform-team"
+    backup_owner: "@security-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "contracts@machinenativeops.io"
+      slack_channel: "#contracts"
+      oncall_rotation: "platform-oncall"
+    
+    sla:
+      availability: "99.95%"
+      response_time_p50: "< 100ms"
+      response_time_p99: "< 500ms"
+      mttr: "< 30 minutes"
+      upgrade_cadence: "quarterly"
+    
+    risk_level: "critical"
+    technical_debt_score: 1
+    
+    compliance_requirements:
+      - "SLSA Level 3"
+      - "SOC 2 Type II"
+      - "ISO 27001"
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core - SLSA Provenance
+  # ─────────────────────────────────────────────────────────────────────────
+  core.slsa_provenance:
+    owner: "@security-team"
+    backup_owner: "@core-platform-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "security@machinenativeops.io"
+      slack_channel: "#security"
+      oncall_rotation: "security-oncall"
+    
+    sla:
+      availability: "99.99%"
+      response_time_p50: "< 50ms"
+      response_time_p99: "< 200ms"
+      mttr: "< 15 minutes"
+      upgrade_cadence: "monthly with emergency patches as needed"
+      upgrade_schedule: "First Monday of each month"
+      emergency_patch_sla: "< 24 hours for critical vulnerabilities"
+    
+    risk_level: "critical"
+    technical_debt_score: 1
+    
+    compliance_requirements:
+      - "SLSA Level 3"
+      - "NIST 800-53"
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core - Safety Mechanisms
+  # ─────────────────────────────────────────────────────────────────────────
+  core.safety_mechanisms:
+    owner: "@security-team"
+    backup_owner: "@automation-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "safety@machinenativeops.io"
+      slack_channel: "#security"
+      oncall_rotation: "security-oncall"
+    
+    sla:
+      availability: "99.95%"
+      response_time_p50: "< 10ms"
+      response_time_p99: "< 50ms"
+      mttr: "< 30 minutes"
+      upgrade_cadence: "quarterly"
+    
+    risk_level: "critical"
+    technical_debt_score: 2
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core - Mind Matrix
+  # ─────────────────────────────────────────────────────────────────────────
+  core.mind_matrix:
+    owner: "@ai-research-team"
+    backup_owner: "@core-platform-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "ai-research@machinenativeops.io"
+      slack_channel: "#ai-research"
+      oncall_rotation: "ai-research-oncall"
+    
+    sla:
+      availability: "99.5%"
+      response_time_p50: "< 500ms"
+      response_time_p99: "< 2s"
+      mttr: "< 2 hours"
+      upgrade_cadence: "bi-weekly"
+    
+    risk_level: "high"
+    technical_debt_score: 3
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Automation - Autonomous Systems
+  # ─────────────────────────────────────────────────────────────────────────
+  automation.autonomous:
+    owner: "@automation-team"
+    backup_owner: "@security-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "autonomous@machinenativeops.io"
+      slack_channel: "#autonomous"
+      oncall_rotation: "automation-oncall"
+    
+    sla:
+      availability: "99.0%"
+      response_time_p50: "< 100ms"
+      response_time_p99: "< 1s"
+      mttr: "< 1 hour"
+      upgrade_cadence: "monthly"
+    
+    risk_level: "high"
+    technical_debt_score: 3
+    
+    safety_critical: true
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Automation - Intelligent Automation
+  # ─────────────────────────────────────────────────────────────────────────
+  automation.intelligent:
+    owner: "@automation-team"
+    backup_owner: "@core-platform-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "automation@machinenativeops.io"
+      slack_channel: "#automation"
+      oncall_rotation: "automation-oncall"
+    
+    sla:
+      availability: "99.5%"
+      response_time_p50: "< 200ms"
+      response_time_p99: "< 1s"
+      mttr: "< 1 hour"
+      upgrade_cadence: "bi-weekly"
+    
+    risk_level: "medium"
+    technical_debt_score: 2
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Automation - Architect
+  # ─────────────────────────────────────────────────────────────────────────
+  automation.architect:
+    owner: "@architecture-team"
+    backup_owner: "@automation-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "architecture@machinenativeops.io"
+      slack_channel: "#architecture"
+      oncall_rotation: "architecture-oncall"
+    
+    sla:
+      availability: "99.0%"
+      response_time_p50: "< 1s"
+      response_time_p99: "< 5s"
+      mttr: "< 2 hours"
+      upgrade_cadence: "monthly"
+    
+    risk_level: "low"
+    technical_debt_score: 2
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Services - MCP Servers
+  # ─────────────────────────────────────────────────────────────────────────
+  services.mcp:
+    owner: "@services-platform"
+    backup_owner: "@core-platform-team"
+    lifecycle: active
+    
+    team:
+      primary_contact: "services@machinenativeops.io"
+      slack_channel: "#services"
+      oncall_rotation: "services-oncall"
+    
+    sla:
+      availability: "99.5%"
+      response_time_p50: "< 100ms"
+      response_time_p99: "< 500ms"
+      mttr: "< 1 hour"
+      upgrade_cadence: "bi-weekly"
+    
+    risk_level: "medium"
+    technical_debt_score: 2
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Island AI - Multi-Agent System (Experimental)
+  # ─────────────────────────────────────────────────────────────────────────
+  island_ai:
+    owner: "@ai-research-team"
+    backup_owner: "@core-platform-team"
+    lifecycle: experimental
+    
+    team:
+      primary_contact: "src/ai@machinenativeops.io"
+      slack_channel: "#src/ai"
+      oncall_rotation: null  # No oncall for experimental
+    
+    sla:
+      availability: "95.0%"
+      response_time_p50: "< 1s"
+      response_time_p99: "< 5s"
+      mttr: "< 4 hours"
+      upgrade_cadence: "daily"
+    
+    risk_level: "low"
+    technical_debt_score: 4
+    
+    experimental_features:
+      - "Multi-agent orchestration"
+      - "Self-learning governance"
+    
+    promotion_criteria:
+      - "Test coverage > 80%"
+      - "Performance benchmarks met"
+      - "Security audit completed"
+      - "Documentation completed"
+    
+    migration_path: null
+    deprecation_date: null
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Apps - Web UI
+  # ─────────────────────────────────────────────────────────────────────────
+  apps.web.ui:
+    owner: "@frontend-team"
+    backup_owner: "@services-platform"
+    lifecycle: active
+    
+    team:
+      primary_contact: "frontend@machinenativeops.io"
+      slack_channel: "#frontend"
+      oncall_rotation: "frontend-oncall"
+    
+    sla:
+      availability: "99.0%"
+      response_time_p50: "< 200ms"
+      response_time_p99: "< 1s"
+      mttr: "< 2 hours"
+      upgrade_cadence: "weekly"
+    
+    risk_level: "low"
+    technical_debt_score: 3
+    
+    user_facing: true
+    
+    migration_path: null
+    deprecation_date: null
+
+# ============================================================================
+# Team Definitions | 團隊定義
+# ============================================================================
+
+teams:
+  core-platform-team:
+    name: "Core Platform Team"
+    description: "Owns core platform modules and integration layer"
+    members: 8
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/core-platform"
+    
+  security-team:
+    name: "Security Team"
+    description: "Owns security, compliance, and safety modules"
+    members: 5
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/security"
+    
+  automation-team:
+    name: "Automation Team"
+    description: "Owns automation and autonomous systems"
+    members: 6
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/automation"
+    
+  architecture-team:
+    name: "Architecture Team"
+    description: "Owns architecture governance and analysis tools"
+    members: 4
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/architecture"
+    
+  ai-research-team:
+    name: "AI Research Team"
+    description: "Owns AI/ML systems and research initiatives"
+    members: 6
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/ai-research"
+    
+  services-platform:
+    name: "Services Platform Team"
+    description: "Owns service layer and API gateways"
+    members: 7
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/services"
+    
+  frontend-team:
+    name: "Frontend Team"
+    description: "Owns user-facing applications and UIs"
+    members: 5
+    timezone: "UTC+8"
+    github_team: "@SynergyMesh-admin/frontend"
+
+# ============================================================================
+# Approval Workflows | 審批工作流
+# ============================================================================
+
+approval_workflows:
+  critical_modules:
+    criteria:
+      - risk_level: "critical"
+    approvals_required: 2
+    required_approvers:
+      - "@core-platform-team"
+      - "@security-team"
+    auto_merge: false
+    
+  high_risk_modules:
+    criteria:
+      - risk_level: "high"
+    approvals_required: 2
+    required_approvers:
+      - owner
+      - backup_owner
+    auto_merge: false
+    
+  standard_modules:
+    criteria:
+      - risk_level: "medium"
+      - risk_level: "low"
+    approvals_required: 1
+    required_approvers:
+      - owner
+    auto_merge: false
+    
+  experimental_modules:
+    criteria:
+      - lifecycle: "experimental"
+    approvals_required: 1
+    required_approvers:
+      - owner
+    auto_merge: true  # Can auto-merge after approval
+
+# ============================================================================
+# Escalation Paths | 升級路徑
+# ============================================================================
+
+escalation:
+  critical_incident:
+    level_1: "Module owner oncall"
+    level_2: "Backup owner oncall"
+    level_3: "Architecture team lead"
+    level_4: "CTO"
+    escalation_time: "15 minutes"
+    
+  high_priority:
+    level_1: "Module owner"
+    level_2: "Backup owner"
+    level_3: "Team lead"
+    escalation_time: "1 hour"
+    
+  standard:
+    level_1: "Module owner"
+    level_2: "Team lead"
+    escalation_time: "4 hours"
+
+# ============================================================================
+# Migration Tracking | 遷移追蹤
+# ============================================================================
+
+migrations:
+  # Example: Legacy module being replaced
+  # legacy.old_module:
+  #   status: "in_progress"
+  #   replacement: "core.new_module"
+  #   start_date: "2025-01-01"
+  #   completion_date: "2025-06-01"
+  #   migration_guide: "docs/migrations/old-to-new.md"
+
+# ============================================================================
+# References | 參考
+# ============================================================================
+
+references:
+  architecture_governance_matrix: "governance/29-docs/ARCHITECTURE_GOVERNANCE_MATRIX.md"
+  layers_domains: "governance/01-architecture/config/layers-domains.yaml"
+  module_mapping: "config/system-module-map.yaml"
+  behavior_contracts: "governance/37-behavior-contracts/"

@@ -1,0 +1,303 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.dev/schemas/osv-advisory.schema.json",
+  "title": "OSV Advisory",
+  "description": "Open Source Vulnerability (OSV) format schema - GitHub Advisory Database compatible",
+  "type": "object",
+  "required": ["id", "modified", "summary", "affected"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "OSV schema version",
+      "default": "1.6.0"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (GHSA format)",
+      "pattern": "^GHSA-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}$"
+    },
+    "modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication timestamp"
+    },
+    "withdrawn": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Withdrawal timestamp"
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Alternative identifiers (CVE, etc.)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related": {
+      "type": "array",
+      "description": "Related advisory IDs",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief summary of the vulnerability",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "details": {
+      "type": "string",
+      "description": "Detailed description of the vulnerability"
+    },
+    "severity": {
+      "type": "array",
+      "description": "Severity scores",
+      "items": {
+        "type": "object",
+        "required": ["type", "score"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["CVSS_V2", "CVSS_V3", "CVSS_V4"]
+          },
+          "score": {
+            "type": "string",
+            "description": "CVSS vector string"
+          }
+        }
+      }
+    },
+    "affected": {
+      "type": "array",
+      "description": "Affected packages",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/affected"
+      }
+    },
+    "references": {
+      "type": "array",
+      "description": "External references",
+      "items": {
+        "$ref": "#/definitions/reference"
+      }
+    },
+    "credits": {
+      "type": "array",
+      "description": "Credits for discovery/fix",
+      "items": {
+        "$ref": "#/definitions/credit"
+      }
+    },
+    "database_specific": {
+      "type": "object",
+      "description": "GitHub-specific fields",
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+        },
+        "cwe_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^CWE-[0-9]+$"
+          }
+        },
+        "github_reviewed": {
+          "type": "boolean"
+        },
+        "github_reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "nvd_published_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "affected": {
+      "type": "object",
+      "required": ["package"],
+      "properties": {
+        "package": {
+          "type": "object",
+          "required": ["name", "ecosystem"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ecosystem": {
+              "type": "string",
+              "enum": [
+                "actions",
+                "composer",
+                "erlang",
+                "go",
+                "maven",
+                "npm",
+                "nuget",
+                "other",
+                "pip",
+                "pub",
+                "rubygems",
+                "rust",
+                "swift"
+              ]
+            },
+            "purl": {
+              "type": "string"
+            }
+          }
+        },
+        "severity": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["CVSS_V2", "CVSS_V3", "CVSS_V4"]
+              },
+              "score": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ranges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/range"
+          }
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ecosystem_specific": {
+          "type": "object"
+        },
+        "database_specific": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "range": {
+      "type": "object",
+      "required": ["type", "events"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["SEMVER", "ECOSYSTEM", "GIT"]
+        },
+        "repo": {
+          "type": "string",
+          "format": "uri"
+        },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "introduced": {
+                "type": "string"
+              },
+              "fixed": {
+                "type": "string"
+              },
+              "last_affected": {
+                "type": "string"
+              },
+              "limit": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "database_specific": {
+          "type": "object",
+          "properties": {
+            "last_known_affected_version_range": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "required": ["type", "url"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ADVISORY",
+            "ARTICLE",
+            "DETECTION",
+            "DISCUSSION",
+            "EVIDENCE",
+            "FIX",
+            "GIT",
+            "INTRODUCED",
+            "PACKAGE",
+            "REPORT",
+            "WEB"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "credit": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "FINDER",
+            "REPORTER",
+            "ANALYST",
+            "COORDINATOR",
+            "REMEDIATION_DEVELOPER",
+            "REMEDIATION_REVIEWER",
+            "REMEDIATION_VERIFIER",
+            "TOOL",
+            "SPONSOR",
+            "OTHER"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://imachinenativeops.com/schemas/policy-report.json",
+  "title": "策略模擬報告 Schema",
+  "description": "機器可讀的策略測試結果格式定義",
+  "type": "object",
+  "required": [
+    "simulation_timestamp",
+    "workflow_run_id",
+    "commit_sha",
+    "results",
+    "summary"
+  ],
+  "properties": {
+    "simulation_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "模擬執行時間戳（ISO 8601 格式）"
+    },
+    "workflow_run_id": {
+      "type": "string",
+      "description": "GitHub Actions workflow 執行 ID"
+    },
+    "commit_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$",
+      "description": "Git commit SHA"
+    },
+    "results": {
+      "type": "object",
+      "description": "各類資源的策略檢查結果",
+      "properties": {
+        "deployment": {
+          "$ref": "#/definitions/policyResult"
+        },
+        "service": {
+          "$ref": "#/definitions/policyResult"
+        },
+        "ingress": {
+          "$ref": "#/definitions/policyResult"
+        },
+        "configmap": {
+          "$ref": "#/definitions/policyResult"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_checks", "passed", "failed"],
+      "properties": {
+        "total_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "總檢查數"
+        },
+        "passed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "通過數"
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "失敗數"
+        },
+        "warnings": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "警告數"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "policyResult": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "expressions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "oneOf": [
+                        {
+                          "type": "array",
+                          "items": {"type": "string"}
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "策略違規訊息陣列或 null（無違規）"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

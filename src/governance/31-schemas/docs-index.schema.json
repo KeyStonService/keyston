@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.machinenativeops.io/docs-index/v1",
+  "title": "SynergyMesh Docs Index Schema v1 (Mirror)",
+  "description": "治理鏡像：定義 SynergyMesh 文件/資產索引之權威結構，支援系統↔系統治理、跨平台掛載與供應鏈證據。",
+  "type": "object",
+  "required": ["version", "items"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://schema.machinenativeops.io/docs-index/v1",
+      "description": "Schema namespace identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "索引檔版本（語義化版本，例如 1.0.0）"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.]*[a-z0-9]$",
+      "description": "Optional namespace identifier"
+    },
+    "last_updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "Last update date (YYYY-MM-DD)"
+    },
+    "categories": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["name"]
+      },
+      "description": "文檔分類定義"
+    },
+    "layers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "架構層定義"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path",
+          "title",
+          "domain",
+          "layer",
+          "type",
+          "tags",
+          "owner",
+          "status",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+([a-z0-9-_]*[a-z0-9])?$",
+            "description": "唯一識別符（全域唯一），建議含域前綴；例：docs-core-overview"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^(?:[A-Za-z0-9._\\-/]+)$",
+            "description": "資產相對路徑或 URL；建議使用相對倉庫根之穩定路徑"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120,
+            "description": "資產標題（面向人類與系統的摘要）"
+          },
+          "domain": {
+            "type": "string",
+            "enum": [
+              "automation",
+              "core",
+              "frontend",
+              "infrastructure",
+              "tests",
+              "governance",
+              "tools",
+              "ops",
+              "operations",
+              "config",
+              "docs",
+              "mcp-servers",
+              "agent",
+              "shared",
+              "bridges",
+              "contracts",
+              "runtime",
+              "github",
+              "architecture",
+              "security",
+              "guides"
+            ],
+            "description": "資產所屬業務或技術域"
+          },
+          "layer": {
+            "type": "string",
+            "enum": [
+              "coordination",
+              "execution",
+              "monitoring",
+              "supplyChain",
+              "audit",
+              "policy",
+              "schema",
+              "workflow",
+              "ui",
+              "service",
+              "runtime",
+              "docs",
+              "experience-interfaces",
+              "platform-core",
+              "ai-automation",
+              "enablement",
+              "governance-ops"
+            ],
+            "description": "系統結構圖層映射"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "yaml",
+              "json",
+              "ts-module",
+              "py-module",
+              "go-module",
+              "service-config",
+              "policy",
+              "schema",
+              "workflow",
+              "audit-entry",
+              "sbom",
+              "provenance",
+              "diagram",
+              "readme",
+              "reference",
+              "design",
+              "index",
+              "guide",
+              "api-reference"
+            ],
+            "description": "具體資產類型"
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+([a-z0-9-_]*[a-z0-9])?$"
+            },
+            "description": "自由標籤，用於檢索與分類"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80,
+            "description": "責任所有者，可為團隊或代理名稱"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "stable", "deprecated", "archived", "experimental"],
+            "description": "資產生命週期狀態"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400,
+            "description": "簡述用途與範圍"
+          },
+          "last_reviewed": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "Last review date (YYYY-MM-DD)"
+          },
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "kubernetes",
+                "docker",
+                "linux",
+                "windows",
+                "macos",
+                "ios",
+                "android",
+                "aws",
+                "gcp",
+                "azure",
+                "edge",
+                "baremetal"
+              ]
+            },
+            "description": "適用平台（可選），為跨平台工作預留"
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["typescript", "javascript", "python", "go", "cpp", "rust", "java", "yaml", "json", "markdown"]
+            },
+            "description": "相關語言（可選）"
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "slsaRef": { "type": "string" },
+              "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "signatureRef": { "type": "string" }
+            },
+            "additionalProperties": false,
+            "description": "供應鏈溯源參考（可選）"
+          },
+          "sbom": {
+            "type": "object",
+            "properties": {
+              "format": { "type": "string", "enum": ["spdx-json", "cyclonedx-json"] },
+              "ref": { "type": "string" }
+            },
+            "additionalProperties": false,
+            "description": "SBOM 參考（可選）"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["rel", "href"],
+              "properties": {
+                "rel": { "type": "string" },
+                "href": { "type": "string" }
+              }
+            },
+            "description": "相關連結（如原始文檔、設計圖、API）"
+          },
+          "meta": {
+            "type": "object",
+            "description": "自由擴充欄位，供特定代理或平台使用"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "type"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["complements", "parent-child", "depends-on", "references"]
+          }
+        }
+      },
+      "description": "文檔間關係"
+    }
+  },
+  "additionalProperties": false
+}

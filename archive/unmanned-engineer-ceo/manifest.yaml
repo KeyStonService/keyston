@@ -1,0 +1,162 @@
+version: 0.1.0
+last_reviewed: 2025-12-04
+owners:
+  - name: SynergyMesh Architecture Guild
+    contact: governance@unmanned.island
+alignment:
+  source_of_truth:
+    - machinenativeops.yaml
+    - config/system-manifest.yaml
+  governance_schema: governance/schemas/document-index.schema.json
+  knowledge_index: docs/LIVING_KNOWLEDGE_BASE.md
+modules:
+  - id: foundation.distributed-systems
+    name: Distributed Systems Core
+    path: unmanned-engineer-ceo/00-foundation/01-distributed-systems
+    schema: governance/schemas/knowledge-module.schema.json
+    depends_on:
+      - core/unified_integration
+      - core/mind_matrix
+    outputs:
+      - labs/README.md
+      - patterns/README.md
+  - id: foundation.system-architecture
+    name: System Architecture Patterns
+    path: unmanned-engineer-ceo/00-foundation/02-system-architecture
+    schema: governance/schemas/architecture-playbook.schema.json
+    depends_on:
+      - automation/intelligent
+      - config/system-module-map.yaml
+  - id: foundation.advanced-ds
+    name: Advanced Data Structures & Algorithms
+    path: unmanned-engineer-ceo/00-foundation/03-data-structures-algorithms
+    schema: governance/schemas/training-track.schema.json
+    depends_on:
+      - core/storage-engine
+      - services/agents/architect
+  - id: advanced.code-quality
+    name: Code Quality & Maintainability
+    path: unmanned-engineer-ceo/01-advanced-engineering/04-code-quality
+    schema: governance/schemas/engineering-handbook.schema.json
+    depends_on:
+      - tools/cli
+      - core/contract_service
+  - id: advanced.testing
+    name: Testing & Chaos Engineering
+    path: unmanned-engineer-ceo/01-advanced-engineering/05-testing-engineering
+    schema: governance/schemas/testing-strategy.schema.json
+    depends_on:
+      - tests/
+      - infrastructure/monitoring
+  - id: advanced.versioning
+    name: Versioning & Collaboration
+    path: unmanned-engineer-ceo/01-advanced-engineering/06-versioning-collaboration
+    schema: governance/schemas/process-handbook.schema.json
+    depends_on:
+      - .github/workflows
+      - config/agents/team/virtual-experts.yaml
+  - id: enterprise.cicd
+    name: CI/CD & DevOps
+    path: unmanned-engineer-ceo/02-enterprise-capabilities/07-ci-cd-devops
+    schema: governance/schemas/devops-map.schema.json
+    depends_on:
+      - Makefile
+      - .github/workflows
+  - id: enterprise.observability
+    name: Observability Practices
+    path: unmanned-engineer-ceo/02-enterprise-capabilities/08-observability
+    schema: governance/schemas/observability-kit.schema.json
+    depends_on:
+      - infrastructure/monitoring
+      - docs/KNOWLEDGE_HEALTH.md
+  - id: enterprise.security
+    name: Security & Compliance
+    path: unmanned-engineer-ceo/02-enterprise-capabilities/09-security-compliance
+    schema: governance/schemas/security-playbook.schema.json
+    depends_on:
+      - core/slsa_provenance
+      - governance/policies
+  - id: enterprise.performance
+    name: Performance Engineering
+    path: unmanned-engineer-ceo/02-enterprise-capabilities/10-performance-engineering
+    schema: governance/schemas/performance-guide.schema.json
+    depends_on:
+      - core/ai_decision_engine.py
+      - apps/web
+  - id: intelligence.ml
+    name: ML & AI Strategy
+    path: unmanned-engineer-ceo/03-intelligence/11-ml-ai
+    schema: governance/schemas/ml-handbook.schema.json
+    depends_on:
+      - applications/ml-pipeline
+      - core/mind_matrix
+  - id: intelligence.causal
+    name: Causal Reasoning
+    path: unmanned-engineer-ceo/03-intelligence/12-causal-reasoning
+    schema: governance/schemas/decision-policy.schema.json
+    depends_on:
+      - automation/architect
+      - docs/ADVANCED_ESCALATION_SYSTEM.md
+  - id: intelligence.quantum
+    name: Quantum Computing Sandbox
+    path: unmanned-engineer-ceo/03-intelligence/13-quantum-computing
+    schema: governance/schemas/experiment-lab.schema.json
+    depends_on:
+      - labs/quantum (future)
+  - id: intelligence.knowledge-graphs
+    name: Knowledge Graph Engineering
+    path: unmanned-engineer-ceo/03-intelligence/14-knowledge-graphs
+    schema: governance/schemas/knowledge-graph.schema.json
+    depends_on:
+      - docs/knowledge-graph.yaml
+      - runtime/
+  - id: systems.system-dynamics
+    name: System Dynamics & Org Design
+    path: unmanned-engineer-ceo/04-systems-thinking
+    schema: governance/schemas/org-playbook.schema.json
+    depends_on:
+      - services/agents
+      - governance/schemas/org-structure.schema.json
+  - id: traits.matrix
+    name: Traits & Cognitive Matrix
+    path: unmanned-engineer-ceo/10-traits-matrix
+    schema: governance/schemas/talent-matrix.schema.json
+    depends_on:
+      - config/agents/team/virtual-experts.yaml
+      - docs/KNOWLEDGE_HEALTH.md
+  - id: roadmap.program
+    name: Capability Roadmap
+    path: unmanned-engineer-ceo/20-roadmap
+    schema: governance/schemas/program-roadmap.schema.json
+    depends_on:
+      - DOCUMENTATION_INDEX.md
+      - services/agents/developer
+  - id: assessment.framework
+    name: Assessment Framework
+    path: unmanned-engineer-ceo/30-assessment
+    schema: governance/schemas/assessment-matrix.schema.json
+    depends_on:
+      - automation/self_awareness_report.py
+  - id: simulations.portfolio
+    name: Simulation Portfolio
+    path: unmanned-engineer-ceo/40-simulations
+    schema: governance/schemas/simulation-kit.schema.json
+    depends_on:
+      - infrastructure/drift
+      - docs/operations/
+  - id: org.implementation
+    name: Org Implementation Guide
+    path: unmanned-engineer-ceo/50-org-implementation
+    schema: governance/schemas/org-implementation.schema.json
+    depends_on:
+      - config/ai-constitution.yaml
+  - id: meta.integration
+    name: Meta Integration Layer
+    path: unmanned-engineer-ceo/99-meta
+    schema: governance/schemas/knowledge-index.schema.json
+    depends_on:
+      - docs/generated-mndoc.yaml
+      - docs/knowledge-health-report.yaml
+reviews:
+  frequency: quarterly
+  pipeline_hook: make all-kg

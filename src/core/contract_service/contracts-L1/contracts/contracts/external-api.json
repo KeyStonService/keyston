@@ -1,0 +1,262 @@
+{
+  "$schema": "https://imachinenativeops.com/schemas/api-contract/v1.0.0",
+  "contract_version": "1.0.0",
+  "description": "外部 API SLA 契約定義 - External API SLA Contracts",
+  "contracts": {
+    "sigstore": {
+      "provider": "Sigstore",
+      "base_url": "https://fulcio.sigstore.dev",
+      "description": "Sigstore 公開金鑰基礎設施服務",
+      "required": true,
+      "sla": {
+        "latency": {
+          "p50": "< 100ms",
+          "p95": "< 200ms",
+          "p99": "< 500ms",
+          "max": "< 2000ms"
+        },
+        "error_rate": {
+          "threshold": "< 1%",
+          "critical_threshold": "< 5%"
+        },
+        "availability": {
+          "target": "99.9%",
+          "measurement_period": "30d"
+        }
+      },
+      "endpoints": [
+        {
+          "path": "/api/v1/sign",
+          "method": "POST",
+          "description": "簽章請求",
+          "expected_response_time": "< 150ms",
+          "schema": {
+            "request": {
+              "type": "object",
+              "required": ["artifact_digest", "identity_token"],
+              "properties": {
+                "artifact_digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "identity_token": {
+                  "type": "string"
+                }
+              }
+            },
+            "response": {
+              "type": "object",
+              "required": ["signature", "certificate"],
+              "properties": {
+                "signature": {"type": "string"},
+                "certificate": {"type": "string"}
+              }
+            }
+          }
+        },
+        {
+          "path": "/api/v1/verify",
+          "method": "POST",
+          "description": "驗證簽章",
+          "expected_response_time": "< 100ms",
+          "schema": {
+            "request": {
+              "type": "object",
+              "required": ["artifact_digest", "signature", "certificate"],
+              "properties": {
+                "artifact_digest": {"type": "string"},
+                "signature": {"type": "string"},
+                "certificate": {"type": "string"}
+              }
+            },
+            "response": {
+              "type": "object",
+              "required": ["valid", "subject"],
+              "properties": {
+                "valid": {"type": "boolean"},
+                "subject": {"type": "string"}
+              }
+            }
+          }
+        }
+      ],
+      "health_check": {
+        "endpoint": "/healthz",
+        "method": "GET",
+        "expected_status": 200,
+        "timeout": "5s",
+        "interval": "30s"
+      },
+      "rate_limits": {
+        "requests_per_second": 100,
+        "burst": 200
+      },
+      "authentication": {
+        "type": "OIDC",
+        "issuer": "https://oauth2.sigstore.dev/auth"
+      }
+    },
+    "github_api": {
+      "provider": "GitHub",
+      "base_url": "https://api.github.com",
+      "description": "GitHub REST API v3",
+      "required": false,
+      "sla": {
+        "latency": {
+          "p50": "< 200ms",
+          "p95": "< 500ms",
+          "p99": "< 1000ms",
+          "max": "< 5000ms"
+        },
+        "error_rate": {
+          "threshold": "< 0.5%",
+          "critical_threshold": "< 3%"
+        },
+        "availability": {
+          "target": "99.99%",
+          "measurement_period": "30d"
+        }
+      },
+      "endpoints": [
+        {
+          "path": "/repos/:owner/:repo/commits/:sha",
+          "method": "GET",
+          "description": "取得 commit 資訊",
+          "expected_response_time": "< 300ms",
+          "schema": {
+            "request": {
+              "type": "object",
+              "required": ["owner", "repo", "sha"],
+              "properties": {
+                "owner": {"type": "string"},
+                "repo": {"type": "string"},
+                "sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+              }
+            },
+            "response": {
+              "type": "object",
+              "required": ["sha", "commit", "author"],
+              "properties": {
+                "sha": {"type": "string"},
+                "commit": {"type": "object"},
+                "author": {"type": "object"}
+              }
+            }
+          }
+        },
+        {
+          "path": "/repos/:owner/:repo/actions/runs",
+          "method": "GET",
+          "description": "列出 workflow runs",
+          "expected_response_time": "< 400ms",
+          "schema": {
+            "request": {
+              "type": "object",
+              "required": ["owner", "repo"],
+              "properties": {
+                "owner": {"type": "string"},
+                "repo": {"type": "string"},
+                "per_page": {"type": "integer", "minimum": 1, "maximum": 100}
+              }
+            },
+            "response": {
+              "type": "object",
+              "required": ["total_count", "workflow_runs"],
+              "properties": {
+                "total_count": {"type": "integer"},
+                "workflow_runs": {
+                  "type": "array",
+                  "items": {"type": "object"}
+                }
+              }
+            }
+          }
+        }
+      ],
+      "health_check": {
+        "endpoint": "/",
+        "method": "GET",
+        "expected_status": 200,
+        "timeout": "10s",
+        "interval": "60s"
+      },
+      "rate_limits": {
+        "requests_per_hour": 5000,
+        "authenticated_requests_per_hour": 5000
+      },
+      "authentication": {
+        "type": "token",
+        "header": "Authorization",
+        "format": "Bearer {token}"
+      }
+    }
+  },
+  "testing": {
+    "enabled": true,
+    "schedule": "*/15 * * * *",
+    "timeout": "30s",
+    "retry": {
+      "max_attempts": 3,
+      "backoff": "exponential",
+      "initial_delay": "1s"
+    },
+    "assertions": [
+      {
+        "name": "sigstore_latency_p95",
+        "description": "Sigstore API p95 延遲 < 200ms",
+        "type": "latency",
+        "target": "sigstore",
+        "percentile": 95,
+        "threshold": 200,
+        "unit": "ms"
+      },
+      {
+        "name": "sigstore_error_rate",
+        "description": "Sigstore API 錯誤率 < 1%",
+        "type": "error_rate",
+        "target": "sigstore",
+        "threshold": 1.0,
+        "unit": "%"
+      },
+      {
+        "name": "github_availability",
+        "description": "GitHub API 可用性 >= 99.9%",
+        "type": "availability",
+        "target": "github_api",
+        "threshold": 99.9,
+        "unit": "%"
+      }
+    ]
+  },
+  "alerts": {
+    "enabled": true,
+    "channels": ["slack", "email"],
+    "rules": [
+      {
+        "name": "sigstore_high_latency",
+        "condition": "latency_p95 > 200ms",
+        "severity": "warning",
+        "message": "Sigstore API 延遲過高: ${latency_p95}ms"
+      },
+      {
+        "name": "sigstore_high_error_rate",
+        "condition": "error_rate > 1%",
+        "severity": "critical",
+        "message": "Sigstore API 錯誤率過高: ${error_rate}%"
+      },
+      {
+        "name": "github_unavailable",
+        "condition": "availability < 99%",
+        "severity": "warning",
+        "message": "GitHub API 可用性低於 SLA: ${availability}%"
+      }
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2025-11-24T00:00:00Z",
+    "updated_at": "2025-11-24T11:54:00Z",
+    "author": "platform@imachinenativeops.com",
+    "language": "zh-TW"
+  }
+}

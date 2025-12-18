@@ -40,14 +40,14 @@
     "baseUrl": ".",
     "ignoreDeprecations": "5.0",
     "paths": {
-      "@synergymesh/*": ["src/*"],
-      "@core/*": ["core/*"],
-      "@bridges/*": ["bridges/*"],
-      "@automation/*": ["automation/*"],
-      "@mcp/*": ["mcp-servers/*"],
+      "@machinenativeops/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@bridges/*": ["src/bridges/*"],
+      "@automation/*": ["src/automation/*"],
+      "@mcp/*": ["src/mcp-servers/*"],
       "@types/*": ["types/*"],
       "@utils/*": ["src/utils/*"],
-      "@validation/*": ["validation/*"]
+      "@validation/*": ["src/validation/*"]
     },
 
     "typeRoots": [
@@ -71,8 +71,8 @@
   ],
 
   "references": [
-    { "path": "./mcp-servers" },
-    { "path": "./core/contract_service/contracts-L1/contracts" },
-    { "path": "./unmanned-engineer-ceo" }
+    { "path": "./src/mcp-servers" },
+    { "path": "./src/core/contract_service/contracts-L1/contracts" },
+    { "path": "./archive/unmanned-engineer-ceo" }
   ]
 }

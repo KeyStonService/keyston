@@ -1,0 +1,225 @@
+# ==================== Module Metadata ====================
+# 模組自描述與治理元資料
+# Module Self-Description and Governance Metadata
+
+id: contracts-l1-service
+name: Contracts L1 Service
+display_name: 合約 L1 服務
+version: 1.0.0
+semantic_version:
+  major: 1
+  minor: 0
+  patch: 0
+  prerelease: null
+  build: null
+
+# ==================== Ownership ====================
+owner:
+  team: platform-governance
+  primary_contact: platform@imachinenativeops.com
+  secondary_contacts:
+    - tech-lead@imachinenativeops.com
+    - security-head@imachinenativeops.com
+  maintainers:
+    - name: Platform Team
+      email: platform@imachinenativeops.com
+      role: primary
+    - name: Security Team
+      email: security@imachinenativeops.com
+      role: reviewer
+
+# ==================== Language & Localization ====================
+language:
+  primary: zh-TW
+  secondary: en-US
+  documentation: zh-TW
+  comments: zh-TW
+  api_responses: en-US
+
+# ==================== Technology Stack ====================
+tech_stack:
+  runtime: Node.js 18+
+  language: TypeScript 5.3+
+  framework: Express.js 4.x
+  build_tool: npm
+  package_manager: npm
+  
+dependencies:
+  production:
+    - name: express
+      version: ^4.21.2
+      critical: true
+    - name: zod
+      version: ^3.22.4
+      critical: true
+    - name: '@sigstore/sign'
+      version: ^2.2.0
+      critical: true
+    - name: '@sigstore/verify'
+      version: ^1.0.0
+      critical: true
+
+# ==================== Governance Hooks ====================
+governance_hooks:
+  pre_upgrade:
+    - type: compatibility_check
+      command: npm run test:compatibility
+      required: true
+      timeout: 5m
+    
+    - type: security_scan
+      command: npm audit --production
+      required: true
+      fail_on: high
+    
+    - type: policy_simulation
+      command: opa eval --data policy/manifest-policies.rego
+      required: true
+      
+  post_upgrade:
+    - type: smoke_test
+      command: npm run test:smoke
+      required: true
+      timeout: 2m
+    
+    - type: integration_test
+      command: npm run test:integration
+      required: false
+      timeout: 10m
+    
+    - type: generate_sbom
+      command: syft packages . -o spdx-json
+      required: true
+
+# ==================== Migration Hooks ====================
+migration_hooks:
+  from_0_x_to_1_x:
+    description: 從 0.x 升級至 1.x
+    breaking_changes:
+      - API 端點路徑變更
+      - 認證機制更新
+    migration_steps:
+      - step: 備份現有資料
+        command: scripts/backup.sh
+        rollback: scripts/restore.sh
+      
+      - step: 執行資料庫遷移
+        command: npm run migrate:up
+        rollback: npm run migrate:down
+      
+      - step: 更新設定檔
+        command: scripts/update-config.sh
+        rollback: scripts/revert-config.sh
+    
+    validation:
+      - type: api_compatibility
+        command: npm run test:api-compat
+      - type: data_integrity
+        command: npm run test:data-integrity
+
+# ==================== Compliance & Security ====================
+compliance:
+  frameworks:
+    - SLSA Level 3
+    - in-toto
+    - audit-trail
+  
+  security_requirements:
+    - deterministic_builds: true
+    - signed_sbom: true
+    - signed_artifacts: true
+    - vulnerability_scanning: true
+  
+  audit:
+    enabled: true
+    retention_days: 365
+    immutable_log: true
+
+# ==================== Policy Hints ====================
+policy_hints:
+  resource_limits:
+    cpu_request: 250m
+    cpu_limit: 500m
+    memory_request: 256Mi
+    memory_limit: 512Mi
+  
+  scaling:
+    min_replicas: 3
+    max_replicas: 10
+    target_cpu_utilization: 70
+  
+  availability:
+    slo_target: 99.9
+    max_downtime_per_month: 43m
+  
+  performance:
+    response_time_p95: 100ms
+    response_time_p99: 200ms
+    throughput_min: 500
+
+# ==================== Service Contracts ====================
+service_contracts:
+  provides:
+    - name: provenance_api
+      version: v1
+      protocol: REST
+      endpoint: /api/v1/provenance
+      
+    - name: attestation_api
+      version: v1
+      protocol: REST
+      endpoint: /api/v1/attestation
+  
+  consumes:
+    - name: sigstore_api
+      provider: Sigstore
+      required: true
+      contract_ref: contracts/external-api.json#sigstore
+    
+    - name: github_api
+      provider: GitHub
+      required: false
+      contract_ref: contracts/external-api.json#github
+
+# ==================== Monitoring & Observability ====================
+monitoring:
+  metrics:
+    enabled: true
+    endpoint: /metrics
+    format: prometheus
+  
+  health_checks:
+    liveness: /healthz
+    readiness: /healthz
+    startup: /healthz
+  
+  logging:
+    level: info
+    format: json
+    destination: stdout
+
+# ==================== Change History ====================
+changelog:
+  - version: 1.0.0
+    date: 2025-11-24
+    author: platform@imachinenativeops.com
+    changes:
+      - 初始版本發布
+      - SLSA Level 3 合規
+      - Sigstore 整合
+      - Provenance 管理
+  
+  - version: 0.9.0
+    date: 2025-11-20
+    author: platform@imachinenativeops.com
+    changes:
+      - Beta 版本
+      - 核心功能實作
+
+# ==================== Metadata ====================
+metadata:
+  created_at: "2025-11-24T00:00:00Z"
+  updated_at: "2025-11-24T11:54:00Z"
+  architecture_pattern: 去AXIOM化重構策略
+  project_structure: imachinenativeops
+  governance_level: deep-validation

@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  keystone-platform:
+    build:
+      context: ..
+      dockerfile: config/dev/Dockerfile
+    container_name: keystone-platform-dev
+    volumes:
+      - ..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '3000:3000'
+      - '9229:9229' # Node.js debug port
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
+    networks:
+      - keystone-network
+
+  # 开发数据库
+  postgres-dev:
+    image: postgres:15
+    container_name: keystone-postgres-dev
+    environment:
+      POSTGRES_DB: keystone_platform
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: development
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - keystone-network
+
+  # Redis缓存
+  redis-dev:
+    image: redis:7-alpine
+    container_name: keystone-redis-dev
+    ports:
+      - '6379:6379'
+    networks:
+      - keystone-network
+
+  # 监控和可观测性
+  prometheus-dev:
+    image: prom/prometheus:latest
+    container_name: keystone-prometheus-dev
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - keystone-network
+
+  grafana-dev:
+    image: grafana/grafana:latest
+    container_name: keystone-grafana-dev
+    ports:
+      - '3001:3000'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - keystone-network
+
+volumes:
+  postgres_data:
+
+networks:
+  keystone-network:
+    driver: bridge

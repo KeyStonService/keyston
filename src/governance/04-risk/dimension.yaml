@@ -1,0 +1,58 @@
+apiVersion: governance.machinenativeops.io/v2
+kind: DimensionModule
+metadata:
+  id: 04-risk
+  name: 風險治理
+  name_en: Risk Governance
+  version: 1.0.0
+  created_at: '2025-12-11T22:17:20.901600Z'
+  updated_at: '2025-12-11T22:17:20.901605Z'
+  owner: governance-bot
+  category: strategic
+  tags:
+  - 04_risk
+  - strategic
+spec:
+  description: Risk Governance dimension for SynergyMesh governance framework
+  schema:
+    path: ./schema.json
+    format: json-schema
+    validation: optional
+  policy:
+    path: ./policy.rego
+    engine: opa
+    enforcement: optional
+  dependencies:
+    required: []
+    optional: []
+  interface:
+    inputs:
+    - name: config
+      type: object
+      required: true
+    outputs:
+    - name: result
+      type: object
+  status: active
+  compliance:
+    frameworks:
+    - ISO-31000
+    - NIST-RMF
+    framework_mappings:
+    - framework: ISO-31000
+      controls: []
+      compliance_status: in_progress
+    - framework: NIST-RMF
+      controls: []
+      compliance_status: in_progress
+compliance:
+  frameworks:
+  - ISO-31000
+  - NIST-RMF
+  framework_mappings:
+  - framework: ISO-31000
+    controls: []
+    compliance_status: in_progress
+  - framework: NIST-RMF
+    controls: []
+    compliance_status: in_progress

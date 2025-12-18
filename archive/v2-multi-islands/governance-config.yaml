@@ -1,0 +1,196 @@
+---
+# Governance Configuration for v2-multi-islands
+# Integrates with governance/30-agents framework
+
+metadata:
+  name: "v2-multi-islands Governance Configuration"
+  version: "1.0.0"
+  description: "Governance integration for unmanned-island-agent"
+  agent_id: "unmanned-island-agent"
+  created_at: "2025-12-11"
+
+# Agent Lifecycle Integration
+lifecycle:
+  stage: "production"
+  auto_register: true
+  catalog_path: "../governance/30-agents/registry/agent-catalog.yaml"
+  
+  hooks:
+    on_start:
+      - validate_compliance
+      - perform_health_check
+      - log_audit_event
+    
+    on_stop:
+      - log_audit_event
+      - cleanup_resources
+    
+    on_error:
+      - alert_governance_team
+      - log_incident
+      - attempt_recovery
+
+# Monitoring Configuration
+monitoring:
+  health_checks:
+    enabled: true
+    interval_seconds: 60
+    
+    checks:
+      - name: "liveness"
+        type: "process"
+        enabled: true
+      
+      - name: "readiness"
+        type: "dependency"
+        enabled: true
+      
+      - name: "performance"
+        type: "metrics"
+        enabled: true
+  
+  metrics:
+    enabled: true
+    collect_interval_seconds: 30
+    
+    tracked_metrics:
+      - "uptime_seconds"
+      - "compliance_score"
+      - "health_status"
+      - "active_islands_count"
+
+# Compliance Configuration
+compliance:
+  standards:
+    - name: "ISO/IEC 42001"
+      enabled: true
+      validation_frequency: "on_start"
+    
+    - name: "NIST AI RMF"
+      enabled: true
+      validation_frequency: "on_start"
+    
+    - name: "AI Behavior Contract"
+      enabled: true
+      validation_frequency: "continuous"
+  
+  auto_validation: true
+  fail_on_non_compliance: false  # Warning mode for now
+  
+  required_checks:
+    - agent_catalog_registration
+    - health_check_configuration
+    - rbac_permission_alignment
+
+# Permissions Integration
+permissions:
+  role: "agent_autonomous"
+  enforce_rbac: true
+  
+  allowed_operations:
+    - "automation.deploy"
+    - "automation.monitor"
+    - "automation.heal"
+    - "governance.validate"
+  
+  resource_limits:
+    memory: "2GB"
+    cpu: "1 core"
+    network_bandwidth: "50 Mbps"
+
+# Audit Logging
+audit:
+  enabled: true
+  log_all_events: true
+  retention_days: 90
+  
+  event_types:
+    - "orchestrator_started"
+    - "orchestrator_stopped"
+    - "island_activated"
+    - "island_deactivated"
+    - "compliance_validation"
+    - "health_check"
+    - "governance_violation"
+
+# Integration Points
+integrations:
+  governance_framework: "governance/30-agents"
+  
+  modules:
+    orchestrator: "v2-multi-islands/orchestrator/island_orchestrator.py"
+    governance_integration: "v2-multi-islands/governance_integration.py"
+    validation_script: "v2-multi-islands/validate_governance.py"
+  
+  dependencies:
+    - "MachineNativeOps Core"
+    - "Governance Framework 30-agents"
+    - "Python 3.10+"
+    - "PyYAML"
+
+# Deployment Configuration
+deployment:
+  method: "instant"
+  deployment_time_target_seconds: 30
+  
+  pre_deployment_checks:
+    - validate_governance_compliance
+    - check_dependencies
+    - verify_permissions
+  
+  post_deployment_hooks:
+    - perform_health_check
+    - log_deployment_event
+    - notify_governance_team
+
+# Self-Healing Configuration
+self_healing:
+  enabled: true
+  max_retry_attempts: 3
+  retry_delay_seconds: 5
+  
+  recovery_actions:
+    - restart_orchestrator
+    - clear_cache
+    - reset_island_states
+  
+  escalation:
+    after_failures: 3
+    notify: ["governance_team", "platform_team"]
+
+# Continuous Evolution
+evolution:
+  enabled: true
+  mode: "event_driven"
+  
+  triggers:
+    - performance_degradation
+    - compliance_violation
+    - security_alert
+  
+  auto_update: false  # Requires approval
+  rollback_on_failure: true
+
+# Alerting Configuration
+alerting:
+  channels:
+    slack:
+      enabled: false  # Configure webhook in production
+      channel: "#platform-alerts"
+    
+    email:
+      enabled: false  # Configure SMTP in production
+      recipients: ["governance@machinenativeops.io"]
+  
+  severity_levels:
+    critical: ["compliance_violation", "security_alert"]
+    warning: ["performance_degradation", "health_degraded"]
+    info: ["orchestrator_started", "orchestrator_stopped"]
+
+# Documentation Links
+documentation:
+  agent_definition: ".github/agents/my-agent.agent.md"
+  governance_framework: "governance/30-agents/README.md"
+  behavior_contract: ".github/AI-BEHAVIOR-CONTRACT.md"
+  technical_guide: ".github/copilot-instructions.md"
+  orchestrator_readme: "v2-multi-islands/README.md"

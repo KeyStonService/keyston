@@ -1,4 +1,4 @@
-# 🚨 SynergyMesh 应急恢复手册
+# 🚨 MachineNativeOps 应急恢复手册
 
 ## 快速决策树
 
@@ -142,7 +142,7 @@ pkill -SIGKILL -f "master_orchestrator"
 # 清除可能损坏的状态
 rm -f .orchestrator_status
 rm -f .launcher_state
-rm -f /tmp/synergymesh_*
+rm -f /tmp/machinenativeops_*
 ```
 
 **3. 验证环境**
@@ -185,7 +185,7 @@ from master_orchestrator import MasterOrchestrator, OrchestratorConfig
 
 async def manual_start():
     config = OrchestratorConfig(
-        name="SynergyMesh",
+        name="MachineNativeOps",
         version="1.0.0",
         auto_discover=True,
         auto_start_engines=True,
@@ -395,4 +395,4 @@ rm -f .orchestrator_status && python emergency_recovery.py
 
 **最后更新**: 2025-12-09
 **版本**: 1.0.0
-**维护者**: SynergyMesh Team
+**维护者**: MachineNativeOps Team

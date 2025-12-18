@@ -8,8 +8,8 @@
     "redhat.vscode-yaml",
     "ms-azuretools.vscode-docker",
     "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "github.island-ai",
-    "github.island-ai-chat",
+    "github.src/ai",
+    "github.src/ai-chat",
     "github.vscode-github-actions",
     "bradlc.vscode-tailwindcss"
   ],

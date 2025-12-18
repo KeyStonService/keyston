@@ -1,0 +1,222 @@
+# ═════════════════════════════════════════════════════════════════════════════
+# 架構穩定性骨架 - 運行時映射
+# Architecture Stability Skeleton - Runtime Mapping
+# ═════════════════════════════════════════════════════════════════════════════
+#
+# 本檔案定義本骨架對應到 monorepo 的真實目錄、檔案、配置位置。
+# This file maps skeleton concepts to actual monorepo locations and files.
+
+version: "1.0.0"
+skeleton_id: "architecture-stability"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 源碼目錄映射 / Source Code Mapping
+# ═════════════════════════════════════════════════════════════════════════════
+
+source_directories:
+  # 核心平台服務
+  core_services:
+    path: "core/"
+    description: "核心平台模組 - 系統基礎設施"
+    modules:
+      - id: "unified_integration"
+        path: "core/unified_integration/"
+        responsibility: "統一整合層 - 服務註冊、認知處理"
+      - id: "mind_matrix"
+        path: "core/mind_matrix/"
+        responsibility: "心智矩陣 - 多代理協調"
+      - id: "safety_mechanisms"
+        path: "core/safety_mechanisms/"
+        responsibility: "安全機制 - 斷路器、緊急停止"
+
+  # 自動化層
+  automation_services:
+    path: "automation/"
+    description: "自動化模組 - 業務邏輯自動化"
+    modules:
+      - id: "intelligent"
+        path: "automation/intelligent/"
+        responsibility: "智能自動化"
+      - id: "autonomous"
+        path: "automation/autonomous/"
+        responsibility: "五骨架自主系統"
+      - id: "architect"
+        path: "automation/architect/"
+        responsibility: "架構分析與修復"
+
+  # 微服務層
+  services:
+    path: "services/"
+    description: "微服務與代理"
+    modules:
+      - id: "agents"
+        path: "services/agents/"
+        responsibility: "智能代理"
+      - id: "mcp"
+        path: "services/mcp/"
+        responsibility: "MCP 伺服器"
+
+  # 基礎設施層
+  infrastructure:
+    path: "infrastructure/"
+    description: "基礎設施與部署"
+    modules:
+      - id: "kubernetes"
+        path: "infrastructure/kubernetes/"
+        responsibility: "K8s 編排"
+      - id: "monitoring"
+        path: "infrastructure/monitoring/"
+        responsibility: "監控系統"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 配置檔案映射 / Configuration File Mapping
+# ═════════════════════════════════════════════════════════════════════════════
+
+configuration_files:
+  master_config:
+    file: "machinenativeops.yaml"
+    purpose: "全局配置入口"
+    ai_relevant_fields:
+      - "directories"
+      - "capabilities"
+      - "boot.phases"
+
+  system_manifest:
+    file: "config/system-manifest.yaml"
+    purpose: "系統元件宣告"
+    ai_relevant_fields:
+      - "configs[].id"
+      - "configs[].kind"
+      - "configs[].provides"
+
+  module_map:
+    file: "config/system-module-map.yaml"
+    purpose: "模組映射與依賴"
+    ai_relevant_fields:
+      - "modules[].inputs"
+      - "modules[].outputs"
+      - "modules[].dependencies"
+
+  unified_index:
+    file: "config/unified-config-index.yaml"
+    purpose: "統一配置索引"
+    ai_relevant_fields:
+      - "entries[].path"
+      - "entries[].layer"
+      - "entries[].dependencies"
+
+  topology_config:
+    file: "config/topology-mind-matrix.yaml"
+    purpose: "系統拓撲與心智矩陣"
+    ai_relevant_fields:
+      - "topology"
+      - "layers"
+      - "interconnections"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 文檔映射 / Documentation Mapping
+# ═════════════════════════════════════════════════════════════════════════════
+
+documentation:
+  # 架構文檔
+  architecture:
+    - file: "README.md"
+      section: "🌟 系統概述"
+    - file: "core/README.md"
+      section: "核心平台服務概述"
+    - file: "config/README.md"
+      section: "配置層說明"
+    - file: "automation/README.md"
+      section: "自動化層架構"
+
+  # 設計決策
+  design_decisions:
+    - file: "ENGINEER_CORE_FILES_GUIDE.md"
+      section: "4. 模組與程式碼層"
+    - file: "docs/architecture/"
+      description: "架構設計文檔目錄"
+
+  # 依賴圖
+  dependency_graphs:
+    - file: "docs/knowledge-graph.yaml"
+      description: "系統知識圖譜"
+    - file: "docs/generated-mndoc.yaml"
+      description: "機器原生文檔"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 實現參考 / Implementation References
+# ═════════════════════════════════════════════════════════════════════════════
+
+implementation_examples:
+  service_boundary:
+    description: "服務邊界劃分示例"
+    files:
+      - "core/unified_integration/__init__.py"
+      - "services/agents/__init__.py"
+    pattern: "按業務能力劃分服務"
+
+  dependency_management:
+    description: "依賴管理實現"
+    files:
+      - "config/system-module-map.yaml"
+      - "config/dependencies.yaml"
+    pattern: "使用 YAML 定義依賴圖"
+
+  module_structure:
+    description: "模組結構組織"
+    files:
+      - "core/"
+      - "automation/"
+      - "services/"
+    pattern: "三層架構：核心 → 自動化 → 服務"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 驗證工具 / Validation Tools
+# ═════════════════════════════════════════════════════════════════════════════
+
+validation_tools:
+  - tool: "python tools/docs/validate_index.py"
+    purpose: "Schema 驗證"
+    validates: ["配置檔案正確性", "依賴定義合法性"]
+
+  - tool: "npm run lint"
+    purpose: "程式碼規範檢查"
+    validates: ["命名規範", "模組結構"]
+
+  - tool: "make all-kg"
+    purpose: "知識圖譜生成"
+    validates: ["架構一致性"]
+
+# ═════════════════════════════════════════════════════════════════════════════
+# AI 行動指南 / AI Action Guide
+# ═════════════════════════════════════════════════════════════════════════════
+
+ai_actions:
+  when_designing_service:
+    steps:
+      1: "查看 config/system-module-map.yaml 了解現有模組邊界"
+      2: "檢查 config/dependencies.yaml 中的依賴規則"
+      3: "參考 core/unified_integration/ 中的現有實現"
+      4: "在 config/ 中新增配置項"
+      5: "更新 machinenativeops.yaml 中的 capabilities"
+      6: "執行驗證工具確保無衝突"
+
+  when_modifying_architecture:
+    steps:
+      1: "備份現有 config/*.yaml 檔案"
+      2: "更新 config/unified-config-index.yaml"
+      3: "更新 config/system-module-map.yaml"
+      4: "執行 make all-kg 重新生成知識圖譜"
+      5: "執行 npm run test 驗證依賴"
+      6: "提交變更時包含架構圖更新"
+
+# ═════════════════════════════════════════════════════════════════════════════
+# 快速查詢 / Quick Reference
+# ═════════════════════════════════════════════════════════════════════════════
+
+quick_reference:
+  "查看現有服務邊界": "core/README.md"
+  "修改模組依賴": "config/system-module-map.yaml"
+  "新增微服務": "services/README.md"
+  "驗證架構一致性": "python tools/docs/validate_index.py --verbose"
+  "檢查依賴圖": "docs/knowledge-graph.yaml"

@@ -57,13 +57,13 @@ _成為全球領先的企業級智能自動化平台，透過整合 AI 決策引
 
 | 原則           | 說明                                                 |
 | -------------- | ---------------------------------------------------- |
-| **統一入口**   | 單一配置檔 `machine-native-ops.yaml`（`synergymesh.yaml` 為相容性連結）作為所有系統的真實來源 |
+| **統一入口**   | 單一配置檔 `machinenativeops.yaml` 作為所有系統的真實來源 |
 | **模組化設計** | 三大子系統獨立運作，透過統一接口協作                 |
 | **零信任安全** | SLSA L3 溯源 + Sigstore 簽名 + 策略閘驗證            |
 | **自主運維**   | AI 驅動的自動修復、智能派工、升級管理                |
 | **全局優化**   | 架構決策基於全局視野，而非局部最優                   |
 
-> 📖 **完整願景與戰略**: 詳見 [governance/00-vision-strategy/](./governance/00-vision-strategy/) - 包含願景聲明、戰略目標 (OKR)、治理憲章等核心文檔
+> 📖 **完整願景與戰略**: 詳見 [src/governance/00-vision-strategy/](./src/governance/00-vision-strategy/) - 包含願景聲明、戰略目標 (OKR)、治理憲章等核心文檔
 
 ---
 
@@ -160,7 +160,7 @@ _成為全球領先的企業級智能自動化平台，透過整合 AI 決策引
 
 ### OKR 框架 (2025-2030)
 
-系統採用 **OKR (Objectives and Key Results)** 框架追蹤戰略目標進度。完整 OKR 詳見 [governance/00-vision-strategy/strategic-objectives.yaml](./governance/00-vision-strategy/strategic-objectives.yaml)。
+系統採用 **OKR (Objectives and Key Results)** 框架追蹤戰略目標進度。完整 OKR 詳見 [src/governance/00-vision-strategy/strategic-objectives.yaml](./src/governance/00-vision-strategy/strategic-objectives.yaml)。
 
 #### 🏆 核心目標 (Core Objectives)
 
@@ -203,7 +203,7 @@ progress:
     note: "市場拓展階段"
 ```
 
-> 🔗 **完整戰略文檔**: [governance/00-vision-strategy/README.md](./governance/00-vision-strategy/README.md)
+> 🔗 **完整戰略文檔**: [src/governance/00-vision-strategy/README.md](./src/governance/00-vision-strategy/README.md)
 
 ---
 
@@ -230,8 +230,8 @@ progress:
 **開發者進階路徑**:
 
 1. 🔨 學習 [BUILD.md](./BUILD.md) - 構建系統
-2. 🏗️ 理解 [架構治理矩陣](./governance/ARCHITECTURE_GOVERNANCE_MATRIX.md)
-3. 🤖 探索 [Island AI 系統](./island-ai/README.md)
+2. 🏗️ 理解 [架構治理矩陣](./src/governance/ARCHITECTURE_GOVERNANCE_MATRIX.md)
+3. 🤖 探索 [Island AI 系統](./src/ai/island-ai/README.md)
 4. 🔄 掌握 [Refactor Playbook](./docs/refactor_playbooks/README.md)
 
 **貢獻者完整路徑**:
@@ -240,6 +240,80 @@ progress:
 2. 🔍 理解 [全局優化推理](#-全局優化推理系統global-optimization-reasoning)
 3. ✅ 遵循 [AI Behavior Contract](./.github/AI-BEHAVIOR-CONTRACT.md)
 4. 🚀 參與 [Issue 討論](https://github.com/SynergyMesh-admin/SynergyMesh/issues)
+
+---
+
+## 📂 專案結構 | Project Structure
+
+> **⚠️ 重要通知**: 專案正在進行架構重構以解決目錄混亂問題。詳見 [docs/ARCHITECTURE_RESTRUCTURING_PLAN.md](./docs/ARCHITECTURE_RESTRUCTURING_PLAN.md)
+
+### 目標架構 (Target Structure)
+
+本專案採用**模組化、分層設計**，遵循「統一入口」和「關注點分離」原則：
+
+```
+/
+├── src/                        # 🎯 應用程式主代碼
+│   ├── core/                   # MachineNativeOps 核心引擎
+│   ├── governance/             # 結構治理系統
+│   ├── autonomous/             # 自主系統框架
+│   ├── ai/                     # AI 決策與代理系統
+│   ├── services/               # 微服務 (MCP servers等)
+│   └── apps/                   # 應用程式 (Web, CLI)
+│
+├── config/                     # 📝 所有配置文件
+│   ├── dev/                    # 開發環境配置
+│   ├── staging/                # 測試環境配置
+│   └── prod/                   # 生產環境配置
+│
+├── scripts/                    # 🔧 所有自動化腳本
+│   ├── dev/                    # 開發腳本
+│   ├── ci/                     # CI/CD 腳本
+│   └── ops/                    # 運維腳本
+│
+├── docs/                       # 📚 完整文檔
+├── tests/                      # 🧪 測試套件
+├── .github/                    # ⚙️ GitHub 配置與 AI 規範
+│
+├── machinenativeops.yaml       # 🎛️ 統一入口配置 (單一真實來源)
+└── README.md                   # 📖 專案主文檔
+```
+
+### 核心原則
+
+| 原則 | 說明 |
+|------|------|
+| **統一入口** | `machinenativeops.yaml` 作為所有配置的單一真實來源 (Single Source of Truth) |
+| **模組化設計** | 三大核心子系統（Core、Governance、Autonomous）獨立運作，透過統一接口協作 |
+| **關注點分離** | 應用代碼 (`src/`)、配置 (`config/`)、腳本 (`scripts/`)、文檔 (`docs/`) 清晰分離 |
+| **標準化命名** | 強制使用 `kebab-case` 命名，已消除同義詞（原 infra/infrastructure → src/autonomous/infrastructure） |
+
+### 當前狀態 (Current State)
+
+⚠️ **技術債務**: 52+ 個頂層目錄導致導航困難與維護成本高
+
+**識別的問題**:
+- 🔴 架構混亂 - 過度扁平化結構
+- 🔴 命名不一致 - PascalCase、kebab-case、snake_case 混用
+- ✅ **已解決** 重複目錄問題 - 已合併至 `src/autonomous/infrastructure/`, `src/autonomous/deployment/`, `scripts/`
+- 🔴 配置分散 - `.config/`, `config/`, `.devcontainer/` 分散在多處
+- 🔴 版本管理不清晰 - 缺乏與 Git tags 的整合
+
+**重構計劃**: 正在實施 5 步整合計劃，預計建立 `src/` 主目錄並合併重複目錄。詳見 [架構重構計劃](./docs/ARCHITECTURE_RESTRUCTURING_PLAN.md)。
+
+### 貢獻指南
+
+在添加新代碼或文件時，請遵循 [CONTRIBUTING.md](./CONTRIBUTING.md) 中的目錄結構規範：
+
+- **核心引擎代碼** → `src/core/`（即將建立）
+- **治理相關代碼** → `src/governance/`（即將建立）
+- **自主系統代碼** → `src/autonomous/`（即將建立）
+- **AI 系統代碼** → `src/ai/`（即將建立）
+- **配置文件** → `config/{dev,staging,prod}/`
+- **腳本** → `scripts/{dev,ci,ops}/`
+- **文檔** → `docs/`
+
+**命名規範**: 一律使用 `kebab-case`（小寫 + 連字符）
 
 ---
 
@@ -271,27 +345,25 @@ capabilities:
 
 **主要模組：**
 
-- core/unified_integration/ - 統一整合層（認知處理器、服務註冊表、配置優化器）
-- core/mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
-- core/safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
-- core/slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
-<<<<<<< HEAD
-<<<<<<< HEAD
-- **core/project_factory/** ⭐
-  **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
-- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage
-  1 已上線）
+**Core 模組 (src/core/):**
+- unified_integration/ - 統一整合層（認知處理器、服務註冊表、配置優化器）
+- mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
+- safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
+- slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
+- **project_factory/** ⭐ **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
+
+**AI 模組 (src/ai/):**
+- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
 
 #### 🏭 Project Factory（專案生成工廠）
 
-**一鍵生成完整專案交付物 - 將 SynergyMesh 轉變為「能生成專案的系統」**
+**一鍵生成完整專案交付物 - 將 MachineNativeOps 轉變為「能生成專案的系統」**
 
-Project
-Factory 能夠自動生成符合治理標準的完整專案，包括源代碼、測試套件、Docker、Kubernetes、CI/CD 等所有交付物。
+Project Factory 能夠自動生成符合治理標準的完整專案，包括源代碼、測試套件、Docker、Kubernetes、CI/CD 等所有交付物。
 
 ```bash
 # 生成 FastAPI 微服務
-python -m core.project_factory.cli generate project \
+python -m src.core.project_factory.cli generate project \
   --name user-service \
   --type microservice \
   --language python \
@@ -299,7 +371,7 @@ python -m core.project_factory.cli generate project \
   --output ./projects/user-service
 
 # 生成 TypeScript 服務
-python -m core.project_factory.cli generate project \
+python -m src.core.project_factory.cli generate project \
   --name auth-service \
   --type microservice \
   --language typescript \
@@ -307,7 +379,7 @@ python -m core.project_factory.cli generate project \
   --output ./projects/auth-service
 
 # 從 YAML 規格生成
-python -m core.project_factory.cli generate project \
+python -m src.core.project_factory.cli generate project \
   --spec-file project-spec.yaml
 ```
 
@@ -332,16 +404,7 @@ python -m core.project_factory.cli generate project \
 - ✅ SBOM 自動生成
 - ✅ 合規性文檔
 
-詳見：[core/project_factory/README.md](./core/project_factory/README.md)
-
-=======
-- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
-
->>>>>>> origin/alert-autofix-37
-=======
-- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
-
->>>>>>> origin/copilot/sub-pr-402
+詳見：[src/core/project_factory/README.md](./src/core/project_factory/README.md)
 #### 🤖 Island AI Multi-Agent System（智能代理系統）
 
 **Stage 1 現已推出** - 六個基礎 AI Agent 提供智能診斷與系統洞察：
@@ -380,7 +443,7 @@ reports.forEach(report => {
 - ✅ 與 SynergyMesh 核心引擎整合完成
 - ✅ Stage 2-4 完成（協作、自學習、生產化；含 Reasoner、Dashboard、監控優化、多語 SDK）
 
-詳見：[island-ai/README.md](./island-ai/README.md) | [完整路線圖](./island-ai.md)
+詳見：[src/ai/island-ai/README.md](./src/ai/island-ai/README.md) | [完整路線圖](./island-ai.md)
 
 ### 2️⃣ Structural Governance System（結構治理系統）
 
@@ -858,7 +921,7 @@ knowledge_cycle:
 ```
 unmanned-island/
 │
-├── machine-native-ops.yaml       # 🔑 統一主配置入口（synergymesh.yaml 為相容性連結）
+├── machinenativeops.yaml         # 🔑 統一主配置入口
 │
 ├── core/                         # 🏛️ 核心平台服務
 │   ├── unified_integration/      # 統一整合層
@@ -883,13 +946,13 @@ unmanned-island/
 │   ├── safety-mechanisms.yaml    # 安全機制
 │   └── ...                       # 其他配置
 │
-├── governance/                   # ⚖️ 治理與策略
+├── src/governance/               # ⚖️ 治理與策略
 │   ├── schemas/                  # JSON Schema 定義
 │   ├── policies/                 # OPA/Conftest 策略
 │   ├── sbom/                     # 軟體物料清單
 │   └── audit/                    # 審計配置
 │
-├── infrastructure/               # 🏗️ 基礎設施
+├── archive/infrastructure/       # 🏗️ 基礎設施（已歸檔，參考 src/autonomous/infrastructure/）
 │   ├── kubernetes/               # K8s 部署清單
 │   ├── monitoring/               # 監控告警
 │   ├── canary/                   # 金絲雀部署
@@ -1309,9 +1372,9 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 | 功能         | 說明                  | 入口                    |
 | ------------ | --------------------- | ----------------------- |
 | SLSA L3 溯源 | 構建認證與簽名        | core/slsa_provenance/   |
-| Schema 驗證  | JSON Schema 合規檢查  | governance/schemas/     |
-| 策略閘       | OPA/Conftest 策略執行 | governance/policies/    |
-| SBOM 生成    | 軟體物料清單          | governance/sbom/        |
+| Schema 驗證  | JSON Schema 合規檢查  | src/governance/schemas/     |
+| 策略閘       | OPA/Conftest 策略執行 | src/governance/policies/    |
+| SBOM 生成    | 軟體物料清單          | src/governance/sbom/        |
 
 **🆕 安全增強 (PR #351)**:
 - ✅ **SEC-PATH-001**: 路徑遍歷防護 - SAFE_ROOT 驗證機制
@@ -1324,8 +1387,8 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 | 功能            | 說明                 | 入口                         |
 | --------------- | -------------------- | ---------------------------- |
 | 動態 CI 助手    | 每個 CI 都有獨立客服 | docs/DYNAMIC_CI_ASSISTANT.md |
-| Prometheus 監控 | 指標收集與告警       | infrastructure/monitoring/   |
-| 漂移檢測        | 基礎設施配置漂移     | infrastructure/drift/        |
+| Prometheus 監控 | 指標收集與告警       | archive/infrastructure/monitoring/   |
+| 漂移檢測        | 基礎設施配置漂移     | archive/infrastructure/drift/        |
 
 ---
 
@@ -1333,7 +1396,7 @@ apps/web 提供企業級代碼分析服務，包括 React 前端與 FastAPI 後�
 
 | 配置檔案                          | 說明                             |
 |-----------------------------------|----------------------------------|
-| machine-native-ops.yaml          | 統一主配置入口（兼容連結：synergymesh.yaml） |
+| machinenativeops.yaml            | 統一主配置入口 |
 | config/system-manifest.yaml       | 系統宣告清單                     |
 | config/unified-config-index.yaml  | 統一配置索引 v3.0.0             |
 | config/system-module-map.yaml     | 模組映射                         |

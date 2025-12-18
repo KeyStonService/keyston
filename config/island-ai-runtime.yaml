@@ -187,7 +187,7 @@ knowledge_engine:
 
   vector_store:
     type: "in-memory" # in-memory | chromadb | pinecone
-    persist_path: ".island-ai/vectors"
+    persist_path: ".src/ai/vectors"
 
   search:
     top_k: 10
@@ -299,7 +299,7 @@ session_memory:
 
   long_term:
     enabled: true
-    persist_path: ".island-ai/memory"
+    persist_path: ".src/ai/memory"
     compression_enabled: true
 
   planning:
@@ -318,7 +318,7 @@ observability:
     output:
       - "console"
       - "file"
-    file_path: ".island-ai/logs/runtime.log"
+    file_path: ".src/ai/logs/runtime.log"
 
   metrics:
     enabled: true

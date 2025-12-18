@@ -10,7 +10,7 @@ services:
     build:
       context: ./core/contract_service/contracts-L1/contracts
       dockerfile: Dockerfile
-    container_name: synergymesh-contracts-l1
+    container_name: machinenativeops-contracts-l1
     ports:
       - "3000:3000"
     environment:
@@ -25,11 +25,11 @@ services:
       start_period: 40s
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=contracts-l1"
-      - "com.synergymesh.tier=core"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=contracts-l1"
+      - "com.machinenativeops.tier=core"
+      - "com.machinenativeops.version=1.0.0"
 
   # ==================== 工具與驗證層 ====================
   
@@ -37,7 +37,7 @@ services:
     build:
       context: ./mcp-servers
       dockerfile: Dockerfile
-    container_name: synergymesh-mcp-servers
+    container_name: machinenativeops-mcp-servers
     ports:
       - "3001:3001"
     environment:
@@ -55,17 +55,17 @@ services:
       start_period: 40s
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=mcp-servers"
-      - "com.synergymesh.tier=tools"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=mcp-servers"
+      - "com.machinenativeops.tier=tools"
+      - "com.machinenativeops.version=1.0.0"
 
   # ==================== 儀表板與監控層 ====================
   
   dashboard:
     image: nginx:alpine
-    container_name: synergymesh-dashboard
+    container_name: machinenativeops-dashboard
     ports:
       - "8080:80"
     volumes:
@@ -76,30 +76,30 @@ services:
       - mcp-servers
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=dashboard"
-      - "com.synergymesh.tier=frontend"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=dashboard"
+      - "com.machinenativeops.tier=frontend"
+      - "com.machinenativeops.version=1.0.0"
 
 # ==================== 網路配置 ====================
 
 networks:
-  synergymesh-network:
+  machinenativeops-network:
     driver: bridge
-    name: synergymesh-network
+    name: machinenativeops-network
     labels:
-      - "com.synergymesh.network=main"
+      - "com.machinenativeops.network=main"
 
 # ==================== 卷配置 (可選) ====================
 
 volumes:
   contracts-data:
-    name: synergymesh-contracts-data
+    name: machinenativeops-contracts-data
     labels:
-      - "com.synergymesh.volume=contracts"
+      - "com.machinenativeops.volume=contracts"
   
   mcp-data:
-    name: synergymesh-mcp-data
+    name: machinenativeops-mcp-data
     labels:
-      - "com.synergymesh.volume=mcp"
+      - "com.machinenativeops.volume=mcp"

@@ -1,0 +1,316 @@
+# SynergyMesh Base Policy Configuration
+# 基礎策略閘配置
+#
+# This file defines the governance policy gates for the SynergyMesh platform.
+# 本檔案定義 SynergyMesh 平台的治理策略閘。
+#
+# Usage:
+# - Referenced by CI/CD pipelines for validation
+# - Enforced by governance agents and validators
+# - Audited for compliance and security
+
+$schema: "https://schema.machinenativeops.io/policy/v1"
+version: "1.0.0"
+metadata:
+  name: "base-policy"
+  description: "全域策略閘配置（七階段驗證、SLSA、SBOM、簽名）"
+  owner: "platform-governance"
+  created: "2025-11-30"
+  lastUpdated: "2025-11-30"
+
+# =============================================================================
+# 七階段 YAML 驗證鏈
+# Seven-Stage YAML Validation Chain
+# =============================================================================
+validation:
+  stages:
+    # Stage 1: Lint - 語法檢查
+    - name: "lint"
+      description: "YAML/JSON 語法正確性"
+      enabled: true
+      failOn: "error"
+      tools:
+        - "yamllint"
+        - "jsonlint"
+    
+    # Stage 2: Format - 格式規範
+    - name: "format"
+      description: "格式規範（縮排、引號、排序）"
+      enabled: true
+      failOn: "warning"
+      rules:
+        indent: 2
+        lineWidth: 120
+        quotingType: "single"
+    
+    # Stage 3: Schema - 結構驗證
+    - name: "schema"
+      description: "JSON Schema 結構驗證"
+      enabled: true
+      failOn: "error"
+      schemas:
+        - path: "governance/31-schemas/docs-index.schema.json"
+          applies_to: ["docs/knowledge_index.yaml", "docs/docs-index.json"]
+        - path: "governance/31-schemas/policy.schema.json"
+          applies_to: ["governance/23-policies/*.yaml"]
+    
+    # Stage 4: Vector Test - 向量測試
+    - name: "vector-test"
+      description: "測試向量驗證"
+      enabled: true
+      failOn: "error"
+      testVectorsPath: "test-vectors/"
+      includePatterns:
+        - "*.valid.yaml"
+        - "*.invalid.yaml"
+    
+    # Stage 5: Policy Gate - 策略閘
+    - name: "policy-gate"
+      description: "OPA/Conftest 策略驗證"
+      enabled: true
+      failOn: "deny"
+      policyPath: "governance/23-policies/"
+      rules:
+        - "manifest-policies.rego"
+    
+    # Stage 6: SBOM - 供應鏈清單
+    - name: "sbom"
+      description: "SBOM 完整性檢查"
+      enabled: true
+      failOn: "missing"
+      formats:
+        - "spdx-json"
+        - "cyclonedx-json"
+      requiredFields:
+        - "packages"
+        - "relationships"
+    
+    # Stage 7: Signature - 簽名驗證
+    - name: "signature"
+      description: "簽名驗證（可選）"
+      enabled: false  # 待 cosign 整合後啟用
+      failOn: "invalid"
+      verifier: "cosign"
+      publicKeyPath: "governance/keys/public.pem"
+
+# =============================================================================
+# 策略規則
+# Policy Rules
+# =============================================================================
+rules:
+  # 命名規則
+  naming:
+    id:
+      pattern: "^[a-z0-9]+([a-z0-9-_]*[a-z0-9])?$"
+      maxLength: 64
+      description: "ID 必須為小寫字母數字，允許中線和底線"
+    
+    path:
+      pattern: "^(?:[A-Za-z0-9._\\-/]+)$"
+      noSpaces: true
+      noSpecialChars: true
+      description: "路徑不可包含空白或特殊字元"
+  
+  # 必填欄位
+  required_fields:
+    docs_index:
+      - "id"
+      - "path"
+      - "title"
+      - "domain"
+      - "layer"
+      - "type"
+      - "tags"
+      - "owner"
+      - "status"
+      - "description"
+  
+  # 受控詞彙
+  controlled_vocabulary:
+    domain:
+      - "automation"
+      - "core"
+      - "frontend"
+      - "infrastructure"
+      - "tests"
+      - "governance"
+      - "tools"
+      - "ops"
+      - "operations"
+      - "config"
+      - "docs"
+      - "mcp-servers"
+      - "agent"
+      - "shared"
+      - "bridges"
+      - "contracts"
+      - "runtime"
+      - "github"
+      - "architecture"
+      - "security"
+      - "guides"
+    
+    layer:
+      - "coordination"
+      - "execution"
+      - "monitoring"
+      - "supplyChain"
+      - "audit"
+      - "policy"
+      - "schema"
+      - "workflow"
+      - "ui"
+      - "service"
+      - "runtime"
+      - "docs"
+      - "experience-interfaces"
+      - "platform-core"
+      - "ai-automation"
+      - "enablement"
+      - "governance-ops"
+    
+    status:
+      - "draft"
+      - "stable"
+      - "deprecated"
+      - "archived"
+      - "experimental"
+    
+    type:
+      - "markdown"
+      - "yaml"
+      - "json"
+      - "ts-module"
+      - "py-module"
+      - "go-module"
+      - "service-config"
+      - "policy"
+      - "schema"
+      - "workflow"
+      - "audit-entry"
+      - "sbom"
+      - "provenance"
+      - "diagram"
+      - "readme"
+      - "reference"
+      - "design"
+      - "index"
+      - "guide"
+      - "api-reference"
+
+# =============================================================================
+# 自動修復配置
+# Autofix Configuration
+# =============================================================================
+autofix:
+  enabled: true
+  triggers:
+    - "schema_validation_failed"
+    - "policy_gate_violation"
+    - "sbom_missing"
+    - "naming_rule_mismatch"
+  
+  behavior:
+    createBranch: true
+    branchPrefix: "autofix/"
+    commitMessagePrefix: "fix(governance): "
+    openPullRequest: true
+    assignReviewers:
+      - "platform-governance"
+    labels:
+      - "autofix"
+      - "governance"
+  
+  limits:
+    maxFilesPerPR: 10
+    maxPRsPerDay: 5
+    cooldownMinutes: 30
+
+# =============================================================================
+# 審計配置
+# Audit Configuration
+# =============================================================================
+audit:
+  enabled: true
+  
+  events:
+    - "validation.started"
+    - "validation.passed"
+    - "validation.failed"
+    - "policy.evaluated"
+    - "autofix.triggered"
+    - "autofix.completed"
+    - "sbom.generated"
+    - "provenance.injected"
+    - "signature.verified"
+  
+  output:
+    format: "jsonl"
+    path: "governance/audit/events.jsonl"
+    rotation:
+      maxSize: "10MB"
+      maxAge: "90d"
+      compress: true
+  
+  integrity:
+    algorithm: "sha256"
+    chainEvents: true  # 每個事件包含前一事件的 hash
+
+# =============================================================================
+# 供應鏈配置
+# Supply Chain Configuration
+# =============================================================================
+supplyChain:
+  slsa:
+    level: 3
+    builder:
+      id: "https://github.com/Unmanned-Island-admin/SynergyMesh"
+      version: "v1.0"
+    requirements:
+      - "hermetic_build"
+      - "source_available"
+      - "build_service"
+      - "non_falsifiable"
+  
+  sbom:
+    format: "spdx-json"
+    version: "2.3"
+    generateOn:
+      - "release"
+      - "merge_to_main"
+    include:
+      - "packages"
+      - "relationships"
+      - "checksums"
+  
+  provenance:
+    enabled: true
+    generateOn:
+      - "release"
+      - "merge_to_main"
+    include:
+      - "buildDefinition"
+      - "runDetails"
+      - "metadata"
+
+# =============================================================================
+# 例外配置
+# Exceptions Configuration
+# =============================================================================
+exceptions:
+  # 允許跳過驗證的路徑
+  skipValidation:
+    - "node_modules/**"
+    - "dist/**"
+    - ".git/**"
+    - "__pycache__/**"
+    - "*.lock"
+    - "*.log"
+  
+  # 允許額外欄位的路徑
+  allowAdditionalFields:
+    - "test-vectors/**"
+    - "examples/**"
+  
+  # 暫時停用的規則
+  disabledRules: []

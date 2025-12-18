@@ -232,7 +232,7 @@ island-ai/
 
 **🚀 次世代雲原生智能自動化平台**
 
-_整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架_
+_整合 MachineNativeOps 核心引擎 + 結構治理系統 + 無人之島自主框架_
 
 [快速開始](#-快速開始) • [系統架構](#-系統架構) • [核心功能](#-核心功能) •
 [配置總覽](#️-全局配置總覽) • [虛擬專家](#-虛擬專家團隊) • [智能代理](#-智能代理服務) •
@@ -254,7 +254,7 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 │ 🏝️ Unmanned Island System │ │ 統一控制層 │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │ │ │ ┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐ │
-│ │ 🔷 SynergyMesh │ │ ⚖️ Structural │ │ 🚁 Autonomous │ │ │ │ Core Engine │ │
+│ │ 🔷 MachineNativeOps │ │ ⚖️ Structural │ │ 🚁 Autonomous │ │ │ │ Core Engine │ │
 Governance │ │ Framework │ │ │ │ │ │ │ │ │ │ │ │ • AI 決策引擎 │ │ •
 Schema 命名空間 │ │ • 五骨架架構 │ │ │ │ • 認知處理器 │ │ • 十階段管道 │ │
 • 無人機控制 │ │ │ │ • 服務註冊表 │ │ • SLSA 溯源 │ │ • 自駕車整合 │ │ │ │
@@ -279,7 +279,7 @@ Schema 命名空間 │ │ • 五骨架架構 │ │ │ │ • 認知處理
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐ │
-│  │   🔷 SynergyMesh    │  │   ⚖️ Structural     │  │  🚁 Autonomous      │ │
+│  │   🔷 MachineNativeOps    │  │   ⚖️ Structural     │  │  🚁 Autonomous      │ │
 │  │   Core Engine       │  │   Governance        │  │  Framework          │ │
 │  │                     │  │                     │  │                     │ │
 │  │  • AI 決策引擎      │  │  • Schema 命名空間  │  │  • 五骨架架構       │ │
@@ -302,7 +302,7 @@ Schema 命名空間 │ │ • 五骨架架構 │ │ │ │ • 認知處理
 
 | 原則           | 說明                                                 |
 | -------------- | ---------------------------------------------------- |
-| **統一入口**   | 單一配置檔 `synergymesh.yaml` 作為所有系統的真實來源 |
+| **統一入口**   | 單一配置檔 `machinenativeops.yaml` 作為所有系統的真實來源 |
 | **模組化設計** | 三大子系統獨立運作，透過統一接口協作                 |
 | **零信任安全** | SLSA L3 溯源 + Sigstore 簽名 + 策略閘驗證            |
 | **自主運維**   | AI 驅動的自動修復、智能派工、升級管理                |
@@ -311,7 +311,7 @@ Schema 命名空間 │ │ • 五骨架架構 │ │ │ │ • 認知處理
 
 ## 🔷 核心子系統
 
-### 1️⃣ SynergyMesh Core Engine（核心引擎）
+### 1️⃣ MachineNativeOps Core Engine（核心引擎）
 
 雲原生智能業務自動化和數據編排平台。
 
@@ -348,7 +348,7 @@ SuperRoot 風格的 Schema 命名空間與自主治理基礎設施。
 
 ```yaml
 # Schema 命名空間
-$schema: 'https://schema.synergymesh.io/docs-index/v1'
+$schema: 'https://schema.machinenativeops.io/docs-index/v1'
 
 # 必要欄位
 required_fields:
@@ -407,7 +407,7 @@ optional_fields:
 ```
 unmanned-island/
 │
-├── 📄 synergymesh.yaml              # 🔑 統一主配置入口
+├── 📄 machinenativeops.yaml              # 🔑 統一主配置入口
 │
 ├── 📁 core/                         # 🏛️ 核心平台服務
 │   ├── unified_integration/         # 統一整合層
@@ -488,7 +488,7 @@ C++ 17 (GCC 11+)
 
 ```bash
 # 克隆倉庫
-git clone https://github.com/SynergyMesh-admin/Unmanned-Island.git
+git clone https://github.com/MachineNativeOps-admin/Unmanned-Island.git
 cd unmanned-island
 
 # 安裝依賴
@@ -653,7 +653,7 @@ quality_gates:
 
 | 配置檔案 | 說明 | 用途 |
 |---------|------|------|
-| `synergymesh.yaml` | 🔑 統一主配置入口 | 所有系統配置的唯一真實來源 |
+| `machinenativeops.yaml` | 🔑 統一主配置入口 | 所有系統配置的唯一真實來源 |
 | `config/system-manifest.yaml` | 系統宣告清單 | 系統啟動與元件協調 |
 | `config/unified-config-index.yaml` | 統一配置索引 v3.0.0 | 配置整合與目錄合併指南 |
 | `config/system-module-map.yaml` | 模組映射 | 目錄結構與元件映射 |
@@ -910,7 +910,7 @@ guardrails:
 
 ## 🙏 致謝
 
-- [SynergyMesh](https://github.com/SynergyMesh/SynergyMesh) - 核心引擎基礎
+- [MachineNativeOps](https://github.com/MachineNativeOps/MachineNativeOps) - 核心引擎基礎
 - [Sigstore](https://sigstore.dev/) - 無密鑰簽名
 - [OPA](https://www.openpolicyagent.org/) - 策略引擎
 - [SLSA](https://slsa.dev/) - 供應鏈安全框架
@@ -923,9 +923,9 @@ guardrails:
 
 _讓開發更高效，讓程式碼更完美！_
 
-[GitHub](https://github.com/SynergyMesh-admin/Unmanned-Island) •
-[Issues](https://github.com/SynergyMesh-admin/Unmanned-Island/issues) •
-[Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+[GitHub](https://github.com/MachineNativeOps-admin/Unmanned-Island) •
+[Issues](https://github.com/MachineNativeOps-admin/Unmanned-Island/issues) •
+[Discussions](https://github.com/MachineNativeOps-admin/Unmanned-Island/discussions)
 
 </div>
 
@@ -943,7 +943,7 @@ _讓開發更高效，讓程式碼更完美！_
 
 **🚀 次世代雲原生智能自動化平台**
 
-_整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架_
+_整合 MachineNativeOps 核心引擎 + 結構治理系統 + 無人之島自主框架_
 
 [快速開始](#-快速開始) • [系統架構](#-系統架構) • [核心功能](#-核心功能) •
 [活體知識庫](#4️⃣-活體知識庫living-knowledge-base) • [Admin Copilot CLI](#-admin-copilot-cli-public-preview) • [Web 應用](#-web-前端與代碼分析-api-appsweb) •
@@ -967,7 +967,7 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐ │
-│  │   🔷 SynergyMesh    │  │   ⚖️ Structural     │  │  🚁 Autonomous      │ │
+│  │   🔷 MachineNativeOps    │  │   ⚖️ Structural     │  │  🚁 Autonomous      │ │
 │  │   Core Engine       │  │   Governance        │  │  Framework          │ │
 │  │                     │  │                     │  │                     │ │
 │  │  • AI 決策引擎      │  │  • Schema 命名空間  │  │  • 五骨架架構       │ │
@@ -988,7 +988,7 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 
 | 原則           | 說明                                                 |
 | -------------- | ---------------------------------------------------- |
-| **統一入口**   | 單一配置檔 `synergymesh.yaml` 作為所有系統的真實來源 |
+| **統一入口**   | 單一配置檔 `machinenativeops.yaml` 作為所有系統的真實來源 |
 | **模組化設計** | 三大子系統獨立運作，透過統一接口協作                 |
 | **零信任安全** | SLSA L3 溯源 + Sigstore 簽名 + 策略閘驗證            |
 | **自主運維**   | AI 驅動的自動修復、智能派工、升級管理                |
@@ -997,7 +997,7 @@ _整合 SynergyMesh 核心引擎 + 結構治理系統 + 無人之島自主框架
 
 ## 🔷 核心子系統
 
-### 1️⃣ SynergyMesh Core Engine（核心引擎）
+### 1️⃣ MachineNativeOps Core Engine（核心引擎）
 
 雲原生智能業務自動化和數據編排平台。
 
@@ -1034,7 +1034,7 @@ SuperRoot 風格的 Schema 命名空間與自主治理基礎設施。
 
 ```yaml
 # Schema 命名空間
-$schema: 'https://schema.synergymesh.io/docs-index/v1'
+$schema: 'https://schema.machinenativeops.io/docs-index/v1'
 
 # 必要欄位
 required_fields:
@@ -1138,7 +1138,7 @@ knowledge_cycle:
 ```
 unmanned-island/
 │
-├── 📄 synergymesh.yaml              # 🔑 統一主配置入口
+├── 📄 machinenativeops.yaml              # 🔑 統一主配置入口
 │
 ├── 📁 core/                         # 🏛️ 核心平台服務
 │   ├── unified_integration/         # 統一整合層
@@ -1236,7 +1236,7 @@ C++ 17 (GCC 11+)
 
 ```bash
 # 克隆倉庫
-git clone https://github.com/SynergyMesh-admin/Unmanned-Island.git
+git clone https://github.com/MachineNativeOps-admin/Unmanned-Island.git
 cd unmanned-island
 
 # 安裝依賴
@@ -1368,7 +1368,7 @@ docker-compose up -d
 
 ### 概述
 
-`apps/web` 是 SynergyMesh 平台的企業級代碼分析服務，實現了多語言、多策略的智能代碼分析功能，包含：
+`apps/web` 是 MachineNativeOps 平台的企業級代碼分析服務，實現了多語言、多策略的智能代碼分析功能，包含：
 
 - **React 前端 UI** - 架構視覺化與系統界面
 - **FastAPI 後端** - 代碼分析 API 服務
@@ -1533,10 +1533,10 @@ curl http://localhost:8000/api/v1/metrics
 cd apps/web
 
 # 構建前端鏡像
-docker build -t synergymesh-web:latest .
+docker build -t machinenativeops-web:latest .
 
 # 運行容器
-docker run -d -p 3002:3002 synergymesh-web:latest
+docker run -d -p 3002:3002 machinenativeops-web:latest
 ```
 
 #### API 容器
@@ -1730,7 +1730,7 @@ quality_gates:
 
 | 配置檔案 | 說明 | 用途 |
 |---------|------|------|
-| `synergymesh.yaml` | 🔑 統一主配置入口 | 所有系統配置的唯一真實來源 |
+| `machinenativeops.yaml` | 🔑 統一主配置入口 | 所有系統配置的唯一真實來源 |
 | `config/system-manifest.yaml` | 系統宣告清單 | 系統啟動與元件協調 |
 | `config/unified-config-index.yaml` | 統一配置索引 v3.0.0 | 配置整合與目錄合併指南 |
 | `config/system-module-map.yaml` | 模組映射 | 目錄結構與元件映射 |
@@ -1987,7 +1987,7 @@ guardrails:
 
 ## 🙏 致謝
 
-- [SynergyMesh](https://github.com/SynergyMesh/SynergyMesh) - 核心引擎基礎
+- [MachineNativeOps](https://github.com/MachineNativeOps/MachineNativeOps) - 核心引擎基礎
 - [Sigstore](https://sigstore.dev/) - 無密鑰簽名
 - [OPA](https://www.openpolicyagent.org/) - 策略引擎
 - [SLSA](https://slsa.dev/) - 供應鏈安全框架
@@ -2000,8 +2000,8 @@ guardrails:
 
 _讓開發更高效，讓程式碼更完美！_
 
-[GitHub](https://github.com/SynergyMesh-admin/Unmanned-Island) •
-[Issues](https://github.com/SynergyMesh-admin/Unmanned-Island/issues) •
-[Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
+[GitHub](https://github.com/MachineNativeOps-admin/Unmanned-Island) •
+[Issues](https://github.com/MachineNativeOps-admin/Unmanned-Island/issues) •
+[Discussions](https://github.com/MachineNativeOps-admin/Unmanned-Island/discussions)
 
 </div>

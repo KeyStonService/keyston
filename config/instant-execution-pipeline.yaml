@@ -9,7 +9,7 @@ description: AI-powered 3-stage instant execution pipeline for zero-touch deploy
 
 # Pipeline metadata
 metadata:
-  owner: synergymesh-automation
+  owner: machinenativeops-automation
   created_at: "2025-12-08"
   updated_at: "2025-12-08"
   tags:
@@ -193,7 +193,7 @@ integrations:
   validation:
     enabled: true
     engine: tools/automation/engines/baseline_validation_engine.py
-    namespace: synergymesh-system
+    namespace: machinenativeops-system
   
   testing:
     enabled: true
@@ -203,7 +203,7 @@ integrations:
   deployment:
     enabled: true
     script: scripts/k8s/deploy-baselines.sh
-    namespace: synergymesh-system
+    namespace: machinenativeops-system
     baseline_dir: config/baselines
 
 # ============================================================================
@@ -285,17 +285,17 @@ resources:
 
 environments:
   development:
-    namespace: synergymesh-dev
+    namespace: machinenativeops-dev
     dry_run: true
     skip_validation: false
   
   staging:
-    namespace: synergymesh-staging
+    namespace: machinenativeops-staging
     dry_run: false
     skip_validation: false
   
   production:
-    namespace: synergymesh-prod
+    namespace: machinenativeops-prod
     dry_run: false
     skip_validation: false
     require_approval: true

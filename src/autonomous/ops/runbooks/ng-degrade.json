@@ -1,0 +1,288 @@
+{
+  "runbookId": "ng-degrade-001",
+  "title": "服務降級處理流程",
+  "description": "當服務性能下降或異常時的機器可執行診斷與修復流程",
+  "version": "1.0.0",
+  "language": "zh-TW",
+  "lastUpdated": "2025-11-25T00:00:00Z",
+  "severity": "high",
+  "estimatedDuration": "15-30分鐘",
+  
+  "triggers": [
+    {
+      "type": "alert",
+      "source": "prometheus",
+      "condition": "error_rate > 5% for 5m",
+      "description": "錯誤率超過閾值"
+    },
+    {
+      "type": "alert",
+      "source": "prometheus",
+      "condition": "response_time_p95 > 1s for 10m",
+      "description": "回應時間異常"
+    },
+    {
+      "type": "manual",
+      "description": "手動觸發降級"
+    }
+  ],
+  
+  "workflow": {
+    "steps": [
+      {
+        "stepId": "step1",
+        "name": "診斷 - 檢查服務狀態",
+        "type": "diagnostic",
+        "description": "檢查服務基本健康狀態",
+        "commands": [
+          {
+            "description": "檢查 Pod 狀態",
+            "command": "kubectl get pods -n production -l app=api-service",
+            "expectedOutput": "All pods Running",
+            "timeout": "30s"
+          },
+          {
+            "description": "檢查最近的事件",
+            "command": "kubectl get events -n production --sort-by='.lastTimestamp' | tail -20",
+            "timeout": "30s"
+          },
+          {
+            "description": "檢查資源使用",
+            "command": "kubectl top pods -n production -l app=api-service",
+            "timeout": "30s"
+          }
+        ],
+        "successCriteria": "All pods in Running state with normal resource usage",
+        "onFailure": "proceed_to_step2"
+      },
+      {
+        "stepId": "step2",
+        "name": "診斷 - 檢查日誌",
+        "type": "diagnostic",
+        "description": "查看最近的錯誤日誌",
+        "commands": [
+          {
+            "description": "取得最近的錯誤日誌",
+            "command": "kubectl logs -n production -l app=api-service --tail=100 | grep -i error",
+            "timeout": "60s"
+          },
+          {
+            "description": "檢查應用程式日誌",
+            "command": "kubectl logs -n production deploy/api-service --tail=50",
+            "timeout": "60s"
+          }
+        ],
+        "analysis": [
+          {
+            "pattern": "OutOfMemoryError",
+            "action": "proceed_to_memory_fix"
+          },
+          {
+            "pattern": "Connection refused",
+            "action": "proceed_to_network_fix"
+          },
+          {
+            "pattern": "Database timeout",
+            "action": "proceed_to_database_fix"
+          }
+        ],
+        "onFailure": "proceed_to_step3"
+      },
+      {
+        "stepId": "step3",
+        "name": "修復 - 重啟異常 Pods",
+        "type": "remediation",
+        "description": "重啟狀態異常的 Pods",
+        "automated": true,
+        "requiresApproval": false,
+        "commands": [
+          {
+            "description": "刪除異常 Pods（自動重建）",
+            "command": "kubectl delete pods -n production -l app=api-service --field-selector=status.phase!=Running",
+            "timeout": "60s"
+          },
+          {
+            "description": "等待 Pods 恢復",
+            "command": "kubectl wait --for=condition=Ready pods -n production -l app=api-service --timeout=120s",
+            "timeout": "180s"
+          }
+        ],
+        "verification": {
+          "command": "kubectl get pods -n production -l app=api-service",
+          "expectedResult": "All pods Running and Ready"
+        },
+        "onSuccess": "proceed_to_verification",
+        "onFailure": "proceed_to_step4"
+      },
+      {
+        "stepId": "step4",
+        "name": "修復 - 擴容處理",
+        "type": "remediation",
+        "description": "增加副本數以分散負載",
+        "automated": true,
+        "requiresApproval": false,
+        "commands": [
+          {
+            "description": "取得當前副本數",
+            "command": "kubectl get deployment api-service -n production -o jsonpath='{.spec.replicas}'",
+            "timeout": "30s"
+          },
+          {
+            "description": "擴容至 2 倍副本數",
+            "command": "kubectl scale deployment api-service -n production --replicas=$(($(kubectl get deployment api-service -n production -o jsonpath='{.spec.replicas}') * 2))",
+            "timeout": "30s"
+          },
+          {
+            "description": "等待新 Pods 就緒",
+            "command": "kubectl rollout status deployment/api-service -n production --timeout=180s",
+            "timeout": "240s"
+          }
+        ],
+        "verification": {
+          "command": "kubectl get deployment api-service -n production",
+          "expectedResult": "Deployment scaled successfully"
+        },
+        "onSuccess": "proceed_to_verification",
+        "onFailure": "proceed_to_step5"
+      },
+      {
+        "stepId": "step5",
+        "name": "修復 - 降級策略",
+        "type": "remediation",
+        "description": "啟用降級模式減少非必要功能",
+        "automated": true,
+        "requiresApproval": true,
+        "approvers": ["sre-team", "platform-team"],
+        "commands": [
+          {
+            "description": "設置降級標誌",
+            "command": "kubectl set env deployment/api-service -n production DEGRADED_MODE=true",
+            "timeout": "30s"
+          },
+          {
+            "description": "更新 ConfigMap 啟用簡化模式",
+            "command": "kubectl patch configmap api-config -n production -p '{\"data\":{\"feature.complex.enabled\":\"false\"}}'",
+            "timeout": "30s"
+          },
+          {
+            "description": "重新載入配置",
+            "command": "kubectl rollout restart deployment/api-service -n production",
+            "timeout": "30s"
+          }
+        ],
+        "verification": {
+          "command": "kubectl get configmap api-config -n production -o jsonpath='{.data.feature\\.complex\\.enabled}'",
+          "expectedResult": "false"
+        },
+        "onSuccess": "proceed_to_verification",
+        "onFailure": "escalate"
+      },
+      {
+        "stepId": "verification",
+        "name": "驗證 - 確認服務恢復",
+        "type": "verification",
+        "description": "驗證服務指標恢復正常",
+        "commands": [
+          {
+            "description": "檢查錯誤率",
+            "command": "curl -s 'http://prometheus:9090/api/v1/query?query=rate(http_requests_errors_total[5m])' | jq '.data.result[0].value[1]'",
+            "expectedOutput": "< 0.01",
+            "timeout": "30s"
+          },
+          {
+            "description": "檢查回應時間",
+            "command": "curl -s 'http://prometheus:9090/api/v1/query?query=histogram_quantile(0.95,rate(http_request_duration_seconds_bucket[5m]))' | jq '.data.result[0].value[1]'",
+            "expectedOutput": "< 1.0",
+            "timeout": "30s"
+          },
+          {
+            "description": "執行健康檢查",
+            "command": "curl -f http://api-service.production.svc.cluster.local/health",
+            "expectedOutput": "200 OK",
+            "timeout": "30s"
+          }
+        ],
+        "successCriteria": "All metrics within acceptable range",
+        "onSuccess": "complete",
+        "onFailure": "escalate"
+      }
+    ]
+  },
+  
+  "rollbackStrategy": {
+    "description": "如果修復失敗，執行回滾步驟",
+    "steps": [
+      {
+        "name": "回滾副本數",
+        "command": "kubectl scale deployment api-service -n production --replicas=<original_replicas>",
+        "description": "恢復原始副本數"
+      },
+      {
+        "name": "回滾配置",
+        "command": "kubectl rollout undo deployment/api-service -n production",
+        "description": "回滾到前一版本"
+      },
+      {
+        "name": "清除降級標誌",
+        "command": "kubectl set env deployment/api-service -n production DEGRADED_MODE-",
+        "description": "移除降級環境變數"
+      }
+    ]
+  },
+  
+  "escalation": {
+    "condition": "If all remediation steps fail",
+    "contacts": [
+      {
+        "role": "SRE On-Call",
+        "method": "pagerduty",
+        "priority": "high"
+      },
+      {
+        "role": "Platform Team Lead",
+        "method": "slack",
+        "channel": "#platform-incidents"
+      }
+    ],
+    "escalationMessage": "服務降級 Runbook 執行失敗，需要人工介入。請查看執行日誌。"
+  },
+  
+  "postActions": {
+    "description": "Runbook 執行後的必要動作",
+    "actions": [
+      {
+        "name": "記錄事件",
+        "command": "./scripts/log-incident.sh",
+        "description": "將事件記錄到審計日誌"
+      },
+      {
+        "name": "生成報告",
+        "command": "./scripts/generate-incident-report.sh",
+        "description": "生成事件報告"
+      },
+      {
+        "name": "通知團隊",
+        "command": "./scripts/notify-team.sh",
+        "description": "通知相關團隊事件已解決"
+      }
+    ]
+  },
+  
+  "monitoring": {
+    "dashboards": [
+      "https://grafana.example.com/d/service-health",
+      "https://grafana.example.com/d/error-rates"
+    ],
+    "logQueries": [
+      "kubectl logs -n production -l app=api-service --tail=500"
+    ]
+  },
+  
+  "metadata": {
+    "tags": ["service-degradation", "high-priority", "automated"],
+    "lastExecuted": null,
+    "executionCount": 0,
+    "successRate": null,
+    "averageDuration": null
+  }
+}

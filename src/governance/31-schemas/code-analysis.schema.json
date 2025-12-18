@@ -1,0 +1,250 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.dev/schemas/code-analysis.schema.json",
+  "title": "Code Analysis Result",
+  "description": "Schema for code analysis results from SynergyMesh analysis engine",
+  "type": "object",
+  "required": [
+    "analysis_id",
+    "timestamp",
+    "repository",
+    "commit_hash",
+    "issues",
+    "metrics",
+    "quality_score"
+  ],
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "description": "Unique identifier for this analysis",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of analysis"
+    },
+    "repository": {
+      "type": "string",
+      "description": "Repository identifier"
+    },
+    "commit_hash": {
+      "type": "string",
+      "description": "Git commit hash",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "branch": {
+      "type": "string",
+      "description": "Git branch name"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Analysis duration in seconds",
+      "minimum": 0
+    },
+    "quality_score": {
+      "type": "number",
+      "description": "Overall quality score (0-100)",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "issues": {
+      "type": "array",
+      "description": "List of issues found",
+      "items": {
+        "$ref": "#/definitions/issue"
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Code metrics",
+      "properties": {
+        "files_analyzed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lines_of_code": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cyclomatic_complexity": {
+          "type": "number",
+          "minimum": 0
+        },
+        "duplication_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "test_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Issue summary",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "high": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "medium": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "low": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "info": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "Analysis tools used",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidence_hash": {
+      "type": "string",
+      "description": "SHA256 hash of evidence for SLSA compliance",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "definitions": {
+    "issue": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "severity",
+        "file",
+        "line",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Issue identifier",
+          "pattern": "^[A-Z]+-[0-9]+$"
+        },
+        "type": {
+          "type": "string",
+          "description": "Issue type",
+          "enum": [
+            "SECURITY",
+            "PERFORMANCE",
+            "CODE_QUALITY",
+            "MAINTAINABILITY",
+            "DEPENDENCY"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "description": "Issue severity",
+          "enum": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW",
+            "INFO"
+          ]
+        },
+        "file": {
+          "type": "string",
+          "description": "File path relative to repository root"
+        },
+        "line": {
+          "type": "integer",
+          "description": "Line number",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "description": "Column number",
+          "minimum": 1
+        },
+        "end_line": {
+          "type": "integer",
+          "description": "End line number",
+          "minimum": 1
+        },
+        "end_column": {
+          "type": "integer",
+          "description": "End column number",
+          "minimum": 1
+        },
+        "message": {
+          "type": "string",
+          "description": "Short issue message"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed issue description"
+        },
+        "suggestion": {
+          "type": "string",
+          "description": "Suggested fix"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Issue tags",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cwe_id": {
+          "type": "string",
+          "description": "CWE identifier for security issues",
+          "pattern": "^CWE-[0-9]+$"
+        },
+        "cvss_score": {
+          "type": "number",
+          "description": "CVSS 3.1 score for security issues",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "fix_available": {
+          "type": "boolean",
+          "description": "Whether automatic fix is available"
+        },
+        "evidence_hash": {
+          "type": "string",
+          "description": "SHA256 hash of issue evidence (full 64-character hash for SLSA compliance)",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "references": {
+          "type": "array",
+          "description": "External references",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    }
+  }
+}

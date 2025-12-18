@@ -146,8 +146,8 @@ echo ""
 # 步驟 6: 檢查無人機腳本
 log_step "6/6 檢查無人機系統"
 DRONE_SCRIPTS=(
-    ".devcontainer/automation/auto-pilot.js"
-    ".devcontainer/automation/drone-coordinator.py"
+    "config/dev/automation/auto-pilot.js"
+    "config/dev/automation/drone-coordinator.py"
 )
 
 for script in "${DRONE_SCRIPTS[@]}"; do

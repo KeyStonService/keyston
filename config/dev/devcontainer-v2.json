@@ -1,0 +1,141 @@
+{
+  "name": "SynergyMesh v2 Multi Islands Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace/v2-multi-islands",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": true,
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "latest"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "latest"
+    }
+  },
+
+  "forwardPorts": [
+    3001, // Identity Service
+    3002, // AI Agent
+    3003, // Policy Evaluator
+    3004, // Backend
+    3010, // FixOps SLAgeist - Consciousness
+    3015, // Brain - AI Reasoning Engine
+    3016, // Brain - Decision API
+    3017, // Brain - Consciousness API
+    3018, // Heart - Resource Orchestration API
+    3019, // Heart - Deployment API
+    3020, // Heartbeat - Vital Signs API
+    3021, // Heartbeat - Health Dashboard
+    5173, // Frontend (Vite)
+    5432, // PostgreSQL
+    6379, // Redis
+    9090, // Prometheus
+    9091 // Heartbeat Metrics
+  ],
+
+  "portsAttributes": {
+    "3001": {
+      "label": "Identity Service",
+      "onAutoForward": "notify"
+    },
+    "3010": {
+      "label": "FixOps SLAgeist - Consciousness",
+      "onAutoForward": "notify"
+    },
+    "3015": {
+      "label": "Brain - AI Reasoning Engine",
+      "onAutoForward": "notify"
+    },
+    "3018": {
+      "label": "Heart - Resource Orchestration",
+      "onAutoForward": "notify"
+    },
+    "3020": {
+      "label": "Heartbeat - Vital Signs Monitor",
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "Frontend Application",
+      "onAutoForward": "openBrowser"
+    },
+    "9090": {
+      "label": "Prometheus Monitoring",
+      "onAutoForward": "notify"
+    },
+    "9091": {
+      "label": "Heartbeat Metrics Dashboard",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
+  "postStartCommand": "bash /workspace/.devcontainer/post-start-v2.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-json",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-vscode.docker",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint",
+        "ms-vscode.vscode-typescript-next",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.vscode-github-pullrequest",
+        "github.src/ai",
+        "github.src/ai-chat",
+        "github.vscode-github-actions",
+        "ms-vscode.azure-account"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "typescript.preferences.includePackageJsonAutoImports": "on",
+        "javascript.preferences.includePackageJsonAutoImports": "on",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "files.autoSave": "onFocusChange"
+      }
+    }
+  },
+
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    "LOG_LEVEL": "debug",
+    "BRAIN_PORT": "3015",
+    "HEART_PORT": "3018",
+    "HEARTBEAT_PORT": "3020",
+    "FIXOPS_SLAGEIST_PORT": "3010",
+    "POSTGRES_HOST": "postgres",
+    "REDIS_HOST": "redis",
+    "WE_TONKE": "${localEnv:WE_TONKE}",
+    "SYNERGYMESH_VERSION": "v2",
+    "NPM_CONFIG_CACHE": "/tmp/npm-cache"
+  },
+
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+
+  "waitFor": "postCreateCommand"
+}

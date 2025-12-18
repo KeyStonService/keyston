@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.io/governance/dimensions/35-scripts/schema.json",
+  "title": "Scripts Governance Schema",
+  "description": "自動化腳本、批次作業與任務執行",
+  "type": "object",
+  "definitions": {
+    "config": {
+      "type": "object",
+      "description": "Configuration for Scripts Governance",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this dimension is enabled",
+          "default": true
+        },
+        "mode": {
+          "type": "string",
+          "description": "Operating mode",
+          "enum": [
+            "strict",
+            "permissive",
+            "audit"
+          ],
+          "default": "strict"
+        },
+        "settings": {
+          "type": "object",
+          "description": "Dimension-specific settings",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "context": {
+      "type": "object",
+      "description": "Execution context",
+      "properties": {
+        "trace_id": {
+          "type": "string",
+          "description": "Distributed trace ID"
+        },
+        "actor": {
+          "type": "object",
+          "description": "Actor information",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "human",
+                "ai_agent",
+                "system"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "description": "Operation result",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether operation succeeded"
+        },
+        "data": {
+          "type": "object",
+          "description": "Result data"
+        },
+        "errors": {
+          "type": "array",
+          "description": "Error details if any",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "audit_log": {
+      "type": "object",
+      "description": "Audit log entry",
+      "properties": {
+        "log_id": {
+          "type": "string",
+          "description": "Unique log identifier"
+        },
+        "trace_id": {
+          "type": "string",
+          "description": "Distributed trace ID"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dimension": {
+          "type": "string",
+          "const": "35-scripts"
+        },
+        "action": {
+          "type": "string",
+          "description": "Action performed"
+        },
+        "actor": {
+          "$ref": "#/definitions/context/properties/actor"
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure",
+            "partial"
+          ]
+        },
+        "details": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "log_id",
+        "timestamp",
+        "dimension",
+        "action",
+        "outcome"
+      ]
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Resource identifier",
+      "pattern": "^35-scripts-[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Resource name"
+    },
+    "config": {
+      "$ref": "#/definitions/config"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status",
+      "enum": [
+        "pending",
+        "active",
+        "inactive",
+        "error",
+        "deprecated"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "status"
+  ],
+  "additionalProperties": false
+}

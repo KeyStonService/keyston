@@ -271,7 +271,7 @@ validate_configuration() {
     print_phase "3" "配置验证与整合"
     
     local config_files=(
-        "machine-native-ops.yaml"
+        "machinenativeops.yaml"
         "synergymesh.yaml"
         "config/system-manifest.yaml"
         "config/drone-config.yml"
@@ -471,7 +471,7 @@ EOF
 EOF
 
     local config_files=(
-        "machine-native-ops.yaml"
+        "machinenativeops.yaml"
         "synergymesh.yaml"
         "config/system-manifest.yaml"
         "config/drone-config.yml"
@@ -597,17 +597,17 @@ ROS/无人机组件的基础结构位于：
 ## 🎯 三大核心子系统集成状态
 
 ### 1️⃣ SynergyMesh Core Engine
-- ✅ 统一整合层 (\`core/unified_integration/\`)
-- ✅ 心智矩阵 (\`core/mind_matrix/\`)
-- ✅ 安全机制 (\`core/safety_mechanisms/\`)
-- ✅ SLSA 溯源 (\`core/slsa_provenance/\`)
-- ✅ 合约服务 (\`core/contract_service/\`)
+- ✅ 统一整合层 (\`src/core/unified_integration/\`)
+- ✅ 心智矩阵 (\`src/core/mind_matrix/\`)
+- ✅ 安全机制 (\`src/core/safety_mechanisms/\`)
+- ✅ SLSA 溯源 (\`src/core/slsa_provenance/\`)
+- ✅ 合约服务 (\`src/core/contract_service/\`)
 
 ### 2️⃣ Structural Governance System
-- ✅ Schema 命名空间 (\`governance/schemas/\`)
-- ✅ 策略闸 (\`governance/policies/\`)
-- ✅ SBOM 管理 (\`governance/sbom/\`)
-- ✅ 审计配置 (\`governance/audit/\`)
+- ✅ Schema 命名空间 (\`src/governance/schemas/\`)
+- ✅ 策略闸 (\`src/governance/policies/\`)
+- ✅ SBOM 管理 (\`src/governance/sbom/\`)
+- ✅ 审计配置 (\`src/governance/audit/\`)
 
 ### 3️⃣ Autonomous Framework
 - ✅ 五骨架架构 (\`automation/autonomous/\`)

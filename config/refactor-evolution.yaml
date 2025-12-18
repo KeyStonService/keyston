@@ -101,7 +101,7 @@ engines:
       dry_run_first: true
   
   evolution_engine:
-    path: "automation/intelligent/synergymesh_core/self_evolution_engine.py"
+    path: "automation/intelligent/machinenativeops_core/self_evolution_engine.py"
     enabled: true
     config:
       learning_enabled: true
@@ -114,7 +114,7 @@ engines:
       rollback_on_failure: true
   
   island_ai_agents:
-    path: "island-ai/dist/index.js"
+    path: "src/ai/dist/index.js"
     enabled: true
     agents:
       - "architect"  # System analysis and patterns

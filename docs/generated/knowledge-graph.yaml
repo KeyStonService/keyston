@@ -207,31 +207,31 @@ nodes:
 - id: file:mcp-servers:deploy:pdb.yaml
   type: config
   label: pdb.yaml
-  path: mcp-servers/deploy/pdb.yaml
+  path: mcp-servers/src/autonomous/deployment/pdb.yaml
   properties:
     label_zh: 設定
 - id: file:mcp-servers:deploy:deployment.yaml
   type: config
   label: deployment.yaml
-  path: mcp-servers/deploy/deployment.yaml
+  path: mcp-servers/src/autonomous/deployment/deployment.yaml
   properties:
     label_zh: 設定
 - id: file:mcp-servers:deploy:service.yaml
   type: config
   label: service.yaml
-  path: mcp-servers/deploy/service.yaml
+  path: mcp-servers/src/autonomous/deployment/service.yaml
   properties:
     label_zh: 設定
 - id: file:mcp-servers:deploy:hpa.yaml
   type: config
   label: hpa.yaml
-  path: mcp-servers/deploy/hpa.yaml
+  path: mcp-servers/src/autonomous/deployment/hpa.yaml
   properties:
     label_zh: 設定
 - id: file:mcp-servers:deploy:rbac.yaml
   type: config
   label: rbac.yaml
-  path: mcp-servers/deploy/rbac.yaml
+  path: mcp-servers/src/autonomous/deployment/rbac.yaml
   properties:
     label_zh: 設定
 - id: file:mcp-servers:slsa-validator.js
@@ -822,10 +822,10 @@ nodes:
   path: _codeql_detected_source_root/_codeql_detected_source_root/knowledge
   properties:
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.egg-info
+- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.egg-info
   type: directory
-  label: synergymesh.egg-info
-  path: _codeql_detected_source_root/_codeql_detected_source_root/synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: _codeql_detected_source_root/_codeql_detected_source_root/machinenativeops.egg-info
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:_codeql_detected_source_root:tests
@@ -882,16 +882,16 @@ nodes:
   path: _codeql_detected_source_root/_codeql_detected_source_root/island.bootstrap.stage0.yaml
   properties:
     label_zh: 設定
-- id: file:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.yaml
+- id: file:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.yaml
   type: config
-  label: synergymesh.yaml
-  path: _codeql_detected_source_root/_codeql_detected_source_root/synergymesh.yaml
+  label: machinenativeops.yaml
+  path: _codeql_detected_source_root/_codeql_detected_source_root/machinenativeops.yaml
   properties:
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:island-ai
+- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:src/ai
   type: directory
-  label: island-ai
-  path: _codeql_detected_source_root/_codeql_detected_source_root/island-ai
+  label: src/ai
+  path: _codeql_detected_source_root/_codeql_detected_source_root/src/ai
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:_codeql_detected_source_root:templates
@@ -1257,13 +1257,13 @@ nodes:
 - id: dir:_codeql_detected_source_root:deployment:docker
   type: directory
   label: docker
-  path: _codeql_detected_source_root/deployment/docker
+  path: _codeql_detected_source_root/src/autonomous/deployment/docker
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:deployment:kubernetes
   type: directory
   label: kubernetes
-  path: _codeql_detected_source_root/deployment/kubernetes
+  path: _codeql_detected_source_root/src/autonomous/deployment/kubernetes
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:docker-templates
@@ -2013,10 +2013,10 @@ nodes:
   path: _codeql_detected_source_root/knowledge/language-history.yaml
   properties:
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:synergymesh.egg-info
+- id: dir:_codeql_detected_source_root:machinenativeops.egg-info
   type: directory
-  label: synergymesh.egg-info
-  path: _codeql_detected_source_root/synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: _codeql_detected_source_root/machinenativeops.egg-info
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:tests
@@ -2199,10 +2199,10 @@ nodes:
   path: _codeql_detected_source_root/config/sync-refactor-config.yaml
   properties:
     label_zh: 設定
-- id: file:_codeql_detected_source_root:config:island-ai-runtime.yaml
+- id: file:_codeql_detected_source_root:config:src/ai-runtime.yaml
   type: config
-  label: island-ai-runtime.yaml
-  path: _codeql_detected_source_root/config/island-ai-runtime.yaml
+  label: src/ai-runtime.yaml
+  path: _codeql_detected_source_root/config/src/ai-runtime.yaml
   properties:
     label_zh: 設定
 - id: file:_codeql_detected_source_root:config:refactor-evolution.yaml
@@ -2313,10 +2313,10 @@ nodes:
   path: _codeql_detected_source_root/config/pipelines
   properties:
     label_zh: 目錄
-- id: file:_codeql_detected_source_root:config:synergymesh.config.yaml
+- id: file:_codeql_detected_source_root:config:machinenativeops.config.yaml
   type: config
-  label: synergymesh.config.yaml
-  path: _codeql_detected_source_root/config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: _codeql_detected_source_root/config/machinenativeops.config.yaml
   properties:
     label_zh: 設定
 - id: file:_codeql_detected_source_root:config:ci-agent-config.yaml
@@ -2520,13 +2520,13 @@ nodes:
 - id: dir:_codeql_detected_source_root:infra:config
   type: config
   label: config
-  path: _codeql_detected_source_root/infra/config
+  path: _codeql_detected_source_root/src/autonomous/infrastructure/config
   properties:
     label_zh: 設定
 - id: dir:_codeql_detected_source_root:infra:infrastructure
   type: module
   label: infrastructure
-  path: _codeql_detected_source_root/infra/infrastructure
+  path: _codeql_detected_source_root/src/autonomous/infrastructure/infrastructure
   properties:
     label_zh: 模組
 - id: dir:_codeql_detected_source_root:bridges
@@ -2547,28 +2547,28 @@ nodes:
   path: _codeql_detected_source_root/island.bootstrap.stage0.yaml
   properties:
     label_zh: 設定
-- id: file:_codeql_detected_source_root:synergymesh.yaml
+- id: file:_codeql_detected_source_root:machinenativeops.yaml
   type: config
-  label: synergymesh.yaml
-  path: _codeql_detected_source_root/synergymesh.yaml
+  label: machinenativeops.yaml
+  path: _codeql_detected_source_root/machinenativeops.yaml
   properties:
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:island-ai
+- id: dir:_codeql_detected_source_root:src/ai
   type: directory
-  label: island-ai
-  path: _codeql_detected_source_root/island-ai
+  label: src/ai
+  path: _codeql_detected_source_root/src/ai
   properties:
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:island-ai:examples
+- id: dir:_codeql_detected_source_root:src/ai:examples
   type: directory
   label: examples
-  path: _codeql_detected_source_root/island-ai/examples
+  path: _codeql_detected_source_root/src/ai/examples
   properties:
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:island-ai:src
+- id: dir:_codeql_detected_source_root:src/ai:src
   type: directory
   label: src
-  path: _codeql_detected_source_root/island-ai/src
+  path: _codeql_detected_source_root/src/ai/src
   properties:
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:templates
@@ -2901,10 +2901,10 @@ nodes:
   path: .github/workflows/create-staging-branch.yml
   properties:
     label_zh: 設定
-- id: file:.github:workflows:island-ai-setup-steps.yml
+- id: file:.github:workflows:src/ai-setup-steps.yml
   type: config
-  label: island-ai-setup-steps.yml
-  path: .github/workflows/island-ai-setup-steps.yml
+  label: src/ai-setup-steps.yml
+  path: .github/workflows/src/ai-setup-steps.yml
   properties:
     label_zh: 設定
 - id: file:.github:workflows:06-security-scan.yml
@@ -3153,10 +3153,10 @@ nodes:
   path: .github/workflows/contracts-cd.yml
   properties:
     label_zh: 設定
-- id: file:.github:workflows:validate-island-ai-instructions.yml
+- id: file:.github:workflows:validate-src/ai-instructions.yml
   type: config
-  label: validate-island-ai-instructions.yml
-  path: .github/workflows/validate-island-ai-instructions.yml
+  label: validate-src/ai-instructions.yml
+  path: .github/workflows/validate-src/ai-instructions.yml
   properties:
     label_zh: 設定
 - id: file:.github:workflows:conftest-validation.yml
@@ -3948,19 +3948,19 @@ nodes:
 - id: dir:deployment:docker
   type: directory
   label: docker
-  path: deployment/docker
+  path: src/autonomous/deployment/docker
   properties:
     label_zh: 目錄
 - id: dir:deployment:kubernetes
   type: directory
   label: kubernetes
-  path: deployment/kubernetes
+  path: src/autonomous/deployment/kubernetes
   properties:
     label_zh: 目錄
 - id: file:deployment:kubernetes:workflow-deployment.yaml
   type: config
   label: workflow-deployment.yaml
-  path: deployment/kubernetes/workflow-deployment.yaml
+  path: src/autonomous/deployment/kubernetes/workflow-deployment.yaml
   properties:
     label_zh: 設定
 - id: dir:docker-templates
@@ -4029,10 +4029,10 @@ nodes:
   path: automation/intelligent/pipeline_service.py
   properties:
     label_zh: 模組
-- id: dir:automation:intelligent:synergymesh_core
+- id: dir:automation:intelligent:machinenativeops_core
   type: directory
-  label: synergymesh_core
-  path: automation/intelligent/synergymesh_core
+  label: machinenativeops_core
+  path: automation/intelligent/machinenativeops_core
   properties:
     label_zh: 目錄
 - id: file:automation:intelligent:auto_upgrade_env.py
@@ -7799,10 +7799,10 @@ nodes:
   path: knowledge/language-history.yaml
   properties:
     label_zh: 設定
-- id: dir:synergymesh.egg-info
+- id: dir:machinenativeops.egg-info
   type: directory
-  label: synergymesh.egg-info
-  path: synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: machinenativeops.egg-info
   properties:
     label_zh: 目錄
 - id: dir:tests
@@ -8117,10 +8117,10 @@ nodes:
   path: config/docker/compose.example.yaml
   properties:
     label_zh: 設定
-- id: file:config:docker:compose.devcontainer.yaml
+- id: file:config:docker:composeconfig/dev.yaml
   type: config
-  label: compose.devcontainer.yaml
-  path: config/docker/compose.devcontainer.yaml
+  label: composeconfig/dev.yaml
+  path: config/docker/composeconfig/dev.yaml
   properties:
     label_zh: 設定
 - id: file:config:docker:compose.dev.yaml
@@ -8171,10 +8171,10 @@ nodes:
   path: config/sync-refactor-config.yaml
   properties:
     label_zh: 設定
-- id: file:config:island-ai-runtime.yaml
+- id: file:config:src/ai-runtime.yaml
   type: config
-  label: island-ai-runtime.yaml
-  path: config/island-ai-runtime.yaml
+  label: src/ai-runtime.yaml
+  path: config/src/ai-runtime.yaml
   properties:
     label_zh: 設定
 - id: file:config:refactor-evolution.yaml
@@ -8345,10 +8345,10 @@ nodes:
   path: config/pipelines/refactor-evolution-pipeline.yaml
   properties:
     label_zh: 設定
-- id: file:config:synergymesh.config.yaml
+- id: file:config:machinenativeops.config.yaml
   type: config
-  label: synergymesh.config.yaml
-  path: config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: config/machinenativeops.config.yaml
   properties:
     label_zh: 設定
 - id: file:config:ci-agent-config.yaml
@@ -9068,181 +9068,181 @@ nodes:
 - id: dir:infra:config
   type: config
   label: config
-  path: infra/config
+  path: src/autonomous/infrastructure/config
   properties:
     label_zh: 設定
 - id: dir:infra:config:autofix
   type: directory
   label: autofix
-  path: infra/config/autofix
+  path: src/autonomous/infrastructure/config/autofix
   properties:
     label_zh: 目錄
 - id: file:infra:config:monitoring.yaml
   type: config
   label: monitoring.yaml
-  path: infra/config/monitoring.yaml
+  path: src/autonomous/infrastructure/config/monitoring.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:ci-error-handler.yaml
   type: config
   label: ci-error-handler.yaml
-  path: infra/config/ci-error-handler.yaml
+  path: src/autonomous/infrastructure/config/ci-error-handler.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:system-module-map.yaml
   type: config
   label: system-module-map.yaml
-  path: infra/config/system-module-map.yaml
+  path: src/autonomous/infrastructure/config/system-module-map.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:island-control.yml
   type: config
   label: island-control.yml
-  path: infra/config/island-control.yml
+  path: src/autonomous/infrastructure/config/island-control.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:dependencies.yaml
   type: config
   label: dependencies.yaml
-  path: infra/config/dependencies.yaml
+  path: src/autonomous/infrastructure/config/dependencies.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:environment.yaml
   type: config
   label: environment.yaml
-  path: infra/config/environment.yaml
+  path: src/autonomous/infrastructure/config/environment.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:safety-mechanisms.yaml
   type: config
   label: safety-mechanisms.yaml
-  path: infra/config/safety-mechanisms.yaml
+  path: src/autonomous/infrastructure/config/safety-mechanisms.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:prometheus-rules.yml
   type: config
   label: prometheus-rules.yml
-  path: infra/config/prometheus-rules.yml
+  path: src/autonomous/infrastructure/config/prometheus-rules.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot.yml
   type: config
   label: auto-fix-bot.yml
-  path: infra/config/auto-fix-bot.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:system-manifest.yaml
   type: config
   label: system-manifest.yaml
-  path: infra/config/system-manifest.yaml
+  path: src/autonomous/infrastructure/config/system-manifest.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:drone-config.yml
   type: config
   label: drone-config.yml
-  path: infra/config/drone-config.yml
+  path: src/autonomous/infrastructure/config/drone-config.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:ci-comprehensive-solution.yaml
   type: config
   label: ci-comprehensive-solution.yaml
-  path: infra/config/ci-comprehensive-solution.yaml
+  path: src/autonomous/infrastructure/config/ci-comprehensive-solution.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:yaml-module-system.yaml
   type: config
   label: yaml-module-system.yaml
-  path: infra/config/yaml-module-system.yaml
+  path: src/autonomous/infrastructure/config/yaml-module-system.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot .prompt.yml
   type: config
   label: auto-fix-bot .prompt.yml
-  path: infra/config/auto-fix-bot .prompt.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot .prompt.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:unified-config-index.yaml
   type: config
   label: unified-config-index.yaml
-  path: infra/config/unified-config-index.yaml
+  path: src/autonomous/infrastructure/config/unified-config-index.yaml
   properties:
     label_zh: 設定
 - id: dir:infra:config:integrations
   type: directory
   label: integrations
-  path: infra/config/integrations
+  path: src/autonomous/infrastructure/config/integrations
   properties:
     label_zh: 目錄
 - id: file:infra:config:topology-mind-matrix.yaml
   type: config
   label: topology-mind-matrix.yaml
-  path: infra/config/topology-mind-matrix.yaml
+  path: src/autonomous/infrastructure/config/topology-mind-matrix.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:security-network-config.yml
   type: config
   label: security-network-config.yml
-  path: infra/config/security-network-config.yml
+  path: src/autonomous/infrastructure/config/security-network-config.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:ai-constitution.yaml
   type: config
   label: ai-constitution.yaml
-  path: infra/config/ai-constitution.yaml
+  path: src/autonomous/infrastructure/config/ai-constitution.yaml
   properties:
     label_zh: 設定
 - id: file:infra:config:cloud-agent-delegation.yml
   type: config
   label: cloud-agent-delegation.yml
-  path: infra/config/cloud-agent-delegation.yml
+  path: src/autonomous/infrastructure/config/cloud-agent-delegation.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot.prompt.yml
   type: config
   label: auto-fix-bot.prompt.yml
-  path: infra/config/auto-fix-bot.prompt.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot.prompt.yml
   properties:
     label_zh: 設定
 - id: file:infra:config:prometheus-config.yml
   type: config
   label: prometheus-config.yml
-  path: infra/config/prometheus-config.yml
+  path: src/autonomous/infrastructure/config/prometheus-config.yml
   properties:
     label_zh: 設定
-- id: file:infra:config:synergymesh.config.yaml
+- id: file:infra:config:machinenativeops.config.yaml
   type: config
-  label: synergymesh.config.yaml
-  path: infra/config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: src/autonomous/infrastructure/config/machinenativeops.config.yaml
   properties:
     label_zh: 設定
 - id: dir:infra:infrastructure
   type: module
   label: infrastructure
-  path: infra/infrastructure
+  path: src/autonomous/infrastructure/infrastructure
   properties:
     label_zh: 模組
 - id: dir:infra:infrastructure:monitoring
   type: directory
   label: monitoring
-  path: infra/infrastructure/monitoring
+  path: src/autonomous/infrastructure/infrastructure/monitoring
   properties:
     label_zh: 目錄
 - id: dir:infra:infrastructure:kubernetes
   type: directory
   label: kubernetes
-  path: infra/infrastructure/kubernetes
+  path: src/autonomous/infrastructure/infrastructure/kubernetes
   properties:
     label_zh: 目錄
 - id: dir:infra:infrastructure:canary
   type: directory
   label: canary
-  path: infra/infrastructure/canary
+  path: src/autonomous/infrastructure/infrastructure/canary
   properties:
     label_zh: 目錄
 - id: dir:infra:infrastructure:drift
   type: directory
   label: drift
-  path: infra/infrastructure/drift
+  path: src/autonomous/infrastructure/infrastructure/drift
   properties:
     label_zh: 目錄
 - id: dir:bridges
@@ -9257,64 +9257,64 @@ nodes:
   path: bridges/language_bridges.py
   properties:
     label_zh: 模組
-- id: dir:island-ai
+- id: dir:src/ai
   type: directory
-  label: island-ai
-  path: island-ai
+  label: src/ai
+  path: src/ai
   properties:
     label_zh: 目錄
-- id: dir:island-ai:examples
+- id: dir:src/ai:examples
   type: directory
   label: examples
-  path: island-ai/examples
+  path: src/ai/examples
   properties:
     label_zh: 目錄
-- id: file:island-ai:examples:basic-usage.ts
+- id: file:src/ai:examples:basic-usage.ts
   type: module
   label: basic-usage.ts
-  path: island-ai/examples/basic-usage.ts
+  path: src/ai/examples/basic-usage.ts
   properties:
     label_zh: 模組
-- id: file:island-ai:examples:multi-agent-collaboration.ts
+- id: file:src/ai:examples:multi-agent-collaboration.ts
   type: module
   label: multi-agent-collaboration.ts
-  path: island-ai/examples/multi-agent-collaboration.ts
+  path: src/ai/examples/multi-agent-collaboration.ts
   properties:
     label_zh: 模組
-- id: dir:island-ai:src
+- id: dir:src/ai:src
   type: directory
   label: src
-  path: island-ai/src
+  path: src/ai/src
   properties:
     label_zh: 目錄
-- id: file:island-ai:src:index.ts
+- id: file:src/ai:src:index.ts
   type: module
   label: index.ts
-  path: island-ai/src/index.ts
+  path: src/ai/src/index.ts
   properties:
     label_zh: 模組
-- id: dir:island-ai:src:agents
+- id: dir:src/ai:src:agents
   type: directory
   label: agents
-  path: island-ai/src/agents
+  path: src/ai/src/agents
   properties:
     label_zh: 目錄
-- id: dir:island-ai:src:collaboration
+- id: dir:src/ai:src:collaboration
   type: directory
   label: collaboration
-  path: island-ai/src/collaboration
+  path: src/ai/src/collaboration
   properties:
     label_zh: 目錄
-- id: file:island-ai:src:types.ts
+- id: file:src/ai:src:types.ts
   type: module
   label: types.ts
-  path: island-ai/src/types.ts
+  path: src/ai/src/types.ts
   properties:
     label_zh: 模組
-- id: dir:island-ai:src:__tests__
+- id: dir:src/ai:src:__tests__
   type: directory
   label: __tests__
-  path: island-ai/src/__tests__
+  path: src/ai/src/__tests__
   properties:
     label_zh: 目錄
 - id: dir:templates
@@ -9441,10 +9441,10 @@ nodes:
   label: documentation-examples
   properties:
     label_zh: 功能
-- id: entity:synergymesh-core
+- id: entity:machinenativeops-core
   type: subsystem
   label: SynergyMesh Core Engine
-  path: docs/mndoc/subsystems/synergymesh-core.yaml
+  path: docs/mndoc/subsystems/machinenativeops-core.yaml
   description: "雲原生智能業務自動化和數據編排平台。Cloud-native intelligent business \nautomation and data orchestration\
     \ platform.\n"
   properties:
@@ -9526,10 +9526,10 @@ nodes:
   path: docs/mndoc/components/core-components.yaml
   properties:
     label_zh: 元件
-- id: config:synergymesh.yaml
+- id: config:machinenativeops.yaml
   type: config
-  label: synergymesh.yaml
-  path: synergymesh.yaml
+  label: machinenativeops.yaml
+  path: machinenativeops.yaml
   properties:
     label_zh: 設定
 - id: config:config:system-manifest.yaml
@@ -9951,7 +9951,7 @@ edges:
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:knowledge
   type: contains
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.egg-info
+  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.egg-info
   type: contains
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:tests
@@ -9981,10 +9981,10 @@ edges:
   target: file:_codeql_detected_source_root:_codeql_detected_source_root:island.bootstrap.stage0.yaml
   type: contains
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: file:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.yaml
+  target: file:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.yaml
   type: contains
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:island-ai
+  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:src/ai
   type: contains
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:templates
@@ -10575,7 +10575,7 @@ edges:
   target: file:_codeql_detected_source_root:knowledge:language-history.yaml
   type: contains
 - source: dir:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:synergymesh.egg-info
+  target: dir:_codeql_detected_source_root:machinenativeops.egg-info
   type: contains
 - source: dir:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:tests
@@ -10668,7 +10668,7 @@ edges:
   target: file:_codeql_detected_source_root:config:sync-refactor-config.yaml
   type: contains
 - source: dir:_codeql_detected_source_root:config
-  target: file:_codeql_detected_source_root:config:island-ai-runtime.yaml
+  target: file:_codeql_detected_source_root:config:src/ai-runtime.yaml
   type: contains
 - source: dir:_codeql_detected_source_root:config
   target: file:_codeql_detected_source_root:config:refactor-evolution.yaml
@@ -10725,7 +10725,7 @@ edges:
   target: dir:_codeql_detected_source_root:config:pipelines
   type: contains
 - source: dir:_codeql_detected_source_root:config
-  target: file:_codeql_detected_source_root:config:synergymesh.config.yaml
+  target: file:_codeql_detected_source_root:config:machinenativeops.config.yaml
   type: contains
 - source: dir:_codeql_detected_source_root:config
   target: file:_codeql_detected_source_root:config:ci-agent-config.yaml
@@ -10842,16 +10842,16 @@ edges:
   target: file:_codeql_detected_source_root:island.bootstrap.stage0.yaml
   type: contains
 - source: dir:_codeql_detected_source_root
-  target: file:_codeql_detected_source_root:synergymesh.yaml
+  target: file:_codeql_detected_source_root:machinenativeops.yaml
   type: contains
 - source: dir:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:island-ai
+  target: dir:_codeql_detected_source_root:src/ai
   type: contains
-- source: dir:_codeql_detected_source_root:island-ai
-  target: dir:_codeql_detected_source_root:island-ai:examples
+- source: dir:_codeql_detected_source_root:src/ai
+  target: dir:_codeql_detected_source_root:src/ai:examples
   type: contains
-- source: dir:_codeql_detected_source_root:island-ai
-  target: dir:_codeql_detected_source_root:island-ai:src
+- source: dir:_codeql_detected_source_root:src/ai
+  target: dir:_codeql_detected_source_root:src/ai:src
   type: contains
 - source: dir:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:templates
@@ -11019,7 +11019,7 @@ edges:
   target: file:.github:workflows:create-staging-branch.yml
   type: contains
 - source: dir:.github:workflows
-  target: file:.github:workflows:island-ai-setup-steps.yml
+  target: file:.github:workflows:src/ai-setup-steps.yml
   type: contains
 - source: dir:.github:workflows
   target: file:.github:workflows:06-security-scan.yml
@@ -11145,7 +11145,7 @@ edges:
   target: file:.github:workflows:contracts-cd.yml
   type: contains
 - source: dir:.github:workflows
-  target: file:.github:workflows:validate-island-ai-instructions.yml
+  target: file:.github:workflows:validate-src/ai-instructions.yml
   type: contains
 - source: dir:.github:workflows
   target: file:.github:workflows:conftest-validation.yml
@@ -11583,7 +11583,7 @@ edges:
   target: file:automation:intelligent:pipeline_service.py
   type: contains
 - source: dir:automation:intelligent
-  target: dir:automation:intelligent:synergymesh_core
+  target: dir:automation:intelligent:machinenativeops_core
   type: contains
 - source: dir:automation:intelligent
   target: file:automation:intelligent:auto_upgrade_env.py
@@ -13484,7 +13484,7 @@ edges:
   target: file:knowledge:language-history.yaml
   type: contains
 - source: system:unmanned-island
-  target: dir:synergymesh.egg-info
+  target: dir:machinenativeops.egg-info
   type: contains
 - source: system:unmanned-island
   target: dir:tests
@@ -13643,7 +13643,7 @@ edges:
   target: file:config:docker:compose.example.yaml
   type: contains
 - source: dir:config:docker
-  target: file:config:docker:compose.devcontainer.yaml
+  target: file:config:docker:composeconfig/dev.yaml
   type: contains
 - source: dir:config:docker
   target: file:config:docker:compose.dev.yaml
@@ -13670,7 +13670,7 @@ edges:
   target: file:config:sync-refactor-config.yaml
   type: contains
 - source: dir:config
-  target: file:config:island-ai-runtime.yaml
+  target: file:config:src/ai-runtime.yaml
   type: contains
 - source: dir:config
   target: file:config:refactor-evolution.yaml
@@ -13757,7 +13757,7 @@ edges:
   target: file:config:pipelines:refactor-evolution-pipeline.yaml
   type: contains
 - source: dir:config
-  target: file:config:synergymesh.config.yaml
+  target: file:config:machinenativeops.config.yaml
   type: contains
 - source: dir:config
   target: file:config:ci-agent-config.yaml
@@ -14189,7 +14189,7 @@ edges:
   target: file:infra:config:prometheus-config.yml
   type: contains
 - source: dir:infra:config
-  target: file:infra:config:synergymesh.config.yaml
+  target: file:infra:config:machinenativeops.config.yaml
   type: contains
 - source: dir:infra
   target: dir:infra:infrastructure
@@ -14213,34 +14213,34 @@ edges:
   target: file:bridges:language_bridges.py
   type: contains
 - source: system:unmanned-island
-  target: dir:island-ai
+  target: dir:src/ai
   type: contains
-- source: dir:island-ai
-  target: dir:island-ai:examples
+- source: dir:src/ai
+  target: dir:src/ai:examples
   type: contains
-- source: dir:island-ai:examples
-  target: file:island-ai:examples:basic-usage.ts
+- source: dir:src/ai:examples
+  target: file:src/ai:examples:basic-usage.ts
   type: contains
-- source: dir:island-ai:examples
-  target: file:island-ai:examples:multi-agent-collaboration.ts
+- source: dir:src/ai:examples
+  target: file:src/ai:examples:multi-agent-collaboration.ts
   type: contains
-- source: dir:island-ai
-  target: dir:island-ai:src
+- source: dir:src/ai
+  target: dir:src/ai:src
   type: contains
-- source: dir:island-ai:src
-  target: file:island-ai:src:index.ts
+- source: dir:src/ai:src
+  target: file:src/ai:src:index.ts
   type: contains
-- source: dir:island-ai:src
-  target: dir:island-ai:src:agents
+- source: dir:src/ai:src
+  target: dir:src/ai:src:agents
   type: contains
-- source: dir:island-ai:src
-  target: dir:island-ai:src:collaboration
+- source: dir:src/ai:src
+  target: dir:src/ai:src:collaboration
   type: contains
-- source: dir:island-ai:src
-  target: file:island-ai:src:types.ts
+- source: dir:src/ai:src
+  target: file:src/ai:src:types.ts
   type: contains
-- source: dir:island-ai:src
-  target: dir:island-ai:src:__tests__
+- source: dir:src/ai:src
+  target: dir:src/ai:src:__tests__
   type: contains
 - source: system:unmanned-island
   target: dir:templates
@@ -14303,18 +14303,18 @@ edges:
   target: capability:documentation-examples
   type: provides
 - source: system:unmanned-island
-  target: entity:synergymesh-core
+  target: entity:machinenativeops-core
   type: contains
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:perception
   type: provides
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:reasoning
   type: provides
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:execution
   type: provides
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:proof
   type: provides
 - source: system:unmanned-island
@@ -14342,7 +14342,7 @@ edges:
   target: entity:core-components
   type: contains
 - source: system:unmanned-island
-  target: config:synergymesh.yaml
+  target: config:machinenativeops.yaml
   type: configures
 - source: system:unmanned-island
   target: config:config:system-manifest.yaml

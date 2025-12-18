@@ -1,0 +1,173 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    SynergyMesh System Manifest Configuration
+#                    系統宣告清單（整合心智矩陣 + 執行長系統）
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 唯一入口 manifest，無重複定義
+# Single entry point manifest, no duplicate definitions
+#
+# This is the root configuration that references all other configs.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "2.0.0"
+id: "machinenativeops.system"
+description: "SynergyMesh 系統宣告清單（整合心智矩陣 + 執行長系統 + 增強統一整合 + Phase 2 配置整合）"
+
+# ============================================================================
+# Configuration Hierarchy (配置層級) - Phase 2 Consolidated
+# ============================================================================
+configs:
+  # Phase 2: Unified Configuration Index - 統一配置索引
+  - id: "unified_index"
+    kind: "index"
+    file: "config/unified-config-index.yaml"
+    description: "統一配置索引 - 所有配置的單一真實來源"
+    is_primary: true
+  - id: "module_map"
+    kind: "module-map"
+    file: "config/system-module-map.yaml"
+    description: "系統模組映射 - 統一目錄結構與元件整合"
+  - id: "environment"
+    kind: "environment"
+    file: "config/environment.yaml"
+  - id: "dependencies"
+    kind: "dependencies"
+    file: "config/dependencies.yaml"
+  - id: "constitution"
+    kind: "governance"
+    file: "config/ai-constitution.yaml"
+  - id: "virtual_experts"
+    kind: "experts"
+    file: "config/agents/team/virtual-experts.yaml"
+  - id: "safety"
+    kind: "safety"
+    file: "config/safety-mechanisms.yaml"
+  - id: "mind_matrix"
+    kind: "topology"
+    file: "config/topology-mind-matrix.yaml"
+    description: "核心拓撲自稠密演化心智矩陣（含 Executive 層）"
+    depends_on: ["environment", "dependencies", "constitution", "virtual_experts", "safety"]
+    provides:
+      - "MindMatrixTopology"
+      - "ExecutiveSystem"
+      - "MultiAgentHypergraph"
+      - "ToolPipeline"
+      - "YAMLValidationPipeline"
+
+# Enhanced Integration Components (新增增強整合元件)
+enhanced_integration:
+  service_registry:
+    id: "service_registry"
+    module: "core.unified_integration.service_registry"
+    class: "ServiceRegistry"
+    description: "統一服務註冊表 - 服務發現與管理"
+    provides:
+      - "ServiceDiscovery"
+      - "HealthMonitoring"
+      - "DependencyResolution"
+  
+  cognitive_processor:
+    id: "cognitive_processor"
+    module: "core.unified_integration.cognitive_processor"
+    class: "EnhancedCognitiveProcessor"
+    description: "增強認知處理器 - 四層認知架構"
+    provides:
+      - "PerceptionLayer"
+      - "ReasoningLayer"
+      - "ExecutionLayer"
+      - "ProofLayer"
+    layers:
+      - "L1-Perception: 感知層（遙測收集、異常偵測、時序漂移識別）"
+      - "L2-Reasoning: 推理層（因果圖構建、風險評分、策略選擇）"
+      - "L3-Execution: 執行層（多代理協作、同步屏障、回滾點生成）"
+      - "L4-Proof: 證明層（審計鏈固化、SLSA 證據、行為可驗證性）"
+  
+  configuration_optimizer:
+    id: "configuration_optimizer"
+    module: "core.unified_integration.configuration_optimizer"
+    class: "ConfigurationOptimizer"
+    description: "配置優化器 - 智能配置管理與調優"
+    provides:
+      - "ConfigValidation"
+      - "DriftDetection"
+      - "OptimizationRecommendations"
+      - "AutoTuning"
+
+  # NEW: Work Configuration Manager
+  work_configuration_manager:
+    id: "work_configuration_manager"
+    module: "core.unified_integration.work_configuration_manager"
+    class: "WorkConfigurationManager"
+    description: "工作配置管理器 - 統一工作流程與策略整合"
+    provides:
+      - "ModuleMappingIntegration"
+      - "StrategyPolicyManagement"
+      - "CrossReferenceValidation"
+      - "CapabilityRegistryAlignment"
+      - "WorkConfigurationLifecycle"
+
+boot_sequence: ["environment", "dependencies", "constitution", "virtual_experts", "safety", "mind_matrix"]
+
+# Enhanced Boot Sequence for Full System Integration
+enhanced_boot_sequence:
+  - phase: "core_configs"
+    components: ["environment", "dependencies", "constitution", "virtual_experts", "safety"]
+  - phase: "mind_matrix"
+    components: ["mind_matrix"]
+  - phase: "enhanced_integration"
+    components: ["service_registry", "cognitive_processor", "configuration_optimizer", "work_configuration_manager"]
+  - phase: "services"
+    components: ["contracts-l1", "mcp-servers", "slsa-provenance"]
+
+entrypoint:
+  module: "runtime.mind_matrix.main"
+  class: "MindMatrix"
+  method: "bootstrap"
+
+# Integration Mappings (整合映射)
+integration_mappings:
+  # Service to Registry Mappings
+  services:
+    - name: "mind-matrix"
+      registry_category: "core"
+      provides: ["cognitive-processing", "governance-validation"]
+    - name: "execution-engine"
+      registry_category: "execution"
+      provides: ["action-execution", "rollback"]
+      depends_on: ["mind-matrix"]
+    - name: "system-orchestrator"
+      registry_category: "orchestration"
+      provides: ["workflow-management", "task-scheduling"]
+      depends_on: ["execution-engine"]
+    - name: "integration-hub"
+      registry_category: "integration"
+      provides: ["message-routing", "event-pub-sub"]
+    - name: "configuration-manager"
+      registry_category: "core"
+      provides: ["config-management", "secret-management"]
+    - name: "slsa-provenance"
+      registry_category: "security"
+      provides: ["attestation", "signature-verification"]
+    - name: "contracts-l1"
+      registry_category: "core"
+      provides: ["contract-management", "provenance-attestation"]
+      depends_on: ["slsa-provenance"]
+
+# Strategy Policies (策略配置)
+strategy_policies:
+  auto_optimization:
+    enabled: false
+    categories: ["performance", "reliability"]
+    approval_required: true
+  drift_detection:
+    enabled: true
+    check_interval_seconds: 300
+    alert_threshold: 0.1
+  cognitive_processing:
+    auto_execute_threshold: 0.85
+    require_approval_threshold: 0.6
+    layers_enabled:
+      perception: true
+      reasoning: true
+      execution: true
+      proof: true

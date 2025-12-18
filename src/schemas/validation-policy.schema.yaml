@@ -1,0 +1,302 @@
+# 验证策略 Schema
+# 定义 CI/PR 流程中的验证规则、工具和范围
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Validation Policy
+description: 定义命名治理的验证策略，包括 CI/CD 集成、扫描工具和验证规则
+
+type: object
+required:
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  apiVersion:
+    type: string
+    pattern: "^governance\\.machinenativeops\\.io/v1(alpha|beta)?[0-9]*$"
+
+  kind:
+    type: string
+    enum: ["ValidationPolicy"]
+
+  metadata:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+      labels:
+        type: object
+      annotations:
+        type: object
+
+  spec:
+    type: object
+    required: [scope, tools, enforcement]
+    properties:
+      # 验证范围
+      scope:
+        type: object
+        properties:
+          paths:
+            type: array
+            description: "需要验证的路径"
+            items:
+              type: string
+            example: ["manifests/", "terraform/", "helm/"]
+
+          filePatterns:
+            type: array
+            description: "文件匹配模式"
+            items:
+              type: string
+            example: ["**/*.yaml", "**/*.tf", "**/*.json"]
+
+          resourceTypes:
+            type: array
+            description: "需要验证的资源类型"
+            items:
+              type: string
+            example: ["Deployment", "Service", "ConfigMap", "Secret"]
+
+          environments:
+            type: array
+            description: "适用环境"
+            items:
+              type: string
+              enum: ["dev", "staging", "production"]
+
+      # 验证工具配置
+      tools:
+        type: object
+        properties:
+          conftest:
+            type: object
+            description: "Conftest (OPA Rego) 配置"
+            properties:
+              enabled:
+                type: boolean
+              policyPath:
+                type: string
+                example: "policies/conftest/"
+              namespace:
+                type: string
+              data:
+                type: array
+                items:
+                  type: string
+
+          checkov:
+            type: object
+            description: "Checkov IaC 扫描"
+            properties:
+              enabled:
+                type: boolean
+              framework:
+                type: array
+                items:
+                  type: string
+                  enum: ["kubernetes", "terraform", "helm"]
+              skipChecks:
+                type: array
+                items:
+                  type: string
+
+          kubeBench:
+            type: object
+            description: "Kube-bench CIS 基准测试"
+            properties:
+              enabled:
+                type: boolean
+              configDir:
+                type: string
+              targets:
+                type: array
+                items:
+                  type: string
+
+          kubeaudit:
+            type: object
+            description: "Kubeaudit 安全审计"
+            properties:
+              enabled:
+                type: boolean
+              auditAll:
+                type: boolean
+
+          kubescape:
+            type: object
+            description: "Kubescape 安全扫描"
+            properties:
+              enabled:
+                type: boolean
+              frameworks:
+                type: array
+                items:
+                  type: string
+                  enum: ["nsa", "mitre", "cis"]
+
+          custom:
+            type: array
+            description: "自定义验证工具"
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                command:
+                  type: string
+                args:
+                  type: array
+                  items:
+                    type: string
+
+      # 执行策略
+      enforcement:
+        type: object
+        required: [mode]
+        properties:
+          mode:
+            type: string
+            enum: ["advisory", "warn", "enforce"]
+            description: |
+              - advisory: 只记录，不阻止
+              - warn: 警告但允许继续
+              - enforce: 严格执行，失败则阻止
+
+          failOn:
+            type: array
+            description: "何种情况下失败"
+            items:
+              type: string
+              enum: ["critical", "high", "medium", "low"]
+
+          exemptions:
+            type: array
+            description: "豁免列表"
+            items:
+              type: object
+              properties:
+                resource:
+                  type: string
+                reason:
+                  type: string
+                expiresAt:
+                  type: string
+                  format: date-time
+
+      # CI/CD 集成
+      cicd:
+        type: object
+        properties:
+          githubActions:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              workflow:
+                type: string
+              triggerOn:
+                type: array
+                items:
+                  type: string
+                  enum: ["pull_request", "push", "schedule"]
+
+          gitlabCI:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              stage:
+                type: string
+              only:
+                type: array
+                items:
+                  type: string
+
+          jenkins:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              pipeline:
+                type: string
+
+      # 报告配置
+      reporting:
+        type: object
+        properties:
+          format:
+            type: array
+            items:
+              type: string
+              enum: ["json", "yaml", "sarif", "junit", "html"]
+
+          destination:
+            type: object
+            properties:
+              slack:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  channel:
+                    type: string
+                  webhook:
+                    type: string
+
+              email:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  recipients:
+                    type: array
+                    items:
+                      type: string
+
+              storage:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: ["s3", "gcs", "filesystem"]
+                  path:
+                    type: string
+
+examples:
+  - apiVersion: governance.machinenativeops.io/v1alpha1
+    kind: ValidationPolicy
+    metadata:
+      name: naming-pr-validation
+      labels:
+        category: naming-governance
+    spec:
+      scope:
+        paths: ["manifests/", "terraform/"]
+        filePatterns: ["**/*.yaml", "**/*.tf"]
+        resourceTypes: ["Deployment", "Service"]
+        environments: ["production", "staging"]
+      tools:
+        conftest:
+          enabled: true
+          policyPath: "policies/conftest/naming.rego"
+        checkov:
+          enabled: true
+          framework: ["kubernetes", "terraform"]
+      enforcement:
+        mode: "enforce"
+        failOn: ["critical", "high"]
+      cicd:
+        githubActions:
+          enabled: true
+          workflow: ".github/workflows/naming-validation.yml"
+          triggerOn: ["pull_request"]
+      reporting:
+        format: ["json", "sarif"]
+        destination:
+          slack:
+            enabled: true
+            channel: "#governance-alerts"

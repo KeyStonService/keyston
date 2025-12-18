@@ -1,0 +1,466 @@
+{
+  "timestamp": "2025-11-24T17:50:45.495Z",
+  "summary": {
+    "total_files_checked": 79,
+    "files_compliant": 15,
+    "files_with_violations": 64,
+    "compliance_rate": "19.0",
+    "violations_by_severity": {
+      "critical": 18,
+      "high": 46,
+      "medium": 0,
+      "low": 0
+    }
+  },
+  "violations": [
+    {
+      "file": ".devcontainer/KB.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 21.5% (建議 ≥30%)",
+      "ratio": 0.21497875070162778
+    },
+    {
+      "file": ".devcontainer/TEST-GUIDE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 15.0% (建議 ≥30%)",
+      "ratio": 0.14980863860032806
+    },
+    {
+      "file": ".devcontainer/life-system-README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 15.3% (建議 ≥30%)",
+      "ratio": 0.15313549832026876
+    },
+    {
+      "file": ".github/agents/my-agent.agent.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": ".github/src/ai-instructions.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.1% (建議 ≥30%)",
+      "ratio": 0.0009117432530999271
+    },
+    {
+      "file": "ADVANCED_SYSTEM_INTEGRATION.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 22.8% (建議 ≥30%)",
+      "ratio": 0.22836185819070903
+    },
+    {
+      "file": "AUTO_FIX_BOT.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 23.7% (建議 ≥30%)",
+      "ratio": 0.2368910375604314
+    },
+    {
+      "file": "AUTO_FIX_BOT_GUIDE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 25.7% (建議 ≥30%)",
+      "ratio": 0.25705645161290325
+    },
+    {
+      "file": "CHANGELOG.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 16.5% (建議 ≥30%)",
+      "ratio": 0.1650846058605035
+    },
+    {
+      "file": "COMPREHENSIVE_IMPLEMENTATION_REPORT.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.2% (建議 ≥30%)",
+      "ratio": 0.002133560913164071
+    },
+    {
+      "file": "DELEGATION_WORKFLOW.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 14.7% (建議 ≥30%)",
+      "ratio": 0.14705100956429332
+    },
+    {
+      "file": "GHAS_IMPLEMENTATION_SUMMARY.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 26.2% (建議 ≥30%)",
+      "ratio": 0.2621229795034161
+    },
+    {
+      "file": "MONITORING_GUIDE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 21.4% (建議 ≥30%)",
+      "ratio": 0.2143939393939394
+    },
+    {
+      "file": "README.en.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.2% (建議 ≥30%)",
+      "ratio": 0.0017497812773403325
+    },
+    {
+      "file": "README.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "ROOT_README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 23.5% (建議 ≥30%)",
+      "ratio": 0.2354141166870665
+    },
+    {
+      "file": "SECURITY.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 25.9% (建議 ≥30%)",
+      "ratio": 0.25891733109525805
+    },
+    {
+      "file": "attest-build-provenance-main/README.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "attest-build-provenance-main/RELEASE.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "config/integrations/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 14.0% (建議 ≥30%)",
+      "ratio": 0.14003083247687564
+    },
+    {
+      "file": "core/contract_service/contracts-L1/ai-chat-service/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 14.7% (建議 ≥30%)",
+      "ratio": 0.1474448478078749
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/BUILD_PROVENANCE.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/SLSA_INTEGRATION_REPORT.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 27.8% (建議 ≥30%)",
+      "ratio": 0.2781995661605206
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/deploy/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 17.6% (建議 ≥30%)",
+      "ratio": 0.17633136094674556
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/docs/architecture.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 19.6% (建議 ≥30%)",
+      "ratio": 0.19612724757952973
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/docs/runbook.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 16.7% (建議 ≥30%)",
+      "ratio": 0.16701173222912352
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/sbom/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 17.6% (建議 ≥30%)",
+      "ratio": 0.17639429312581065
+    },
+    {
+      "file": "core/contract_service/contracts-L1/contracts/web/README.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "docs/AUTO_FIX_BOT_V2_GUIDE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 24.6% (建議 ≥30%)",
+      "ratio": 0.24607791292085315
+    },
+    {
+      "file": "docs/CLOUD_DELEGATION.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 20.0% (建議 ≥30%)",
+      "ratio": 0.19994319795512638
+    },
+    {
+      "file": "docs/CODEQL_SETUP.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 20.4% (建議 ≥30%)",
+      "ratio": 0.20417470619189615
+    },
+    {
+      "file": "docs/CODESPACE_SETUP.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "docs/ISLAND_AI_SETUP.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "docs/DEPLOYMENT_ASSESSMENT.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 25.5% (建議 ≥30%)",
+      "ratio": 0.2550422901756669
+    },
+    {
+      "file": "docs/EXAMPLES.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 16.9% (建議 ≥30%)",
+      "ratio": 0.16892857142857143
+    },
+    {
+      "file": "docs/GHAS_COMPLETE_GUIDE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 24.0% (建議 ≥30%)",
+      "ratio": 0.24007092198581562
+    },
+    {
+      "file": "docs/INTEGRATION_GUIDE.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 4.8% (建議 ≥30%)",
+      "ratio": 0.04799124589651399
+    },
+    {
+      "file": "docs/MATECHAT_INTEGRATION_SUMMARY.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 21.2% (建議 ≥30%)",
+      "ratio": 0.2116556627729812
+    },
+    {
+      "file": "docs/MERGE_BLOCKED_FIX.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 17.4% (建議 ≥30%)",
+      "ratio": 0.17393483709273183
+    },
+    {
+      "file": "docs/QUICK_START.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 15.1% (建議 ≥30%)",
+      "ratio": 0.1510653579123773
+    },
+    {
+      "file": "docs/README.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "docs/SECRET_SCANNING.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 25.5% (建議 ≥30%)",
+      "ratio": 0.2551928783382789
+    },
+    {
+      "file": "docs/TIER1_CONTRACTS_L1_DEPLOYMENT_PLAN.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 16.8% (建議 ≥30%)",
+      "ratio": 0.1681822724093135
+    },
+    {
+      "file": "docs/VISUAL_ELEMENTS.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 18.3% (建議 ≥30%)",
+      "ratio": 0.18309085918199286
+    },
+    {
+      "file": "docs/VULNERABILITY_MANAGEMENT.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 21.2% (建議 ≥30%)",
+      "ratio": 0.2120782087669505
+    },
+    {
+      "file": "docs/architecture/CODE_QUALITY_CHECKS.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 2.8% (建議 ≥30%)",
+      "ratio": 0.02810250503887129
+    },
+    {
+      "file": "docs/architecture/DEPLOYMENT_INFRASTRUCTURE.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 4.9% (建議 ≥30%)",
+      "ratio": 0.0485142012805779
+    },
+    {
+      "file": "docs/architecture/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 27.1% (建議 ≥30%)",
+      "ratio": 0.27066326530612245
+    },
+    {
+      "file": "docs/architecture/SECURITY_CONFIG_CHECKS.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 2.0% (建議 ≥30%)",
+      "ratio": 0.020118295577998633
+    },
+    {
+      "file": "docs/architecture/configuration/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 19.4% (建議 ≥30%)",
+      "ratio": 0.1943452380952381
+    },
+    {
+      "file": "docs/architecture/matechat-integration.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 17.1% (建議 ≥30%)",
+      "ratio": 0.17062783349361177
+    },
+    {
+      "file": "docs/architecture.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 23.4% (建議 ≥30%)",
+      "ratio": 0.2336734693877551
+    },
+    {
+      "file": "docs/deep-integration-guide.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 14.4% (建議 ≥30%)",
+      "ratio": 0.1441062911651147
+    },
+    {
+      "file": "docs/production-deployment-guide.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 12.3% (建議 ≥30%)",
+      "ratio": 0.12271992611406142
+    },
+    {
+      "file": "docs/runbook.zh.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 15.1% (建議 ≥30%)",
+      "ratio": 0.15115995115995115
+    },
+    {
+      "file": "intelligent-hyperautomation/CHANGELOG.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 29.2% (建議 ≥30%)",
+      "ratio": 0.2920863309352518
+    },
+    {
+      "file": "intelligent-hyperautomation/QUICK_REFERENCE.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 12.4% (建議 ≥30%)",
+      "ratio": 0.124188100805404
+    },
+    {
+      "file": "intelligent-hyperautomation/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 17.0% (建議 ≥30%)",
+      "ratio": 0.17011682721869237
+    },
+    {
+      "file": "intelligent-hyperautomation/docs/ci-cd-strategy.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 7.0% (建議 ≥30%)",
+      "ratio": 0.0696954691755385
+    },
+    {
+      "file": "intelligent-hyperautomation/docs/usage-notes.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 15.5% (建議 ≥30%)",
+      "ratio": 0.15478366849482023
+    },
+    {
+      "file": "intelligent-hyperautomation/templates/impl/examples/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 20.1% (建議 ≥30%)",
+      "ratio": 0.2005961251862891
+    },
+    {
+      "file": "mcp-servers/README.md",
+      "type": "documentation",
+      "severity": "critical",
+      "message": "文檔中文比例不足: 0.0% (建議 ≥30%)",
+      "ratio": 0
+    },
+    {
+      "file": "mcp-servers/VALIDATION.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 19.7% (建議 ≥30%)",
+      "ratio": 0.19696705595258845
+    },
+    {
+      "file": "scripts/README.md",
+      "type": "documentation",
+      "severity": "high",
+      "message": "文檔中文比例不足: 18.3% (建議 ≥30%)",
+      "ratio": 0.18277020351709147
+    }
+  ],
+  "warnings": []
+}

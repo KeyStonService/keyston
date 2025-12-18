@@ -1,0 +1,799 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Language Naming Rules Configuration
+#                    語言命名規則配置
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# This configuration defines naming conventions for each programming language
+# used in the SynergyMesh system. These rules are used by:
+# 
+# - Language Governance CI workflows
+# - Auto-Fix Bot for automated rename suggestions
+# - Refactor Playbooks for continuous improvement
+# - AI-powered governance tools
+#
+# Related Documentation:
+# - docs/architecture/naming-conventions.md: Complete naming convention guide
+# - docs/architecture/language-governance.md: Language governance policies
+# - config/language-policy.yaml: Language usage policies
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "1.0"
+schema_version: "1.0"
+last_updated: "2025-12-08"
+maintainer: "Unmanned Island System Team"
+
+# ============================================================================
+# Global Naming Policy
+# ============================================================================
+global_policy:
+  description: "Cross-language naming principles"
+  principles:
+    - "Follow language idiomatic conventions"
+    - "Maintain consistency within each subsystem"
+    - "Enable AI-powered governance automation"
+    - "Support incremental technical debt reduction"
+  
+  technical_debt_strategy:
+    description: "Non-compliant code is treated as technical debt"
+    approach: "Gradual cleanup via Refactor Playbooks and Auto-Fix pipeline"
+    priority: "P2 - Continuous refactoring"
+
+# ============================================================================
+# TypeScript / JavaScript Naming Rules
+# ============================================================================
+typescript_naming:
+  id: "ts_naming"
+  language: "TypeScript"
+  applies_to:
+    paths:
+      - "apps/"
+      - "frontend/"
+      - "services/"
+      - "mcp-servers/"
+      - "core/"  # 部分
+    file_extensions:
+      - ".ts"
+      - ".tsx"
+      - ".js"
+      - ".jsx"
+  
+  conventions:
+    # File naming
+    files:
+      react_component:
+        pattern: "PascalCase.tsx"
+        examples:
+          - "AutoFixDashboard.tsx"
+          - "SystemMonitor.tsx"
+          - "LanguageGovernance.tsx"
+      
+      general_module:
+        pattern: "kebab-case.ts"
+        examples:
+          - "language-governance.ts"
+          - "config-manager.ts"
+          - "service-registry.ts"
+      
+      test_file:
+        pattern: "kebab-case.test.ts"
+        examples:
+          - "language-governance.test.ts"
+          - "config-manager.test.ts"
+      
+      type_definition:
+        pattern: "kebab-case.d.ts"
+        examples:
+          - "unified-config.d.ts"
+          - "system-types.d.ts"
+    
+    # Code symbols
+    symbols:
+      variable:
+        pattern: "camelCase"
+        examples:
+          - "userConfig"
+          - "moduleRegistry"
+          - "executionResult"
+      
+      function:
+        pattern: "camelCase"
+        examples:
+          - "runCiEvolution()"
+          - "resolveDependencies()"
+          - "validateConfiguration()"
+      
+      class:
+        pattern: "PascalCase"
+        examples:
+          - "EvolutionReport"
+          - "ClusterHeatmapService"
+          - "ConfigurationManager"
+      
+      interface:
+        pattern: "PascalCase"
+        prefix_optional: "I"
+        examples:
+          - "IConfigManager"
+          - "ServiceMetadata"
+          - "ExecutionContext"
+      
+      type:
+        pattern: "PascalCase"
+        examples:
+          - "LanguagePolicy"
+          - "ModuleConfig"
+          - "ExecutionStatus"
+      
+      enum:
+        pattern: "PascalCase"
+        examples:
+          - "ExecutionStatus"
+          - "PolicyLevel"
+          - "ServiceState"
+      
+      constant:
+        pattern: "SCREAMING_SNAKE_CASE"
+        examples:
+          - "DEFAULT_TIMEOUT_MS"
+          - "MAX_RETRY_COUNT"
+          - "API_BASE_URL"
+    
+    # Directory naming
+    directories:
+      default:
+        pattern: "kebab-case"
+        examples:
+          - "unified-integration/"
+          - "contract-service/"
+          - "language-governance/"
+      
+      components:
+        pattern: "PascalCase"
+        note: "React component directories may use PascalCase"
+        examples:
+          - "Dashboard/"
+          - "Components/"
+          - "Layouts/"
+  
+  enforcement:
+    linter: "ESLint"
+    config_file: ".eslintrc.yaml"
+    rules:
+      - "@typescript-eslint/naming-convention"
+    auto_fix_available: true
+    commands:
+      check: "npm run lint"
+      fix: "npm run lint -- --fix"
+
+# ============================================================================
+# Python Naming Rules
+# ============================================================================
+python_naming:
+  id: "python_naming"
+  language: "Python"
+  applies_to:
+    paths:
+      - "runtime/"
+      - "src/ai/"
+      - "tools/"
+      - "tests/"
+      - "automation/"
+      - "governance/"  # 部分
+    file_extensions:
+      - ".py"
+  
+  conventions:
+    # File naming
+    files:
+      module:
+        pattern: "snake_case.py"
+        examples:
+          - "generate_refactor_playbook.py"
+          - "config_manager.py"
+          - "language_governance.py"
+      
+      package:
+        pattern: "snake_case/"
+        examples:
+          - "unified_integration/"
+          - "safety_mechanisms/"
+          - "execution_engine/"
+      
+      test_file:
+        pattern: "test_*.py or *_test.py"
+        examples:
+          - "test_language_governance.py"
+          - "config_manager_test.py"
+    
+    # Code symbols
+    symbols:
+      variable:
+        pattern: "snake_case"
+        examples:
+          - "module_config"
+          - "execution_result"
+          - "user_data"
+      
+      function:
+        pattern: "snake_case"
+        examples:
+          - "count_language_violations()"
+          - "build_migration_flow()"
+          - "validate_schema()"
+      
+      class:
+        pattern: "PascalCase (CamelCase)"
+        examples:
+          - "RefactorPlaybookGenerator"
+          - "ConfigurationManager"
+          - "LanguageGovernanceChecker"
+      
+      method:
+        pattern: "snake_case"
+        examples:
+          - "validate_schema()"
+          - "process_data()"
+          - "execute_workflow()"
+      
+      constant:
+        pattern: "SCREAMING_SNAKE_CASE"
+        examples:
+          - "MAX_SEMGREP_HIGH"
+          - "DEFAULT_CONFIG_PATH"
+          - "API_TIMEOUT_SECONDS"
+      
+      private_variable:
+        pattern: "_leading_underscore"
+        examples:
+          - "_internal_cache"
+          - "_private_method()"
+          - "_config_data"
+    
+    # Directory naming
+    directories:
+      default:
+        pattern: "snake_case"
+        examples:
+          - "unified_integration/"
+          - "execution_engine/"
+          - "language_governance/"
+  
+  enforcement:
+    linter: "ruff"
+    standard: "PEP 8"
+    rules:
+      - "N801"  # Class name should use CapWords convention
+      - "N802"  # Function name should be lowercase
+      - "N803"  # Argument name should be lowercase
+      - "N806"  # Variable should be lowercase
+    auto_fix_available: true
+    commands:
+      check: "ruff check --select N"
+      fix: "ruff check --select N --fix"
+      format: "ruff format"
+
+# ============================================================================
+# Go Naming Rules
+# ============================================================================
+go_naming:
+  id: "go_naming"
+  language: "Go"
+  applies_to:
+    paths:
+      - "services/"  # 某些子目錄
+      - "src/autonomous/infrastructure/"
+    file_extensions:
+      - ".go"
+  
+  conventions:
+    # File naming
+    files:
+      package_file:
+        pattern: "lowercase or snake_case"
+        examples:
+          - "config.go"
+          - "user_service.go"
+          - "handler.go"
+      
+      test_file:
+        pattern: "*_test.go"
+        examples:
+          - "config_test.go"
+          - "user_service_test.go"
+    
+    # Code symbols
+    symbols:
+      variable_local:
+        pattern: "camelCase or mixedCaps"
+        examples:
+          - "userID"
+          - "configPath"
+          - "serviceRegistry"
+      
+      function_exported:
+        pattern: "PascalCase"
+        note: "Exported names start with capital letter"
+        examples:
+          - "GetConfig()"
+          - "ProcessRequest()"
+          - "ValidateInput()"
+      
+      function_private:
+        pattern: "camelCase"
+        note: "Private names start with lowercase letter"
+        examples:
+          - "validateInput()"
+          - "parseData()"
+          - "internalHelper()"
+      
+      struct:
+        pattern: "PascalCase"
+        examples:
+          - "UserConfig"
+          - "ServiceRegistry"
+          - "HTTPHandler"
+      
+      constant:
+        pattern: "PascalCase or camelCase"
+        examples:
+          - "MaxRetries"
+          - "defaultTimeout"
+          - "APIVersion"
+    
+    # Directory naming
+    directories:
+      default:
+        pattern: "lowercase"
+        examples:
+          - "services/"
+          - "src/autonomous/infrastructure/"
+          - "internal/"
+  
+  enforcement:
+    formatter: "go fmt"
+    linter: "golangci-lint"
+    standard: "Effective Go"
+    auto_fix_available: true
+    commands:
+      format: "go fmt ./..."
+      check: "golangci-lint run"
+
+# ============================================================================
+# Rust Naming Rules
+# ============================================================================
+rust_naming:
+  id: "rust_naming"
+  language: "Rust"
+  applies_to:
+    paths:
+      - "src/autonomous/infrastructure/"  # 某些模組
+      - "services/"  # 某些子目錄
+    file_extensions:
+      - ".rs"
+  
+  conventions:
+    # File naming
+    files:
+      module:
+        pattern: "snake_case.rs"
+        examples:
+          - "config_manager.rs"
+          - "service_registry.rs"
+          - "http_handler.rs"
+      
+      test_file:
+        pattern: "mod tests in same file or tests/ directory"
+        examples:
+          - "mod tests { ... }"
+          - "tests/integration_test.rs"
+    
+    # Code symbols
+    symbols:
+      variable:
+        pattern: "snake_case"
+        examples:
+          - "user_config"
+          - "service_name"
+          - "connection_pool"
+      
+      function:
+        pattern: "snake_case"
+        examples:
+          - "validate_config()"
+          - "process_request()"
+          - "parse_data()"
+      
+      struct:
+        pattern: "PascalCase"
+        examples:
+          - "UserConfig"
+          - "ServiceRegistry"
+          - "HttpHandler"
+      
+      enum:
+        pattern: "PascalCase"
+        examples:
+          - "ExecutionStatus"
+          - "PolicyLevel"
+          - "ServiceState"
+      
+      trait:
+        pattern: "PascalCase"
+        examples:
+          - "ConfigProvider"
+          - "ServiceHandler"
+          - "DataProcessor"
+      
+      constant:
+        pattern: "SCREAMING_SNAKE_CASE"
+        examples:
+          - "MAX_CONNECTIONS"
+          - "DEFAULT_PORT"
+          - "API_VERSION"
+      
+      macro:
+        pattern: "snake_case!"
+        examples:
+          - "create_config!()"
+          - "log_info!()"
+    
+    # Directory naming
+    directories:
+      default:
+        pattern: "snake_case"
+        examples:
+          - "config_manager/"
+          - "service_registry/"
+  
+  enforcement:
+    formatter: "rustfmt"
+    linter: "clippy"
+    standard: "Rust API Guidelines"
+    auto_fix_available: true
+    commands:
+      format: "cargo fmt"
+      check: "cargo clippy"
+
+# ============================================================================
+# C++ Naming Rules
+# ============================================================================
+cpp_naming:
+  id: "cpp_scope"
+  language: "C++"
+  scope_limitation:
+    description: "C++ is ONLY permitted in autonomous/native subsystems"
+    note: "C++ is NOT a global naming convention source"
+  
+  allowed_paths:
+    - "automation/autonomous/"
+    - "core/native_adapters/"
+  
+  forbidden_paths:
+    - "apps/"
+    - "services/"
+    - "tools/"
+    - "governance/"
+    - "runtime/"
+  
+  applies_to:
+    paths:
+      - "automation/autonomous/"
+      - "core/native_adapters/"
+    file_extensions:
+      - ".cpp"
+      - ".cc"
+      - ".h"
+      - ".hpp"
+  
+  conventions:
+    # File naming
+    files:
+      header:
+        pattern: "snake_case.h or .hpp"
+        examples:
+          - "trajectory_planner.h"
+          - "sensor_fusion.hpp"
+          - "flight_controller.h"
+      
+      implementation:
+        pattern: "snake_case.cpp or .cc"
+        examples:
+          - "trajectory_planner.cpp"
+          - "sensor_fusion.cc"
+          - "flight_controller.cpp"
+      
+      test_file:
+        pattern: "*_test.cpp"
+        examples:
+          - "trajectory_planner_test.cpp"
+          - "sensor_fusion_test.cpp"
+    
+    # Code symbols - Project must choose ONE style and be consistent
+    symbol_styles:
+      google_style:
+        description: "Google C++ Style Guide"
+        variable: "snake_case"
+        function: "PascalCase()"
+        class: "PascalCase"
+        constant: "kPascalCase"
+        examples:
+          - "CalculateTrajectory()"
+          - "sensor_data"
+          - "kMaxSpeed"
+      
+      ros2_style:
+        description: "ROS 2 C++ Style Guide"
+        variable: "snake_case"
+        function: "snake_case()"
+        class: "PascalCase"
+        constant: "SCREAMING_SNAKE_CASE"
+        examples:
+          - "calculate_trajectory()"
+          - "sensor_data"
+          - "MAX_ALTITUDE"
+    
+    # Common symbols (must be consistent within each subsystem)
+    symbols:
+      variable:
+        pattern: "snake_case"
+        examples:
+          - "sensor_data"
+          - "flight_mode"
+          - "trajectory_points"
+      
+      class:
+        pattern: "PascalCase"
+        examples:
+          - "TrajectoryPlanner"
+          - "SensorFusion"
+          - "FlightController"
+      
+      struct:
+        pattern: "PascalCase"
+        examples:
+          - "FlightData"
+          - "SensorReading"
+          - "TrajectoryPoint"
+      
+      namespace:
+        pattern: "snake_case"
+        examples:
+          - "autonomous::flight_control"
+          - "sensors::fusion"
+      
+      macro:
+        pattern: "SCREAMING_SNAKE_CASE"
+        examples:
+          - "ROS_INFO"
+          - "MAX_BUFFER_SIZE"
+    
+    # Directory naming
+    directories:
+      default:
+        pattern: "snake_case"
+        examples:
+          - "flight_control/"
+          - "sensor_fusion/"
+          - "trajectory_planning/"
+  
+  project_specific:
+    requirement: "Each C++ subsystem MUST choose ONE style and document it"
+    documentation_location: "<subsystem_root>/README.md (e.g., automation/autonomous/README.md)"
+    consistency: "CRITICAL - Mixed styles within a subsystem are NOT allowed"
+  
+  enforcement:
+    formatter: "clang-format"
+    linter: "clang-tidy"
+    auto_fix_available: true
+    commands:
+      format: "find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i"
+      check: "find autonomous/ -name '*.cpp' | xargs clang-tidy"
+
+# ============================================================================
+# Configuration File Naming
+# ============================================================================
+config_file_naming:
+  yaml:
+    pattern: "kebab-case.yaml or snake_case.yaml"
+    examples:
+      - "language-policy.yaml"
+      - "system_manifest.yaml"
+      - "drone-config.yml"
+  
+  json:
+    pattern: "kebab-case.json or camelCase.json"
+    examples:
+      - "package.json"
+      - "tsconfig.json"
+      - "system-config.json"
+  
+  environment:
+    pattern: ".env or .env.*"
+    examples:
+      - ".env"
+      - ".env.production"
+      - ".env.local"
+
+# ============================================================================
+# Documentation File Naming
+# ============================================================================
+documentation_naming:
+  markdown:
+    pattern: "SCREAMING_SNAKE_CASE.md or kebab-case.md"
+    examples:
+      - "README.md"
+      - "CONTRIBUTING.md"
+      - "naming-conventions.md"
+      - "quick-start.md"
+  
+  architecture_docs:
+    pattern: "kebab-case.md"
+    examples:
+      - "language-stack.md"
+      - "system-architecture.md"
+      - "execution-model.md"
+
+# ============================================================================
+# Directory Naming (Cross-Language)
+# ============================================================================
+directory_naming:
+  general_rules:
+    - "Use lowercase for most directories"
+    - "Prefer kebab-case or snake_case"
+    - "Be descriptive and self-explanatory"
+    - "Never use spaces in directory names"
+  
+  by_language:
+    typescript:
+      pattern: "kebab-case"
+      examples:
+        - "contract-service/"
+        - "unified-integration/"
+    
+    python:
+      pattern: "snake_case"
+      examples:
+        - "execution_engine/"
+        - "safety_mechanisms/"
+    
+    go:
+      pattern: "lowercase"
+      examples:
+        - "services/"
+        - "src/autonomous/infrastructure/"
+    
+    mixed:
+      pattern: "Choose one and be consistent"
+      recommendation: "Prefer kebab-case in repository root"
+
+# ============================================================================
+# Auto-Fix Bot Integration
+# ============================================================================
+auto_fix_integration:
+  enabled: true
+  description: "Auto-Fix Bot uses these rules to suggest rename PRs"
+  
+  triggers:
+    - "Naming convention violation detected"
+    - "File/symbol pattern mismatch"
+    - "Directory naming inconsistency"
+  
+  actions:
+    - action: "suggest_rename"
+      scope: ["files", "directories"]
+      confidence_threshold: 0.8
+    
+    - action: "report_violation"
+      scope: ["code_symbols"]
+      note: "Code symbol renames require human review due to refactoring complexity"
+  
+  workflow:
+    - "Detect violation via Language Governance CI"
+    - "Generate rename suggestion"
+    - "Create draft PR with changes"
+    - "Request human review"
+    - "Auto-merge if approved and tests pass"
+
+# ============================================================================
+# Refactor Playbook Integration
+# ============================================================================
+refactor_playbook_integration:
+  priority: "P2"
+  category: "continuous_refactoring"
+  category_zh: "持續重構"
+  
+  standard_task:
+    description: "Align all file and symbol naming in the cluster with docs/architecture/naming-conventions.md"
+    description_zh: "將本 cluster 內所有檔案/符號命名，對齊 docs/architecture/naming-conventions.md"
+    approach: "Non-compliant items → Auto-Fix Bot creates rename suggestion PR"
+    approach_zh: "不符合規範 → 由 Auto-Fix Bot 提出 rename 建議 PR"
+  
+  applies_to:
+    - "docs/refactor_playbooks/core__playbook.md"
+    - "docs/refactor_playbooks/services__playbook.md"
+    - "docs/refactor_playbooks/automation__playbook.md"
+    - "docs/refactor_playbooks/autonomous__playbook.md"
+    - "docs/refactor_playbooks/governance__playbook.md"
+    - "docs/refactor_playbooks/apps__playbook.md"
+    - "docs/refactor_playbooks/tools__playbook.md"
+    - "docs/refactor_playbooks/infrastructure__playbook.md"
+
+# ============================================================================
+# Compliance Metrics
+# ============================================================================
+compliance_metrics:
+  tracked:
+    - metric: "naming_violation_count"
+      description: "Total number of naming violations"
+      target: "< 5 per cluster"
+    
+    - metric: "convention_adoption_rate"
+      description: "Percentage of files following conventions"
+      target: "> 95%"
+    
+    - metric: "auto_fix_success_rate"
+      description: "Percentage of violations auto-fixed"
+      target: "> 80%"
+    
+    - metric: "technical_debt_trend"
+      description: "Trend of naming-related technical debt"
+      target: "Decreasing"
+  
+  reporting:
+    frequency: "Weekly"
+    dashboard: "Language Governance Dashboard"
+    alerts:
+      - condition: "violation_count > 10"
+        action: "Notify architecture team"
+
+# ============================================================================
+# Validation and Testing
+# ============================================================================
+validation:
+  ci_workflow: ".github/workflows/language-governance.yml"
+  
+  checks:
+    - check: "file_naming_pattern"
+      description: "Validate file names match language conventions"
+      
+    - check: "directory_structure"
+      description: "Validate directory naming consistency"
+      
+    - check: "symbol_naming"
+      description: "Validate code symbol naming via linters"
+      
+    - check: "cross_reference"
+      description: "Validate consistency with language-policy.yaml"
+
+# ============================================================================
+# Related Configuration Files
+# ============================================================================
+related_configs:
+  - path: "config/language-policy.yaml"
+    description: "Language usage policies and restrictions"
+  
+  - path: "config/system-module-map.yaml"
+    description: "Module mapping with language constraints"
+  
+  - path: "docs/architecture/naming-conventions.md"
+    description: "Complete naming conventions documentation"
+  
+  - path: "docs/architecture/language-stack.md"
+    description: "Language stack decisions and architecture"
+  
+  - path: "docs/architecture/language-governance.md"
+    description: "Language governance implementation details"
+
+# ============================================================================
+# Change Log
+# ============================================================================
+changelog:
+  - version: "1.0"
+    date: "2025-12-08"
+    author: "Unmanned Island System Team"
+    changes:
+      - "Initial version with TypeScript, Python, Go, Rust, C++ rules"
+      - "Defined file naming, code symbol, and directory conventions"
+      - "Integrated with Auto-Fix Bot and Refactor Playbooks"
+      - "Added C++ scope limitation for autonomous/native only"

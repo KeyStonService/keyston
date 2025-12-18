@@ -1,0 +1,30 @@
+# Kustomization for GaC CRDs
+# Phase 3 - GitOps Integration
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: governance-crds
+  annotations:
+    gac-phase: "3-gitops"
+
+resources:
+  - ../crd/visionstatement-crd.yaml
+  - ../crd/strategic-objectives-crd.yaml
+  - ../crd/governance-charter-crd.yaml
+  - ../crd/alignment-framework-crd.yaml
+  - ../crd/risk-register-crd.yaml
+  - ../crd/implementation-roadmap-crd.yaml
+  - ../crd/communication-plan-crd.yaml
+  - ../crd/success-metrics-dashboard-crd.yaml
+  - ../crd/change-management-protocol-crd.yaml
+
+commonLabels:
+  app.kubernetes.io/name: governance-crds
+  app.kubernetes.io/part-of: machinenativeops-gac
+  gac-phase: "3-gitops"
+
+commonAnnotations:
+  gac-managed: "true"
+  gac-phase: "3-gitops"

@@ -1,0 +1,426 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Module Specification: core.unified_integration
+#                    模組規範：核心統一整合層
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Define the role, capabilities, and technical details for the
+#          unified integration layer module
+# 用途: 定義統一整合層模組的角色、能力和技術細節
+#
+# Version: 1.0.0
+# Owner: @core-platform-team
+# Last Updated: 2025-12-07
+# ═══════════════════════════════════════════════════════════════════════════════
+
+module: "core.unified_integration"
+version: "1.0.0"
+status: "active"
+
+# ============================================================================
+# Role Definition | 角色定義
+# ============================================================================
+
+role: "orchestrator"
+role_description: |
+  The unified integration layer serves as the central orchestration point for
+  the SynergyMesh system, coordinating between all major subsystems and
+  providing unified interfaces for system management.
+  
+  統一整合層作為 SynergyMesh 系統的中央編排點，協調所有主要子系統並提供
+  統一的系統管理接口。
+
+# ============================================================================
+# Capabilities | 能力
+# ============================================================================
+
+capabilities:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # System Bootstrap & Coordination
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "system-bootstrap"
+    category: "orchestration"
+    description: "Bootstrap and initialize the entire system"
+    apis:
+      - "unified_controller.py::SystemBootstrap"
+    
+  - id: "phase-coordination"
+    category: "orchestration"
+    description: "Coordinate multi-phase system startup"
+    apis:
+      - "unified_controller.py::PhaseCoordination"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Service Management
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "service-discovery"
+    category: "integration"
+    description: "Discover and register services dynamically"
+    apis:
+      - "service_registry.py::ServiceDiscovery"
+    
+  - id: "health-monitoring"
+    category: "monitoring"
+    description: "Monitor health of all registered services"
+    apis:
+      - "service_registry.py::HealthMonitoring"
+    
+  - id: "dependency-resolution"
+    category: "integration"
+    description: "Resolve and manage service dependencies"
+    apis:
+      - "service_registry.py::DependencyResolution"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Configuration Management
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "config-management"
+    category: "configuration"
+    description: "Manage system-wide configuration"
+    apis:
+      - "configuration_manager.py::ConfigManagement"
+    
+  - id: "secret-management"
+    category: "security"
+    description: "Securely manage secrets and credentials"
+    apis:
+      - "configuration_manager.py::SecretManagement"
+    
+  - id: "config-validation"
+    category: "validation"
+    description: "Validate configuration consistency"
+    apis:
+      - "configuration_optimizer.py::ConfigValidation"
+    
+  - id: "drift-detection"
+    category: "monitoring"
+    description: "Detect configuration drift"
+    apis:
+      - "configuration_optimizer.py::DriftDetection"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Workflow Orchestration
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "workflow-management"
+    category: "orchestration"
+    description: "Manage complex workflows"
+    apis:
+      - "system_orchestrator.py::WorkflowManagement"
+    
+  - id: "task-scheduling"
+    category: "orchestration"
+    description: "Schedule and execute tasks"
+    apis:
+      - "system_orchestrator.py::TaskScheduling"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Cognitive Processing
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "cognitive-perception"
+    category: "ai"
+    description: "Perceive and understand system state"
+    apis:
+      - "cognitive_processor.py::Perception"
+    
+  - id: "cognitive-reasoning"
+    category: "ai"
+    description: "Reason about system decisions"
+    apis:
+      - "cognitive_processor.py::Reasoning"
+    
+  - id: "cognitive-execution"
+    category: "ai"
+    description: "Execute cognitive decisions"
+    apis:
+      - "cognitive_processor.py::Execution"
+    
+  - id: "cognitive-proof"
+    category: "ai"
+    description: "Provide proof and audit trail"
+    apis:
+      - "cognitive_processor.py::Proof"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Messaging & Events
+  # ─────────────────────────────────────────────────────────────────────────
+  - id: "message-routing"
+    category: "integration"
+    description: "Route messages between components"
+    apis:
+      - "integration_hub.py::MessageRouting"
+    
+  - id: "event-pubsub"
+    category: "integration"
+    description: "Publish-subscribe event system"
+    apis:
+      - "integration_hub.py::EventPubSub"
+
+# ============================================================================
+# Technical Stack | 技術棧
+# ============================================================================
+
+tech_stack:
+  primary_language: "python"
+  languages:
+    - python: "3.10+"
+  
+  frameworks:
+    - name: "FastAPI"
+      purpose: "API endpoints"
+      version: "0.100+"
+    - name: "Pydantic"
+      purpose: "Data validation"
+      version: "2.0+"
+  
+  databases:
+    - type: "Redis"
+      purpose: "Service registry cache"
+      required: true
+    - type: "PostgreSQL"
+      purpose: "Configuration persistence"
+      required: false
+  
+  external_dependencies:
+    - "PyYAML"
+    - "python-dotenv"
+    - "aiohttp"
+
+# ============================================================================
+# Integration Points | 整合點
+# ============================================================================
+
+provides:
+  - "SystemBootstrap"
+  - "PhaseCoordination"
+  - "ServiceDiscovery"
+  - "HealthMonitoring"
+  - "DependencyResolution"
+  - "ConfigManagement"
+  - "SecretManagement"
+  - "WorkflowManagement"
+  - "TaskScheduling"
+  - "CognitiveProcessing"
+  - "MessageRouting"
+  - "EventPubSub"
+
+depends_on:
+  required:
+    - module: "runtime.mind_matrix"
+      purpose: "Cognitive runtime environment"
+      
+    - module: "infrastructure.redis"
+      purpose: "Service registry cache"
+      
+    - module: "governance.policies"
+      purpose: "Policy validation"
+  
+  optional:
+    - module: "core.monitoring_system"
+      purpose: "Enhanced monitoring"
+      
+    - module: "core.slsa_provenance"
+      purpose: "Provenance attestation"
+
+# ============================================================================
+# API Surface | API 表面
+# ============================================================================
+
+api_surface:
+  public:
+    - "unified_controller.bootstrap()"
+    - "service_registry.register_service()"
+    - "service_registry.discover_service()"
+    - "configuration_manager.get_config()"
+    - "configuration_manager.set_config()"
+    - "system_orchestrator.execute_workflow()"
+    - "cognitive_processor.process()"
+    - "integration_hub.publish_event()"
+    - "integration_hub.subscribe_event()"
+  
+  internal:
+    - "unified_controller._init_phases()"
+    - "service_registry._update_cache()"
+    - "configuration_manager._validate_schema()"
+  
+  deprecated:
+    []
+
+# ============================================================================
+# Quality Metrics | 品質指標
+# ============================================================================
+
+quality_metrics:
+  test_coverage:
+    current: 75
+    target: 85
+    critical_paths: 90
+  
+  complexity:
+    average_cyclomatic: 8
+    max_allowed: 15
+    functions_exceeding: 3
+  
+  performance:
+    bootstrap_time: "< 5s"
+    service_discovery_latency: "< 50ms"
+    config_reload_time: "< 200ms"
+  
+  maintainability:
+    technical_debt_score: 2
+    hotspot_files: 2
+    code_smells: 5
+
+# ============================================================================
+# Ownership & Lifecycle | 所有權與生命週期
+# ============================================================================
+
+ownership:
+  primary_owner: "@core-platform-team"
+  backup_owner: "@architecture-team"
+  
+  team:
+    primary_contact: "core-platform@machinenativeops.io"
+    slack_channel: "#core-platform"
+    oncall_rotation: "core-platform-oncall"
+
+lifecycle:
+  state: "active"
+  stability: "stable"
+  breaking_changes_allowed: false
+  
+  sla:
+    availability: "99.9%"
+    response_time_p50: "< 50ms"
+    response_time_p99: "< 200ms"
+    mttr: "< 1 hour"
+    upgrade_cadence: "monthly"
+  
+  risk_level: "critical"
+  safety_critical: true
+
+# ============================================================================
+# Documentation | 文檔
+# ============================================================================
+
+documentation:
+  readme: "core/unified_integration/README.md"
+  api_docs: "core/unified_integration/API.md"
+  architecture_doc: "docs/architecture/unified-integration.md"
+  
+  behavior_contract: "governance/37-behavior-contracts/core.unified_integration.yaml"
+  ownership_entry: "governance/34-config/ownership-map.yaml#core.unified_integration"
+  
+  examples:
+    - "examples/unified-integration/bootstrap.py"
+    - "examples/unified-integration/service-discovery.py"
+
+# ============================================================================
+# Testing | 測試
+# ============================================================================
+
+testing:
+  unit_tests:
+    location: "core/unified_integration/tests/"
+    framework: "pytest"
+    coverage_requirement: 80
+  
+  integration_tests:
+    location: "tests/integration/unified_integration/"
+    framework: "pytest"
+    coverage_requirement: 70
+  
+  performance_tests:
+    location: "tests/performance/unified_integration/"
+    framework: "locust"
+    scenarios:
+      - "High-frequency service discovery"
+      - "Concurrent configuration updates"
+      - "System bootstrap under load"
+
+# ============================================================================
+# Security | 安全
+# ============================================================================
+
+security:
+  threat_model: "docs/security/unified-integration-threats.md"
+  
+  security_controls:
+    - "Input validation on all APIs"
+    - "Secret encryption at rest"
+    - "Rate limiting on service discovery"
+    - "Audit logging for all config changes"
+  
+  compliance:
+    - "SLSA Level 3"
+    - "SOC 2 Type II"
+  
+  security_reviews:
+    last_review: "2025-11-15"
+    next_review: "2026-02-15"
+    frequency: "quarterly"
+
+# ============================================================================
+# Monitoring & Observability | 監控與可觀測性
+# ============================================================================
+
+observability:
+  metrics:
+    - name: "service_registry_size"
+      type: "gauge"
+    - name: "config_reload_duration_seconds"
+      type: "histogram"
+    - name: "workflow_execution_total"
+      type: "counter"
+    - name: "cognitive_processing_duration_seconds"
+      type: "histogram"
+  
+  logs:
+    level: "INFO"
+    format: "json"
+    retention: "30 days"
+    sensitive_data_scrubbing: true
+  
+  traces:
+    enabled: true
+    sample_rate: 0.1
+    critical_paths_sample_rate: 1.0
+  
+  alerts:
+    - condition: "service_registry_size > 100"
+      severity: "warning"
+    - condition: "config_reload_duration_seconds > 1"
+      severity: "warning"
+    - condition: "workflow_execution_failures > 10/hour"
+      severity: "critical"
+
+# ============================================================================
+# Evolution Plan | 演化計畫
+# ============================================================================
+
+evolution:
+  roadmap:
+    q1_2026:
+      - "Add GraphQL API support"
+      - "Implement distributed tracing"
+      - "Enhance cognitive reasoning"
+    
+    q2_2026:
+      - "Multi-region service discovery"
+      - "Advanced workflow patterns"
+      - "Self-healing capabilities"
+  
+  deprecation_plans:
+    []
+  
+  breaking_changes_planned:
+    []
+
+# ============================================================================
+# References | 參考
+# ============================================================================
+
+references:
+  architecture_governance_matrix: "governance/29-docs/ARCHITECTURE_GOVERNANCE_MATRIX.md"
+  layers_domains: "governance/01-architecture/config/layers-domains.yaml"
+  module_mapping: "config/system-module-map.yaml#core.unified_integration"
+  ownership_map: "governance/34-config/ownership-map.yaml#core.unified_integration"

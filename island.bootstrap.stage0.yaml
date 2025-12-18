@@ -1,7 +1,7 @@
 version: 1
 kind: island-bootstrap
 metadata:
-  project: island-ai
+  project: src/ai
   stage: stage0
   description: >-
     Stage 0 skeleton & automation bootstrap for Island AI monorepo.
@@ -134,7 +134,7 @@ spec:
     - id: root.readme
       target: README.md
       mode: 0644
-      source: templates/root/README.island-ai.v1.md
+      source: templates/root/README.src/ai.v1.md
     - id: root.license
       target: LICENSE
       mode: 0644
@@ -146,7 +146,7 @@ spec:
     - id: root.package-json
       target: package.json
       mode: 0644
-      source: templates/root/package.island-ai.v1.json
+      source: templates/root/package.src/ai.v1.json
     - id: root.cargo-workspace
       target: Cargo.toml
       mode: 0644
@@ -194,11 +194,11 @@ spec:
     - id: git.post-commit
       target: .git/hooks/post-commit
       mode: 0755
-      source: templates/git-hooks/post-commit.island-ai.v1.sh
+      source: templates/git-hooks/post-commit.src/ai.v1.sh
     - id: sync.watch-and-sync
       target: scripts/sync/watch-and-sync.sh
       mode: 0755
-      source: templates/sync/watch-and-sync.island-ai.v1.sh
+      source: templates/sync/watch-and-sync.src/ai.v1.sh
   automation:
     bootstrap_sequence:
       - id: init.git

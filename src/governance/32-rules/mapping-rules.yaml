@@ -1,0 +1,342 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Machine-Native Mapping Rules (MNR v1)
+#                    機器原生映射規則
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Defines rules for transforming Markdown documentation into 
+#          machine-consumable knowledge entities.
+#
+# 用途：定義 Markdown 文檔到機器可消費知識實體的轉換規則。
+#
+# These rules provide the bridge between:
+# - Narrative documentation (.md) for human consumption
+# - Machine-native knowledge layer (YAML/JSON) for governance systems,
+#   parsers, index builders, and SLSA pipelines
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+$schema: "https://schema.superroot.kn/mndoc/mapping-rules/v1"
+version: "1.0.0"
+id: "mnr-v1"
+title: "Machine-Native Mapping Rules v1"
+description: "Rules for Markdown → Machine-Native Knowledge Layer transformation"
+
+# ============================================================================
+# Rule Categories (規則分類)
+# ============================================================================
+rule_categories:
+  - id: "section-to-entity"
+    name: "Section to Entity Rules"
+    description: "Rules for converting Markdown sections to machine entities"
+  
+  - id: "path-to-component"
+    name: "Path to Component Rules"
+    description: "Rules for converting code paths to component entities"
+  
+  - id: "list-to-capabilities"
+    name: "List to Capabilities Rules"
+    description: "Rules for converting Markdown lists/tables to capabilities"
+  
+  - id: "reference-to-provenance"
+    name: "Reference to Provenance Rules"
+    description: "Rules for generating provenance hooks from file references"
+
+# ============================================================================
+# Section to Entity Rules (章節到實體規則)
+# ============================================================================
+section_to_entity_rules:
+  # Rule 1: H2 sections with specific patterns map to subsystems
+  - id: "rule-section-subsystem"
+    name: "Section to Subsystem"
+    description: "每個包含特定關鍵字的 H2 章節對應一個子系統實體"
+    trigger:
+      markdown_pattern: "^## .*(?:Engine|System|Framework|Platform|Core).*$"
+      heading_level: 2
+    transform:
+      entity_type: "subsystem"
+      id_generation: "slug(section_title)"
+      layer_inference:
+        patterns:
+          - match: "Engine|Core|Platform"
+            layer: "control-plane"
+          - match: "Governance|Policy|Schema"
+            layer: "governance"
+          - match: "Autonomous|Framework"
+            layer: "automation"
+          - match: "Infrastructure|Deployment"
+            layer: "infrastructure"
+      fields:
+        type: "subsystem"
+        owner: "infer_from_parent_or_default('platform-team')"
+        status: "active"
+    example:
+      input: "## SynergyMesh Core Engine"
+      output:
+        entity_type: "subsystem"
+        id: "machinenativeops-core-engine"
+        layer: "control-plane"
+
+  # Rule 2: H3 sections under subsystems map to components
+  - id: "rule-section-component"
+    name: "Section to Component"
+    description: "子系統下的 H3 章節對應元件實體"
+    trigger:
+      markdown_pattern: "^### (?:主要模組|核心能力|Components|Modules).*$"
+      heading_level: 3
+    transform:
+      entity_type: "component"
+      id_generation: "slug(item_name)"
+      fields:
+        type: "module"
+        subsystem_ref: "parent_subsystem_id"
+
+  # Rule 3: Tables with specific headers map to capabilities
+  - id: "rule-table-capabilities"
+    name: "Table to Capabilities"
+    description: "表格轉換為能力列表"
+    trigger:
+      markdown_pattern: "\\|.*階段.*\\|.*名稱.*\\|"
+      element_type: "table"
+    transform:
+      entity_type: "governance"
+      type: "pipeline"
+      id_generation: "slug(table_context) + '-pipeline'"
+
+# ============================================================================
+# Path to Component Rules (路徑到元件規則)
+# ============================================================================
+path_to_component_rules:
+  # Rule: Python file paths map to processor/engine components
+  - id: "rule-path-python"
+    name: "Python Path to Component"
+    description: "Python 檔案路徑自動轉成元件"
+    trigger:
+      path_pattern: "^(core|automation)/.*\\.py$"
+    transform:
+      entity_type: "component"
+      id_generation: "basename_without_extension(path).replace('_', '-')"
+      namespace_generation: "path.replace('/', '.').removesuffix('.py')"
+      type_inference:
+        patterns:
+          - match: "_processor\\.py$"
+            type: "processor"
+          - match: "_engine\\.py$"
+            type: "engine"
+          - match: "_registry\\.py$"
+            type: "registry"
+          - match: "_detector\\.py$"
+            type: "detector"
+          - match: "_validator\\.py$"
+            type: "validator"
+          - match: "_handler\\.py$"
+            type: "handler"
+          - match: "_hub\\.py$"
+            type: "hub"
+          - match: "_optimizer\\.py$"
+            type: "optimizer"
+          - match: "_orchestrator\\.py$"
+            type: "orchestrator"
+          - match: "_controller\\.py$"
+            type: "controller"
+          - match: "_manager\\.py$"
+            type: "manager"
+          - default: "module"
+      language: "python"
+    example:
+      input: "core/unified_integration/cognitive_processor.py"
+      output:
+        id: "cognitive-processor"
+        namespace: "core.unified_integration.cognitive_processor"
+        type: "processor"
+        language: "python"
+
+  # Rule: TypeScript/JavaScript files map to service components
+  - id: "rule-path-typescript"
+    name: "TypeScript Path to Component"
+    description: "TypeScript 檔案路徑自動轉成服務元件"
+    trigger:
+      path_pattern: "^(mcp-servers|services)/.*\\.(ts|js)$"
+    transform:
+      entity_type: "component"
+      id_generation: "basename_without_extension(path).replace('_', '-')"
+      type: "service"
+      language_inference:
+        - match: "\\.ts$"
+          language: "typescript"
+        - match: "\\.js$"
+          language: "javascript"
+
+# ============================================================================
+# List to Capabilities Rules (列表到能力規則)
+# ============================================================================
+list_to_capabilities_rules:
+  # Rule: Unordered lists under capability headers become capability arrays
+  - id: "rule-list-capabilities"
+    name: "List to Capabilities"
+    description: "無序列表項目轉換為能力陣列"
+    trigger:
+      context_pattern: "(?:能力|capabilities|功能|features)"
+      element_type: "unordered_list"
+    transform:
+      target_field: "capabilities"
+      item_transform: "slugify(item_text)"
+    example:
+      input: |
+        - AI 決策引擎
+        - 服務註冊表
+      output:
+        capabilities:
+          - "ai-decision-engine"
+          - "service-registry"
+
+  # Rule: Code blocks with YAML become structured data
+  - id: "rule-codeblock-yaml"
+    name: "YAML Code Block to Structure"
+    description: "YAML 程式碼區塊直接解析為結構化資料"
+    trigger:
+      element_type: "code_block"
+      language: "yaml"
+    transform:
+      parse_mode: "yaml"
+      merge_strategy: "deep_merge_to_parent"
+
+# ============================================================================
+# Reference to Provenance Rules (引用到溯源規則)
+# ============================================================================
+reference_to_provenance_rules:
+  # Rule: File path references trigger provenance hook generation
+  - id: "rule-ref-provenance"
+    name: "Reference to Provenance Hook"
+    description: "檔案路徑引用自動產生溯源觸發器"
+    trigger:
+      path_pattern: "^(core|governance|automation)/.*$"
+    transform:
+      evidence_ref:
+        sbom: "governance/sbom/{subsystem}.yaml"
+        signature: "governance/signature/{subsystem}.sig"
+        slsa_ref: ".slsa/provenance/{component_id}.json"
+    conditional:
+      - if: "path.startswith('governance/')"
+        then:
+          generate_policy_ref: true
+      - if: "path.endswith('.py') or path.endswith('.ts')"
+        then:
+          generate_sbom: true
+
+# ============================================================================
+# Entity Type Mappings (實體類型映射)
+# ============================================================================
+entity_type_mappings:
+  # System entity (from root README)
+  system:
+    source: "README.md"
+    extract:
+      title: "first_h1"
+      version: "badge_pattern('version-([0-9.]+)')"
+      description: "first_paragraph_after_badges"
+    default_values:
+      entity: "System"
+      domain: "automation"
+      layer: "control-plane"
+      criticality: "high"
+      owner: "platform-team"
+      status: "active"
+
+  # Subsystem entity (from major sections)
+  subsystem:
+    source: "h2_sections_with_keywords"
+    keywords: ["Engine", "System", "Framework", "Platform"]
+    extract:
+      title: "section_heading"
+      description: "first_paragraph"
+      capabilities: "yaml_code_block_or_list"
+    default_values:
+      entity: "Subsystem"
+      status: "active"
+
+  # Component entity (from code paths)
+  component:
+    source: "code_paths"
+    patterns: ["core/**/*.py", "mcp-servers/**/*.ts"]
+    extract:
+      title: "filename_to_title"
+      path: "relative_path"
+      provides: "module_exports_or_docstring"
+    default_values:
+      entity: "Component"
+      status: "active"
+
+  # Configuration entity (from config files)
+  configuration:
+    source: "config/**/*.yaml"
+    extract:
+      key: "yaml_key_path"
+      value: "yaml_value"
+      source_file: "file_path"
+    default_values:
+      entity: "Configuration"
+      validated: false
+      environment: "all"
+
+  # Governance entity (from governance tables)
+  governance:
+    source: "tables_with_stage_columns"
+    extract:
+      stages: "table_rows_to_stages"
+    default_values:
+      entity: "Governance"
+      type: "pipeline"
+      status: "active"
+
+# ============================================================================
+# Transformation Functions (轉換函數)
+# ============================================================================
+transformation_functions:
+  - name: "slug"
+    description: "Convert string to slug format"
+    example: "slug('SynergyMesh Core Engine') → 'machinenativeops-core-engine'"
+  
+  - name: "basename_without_extension"
+    description: "Get filename without extension"
+    example: "basename_without_extension('core/ai_engine.py') → 'ai_engine'"
+  
+  - name: "slugify"
+    description: "Convert any text to slug"
+    example: "slugify('AI 決策引擎') → 'ai-decision-engine'"
+  
+  - name: "infer_from_parent_or_default"
+    description: "Inherit from parent entity or use default"
+    example: "infer_from_parent_or_default('platform-team')"
+  
+  - name: "deep_merge_to_parent"
+    description: "Merge parsed content into parent entity"
+
+# ============================================================================
+# Validation Rules (驗證規則)
+# ============================================================================
+validation:
+  required_mappings:
+    - "Every H2 section must map to an entity"
+    - "Every code path must have a component"
+    - "Every component must have provenance hooks"
+  
+  consistency_checks:
+    - "Component IDs must be unique"
+    - "Subsystem references must be valid"
+    - "All capabilities must be defined"
+  
+  provenance_requirements:
+    - "Critical components must have SBOM"
+    - "All components should have signature references"
+
+# ============================================================================
+# Output Formats (輸出格式)
+# ============================================================================
+output_formats:
+  - format: "yaml"
+    schema: "https://schema.superroot.kn/mndoc/v1"
+    extension: ".mndoc.yaml"
+    
+  - format: "json"
+    schema: "https://schema.superroot.kn/mndoc/v1"
+    extension: ".mndoc.json"

@@ -3,7 +3,7 @@
 # Extracted from: baseline-03-resource-management.v1.0.yaml
 # Purpose: Define resource quotas and SLA targets for different tenant tiers
 
-apiVersion: config.synergymesh.io/v1
+apiVersion: config.machinenativeops.io/v1
 kind: TenantTierConfig
 metadata:
   name: tenant-tier-definitions

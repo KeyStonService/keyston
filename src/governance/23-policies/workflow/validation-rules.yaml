@@ -1,0 +1,35 @@
+# Validation Rules Configuration
+version: "2.0.0"
+schema_version: "validation.machinenativeops.io/v1"
+
+validation_rules:
+  syntax:
+    python:
+      - name: "no_syntax_errors"
+        severity: "critical"
+        enabled: true
+      - name: "pep8_compliance"
+        severity: "medium"
+        enabled: true
+    
+  semantic:
+    - name: "type_consistency"
+      severity: "high"
+      enabled: true
+    - name: "scope_validation"
+      severity: "high"
+      enabled: true
+  
+  security:
+    - name: "no_hardcoded_secrets"
+      pattern: "(password|api_key|secret)\\s*=\\s*['\"]\\w+"
+      severity: "critical"
+      enabled: true
+    - name: "sql_injection_prevention"
+      pattern: "execute\\(.*\\+.*\\)"
+      severity: "critical"
+      enabled: true
+    - name: "xss_prevention"
+      pattern: "innerHTML\\s*=\\s*"
+      severity: "high"
+      enabled: true

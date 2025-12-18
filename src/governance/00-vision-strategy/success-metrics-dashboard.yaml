@@ -1,0 +1,763 @@
+# ============================================================================
+# Success Metrics Dashboard Architecture | 成功指標儀表板架構
+# ============================================================================
+# Document: governance/00-vision-strategy/success-metrics-dashboard.yaml
+# Purpose: Define real-time success metrics tracking and visualization
+# Owner: VP Architecture + VP Product
+# Last Updated: 2025-12-10
+# Status: Active
+# ============================================================================
+
+metadata:
+  document_id: "GOV-00-METRICS-001"
+  version: "1.0.0"
+  created_date: "2025-12-10"
+  last_updated: "2025-12-10"
+  owner: "VP Architecture"
+  reviewers:
+    - "CEO"
+    - "CTO"
+    - "VP Product"
+    - "VP Engineering"
+  status: "active"
+  classification: "internal"
+
+# ============================================================================
+# Dashboard Overview | 儀表板概覽
+# ============================================================================
+dashboard_overview:
+  purpose: "Real-time visualization and AI-driven insights for strategic success metrics"
+  access:
+    url: "https://metrics.machinenativeops.internal"
+    authentication: "SSO (Okta) + role-based access control"
+    availability: "99.99% SLA"
+  
+  update_frequency:
+    real_time_metrics: "< 1 second latency"
+    batch_metrics: "Every 15 minutes"
+    ai_insights: "Every 1 hour"
+    executive_summary: "Daily at 6:00 AM UTC"
+  
+  technology_stack:
+    backend: "Go microservices + TimescaleDB"
+    frontend: "React + D3.js + Recharts"
+    real_time: "WebSocket + Server-Sent Events"
+    ai_engine: "Python (scikit-learn, Prophet) + GPT-4 for insights"
+    caching: "Redis"
+    cdn: "CloudFlare"
+
+# ============================================================================
+# Dashboard Views | 儀表板視圖
+# ============================================================================
+dashboard_views:
+  executive_view:
+    audience: "CEO, CTO, Board"
+    layout: "Single-page overview"
+    refresh_rate: "Real-time"
+    sections:
+      - section_id: "vision_progress"
+        title: "Vision Realization Progress"
+        metrics:
+          - metric_id: "zero_touch_ops_progress"
+            name: "Zero-Touch Operations Progress"
+            current: "82%"
+            target: "95% by 2028"
+            trend: "↑ +3% QoQ"
+            visualization: "Progress bar + sparkline"
+            
+          - metric_id: "ai_driven_governance_progress"
+            name: "AI-Driven Governance Adoption"
+            current: "78%"
+            target: "95% by 2028"
+            trend: "↑ +5% QoQ"
+            visualization: "Progress bar + sparkline"
+            
+          - metric_id: "autonomous_framework_maturity"
+            name: "Autonomous Framework Maturity"
+            current: "Level 3 (of 5)"
+            target: "Level 5 by 2029"
+            trend: "↑ Progressed from Level 2 in Q2"
+            visualization: "Maturity ladder"
+            
+          - metric_id: "enterprise_reliability"
+            name: "Enterprise-Grade Reliability"
+            current: "99.97%"
+            target: "99.999% by 2028"
+            trend: "↑ +0.02% QoQ"
+            visualization: "Gauge + SLA timeline"
+            
+      - section_id: "strategic_objectives"
+        title: "Strategic Objectives (OKRs)"
+        metrics:
+          - metric_id: "overall_okr_score"
+            name: "Overall OKR Health Score"
+            current: "0.78 (78%)"
+            target: "> 0.85"
+            trend: "↑ +0.05 from last quarter"
+            visualization: "Score card + distribution chart"
+            breakdown:
+              - "OBJ-01 (Platform): 0.82 ✅"
+              - "OBJ-02 (Automation): 0.85 ✅"
+              - "OBJ-03 (Governance): 0.75 ⚠️"
+              - "OBJ-04 (DevEx): 0.70 ⚠️"
+              - "OBJ-05 (Market): 0.78 ✅"
+              
+      - section_id: "business_metrics"
+        title: "Key Business Metrics"
+        metrics:
+          - metric_id: "arr"
+            name: "Annual Recurring Revenue (ARR)"
+            current: "$2.3M"
+            target: "$5M by 2026 Q4"
+            trend: "↑ +$300K QoQ (+15%)"
+            visualization: "Area chart"
+            
+          - metric_id: "customer_count"
+            name: "Enterprise Customers"
+            current: "23"
+            target: "50 by 2026 Q4"
+            trend: "↑ +5 QoQ"
+            visualization: "Bar chart + customer logos"
+            
+          - metric_id: "nps"
+            name: "Net Promoter Score (NPS)"
+            current: "62"
+            target: "> 70"
+            trend: "↑ +4 from last quarter"
+            visualization: "Gauge"
+            
+      - section_id: "risk_alerts"
+        title: "Strategic Risk Alerts"
+        display: "List of active risks (score ≥ 6)"
+        data_source: "risk-register.yaml"
+        auto_refresh: "Every 15 minutes"
+        
+  okr_view:
+    audience: "All employees, team leads"
+    layout: "Multi-tab (one per objective)"
+    refresh_rate: "Every 15 minutes"
+    features:
+      - "Drill-down from objective to key results"
+      - "Team-level OKR breakdown"
+      - "Progress timeline and forecasting"
+      - "Dependency visualization"
+    sections:
+      - section_id: "okr_overview"
+        title: "All OKRs at a Glance"
+        visualization: "Kanban board (On Track / At Risk / Off Track)"
+        
+      - section_id: "okr_details"
+        title: "OKR Deep Dive (per objective)"
+        content:
+          - "Key results progress bars"
+          - "Weekly update log"
+          - "Blockers and support requests"
+          - "Responsible team and owner"
+          - "Forecast to target (AI-generated)"
+          
+  governance_view:
+    audience: "VP Architecture, Governance Team, AI agents"
+    layout: "Grid of 23 governance dimensions"
+    refresh_rate: "Real-time"
+    sections:
+      - section_id: "dimension_matrix"
+        title: "23-Dimension Governance Matrix"
+        visualization: "Heatmap (maturity/health score)"
+        interactivity: "Click dimension for details"
+        
+      - section_id: "dimension_detail"
+        title: "Dimension Deep Dive"
+        content:
+          - "Implementation status"
+          - "Compliance score"
+          - "Recent changes"
+          - "Alignment score with vision"
+          - "Active initiatives"
+          
+      - section_id: "policy_changes"
+        title: "Recent Policy Changes"
+        display: "Timeline of last 30 days"
+        filters: ["By dimension", "By impact level"]
+        
+  team_view:
+    audience: "Engineering teams, Product teams"
+    layout: "Team-specific dashboard"
+    refresh_rate: "Real-time"
+    customization: "Teams can add custom widgets"
+    sections:
+      - section_id: "team_okrs"
+        title: "Our OKRs"
+        display: "Team's contribution to company OKRs"
+        
+      - section_id: "team_velocity"
+        title: "Engineering Velocity"
+        metrics:
+          - "Sprint velocity (story points/week)"
+          - "Deployment frequency"
+          - "Lead time for changes"
+          - "Change failure rate"
+          - "MTTR (Mean Time To Recovery)"
+        visualization: "DORA metrics dashboard"
+        
+      - section_id: "team_health"
+        title: "Team Health"
+        metrics:
+          - "Team happiness score (1-10)"
+          - "Workload balance"
+          - "Skill coverage"
+          - "Attrition risk"
+        
+  ai_agent_view:
+    audience: "Autonomous AI agents"
+    access: "API endpoint + streaming dashboard"
+    layout: "Structured JSON + visual WebSocket dashboard"
+    refresh_rate: "< 1 second"
+    sections:
+      - section_id: "agent_performance"
+        title: "Agent Performance Metrics"
+        metrics:
+          - "Decision alignment score"
+          - "Policy compliance rate"
+          - "Exception handling success"
+          - "Automation coverage"
+        
+      - section_id: "governance_compliance"
+        title: "Governance Compliance Status"
+        display: "Real-time compliance heatmap across all dimensions"
+        alerts: "Non-compliance alerts pushed immediately"
+        
+      - section_id: "system_health"
+        title: "Platform Health"
+        metrics:
+          - "Service uptime"
+          - "API latency (p50, p95, p99)"
+          - "Error rates"
+          - "Resource utilization"
+
+# ============================================================================
+# Core Metrics Catalog | 核心指標目錄
+# ============================================================================
+core_metrics:
+  vision_realization:
+    - metric_id: "METRIC-VIS-001"
+      name: "Zero-Touch Operations Coverage"
+      description: "Percentage of operational tasks fully automated"
+      formula: "(Fully automated tasks / Total operational tasks) × 100%"
+      data_source: "Automation tracking system"
+      target: "95% by 2028"
+      current: "82%"
+      frequency: "Daily"
+      owner: "VP Engineering"
+      
+    - metric_id: "METRIC-VIS-002"
+      name: "AI-Driven Decision Percentage"
+      description: "Percentage of decisions made by AI vs human"
+      formula: "(AI decisions / Total decisions) × 100%"
+      data_source: "Decision logging system"
+      target: "95% by 2028"
+      current: "78%"
+      frequency: "Real-time"
+      owner: "VP Architecture"
+      
+    - metric_id: "METRIC-VIS-003"
+      name: "Autonomous Framework Maturity Level"
+      description: "Capability maturity on 5-level scale"
+      levels:
+        1: "Manual operations"
+        2: "Assisted automation"
+        3: "Conditional autonomy"
+        4: "High autonomy"
+        5: "Full autonomy"
+      assessment_criteria: "Based on 20 capability dimensions"
+      target: "Level 5 by 2029"
+      current: "Level 3"
+      frequency: "Quarterly assessment"
+      owner: "CTO"
+      
+    - metric_id: "METRIC-VIS-004"
+      name: "Platform Reliability (SLA)"
+      description: "Percentage uptime of SynergyMesh platform"
+      formula: "(Uptime minutes / Total minutes) × 100%"
+      data_source: "Monitoring system (Datadog)"
+      target: "99.999% by 2028"
+      current: "99.97%"
+      frequency: "Real-time"
+      owner: "VP Engineering"
+      
+  okr_health:
+    - metric_id: "METRIC-OKR-001"
+      name: "Overall OKR Score"
+      description: "Weighted average of all OKR progress"
+      formula: "Σ(OKR_progress × OKR_weight) / Σ(OKR_weight)"
+      target: "> 0.85"
+      current: "0.78"
+      frequency: "Real-time (updated with each KR update)"
+      owner: "CEO"
+      
+    - metric_id: "METRIC-OKR-002"
+      name: "On-Track OKRs Percentage"
+      description: "Percentage of OKRs projected to hit target"
+      formula: "(OKRs forecasted ≥ 100% / Total OKRs) × 100%"
+      target: "> 80%"
+      current: "72%"
+      frequency: "Weekly (after forecast update)"
+      owner: "CEO"
+      
+  business_performance:
+    - metric_id: "METRIC-BIZ-001"
+      name: "Annual Recurring Revenue (ARR)"
+      description: "Contracted annual revenue from subscriptions"
+      data_source: "Salesforce + billing system"
+      target: "$5M by 2026 Q4"
+      current: "$2.3M"
+      frequency: "Daily"
+      owner: "VP Sales"
+      
+    - metric_id: "METRIC-BIZ-002"
+      name: "Customer Count (Enterprise)"
+      description: "Number of active enterprise customers"
+      definition: "Enterprise = > $50K ARR"
+      data_source: "CRM"
+      target: "50 by 2026 Q4"
+      current: "23"
+      frequency: "Daily"
+      owner: "VP Sales"
+      
+    - metric_id: "METRIC-BIZ-003"
+      name: "Net Revenue Retention (NRR)"
+      description: "Revenue retention including expansions"
+      formula: "((ARR_end - ARR_new_customers) / ARR_start) × 100%"
+      target: "> 120%"
+      current: "115%"
+      frequency: "Monthly"
+      owner: "VP Customer Success"
+      
+    - metric_id: "METRIC-BIZ-004"
+      name: "Gross Margin"
+      description: "Revenue minus cost of goods sold"
+      formula: "((Revenue - COGS) / Revenue) × 100%"
+      target: "> 80%"
+      current: "76%"
+      frequency: "Monthly"
+      owner: "CFO"
+      
+  customer_satisfaction:
+    - metric_id: "METRIC-CUST-001"
+      name: "Net Promoter Score (NPS)"
+      description: "Customer likelihood to recommend"
+      formula: "% Promoters (9-10) - % Detractors (0-6)"
+      data_source: "Quarterly NPS survey"
+      target: "> 70"
+      current: "62"
+      frequency: "Quarterly"
+      owner: "VP Customer Success"
+      
+    - metric_id: "METRIC-CUST-002"
+      name: "Customer Satisfaction (CSAT)"
+      description: "Average satisfaction with product/service"
+      scale: "1-5 (5 = very satisfied)"
+      data_source: "Post-interaction surveys"
+      target: "> 4.5"
+      current: "4.3"
+      frequency: "Continuous (rolling 30-day avg)"
+      owner: "VP Customer Success"
+      
+  product_usage:
+    - metric_id: "METRIC-PROD-001"
+      name: "Daily Active Users (DAU)"
+      description: "Unique users active in product each day"
+      data_source: "Product analytics (Amplitude)"
+      target: "Growth rate +10% MoM"
+      current: "1,847 (avg last 7 days)"
+      frequency: "Daily"
+      owner: "VP Product"
+      
+    - metric_id: "METRIC-PROD-002"
+      name: "Feature Adoption Rate"
+      description: "% of customers using new features within 90 days"
+      formula: "(Customers using feature / Total customers) × 100%"
+      target: "> 40%"
+      current: "38%"
+      frequency: "Per feature launch"
+      owner: "VP Product"
+      
+  engineering_excellence:
+    - metric_id: "METRIC-ENG-001"
+      name: "Deployment Frequency"
+      description: "How often code is deployed to production"
+      data_source: "CI/CD system (GitHub Actions)"
+      target: "Multiple times per day (elite DORA)"
+      current: "1.3 per day (avg last 30 days)"
+      frequency: "Daily"
+      owner: "VP Engineering"
+      
+    - metric_id: "METRIC-ENG-002"
+      name: "Lead Time for Changes"
+      description: "Time from commit to production"
+      data_source: "CI/CD system"
+      target: "< 1 hour (elite DORA)"
+      current: "2.4 hours (median last 30 days)"
+      frequency: "Per deployment"
+      owner: "VP Engineering"
+      
+    - metric_id: "METRIC-ENG-003"
+      name: "Change Failure Rate"
+      description: "% of deployments causing failures"
+      formula: "(Failed deployments / Total deployments) × 100%"
+      data_source: "Incident management system"
+      target: "< 15% (elite DORA)"
+      current: "12%"
+      frequency: "Rolling 30-day"
+      owner: "VP Engineering"
+      
+    - metric_id: "METRIC-ENG-004"
+      name: "Mean Time To Recovery (MTTR)"
+      description: "Average time to recover from incidents"
+      data_source: "Incident management system"
+      target: "< 1 hour (elite DORA)"
+      current: "45 minutes (median last quarter)"
+      frequency: "Per incident"
+      owner: "VP Engineering"
+
+# ============================================================================
+# AI-Generated Insights | AI 生成洞察
+# ============================================================================
+ai_insights:
+  insight_types:
+    anomaly_detection:
+      description: "Detect unusual patterns in metrics"
+      algorithm: "Isolation Forest + statistical process control"
+      frequency: "Real-time"
+      example: "ARR growth slowed 40% vs expected trend → Alert sent"
+      
+    forecasting:
+      description: "Predict future metric values"
+      algorithm: "Prophet (time series) + ensemble methods"
+      horizon: "Next 13 weeks"
+      confidence_intervals: "80% and 95%"
+      example: "OBJ-03 forecasted to reach only 68% → Flag as at-risk"
+      
+    root_cause_analysis:
+      description: "Identify likely causes of metric changes"
+      approach: "Correlation analysis + causal inference + LLM reasoning"
+      example: "NPS drop correlated with recent UI change + spike in support tickets → Recommend rollback"
+      
+    recommendation_engine:
+      description: "Suggest actions to improve metrics"
+      approach: "Reinforcement learning + GPT-4 for natural language"
+      personalization: "Tailored to user role and context"
+      example: "To improve OBJ-04 (DevEx), prioritize: 1) Fix CI/CD flakiness, 2) Add IDE plugin"
+      
+  insight_delivery:
+    dashboard_widget:
+      title: "AI Insights"
+      position: "Top of executive view"
+      display: "Top 3-5 most important insights"
+      update_frequency: "Every 1 hour"
+      
+    slack_notifications:
+      channel: "#ai-insights"
+      frequency: "Daily digest + real-time critical alerts"
+      format: "Natural language summary with links to dashboard"
+      
+    email_digest:
+      recipients: "Executive team"
+      frequency: "Daily at 6:00 AM UTC"
+      content: "Overnight insights + forecast updates"
+      
+  explainability:
+    enabled: true
+    mechanism: "Each insight includes 'Why we think this' section"
+    details:
+      - "Data sources used"
+      - "Algorithm confidence score"
+      - "Key contributing factors"
+      - "Recommended actions"
+
+# ============================================================================
+# Alerts & Notifications | 告警與通知
+# ============================================================================
+alerts:
+  alert_rules:
+    critical:
+      - rule_id: "ALERT-CRIT-001"
+        condition: "Platform uptime < 99.9% in last 24 hours"
+        action: "Page on-call engineer + notify CEO + post in #critical-alerts"
+        
+      - rule_id: "ALERT-CRIT-002"
+        condition: "OKR score forecast drops below 0.70"
+        action: "Notify CEO + schedule emergency strategic review"
+        
+      - rule_id: "ALERT-CRIT-003"
+        condition: "ARR contraction month-over-month"
+        action: "Notify CEO + CFO + VP Sales + initiate investigation"
+        
+    high:
+      - rule_id: "ALERT-HIGH-001"
+        condition: "Any OKR at risk for 2 consecutive weeks"
+        action: "Notify OKR owner + skip-level manager + post in #okr-tracking"
+        
+      - rule_id: "ALERT-HIGH-002"
+        condition: "NPS drops > 10 points"
+        action: "Notify VP Customer Success + CEO + initiate customer listening tour"
+        
+    medium:
+      - rule_id: "ALERT-MED-001"
+        condition: "DORA metric degrades below target for 1 week"
+        action: "Notify VP Engineering + Engineering leads"
+        
+  notification_channels:
+    pagerduty:
+      enabled: true
+      for_severity: ["Critical", "High"]
+      escalation_policy: "Follow on-call rotation"
+      
+    slack:
+      channels:
+        - "#critical-alerts" (Critical only)
+        - "#okr-tracking" (OKR-related)
+        - "#eng-alerts" (Engineering metrics)
+        - "#customer-health" (Customer metrics)
+      
+    email:
+      recipients_by_severity:
+        critical: "CEO + CTO + affected team"
+        high: "Metric owner + skip-level"
+        medium: "Metric owner"
+        
+  alert_fatigue_prevention:
+    smart_batching: "Group similar alerts within 1-hour window"
+    severity_throttling: "Low/medium alerts max 1 per metric per day"
+    snooze_capability: "Users can snooze non-critical alerts for 24-72 hours"
+    ai_triage: "AI pre-filters low-signal alerts before notifying humans"
+
+# ============================================================================
+# Data Pipeline | 資料管道
+# ============================================================================
+data_pipeline:
+  data_sources:
+    - source_id: "salesforce"
+      type: "CRM"
+      metrics_provided: ["ARR", "customer count", "pipeline"]
+      sync_frequency: "Every 15 minutes"
+      api: "Salesforce REST API"
+      
+    - source_id: "stripe"
+      type: "Billing"
+      metrics_provided: ["MRR", "churn", "COGS"]
+      sync_frequency: "Real-time (webhooks)"
+      api: "Stripe API v2"
+      
+    - source_id: "amplitude"
+      type: "Product analytics"
+      metrics_provided: ["DAU", "feature adoption", "user engagement"]
+      sync_frequency: "Real-time (streaming)"
+      api: "Amplitude Export API"
+      
+    - source_id: "datadog"
+      type: "Monitoring"
+      metrics_provided: ["Uptime", "latency", "error rates"]
+      sync_frequency: "Real-time (1-second resolution)"
+      api: "Datadog Metrics API"
+      
+    - source_id: "github"
+      type: "Version control + CI/CD"
+      metrics_provided: ["Deployment frequency", "lead time", "change failure rate"]
+      sync_frequency: "Real-time (webhooks)"
+      api: "GitHub Actions API + DORA API"
+      
+    - source_id: "okr_system"
+      type: "OKR tracking (internal)"
+      metrics_provided: ["OKR scores", "KR progress", "forecasts"]
+      sync_frequency: "Real-time"
+      api: "Internal GraphQL API"
+      
+    - source_id: "governance_db"
+      type: "Governance metadata (internal)"
+      metrics_provided: ["Dimension maturity", "policy compliance", "alignment scores"]
+      sync_frequency: "Real-time"
+      api: "Internal REST API"
+      
+  etl_process:
+    extract:
+      method: "Mix of API polling, webhooks, and streaming"
+      error_handling: "Retry with exponential backoff, dead-letter queue for failures"
+      
+    transform:
+      engine: "Apache Kafka + Kafka Streams"
+      processing:
+        - "Data normalization"
+        - "Metric calculation"
+        - "Aggregation (hourly, daily, weekly)"
+        - "Anomaly detection"
+      
+    load:
+      primary_db: "TimescaleDB (time-series optimized PostgreSQL)"
+      caching: "Redis (for dashboard queries)"
+      archival: "S3 (raw data, 7-year retention)"
+      
+  data_quality:
+    validation_rules:
+      - "Completeness: All expected data points present"
+      - "Freshness: Data not older than expected sync frequency + 5 min"
+      - "Accuracy: Spot checks against source systems"
+      - "Consistency: Cross-metric consistency checks"
+    monitoring: "Data quality dashboard + alerts for failures"
+    sla: "99.9% data pipeline uptime"
+
+# ============================================================================
+# Access Control | 存取控制
+# ============================================================================
+access_control:
+  roles:
+    executive:
+      users: ["CEO", "CTO", "CFO", "VP levels"]
+      access: "All dashboards and metrics"
+      
+    manager:
+      users: ["Team leads", "Engineering managers", "Product managers"]
+      access: "Executive view (read-only) + Team view (full)"
+      
+    employee:
+      users: "All employees"
+      access: "OKR view + Team view (own team only)"
+      
+    ai_agent:
+      users: "Autonomous AI agents"
+      access: "AI agent view + API access to relevant metrics"
+      authentication: "Service account + API key"
+      
+    external:
+      users: ["Board members", "Investors"]
+      access: "Executive view (curated subset)"
+      authentication: "Separate portal + SSO"
+      
+  data_privacy:
+    pii_handling: "No PII in metrics dashboard"
+    anonymization: "Team metrics aggregated (min 5 people)"
+    audit_logging: "All access logged for compliance"
+
+# ============================================================================
+# Implementation Roadmap | 實施路線圖
+# ============================================================================
+implementation:
+  phase_1_mvp:
+    timeline: "2025 Q4 (Current)"
+    scope:
+      - "Executive view with core vision metrics"
+      - "OKR view with manual updates"
+      - "Basic data pipeline (Salesforce, GitHub, OKR system)"
+      - "Simple alerts (email + Slack)"
+    status: "In progress (80% complete)"
+    
+  phase_2_automation:
+    timeline: "2026 Q1"
+    scope:
+      - "AI-generated insights (forecasting, anomalies)"
+      - "Expanded data sources (Amplitude, Datadog, Stripe)"
+      - "Governance view"
+      - "Team view with DORA metrics"
+    dependencies:
+      - "Data pipeline infrastructure complete"
+      - "AI/ML platform operational"
+      
+  phase_3_intelligence:
+    timeline: "2026 Q2"
+    scope:
+      - "Advanced AI insights (root cause, recommendations)"
+      - "Predictive alerting (issues before they happen)"
+      - "Natural language query interface"
+      - "Mobile app"
+    dependencies:
+      - "Phase 2 complete + 3 months of data"
+      
+  phase_4_ecosystem:
+    timeline: "2026 Q3+"
+    scope:
+      - "API for third-party integrations"
+      - "Embedded analytics in other tools"
+      - "Public metrics page (for customers)"
+      - "White-label dashboards for enterprise customers"
+
+# ============================================================================
+# Maintenance & Evolution | 維護與演化
+# ============================================================================
+maintenance:
+  ongoing_activities:
+    - activity: "Metric catalog review"
+      frequency: "Quarterly"
+      owner: "VP Architecture + VP Product"
+      purpose: "Add/remove/refine metrics based on strategic needs"
+      
+    - activity: "Data quality audit"
+      frequency: "Monthly"
+      owner: "Data Engineering team"
+      purpose: "Ensure data accuracy and pipeline health"
+      
+    - activity: "Dashboard UX testing"
+      frequency: "Bi-annual"
+      owner: "Product team"
+      purpose: "Optimize usability and information density"
+      
+  evolution_triggers:
+    - trigger: "New strategic objective added"
+      action: "Define supporting metrics within 1 week"
+      
+    - trigger: "User feedback score < 7/10 for dashboard"
+      action: "Conduct UX audit and implement improvements within 1 quarter"
+      
+    - trigger: "New data source available"
+      action: "Evaluate and integrate if valuable (within 2 weeks)"
+
+# ============================================================================
+# Governance & Compliance | 治理與合規
+# ============================================================================
+governance:
+  ownership:
+    overall_dashboard: "VP Architecture + VP Product (joint)"
+    data_pipeline: "VP Engineering (Data Engineering team)"
+    ai_insights_engine: "VP Architecture (AI/ML team)"
+    metric_definitions: "Respective metric owners"
+    
+  change_management:
+    metric_definition_change:
+      approval: "Metric owner + VP Architecture"
+      notification: "All dashboard users via email + Slack"
+      effective_date: "Immediate (with historical recalculation if possible)"
+      
+    dashboard_layout_change:
+      approval: "VP Product"
+      testing: "A/B test with subset of users"
+      rollout: "Phased (10% → 50% → 100% over 2 weeks)"
+      
+  compliance:
+    data_retention: "7 years (raw data in S3)"
+    audit_logging: "All metric calculations and data access logged"
+    soc2_controls:
+      - "Access control enforcement"
+      - "Change management process"
+      - "Data encryption at rest and in transit"
+      - "Regular security audits"
+
+# ============================================================================
+# Appendix | 附錄
+# ============================================================================
+appendix:
+  related_documents:
+    - "vision-statement.yaml"
+    - "strategic-objectives.yaml"
+    - "governance-charter.yaml"
+    - "alignment-framework.yaml"
+    - "risk-register.yaml"
+    - "implementation-roadmap.yaml"
+    
+  metric_formulas_reference:
+    okr_score: "Calculated as weighted average of KR progress, where each KR contributes 0.25 to the overall objective score (assuming 4 KRs per objective)"
+    forecast_algorithm: "Prophet model trained on historical metric data + external signals (e.g., seasonality, events). Confidence intervals at 80% and 95%."
+    alignment_score: "Cosine similarity between team's actual work (from Jira) and strategic initiatives, scored 0-100%"
+    
+  revision_history:
+    - version: "1.0.0"
+      date: "2025-12-10"
+      author: "VP Architecture (AI-assisted)"
+      changes: "Initial creation via autonomous AI evolution"

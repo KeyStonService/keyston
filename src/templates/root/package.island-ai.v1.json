@@ -1,0 +1,51 @@
+{
+  "name": "machinenativeops",
+  "version": "1.0.0",
+  "description": "SynergyMesh - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration",
+  "private": true,
+  "workspaces": [
+    "mcp-servers",
+    "core/contract_service/contracts-L1/contracts",
+    "core/advisory-database",
+    "frontend/ui"
+  ],
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "install:all": "npm install --workspaces",
+    "docs:lint": "markdownlint \"**/*.md\"",
+    "clean": "npm run clean --workspaces --if-present && rm -rf node_modules"
+  },
+  "keywords": [
+    "enterprise-integration",
+    "cloud-native",
+    "ai-automation",
+    "data-orchestration",
+    "slsa",
+    "provenance",
+    "security",
+    "sigstore"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SynergyMesh/SynergyMesh.git"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.12.0",
+    "@typescript-eslint/parser": "^8.12.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "markdownlint-cli": "^0.46.0",
+    "prettier": "^3.7.2"
+  }
+}

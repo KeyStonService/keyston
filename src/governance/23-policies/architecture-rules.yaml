@@ -1,0 +1,487 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Architecture Policy Rules
+#                    架構策略規則
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Define executable architecture policies and constraints
+# 用途: 定義可執行的架構策略和約束
+#
+# Version: 1.0.0
+# Owner: Architecture Team
+# Last Updated: 2025-12-07
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "1.0.0"
+id: "machinenativeops.architecture-rules"
+description: "Executable architecture policies for automated validation"
+
+# ============================================================================
+# Language Boundary Policies | 語言邊界策略
+# ============================================================================
+
+language_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Layer-Language Mapping
+  # ─────────────────────────────────────────────────────────────────────────
+  layer_language_constraints:
+    
+    infrastructure:
+      allowed:
+        - yaml
+        - json
+        - shell
+      prohibited:
+        - python
+        - typescript
+        - go
+        - java
+      rationale: "Infrastructure definitions should be declarative"
+    
+    governance:
+      allowed:
+        - yaml
+        - json
+        - rego
+        - python  # For validators only
+      prohibited:
+        - typescript
+        - go
+        - java
+      rationale: "Governance should be declarative and policy-oriented"
+    
+    core:
+      allowed:
+        - python
+        - typescript
+        - go
+      preferred:
+        - python  # For AI/ML logic
+        - typescript  # For type-safe business logic
+      prohibited:
+        - php
+        - perl
+        - ruby
+      rationale: "Core platform uses modern, type-safe languages"
+    
+    services:
+      allowed:
+        - typescript
+        - python
+        - go
+      preferred:
+        - typescript  # Primary service language
+      prohibited:
+        - php
+        - perl
+        - ruby
+      rationale: "Services prioritize TypeScript for consistency"
+    
+    apps:
+      allowed:
+        - typescript
+        - python
+        - go
+      preferred:
+        - typescript  # For web applications
+      prohibited:
+        - php
+        - perl
+      rationale: "Applications use modern web technologies"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Global Language Bans
+  # ─────────────────────────────────────────────────────────────────────────
+  globally_prohibited:
+    languages:
+      - php
+      - perl
+      - ruby
+    reason: "Deprecated languages - consolidate to Python/TypeScript/Go"
+    migration_timeline:
+      start_date: "2025-01-01"
+      target_completion: "2026-12-31"
+      milestone_1: "2025-06-30 - No new code in deprecated languages"
+      milestone_2: "2026-06-30 - 50% reduction in existing code"
+      milestone_3: "2026-12-31 - Complete migration"
+    exceptions:
+      - path: "legacy/*"
+        reason: "Legacy code scheduled for migration"
+        removal_date: "2026-12-31"
+      - path: "experiments/*"
+        reason: "Experimental sandbox"
+        approval_required: "@architecture-team"
+      - condition: "Emergency security patch"
+        reason: "Critical security fix for production system"
+        approval_required: "@security-team + @architecture-team"
+        documentation_required: true
+
+# ============================================================================
+# Security Boundary Policies | 安全邊界策略
+# ============================================================================
+
+security_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Network Access
+  # ─────────────────────────────────────────────────────────────────────────
+  network_access:
+    
+    allowed_layers:
+      - services
+      - apps
+      - automation
+    
+    restricted_layers:
+      - core
+      - runtime
+    
+    prohibited_layers:
+      - governance
+      - infrastructure
+    
+    rules:
+      - layer: "core"
+        constraint: "Can only access internal services, no external network"
+        enforcement: "network-policy"
+      
+      - layer: "governance"
+        constraint: "No network access permitted"
+        enforcement: "compile-time"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Secret Handling
+  # ─────────────────────────────────────────────────────────────────────────
+  secret_management:
+    
+    allowed_secret_sources:
+      - "environment variables"
+      - "kubernetes secrets"
+      - "vault integration"
+    
+    prohibited:
+      - location: "source code"
+        enforcement: "pre-commit-hook"
+      - location: "configuration files"
+        exceptions: ["*.env.example"]
+        enforcement: "CI validation"
+      - location: "logs"
+        enforcement: "log-scrubbing"
+    
+    rules:
+      - constraint: "Secrets must use dedicated secret manager"
+        layers: ["core", "services", "apps"]
+        enforcement: "code-review"
+
+# ============================================================================
+# Data Flow Constraints | 資料流約束
+# ============================================================================
+
+data_flow_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Cross-Layer Data Restrictions
+  # ─────────────────────────────────────────────────────────────────────────
+  cross_layer_data:
+    
+    - source_layer: "apps"
+      target_layer: "core"
+      constraint: "Must go through services layer"
+      exceptions: []
+      enforcement: "static-analysis"
+    
+    - source_layer: "services"
+      target_layer: "infrastructure"
+      constraint: "Must use abstraction layer"
+      exceptions: []
+      enforcement: "architecture-review"
+    
+    - data_type: "PII"
+      constraint: "Cannot cross domain boundaries without encryption"
+      enforcement: "data-flow-analysis"
+    
+    - data_type: "credentials"
+      constraint: "Cannot be logged or stored in plain text"
+      enforcement: "runtime-validation"
+
+# ============================================================================
+# Dependency Anti-Patterns | 依賴反模式
+# ============================================================================
+
+dependency_anti_patterns:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Prohibited Patterns
+  # ─────────────────────────────────────────────────────────────────────────
+  prohibited_patterns:
+    
+    - name: "Upward Dependencies"
+      description: "Lower layers cannot depend on higher layers"
+      pattern: |
+        core/* depends on services/*
+        core/* depends on apps/*
+        runtime/* depends on core/*
+      severity: "critical"
+      enforcement: "CI-blocking"
+    
+    - name: "Circular Module Dependencies"
+      description: "No circular dependencies between modules"
+      pattern: |
+        module A -> module B -> module A
+      severity: "critical"
+      enforcement: "CI-blocking"
+    
+    - name: "Direct Database Access from Apps"
+      description: "Apps must use service layer for data access"
+      pattern: |
+        apps/* imports database driver
+      severity: "high"
+      enforcement: "code-review"
+      exceptions:
+        - "apps/*/migrations/*"
+    
+    - name: "God Object"
+      description: "No single module should have > 50 dependencies"
+      pattern: |
+        module with > 50 imports
+      severity: "high"
+      enforcement: "architecture-review"
+    
+    - name: "Cross-Domain Direct Calls"
+      description: "Cross-domain calls must go through defined interfaces"
+      pattern: |
+        domain A module directly imports domain B module
+      severity: "medium"
+      enforcement: "code-review"
+      exceptions:
+        - "cross_domain_interfaces defined in layers-domains.yaml"
+
+# ============================================================================
+# Module Structure Policies | 模組結構策略
+# ============================================================================
+
+module_structure:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Required Files
+  # ─────────────────────────────────────────────────────────────────────────
+  required_files:
+    
+    - pattern: "core/*"
+      required:
+        - "README.md"
+        - "pyproject.toml OR package.json OR go.mod"
+      enforcement: "CI-warning"
+    
+    - pattern: "services/*"
+      required:
+        - "README.md"
+        - "package.json OR go.mod"
+        - "Dockerfile"
+      enforcement: "CI-warning"
+    
+    - pattern: "apps/*"
+      required:
+        - "README.md"
+        - "package.json"
+      enforcement: "CI-warning"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Prohibited Structures
+  # ─────────────────────────────────────────────────────────────────────────
+  prohibited_structures:
+    
+    - pattern: "Deeply nested directories"
+      constraint: "Maximum depth of 5 levels"
+      enforcement: "CI-warning"
+    
+    - pattern: "Mixed language in single module"
+      constraint: "One primary language per module directory"
+      exceptions:
+        - "test files"
+        - "build scripts"
+      enforcement: "architecture-review"
+
+# ============================================================================
+# Interface & API Policies | 接口與 API 策略
+# ============================================================================
+
+api_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # API Stability
+  # ─────────────────────────────────────────────────────────────────────────
+  api_stability:
+    
+    - lifecycle: "active"
+      constraint: "Breaking changes prohibited"
+      process: "Version bump and deprecation notice"
+      enforcement: "API-compatibility-check"
+    
+    - lifecycle: "experimental"
+      constraint: "Breaking changes allowed with notice"
+      process: "Document in CHANGELOG"
+      enforcement: "documentation-review"
+    
+    - lifecycle: "deprecated"
+      constraint: "No new features, security fixes only"
+      process: "Migration guide required"
+      enforcement: "code-review"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # API Documentation
+  # ─────────────────────────────────────────────────────────────────────────
+  api_documentation:
+    
+    required_for:
+      - "Public APIs"
+      - "Service interfaces"
+      - "Cross-domain interfaces"
+    
+    format:
+      - "OpenAPI 3.0 OR"
+      - "Behavior contract YAML"
+    
+    enforcement: "CI-warning"
+
+# ============================================================================
+# Testing Policies | 測試策略
+# ============================================================================
+
+testing_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Coverage Requirements
+  # ─────────────────────────────────────────────────────────────────────────
+  coverage_requirements:
+    
+    - layer: "core"
+      min_coverage: 80
+      critical_paths_coverage: 95
+      enforcement: "CI-blocking"
+    
+    - layer: "services"
+      min_coverage: 75
+      critical_paths_coverage: 90
+      enforcement: "CI-blocking"
+    
+    - layer: "apps"
+      min_coverage: 60
+      critical_paths_coverage: 80
+      enforcement: "CI-warning"
+    
+    - layer: "automation"
+      min_coverage: 70
+      critical_paths_coverage: 85
+      enforcement: "CI-warning"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Test Organization
+  # ─────────────────────────────────────────────────────────────────────────
+  test_organization:
+    
+    unit_tests:
+      location: "Same directory as source OR tests/unit/"
+      naming: "*_test.* OR *.test.*"
+      enforcement: "convention"
+    
+    integration_tests:
+      location: "tests/integration/"
+      naming: "*_integration_test.*"
+      enforcement: "convention"
+    
+    e2e_tests:
+      location: "tests/e2e/"
+      naming: "*_e2e_test.*"
+      enforcement: "convention"
+
+# ============================================================================
+# Performance Policies | 性能策略
+# ============================================================================
+
+performance_policies:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Response Time SLAs
+  # ─────────────────────────────────────────────────────────────────────────
+  response_time_slas:
+    
+    - layer: "core"
+      constraint: "p99 < 500ms for critical paths"
+      enforcement: "performance-tests"
+    
+    - layer: "services"
+      constraint: "p99 < 1s for API endpoints"
+      enforcement: "performance-tests"
+    
+    - layer: "apps"
+      constraint: "Time to interactive < 3s"
+      enforcement: "lighthouse-ci"
+
+# ============================================================================
+# Validation & Enforcement | 驗證與執行
+# ============================================================================
+
+validation:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # CI Integration
+  # ─────────────────────────────────────────────────────────────────────────
+  ci_checks:
+    
+    - name: "Language Policy Validation"
+      tool: "custom-script"
+      script: "tools/governance/validate-language-policy.py"
+      when: "on_commit"
+      blocking: true
+    
+    - name: "Dependency Rule Check"
+      tool: "dependency-cruiser"
+      config: ".dependency-cruiser.json"
+      when: "on_commit"
+      blocking: true
+    
+    - name: "Architecture Layer Validation"
+      tool: "opa"
+      policy: "governance/23-policies/architecture/*.rego"
+      when: "on_commit"
+      blocking: true
+    
+    - name: "API Compatibility Check"
+      tool: "openapi-diff"
+      when: "on_pr"
+      blocking: true
+    
+    - name: "Security Boundary Check"
+      tool: "custom-script"
+      script: "tools/governance/validate-security-boundaries.py"
+      when: "on_commit"
+      blocking: true
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Manual Reviews
+  # ─────────────────────────────────────────────────────────────────────────
+  manual_reviews:
+    
+    - trigger: "New cross-domain interface"
+      reviewers: ["@architecture-team"]
+      required_approvals: 2
+    
+    - trigger: "Breaking API change"
+      reviewers: ["@architecture-team", "module-owner"]
+      required_approvals: 2
+    
+    - trigger: "Security boundary change"
+      reviewers: ["@security-team", "@architecture-team"]
+      required_approvals: 2
+
+# ============================================================================
+# References | 參考
+# ============================================================================
+
+references:
+  architecture_governance_matrix: "governance/29-docs/ARCHITECTURE_GOVERNANCE_MATRIX.md"
+  layers_domains: "governance/01-architecture/config/layers-domains.yaml"
+  ownership_map: "governance/34-config/ownership-map.yaml"
+  behavior_contracts: "governance/37-behavior-contracts/"
+  module_mapping: "config/system-module-map.yaml"

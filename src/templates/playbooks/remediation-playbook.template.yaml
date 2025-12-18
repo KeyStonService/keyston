@@ -1,0 +1,311 @@
+# 自动修复 Playbook 模板
+# 用于命名违规的自动检测和修复
+
+apiVersion: governance.machinenativeops.io/v1alpha1
+kind: RemediationPlaybook
+metadata:
+  name: naming-violation-auto-remediation
+  description: "标准命名违规自动修复流程"
+  labels:
+    category: remediation
+    module: naming-governance
+    automation: enabled
+
+spec:
+  # 触发条件
+  triggers:
+    - type: alert
+      source: Prometheus
+      condition:
+        alertName: NamingPolicyViolation
+        severity: critical
+      description: "当检测到 critical 级别的命名违规时自动触发"
+
+    - type: alert
+      source: Prometheus
+      condition:
+        alertName: ProductionNamingViolation
+      description: "生产环境命名违规立即触发"
+
+    - type: schedule
+      schedule: "0 2 * * *"  # 每天凌晨 2:00
+      description: "定期扫描和修复命名违规"
+
+    - type: manual
+      description: "支持手动触发修复流程"
+
+  # 执行步骤
+  steps:
+    # 步骤 1: 检查命名违规资源
+    - name: "检查命名违规资源"
+      description: "扫描并识别所有违反命名规范的资源"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/check_naming_violation.py"
+          args:
+            - "--severity"
+            - "{{ .trigger.severity | default \"all\" }}"
+            - "--environment"
+            - "{{ .trigger.environment | default \"all\" }}"
+            - "--output"
+            - "/tmp/violations.json"
+          env:
+            KUBECONFIG: "/path/to/kubeconfig"
+            LOG_LEVEL: "info"
+      timeout: "5m"
+      retry:
+        enabled: true
+        maxAttempts: 3
+        backoff: exponential
+      continueOnError: false
+
+    # 步骤 2: 分析违规并生成修复建议
+    - name: "生成修复建议"
+      description: "分析违规资源并生成符合规范的命名建议"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/generate_suggestions.py"
+          args:
+            - "--input"
+            - "/tmp/violations.json"
+            - "--output"
+            - "/tmp/suggestions.json"
+            - "--policy"
+            - "policies/naming/"
+      timeout: "3m"
+      continueOnError: false
+
+    # 步骤 3: 验证修复建议
+    - name: "验证修复建议"
+      description: "确保建议的命名符合规范且不会产生冲突"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/validate_suggestions.py"
+          args:
+            - "--suggestions"
+            - "/tmp/suggestions.json"
+            - "--check-conflicts"
+            - "true"
+      timeout: "2m"
+      continueOnError: false
+
+    # 步骤 4: 备份当前状态
+    - name: "备份当前状态"
+      description: "备份资源当前状态以支持回滚"
+      action:
+        type: script
+        script:
+          language: bash
+          path: "tools/governance/bash/backup_resources.sh"
+          args:
+            - "/tmp/violations.json"
+            - "/tmp/backup/"
+      timeout: "5m"
+      continueOnError: false
+
+    # 步骤 5: 执行自动修正
+    - name: "自动修正命名与标签"
+      description: "根据建议自动重命名资源并更新标签"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/rename_and_label.py"
+          args:
+            - "--suggestions"
+            - "/tmp/suggestions.json"
+            - "--dry-run"
+            - "false"
+            - "--update-labels"
+            - "true"
+            - "--backup-dir"
+            - "/tmp/backup/"
+          env:
+            APPLY_CHANGES: "true"
+      timeout: "10m"
+      retry:
+        enabled: true
+        maxAttempts: 2
+        backoff: linear
+      continueOnError: false
+
+    # 步骤 6: 验证修复结果
+    - name: "验证修复结果"
+      description: "确认资源已正确重命名且符合规范"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/verify_compliance.py"
+          args:
+            - "--resources"
+            - "/tmp/violations.json"
+            - "--strict"
+            - "true"
+      timeout: "3m"
+      continueOnError: false
+
+    # 步骤 7: 更新监控指标
+    - name: "更新监控指标"
+      description: "更新 Prometheus 指标以反映修复结果"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/update_metrics.py"
+          args:
+            - "--type"
+            - "remediation"
+            - "--status"
+            - "success"
+      timeout: "1m"
+      continueOnError: true
+
+    # 步骤 8: 生成修复报告
+    - name: "报告修复结果"
+      description: "生成详细的修复报告并发送通知"
+      action:
+        type: script
+        script:
+          language: python
+          path: "tools/governance/python/report_patch_result.py"
+          args:
+            - "--violations"
+            - "/tmp/violations.json"
+            - "--suggestions"
+            - "/tmp/suggestions.json"
+            - "--output"
+            - "/tmp/report.html"
+            - "--notify"
+            - "true"
+      timeout: "2m"
+      continueOnError: true
+
+  # 验证步骤
+  verification:
+    enabled: true
+    checks:
+      - name: "命名合规检查"
+        type: command
+        command: "python tools/governance/python/verify_compliance.py --resources /tmp/violations.json"
+        condition: "exit code == 0"
+        timeout: "2m"
+
+      - name: "资源健康检查"
+        type: command
+        command: "kubectl get pods --all-namespaces -o json | jq '.items[].status.phase' | grep -v Running | wc -l"
+        condition: "stdout == 0"
+        timeout: "1m"
+
+      - name: "合规率检查"
+        type: metric
+        metric: "naming_compliance_rate"
+        condition: "> 95"
+        timeout: "1m"
+
+  # 回滚配置
+  rollback:
+    enabled: true
+    automatic: true
+    trigger:
+      - "验证失败"
+      - "资源健康检查失败"
+      - "错误率 > 5%"
+    steps:
+      - name: "还原资源命名"
+        action:
+          type: script
+          script:
+            language: bash
+            path: "tools/governance/bash/restore_names.sh"
+            args:
+              - "/tmp/backup/"
+        timeout: "10m"
+
+      - name: "验证回滚成功"
+        action:
+          type: script
+          script:
+            language: bash
+            path: "tools/governance/bash/verify_rollback.sh"
+            args:
+              - "/tmp/backup/"
+        timeout: "5m"
+
+      - name: "更新失败指标"
+        action:
+          type: script
+          script:
+            language: python
+            path: "tools/governance/python/update_metrics.py"
+            args:
+              - "--type"
+              - "remediation"
+              - "--status"
+              - "failed_rollback"
+
+  # 通知配置
+  notifications:
+    onStart:
+      - channel: "#governance-alerts"
+        message: |
+          🔧 **自动修复开始**
+          触发器: {{ .trigger.type }}
+          违规数量: {{ .violations_count }}
+          环境: {{ .environment }}
+
+    onSuccess:
+      - channel: "#governance-alerts"
+        message: |
+          ✅ **自动修复成功**
+          修复数量: {{ .fixed_count }}
+          耗时: {{ .duration }}
+          报告: {{ .report_url }}
+
+    onFailure:
+      - channel: "#governance-alerts"
+        message: |
+          ❌ **自动修复失败**
+          错误: {{ .error }}
+          需要人工介入
+          Runbook: https://wiki.example.com/runbooks/remediation-failure
+
+    onRollback:
+      - channel: "#governance-alerts"
+        message: |
+          ⏪ **执行回滚**
+          原因: {{ .rollback_reason }}
+          状态: {{ .rollback_status }}
+
+  # 审计和日志
+  audit:
+    enabled: true
+    logLevel: "info"
+    storage:
+      type: "elasticsearch"
+      index: "governance-remediation-logs"
+      retention: "90d"
+    fields:
+      - "timestamp"
+      - "playbook_name"
+      - "trigger_type"
+      - "violations_count"
+      - "fixed_count"
+      - "failed_count"
+      - "duration"
+      - "status"
+      - "error_message"
+
+  # 性能和限制
+  performance:
+    maxConcurrent: 3  # 最多同时运行 3 个修复任务
+    throttle:
+      enabled: true
+      maxPerHour: 10  # 每小时最多触发 10 次
+    timeout: "30m"  # 整个 playbook 最大执行时间

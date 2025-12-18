@@ -184,7 +184,7 @@ core/
 │   ├── __init__.py
 │   ├── automation_pipeline.py
 │   ├── phase_orchestrator.py
-│   ├── synergymesh_core.py
+│   ├── machinenativeops_core.py
 │   └── system_bootstrap.py
 ├── mcp_servers_enhanced/
 │   ├── __init__.py
@@ -243,7 +243,7 @@ core/
 │   │   ├── __init__.py
 │   │   ├── automation_pipeline.py
 │   │   ├── phase_orchestrator.py
-│   │   ├── synergymesh_core.py
+│   │   ├── machinenativeops_core.py
 │   │   └── system_bootstrap.py
 │   ├── mcp_servers_enhanced/
 │   │   ├── __init__.py

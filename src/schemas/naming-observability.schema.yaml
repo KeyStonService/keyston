@@ -1,0 +1,305 @@
+# 命名可观测性指标结构 Schema
+# 定义 Prometheus 指标、Grafana 仪表板、告警规则等可观测性配置
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Naming Observability Configuration
+description: 定义命名治理的可观测性指标、告警和仪表板配置
+
+type: object
+required:
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  apiVersion:
+    type: string
+    pattern: "^governance\\.machinenativeops\\.io/v1(alpha|beta)?[0-9]*$"
+    example: "governance.machinenativeops.io/v1alpha1"
+
+  kind:
+    type: string
+    enum: ["NamingObservability"]
+
+  metadata:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+        pattern: "^[a-z0-9-]+$"
+      namespace:
+        type: string
+      labels:
+        type: object
+        additionalProperties:
+          type: string
+      annotations:
+        type: object
+        additionalProperties:
+          type: string
+
+  spec:
+    type: object
+    required: [metrics, alerts]
+    properties:
+      # Prometheus 指标定义
+      metrics:
+        type: object
+        required:
+          - naming_compliance_good
+          - naming_compliance_bad
+        properties:
+          naming_compliance_good:
+            type: object
+            description: "符合命名规范的资源数量"
+            required: [name, type, help]
+            properties:
+              name:
+                type: string
+                example: "naming_compliance_good"
+              type:
+                type: string
+                enum: ["counter", "gauge", "histogram", "summary"]
+              help:
+                type: string
+              labels:
+                type: array
+                items:
+                  type: string
+                example: ["environment", "resource_type", "namespace"]
+
+          naming_compliance_bad:
+            type: object
+            description: "违反命名规范的资源数量"
+            required: [name, type, help]
+            properties:
+              name:
+                type: string
+                example: "naming_compliance_bad"
+              type:
+                type: string
+                enum: ["counter", "gauge", "histogram", "summary"]
+              help:
+                type: string
+              labels:
+                type: array
+                items:
+                  type: string
+
+          naming_compliance_rate:
+            type: object
+            description: "命名合规率 (NCR)"
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              help:
+                type: string
+              calculation:
+                type: string
+                example: "naming_compliance_good / (naming_compliance_good + naming_compliance_bad)"
+
+          validation_failure_count:
+            type: object
+            description: "验证失败数量 (VFC)"
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+
+          migration_failure_rate:
+            type: object
+            description: "迁移失败率 (MFR)"
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+
+          auto_remediation_success_rate:
+            type: object
+            description: "自动修复成功率 (ARS)"
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+
+      # Prometheus 告警规则
+      alerts:
+        type: array
+        items:
+          type: object
+          required: [name, expr, severity]
+          properties:
+            name:
+              type: string
+              description: "告警名称"
+              example: "NamingPolicyViolation"
+
+            expr:
+              type: string
+              description: "PromQL 表达式"
+              example: "count(naming_compliance_violation_total{severity=\"critical\"}) by (app, env) > 0"
+
+            for:
+              type: string
+              description: "告警持续时间"
+              pattern: "^[0-9]+(s|m|h|d)$"
+              example: "5m"
+
+            severity:
+              type: string
+              enum: ["critical", "warning", "info"]
+              description: "告警严重性级别"
+
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+              description: "告警标签"
+
+            annotations:
+              type: object
+              properties:
+                summary:
+                  type: string
+                description:
+                  type: string
+                runbook_url:
+                  type: string
+                  format: uri
+
+      # Grafana 仪表板配置
+      dashboards:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            uid:
+              type: string
+            tags:
+              type: array
+              items:
+                type: string
+            panels:
+              type: array
+              items:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  type:
+                    type: string
+                    enum: ["graph", "stat", "table", "heatmap", "gauge"]
+                  targets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        expr:
+                          type: string
+                        legendFormat:
+                          type: string
+
+      # SLA 指标定义
+      sla:
+        type: object
+        properties:
+          naming_compliance_rate:
+            type: object
+            properties:
+              target:
+                type: number
+                minimum: 0
+                maximum: 100
+                description: "目标合规率 (%)"
+                example: 99.9
+              current:
+                type: number
+
+          validation_failure_threshold:
+            type: object
+            properties:
+              max_count:
+                type: integer
+                description: "单位时间内最大验证失败数"
+
+          migration_failure_rate:
+            type: object
+            properties:
+              max_rate:
+                type: number
+                description: "最大迁移失败率 (%)"
+
+          auto_remediation_success_rate:
+            type: object
+            properties:
+              min_rate:
+                type: number
+                description: "最小自动修复成功率 (%)"
+
+      # 监控数据保留策略
+      retention:
+        type: object
+        properties:
+          metrics:
+            type: string
+            pattern: "^[0-9]+(d|w|m|y)$"
+            example: "30d"
+          logs:
+            type: string
+          traces:
+            type: string
+
+      # 通知配置
+      notifications:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            channel:
+              type: string
+              enum: ["slack", "email", "pagerduty", "webhook"]
+            config:
+              type: object
+              additionalProperties: true
+
+examples:
+  - apiVersion: governance.machinenativeops.io/v1alpha1
+    kind: NamingObservability
+    metadata:
+      name: naming-compliance-monitoring
+    spec:
+      metrics:
+        naming_compliance_good:
+          name: naming_compliance_good
+          type: gauge
+          help: "Number of resources compliant with naming standards"
+          labels: ["environment", "resource_type", "namespace"]
+        naming_compliance_bad:
+          name: naming_compliance_bad
+          type: gauge
+          help: "Number of resources violating naming standards"
+          labels: ["environment", "resource_type", "namespace"]
+      alerts:
+        - name: NamingPolicyViolation
+          expr: 'count(naming_compliance_violation_total{severity="critical"}) by (app, env) > 0'
+          for: 5m
+          severity: critical
+          annotations:
+            summary: "命名规范违反 (critical)"
+            description: "在环境 {{ $labels.env }}, 应用 {{ $labels.app }} 检测到命名规范违反"
+      sla:
+        naming_compliance_rate:
+          target: 99.9
+        validation_failure_threshold:
+          max_count: 10

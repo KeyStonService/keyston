@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: machinenativeops
+
+commonLabels:
+  app: contracts-l1
+  tier: core
+  managed-by: kustomize
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - deployment-production.yaml
+  - service-production.yaml
+  - ingress.yaml
+  - servicemonitor.yaml
+  - prometheusrule.yaml
+  - ../rbac.yaml
+  - ../hpa.yaml
+  - ../pdb.yaml
+  - ../networkpolicy.yaml
+
+images:
+  - name: ghcr.io/we-can-fix/machinenativeops/contracts-l1
+    newTag: latest
+
+configMapGenerator:
+  - name: contracts-l1-config
+    behavior: merge
+    literals:
+      - KUSTOMIZE_VERSION=v5.0.0
+
+secretGenerator:
+  - name: contracts-l1-secrets
+    behavior: merge
+
+generatorOptions:
+  disableNameSuffixHash: true

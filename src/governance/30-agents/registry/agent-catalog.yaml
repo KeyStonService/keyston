@@ -1,0 +1,130 @@
+---
+# AI Agent Catalog - Central Registry
+# AI Agent 目錄 - 中央註冊表
+
+metadata:
+  name: "AI Agent Catalog"
+  version: "1.0.0"
+  description: "Central registry for all AI agents in SynergyMesh system"
+  owner: "AI Agent Governance Team"
+  created_at: "2025-12-11"
+  updated_at: "2025-12-11"
+
+# Agent Registry
+agents:
+  - agent_id: "unmanned-island-agent"
+    name: "Unmanned Island Agent"
+    description: "Intelligent automation agent for the Unmanned Island System platform"
+    version: "2.0.0"
+    status: "active"
+    
+    # Lifecycle
+    lifecycle:
+      stage: "production"
+      deployed_at: "2025-12-11T16:00:00Z"
+      last_updated: "2025-12-11T16:00:00Z"
+      next_review: "2026-03-11T16:00:00Z"
+    
+    # Owner & Responsibility
+    ownership:
+      team: "SynergyMesh Core Team"
+      owner: "AI Agent Governance Team"
+      contact: "governance@machinenativeops.io"
+      on_call: "platform-team"
+    
+    # Capabilities
+    capabilities:
+      - intelligent_automation
+      - platform_integration
+      - autonomous_operation
+      - governance_compliance
+      - behavior_contract_enforcement
+    
+    # Permissions
+    permissions:
+      read:
+        - "config/*"
+        - "governance/*"
+        - "core/*"
+        - "automation/*"
+      write:
+        - "reports/automation/*"
+        - "logs/agent/*"
+      execute:
+        - "automation.deploy"
+        - "automation.monitor"
+        - "automation.heal"
+    
+    # Resource Limits
+    resource_limits:
+      memory: "2GB"
+      cpu: "1 core"
+      network_bandwidth: "50 Mbps"
+      max_concurrent_tasks: 10
+    
+    # Compliance
+    compliance:
+      standards:
+        - "ISO/IEC 42001"
+        - "NIST AI RMF"
+        - "AI Behavior Contract"
+      audit_frequency: "monthly"
+      last_audit: "2025-12-11"
+      next_audit: "2026-01-11"
+    
+    # Integration
+    integrations:
+      - name: "SynergyMesh Core"
+        type: "core_engine"
+        status: "active"
+      - name: "Governance Framework"
+        type: "policy_framework"
+        status: "active"
+      - name: "Autonomous System"
+        type: "automation_framework"
+        status: "active"
+      - name: "v2-multi-islands Orchestrator"
+        type: "orchestration"
+        status: "active"
+        module: "v2-multi-islands/orchestrator/island_orchestrator.py"
+        governance_module: "v2-multi-islands/governance_integration.py"
+    
+    # Monitoring
+    monitoring:
+      health_check_url: "/health"
+      metrics_endpoint: "/metrics"
+      log_level: "info"
+      alert_channels:
+        - "slack://platform-alerts"
+        - "email://governance@machinenativeops.io"
+    
+    # Deployment
+    deployment:
+      method: "instant"
+      deployment_time_target: "< 30 seconds"
+      rollback_enabled: true
+      canary_enabled: true
+      auto_scaling: true
+    
+    # Documentation
+    documentation:
+      agent_file: ".github/agents/my-agent.agent.md"
+      behavior_contract: ".github/AI-BEHAVIOR-CONTRACT.md"
+      technical_guide: ".github/copilot-instructions.md"
+      code_standards: ".github/src/ai-instructions.md"
+      orchestrator_readme: "v2-multi-islands/README.md"
+      governance_integration: "v2-multi-islands/governance_integration.py"
+
+# Catalog Statistics
+statistics:
+  total_agents: 1
+  active_agents: 1
+  deprecated_agents: 0
+  under_development: 0
+  
+# Catalog Metadata
+catalog_metadata:
+  last_sync: "2025-12-11T16:00:00Z"
+  sync_frequency: "real-time"
+  validation_status: "passed"
+  schema_version: "1.0.0"

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://slsa.dev/provenance/v1",
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "machinenativeops",
+      "digest": {
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://github.com/Unmanned-Island-admin/SynergyMesh",
+      "externalParameters": {
+        "workflow": {
+          "ref": "refs/heads/main",
+          "repository": "https://github.com/Unmanned-Island-admin/SynergyMesh",
+          "path": ".github/workflows/apply.yaml"
+        }
+      },
+      "internalParameters": {},
+      "resolvedDependencies": []
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://github.com/actions/runner"
+      },
+      "metadata": {
+        "invocationId": "https://github.com/Unmanned-Island-admin/SynergyMesh/actions/runs/0",
+        "startedOn": "2025-11-30T00:00:00Z",
+        "finishedOn": "2025-11-30T00:10:00Z"
+      }
+    }
+  }
+}

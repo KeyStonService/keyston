@@ -115,7 +115,7 @@ class P0SafetyVerifier:
 
         config_files = [
             self.repo_root / "config/safety-mechanisms.yaml",
-            self.repo_root / "infra/config/safety-mechanisms.yaml",
+            self.repo_root / "src/autonomous/infrastructure/config/safety-mechanisms.yaml",
         ]
 
         found_config = None
@@ -182,7 +182,7 @@ class P0SafetyVerifier:
         # 檢查監控相關目錄
         monitoring_dirs = [
             self.repo_root / "infrastructure/monitoring",
-            self.repo_root / "infra/monitoring",
+            self.repo_root / "src/autonomous/infrastructure/monitoring",
         ]
 
         monitoring_exists = any(d.exists() for d in monitoring_dirs)

@@ -98,7 +98,7 @@ sections:
 
     │
 
-    ├── synergymesh.yaml              # 🔑 統一主配置入口
+    ├── machinenativeops.yaml              # 🔑 統一主配置入口
 
     │
 
@@ -209,7 +209,7 @@ sections:
 
     |-----------------------------------|----------------------------------|
 
-    | synergymesh.yaml                  | 統一主配置入口 ...'
+    | machinenativeops.yaml                  | 統一主配置入口 ...'
 - id: 虛擬專家團隊
   title: 👨‍💼 虛擬專家團隊
   type: content
@@ -320,7 +320,7 @@ sections:
 
     [GitHub](https://github.com/S...'
 detected_subsystems:
-- id: synergymesh
+- id: machinenativeops
   detected: true
   keywords_found:
   - SynergyMesh

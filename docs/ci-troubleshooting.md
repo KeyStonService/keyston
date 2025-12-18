@@ -554,16 +554,10 @@ concurrency:
 
 ## 參考資源
 
-### 內部文檔
-- [🤖 Autonomous CI Guardian Workflow](../.github/workflows/autonomous-ci-guardian.yml) - 自動駕駛級 CI 守護者
-- [🛡️ Autonomous CI Compliance](./autonomous-ci-compliance.md) - CI/CD 合規與審計框架
-- [完整 CI 解決方案配置](../config/ci-comprehensive-solution.yaml)
-- [CI 錯誤處理配置](../config/ci-error-handler.yaml)
-
-### 外部資源
 - [Docker 官方文檔](https://docs.docker.com/)
 - [Docker Compose 官方文檔](https://docs.docker.com/compose/)
 - [Node.js 官方文檔](https://nodejs.org/)
 - [GitHub Actions 文檔](https://docs.github.com/en/actions)
 - [GitHub Actions Reusable Workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 - [npm 文檔](https://docs.npmjs.com/)
+- [完整 CI 解決方案配置](../config/ci-comprehensive-solution.yaml)

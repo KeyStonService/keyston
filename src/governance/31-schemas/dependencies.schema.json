@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.io/schemas/dependencies.schema.json",
+  "title": "SynergyMesh Dependencies Configuration",
+  "description": "Schema for dependencies.yaml - defines tools, models, external services",
+  "type": "object",
+  "required": ["version"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "name": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["database", "http-client", "file-system", "mcp-server", "api", "utility"]
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "allowed_environments": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "requires_approval": { "type": "boolean" },
+          "config": { "type": "object" }
+        }
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "provider"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "provider": { "type": "string" },
+          "version": { "type": "string" },
+          "environments": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "capabilities": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "max_tokens": { "type": "integer" },
+              "rate_limit": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "environments": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

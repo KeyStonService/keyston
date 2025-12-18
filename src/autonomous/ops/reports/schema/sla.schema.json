@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/we-can-fix/machinenativeops/schemas/sla-report.json",
+  "title": "SLA Report",
+  "description": "服務級別協議 (SLA) 報告 schema",
+  "type": "object",
+  "required": ["timestamp", "version", "service", "targets", "current", "status"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "報告生成時間戳 (ISO 8601)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "description": "報告格式版本"
+    },
+    "service": {
+      "type": "string",
+      "description": "服務名稱"
+    },
+    "targets": {
+      "type": "object",
+      "description": "SLA 目標值",
+      "required": ["availability"],
+      "properties": {
+        "availability": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?%$",
+          "description": "可用性目標 (例如: 99.95%)"
+        },
+        "p99_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "P99 延遲目標 (毫秒)"
+        },
+        "p95_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "P95 延遲目標 (毫秒)"
+        },
+        "p50_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "P50 延遲目標 (毫秒)"
+        },
+        "error_rate": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?%$",
+          "description": "錯誤率目標 (例如: 0.05%)"
+        },
+        "throughput_qps": {
+          "type": "number",
+          "minimum": 0,
+          "description": "吞吐量目標 (QPS)"
+        }
+      }
+    },
+    "current": {
+      "type": "object",
+      "description": "當前實際值",
+      "required": ["availability"],
+      "properties": {
+        "availability": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?%$",
+          "description": "當前可用性"
+        },
+        "p99_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "當前 P99 延遲"
+        },
+        "p95_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "當前 P95 延遲"
+        },
+        "p50_latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "當前 P50 延遲"
+        },
+        "error_rate": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?%$",
+          "description": "當前錯誤率"
+        },
+        "throughput_qps": {
+          "type": "number",
+          "minimum": 0,
+          "description": "當前吞吐量"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["meeting", "at-risk", "breached"],
+      "description": "SLA 達成狀態"
+    },
+    "period": {
+      "type": "object",
+      "description": "統計時間區間",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "incidents": {
+      "type": "array",
+      "description": "影響 SLA 的事件",
+      "items": {
+        "type": "object",
+        "required": ["timestamp", "duration_minutes", "impact"],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration_minutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["total", "partial", "degraded"]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

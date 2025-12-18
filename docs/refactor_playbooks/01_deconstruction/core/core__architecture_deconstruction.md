@@ -16,7 +16,7 @@
 
 ### 1.1 Cluster 起源
 
-**core/architecture-stability** cluster 是 Unmanned Island System 的**核心引擎層**,起源於 SynergyMesh 專案初期（約 2023 Q4），目標是建立一個統一的 AI 決策與服務編排平台。
+**core/architecture-stability** cluster 是 Unmanned Island System 的**核心引擎層**,起源於 MachineNativeOps 專案初期（約 2023 Q4），目標是建立一個統一的 AI 決策與服務編排平台。
 
 **演化階段**：
 

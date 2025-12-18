@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://synergymesh.io/schemas/virtual-experts.schema.json",
+  "$id": "https://machinenativeops.io/schemas/virtual-experts.schema.json",
   "title": "SynergyMesh Virtual Experts",
   "description": "Schema for config/agents/team/virtual-experts.yaml - defines expert roles, permissions, capabilities",
   "type": "object",

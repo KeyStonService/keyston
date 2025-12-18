@@ -20,7 +20,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 version: "1.2.0"
-id: "synergymesh.module-map"
+id: "machinenativeops.module-map"
 description: "SynergyMesh 系統模組映射 - 統一目錄結構"
 
 # Phase 2 Reference
@@ -54,10 +54,10 @@ root_directory_restructuring:
   hidden_directories_policy:
     description: "隱藏目錄（.前綴）代表技術/工具配置"
     directories:
-      - path: ".config/"
+      - path: "config/"
         purpose: "Configuration test files (conftest)"
         status: "keep"
-      - path: ".devcontainer/"
+      - path: "config/dev/"
         purpose: "VS Code Dev Container configuration"
         status: "keep"
       - path: ".github/"
@@ -75,10 +75,10 @@ root_directory_restructuring:
   
   # Naming conflict resolution
   naming_conflict_resolution:
-    - conflict: "config/ vs .config/"
+    - conflict: "config/ vs config/"
       recommendation: "Rename config/ to app-configs/ for clarity"
       rationale: "Distinguish application configs from tool/test configs"
-    - conflict: "infra/ vs infrastructure/"
+    - conflict: "src/autonomous/infrastructure/ vs infrastructure/"
       recommendation: "Consolidate to infrastructure/"
       rationale: "Avoid functional overlap"
 
@@ -694,7 +694,7 @@ root_directory_guidelines:
       - "cloud-agent-delegation.yml"
       - "drone-config.yml"
       - "island-control.yml"
-      - "synergymesh.config.yaml"
+      - "machinenativeops.config.yaml"
     target: "config/"
   
   hidden_directories:
@@ -703,7 +703,7 @@ root_directory_guidelines:
       - "config/autofix"
       - ".ci"
       - ".config"
-      - ".devcontainer"
+      - "config/dev"
       - ".docker-templates"
       - ".github"
       - ".github-private"

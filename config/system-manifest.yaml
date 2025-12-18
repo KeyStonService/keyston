@@ -10,7 +10,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 version: "2.1.0"
-id: "synergymesh.system"
+id: "machinenativeops.system"
 description: |
   SynergyMesh 系統宣告清單 - 次世代雲原生智能自動化平台
   整合心智矩陣 + 執行長系統 + 增強統一整合 + Phase 2 配置整合 + 治理框架對齊
@@ -259,7 +259,7 @@ workflow_system:
           - "compute.execute"
       registry:
         type: "local"
-        remote_url: "https://plugins.synergymesh.io"
+        remote_url: "https://plugins.machinenativeops.io"
         sync_interval_seconds: 3600
   
   # AI Governance Configuration

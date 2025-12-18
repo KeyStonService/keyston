@@ -1,0 +1,39 @@
+{
+  "name": "@machinenativeops/governance-auto-comment-scripts",
+  "version": "1.0.0",
+  "description": "Auto Comment Engine scripts for 81-auto-comment governance dimension",
+  "scripts": {
+    "build": "tsc",
+    "generate-comment": "ts-node generate-comment.ts",
+    "update-registry": "node update-registry.js",
+    "test": "echo \"Run OPA tests with: opa test ../tests/\"",
+    "lint": "eslint *.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "minimist": "^1.2.8"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "ts-node": "^10.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "governance",
+    "auto-comment",
+    "ci",
+    "automation",
+    "machinenativeops"
+  ],
+  "author": "SynergyMesh Governance Bot",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SynergyMesh-master/SynergyMesh.git",
+    "directory": "governance/dimensions/81-auto-comment/scripts"
+  }
+}

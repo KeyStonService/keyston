@@ -7,8 +7,7 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 REPORT_FILE="${PROJECT_ROOT}/docs/reports/PR351_CONSISTENCY_AUDIT.md"
-PRIMARY_CONFIG="${PROJECT_ROOT}/machine-native-ops.yaml"
-LEGACY_CONFIG="${PROJECT_ROOT}/synergymesh.yaml"
+PRIMARY_CONFIG="${PROJECT_ROOT}/machinenativeops.yaml"
 
 echo "# PR #351 Consistency Audit Report" > "${REPORT_FILE}"
 echo "" >> "${REPORT_FILE}"
@@ -60,7 +59,7 @@ echo "" >> "${REPORT_FILE}"
 echo "### PR #351 References in Configs" >> "${REPORT_FILE}"
 echo "" >> "${REPORT_FILE}"
 echo "\`\`\`" >> "${REPORT_FILE}"
-grep -r "PR #351\|pr_351\|PR351" --include="*.yaml" --include="*.yml" "${PROJECT_ROOT}/config" "${PROJECT_ROOT}/governance" "${PRIMARY_CONFIG}" "${LEGACY_CONFIG}" | grep -v "node_modules" || echo "No PR351 references in configs"
+grep -r "PR #351\|pr_351\|PR351" --include="*.yaml" --include="*.yml" "${PROJECT_ROOT}/config" "${PROJECT_ROOT}/governance" "${PRIMARY_CONFIG}" | grep -v "node_modules" || echo "No PR351 references in configs"
 echo "\`\`\`" >> "${REPORT_FILE}"
 echo "" >> "${REPORT_FILE}"
 
@@ -93,13 +92,8 @@ echo "" >> "${REPORT_FILE}"
 echo "### Key Configuration Versions" >> "${REPORT_FILE}"
 echo "" >> "${REPORT_FILE}"
 echo "\`\`\`" >> "${REPORT_FILE}"
-echo "# machine-native-ops.yaml" >> "${REPORT_FILE}"
+echo "# machinenativeops.yaml" >> "${REPORT_FILE}"
 grep "version:" "${PRIMARY_CONFIG}" | head -5 || echo "No version found"
-if [ -f "${LEGACY_CONFIG}" ] && [ "${LEGACY_CONFIG}" != "${PRIMARY_CONFIG}" ]; then
-  echo "" >> "${REPORT_FILE}"
-  echo "# synergymesh.yaml (legacy link)" >> "${REPORT_FILE}"
-  grep "version:" "${LEGACY_CONFIG}" | head -5 || echo "No version found"
-fi
 echo "" >> "${REPORT_FILE}"
 echo "# unified-config-index.yaml" >> "${REPORT_FILE}"
 grep "version:" "${PROJECT_ROOT}/config/unified-config-index.yaml" | head -3 || echo "No version found"

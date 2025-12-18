@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/we-can-fix/machinenativeops/schemas/compliance-report.json",
+  "title": "Compliance Report",
+  "description": "供應鏈與安全合規報告 schema",
+  "type": "object",
+  "required": ["timestamp", "version", "compliance", "checks"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "報告生成時間戳 (ISO 8601)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "description": "報告格式版本"
+    },
+    "compliance": {
+      "type": "object",
+      "required": ["slsa_level", "sbom_present", "signed", "provenance"],
+      "properties": {
+        "slsa_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "SLSA 合規級別 (0-4)"
+        },
+        "sbom_present": {
+          "type": "boolean",
+          "description": "是否包含 SBOM"
+        },
+        "signed": {
+          "type": "boolean",
+          "description": "是否已簽章"
+        },
+        "provenance": {
+          "type": "boolean",
+          "description": "是否包含構建溯源"
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "description": "各項安全檢查結果",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "string",
+          "enum": ["passed", "failed", "warning", "skipped"]
+        }
+      }
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "總體合規分數 (0-100)"
+    },
+    "violations": {
+      "type": "array",
+      "description": "違規項目列表",
+      "items": {
+        "type": "object",
+        "required": ["severity", "message"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "message": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

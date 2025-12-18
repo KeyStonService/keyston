@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: contracts-l1-config
+  namespace: machinenativeops
+  labels:
+    app: contracts-l1
+    tier: core
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "info"
+  LOG_FORMAT: "json"
+  SERVICE_NAME: "contracts-l1"
+  ENABLE_METRICS: "true"
+  METRICS_PORT: "9090"
+  METRICS_PATH: "/metrics"
+  SIGSTORE_VERIFY_URL: "https://fulcio.sigstore.dev"
+  SIGSTORE_REKOR_URL: "https://rekor.sigstore.dev"
+  SIGSTORE_ENABLE: "true"
+  ENABLE_PROVENANCE: "true"
+  ENABLE_ATTESTATION: "true"
+  ENABLE_SLSA_VALIDATION: "true"

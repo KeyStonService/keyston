@@ -1,0 +1,50 @@
+apiVersion: governance.machinenativeops.io/v2
+kind: DimensionModule
+metadata:
+  id: 20-information-legacy
+  name: 資訊治理
+  name_en: Information Governance (Legacy)
+  version: 1.0.0
+  created_at: '2025-12-11T22:17:20.924439Z'
+  updated_at: '2025-12-11T22:17:20.924443Z'
+  owner: governance-bot
+  category: governance
+  tags:
+  - legacy
+  - governance
+spec:
+  description: Legacy Information Governance reference preserved after 20-intent became the active execution-layer module; consult this for historical governance and data lineage context, and use governance/20-intent for any active orchestration. Migration deadline: 2026-03-31. Examples: move workflow routing and semantic orchestration to 20-intent; keep archival policy matrices and information architecture snapshots here.
+  schema:
+    path: ./schema.json
+    format: json-schema
+    validation: optional
+  policy:
+    path: ./policy.rego
+    engine: opa
+    enforcement: optional
+  dependencies:
+    required: []
+    optional: []
+  interface:
+    inputs:
+    - name: config
+      type: object
+      required: true
+    outputs:
+    - name: result
+      type: object
+  status: legacy
+  compliance:
+    frameworks:
+    - ISO-42001
+    framework_mappings:
+    - framework: ISO-42001
+      controls: []
+      compliance_status: in_progress
+compliance:
+  frameworks:
+  - ISO-42001
+  framework_mappings:
+  - framework: ISO-42001
+    controls: []
+    compliance_status: in_progress

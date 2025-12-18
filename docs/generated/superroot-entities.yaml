@@ -246,35 +246,35 @@ entities:
 - id: file:mcp-servers:deploy:pdb.yaml
   type: ConfigParam
   label: pdb.yaml
-  path: mcp-servers/deploy/pdb.yaml
+  path: mcp-servers/src/autonomous/deployment/pdb.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:deployment.yaml
   type: ConfigParam
   label: deployment.yaml
-  path: mcp-servers/deploy/deployment.yaml
+  path: mcp-servers/src/autonomous/deployment/deployment.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:service.yaml
   type: ConfigParam
   label: service.yaml
-  path: mcp-servers/deploy/service.yaml
+  path: mcp-servers/src/autonomous/deployment/service.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:hpa.yaml
   type: ConfigParam
   label: hpa.yaml
-  path: mcp-servers/deploy/hpa.yaml
+  path: mcp-servers/src/autonomous/deployment/hpa.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:mcp-servers:deploy:rbac.yaml
   type: ConfigParam
   label: rbac.yaml
-  path: mcp-servers/deploy/rbac.yaml
+  path: mcp-servers/src/autonomous/deployment/rbac.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -964,10 +964,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.egg-info
+- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.egg-info
   type: Directory
-  label: synergymesh.egg-info
-  path: _codeql_detected_source_root/_codeql_detected_source_root/synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: _codeql_detected_source_root/_codeql_detected_source_root/machinenativeops.egg-info
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -1034,17 +1034,17 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.yaml
+- id: file:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.yaml
   type: ConfigParam
-  label: synergymesh.yaml
-  path: _codeql_detected_source_root/_codeql_detected_source_root/synergymesh.yaml
+  label: machinenativeops.yaml
+  path: _codeql_detected_source_root/_codeql_detected_source_root/machinenativeops.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:island-ai
+- id: dir:_codeql_detected_source_root:_codeql_detected_source_root:src/ai
   type: Directory
-  label: island-ai
-  path: _codeql_detected_source_root/_codeql_detected_source_root/island-ai
+  label: src/ai
+  path: _codeql_detected_source_root/_codeql_detected_source_root/src/ai
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -1471,14 +1471,14 @@ entities:
 - id: dir:_codeql_detected_source_root:deployment:docker
   type: Directory
   label: docker
-  path: _codeql_detected_source_root/deployment/docker
+  path: _codeql_detected_source_root/src/autonomous/deployment/docker
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:_codeql_detected_source_root:deployment:kubernetes
   type: Directory
   label: kubernetes
-  path: _codeql_detected_source_root/deployment/kubernetes
+  path: _codeql_detected_source_root/src/autonomous/deployment/kubernetes
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -2350,10 +2350,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:synergymesh.egg-info
+- id: dir:_codeql_detected_source_root:machinenativeops.egg-info
   type: Directory
-  label: synergymesh.egg-info
-  path: _codeql_detected_source_root/synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: _codeql_detected_source_root/machinenativeops.egg-info
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -2567,10 +2567,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:_codeql_detected_source_root:config:island-ai-runtime.yaml
+- id: file:_codeql_detected_source_root:config:src/ai-runtime.yaml
   type: ConfigParam
-  label: island-ai-runtime.yaml
-  path: _codeql_detected_source_root/config/island-ai-runtime.yaml
+  label: src/ai-runtime.yaml
+  path: _codeql_detected_source_root/config/src/ai-runtime.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -2700,10 +2700,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: file:_codeql_detected_source_root:config:synergymesh.config.yaml
+- id: file:_codeql_detected_source_root:config:machinenativeops.config.yaml
   type: ConfigParam
-  label: synergymesh.config.yaml
-  path: _codeql_detected_source_root/config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: _codeql_detected_source_root/config/machinenativeops.config.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -2941,14 +2941,14 @@ entities:
 - id: dir:_codeql_detected_source_root:infra:config
   type: ConfigParam
   label: config
-  path: _codeql_detected_source_root/infra/config
+  path: _codeql_detected_source_root/src/autonomous/infrastructure/config
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: dir:_codeql_detected_source_root:infra:infrastructure
   type: Component
   label: infrastructure
-  path: _codeql_detected_source_root/infra/infrastructure
+  path: _codeql_detected_source_root/src/autonomous/infrastructure/infrastructure
   meta:
     source: knowledge-graph
     label_zh: 模組
@@ -2973,31 +2973,31 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:_codeql_detected_source_root:synergymesh.yaml
+- id: file:_codeql_detected_source_root:machinenativeops.yaml
   type: ConfigParam
-  label: synergymesh.yaml
-  path: _codeql_detected_source_root/synergymesh.yaml
+  label: machinenativeops.yaml
+  path: _codeql_detected_source_root/machinenativeops.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: dir:_codeql_detected_source_root:island-ai
+- id: dir:_codeql_detected_source_root:src/ai
   type: Directory
-  label: island-ai
-  path: _codeql_detected_source_root/island-ai
+  label: src/ai
+  path: _codeql_detected_source_root/src/ai
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:island-ai:examples
+- id: dir:_codeql_detected_source_root:src/ai:examples
   type: Directory
   label: examples
-  path: _codeql_detected_source_root/island-ai/examples
+  path: _codeql_detected_source_root/src/ai/examples
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: dir:_codeql_detected_source_root:island-ai:src
+- id: dir:_codeql_detected_source_root:src/ai:src
   type: Directory
   label: src
-  path: _codeql_detected_source_root/island-ai/src
+  path: _codeql_detected_source_root/src/ai/src
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -3386,10 +3386,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:.github:workflows:island-ai-setup-steps.yml
+- id: file:.github:workflows:src/ai-setup-steps.yml
   type: ConfigParam
-  label: island-ai-setup-steps.yml
-  path: .github/workflows/island-ai-setup-steps.yml
+  label: src/ai-setup-steps.yml
+  path: .github/workflows/src/ai-setup-steps.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -3680,10 +3680,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:.github:workflows:validate-island-ai-instructions.yml
+- id: file:.github:workflows:validate-src/ai-instructions.yml
   type: ConfigParam
-  label: validate-island-ai-instructions.yml
-  path: .github/workflows/validate-island-ai-instructions.yml
+  label: validate-src/ai-instructions.yml
+  path: .github/workflows/validate-src/ai-instructions.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -4607,21 +4607,21 @@ entities:
 - id: dir:deployment:docker
   type: Directory
   label: docker
-  path: deployment/docker
+  path: src/autonomous/deployment/docker
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:deployment:kubernetes
   type: Directory
   label: kubernetes
-  path: deployment/kubernetes
+  path: src/autonomous/deployment/kubernetes
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: file:deployment:kubernetes:workflow-deployment.yaml
   type: ConfigParam
   label: workflow-deployment.yaml
-  path: deployment/kubernetes/workflow-deployment.yaml
+  path: src/autonomous/deployment/kubernetes/workflow-deployment.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -4702,10 +4702,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: dir:automation:intelligent:synergymesh_core
+- id: dir:automation:intelligent:machinenativeops_core
   type: Directory
-  label: synergymesh_core
-  path: automation/intelligent/synergymesh_core
+  label: machinenativeops_core
+  path: automation/intelligent/machinenativeops_core
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -9093,10 +9093,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: dir:synergymesh.egg-info
+- id: dir:machinenativeops.egg-info
   type: Directory
-  label: synergymesh.egg-info
-  path: synergymesh.egg-info
+  label: machinenativeops.egg-info
+  path: machinenativeops.egg-info
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -9464,10 +9464,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:config:docker:compose.devcontainer.yaml
+- id: file:config:docker:composeconfig/dev.yaml
   type: ConfigParam
-  label: compose.devcontainer.yaml
-  path: config/docker/compose.devcontainer.yaml
+  label: composeconfig/dev.yaml
+  path: config/docker/composeconfig/dev.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -9527,10 +9527,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:config:island-ai-runtime.yaml
+- id: file:config:src/ai-runtime.yaml
   type: ConfigParam
-  label: island-ai-runtime.yaml
-  path: config/island-ai-runtime.yaml
+  label: src/ai-runtime.yaml
+  path: config/src/ai-runtime.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -9730,10 +9730,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:config:synergymesh.config.yaml
+- id: file:config:machinenativeops.config.yaml
   type: ConfigParam
-  label: synergymesh.config.yaml
-  path: config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: config/machinenativeops.config.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -10573,210 +10573,210 @@ entities:
 - id: dir:infra:config
   type: ConfigParam
   label: config
-  path: infra/config
+  path: src/autonomous/infrastructure/config
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: dir:infra:config:autofix
   type: Directory
   label: autofix
-  path: infra/config/autofix
+  path: src/autonomous/infrastructure/config/autofix
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: file:infra:config:monitoring.yaml
   type: ConfigParam
   label: monitoring.yaml
-  path: infra/config/monitoring.yaml
+  path: src/autonomous/infrastructure/config/monitoring.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:ci-error-handler.yaml
   type: ConfigParam
   label: ci-error-handler.yaml
-  path: infra/config/ci-error-handler.yaml
+  path: src/autonomous/infrastructure/config/ci-error-handler.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:system-module-map.yaml
   type: ConfigParam
   label: system-module-map.yaml
-  path: infra/config/system-module-map.yaml
+  path: src/autonomous/infrastructure/config/system-module-map.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:island-control.yml
   type: ConfigParam
   label: island-control.yml
-  path: infra/config/island-control.yml
+  path: src/autonomous/infrastructure/config/island-control.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:dependencies.yaml
   type: ConfigParam
   label: dependencies.yaml
-  path: infra/config/dependencies.yaml
+  path: src/autonomous/infrastructure/config/dependencies.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:environment.yaml
   type: ConfigParam
   label: environment.yaml
-  path: infra/config/environment.yaml
+  path: src/autonomous/infrastructure/config/environment.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:safety-mechanisms.yaml
   type: ConfigParam
   label: safety-mechanisms.yaml
-  path: infra/config/safety-mechanisms.yaml
+  path: src/autonomous/infrastructure/config/safety-mechanisms.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:prometheus-rules.yml
   type: ConfigParam
   label: prometheus-rules.yml
-  path: infra/config/prometheus-rules.yml
+  path: src/autonomous/infrastructure/config/prometheus-rules.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot.yml
   type: ConfigParam
   label: auto-fix-bot.yml
-  path: infra/config/auto-fix-bot.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:system-manifest.yaml
   type: ConfigParam
   label: system-manifest.yaml
-  path: infra/config/system-manifest.yaml
+  path: src/autonomous/infrastructure/config/system-manifest.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:drone-config.yml
   type: ConfigParam
   label: drone-config.yml
-  path: infra/config/drone-config.yml
+  path: src/autonomous/infrastructure/config/drone-config.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:ci-comprehensive-solution.yaml
   type: ConfigParam
   label: ci-comprehensive-solution.yaml
-  path: infra/config/ci-comprehensive-solution.yaml
+  path: src/autonomous/infrastructure/config/ci-comprehensive-solution.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:yaml-module-system.yaml
   type: ConfigParam
   label: yaml-module-system.yaml
-  path: infra/config/yaml-module-system.yaml
+  path: src/autonomous/infrastructure/config/yaml-module-system.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot .prompt.yml
   type: ConfigParam
   label: auto-fix-bot .prompt.yml
-  path: infra/config/auto-fix-bot .prompt.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot .prompt.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:unified-config-index.yaml
   type: ConfigParam
   label: unified-config-index.yaml
-  path: infra/config/unified-config-index.yaml
+  path: src/autonomous/infrastructure/config/unified-config-index.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: dir:infra:config:integrations
   type: Directory
   label: integrations
-  path: infra/config/integrations
+  path: src/autonomous/infrastructure/config/integrations
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: file:infra:config:topology-mind-matrix.yaml
   type: ConfigParam
   label: topology-mind-matrix.yaml
-  path: infra/config/topology-mind-matrix.yaml
+  path: src/autonomous/infrastructure/config/topology-mind-matrix.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:security-network-config.yml
   type: ConfigParam
   label: security-network-config.yml
-  path: infra/config/security-network-config.yml
+  path: src/autonomous/infrastructure/config/security-network-config.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:ai-constitution.yaml
   type: ConfigParam
   label: ai-constitution.yaml
-  path: infra/config/ai-constitution.yaml
+  path: src/autonomous/infrastructure/config/ai-constitution.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:cloud-agent-delegation.yml
   type: ConfigParam
   label: cloud-agent-delegation.yml
-  path: infra/config/cloud-agent-delegation.yml
+  path: src/autonomous/infrastructure/config/cloud-agent-delegation.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:auto-fix-bot.prompt.yml
   type: ConfigParam
   label: auto-fix-bot.prompt.yml
-  path: infra/config/auto-fix-bot.prompt.yml
+  path: src/autonomous/infrastructure/config/auto-fix-bot.prompt.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: file:infra:config:prometheus-config.yml
   type: ConfigParam
   label: prometheus-config.yml
-  path: infra/config/prometheus-config.yml
+  path: src/autonomous/infrastructure/config/prometheus-config.yml
   meta:
     source: knowledge-graph
     label_zh: 設定
-- id: file:infra:config:synergymesh.config.yaml
+- id: file:infra:config:machinenativeops.config.yaml
   type: ConfigParam
-  label: synergymesh.config.yaml
-  path: infra/config/synergymesh.config.yaml
+  label: machinenativeops.config.yaml
+  path: src/autonomous/infrastructure/config/machinenativeops.config.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
 - id: dir:infra:infrastructure
   type: Component
   label: infrastructure
-  path: infra/infrastructure
+  path: src/autonomous/infrastructure/infrastructure
   meta:
     source: knowledge-graph
     label_zh: 模組
 - id: dir:infra:infrastructure:monitoring
   type: Directory
   label: monitoring
-  path: infra/infrastructure/monitoring
+  path: src/autonomous/infrastructure/infrastructure/monitoring
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:infra:infrastructure:kubernetes
   type: Directory
   label: kubernetes
-  path: infra/infrastructure/kubernetes
+  path: src/autonomous/infrastructure/infrastructure/kubernetes
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:infra:infrastructure:canary
   type: Directory
   label: canary
-  path: infra/infrastructure/canary
+  path: src/autonomous/infrastructure/infrastructure/canary
   meta:
     source: knowledge-graph
     label_zh: 目錄
 - id: dir:infra:infrastructure:drift
   type: Directory
   label: drift
-  path: infra/infrastructure/drift
+  path: src/autonomous/infrastructure/infrastructure/drift
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -10794,73 +10794,73 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: dir:island-ai
+- id: dir:src/ai
   type: Directory
-  label: island-ai
-  path: island-ai
+  label: src/ai
+  path: src/ai
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: dir:island-ai:examples
+- id: dir:src/ai:examples
   type: Directory
   label: examples
-  path: island-ai/examples
+  path: src/ai/examples
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: file:island-ai:examples:basic-usage.ts
+- id: file:src/ai:examples:basic-usage.ts
   type: Component
   label: basic-usage.ts
-  path: island-ai/examples/basic-usage.ts
+  path: src/ai/examples/basic-usage.ts
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: file:island-ai:examples:multi-agent-collaboration.ts
+- id: file:src/ai:examples:multi-agent-collaboration.ts
   type: Component
   label: multi-agent-collaboration.ts
-  path: island-ai/examples/multi-agent-collaboration.ts
+  path: src/ai/examples/multi-agent-collaboration.ts
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: dir:island-ai:src
+- id: dir:src/ai:src
   type: Directory
   label: src
-  path: island-ai/src
+  path: src/ai/src
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: file:island-ai:src:index.ts
+- id: file:src/ai:src:index.ts
   type: Component
   label: index.ts
-  path: island-ai/src/index.ts
+  path: src/ai/src/index.ts
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: dir:island-ai:src:agents
+- id: dir:src/ai:src:agents
   type: Directory
   label: agents
-  path: island-ai/src/agents
+  path: src/ai/src/agents
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: dir:island-ai:src:collaboration
+- id: dir:src/ai:src:collaboration
   type: Directory
   label: collaboration
-  path: island-ai/src/collaboration
+  path: src/ai/src/collaboration
   meta:
     source: knowledge-graph
     label_zh: 目錄
-- id: file:island-ai:src:types.ts
+- id: file:src/ai:src:types.ts
   type: Component
   label: types.ts
-  path: island-ai/src/types.ts
+  path: src/ai/src/types.ts
   meta:
     source: knowledge-graph
     label_zh: 模組
-- id: dir:island-ai:src:__tests__
+- id: dir:src/ai:src:__tests__
   type: Directory
   label: __tests__
-  path: island-ai/src/__tests__
+  path: src/ai/src/__tests__
   meta:
     source: knowledge-graph
     label_zh: 目錄
@@ -11008,10 +11008,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 功能
-- id: entity:synergymesh-core
+- id: entity:machinenativeops-core
   type: Subsystem
   label: SynergyMesh Core Engine
-  path: docs/mndoc/subsystems/synergymesh-core.yaml
+  path: docs/mndoc/subsystems/machinenativeops-core.yaml
   description: "雲原生智能業務自動化和數據編排平台。Cloud-native intelligent business \nautomation and data orchestration platform.\n"
   tags:
   - ai
@@ -11104,10 +11104,10 @@ entities:
   meta:
     source: knowledge-graph
     label_zh: 元件
-- id: config:synergymesh.yaml
+- id: config:machinenativeops.yaml
   type: ConfigParam
-  label: synergymesh.yaml
-  path: synergymesh.yaml
+  label: machinenativeops.yaml
+  path: machinenativeops.yaml
   meta:
     source: knowledge-graph
     label_zh: 設定
@@ -11533,7 +11533,7 @@ relationships:
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:knowledge
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.egg-info
+  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.egg-info
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:tests
@@ -11563,10 +11563,10 @@ relationships:
   target: file:_codeql_detected_source_root:_codeql_detected_source_root:island.bootstrap.stage0.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: file:_codeql_detected_source_root:_codeql_detected_source_root:synergymesh.yaml
+  target: file:_codeql_detected_source_root:_codeql_detected_source_root:machinenativeops.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:island-ai
+  target: dir:_codeql_detected_source_root:_codeql_detected_source_root:src/ai
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:_codeql_detected_source_root:templates
@@ -12157,7 +12157,7 @@ relationships:
   target: file:_codeql_detected_source_root:knowledge:language-history.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:synergymesh.egg-info
+  target: dir:_codeql_detected_source_root:machinenativeops.egg-info
   type: CONTAINS
 - source: dir:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:tests
@@ -12250,7 +12250,7 @@ relationships:
   target: file:_codeql_detected_source_root:config:sync-refactor-config.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:config
-  target: file:_codeql_detected_source_root:config:island-ai-runtime.yaml
+  target: file:_codeql_detected_source_root:config:src/ai-runtime.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:config
   target: file:_codeql_detected_source_root:config:refactor-evolution.yaml
@@ -12307,7 +12307,7 @@ relationships:
   target: dir:_codeql_detected_source_root:config:pipelines
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:config
-  target: file:_codeql_detected_source_root:config:synergymesh.config.yaml
+  target: file:_codeql_detected_source_root:config:machinenativeops.config.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root:config
   target: file:_codeql_detected_source_root:config:ci-agent-config.yaml
@@ -12424,16 +12424,16 @@ relationships:
   target: file:_codeql_detected_source_root:island.bootstrap.stage0.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root
-  target: file:_codeql_detected_source_root:synergymesh.yaml
+  target: file:_codeql_detected_source_root:machinenativeops.yaml
   type: CONTAINS
 - source: dir:_codeql_detected_source_root
-  target: dir:_codeql_detected_source_root:island-ai
+  target: dir:_codeql_detected_source_root:src/ai
   type: CONTAINS
-- source: dir:_codeql_detected_source_root:island-ai
-  target: dir:_codeql_detected_source_root:island-ai:examples
+- source: dir:_codeql_detected_source_root:src/ai
+  target: dir:_codeql_detected_source_root:src/ai:examples
   type: CONTAINS
-- source: dir:_codeql_detected_source_root:island-ai
-  target: dir:_codeql_detected_source_root:island-ai:src
+- source: dir:_codeql_detected_source_root:src/ai
+  target: dir:_codeql_detected_source_root:src/ai:src
   type: CONTAINS
 - source: dir:_codeql_detected_source_root
   target: dir:_codeql_detected_source_root:templates
@@ -12601,7 +12601,7 @@ relationships:
   target: file:.github:workflows:create-staging-branch.yml
   type: CONTAINS
 - source: dir:.github:workflows
-  target: file:.github:workflows:island-ai-setup-steps.yml
+  target: file:.github:workflows:src/ai-setup-steps.yml
   type: CONTAINS
 - source: dir:.github:workflows
   target: file:.github:workflows:06-security-scan.yml
@@ -12727,7 +12727,7 @@ relationships:
   target: file:.github:workflows:contracts-cd.yml
   type: CONTAINS
 - source: dir:.github:workflows
-  target: file:.github:workflows:validate-island-ai-instructions.yml
+  target: file:.github:workflows:validate-src/ai-instructions.yml
   type: CONTAINS
 - source: dir:.github:workflows
   target: file:.github:workflows:conftest-validation.yml
@@ -13165,7 +13165,7 @@ relationships:
   target: file:automation:intelligent:pipeline_service.py
   type: CONTAINS
 - source: dir:automation:intelligent
-  target: dir:automation:intelligent:synergymesh_core
+  target: dir:automation:intelligent:machinenativeops_core
   type: CONTAINS
 - source: dir:automation:intelligent
   target: file:automation:intelligent:auto_upgrade_env.py
@@ -15066,7 +15066,7 @@ relationships:
   target: file:knowledge:language-history.yaml
   type: CONTAINS
 - source: system:unmanned-island
-  target: dir:synergymesh.egg-info
+  target: dir:machinenativeops.egg-info
   type: CONTAINS
 - source: system:unmanned-island
   target: dir:tests
@@ -15225,7 +15225,7 @@ relationships:
   target: file:config:docker:compose.example.yaml
   type: CONTAINS
 - source: dir:config:docker
-  target: file:config:docker:compose.devcontainer.yaml
+  target: file:config:docker:composeconfig/dev.yaml
   type: CONTAINS
 - source: dir:config:docker
   target: file:config:docker:compose.dev.yaml
@@ -15252,7 +15252,7 @@ relationships:
   target: file:config:sync-refactor-config.yaml
   type: CONTAINS
 - source: dir:config
-  target: file:config:island-ai-runtime.yaml
+  target: file:config:src/ai-runtime.yaml
   type: CONTAINS
 - source: dir:config
   target: file:config:refactor-evolution.yaml
@@ -15339,7 +15339,7 @@ relationships:
   target: file:config:pipelines:refactor-evolution-pipeline.yaml
   type: CONTAINS
 - source: dir:config
-  target: file:config:synergymesh.config.yaml
+  target: file:config:machinenativeops.config.yaml
   type: CONTAINS
 - source: dir:config
   target: file:config:ci-agent-config.yaml
@@ -15771,7 +15771,7 @@ relationships:
   target: file:infra:config:prometheus-config.yml
   type: CONTAINS
 - source: dir:infra:config
-  target: file:infra:config:synergymesh.config.yaml
+  target: file:infra:config:machinenativeops.config.yaml
   type: CONTAINS
 - source: dir:infra
   target: dir:infra:infrastructure
@@ -15795,34 +15795,34 @@ relationships:
   target: file:bridges:language_bridges.py
   type: CONTAINS
 - source: system:unmanned-island
-  target: dir:island-ai
+  target: dir:src/ai
   type: CONTAINS
-- source: dir:island-ai
-  target: dir:island-ai:examples
+- source: dir:src/ai
+  target: dir:src/ai:examples
   type: CONTAINS
-- source: dir:island-ai:examples
-  target: file:island-ai:examples:basic-usage.ts
+- source: dir:src/ai:examples
+  target: file:src/ai:examples:basic-usage.ts
   type: CONTAINS
-- source: dir:island-ai:examples
-  target: file:island-ai:examples:multi-agent-collaboration.ts
+- source: dir:src/ai:examples
+  target: file:src/ai:examples:multi-agent-collaboration.ts
   type: CONTAINS
-- source: dir:island-ai
-  target: dir:island-ai:src
+- source: dir:src/ai
+  target: dir:src/ai:src
   type: CONTAINS
-- source: dir:island-ai:src
-  target: file:island-ai:src:index.ts
+- source: dir:src/ai:src
+  target: file:src/ai:src:index.ts
   type: CONTAINS
-- source: dir:island-ai:src
-  target: dir:island-ai:src:agents
+- source: dir:src/ai:src
+  target: dir:src/ai:src:agents
   type: CONTAINS
-- source: dir:island-ai:src
-  target: dir:island-ai:src:collaboration
+- source: dir:src/ai:src
+  target: dir:src/ai:src:collaboration
   type: CONTAINS
-- source: dir:island-ai:src
-  target: file:island-ai:src:types.ts
+- source: dir:src/ai:src
+  target: file:src/ai:src:types.ts
   type: CONTAINS
-- source: dir:island-ai:src
-  target: dir:island-ai:src:__tests__
+- source: dir:src/ai:src
+  target: dir:src/ai:src:__tests__
   type: CONTAINS
 - source: system:unmanned-island
   target: dir:templates
@@ -15885,18 +15885,18 @@ relationships:
   target: capability:documentation-examples
   type: PROVIDES
 - source: system:unmanned-island
-  target: entity:synergymesh-core
+  target: entity:machinenativeops-core
   type: CONTAINS
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:perception
   type: PROVIDES
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:reasoning
   type: PROVIDES
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:execution
   type: PROVIDES
-- source: entity:synergymesh-core
+- source: entity:machinenativeops-core
   target: capability:proof
   type: PROVIDES
 - source: system:unmanned-island
@@ -15924,7 +15924,7 @@ relationships:
   target: entity:core-components
   type: CONTAINS
 - source: system:unmanned-island
-  target: config:synergymesh.yaml
+  target: config:machinenativeops.yaml
   type: CONFIGURES
 - source: system:unmanned-island
   target: config:config:system-manifest.yaml

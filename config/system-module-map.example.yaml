@@ -24,7 +24,7 @@
 #    - Repository structure and three-systems view
 #    - 倉庫結構與三系統視圖
 #
-# 3. Code Standards: .github/island-ai-instructions.md
+# 3. Code Standards: .github/src/ai-instructions.md
 #    - Code style, testing, documentation standards
 #    - 代碼風格、測試、文檔標準
 #

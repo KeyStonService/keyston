@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: machinenativeops
+  labels:
+    name: machinenativeops
+    environment: production
+    team: platform-governance
+  annotations:
+    description: "SynergyMesh platform services namespace"

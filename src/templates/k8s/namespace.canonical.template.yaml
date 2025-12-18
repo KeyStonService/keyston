@@ -1,0 +1,229 @@
+# Canonical Namespace Template
+# 符合 Canonical Naming Governance 規範的 Kubernetes Namespace 模板
+
+---
+# 模式 1: team-domain-env (團隊級命名空間)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ .team }}-{{ .domain }}-{{ .environment }}"
+
+  annotations:
+    # Canonical URN (必需)
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:{{ .team }}:{{ .domain }}:env:{{ .environment }}:v1"
+
+    # 描述信息
+    machinenativeops.io/description: "{{ .description | default \"Team namespace for \" }}{{ .domain }} in {{ .environment }}"
+
+    # 聯絡信息
+    machinenativeops.io/owner: "{{ .owner_email | default \"team@example.com\" }}"
+    machinenativeops.io/slack-channel: "{{ .slack_channel | default \"#team-\" }}{{ .domain }}"
+
+    # 成本中心
+    machinenativeops.io/cost-center: "{{ .cost_center | default \"CC-0000\" }}"
+
+    # 項目信息
+    machinenativeops.io/project: "{{ .project | default .domain }}"
+
+    # Service Mesh 集成
+    machinenativeops.io/service-mesh-id: "{{ .domain }}.{{ .environment }}.svc.cluster.local"
+
+    # 創建時間
+    machinenativeops.io/created-by: "canonical-namespace-template"
+    machinenativeops.io/created-at: "{{ .timestamp | default now }}"
+
+  labels:
+    # 必需標籤
+    environment: "{{ .environment }}"  # dev|test|staging|prod|learn
+    tenant: "{{ .tenant | default \"platform-team\" }}"
+    team: "{{ .team }}-team"
+
+    # Kubernetes 推薦標籤
+    app.kubernetes.io/name: "{{ .domain }}"
+    app.kubernetes.io/managed-by: "{{ .managed_by | default \"helm\" }}"
+    app.kubernetes.io/part-of: "{{ .part_of | default .domain }}"
+
+    # 可選標籤
+    domain: "{{ .domain }}"
+    criticality: "{{ .criticality | default \"medium\" }}"  # low|medium|high|critical
+
+spec: {}
+
+---
+# 模式 2: tenant-workload-env-region (多租戶跨區域)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "tenant-{{ .workload }}-{{ .environment }}-{{ .region }}"
+
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:tenant:{{ .workload }}:env:{{ .environment }}:region:{{ .region }}"
+    machinenativeops.io/description: "Multi-tenant {{ .workload }} in {{ .environment }} ({{ .region }})"
+    machinenativeops.io/tenant-id: "{{ .tenant_id }}"
+    machinenativeops.io/owner: "{{ .owner_email }}"
+    machinenativeops.io/cost-center: "{{ .cost_center }}"
+    machinenativeops.io/region: "{{ .region }}"
+    machinenativeops.io/data-residency: "{{ .data_residency | default .region }}"
+    machinenativeops.io/compliance: "{{ .compliance | default \"standard\" }}"  # standard|pci|hipaa|gdpr
+    machinenativeops.io/created-by: "canonical-namespace-template"
+
+  labels:
+    environment: "{{ .environment }}"
+    tenant: "{{ .tenant_id }}"
+    workload: "{{ .workload }}"
+    region: "{{ .region }}"
+    app.kubernetes.io/name: "{{ .workload }}"
+    app.kubernetes.io/managed-by: "{{ .managed_by | default \"terraform\" }}"
+    criticality: "{{ .criticality | default \"high\" }}"
+    multi-tenant: "true"
+
+spec: {}
+
+---
+# 模式 3: env-app-version (多版本共存)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ .environment }}-{{ .app }}-{{ .version }}"
+
+  annotations:
+    machinenativeops.io/canonical-urn: "urn:machinenativeops:env:{{ .environment }}:app:{{ .app }}:version:{{ .version }}"
+    machinenativeops.io/description: "{{ .app }} version {{ .version }} in {{ .environment }}"
+    machinenativeops.io/app-version: "{{ .version }}"
+    machinenativeops.io/owner: "{{ .owner_email }}"
+    machinenativeops.io/deployment-strategy: "{{ .strategy | default \"rolling\" }}"  # rolling|blue-green|canary
+    machinenativeops.io/traffic-split: "{{ .traffic_split | default \"100\" }}"  # percentage
+    machinenativeops.io/predecessor-version: "{{ .predecessor | default \"none\" }}"
+    machinenativeops.io/created-by: "canonical-namespace-template"
+
+  labels:
+    environment: "{{ .environment }}"
+    tenant: "{{ .tenant | default \"platform-team\" }}"
+    app: "{{ .app }}"
+    version: "{{ .version }}"
+    app.kubernetes.io/name: "{{ .app }}"
+    app.kubernetes.io/version: "{{ .version }}"
+    app.kubernetes.io/managed-by: "{{ .managed_by | default \"argocd\" }}"
+    deployment-strategy: "{{ .strategy | default \"rolling\" }}"
+
+spec: {}
+
+---
+# ResourceQuota 模板 (可選，根據環境自動應用)
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: namespace-quota
+  namespace: "{{ .namespace_name }}"
+  annotations:
+    machinenativeops.io/description: "Resource quota for {{ .namespace_name }}"
+
+spec:
+  hard:
+    # 根據環境設置配額
+    requests.cpu: "{{ .quota.cpu_requests | default \"10\" }}"
+    requests.memory: "{{ .quota.memory_requests | default \"20Gi\" }}"
+    limits.cpu: "{{ .quota.cpu_limits | default \"20\" }}"
+    limits.memory: "{{ .quota.memory_limits | default \"40Gi\" }}"
+
+    # 對象數量限制
+    persistentvolumeclaims: "{{ .quota.pvc_count | default \"10\" }}"
+    pods: "{{ .quota.pod_count | default \"50\" }}"
+    services: "{{ .quota.service_count | default \"20\" }}"
+    configmaps: "{{ .quota.configmap_count | default \"20\" }}"
+    secrets: "{{ .quota.secret_count | default \"20\" }}"
+
+---
+# LimitRange 模板 (可選，定義資源默認值和限制)
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: namespace-limits
+  namespace: "{{ .namespace_name }}"
+  annotations:
+    machinenativeops.io/description: "Resource limits for {{ .namespace_name }}"
+
+spec:
+  limits:
+    # Pod 級別限制
+    - type: Pod
+      max:
+        cpu: "{{ .limits.pod_max_cpu | default \"4\" }}"
+        memory: "{{ .limits.pod_max_memory | default \"8Gi\" }}"
+      min:
+        cpu: "{{ .limits.pod_min_cpu | default \"10m\" }}"
+        memory: "{{ .limits.pod_min_memory | default \"64Mi\" }}"
+
+    # Container 級別限制
+    - type: Container
+      default:
+        cpu: "{{ .limits.container_default_cpu | default \"500m\" }}"
+        memory: "{{ .limits.container_default_memory | default \"512Mi\" }}"
+      defaultRequest:
+        cpu: "{{ .limits.container_default_request_cpu | default \"100m\" }}"
+        memory: "{{ .limits.container_default_request_memory | default \"128Mi\" }}"
+      max:
+        cpu: "{{ .limits.container_max_cpu | default \"2\" }}"
+        memory: "{{ .limits.container_max_memory | default \"4Gi\" }}"
+      min:
+        cpu: "{{ .limits.container_min_cpu | default \"10m\" }}"
+        memory: "{{ .limits.container_min_memory | default \"64Mi\" }}"
+
+---
+# NetworkPolicy 模板 (可選，默認拒絕入站流量)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: "{{ .namespace_name }}"
+  annotations:
+    machinenativeops.io/description: "Default deny ingress policy for {{ .namespace_name }}"
+
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  # 空的 ingress 規則 = 拒絕所有入站流量
+
+---
+# 使用示例
+#
+# 使用 Helm:
+# helm template my-namespace templates/k8s/namespace.canonical.template.yaml \
+#   --set team=frontend \
+#   --set domain=api \
+#   --set environment=prod \
+#   --set tenant=platform-team \
+#   --set owner_email=frontend-team@example.com \
+#   --set cost_center=CC-1234 | kubectl apply -f -
+#
+# 使用 envsubst:
+# export team=frontend domain=api environment=prod
+# envsubst < templates/k8s/namespace.canonical.template.yaml | kubectl apply -f -
+#
+# 使用 kubectl + kustomize:
+# kustomize build overlays/frontend-prod/ | kubectl apply -f -
+
+# 變量參考:
+# 模式 1 (team-domain-env):
+#   - team: 團隊名稱 (必需)
+#   - domain: 領域/組件名稱 (必需)
+#   - environment: 環境 (dev|test|staging|prod|learn) (必需)
+#   - tenant: 租戶標識 (默認: platform-team)
+#   - owner_email: 負責人郵箱 (默認: team@example.com)
+#   - cost_center: 成本中心 (默認: CC-0000)
+#
+# 模式 2 (tenant-workload-env-region):
+#   - workload: 工作負載名稱 (必需)
+#   - environment: 環境 (必需)
+#   - region: 區域 (必需)
+#   - tenant_id: 租戶ID (必需)
+#   - owner_email: 負責人郵箱 (必需)
+#   - cost_center: 成本中心 (必需)
+#
+# 模式 3 (env-app-version):
+#   - environment: 環境 (必需)
+#   - app: 應用名稱 (必需)
+#   - version: 版本號 (必需，格式: v1, v2, v3...)
+#   - tenant: 租戶標識 (默認: platform-team)
+#   - strategy: 部署策略 (默認: rolling)

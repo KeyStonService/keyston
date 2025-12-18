@@ -1,0 +1,99 @@
+---
+# Namespace Naming Policy / 命名空間命名策略
+# Extracted from: baseline-01-namespace-governance.v1.0.yaml
+# Purpose: Define standard naming conventions for Kubernetes namespaces across all environments
+
+apiVersion: governance.machinenativeops.io/v1
+kind: Policy
+metadata:
+  name: namespace-naming-policy
+  version: v1.0.0
+  category: namespace-governance
+  enforcement: mandatory
+  priority: 1000
+  description: "命名空間命名規範 / Namespace naming convention standards"
+
+spec:
+  version: v1.0.0
+  enforced: true
+  
+  patterns:
+    production:
+      regex: "^[a-z][a-z0-9-]*-(prod|production)$"
+      description: "生產環境命名規範 / Production environment naming"
+      examples:
+        - "service-a-prod"
+        - "data-pipeline-production"
+        - "api-gateway-prod"
+    
+    staging:
+      regex: "^[a-z][a-z0-9-]*-(stg|staging)$"
+      description: "預備環境命名規範 / Staging environment naming"
+      examples:
+        - "service-a-stg"
+        - "data-pipeline-staging"
+    
+    development:
+      regex: "^[a-z][a-z0-9-]*-(dev|development)$"
+      description: "開發環境命名規範 / Development environment naming"
+      examples:
+        - "service-a-dev"
+        - "ml-training-development"
+    
+    feature:
+      regex: "^[a-z][a-z0-9-]*-feature-[a-z0-9-]+$"
+      description: "特性分支命名規範 / Feature branch naming"
+      examples:
+        - "api-gateway-feature-oauth"
+        - "frontend-feature-darkmode"
+    
+    tenant:
+      regex: "^tenant-[a-z0-9]+-(dev|stg|prod)$"
+      description: "租戶隔離命名規範 / Tenant isolation naming"
+      examples:
+        - "tenant-acme-prod"
+        - "tenant-beta-dev"
+  
+  forbidden_prefixes:
+    - "kube-"
+    - "kubernetes-"
+    - "system-"
+    - "default-"
+  
+  constraints:
+    max_length: 63
+    min_length: 3
+    allowed_characters: "lowercase alphanumeric and hyphens only"
+    must_start_with: "lowercase letter"
+    must_end_with: "alphanumeric character"
+  
+  validation:
+    admission_webhook: true
+    webhook_endpoint: "/validate/namespace/naming"
+    failure_policy: "Fail"
+    timeout_seconds: 10
+  
+  remediation:
+    auto_reject: true
+    error_message: "Namespace name does not comply with naming policy. Please refer to governance/23-policies/namespace-naming-policy.yaml"
+  
+  exemptions:
+    # System namespaces exempt from naming policy
+    - "kube-system"
+    - "kube-public"
+    - "kube-node-lease"
+    - "default"
+    - "istio-system"
+    - "cert-manager"
+    - "monitoring"
+    - "logging"
+
+  related_policies:
+    - namespace-labels-policy
+    - resource-quota-policy
+  
+  references:
+    - description: "Kubernetes Namespace Design Best Practices"
+      url: "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+    - description: "DNS RFC 1123 Naming Convention"
+      url: "https://tools.ietf.org/html/rfc1123"

@@ -73,7 +73,7 @@ tags:
   - supply-chain
 
 meta:
-  schema_namespace: "https://schema.synergymesh.io/docs-index/v1"
+  schema_namespace: "https://schema.machinenativeops.io/docs-index/v1"
   required_fields:
     - id
     - path

@@ -10,7 +10,7 @@
 
 $schema: "https://schema.superroot.kn/mndoc/entity/subsystem/v1"
 entity: "Subsystem"
-id: "synergymesh-core"
+id: "machinenativeops-core"
 type: "subsystem"
 title: "SynergyMesh Core Engine"
 description: |
@@ -78,6 +78,6 @@ meta:
       description: "SLSA 溯源（證明管理、簽名驗證）"
 
 evidence_ref:
-  sbom: "governance/sbom/synergymesh-core.yaml"
-  signature: "governance/signature/synergymesh-core.sig"
-  slsa_ref: ".slsa/provenance/synergymesh-core.json"
+  sbom: "governance/sbom/machinenativeops-core.yaml"
+  signature: "governance/signature/machinenativeops-core.sig"
+  slsa_ref: ".slsa/provenance/machinenativeops-core.json"

@@ -14,7 +14,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 version: "2.1.0"
-id: "synergymesh.unified-config"
+id: "machinenativeops.unified-config"
 description: "SynergyMesh 統一配置索引 - 所有配置的單一真實來源 (對齊 governance/00-vision-strategy)"
 
 # ============================================================================
@@ -102,13 +102,13 @@ root_directory_restructuring_plan:
   # Naming conflict resolutions
   naming_conflict_resolutions:
     config_conflict:
-      issue: "config/ vs .config/ naming overlap"
+      issue: "config/ vs config/ naming overlap"
       recommendation: "Rename config/ to app-configs/"
       rationale: "Distinguish application configs from tool/test configs"
       status: "planning"
     
     infrastructure_conflict:
-      issue: "infra/ and infrastructure/ functional overlap"
+      issue: "src/autonomous/infrastructure/ and infrastructure/ functional overlap"
       recommendation: "Consolidate to infrastructure/"
       status: "planning"
   
@@ -372,8 +372,8 @@ root_files_consolidation:
       target: "config/drone-config.yml"
     - source: "island-control.yml"
       target: "config/island-control.yml"
-    - source: "synergymesh.config.yaml"
-      target: "config/synergymesh.config.yaml"
+    - source: "machinenativeops.config.yaml"
+      target: "config/machinenativeops.config.yaml"
     - source: "auto-scaffold.json"
       target: "config/auto-scaffold.json"
 
@@ -446,7 +446,7 @@ unified_capabilities:
     task_scheduling:
       provider: "core/unified_integration/system_orchestrator.py"
     intent_understanding:
-      provider: "intelligent-automation/synergymesh_core/"
+      provider: "intelligent-automation/machinenativeops_core/"
 
   # NEW: Work Configuration (工作配置)
   work_configuration:

@@ -1,0 +1,296 @@
+# Prometheus 命名治理告警规则模板
+# 用于监控命名合规性和自动生成告警
+
+groups:
+  - name: naming-compliance-alerts
+    interval: 30s
+    rules:
+      # 关键告警：命名规范违反
+      - alert: NamingPolicyViolation
+        expr: count(naming_compliance_violation_total{severity="critical"}) by (app, env) > 0
+        for: 5m
+        labels:
+          severity: critical
+          category: governance
+          component: naming
+        annotations:
+          summary: "命名规范违反 (critical)"
+          description: |
+            在环境 {{ $labels.env }}, 应用 {{ $labels.app }} 检测到命名规范违反，
+            请于 5 分钟内检查并修正。
+
+            违规资源类型: {{ $labels.resource_type }}
+            违规数量: {{ $value }}
+
+            查看详情: http://grafana.example.com/d/naming-compliance
+          runbook_url: "https://wiki.example.com/runbooks/naming-violation"
+
+      # 警告：命名合规率低
+      - alert: NamingComplianceRateLow
+        expr: |
+          (
+            sum(naming_compliance_good) /
+            (sum(naming_compliance_good) + sum(naming_compliance_bad))
+          ) * 100 < 95
+        for: 15m
+        labels:
+          severity: warning
+          category: governance
+          component: naming
+        annotations:
+          summary: "命名合规率低于阈值"
+          description: |
+            当前命名合规率为 {{ $value | humanizePercentage }}，
+            低于 95% 的目标阈值。
+
+            请检查并修复不合规资源。
+
+            查看仪表板: http://grafana.example.com/d/naming-compliance
+          runbook_url: "https://wiki.example.com/runbooks/low-compliance-rate"
+
+      # 严重警告：命名合规率严重低
+      - alert: NamingComplianceRateCritical
+        expr: |
+          (
+            sum(naming_compliance_good) /
+            (sum(naming_compliance_good) + sum(naming_compliance_bad))
+          ) * 100 < 85
+        for: 5m
+        labels:
+          severity: critical
+          category: governance
+          component: naming
+        annotations:
+          summary: "命名合规率严重低于阈值"
+          description: |
+            当前命名合规率为 {{ $value | humanizePercentage }}，
+            低于 85% 的严重阈值，需要立即处理！
+
+            这可能表明存在系统性问题。
+          runbook_url: "https://wiki.example.com/runbooks/critical-compliance-rate"
+
+      # 警告：生产环境命名违规
+      - alert: ProductionNamingViolation
+        expr: |
+          naming_compliance_bad{environment="production"} > 0
+        for: 1m
+        labels:
+          severity: critical
+          category: governance
+          component: naming
+          environment: production
+        annotations:
+          summary: "生产环境命名违规"
+          description: |
+            检测到 {{ $value }} 个生产环境命名违规资源。
+
+            资源类型: {{ $labels.resource_type }}
+            命名空间: {{ $labels.namespace }}
+
+            生产环境不允许命名违规，请立即修复！
+
+      # 警告：命名违规率异常升高
+      - alert: HighNamingViolationRate
+        expr: |
+          rate(naming_violation_total{severity=~"critical|high"}[1h]) > 10
+        for: 10m
+        labels:
+          severity: warning
+          category: governance
+          component: naming
+        annotations:
+          summary: "命名违规率异常升高"
+          description: |
+            过去 1 小时内检测到 {{ $value }} 个高严重性命名违规，
+            超过正常水平。
+
+            可能存在：
+            - 批量配置错误
+            - 自动化脚本问题
+            - 新部署未遵循规范
+
+            请检查最近的变更。
+
+      # 警告：自动修复失败率高
+      - alert: RemediationFailureRateHigh
+        expr: |
+          (
+            rate(naming_remediation_failure[1h]) /
+            (rate(naming_remediation_success[1h]) + rate(naming_remediation_failure[1h]))
+          ) > 0.2
+        for: 30m
+        labels:
+          severity: warning
+          category: governance
+          component: remediation
+        annotations:
+          summary: "自动修复失败率过高"
+          description: |
+            自动修复失败率为 {{ $value | humanizePercentage }}，
+            超过 20% 阈值。
+
+            失败类型: {{ $labels.error_type }}
+
+            需要检查自动化修复流程和脚本。
+
+      # 信息：新增命名违规
+      - alert: NewNamingViolationDetected
+        expr: |
+          increase(naming_violation_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: info
+          category: governance
+          component: naming
+        annotations:
+          summary: "检测到新的命名违规"
+          description: |
+            检测到 {{ $value }} 个新的命名违规。
+
+            违规类型: {{ $labels.violation_type }}
+            资源类型: {{ $labels.resource_type }}
+
+      # 按环境分类的命名违规
+      - alert: NamingViolationByEnvironment
+        expr: |
+          sum(naming_compliance_bad) by (environment) > 5
+        for: 10m
+        labels:
+          severity: warning
+          category: governance
+          component: naming
+        annotations:
+          summary: "{{ $labels.environment }} 环境命名违规过多"
+          description: |
+            环境 {{ $labels.environment }} 有 {{ $value }} 个命名违规资源。
+
+            建议进行集中清理。
+
+      # 按团队分类的命名违规
+      - alert: NamingViolationByTeam
+        expr: |
+          sum(naming_compliance_bad) by (team) > 10
+        for: 30m
+        labels:
+          severity: warning
+          category: governance
+          component: naming
+        annotations:
+          summary: "团队 {{ $labels.team }} 命名违规过多"
+          description: |
+            团队 {{ $labels.team }} 有 {{ $value }} 个命名违规资源。
+
+            建议：
+            1. 进行团队培训
+            2. 审查团队的资源创建流程
+            3. 启用自动化验证
+
+      # 迁移失败率高
+      - alert: MigrationFailureRateHigh
+        expr: |
+          (
+            rate(naming_migration_failure[1h]) /
+            (rate(naming_migration_success[1h]) + rate(naming_migration_failure[1h]))
+          ) > 0.1
+        for: 15m
+        labels:
+          severity: warning
+          category: governance
+          component: migration
+        annotations:
+          summary: "命名迁移失败率过高"
+          description: |
+            迁移失败率为 {{ $value | humanizePercentage }}，超过 10% 阈值。
+
+            可能原因：
+            - 迁移脚本问题
+            - 依赖关系错误
+            - 资源冲突
+
+            建议暂停迁移并进行调查。
+
+      # 验证失败数量过多
+      - alert: ValidationFailureCountHigh
+        expr: |
+          increase(naming_validation_failure_total[1h]) > 50
+        for: 10m
+        labels:
+          severity: warning
+          category: governance
+          component: validation
+        annotations:
+          summary: "命名验证失败数量过多"
+          description: |
+            过去 1 小时内有 {{ $value }} 次验证失败。
+
+            可能原因：
+            - PR 质量下降
+            - 规则变更未充分沟通
+            - 自动化工具问题
+
+            建议检查最近的验证失败并分析根因。
+
+      # 预测性告警：命名合规率下降趋势
+      - alert: NamingComplianceRateDeclining
+        expr: |
+          predict_linear(
+            sum(naming_compliance_good) /
+            (sum(naming_compliance_good) + sum(naming_compliance_bad))[1h:],
+            24 * 3600
+          ) < 0.9
+        for: 30m
+        labels:
+          severity: warning
+          category: governance
+          component: naming
+        annotations:
+          summary: "命名合规率呈下降趋势"
+          description: |
+            预测 24 小时后命名合规率将低于 90%。
+
+            当前趋势显示合规率持续下降，
+            建议主动介入改善。
+
+  # SLA 相关告警
+  - name: naming-sla-alerts
+    interval: 1m
+    rules:
+      # SLA 违反：命名合规率
+      - alert: NamingComplianceSLAViolation
+        expr: |
+          (
+            sum(naming_compliance_good) /
+            (sum(naming_compliance_good) + sum(naming_compliance_bad))
+          ) * 100 < 99.9
+        for: 1h
+        labels:
+          severity: critical
+          category: sla
+          component: naming
+        annotations:
+          summary: "命名合规率 SLA 违反"
+          description: |
+            命名合规率为 {{ $value | humanizePercentage }}，
+            低于 99.9% 的 SLA 目标，持续超过 1 小时。
+
+            这是 SLA 违反，需要升级处理。
+
+      # SLA 违反：自动修复成功率
+      - alert: AutoRemediationSLAViolation
+        expr: |
+          (
+            sum(rate(naming_remediation_success[1h])) /
+            (sum(rate(naming_remediation_success[1h])) + sum(rate(naming_remediation_failure[1h])))
+          ) * 100 < 95
+        for: 2h
+        labels:
+          severity: warning
+          category: sla
+          component: remediation
+        annotations:
+          summary: "自动修复成功率 SLA 违反"
+          description: |
+            自动修复成功率为 {{ $value | humanizePercentage }}，
+            低于 95% 的 SLA 目标。
+
+            需要检查和改进自动修复流程。

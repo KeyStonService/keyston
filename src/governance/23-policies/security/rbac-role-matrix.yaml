@@ -1,0 +1,183 @@
+---
+# RBAC Role Matrix / RBAC 角色權限矩陣
+# Extracted from: baseline-02-security-rbac.v1.0.yaml
+# Purpose: Define standard RBAC roles and permissions across the cluster
+
+apiVersion: governance.machinenativeops.io/v1
+kind: Policy
+metadata:
+  name: rbac-role-matrix
+  version: v1.0.0
+  category: security-rbac
+  enforcement: mandatory
+  priority: 950
+  description: "基於角色的存取控制矩陣 / Role-based access control matrix"
+
+spec:
+  version: v1.0.0
+  
+  roles:
+    cluster-admin:
+      level: L0-CONSTITUTIONAL
+      description: "叢集管理員（僅限 L1 層）/ Cluster administrator (L1 only)"
+      permissions:
+        - "all:all:all"
+      assignment_process: "manual-approval-required"
+      max_users: 3
+      audit_retention_days: 2555
+      restrictions:
+        mfa_required: true
+        ip_allowlist_required: true
+        session_recording: true
+      approval:
+        approvers:
+          - "security-team-lead"
+          - "cto"
+        approval_count: 2
+    
+    platform-operator:
+      level: L1-GOVERNANCE
+      description: "平台操作員 / Platform operator"
+      permissions:
+        - "namespaces:read,update"
+        - "deployments:read,update,rollback"
+        - "services:read,update"
+        - "configmaps:read,update"
+        - "secrets:read"
+        - "pods:read,logs,exec"
+        - "nodes:read"
+        - "persistentvolumes:read"
+      namespaces:
+        - "all-except-kube-system"
+      restrictions:
+        mfa_required: true
+        allowed_operations_window: "business-hours"
+        break_glass_procedure: true
+      audit:
+        log_all_actions: true
+        alert_on_sensitive_operations: true
+    
+    developer:
+      level: L2-APPLICATION
+      description: "應用程式開發者 / Application developer"
+      permissions:
+        - "deployments:read"
+        - "pods:read,logs"
+        - "services:read"
+        - "configmaps:read"
+        - "secrets:read-metadata-only"
+        - "events:read"
+      namespaces:
+        - "assigned-only"
+      restrictions:
+        approval_required: false
+        exec_disabled: true
+        port_forward_disabled: true
+      resource_limits:
+        max_cpu: "4000m"
+        max_memory: "8Gi"
+    
+    viewer:
+      level: L3-READONLY
+      description: "唯讀檢視者 / Read-only viewer"
+      permissions:
+        - "all:read"
+      namespaces:
+        - "assigned-only"
+      restrictions:
+        no_exec: true
+        no_port_forward: true
+        no_secret_access: true
+      default_role: true
+    
+    ci-cd-automation:
+      level: L2-AUTOMATION
+      description: "CI/CD 自動化服務帳戶 / CI/CD automation service account"
+      permissions:
+        - "deployments:create,update,delete"
+        - "services:create,update,delete"
+        - "configmaps:create,update,delete"
+        - "secrets:create,update"
+        - "pods:read,delete"
+        - "jobs:create,update,delete"
+        - "cronjobs:create,update,delete"
+      namespaces:
+        - "assigned-workload-namespaces"
+      restrictions:
+        token_rotation_days: 30
+        ip_allowlist: "ci-server-ips"
+        audit_all_actions: true
+        rate_limiting: true
+      automation:
+        max_deployments_per_hour: 50
+        rollback_on_failure: true
+    
+    security-auditor:
+      level: L1-GOVERNANCE
+      description: "安全審計員 / Security auditor"
+      permissions:
+        - "all:read"
+        - "audit-logs:read"
+        - "secrets:read-metadata-only"
+        - "rbac:read"
+        - "networkpolicies:read"
+        - "podsecuritypolicies:read"
+      namespaces:
+        - "all"
+      restrictions:
+        mfa_required: true
+        no_write_access: true
+        session_timeout_minutes: 30
+      audit:
+        log_all_queries: true
+        retention_years: 7
+
+  permission_definitions:
+    read:
+      verbs: ["get", "list", "watch"]
+    update:
+      verbs: ["patch", "update"]
+    create:
+      verbs: ["create"]
+    delete:
+      verbs: ["delete", "deletecollection"]
+    all:
+      verbs: ["*"]
+    logs:
+      verbs: ["get"]
+      subresources: ["log"]
+    exec:
+      verbs: ["create", "get"]
+      subresources: ["exec"]
+    rollback:
+      verbs: ["patch"]
+      annotations: ["deployment.kubernetes.io/revision"]
+
+  enforcement:
+    admission_webhook: true
+    webhook_endpoint: "/validate/rbac/assignment"
+    deny_by_default: true
+    explicit_allow_only: true
+  
+  review_process:
+    access_review_frequency: "quarterly"
+    automated_deprovisioning:
+      enabled: true
+      inactive_days: 90
+      notify_before_days: 14
+    emergency_access:
+      break_glass_enabled: true
+      requires_approval: true
+      auto_expire_hours: 4
+      notification: "pagerduty"
+
+  related_policies:
+    - zero-trust-principles
+    - audit-policy
+    - pod-security-standards
+  
+  references:
+    - description: "Kubernetes RBAC Documentation"
+      url: "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+    - description: "NIST RBAC Model"
+      url: "https://csrc.nist.gov/projects/role-based-access-control"

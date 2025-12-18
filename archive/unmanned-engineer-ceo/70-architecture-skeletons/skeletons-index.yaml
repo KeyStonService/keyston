@@ -1,0 +1,228 @@
+version: 1.0.0
+title: 11 Architecture Skeletons System
+description: 完整的架構骨架系統，定義 11 個關鍵的設計與治理維度
+last_updated: "2024-12-04"
+
+skeletons:
+  - id: 1
+    number: 1
+    name: architecture-stability
+    display_name: Architecture Stability Skeleton
+    zh_name: 架構穩定性骨架
+    description: 系統分層、依賴規則、架構不變條件
+    location: unmanned-engineer-ceo/70-architecture-skeletons/architecture-stability
+    priority: critical
+    owner: Architecture Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 2
+    number: 2
+    name: api-governance
+    display_name: API Governance Skeleton
+    zh_name: API 治理骨架
+    description: API 設計規範、版本管理、向後相容策略
+    location: unmanned-engineer-ceo/70-architecture-skeletons/api-governance
+    priority: high
+    owner: API Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 3
+    number: 3
+    name: nucleus-orchestrator
+    display_name: Nucleus Orchestrator Skeleton
+    zh_name: 中樞協調器骨架
+    description: 多代理協調、工作流編排、決策引擎
+    location: unmanned-engineer-ceo/70-architecture-skeletons/nucleus-orchestrator
+    priority: critical
+    owner: Orchestration Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 4
+    number: 4
+    name: security-observability
+    display_name: Security & Observability Skeleton
+    zh_name: 安全與可觀測性骨架
+    description: 安全模型、可觀測性三支柱、審計日誌
+    location: unmanned-engineer-ceo/70-architecture-skeletons/security-observability
+    priority: critical
+    owner: Security Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 5
+    number: 5
+    name: identity-tenancy
+    display_name: Identity & Tenancy Skeleton
+    zh_name: 身份與多租戶骨架
+    description: 身份模型、租戶隔離、資源配額
+    location: unmanned-engineer-ceo/70-architecture-skeletons/identity-tenancy
+    priority: critical
+    owner: Identity Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 6
+    number: 6
+    name: data-governance
+    display_name: Data Governance Skeleton
+    zh_name: 資料治理骨架
+    description: 資料模型、敏感度標示、資料血緣
+    location: unmanned-engineer-ceo/70-architecture-skeletons/data-governance
+    priority: high
+    owner: Data Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 7
+    number: 7
+    name: testing-governance
+    display_name: Testing & Compatibility Governance Skeleton
+    zh_name: 測試與相容性治理骨架
+    description: 測試金字塔、覆蓋率門檻、相容性測試
+    location: unmanned-engineer-ceo/70-architecture-skeletons/testing-governance
+    priority: high
+    owner: QA Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 8
+    number: 8
+    name: performance-reliability
+    display_name: Performance & Reliability Skeleton
+    zh_name: 性能與可靠性骨架
+    description: SLO 定義、Error Budget、容錯設計
+    location: unmanned-engineer-ceo/70-architecture-skeletons/performance-reliability
+    priority: high
+    owner: Platform Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 9
+    number: 9
+    name: cost-management
+    display_name: Cost Management Skeleton
+    zh_name: 成本管理骨架
+    description: 成本歸因、預算管理、成本優化
+    location: unmanned-engineer-ceo/70-architecture-skeletons/cost-management
+    priority: medium
+    owner: FinOps Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 10
+    number: 10
+    name: docs-governance
+    display_name: Documentation Governance Skeleton
+    zh_name: 文檔治理骨架
+    description: 文件結構、命名規範、自動化生成
+    location: unmanned-engineer-ceo/70-architecture-skeletons/docs-governance
+    priority: medium
+    owner: Documentation Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+  - id: 11
+    number: 11
+    name: knowledge-base
+    display_name: Knowledge Base Skeleton
+    zh_name: 知識庫骨架
+    description: 知識模型、索引策略、查詢優化
+    location: unmanned-engineer-ceo/70-architecture-skeletons/knowledge-base
+    priority: high
+    owner: Knowledge Team
+    status: stable
+    files:
+      - overview.md
+      - runtime-mapping.yaml
+      - io-contract.yaml
+      - guardrails.md
+      - checklists.md
+
+skeleton_structure:
+  each_skeleton_includes:
+    - overview.md: "骨架的目的、核心問題、非目標"
+    - runtime-mapping.yaml: "運行時模組映射到實際代碼位置"
+    - io-contract.yaml: "入出型別定義與 JSON Schema"
+    - guardrails.md: "硬性邊界與禁止事項"
+    - checklists.md: "AI 代理檢查清單"
+
+usage_guidelines:
+  ai_agents: |
+    每個 AI 代理在進行設計決策時應：
+    1. 查詢相應骨架的 overview.md 了解目的
+    2. 檢查 guardrails.md 的硬性邊界
+    3. 使用 io-contract.yaml 定義輸入/輸出型別
+    4. 執行 checklists.md 中的所有項目
+    5. 參考 runtime-mapping.yaml 了解實現位置
+
+  humans: |
+    每個人類工程師可以：
+    1. 查閱骨架以理解系統設計規則
+    2. 建立新的設計決策記錄（ADR）引用相應骨架
+    3. 在代碼審查中驗證骨架合規性
+    4. 提交骨架改進建議（通過 PR）
+
+integration_points:
+  - machinenativeops.yaml: 主系統配置入口
+  - docs/: 用戶可讀文檔
+  - config/: 系統配置文件
+  - tests/: 自動化驗證
+
+maintenance:
+  review_frequency: quarterly
+  last_review: "2024-12-04"
+  next_review: "2025-03-04"
+  responsible_team: Architecture Council

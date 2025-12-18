@@ -1,0 +1,174 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.io/schemas/namespace-labels.schema.json",
+  "title": "Namespace Labels Schema",
+  "description": "Mandatory and optional labels for Kubernetes namespaces. Extracted from baseline-01-namespace-governance.v1.0.yaml",
+  "type": "object",
+  "version": "v1.0.0",
+  
+  "required": [
+    "app.kubernetes.io/name",
+    "app.kubernetes.io/version",
+    "app.kubernetes.io/component",
+    "app.kubernetes.io/part-of",
+    "app.kubernetes.io/managed-by",
+    "environment",
+    "owner",
+    "cost-center",
+    "compliance.level",
+    "baseline.level"
+  ],
+  
+  "properties": {
+    "app.kubernetes.io/name": {
+      "type": "string",
+      "description": "應用程式名稱 / Application name",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "maxLength": 63
+    },
+    
+    "app.kubernetes.io/version": {
+      "type": "string",
+      "description": "應用程式版本 / Application version",
+      "pattern": "^v?[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9-]+)?$",
+      "examples": ["v1.0.0", "1.2.3", "2.0.0-beta.1"]
+    },
+    
+    "app.kubernetes.io/component": {
+      "type": "string",
+      "description": "元件類型 / Component type",
+      "enum": [
+        "frontend",
+        "backend",
+        "database",
+        "cache",
+        "queue",
+        "worker",
+        "api",
+        "gateway",
+        "monitoring",
+        "logging"
+      ]
+    },
+    
+    "app.kubernetes.io/part-of": {
+      "type": "string",
+      "description": "所屬系統 / Part of system",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "minLength": 1,
+      "maxLength": 63
+    },
+    
+    "app.kubernetes.io/managed-by": {
+      "type": "string",
+      "description": "管理工具 / Managed by tool",
+      "enum": [
+        "argocd",
+        "flux",
+        "helm",
+        "kustomize",
+        "kubectl",
+        "terraform"
+      ]
+    },
+    
+    "environment": {
+      "type": "string",
+      "description": "環境標籤 / Environment label",
+      "enum": [
+        "production",
+        "staging",
+        "development",
+        "feature",
+        "test"
+      ]
+    },
+    
+    "owner": {
+      "type": "string",
+      "description": "負責團隊 / Owner team",
+      "pattern": "^[a-z][a-z0-9-]*@[a-z0-9.-]+$",
+      "examples": ["platform-team@example.com", "devops@company.io"]
+    },
+    
+    "cost-center": {
+      "type": "string",
+      "description": "成本中心 / Cost center",
+      "pattern": "^CC-[0-9]{4,6}$",
+      "examples": ["CC-1234", "CC-567890"]
+    },
+    
+    "compliance.level": {
+      "type": "string",
+      "description": "合規等級 / Compliance level",
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "restricted"
+      ]
+    },
+    
+    "baseline.level": {
+      "type": "string",
+      "description": "基線層級 / Baseline level",
+      "pattern": "^L-[A-Z]$",
+      "examples": ["L-A", "L-B", "L-C"],
+      "enum": ["L-A", "L-B", "L-C", "L-D"]
+    },
+    
+    "security.scan.required": {
+      "type": "string",
+      "description": "是否需要安全掃描 / Security scan required",
+      "enum": ["true", "false"],
+      "default": "true"
+    },
+    
+    "backup.enabled": {
+      "type": "string",
+      "description": "是否啟用備份 / Backup enabled",
+      "enum": ["true", "false"],
+      "default": "false"
+    },
+    
+    "monitoring.tier": {
+      "type": "string",
+      "description": "監控層級 / Monitoring tier",
+      "enum": ["standard", "enhanced", "premium"],
+      "default": "standard"
+    },
+    
+    "network.zone": {
+      "type": "string",
+      "description": "網路區域 / Network zone",
+      "enum": ["dmz", "application", "data", "management"]
+    },
+    
+    "tenant-id": {
+      "type": "string",
+      "description": "租戶識別碼 / Tenant identifier",
+      "pattern": "^[a-z0-9-]+$"
+    }
+  },
+  
+  "additionalProperties": true,
+  
+  "examples": [
+    {
+      "app.kubernetes.io/name": "payment-service",
+      "app.kubernetes.io/version": "v2.3.1",
+      "app.kubernetes.io/component": "backend",
+      "app.kubernetes.io/part-of": "ecommerce-platform",
+      "app.kubernetes.io/managed-by": "argocd",
+      "environment": "production",
+      "owner": "backend-team@example.com",
+      "cost-center": "CC-12345",
+      "compliance.level": "confidential",
+      "baseline.level": "L-A",
+      "security.scan.required": "true",
+      "backup.enabled": "true",
+      "monitoring.tier": "premium"
+    }
+  ]
+}

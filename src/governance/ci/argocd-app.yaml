@@ -1,0 +1,160 @@
+# =============================================================================
+# SynergyMesh Governance - ArgoCD Application
+# GitOps Continuous Deployment
+# =============================================================================
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: machinenativeops-governance
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: governance
+    app.kubernetes.io/part-of: machinenativeops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/SynergyMesh-admin/SynergyMesh.git
+    targetRevision: HEAD
+    path: governance
+
+    directory:
+      recurse: true
+      include: '*.yaml'
+      exclude: '{ci/**,scripts/**,tests/**}'
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: governance
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
+
+  ignoreDifferences:
+    - group: ""
+      kind: ConfigMap
+      jsonPointers:
+        - /data/generated_at
+    - group: ""
+      kind: Secret
+      jsonPointers:
+        - /data
+
+---
+# =============================================================================
+# ArgoCD ApplicationSet for Dimension Modules
+# =============================================================================
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: governance-dimensions
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/SynergyMesh-admin/SynergyMesh.git
+        revision: HEAD
+        directories:
+          - path: governance/dimensions/*
+
+  template:
+    metadata:
+      name: 'dimension-{{path.basename}}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/name: '{{path.basename}}'
+        app.kubernetes.io/part-of: governance-dimensions
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/SynergyMesh-admin/SynergyMesh.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: governance
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+# =============================================================================
+# OPA Gatekeeper ConstraintTemplate for Governance
+# =============================================================================
+
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: governancevalidation
+  annotations:
+    description: "Validates resources against governance policies"
+spec:
+  crd:
+    spec:
+      names:
+        kind: GovernanceValidation
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            dimensions:
+              type: array
+              items:
+                type: string
+            severity:
+              type: string
+              enum: [low, medium, high, critical]
+
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package governancevalidation
+
+        violation[{"msg": msg}] {
+          not input.review.object.metadata.labels["governance.machinenativeops.io/validated"]
+          msg := "Resource must be validated by governance framework"
+        }
+
+        violation[{"msg": msg}] {
+          input.review.object.metadata.labels["governance.machinenativeops.io/compliant"] == "false"
+          msg := "Resource failed governance compliance check"
+        }
+
+---
+# =============================================================================
+# Governance Namespace
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: governance
+  labels:
+    app.kubernetes.io/name: governance
+    app.kubernetes.io/part-of: machinenativeops
+    governance.machinenativeops.io/managed: "true"
+  annotations:
+    governance.machinenativeops.io/version: "2.0.0"

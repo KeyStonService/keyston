@@ -1,0 +1,142 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-system
+  labels:
+    app: advanced-system
+    namespace.io/team: frontend-team
+    namespace.io/environment: production
+    namespace.io/lifecycle: active
+    namespace.io/managed-by: gitops
+    version: "1.0.0"
+  annotations:
+    description: "Advanced system integration dashboard"
+    contact: "frontend-team@example.com"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: advanced-system
+  template:
+    metadata:
+      labels:
+        app: advanced-system
+        namespace.io/team: frontend-team
+        namespace.io/environment: production
+        version: "1.0.0"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3002"
+    spec:
+      # 安全配置
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101  # nginx user
+        runAsGroup: 101
+        fsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
+      
+      # 服務帳戶
+      serviceAccountName: advanced-system
+      automountServiceAccountToken: false
+      
+      containers:
+      - name: advanced-system
+        # 注意：實際部署時應使用特定版本標籤或 digest
+        image: ghcr.io/we-can-fix/machinenativeops/advanced-system:main-abc123
+        imagePullPolicy: Always
+        
+        ports:
+        - name: http
+          containerPort: 3002
+          protocol: TCP
+        
+        # 資源限制
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        
+        # 健康檢查
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        
+        startupProbe:
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 2
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 30
+        
+        # 容器安全配置
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 101
+          capabilities:
+            drop:
+            - ALL
+        
+        # 臨時卷掛載
+        volumeMounts:
+        - name: cache
+          mountPath: /var/cache/nginx
+        - name: run
+          mountPath: /var/run
+      
+      volumes:
+      - name: cache
+        emptyDir: {}
+      - name: run
+        emptyDir: {}
+      
+      # Pod 反親和性
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - advanced-system
+              topologyKey: kubernetes.io/hostname
+      
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

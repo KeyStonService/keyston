@@ -1,0 +1,404 @@
+# 迁移计划 Schema
+# 定义命名治理迁移的阶段、风险、执行步骤
+
+$schema: http://json-schema.org/draft-07/schema#
+title: Migration Plan
+description: 定义命名治理迁移的完整计划，包括发现、计划、演练、执行、切换和回滚阶段
+
+type: object
+required:
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  apiVersion:
+    type: string
+    pattern: "^governance\\.machinenativeops\\.io/v1(alpha|beta)?[0-9]*$"
+
+  kind:
+    type: string
+    enum: ["MigrationPlan"]
+
+  metadata:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+        pattern: "^naming-migration-[a-z0-9-]+$"
+        example: "naming-migration-2025q1"
+      labels:
+        type: object
+      annotations:
+        type: object
+
+  spec:
+    type: object
+    required: [stages, timeline, risks]
+    properties:
+      # 迁移目标
+      objectives:
+        type: object
+        properties:
+          description:
+            type: string
+          scope:
+            type: string
+          expectedOutcome:
+            type: string
+
+      # 迁移阶段
+      stages:
+        type: array
+        minItems: 6
+        items:
+          type: object
+          required: [id, name, ownerTeam]
+          properties:
+            id:
+              type: string
+              enum: ["discovery", "benchmark", "dry-run", "staged-rename", "cutover", "rollback"]
+
+            name:
+              type: string
+              description: "阶段名称"
+
+            description:
+              type: string
+              description: "阶段描述"
+
+            ownerTeam:
+              type: string
+              description: "负责团队"
+
+            duration:
+              type: string
+              pattern: "^[0-9]+(h|d|w)$"
+              description: "预计时长"
+
+            prerequisites:
+              type: array
+              description: "前置条件"
+              items:
+                type: string
+
+            tasks:
+              type: array
+              description: "任务列表"
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  assignee:
+                    type: string
+                  status:
+                    type: string
+                    enum: ["pending", "in-progress", "completed", "blocked"]
+
+            scripts:
+              type: array
+              description: "执行脚本"
+              items:
+                type: string
+
+            successCriteria:
+              type: array
+              description: "成功标准"
+              items:
+                type: string
+
+            deliverables:
+              type: array
+              description: "交付物"
+              items:
+                type: string
+
+            risks:
+              type: array
+              description: "阶段风险"
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+                  likelihood:
+                    type: string
+                    enum: ["low", "medium", "high"]
+                  impact:
+                    type: string
+                    enum: ["low", "medium", "high", "critical"]
+                  mitigation:
+                    type: string
+
+            rollbackProcedure:
+              type: object
+              description: "回滚程序"
+              properties:
+                enabled:
+                    type: boolean
+                steps:
+                  type: array
+                  items:
+                    type: string
+                estimatedTime:
+                  type: string
+
+      # 时间线
+      timeline:
+        type: object
+        properties:
+          startDate:
+            type: string
+            format: date-time
+          expectedEndDate:
+            type: string
+            format: date-time
+          milestones:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                date:
+                  type: string
+                  format: date-time
+                deliverables:
+                  type: array
+                  items:
+                    type: string
+
+      # 风险评估
+      risks:
+        type: array
+        items:
+          type: object
+          required: [id, description, category, level]
+          properties:
+            id:
+              type: string
+              pattern: "^RISK-[0-9]+$"
+            description:
+              type: string
+            category:
+              type: string
+              enum: ["technical", "operational", "business", "security"]
+            level:
+              type: string
+              enum: ["low", "medium", "high", "critical"]
+            likelihood:
+              type: string
+              enum: ["rare", "unlikely", "possible", "likely", "certain"]
+            impact:
+              type: string
+              enum: ["negligible", "minor", "moderate", "major", "severe"]
+            mitigation:
+              type: string
+            contingency:
+              type: string
+            owner:
+              type: string
+
+      # 资源需求
+      resources:
+        type: object
+        properties:
+          teams:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+                allocation:
+                  type: string
+
+          infrastructure:
+            type: object
+            properties:
+              compute:
+                type: string
+              storage:
+                type: string
+              network:
+                type: string
+
+          tools:
+            type: array
+            items:
+              type: string
+
+      # 沟通计划
+      communication:
+        type: object
+        properties:
+          stakeholders:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+                notificationChannels:
+                  type: array
+                  items:
+                    type: string
+
+          updates:
+            type: object
+            properties:
+              frequency:
+                type: string
+              channels:
+                type: array
+                items:
+                  type: string
+
+          escalation:
+            type: array
+            items:
+              type: object
+              properties:
+                level:
+                  type: integer
+                contact:
+                  type: string
+                responseTime:
+                  type: string
+
+      # 验收标准
+      acceptance:
+        type: object
+        properties:
+          criteria:
+            type: array
+            items:
+              type: string
+          testPlan:
+            type: string
+          signOffRequired:
+            type: array
+            items:
+              type: string
+
+      # 回滚策略
+      rollback:
+        type: object
+        required: [enabled, trigger, procedure]
+        properties:
+          enabled:
+            type: boolean
+          trigger:
+            type: array
+            description: "触发回滚的条件"
+            items:
+              type: string
+          procedure:
+            type: object
+            properties:
+              steps:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order:
+                      type: integer
+                    name:
+                      type: string
+                    script:
+                      type: string
+                    estimatedTime:
+                      type: string
+              testingRequired:
+                type: boolean
+              approvalRequired:
+                type: boolean
+
+examples:
+  - apiVersion: governance.machinenativeops.io/v1alpha1
+    kind: MigrationPlan
+    metadata:
+      name: naming-migration-2025q1
+      labels:
+        quarter: "2025-q1"
+        priority: "high"
+    spec:
+      objectives:
+        description: "将所有生产资源迁移到新的命名规范"
+        scope: "生产环境所有 Kubernetes 资源"
+        expectedOutcome: "99% 命名合规率"
+      stages:
+        - id: discovery
+          name: "资产发现与盘点"
+          description: "扫描并盘点所有需要迁移的资源"
+          ownerTeam: "CloudOps"
+          duration: "1w"
+          scripts:
+            - "bash tools/governance/bash/discover_assets.sh"
+          successCriteria:
+            - "所有命名相关资产列入清冊"
+            - "资产清单准确率 > 99%"
+          risks:
+            - description: "资产漏盘点"
+              likelihood: "medium"
+              impact: "high"
+              mitigation: "多工具交叉验证，人工复核"
+        - id: benchmark
+          name: "制定新命名 Benchmark"
+          ownerTeam: "IT Governance"
+          successCriteria:
+            - "新版命名规则发布并审核通过"
+        - id: dry-run
+          name: "Dry-run/diff 验证"
+          ownerTeam: "SRE"
+          scripts:
+            - "kubectl apply --dry-run=client -f new_manifests/"
+          successCriteria:
+            - "无 critical 依赖冲突"
+        - id: staged-rename
+          name: "分阶段重命名"
+          ownerTeam: "DevOps"
+        - id: cutover
+          name: "正式切换"
+          ownerTeam: "SRE"
+          scripts:
+            - "bash tools/governance/bash/update_dns.sh"
+            - "bash tools/governance/bash/switch_service.sh"
+        - id: rollback
+          name: "回滚预案"
+          ownerTeam: "SRE"
+          rollbackProcedure:
+            enabled: true
+            steps:
+              - "bash tools/governance/bash/restore_names.sh"
+              - "bash tools/governance/bash/restore_dns.sh"
+      timeline:
+        startDate: "2025-01-15T00:00:00Z"
+        expectedEndDate: "2025-03-31T23:59:59Z"
+      rollback:
+        enabled: true
+        trigger:
+          - "错误率超过 5%"
+          - "服务不可用超过 10 分钟"
+          - "数据一致性检查失败"
+        procedure:
+          steps:
+            - order: 1
+              name: "停止迁移"
+              script: "bash tools/governance/bash/stop_migration.sh"
+            - order: 2
+              name: "恢复命名"
+              script: "bash tools/governance/bash/restore_names.sh"
+            - order: 3
+              name: "恢复 DNS"
+              script: "bash tools/governance/bash/restore_dns.sh"
+            - order: 4
+              name: "验证回滚"
+              script: "bash tools/governance/bash/verify_rollback.sh"

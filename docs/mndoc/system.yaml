@@ -28,7 +28,7 @@ criticality: "high"
 
 # Three major subsystems
 subsystems:
-  - "synergymesh-core"
+  - "machinenativeops-core"
   - "structural-governance"
   - "autonomous-framework"
 
@@ -53,7 +53,7 @@ meta:
   design_principles:
     - id: "unified-entry"
       name: "統一入口"
-      description: "單一配置檔 synergymesh.yaml 作為所有系統的真實來源"
+      description: "單一配置檔 machinenativeops.yaml 作為所有系統的真實來源"
     - id: "modular-design"
       name: "模組化設計"
       description: "三大子系統獨立運作，透過統一接口協作"
@@ -65,7 +65,7 @@ meta:
       description: "AI 驅動的自動修復、智能派工、升級管理"
   
   config_refs:
-    master: "synergymesh.yaml"
+    master: "machinenativeops.yaml"
     manifest: "config/system-manifest.yaml"
     modules: "config/system-module-map.yaml"
     index: "config/unified-config-index.yaml"

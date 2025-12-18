@@ -3,7 +3,7 @@
 # Last Updated: 2025-12-16
 # Status: Active
 
-$schema: "https://schema.synergymesh.io/roadmap/v1"
+$schema: "https://schema.machinenativeops.io/roadmap/v1"
 version: "1.0.0"
 status: "active"
 timeframe: "2026-Q1 to 2026-Q3"

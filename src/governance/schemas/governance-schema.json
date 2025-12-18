@@ -1,0 +1,363 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.io/governance/schemas/governance-schema.json",
+  "title": "Governance Configuration Schema",
+  "description": "Schema for validating governance.yaml configuration",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "pattern": "^governance\\.machinenativeops\\.io/v\\d+$",
+      "description": "API version of the governance configuration"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["GovernanceConfiguration"],
+      "description": "Type of governance resource"
+    },
+    "metadata": {
+      "$ref": "#/definitions/metadata"
+    },
+    "principles": {
+      "$ref": "#/definitions/principles"
+    },
+    "execution": {
+      "$ref": "#/definitions/execution"
+    },
+    "dimensions": {
+      "$ref": "#/definitions/dimensions"
+    },
+    "shared": {
+      "$ref": "#/definitions/shared"
+    },
+    "ci_cd": {
+      "$ref": "#/definitions/ci_cd"
+    },
+    "policy_engine": {
+      "$ref": "#/definitions/policy_engine"
+    },
+    "audit": {
+      "$ref": "#/definitions/audit"
+    },
+    "intent": {
+      "$ref": "#/definitions/intent"
+    },
+    "agents": {
+      "$ref": "#/definitions/agents"
+    },
+    "feedback": {
+      "$ref": "#/definitions/feedback"
+    }
+  },
+  "definitions": {
+    "metadata": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "principles": {
+      "type": "object",
+      "properties": {
+        "machine_first": {
+          "type": "object",
+          "properties": {
+            "description": {"type": "string"},
+            "formats": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "validation": {"type": "string"}
+          }
+        },
+        "semantic_consistency": {
+          "type": "object"
+        },
+        "modularity": {
+          "type": "object"
+        },
+        "auditability": {
+          "type": "object"
+        },
+        "automation": {
+          "type": "object"
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "instant_standard": {
+          "type": "object",
+          "properties": {
+            "understanding_time": {"type": "string"},
+            "execution_time": {"type": "string"},
+            "repair_time": {"type": "string"},
+            "human_intervention": {"type": "integer"},
+            "evolution": {"type": "string"}
+          }
+        },
+        "responsibility_boundary": {
+          "type": "object",
+          "properties": {
+            "ai_autonomous": {
+              "type": "object",
+              "properties": {
+                "scope": {"type": "array", "items": {"type": "string"}},
+                "autonomy": {"type": "string"}
+              }
+            },
+            "human_control": {
+              "type": "object",
+              "properties": {
+                "scope": {"type": "array", "items": {"type": "string"}},
+                "control": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "registry": {"type": "string"},
+        "total_count": {"type": "integer"},
+        "categories": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "range": {"type": "string"},
+              "description": {"type": "string"},
+              "dimensions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "name": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "shared": {
+      "type": "object",
+      "properties": {
+        "packages": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "modules": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "policies": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "engine": {"type": "string"},
+            "format": {"type": "string"}
+          }
+        },
+        "schemas": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string"},
+            "registry": {"type": "boolean"}
+          }
+        },
+        "templates": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "formats": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "ci_cd": {
+      "type": "object",
+      "properties": {
+        "pipelines": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "providers": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "actions": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "policy_engine": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["opa", "kyverno", "gatekeeper"]
+        },
+        "version": {"type": "string"},
+        "features": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "enforcement": {
+          "type": "object",
+          "properties": {
+            "ci_gate": {"type": "string"},
+            "deployment_gate": {"type": "string"},
+            "runtime_gate": {"type": "string"}
+          }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "storage": {
+          "type": "object",
+          "properties": {
+            "hot_days": {"type": "integer"},
+            "warm_days": {"type": "integer"},
+            "cold_years": {"type": "integer"},
+            "archive": {"type": "string"}
+          }
+        },
+        "format": {
+          "type": "object",
+          "properties": {
+            "standard": {"type": "string"},
+            "trace_id": {"type": "string"},
+            "evidence_chain": {"type": "string"}
+          }
+        },
+        "compliance": {
+          "type": "object",
+          "properties": {
+            "frameworks": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "auto_report": {"type": "string"}
+          }
+        }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "dsl": {
+          "type": "object",
+          "properties": {
+            "format": {"type": "string"},
+            "version": {"type": "string"}
+          }
+        },
+        "engine": {
+          "type": "object"
+        },
+        "lifecycle": {
+          "type": "object"
+        },
+        "closed_loop": {
+          "type": "object"
+        }
+      }
+    },
+    "agents": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "states": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "model": {"type": "string"},
+            "fine_grained": {"type": "boolean"}
+          }
+        },
+        "compliance": {
+          "type": "object"
+        },
+        "responsibility": {
+          "type": "object"
+        }
+      }
+    },
+    "feedback": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "collection": {
+          "type": "object"
+        },
+        "analysis": {
+          "type": "object"
+        },
+        "optimization": {
+          "type": "object"
+        },
+        "cycle_time": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@island-ai/cli",
+  "name": "@src/ai/cli",
   "version": "0.1.0",
   "description": "Island AI terminal companion for AI engineering teams",
   "type": "module",

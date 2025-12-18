@@ -1,0 +1,29 @@
+{
+  "name": "@machinenativeops/skeleton-configs",
+  "version": "1.0.0",
+  "description": "Architecture skeleton configurations for Unmanned Island System",
+  "private": true,
+  "workspaces": [
+    "01-architecture-stability",
+    "04-security-observability",
+    "05-identity-tenancy"
+  ],
+  "scripts": {
+    "build": "echo 'Delegating build to child workspaces' && npm run build --workspaces --if-present",
+    "lint": "echo 'Skeleton configs have no direct linting - linting handled by child workspaces'",
+    "test": "echo 'Delegating test to child workspaces' && npm run test --workspaces --if-present",
+    "clean": "echo 'Delegating clean to child workspaces' && npm run clean --workspaces --if-present"
+  },
+  "keywords": [
+    "architecture",
+    "skeleton",
+    "configuration",
+    "unmanned-island"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

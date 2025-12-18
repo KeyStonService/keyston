@@ -59,8 +59,8 @@ entities:
     
   # Subsystem Entities
   subsystems:
-    - path: "docs/mndoc/subsystems/synergymesh-core.yaml"
-      id: "synergymesh-core"
+    - path: "docs/mndoc/subsystems/machinenativeops-core.yaml"
+      id: "machinenativeops-core"
       schema: "$ref:entity_subsystem"
       
     - path: "docs/mndoc/subsystems/structural-governance.yaml"
@@ -99,8 +99,8 @@ cross_references:
   # Maps to existing knowledge_index.yaml
   knowledge_index: "docs/knowledge_index.yaml"
   
-  # Maps to synergymesh.yaml
-  master_config: "synergymesh.yaml"
+  # Maps to machinenativeops.yaml
+  master_config: "machinenativeops.yaml"
   
   # Maps to system-module-map.yaml
   module_map: "config/system-module-map.yaml"

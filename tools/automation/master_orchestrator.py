@@ -47,7 +47,7 @@ Architecture Role / 架構角色
 
 Configuration Sources / 配置來源
 --------------------------------
-- Primary: `machine-native-ops.yaml` (root-level truth source; legacy alias: `synergymesh.yaml`)
+- Primary: `machinenativeops.yaml` (root-level truth source)
 - Governance: `config/system-manifest.yaml`, `config/unified-config-index.yaml`
 - Engine configs: `tools/automation/engines/*/engine.yaml`
 - State persistence: `.automation_state/`

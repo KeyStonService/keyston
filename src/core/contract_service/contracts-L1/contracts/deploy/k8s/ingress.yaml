@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: contracts-l1
+  namespace: machinenativeops
+  labels:
+    app: contracts-l1
+    tier: core
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/limit-rps: "50"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://your-domain.com"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - contracts-l1.machinenativeops.com
+    - api.machinenativeops.com
+    secretName: contracts-l1-tls
+  rules:
+  - host: contracts-l1.machinenativeops.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: contracts-l1
+            port:
+              number: 80
+  - host: api.machinenativeops.com
+    http:
+      paths:
+      - path: /v1/contracts
+        pathType: Prefix
+        backend:
+          service:
+            name: contracts-l1
+            port:
+              number: 80

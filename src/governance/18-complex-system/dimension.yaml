@@ -1,0 +1,50 @@
+apiVersion: governance.machinenativeops.io/v2
+kind: DimensionModule
+metadata:
+  id: 18-complex-system
+  name: 複雜系統治理
+  name_en: Complex System Governance
+  version: 1.0.0
+  created_at: '2025-12-11T22:17:20.921764Z'
+  updated_at: '2025-12-11T22:17:20.921771Z'
+  owner: governance-bot
+  category: policy
+  tags:
+  - 18_complex_system
+  - policy
+spec:
+  description: Complex System Governance dimension for SynergyMesh governance framework
+  schema:
+    path: ./schema.json
+    format: json-schema
+    validation: optional
+  policy:
+    path: ./policy.rego
+    engine: opa
+    enforcement: optional
+  dependencies:
+    required: []
+    optional: []
+  interface:
+    inputs:
+    - name: config
+      type: object
+      required: true
+    outputs:
+    - name: result
+      type: object
+  status: active
+  compliance:
+    frameworks:
+    - ISO-42001
+    framework_mappings:
+    - framework: ISO-42001
+      controls: []
+      compliance_status: in_progress
+compliance:
+  frameworks:
+  - ISO-42001
+  framework_mappings:
+  - framework: ISO-42001
+    controls: []
+    compliance_status: in_progress

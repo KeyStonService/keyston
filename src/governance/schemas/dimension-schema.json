@@ -1,0 +1,266 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://machinenativeops.io/governance/schemas/dimension-schema.json",
+  "title": "Dimension Module Schema",
+  "description": "Schema for validating dimension module definitions",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "pattern": "^governance\\.machinenativeops\\.io/v\\d+$",
+      "description": "API version"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["DimensionModule"],
+      "description": "Resource type"
+    },
+    "metadata": {
+      "$ref": "#/definitions/dimensionMetadata"
+    },
+    "spec": {
+      "$ref": "#/definitions/dimensionSpec"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "active", "inactive", "deprecated", "retired"]
+    }
+  },
+  "definitions": {
+    "dimensionMetadata": {
+      "type": "object",
+      "required": ["id", "name", "version", "owner", "category"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^\\d{2}-[a-z][a-z0-9-]*$",
+          "description": "Dimension ID (e.g., 00-vision-strategy)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name in Chinese"
+        },
+        "name_en": {
+          "type": "string",
+          "description": "Display name in English"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["strategic", "operational", "execution", "observability", "feedback"]
+        },
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "dimensionSpec": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 10
+        },
+        "schema": {
+          "$ref": "#/definitions/schemaReference"
+        },
+        "policy": {
+          "$ref": "#/definitions/policyReference"
+        },
+        "dependencies": {
+          "$ref": "#/definitions/dependencies"
+        },
+        "interface": {
+          "$ref": "#/definitions/interface"
+        },
+        "behavior": {
+          "$ref": "#/definitions/behavior"
+        },
+        "lifecycle": {
+          "$ref": "#/definitions/lifecycle"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/metric"
+          }
+        },
+        "compliance": {
+          "$ref": "#/definitions/compliance"
+        }
+      }
+    },
+    "schemaReference": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "format": {
+          "type": "string",
+          "enum": ["json-schema", "openapi", "protobuf"]
+        },
+        "validation": {
+          "type": "string",
+          "enum": ["required", "optional", "none"]
+        }
+      }
+    },
+    "policyReference": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "engine": {
+          "type": "string",
+          "enum": ["opa", "kyverno", "custom"]
+        },
+        "enforcement": {
+          "type": "string",
+          "enum": ["required", "optional", "audit"]
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "optional": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "interface": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string"},
+              "required": {"type": "boolean"},
+              "schema_ref": {"type": "string"}
+            }
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string"},
+              "schema_ref": {"type": "string"}
+            }
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {"type": "string"},
+              "name": {"type": "string"},
+              "description": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "behavior": {
+      "type": "object",
+      "properties": {
+        "invariants": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "postconditions": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "side_effects": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "properties": {
+        "states": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "trigger": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "metric": {
+      "type": "object",
+      "required": ["name", "type"],
+      "properties": {
+        "name": {"type": "string"},
+        "type": {
+          "type": "string",
+          "enum": ["counter", "gauge", "histogram", "summary"]
+        },
+        "description": {"type": "string"},
+        "labels": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "frameworks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "controls": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "audit_frequency": {
+          "type": "string",
+          "enum": ["continuous", "daily", "weekly", "monthly", "quarterly", "annual"]
+        }
+      }
+    }
+  }
+}

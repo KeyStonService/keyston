@@ -1,6 +1,6 @@
 {
-  "$schema": "https://schema.synergymesh.io/docs-index/v1",
-  "namespace": "synergymesh.docs",
+  "$schema": "https://schema.machinenativeops.io/docs-index/v1",
+  "namespace": "machinenativeops.docs",
   "version": "1.0.0",
   "last_updated": "2025-11-30",
   "categories": {
@@ -474,14 +474,14 @@
       "description": "Integration with external systems."
     },
     {
-      "id": "island-ai_setup",
+      "id": "src/ai_setup",
       "path": "docs/ISLAND_AI_SETUP.md",
       "title": "Island AI Setup Island AI 設定",
       "domain": "guides",
       "layer": "enablement",
       "type": "guide",
       "tags": [
-        "island-ai",
+        "src/ai",
         "github",
         "setup"
       ],

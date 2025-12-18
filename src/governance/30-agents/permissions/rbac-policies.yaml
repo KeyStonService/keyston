@@ -1,0 +1,213 @@
+---
+# RBAC Policies for AI Agents
+# AI Agent 角色基礎存取控制策略
+
+metadata:
+  name: "Agent RBAC Policies"
+  version: "1.0.0"
+  description: "Role-Based Access Control policies for AI agents"
+  created_at: "2025-12-11"
+  updated_at: "2025-12-11"
+
+# Role Definitions
+roles:
+  
+  # Basic Agent Role
+  agent_basic:
+    description: "Basic agent with read-only access"
+    permissions:
+      - "config:read"
+      - "governance:read"
+      - "core:read"
+      - "automation:read"
+    resource_limits:
+      memory: "1GB"
+      cpu: "0.5 cores"
+      network_bandwidth: "25 Mbps"
+    
+  # Advanced Agent Role
+  agent_advanced:
+    description: "Advanced agent with automation capabilities"
+    inherits: ["agent_basic"]
+    permissions:
+      - "automation:execute"
+      - "automation:monitor"
+      - "reports:write"
+      - "logs:write"
+    resource_limits:
+      memory: "2GB"
+      cpu: "1 core"
+      network_bandwidth: "50 Mbps"
+  
+  # Autonomous Agent Role
+  agent_autonomous:
+    description: "Fully autonomous agent with self-healing"
+    inherits: ["agent_advanced"]
+    permissions:
+      - "automation:deploy"
+      - "automation:heal"
+      - "service:restart"
+    resource_limits:
+      memory: "4GB"
+      cpu: "2 cores"
+      network_bandwidth: "100 Mbps"
+  
+  # Security Agent Role
+  agent_security:
+    description: "Security-focused agent"
+    inherits: ["agent_basic"]
+    permissions:
+      - "security:scan"
+      - "security:audit"
+      - "alert:create"
+      - "alert:resolve"
+    resource_limits:
+      memory: "2GB"
+      cpu: "1 core"
+      network_bandwidth: "50 Mbps"
+  
+  # Deployment Agent Role
+  agent_deployment:
+    description: "Deployment and configuration management agent"
+    inherits: ["agent_advanced"]
+    permissions:
+      - "deploy:execute"
+      - "config:write"
+      - "service:manage"
+    resource_limits:
+      memory: "4GB"
+      cpu: "2 cores"
+      network_bandwidth: "100 Mbps"
+    approval_required: true
+
+# Permission Definitions
+permissions:
+  
+  # Config Permissions
+  "config:read":
+    scope: "config/*"
+    actions: ["read", "list"]
+    
+  "config:write":
+    scope: "config/*"
+    actions: ["create", "update", "delete"]
+    approval_required: true
+  
+  # Governance Permissions
+  "governance:read":
+    scope: "governance/*"
+    actions: ["read", "list"]
+    
+  "governance:validate":
+    scope: "governance/policies/*"
+    actions: ["execute"]
+  
+  # Core Permissions
+  "core:read":
+    scope: "core/*"
+    actions: ["read", "list"]
+  
+  # Automation Permissions
+  "automation:read":
+    scope: "automation/*"
+    actions: ["read", "list"]
+    
+  "automation:execute":
+    scope: "automation/*"
+    actions: ["execute"]
+    
+  "automation:deploy":
+    scope: "automation/src/autonomous/deployment/*"
+    actions: ["create", "execute"]
+    approval_required: true
+    
+  "automation:monitor":
+    scope: "automation/monitoring/*"
+    actions: ["read", "list"]
+    
+  "automation:heal":
+    scope: "automation/healing/*"
+    actions: ["execute"]
+  
+  # Security Permissions
+  "security:scan":
+    scope: "security/*"
+    actions: ["execute"]
+    
+  "security:audit":
+    scope: "security/audit/*"
+    actions: ["read", "write"]
+  
+  # Service Permissions
+  "service:restart":
+    scope: "services/*"
+    actions: ["restart"]
+    
+  "service:manage":
+    scope: "services/*"
+    actions: ["start", "stop", "restart", "update"]
+    approval_required: true
+  
+  # Deploy Permissions
+  "deploy:execute":
+    scope: "src/autonomous/deployment/*"
+    actions: ["execute"]
+    approval_required: true
+  
+  # Report Permissions
+  "reports:write":
+    scope: "reports/*"
+    actions: ["create", "update"]
+  
+  # Log Permissions
+  "logs:write":
+    scope: "logs/*"
+    actions: ["create", "append"]
+  
+  # Alert Permissions
+  "alert:create":
+    scope: "alerts/*"
+    actions: ["create"]
+    
+  "alert:resolve":
+    scope: "alerts/*"
+    actions: ["update"]
+
+# Agent Role Assignments
+agent_assignments:
+  
+  unmanned-island-agent:
+    roles:
+      - "agent_autonomous"
+    custom_permissions:
+      - "governance:validate"
+    
+    restrictions:
+      time_based:
+        enabled: false
+      
+      ip_based:
+        enabled: false
+      
+      rate_limiting:
+        enabled: true
+        max_requests_per_minute: 100
+
+# Policy Enforcement
+enforcement:
+  mode: "strict"
+  
+  validation:
+    on_access: true
+    on_deployment: true
+    on_runtime: true
+  
+  violation_handling:
+    action: "deny"
+    log_level: "error"
+    alert: true
+  
+  audit_logging:
+    enabled: true
+    log_all_access: true
+    retention_days: 90

@@ -1,0 +1,48 @@
+{
+  "generated_at": "2025-12-04T01:55:19Z",
+  "manifest_path": "docs/project-manifest.md",
+  "sections": {
+    "identity": "- **Name**: SynergyMesh \u2013 Unmanned Island System\n- **Role**: Multi-agent automation platform for intelligent business and\n  security orchestration\n- **Mission Statement**: Deliver trustworthy automation by combining human\n  guardrails with AI-driven execution so that complex cloud operations run\n  safely and predictably.",
+    "needs": [
+      "Harden CI/CD workflows (integration-deployment, phase1-integration, and any new delegations) to prevent costly reruns.",
+      "Keep TypeScript/ESLint configs consistent across `src/ai`, MCP servers, and future workspaces.",
+      "Document operational runbooks for non-CLI teammates (VS Code Tasks, UI walk-throughs).",
+      "Maintain agent role definitions so every delegate knows responsibilities and limitations before touching the codebase.",
+      "Keep [docs/troubleshooting/INDEX.md](docs/troubleshooting/INDEX.md) and [docs/issues/known-failures.md](docs/issues/known-failures.md) current so automation alerts map directly to a remediation playbook."
+    ],
+    "guardrails": [
+      "Changes that bypass documented governance or security policies.",
+      "Direct edits to production infrastructure without matching runbook entries or approval signals.",
+      "Introducing automation that lacks explainability or overrides human review gates.",
+      "Tooling drift between workspaces (e.g., partially upgraded Node/TypeScript stacks) that would cause Copilot or CI to fail silently."
+    ],
+    "signals": [
+      "\u2705 `npm run lint --workspaces --if-present` and `npm test --workspaces --if-present` succeed after any tooling change.",
+      "\u2705 `.github/workflows/project-self-awareness.yml` posts an up-to-date summary on every pull request.",
+      "\u2705 Agents listed in `config/agents/team/virtual-experts.yaml` have matching docs under `docs/agents/` describing scope and anti-goals.",
+      "\u2705 `.github/workflows/project-self-awareness-nightly.yml` raises an issue when automation signals fail and links to the troubleshooting index for context.",
+      "\u2705 `docs/troubleshooting/INDEX.md` maps every self-awareness signal to the appropriate runbook or known-failure entry."
+    ]
+  },
+  "automation": [
+    {
+      "label": "Lint",
+      "command": "true",
+      "exit_code": 0,
+      "success": true,
+      "output_tail": []
+    },
+    {
+      "label": "Tests",
+      "command": "true",
+      "exit_code": 0,
+      "success": true,
+      "output_tail": []
+    }
+  ],
+  "automation_summary": {
+    "total": 2,
+    "success": 2,
+    "failed": 0
+  }
+}

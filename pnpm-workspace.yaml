@@ -3,4 +3,4 @@ packages:
   - core/contract_service/contracts-L1/contracts
   - core/advisory-database
   - apps/web
-  - island-ai
+  - src/ai

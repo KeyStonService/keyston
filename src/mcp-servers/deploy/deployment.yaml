@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-servers
+  labels:
+    app: mcp-servers
+    namespace.io/team: platform-team
+    namespace.io/environment: production
+    namespace.io/lifecycle: active
+    namespace.io/managed-by: gitops
+    version: "1.0.0"
+  annotations:
+    description: "MCP servers for AutoExecutionEngine Agent"
+    contact: "platform-team@example.com"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: mcp-servers
+  template:
+    metadata:
+      labels:
+        app: mcp-servers
+        namespace.io/team: platform-team
+        namespace.io/environment: production
+        version: "1.0.0"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3001"
+        prometheus.io/path: "/metrics"
+    spec:
+      # 安全配置
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      
+      # 服務帳戶（最小權限）
+      serviceAccountName: mcp-servers
+      automountServiceAccountToken: false
+      
+      containers:
+      - name: mcp-servers
+        # 注意：實際部署時應使用特定版本標籤或 digest
+        image: ghcr.io/we-can-fix/machinenativeops/mcp-servers:main-abc123
+        imagePullPolicy: Always
+        
+        ports:
+        - name: http
+          containerPort: 3001
+          protocol: TCP
+        
+        # 環境變數
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3001"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: SERVICE_NAME
+          value: "mcp-servers"
+        
+        # 資源限制
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        
+        # 容器安全配置
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1001
+          capabilities:
+            drop:
+            - ALL
+        
+        # 臨時卷掛載
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: cache
+          mountPath: /app/.npm
+      
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
+      
+      # Pod 反親和性
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - mcp-servers
+              topologyKey: kubernetes.io/hostname
+      
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

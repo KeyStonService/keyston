@@ -1,0 +1,45 @@
+{
+  "$schema": "https://slsa.dev/provenance/v1",
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "docs-index",
+      "digest": {
+        "sha256": "ac8051460da0afc5b74ff6f117ffa7686bccb321b0469ca3d8bc2a30c5a83fd0"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://github.com/actions/runner",
+      "externalParameters": {
+        "workflow": {
+          "ref": "refs/heads/src/ai/update-superroot-namespaces",
+          "repository": "https://github.com/Unmanned-Island-admin/SynergyMesh",
+          "path": ".github/workflows/apply.yaml"
+        }
+      },
+      "internalParameters": {
+        "github_event_name": "dynamic",
+        "github_run_id": "19796884905",
+        "github_run_attempt": "1"
+      },
+      "resolvedDependencies": []
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://github.com/Unmanned-Island-admin/SynergyMesh",
+        "version": {
+          "slsa": "v1.0"
+        }
+      },
+      "metadata": {
+        "invocationId": "https://github.com/Unmanned-Island-admin/SynergyMesh/actions/runs/19796884905",
+        "startedOn": "2025-11-30T09:32:51.241629+00:00",
+        "finishedOn": "2025-11-30T09:32:51.241629+00:00"
+      },
+      "byproducts": []
+    }
+  }
+}

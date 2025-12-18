@@ -1,0 +1,522 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    Architecture Health Metrics
+#                    架構健康度指標
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Define measurable metrics for architecture and governance health
+# 用途: 定義架構和治理健康度的可量測指標
+#
+# Version: 1.0.0
+# Owner: Architecture Team
+# Last Updated: 2025-12-07
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "1.0.0"
+id: "machinenativeops.architecture-health"
+description: "Architecture health metrics and quality gates"
+
+# ============================================================================
+# Governance Compliance Metrics | 治理合規指標
+# ============================================================================
+
+governance_compliance:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Namespace & Module Mapping
+  # ─────────────────────────────────────────────────────────────────────────
+  namespace_compliance:
+    metric: "undefined_namespace_usage"
+    description: "Count of modules using undefined namespaces"
+    current_value: 0
+    threshold: 0
+    severity: "critical"
+    measurement: "count"
+    collection_frequency: "on_commit"
+    
+  module_mapping_completeness:
+    metric: "modules_without_mapping"
+    description: "Count of code modules not in system-module-map.yaml"
+    current_value: 0
+    threshold: 0
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "daily"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Dependency Rules
+  # ─────────────────────────────────────────────────────────────────────────
+  dependency_violations:
+    metric: "dependency_rule_violations"
+    description: "Count of dependency rule violations"
+    current_value: 0
+    threshold: 0
+    severity: "critical"
+    measurement: "count"
+    collection_frequency: "on_commit"
+    
+  circular_dependencies:
+    metric: "circular_dependency_count"
+    description: "Number of circular dependency chains"
+    current_value: 0
+    threshold: 0
+    severity: "critical"
+    measurement: "count"
+    collection_frequency: "daily"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Behavior Contracts
+  # ─────────────────────────────────────────────────────────────────────────
+  missing_contracts:
+    metric: "modules_without_behavior_contracts"
+    description: "Count of active modules without behavior contracts"
+    current_value: 45  # Baseline as of 2025-12-07
+    threshold: 10
+    target: 0
+    severity: "medium"
+    measurement: "count"
+    collection_frequency: "weekly"
+    improvement_plan:
+      strategy: "Reduce by 5 contracts per month"
+      milestones:
+        - date: "2026-01-31"
+          target: 40
+          priority: "Critical modules first"
+        - date: "2026-03-31"
+          target: 30
+          priority: "High-usage modules"
+        - date: "2026-06-30"
+          target: 15
+          priority: "All active modules"
+        - date: "2026-09-30"
+          target: 5
+          priority: "Legacy modules"
+        - date: "2026-12-31"
+          target: 0
+          priority: "Complete coverage"
+  
+  contract_coverage:
+    metric: "behavior_contract_coverage"
+    description: "Percentage of critical APIs with contracts"
+    current_value: 25
+    threshold: 80
+    target: 100
+    severity: "medium"
+    measurement: "percentage"
+    collection_frequency: "weekly"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Ownership & Lifecycle
+  # ─────────────────────────────────────────────────────────────────────────
+  missing_owners:
+    metric: "modules_without_owners"
+    description: "Count of modules without defined ownership"
+    current_value: 0
+    threshold: 5
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "weekly"
+  
+  deprecated_without_migration:
+    metric: "deprecated_modules_without_migration_path"
+    description: "Deprecated modules lacking migration documentation"
+    current_value: 0
+    threshold: 0
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "weekly"
+
+# ============================================================================
+# Code Quality Metrics | 代碼品質指標
+# ============================================================================
+
+code_quality:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Test Coverage
+  # ─────────────────────────────────────────────────────────────────────────
+  test_coverage:
+    metric: "overall_test_coverage"
+    description: "Overall code coverage percentage"
+    current_value: 72
+    threshold: 70
+    target: 85
+    severity: "high"
+    measurement: "percentage"
+    collection_frequency: "on_commit"
+    
+  critical_path_coverage:
+    metric: "critical_path_test_coverage"
+    description: "Coverage of critical execution paths"
+    current_value: 85
+    threshold: 90
+    target: 95
+    severity: "critical"
+    measurement: "percentage"
+    collection_frequency: "on_commit"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Complexity
+  # ─────────────────────────────────────────────────────────────────────────
+  cyclomatic_complexity:
+    metric: "avg_cyclomatic_complexity"
+    description: "Average cyclomatic complexity per function"
+    current_value: 8.5
+    threshold: 15
+    target: 10
+    severity: "medium"
+    measurement: "number"
+    collection_frequency: "daily"
+  
+  high_complexity_functions:
+    metric: "functions_exceeding_complexity_threshold"
+    description: "Count of functions with complexity > 20"
+    current_value: 12
+    threshold: 10
+    target: 0
+    severity: "medium"
+    measurement: "count"
+    collection_frequency: "daily"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Security Vulnerabilities
+  # ─────────────────────────────────────────────────────────────────────────
+  critical_vulnerabilities:
+    metric: "critical_security_vulnerabilities"
+    description: "Count of critical severity vulnerabilities"
+    current_value: 0
+    threshold: 0
+    severity: "critical"
+    measurement: "count"
+    collection_frequency: "on_commit"
+    auto_block: true
+  
+  high_vulnerabilities:
+    metric: "high_security_vulnerabilities"
+    description: "Count of high severity vulnerabilities"
+    current_value: 0
+    threshold: 0
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "on_commit"
+  
+  medium_vulnerabilities:
+    metric: "medium_security_vulnerabilities"
+    description: "Count of medium severity vulnerabilities"
+    current_value: 2
+    threshold: 5
+    target: 0
+    severity: "medium"
+    measurement: "count"
+    collection_frequency: "daily"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Language Policy
+  # ─────────────────────────────────────────────────────────────────────────
+  language_violations:
+    metric: "language_policy_violations"
+    description: "Count of banned language usage violations"
+    current_value: 0
+    threshold: 10
+    target: 0
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "on_commit"
+
+# ============================================================================
+# Architecture Health Metrics | 架構健康度指標
+# ============================================================================
+
+architecture_health:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Layer Violations
+  # ─────────────────────────────────────────────────────────────────────────
+  layer_violations:
+    metric: "architectural_layer_violations"
+    description: "Count of cross-layer dependency violations"
+    current_value: 0
+    threshold: 0
+    severity: "critical"
+    measurement: "count"
+    collection_frequency: "on_commit"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Cross-Domain Coupling
+  # ─────────────────────────────────────────────────────────────────────────
+  cross_domain_coupling:
+    metric: "cross_domain_coupling_score"
+    description: "Measure of inappropriate cross-domain dependencies"
+    current_value: 15
+    threshold: 20
+    target: 10
+    severity: "medium"
+    measurement: "score"
+    collection_frequency: "weekly"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Technical Debt
+  # ─────────────────────────────────────────────────────────────────────────
+  technical_debt_score:
+    metric: "overall_technical_debt_score"
+    description: "Aggregate technical debt score (1-5 scale)"
+    current_value: 2.3
+    threshold: 3.0
+    target: 2.0
+    severity: "medium"
+    measurement: "score"
+    collection_frequency: "weekly"
+  
+  hotspot_count:
+    metric: "architecture_hotspot_count"
+    description: "Number of files with hotspot score > 85"
+    current_value: 8
+    threshold: 15
+    target: 5
+    severity: "medium"
+    measurement: "count"
+    collection_frequency: "daily"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Module Cohesion
+  # ─────────────────────────────────────────────────────────────────────────
+  module_cohesion:
+    metric: "avg_module_cohesion"
+    description: "Average cohesion score per module (0-1)"
+    current_value: 0.75
+    threshold: 0.6
+    target: 0.8
+    severity: "low"
+    measurement: "ratio"
+    collection_frequency: "weekly"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # API Stability
+  # ─────────────────────────────────────────────────────────────────────────
+  breaking_changes:
+    metric: "breaking_api_changes"
+    description: "Count of breaking changes in last 30 days"
+    current_value: 1
+    threshold: 2
+    target: 0
+    severity: "high"
+    measurement: "count"
+    collection_frequency: "on_release"
+
+# ============================================================================
+# Quality Gates | 品質閘門
+# ============================================================================
+
+quality_gates:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # PR Merge Gate
+  # ─────────────────────────────────────────────────────────────────────────
+  pr_merge:
+    name: "Pull Request Merge Gate"
+    enabled: true
+    
+    blocking_conditions:
+      - metric: "dependency_rule_violations"
+        operator: ">"
+        value: 0
+        message: "PR introduces dependency rule violations"
+      
+      - metric: "circular_dependency_count"
+        operator: ">"
+        baseline: "current"
+        message: "PR introduces circular dependencies"
+      
+      - metric: "critical_security_vulnerabilities"
+        operator: ">"
+        value: 0
+        message: "PR introduces critical vulnerabilities"
+      
+      - metric: "high_security_vulnerabilities"
+        operator: ">"
+        value: 0
+        message: "PR introduces high severity vulnerabilities"
+      
+      - metric: "language_policy_violations"
+        operator: ">"
+        value: 0
+        message: "PR violates language policy"
+      
+      - metric: "test_coverage"
+        operator: "<"
+        baseline: "current"
+        tolerance: 0
+        message: "PR decreases test coverage"
+    
+    warning_conditions:
+      - metric: "cyclomatic_complexity"
+        operator: ">"
+        value: 15
+        message: "PR contains high complexity functions"
+      
+      - metric: "missing_contracts"
+        operator: ">"
+        baseline: "current"
+        message: "PR adds modules without behavior contracts"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Release Gate
+  # ─────────────────────────────────────────────────────────────────────────
+  release:
+    name: "Production Release Gate"
+    enabled: true
+    
+    blocking_conditions:
+      - metric: "critical_security_vulnerabilities"
+        operator: ">"
+        value: 0
+      
+      - metric: "dependency_rule_violations"
+        operator: ">"
+        value: 0
+      
+      - metric: "test_coverage"
+        operator: "<"
+        value: 70
+      
+      - metric: "critical_path_coverage"
+        operator: "<"
+        value: 90
+      
+      - metric: "modules_without_owners"
+        operator: ">"
+        value: 5
+    
+    warning_conditions:
+      - metric: "medium_security_vulnerabilities"
+        operator: ">"
+        value: 5
+      
+      - metric: "technical_debt_score"
+        operator: ">"
+        value: 3.0
+
+# ============================================================================
+# Reporting & Dashboards | 報告與儀表板
+# ============================================================================
+
+reporting:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Health Report
+  # ─────────────────────────────────────────────────────────────────────────
+  health_report:
+    frequency: "weekly"
+    format: "markdown"
+    output: "docs/ARCHITECTURE_HEALTH_REPORT.md"
+    
+    sections:
+      - "Executive Summary"
+      - "Governance Compliance"
+      - "Code Quality"
+      - "Architecture Health"
+      - "Trends"
+      - "Recommendations"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Dashboards
+  # ─────────────────────────────────────────────────────────────────────────
+  dashboards:
+    - name: "Architecture Health Dashboard"
+      tool: "Grafana"
+      config: "config/grafana-dashboard.json"
+      refresh: "5 minutes"
+    
+    - name: "Governance Metrics"
+      tool: "Grafana"
+      config: "config/governance-dashboard.json"
+      refresh: "1 hour"
+
+# ============================================================================
+# Alerting | 告警
+# ============================================================================
+
+alerting:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Critical Alerts
+  # ─────────────────────────────────────────────────────────────────────────
+  critical:
+    - metric: "critical_security_vulnerabilities"
+      condition: "> 0"
+      notification: ["@security-team", "#security-alerts"]
+      escalation: "immediate"
+    
+    - metric: "dependency_rule_violations"
+      condition: "> 5"
+      notification: ["@architecture-team", "#architecture-alerts"]
+      escalation: "1 hour"
+    
+    - metric: "circular_dependency_count"
+      condition: "> 0"
+      notification: ["@architecture-team"]
+      escalation: "4 hours"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Warning Alerts
+  # ─────────────────────────────────────────────────────────────────────────
+  warning:
+    - metric: "test_coverage"
+      condition: "< 70"
+      notification: ["@qa-team", "#quality"]
+      escalation: "daily"
+    
+    - metric: "technical_debt_score"
+      condition: "> 3.0"
+      notification: ["@architecture-team"]
+      escalation: "weekly"
+
+# ============================================================================
+# Improvement Tracking | 改進追蹤
+# ============================================================================
+
+improvement_tracking:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Quarterly Goals
+  # ─────────────────────────────────────────────────────────────────────────
+  q1_2026:
+    targets:
+      - metric: "missing_contracts"
+        current: 45
+        target: 30
+        progress: "on_track"
+      
+      - metric: "test_coverage"
+        current: 72
+        target: 80
+        progress: "on_track"
+      
+      - metric: "technical_debt_score"
+        current: 2.3
+        target: 2.0
+        progress: "at_risk"
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Trend Analysis
+  # ─────────────────────────────────────────────────────────────────────────
+  trends:
+    enabled: true
+    lookback_period: "90 days"
+    
+    metrics_to_track:
+      - "test_coverage"
+      - "technical_debt_score"
+      - "dependency_rule_violations"
+      - "missing_contracts"
+      - "language_violations"
+
+# ============================================================================
+# References | 參考
+# ============================================================================
+
+references:
+  architecture_governance_matrix: "governance/29-docs/ARCHITECTURE_GOVERNANCE_MATRIX.md"
+  ownership_map: "governance/34-config/ownership-map.yaml"
+  behavior_contracts: "governance/37-behavior-contracts/"
+  layers_domains: "governance/01-architecture/config/layers-domains.yaml"
+  policies: "governance/23-policies/"

@@ -1,0 +1,507 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    SynergyMesh Unified Configuration Index
+#                    統一配置索引 - 第二階段整合
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Phase 2: Configuration Consolidation (第二階段：配置整合)
+#
+# Purpose:
+# - 合併配置減少子目錄數量 (Merge configurations, reduce subdirectory count)
+# - 高度映射/引用整合 (High-level mapping/reference integration)
+# - 對齊 SynergyMesh 唯一配置 (Align with SynergyMesh unified configuration)
+# - 確保無缺失技能功能 (Ensure no missing skills/functionality)
+# - 確保無重複定義 (Ensure no duplicate definitions)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "2.0.0"
+id: "machinenativeops.unified-config"
+description: "SynergyMesh 統一配置索引 - 所有配置的單一真實來源"
+
+# ============================================================================
+# Master Configuration References (主配置引用)
+# ============================================================================
+# 所有配置檔案的唯一入口點，消除重複定義
+master_configs:
+  # Primary system manifest - 主系統宣告
+  system_manifest:
+    file: "config/system-manifest.yaml"
+    purpose: "系統啟動與元件協調"
+    is_entrypoint: true
+  
+  # Module mapping - 模組映射  
+  module_map:
+    file: "config/system-module-map.yaml"
+    purpose: "目錄結構與元件映射"
+  
+  # This file - unified index - 統一索引
+  unified_index:
+    file: "config/unified-config-index.yaml"
+    purpose: "配置整合與目錄合併指南"
+
+# ============================================================================
+# Directory Consolidation Plan (目錄合併計畫)
+# ============================================================================
+# 減少根目錄子目錄數量，將相關目錄合併
+# STATUS: COMPLETED - All directories have been consolidated
+directory_consolidation:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Automation Directories → automation/ (自動化目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  automation_merge:
+    target: "automation/"
+    description: "合併所有自動化相關目錄"
+    status: "completed"
+    directories:
+      - path: "automation/intelligent/"
+        capabilities: ["TaskOrchestration", "IntentUnderstanding"]
+      - path: "automation/hyperautomation/"
+        capabilities: ["HyperautomationPolicies", "UAVGovernance"]
+      - path: "automation/architect/"
+        capabilities: ["ArchitectureAnalysis", "RepairEngine"]
+      - path: "automation/autonomous/"
+        capabilities: ["APIGovernance", "ArchitectureStability"]
+    unified_capabilities:
+      - "TaskOrchestration"
+      - "IntentUnderstanding"
+      - "HyperautomationPolicies"
+      - "UAVGovernance"
+      - "ArchitectureAnalysis"
+      - "RepairEngine"
+      - "APIGovernance"
+      - "ArchitectureStability"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Frontend Directories → frontend/ (前端目錄合併) ✓ COMPLETED + CONSOLIDATED
+  # ─────────────────────────────────────────────────────────────────────────
+  frontend_merge:
+    target: "frontend/"
+    description: "合併所有前端相關目錄為統一套件"
+    status: "completed"
+    directories:
+      - path: "frontend/ui/"
+        capabilities: ["ArchitectureVisualization", "SystemUI", "CodeAnalyzerAPI"]
+        note: "Consolidated from frontend/architecture and frontend/system-ui"
+      - path: "frontend/dist/"
+        type: "build_output"
+    unified_capabilities:
+      - "ArchitectureVisualization"
+      - "SystemUI"
+      - "CodeAnalyzerAPI"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Testing Directories → tests/ (測試目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  testing_merge:
+    target: "tests/"
+    description: "合併所有測試相關目錄"
+    status: "completed"
+    directories:
+      - path: "tests/unit/"
+        capabilities: ["UnitTests"]
+      - path: "tests/vectors/"
+        capabilities: ["TestVectors", "ValidationData"]
+      - path: "tests/performance/"
+        capabilities: ["PerformanceTests", "LoadTests"]
+    unified_capabilities:
+      - "UnitTests"
+      - "TestVectors"
+      - "ValidationData"
+      - "PerformanceTests"
+      - "LoadTests"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Infrastructure Directories → infrastructure/ (基礎設施目錄合併)
+  # ─────────────────────────────────────────────────────────────────────────
+  infrastructure_merge:
+    target: "infrastructure/"
+    description: "合併所有基礎設施相關目錄"
+  # Infrastructure Directories → infrastructure/ (基礎設施目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  infrastructure_merge:
+    target: "infrastructure/"
+    description: "合併所有基礎設施相關目錄"
+    status: "completed"
+    directories:
+      - path: "infrastructure/kubernetes/"
+        capabilities: ["Deployment", "Services", "Monitoring"]
+      - path: "infrastructure/monitoring/"
+        capabilities: ["MetricsCollection", "AlertManagement"]
+      - path: "infrastructure/canary/"
+        capabilities: ["CanaryDeployment"]
+      - path: "infrastructure/drift/"
+        capabilities: ["DriftDetection"]
+    unified_capabilities:
+      - "Deployment"
+      - "Services"
+      - "Monitoring"
+      - "MetricsCollection"
+      - "AlertManagement"
+      - "CanaryDeployment"
+      - "DriftDetection"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Tools & Scripts → tools/ (工具腳本目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  tools_merge:
+    target: "tools/"
+    description: "合併所有工具與腳本相關目錄"
+    status: "completed"
+    directories:
+      - path: "tools/scripts/"
+        capabilities: ["AutomationScripts"]
+      - path: "tools/utilities/"
+        capabilities: ["Utilities"]
+      - path: "tools/ci/"
+        capabilities: ["CIHelpers"]
+    unified_capabilities:
+      - "AutomationScripts"
+      - "Utilities"
+      - "CIHelpers"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Governance & Policy → governance/ (治理政策目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  governance_merge:
+    target: "governance/"
+    description: "合併所有治理與政策相關目錄"
+    status: "completed"
+    directories:
+      - path: "governance/rules/"
+        capabilities: ["GovernanceRules"]
+      - path: "governance/policies/"
+        capabilities: ["PolicyDefinitions"]
+      - path: "governance/schemas/"
+        capabilities: ["SchemaDefinitions"]
+      - path: "governance/sbom/"
+        capabilities: ["SoftwareBillOfMaterials"]
+      - path: "governance/audit/"
+        capabilities: ["AuditLogs"]
+    unified_capabilities:
+      - "GovernanceRules"
+      - "PolicyDefinitions"
+      - "SchemaDefinitions"
+      - "SoftwareBillOfMaterials"
+      - "AuditLogs"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Operations → ops/ (運維目錄合併) ✓ COMPLETED
+  # ─────────────────────────────────────────────────────────────────────────
+  operations_merge:
+    target: "ops/"
+    description: "合併所有運維相關目錄"
+    status: "completed"
+    directories:
+      - path: "ops/runbooks/"
+        capabilities: ["Runbooks"]
+      - path: "ops/reports/"
+        capabilities: ["Reports"]
+      - path: "ops/artifacts/"
+        capabilities: ["BuildArtifacts"]
+      - path: "ops/migration/"
+        capabilities: ["MigrationTools"]
+      - path: "ops/onboarding/"
+        capabilities: ["Onboarding"]
+    unified_capabilities:
+      - "Runbooks"
+      - "Reports"
+      - "BuildArtifacts"
+      - "MigrationTools"
+      - "Onboarding"
+
+# ============================================================================
+# Root Files Consolidation (根目錄檔案整合) - STATUS: COMPLETED
+# ============================================================================
+root_files_consolidation:
+  status: "completed"
+  
+  # Moved to docs/ - COMPLETED
+  moved_to_docs:
+    - source: "ADVANCED_SYSTEM_INTEGRATION.md"
+      target: "docs/architecture/ADVANCED_SYSTEM_INTEGRATION.md"
+    - source: "AUTO_FIX_BOT.md"
+      target: "docs/automation/AUTO_FIX_BOT.md"
+    - source: "AUTO_FIX_BOT_GUIDE.md"
+      target: "docs/automation/AUTO_FIX_BOT_GUIDE.md"
+    - source: "COMPREHENSIVE_IMPLEMENTATION_REPORT.md"
+      target: "docs/reports/COMPREHENSIVE_IMPLEMENTATION_REPORT.md"
+    - source: "DELEGATION_WORKFLOW.md"
+      target: "docs/architecture/DELEGATION_WORKFLOW.md"
+    - source: "DIRECTORY_STRUCTURE.md"
+      target: "docs/architecture/DIRECTORY_STRUCTURE.md"
+    - source: "GHAS_IMPLEMENTATION_SUMMARY.md"
+      target: "docs/security/GHAS_IMPLEMENTATION_SUMMARY.md"
+    - source: "MONITORING_GUIDE.md"
+      target: "docs/operations/MONITORING_GUIDE.md"
+    - source: "PHASE1_IMPLEMENTATION_SUMMARY.md"
+      target: "docs/reports/PHASE1_IMPLEMENTATION_SUMMARY.md"
+    - source: "PHASE1_VALIDATION_REPORT.md"
+      target: "docs/reports/PHASE1_VALIDATION_REPORT.md"
+    - source: "PRODUCTION_READINESS.md"
+      target: "docs/operations/PRODUCTION_READINESS.md"
+    - source: "REPOSITORY_INTEGRATION_ASSESSMENT.md"
+      target: "docs/architecture/REPOSITORY_INTEGRATION_ASSESSMENT.md"
+    - source: "ROOT_README.md"
+      target: "docs/ROOT_README.md"
+    - source: "SECURITY_SUMMARY.md"
+      target: "docs/security/SECURITY_SUMMARY.md"
+    - source: "DeploymentGuide.txt"
+      target: "docs/operations/DeploymentGuide.md"
+    - source: "FileDescription.txt"
+      target: "docs/architecture/FileDescription.md"
+
+  # Move to config/
+  move_to_config:
+    - source: "auto-fix-bot.yml"
+      target: "config/auto-fix-bot.yml"
+    - source: "auto-fix-bot.prompt.yml"
+      target: "config/auto-fix-bot.prompt.yml"
+    - source: "cloud-agent-delegation.yml"
+      target: "config/cloud-agent-delegation.yml"
+    - source: "drone-config.yml"
+      target: "config/drone-config.yml"
+    - source: "island-control.yml"
+      target: "config/island-control.yml"
+    - source: "machinenativeops.config.yaml"
+      target: "config/machinenativeops.config.yaml"
+    - source: "auto-scaffold.json"
+      target: "config/auto-scaffold.json"
+
+  # Essential root files (keep in root)
+  keep_in_root:
+    - "README.md"
+    - "README.en.md"
+    - "CONTRIBUTING.md"
+    - "SECURITY.md"
+    - "CHANGELOG.md"
+    - "CODE_OF_CONDUCT.md"
+    - "package.json"
+    - "package-lock.json"
+    - "tsconfig.json"
+    - "pyproject.toml"
+    - "Dockerfile"
+    - "docker-compose.yml"
+    - "docker-compose.dev.yml"
+    - ".gitignore"
+    - ".eslintrc.yaml"
+    - ".prettierrc"
+    - "jest.config.js"
+    - "nginx.conf"
+    - "deploy.sh"
+    - "automation-entry.sh"
+
+# ============================================================================
+# Unified Capability Registry (統一能力註冊表)
+# ============================================================================
+# 確保所有能力都有唯一提供者，無重複
+unified_capabilities:
+  
+  # Core Cognitive Capabilities (核心認知能力)
+  cognitive:
+    perception:
+      provider: "core/unified_integration/cognitive_processor.py"
+      backup: "runtime/mind_matrix/"
+    reasoning:
+      provider: "core/unified_integration/cognitive_processor.py"
+      backup: "runtime/mind_matrix/"
+    execution:
+      provider: "core/unified_integration/cognitive_processor.py"
+      backup: "core/execution_engine/"
+    proof:
+      provider: "core/unified_integration/cognitive_processor.py"
+      backup: "core/slsa_provenance/"
+
+  # Service Management (服務管理)
+  service_management:
+    discovery:
+      provider: "core/unified_integration/service_registry.py"
+    health_monitoring:
+      provider: "core/unified_integration/service_registry.py"
+    dependency_resolution:
+      provider: "core/unified_integration/service_registry.py"
+
+  # Configuration (配置)
+  configuration:
+    validation:
+      provider: "core/unified_integration/configuration_optimizer.py"
+    drift_detection:
+      provider: "core/unified_integration/configuration_optimizer.py"
+    optimization:
+      provider: "core/unified_integration/configuration_optimizer.py"
+
+  # Orchestration (編排)
+  orchestration:
+    workflow_management:
+      provider: "core/unified_integration/system_orchestrator.py"
+    task_scheduling:
+      provider: "core/unified_integration/system_orchestrator.py"
+    intent_understanding:
+      provider: "intelligent-automation/machinenativeops_core/"
+
+  # NEW: Work Configuration (工作配置)
+  work_configuration:
+    module_mapping:
+      provider: "core/unified_integration/work_configuration_manager.py"
+      description: "模組映射整合"
+    strategy_policy:
+      provider: "core/unified_integration/work_configuration_manager.py"
+      description: "策略政策管理"
+    cross_reference:
+      provider: "core/unified_integration/work_configuration_manager.py"
+      description: "交叉引用驗證"
+    capability_alignment:
+      provider: "core/unified_integration/work_configuration_manager.py"
+      description: "能力註冊表對齊"
+
+  # Security (安全)
+  security:
+    attestation:
+      provider: "core/slsa_provenance/"
+    vulnerability_detection:
+      provider: "mcp-servers/security-scanner.js"
+    safety_checks:
+      provider: "core/safety_mechanisms/"
+
+  # Code Analysis (程式碼分析)
+  code_analysis:
+    static_analysis:
+      provider: "mcp-servers/code-analyzer.js"
+    architecture_analysis:
+      provider: "automation-architect/core/analysis/"
+    performance_analysis:
+      provider: "mcp-servers/performance-analyzer.js"
+
+  # Deployment (部署)
+  deployment:
+    kubernetes:
+      provider: "k8s/"
+    ci_cd:
+      provider: ".github/workflows/"
+    monitoring_setup:
+      provider: "monitoring/"
+
+  # Governance (治理)
+  governance:
+    policy_management:
+      provider: "core/auto_governance_hub.py"
+    trust_management:
+      provider: "core/autonomous_trust_engine.py"
+    governance_validation:
+      provider: "core/ai_constitution/"
+
+# ============================================================================
+# Post-Consolidation Directory Structure (合併後目錄結構)
+# ============================================================================
+target_directory_structure:
+  description: "Phase 2 完成後的目標目錄結構"
+  root_directories:
+    - name: "core/"
+      description: "核心平台模組"
+      subdirectories: ["unified_integration", "contracts", "execution_engine", "safety_mechanisms", "slsa_provenance", "monitoring_system", "ai_constitution", "virtual_experts"]
+    - name: "runtime/"
+      description: "運行時"
+      subdirectories: ["mind_matrix"]
+    - name: "config/"
+      description: "所有配置檔案"
+      files: ["system-manifest.yaml", "system-module-map.yaml", "unified-config-index.yaml", "environment.yaml", "dependencies.yaml", "..."]
+    - name: "automation/"
+      description: "所有自動化模組"
+      subdirectories: ["intelligent", "hyperautomation", "architect", "autonomous"]
+    - name: "frontend/"
+      description: "所有前端模組"
+      subdirectories: ["architecture", "system-ui", "dist"]
+    - name: "infrastructure/"
+      description: "基礎設施配置"
+      subdirectories: ["kubernetes", "monitoring", "canary", "drift"]
+    - name: "services/"
+      description: "微服務"
+      subdirectories: ["mcp-servers", "agent"]
+    - name: "tests/"
+      description: "所有測試"
+      subdirectories: ["unit", "vectors", "performance"]
+    - name: "governance/"
+      description: "治理與政策"
+      subdirectories: ["rules", "policies", "schemas", "sbom", "audit"]
+    - name: "tools/"
+      description: "工具與腳本"
+      subdirectories: ["scripts", "utilities", "ci"]
+    - name: "ops/"
+      description: "運維"
+      subdirectories: ["runbooks", "reports", "artifacts", "migration", "onboarding"]
+    - name: "docs/"
+      description: "文件"
+      subdirectories: ["architecture", "automation", "operations", "security", "reports"]
+    - name: "shared/"
+      description: "共用資源"
+    - name: "bridges/"
+      description: "系統橋接"
+
+  reduction_summary:
+    before: "40+ root directories"
+    after: "~15 root directories"
+    reduction: "62% reduction in root directory clutter"
+
+# ============================================================================
+# Configuration File Mapping (配置檔案映射)
+# ============================================================================
+# 所有配置檔案的統一索引，確保無遺漏
+config_file_index:
+  system_configs:
+    - file: "config/system-manifest.yaml"
+      purpose: "主系統宣告"
+      references: ["module_map", "environment", "dependencies"]
+    - file: "config/system-module-map.yaml"
+      purpose: "模組映射"
+      references: []
+    - file: "config/unified-config-index.yaml"
+      purpose: "統一配置索引"
+      references: ["system_manifest", "module_map"]
+    - file: "config/environment.yaml"
+      purpose: "環境配置"
+      references: []
+    - file: "config/dependencies.yaml"
+      purpose: "依賴配置"
+      references: []
+  
+  mind_matrix_configs:
+    - file: "config/topology-mind-matrix.yaml"
+      purpose: "心智矩陣拓撲"
+      references: ["ai_constitution", "virtual_experts", "safety_mechanisms"]
+    - file: "config/ai-constitution.yaml"
+      purpose: "AI 治理憲章"
+      references: []
+    - file: "config/agents/team/virtual-experts.yaml"
+      purpose: "虛擬專家配置"
+      references: []
+    - file: "config/safety-mechanisms.yaml"
+      purpose: "安全機制"
+      references: []
+  
+  operational_configs:
+    - file: "config/monitoring.yaml"
+      purpose: "監控配置"
+      references: []
+    - file: "config/ci-error-handler.yaml"
+      purpose: "CI 錯誤處理"
+      references: []
+    - file: "config/yaml-module-system.yaml"
+      purpose: "YAML 模組系統"
+      references: []
+
+# ============================================================================
+# Validation (驗證)
+# ============================================================================
+validation:
+  rules:
+    - id: "no_duplicate_capabilities"
+      description: "每個能力只有一個主要提供者"
+      severity: "error"
+    - id: "all_capabilities_mapped"
+      description: "所有能力都已映射到提供者"
+      severity: "error"
+    - id: "no_orphan_directories"
+      description: "所有目錄都已分類"
+      severity: "warning"
+    - id: "config_references_valid"
+      description: "所有配置引用都有效"
+      severity: "error"

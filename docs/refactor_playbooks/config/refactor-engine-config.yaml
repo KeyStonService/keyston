@@ -286,9 +286,9 @@ directory_mapping:
   vocabulary_mapping:
     # 命名空間映射
     namespaces:
-      "axiom-system": "synergymesh"
-      "unmanned-island": "synergymesh"
-      "island-ai": "island-ai"
+      "axiom-system": "machinenativeops"
+      "unmanned-island": "machinenativeops"
+      "src/ai": "src/ai"
 
     # 術語映射
     terminology:
@@ -425,7 +425,7 @@ checkpoints:
 # ============================================================================
 integrations:
   # 與主系統配置整合
-  synergymesh_config: "../../synergymesh.yaml"
+  machinenativeops_config: "../../machinenativeops.yaml"
 
   # 與模組映射整合
   module_map: "../../config/system-module-map.yaml"

@@ -25,7 +25,7 @@ components:
     description: "認知處理器 - 四層認知架構的核心實現"
     path: "core/unified_integration/cognitive_processor.py"
     namespace: "unmanned.island.core.unified_integration"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - Perception
@@ -49,7 +49,7 @@ components:
     description: "服務註冊表 - 服務發現、健康監控、依賴解析"
     path: "core/unified_integration/service_registry.py"
     namespace: "unmanned.island.core.unified_integration"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - ServiceDiscovery
@@ -72,7 +72,7 @@ components:
     description: "配置優化器 - 驗證、漂移檢測、優化建議"
     path: "core/unified_integration/configuration_optimizer.py"
     namespace: "unmanned.island.core.unified_integration"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - ConfigValidation
@@ -95,7 +95,7 @@ components:
     description: "AI 決策引擎 - 智能決策與策略執行"
     path: "core/ai_decision_engine.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - DecisionMaking
@@ -114,7 +114,7 @@ components:
     description: "幻覺偵測器 - AI 輸出驗證與幻覺偵測"
     path: "core/hallucination_detector.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - HallucinationDetection
@@ -133,7 +133,7 @@ components:
     description: "上下文理解引擎 - 語義分析與上下文理解"
     path: "core/context_understanding_engine.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - ContextAnalysis
@@ -155,7 +155,7 @@ components:
     description: "自動治理中心 - 治理編排與策略管理"
     path: "core/auto_governance_hub.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - GovernanceOrchestration
@@ -174,7 +174,7 @@ components:
     description: "自主信任引擎 - 信任管理與治理驗證"
     path: "core/autonomous_trust_engine.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - TrustManagement
@@ -193,7 +193,7 @@ components:
     description: "自動缺陷偵測 - 程式碼品質與缺陷偵測"
     path: "core/auto_bug_detector.py"
     namespace: "unmanned.island.core"
-    subsystem_ref: "synergymesh-core"
+    subsystem_ref: "machinenativeops-core"
     language: "python"
     provides:
       - BugDetection

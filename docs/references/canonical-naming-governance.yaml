@@ -1,0 +1,217 @@
+# Canonical Naming Governance 參考文獻
+# Canonical Naming Governance References
+
+apiVersion: governance.machinenativeops.io/v1alpha1
+kind: ReferenceLibrary
+metadata:
+  name: canonical-naming-governance-references
+  description: "Canonical Naming Governance 相關的外部參考資源"
+  category: "naming-governance"
+  version: "v1.0.0"
+  lastUpdated: "2025-01-15"
+
+spec:
+  # Kubernetes 官方文檔
+  kubernetes:
+    - id: REF-K8S-001
+      title: "Kubernetes Object Names and IDs"
+      url: "https://kubernetes.io/docs/concepts/overview/working-with-objects/names/"
+      description: "Kubernetes 資源命名規範 (RFC-1123 DNS_LABEL)"
+      relevantTo:
+        - "命名規則基礎"
+        - "字符限制"
+      tags: ["kubernetes", "naming", "rfc-1123"]
+
+    - id: REF-K8S-002
+      title: "Kubernetes Labels and Selectors"
+      url: "https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/"
+      description: "Kubernetes 標籤最佳實踐"
+      relevantTo:
+        - "標籤設計"
+        - "資源組織"
+      tags: ["kubernetes", "labels", "best-practices"]
+
+    - id: REF-K8S-003
+      title: "Kubernetes Recommended Labels"
+      url: "https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/"
+      description: "Kubernetes 推薦標籤 (app.kubernetes.io/*)"
+      relevantTo:
+        - "標準標籤"
+        - "app.kubernetes.io/name"
+        - "app.kubernetes.io/managed-by"
+      tags: ["kubernetes", "labels", "standards"]
+
+    - id: REF-K8S-004
+      title: "Kubernetes Namespaces"
+      url: "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+      description: "Kubernetes 命名空間概念和最佳實踐"
+      relevantTo:
+        - "命名空間設計"
+        - "資源隔離"
+      tags: ["kubernetes", "namespaces", "isolation"]
+
+  # 命名規範和標準
+  standards:
+    - id: REF-STD-001
+      title: "RFC-1123 - Requirements for Internet Hosts"
+      url: "https://www.rfc-editor.org/rfc/rfc1123"
+      description: "DNS_LABEL 命名規範 (Kubernetes 基礎)"
+      relevantTo:
+        - "DNS 標籤規則"
+        - "字符限制"
+      tags: ["rfc", "dns", "standards"]
+
+    - id: REF-STD-002
+      title: "RFC-8141 - Uniform Resource Names (URNs)"
+      url: "https://www.rfc-editor.org/rfc/rfc8141"
+      description: "URN 格式規範"
+      relevantTo:
+        - "URN 設計"
+        - "資源標識"
+      tags: ["rfc", "urn", "standards"]
+
+  # 策略即代碼 (Policy as Code)
+  policy_as_code:
+    - id: REF-PAC-001
+      title: "Open Policy Agent (OPA)"
+      url: "https://www.openpolicyagent.org/"
+      description: "策略即代碼框架"
+      relevantTo:
+        - "Conftest 驗證"
+        - "Rego 策略"
+      tags: ["opa", "policy", "validation"]
+
+    - id: REF-PAC-002
+      title: "Gatekeeper - Policy Controller for Kubernetes"
+      url: "https://open-policy-agent.github.io/gatekeeper/website/docs/"
+      description: "Kubernetes Admission Control 策略引擎"
+      relevantTo:
+        - "Admission Control"
+        - "ConstraintTemplates"
+      tags: ["gatekeeper", "opa", "admission-control"]
+
+    - id: REF-PAC-003
+      title: "Conftest - Test your configuration files"
+      url: "https://www.conftest.dev/"
+      description: "使用 OPA 進行配置驗證"
+      relevantTo:
+        - "CI/CD 驗證"
+        - "本地測試"
+      tags: ["conftest", "opa", "testing"]
+
+    - id: REF-PAC-004
+      title: "Kyverno - Kubernetes Native Policy Management"
+      url: "https://kyverno.io/"
+      description: "Kubernetes 原生策略管理工具（替代方案）"
+      relevantTo:
+        - "策略管理"
+        - "Admission Control 替代方案"
+      tags: ["kyverno", "policy", "kubernetes"]
+
+  # 命名最佳實踐
+  best_practices:
+    - id: REF-BP-001
+      title: "Google SRE Book - Naming Conventions"
+      url: "https://sre.google/workbook/naming/"
+      description: "Google SRE 命名規範最佳實踐"
+      relevantTo:
+        - "命名設計原則"
+        - "SRE 實踐"
+      tags: ["sre", "google", "naming"]
+
+    - id: REF-BP-002
+      title: "AWS Well-Architected Framework - Tagging Strategy"
+      url: "https://docs.aws.amazon.com/wellarchitected/latest/framework/operational-excellence.html"
+      description: "AWS 標籤策略和資源命名"
+      relevantTo:
+        - "標籤設計"
+        - "成本管理"
+      tags: ["aws", "tagging", "best-practices"]
+
+    - id: REF-BP-003
+      title: "CNCF Best Practices - Resource Naming"
+      url: "https://github.com/cncf/tag-app-delivery/blob/main/best-practices.md"
+      description: "CNCF 應用交付最佳實踐"
+      relevantTo:
+        - "雲原生命名"
+        - "多集群管理"
+      tags: ["cncf", "best-practices", "cloud-native"]
+
+  # 治理和合規
+  governance:
+    - id: REF-GOV-001
+      title: "GitOps - Governance Through Git"
+      url: "https://opengitops.dev/"
+      description: "GitOps 治理模式"
+      relevantTo:
+        - "GitOps 工作流"
+        - "版本控制"
+      tags: ["gitops", "governance", "ci-cd"]
+
+    - id: REF-GOV-002
+      title: "Kubernetes Policy Management"
+      url: "https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/"
+      description: "Kubernetes 策略管理和准入控制"
+      relevantTo:
+        - "策略架構"
+        - "Admission Webhooks"
+      tags: ["kubernetes", "policy", "admission-control"]
+
+  # 工具和自動化
+  tools:
+    - id: REF-TOOL-001
+      title: "Helm - The Kubernetes Package Manager"
+      url: "https://helm.sh/"
+      description: "Kubernetes 包管理工具"
+      relevantTo:
+        - "模板化"
+        - "資源管理"
+      tags: ["helm", "packaging", "templating"]
+
+    - id: REF-TOOL-002
+      title: "Kustomize - Kubernetes native configuration management"
+      url: "https://kustomize.io/"
+      description: "Kubernetes 配置管理工具"
+      relevantTo:
+        - "配置疊加"
+        - "環境管理"
+      tags: ["kustomize", "configuration", "kubernetes"]
+
+  # 相關項目和參考實現
+  related_projects:
+    - id: REF-PROJ-001
+      title: "Hierarchical Namespaces (HNC)"
+      url: "https://github.com/kubernetes-sigs/hierarchical-namespaces"
+      description: "Kubernetes 分層命名空間"
+      relevantTo:
+        - "命名空間層次結構"
+        - "多租戶隔離"
+      tags: ["kubernetes", "namespaces", "multi-tenancy"]
+
+# 使用指南
+usage:
+  description: |
+    本參考庫包含 Canonical Naming Governance 相關的所有外部參考資源。
+    每個引用都包含唯一 ID、標題、URL、描述、相關性和標籤。
+
+  howToUse:
+    - "通過 ID 引用特定資源"
+    - "通過標籤查找相關資源"
+    - "通過相關性字段找到適用場景"
+
+  examples:
+    - description: "查找 Kubernetes 相關資源"
+      query: "category == 'kubernetes'"
+
+    - description: "查找策略即代碼相關資源"
+      query: "tags contains 'policy'"
+
+    - description: "查找 Gatekeeper 相關資源"
+      query: "tags contains 'gatekeeper'"
+
+# 維護信息
+maintenance:
+  last_reviewed: "2025-01-15"
+  next_review: "2025-04-15"
+  owner: "Platform Engineering Team"
+  contact: "governance-team@example.com"

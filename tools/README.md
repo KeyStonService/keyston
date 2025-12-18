@@ -125,7 +125,7 @@ npm install -g ./tools/cli
 
 # 使用
 admin-copilot analyze --repo .
-admin-copilot validate --config machine-native-ops.yaml
+admin-copilot validate --config machinenativeops.yaml
 admin-copilot generate-docs --output docs/
 admin-copilot deploy --environment production
 ```

@@ -203,7 +203,7 @@ automation/
 │   │   └── visualization_agent.py
 │   ├── examples/
 │   │   └── demo.py
-│   ├── synergymesh_core/
+│   ├── machinenativeops_core/
 │   │   ├── __init__.py
 │   │   ├── autonomous_coordinator.py
 │   │   ├── ecosystem_orchestrator.py
@@ -232,7 +232,7 @@ automation/
 │   │   ├── test_phase8_components.py
 │   │   ├── test_phase8_enhancement.py
 │   │   ├── test_phase9_components.py
-│   │   ├── test_synergymesh_core.py
+│   │   ├── test_machinenativeops_core.py
 │   │   └── test_task_executor.py
 │   ├── AUTO_UPGRADE.md
 │   ├── README.md
@@ -257,7 +257,7 @@ automation/
 - `automation/README.md` — 說明文檔
 - `automation/intelligent/README.md` — 說明文檔
 - `automation/intelligent/__init__.py` — Python 套件初始化
-- `automation/intelligent/synergymesh_core/__init__.py` — Python 套件初始化
+- `automation/intelligent/machinenativeops_core/__init__.py` — Python 套件初始化
 - `automation/intelligent/agents/__init__.py` — Python 套件初始化
 - `automation/intelligent/tests/__init__.py` — Python 套件初始化
 - `automation/hyperautomation/README.md` — 說明文檔

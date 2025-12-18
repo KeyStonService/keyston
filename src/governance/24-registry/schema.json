@@ -1,0 +1,341 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://imachinenativeops.com/schemas/module-registry/v1.0.0",
+  "title": "Module Registry Metadata Schema",
+  "description": "模組註冊元資料架構定義 - Schema for module registry metadata",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "owner",
+    "language",
+    "tech_stack",
+    "governance_hooks"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "模組唯一識別符"
+    },
+    "name": {
+      "type": "string",
+      "description": "模組名稱"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "模組顯示名稱（支援中文）"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-z0-9.]+)?(\\+[a-z0-9.]+)?$",
+      "description": "語意版本號"
+    },
+    "semantic_version": {
+      "type": "object",
+      "required": ["major", "minor", "patch"],
+      "properties": {
+        "major": {"type": "integer", "minimum": 0},
+        "minor": {"type": "integer", "minimum": 0},
+        "patch": {"type": "integer", "minimum": 0},
+        "prerelease": {"type": ["string", "null"]},
+        "build": {"type": ["string", "null"]}
+      }
+    },
+    "owner": {
+      "type": "object",
+      "required": ["team", "primary_contact"],
+      "properties": {
+        "team": {"type": "string"},
+        "primary_contact": {"type": "string", "format": "email"},
+        "secondary_contacts": {
+          "type": "array",
+          "items": {"type": "string", "format": "email"}
+        },
+        "maintainers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "email", "role"],
+            "properties": {
+              "name": {"type": "string"},
+              "email": {"type": "string", "format": "email"},
+              "role": {
+                "type": "string",
+                "enum": ["primary", "secondary", "reviewer", "contributor"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "language": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "enum": ["zh-TW", "zh-CN", "en-US", "ja-JP"]
+        },
+        "secondary": {"type": "string"},
+        "documentation": {"type": "string"},
+        "comments": {"type": "string"},
+        "api_responses": {"type": "string"}
+      }
+    },
+    "tech_stack": {
+      "type": "object",
+      "required": ["runtime", "language"],
+      "properties": {
+        "runtime": {"type": "string"},
+        "language": {"type": "string"},
+        "framework": {"type": "string"},
+        "build_tool": {"type": "string"},
+        "package_manager": {"type": "string"},
+        "dependencies": {
+          "type": "object",
+          "properties": {
+            "production": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "version"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "version": {"type": "string"},
+                  "critical": {"type": "boolean"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "governance_hooks": {
+      "type": "object",
+      "required": ["pre_upgrade", "post_upgrade"],
+      "properties": {
+        "pre_upgrade": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/governance_hook"}
+        },
+        "post_upgrade": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/governance_hook"}
+        }
+      }
+    },
+    "migration_hooks": {
+      "type": "object",
+      "patternProperties": {
+        "^from_.*_to_.*$": {
+          "type": "object",
+          "required": ["description", "migration_steps"],
+          "properties": {
+            "description": {"type": "string"},
+            "breaking_changes": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "migration_steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["step", "command"],
+                "properties": {
+                  "step": {"type": "string"},
+                  "command": {"type": "string"},
+                  "rollback": {"type": "string"}
+                }
+              }
+            },
+            "validation": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["type", "command"],
+                "properties": {
+                  "type": {"type": "string"},
+                  "command": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "frameworks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "security_requirements": {
+          "type": "object",
+          "properties": {
+            "deterministic_builds": {"type": "boolean"},
+            "signed_sbom": {"type": "boolean"},
+            "signed_artifacts": {"type": "boolean"},
+            "vulnerability_scanning": {"type": "boolean"}
+          }
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "retention_days": {"type": "integer", "minimum": 0},
+            "immutable_log": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "policy_hints": {
+      "type": "object",
+      "properties": {
+        "resource_limits": {
+          "type": "object",
+          "properties": {
+            "cpu_request": {"type": "string"},
+            "cpu_limit": {"type": "string"},
+            "memory_request": {"type": "string"},
+            "memory_limit": {"type": "string"}
+          }
+        },
+        "scaling": {
+          "type": "object",
+          "properties": {
+            "min_replicas": {"type": "integer", "minimum": 1},
+            "max_replicas": {"type": "integer", "minimum": 1},
+            "target_cpu_utilization": {"type": "integer", "minimum": 0, "maximum": 100}
+          }
+        },
+        "availability": {
+          "type": "object",
+          "properties": {
+            "slo_target": {"type": "number", "minimum": 0, "maximum": 100},
+            "max_downtime_per_month": {"type": "string"}
+          }
+        },
+        "performance": {
+          "type": "object",
+          "properties": {
+            "response_time_p95": {"type": "string"},
+            "response_time_p99": {"type": "string"},
+            "throughput_min": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "service_contracts": {
+      "type": "object",
+      "properties": {
+        "provides": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "version", "protocol"],
+            "properties": {
+              "name": {"type": "string"},
+              "version": {"type": "string"},
+              "protocol": {"type": "string"},
+              "endpoint": {"type": "string"}
+            }
+          }
+        },
+        "consumes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "provider"],
+            "properties": {
+              "name": {"type": "string"},
+              "provider": {"type": "string"},
+              "required": {"type": "boolean"},
+              "contract_ref": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "endpoint": {"type": "string"},
+            "format": {"type": "string"}
+          }
+        },
+        "health_checks": {
+          "type": "object",
+          "properties": {
+            "liveness": {"type": "string"},
+            "readiness": {"type": "string"},
+            "startup": {"type": "string"}
+          }
+        },
+        "logging": {
+          "type": "object",
+          "properties": {
+            "level": {"type": "string"},
+            "format": {"type": "string"},
+            "destination": {"type": "string"}
+          }
+        }
+      }
+    },
+    "changelog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["version", "date", "author", "changes"],
+        "properties": {
+          "version": {"type": "string"},
+          "date": {"type": "string", "format": "date"},
+          "author": {"type": "string"},
+          "changes": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "architecture_pattern": {"type": "string"},
+        "project_structure": {"type": "string"},
+        "governance_level": {"type": "string"}
+      }
+    }
+  },
+  "definitions": {
+    "governance_hook": {
+      "type": "object",
+      "required": ["type", "command", "required"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "compatibility_check",
+            "security_scan",
+            "policy_simulation",
+            "smoke_test",
+            "integration_test",
+            "generate_sbom"
+          ]
+        },
+        "command": {"type": "string"},
+        "required": {"type": "boolean"},
+        "timeout": {"type": "string"},
+        "fail_on": {"type": "string"}
+      }
+    }
+  }
+}

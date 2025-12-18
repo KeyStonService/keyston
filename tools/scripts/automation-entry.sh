@@ -110,7 +110,7 @@ auto_mode() {
     echo -e "${GREEN}🤖 啟動自動模式...${NC}"
     
     # 檢查協調器腳本是否存在
-    if [ -f ".devcontainer/automation/drone-coordinator.py" ]; then
+    if [ -f "config/dev/automation/drone-coordinator.py" ]; then
         # 嘗試使用 Python 3
         local python_cmd
         if command -v python3 &> /dev/null; then
@@ -120,7 +120,7 @@ auto_mode() {
         fi
         
         # 啟動智能分析
-        $python_cmd .devcontainer/automation/drone-coordinator.py --mode=auto
+        $python_cmd config/dev/automation/drone-coordinator.py --mode=auto
         
         # 根據分析結果自動配置
         if [ $? -eq 0 ]; then
@@ -155,7 +155,7 @@ quick_start() {
 start_devcontainer() {
     echo -e "${CYAN}🐳 啟動開發容器環境...${NC}"
     
-    cd .devcontainer
+    cd config/dev
     
     # 執行初始化腳本
     if [ -f "setup.sh" ]; then
@@ -186,9 +186,9 @@ custom_config() {
     
     local env_file=""
     case $env_choice in
-        1) env_file=".devcontainer/environments/development.env" ;;
-        2) env_file=".devcontainer/environments/staging.env" ;;
-        3) env_file=".devcontainer/environments/production.env" ;;
+        1) env_file="config/dev/environments/development.env" ;;
+        2) env_file="config/dev/environments/staging.env" ;;
+        3) env_file="config/dev/environments/production.env" ;;
         *)
             echo -e "${RED}無效選項${NC}"
             return 1
@@ -250,7 +250,7 @@ system_diagnosis() {
     echo ""
     
     echo -e "${CYAN}📁 專案結構:${NC}"
-    echo "  .devcontainer: $([ -d '.devcontainer' ] && echo '✅' || echo '❌')"
+    echo "  config/dev: $([ -d 'config/dev' ] && echo '✅' || echo '❌')"
     echo "  drone-config.yml: $([ -f 'drone-config.yml' ] && echo '✅' || echo '❌')"
     echo "  auto-scaffold.json: $([ -f 'auto-scaffold.json' ] && echo '✅' || echo '❌')"
     echo ""
@@ -351,20 +351,20 @@ dev_toolkit() {
             ;;
         3)
             echo -e "${BLUE}重建 Docker 映像...${NC}"
-            cd .devcontainer
+            cd config/dev
             docker_compose build --no-cache
             cd ..
             echo -e "${GREEN}✅ 重建完成${NC}"
             ;;
         4)
             echo -e "${BLUE}顯示容器日誌...${NC}"
-            cd .devcontainer
+            cd config/dev
             docker_compose logs --tail=100
             cd ..
             ;;
         5)
             echo -e "${BLUE}重啟所有服務...${NC}"
-            cd .devcontainer
+            cd config/dev
             docker_compose restart
             cd ..
             echo -e "${GREEN}✅ 重啟完成${NC}"

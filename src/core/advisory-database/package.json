@@ -1,0 +1,43 @@
+{
+  "name": "@machinenativeops/advisory-database",
+  "version": "1.0.0",
+  "description": "Professional advisory database service - GitHub Advisory Database compatible implementation for SynergyMesh",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --passWithNoTests",
+    "lint": "npx eslint \"src/**/*.ts\" --ignore-pattern \"**/*.test.ts\" --ignore-pattern \"**/__tests__/**\"",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "advisory",
+    "vulnerability",
+    "security",
+    "osv",
+    "ghsa",
+    "cve"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SynergyMesh/SynergyMesh.git",
+    "directory": "core/advisory-database"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
+    "@typescript-eslint/parser": "^8.49.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
+  }
+}

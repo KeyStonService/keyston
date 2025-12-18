@@ -40,7 +40,7 @@ tags:
 
 summary: >
   Unmanned Island System 是企業級雲原生智能自動化平台，整合 SynergyMesh 核心引擎、
-  結構治理系統與五骨架自主系統框架，並透過統一配置檔 synergymesh.yaml 作為單一真實來源，
+  結構治理系統與五骨架自主系統框架，並透過統一配置檔 machinenativeops.yaml 作為單一真實來源，
   提供零信任安全、自主運維與多子系統協作能力。
 
 repository:
@@ -69,7 +69,7 @@ runtime_requirements:
 
 design_principles:
   unified_entry:
-    description: "單一配置檔 synergymesh.yaml 作為所有系統的真實來源"
+    description: "單一配置檔 machinenativeops.yaml 作為所有系統的真實來源"
   modular_design:
     description: "三大子系統獨立運作，透過統一接口協作"
   zero_trust_security:
@@ -78,14 +78,14 @@ design_principles:
     description: "AI 驅動的自動修復、智能派工、升級管理"
 
 single_source_of_truth:
-  main_config: "synergymesh.yaml"
+  main_config: "machinenativeops.yaml"
   manifests:
     - "config/system-manifest.yaml"
     - "config/unified-config-index.yaml"
     - "config/system-module-map.yaml"
 
 subsystems:
-  - id: "synergymesh-core-engine"
+  - id: "machinenativeops-core-engine"
     kind: "subsystem"
     title: "SynergyMesh Core Engine"
     description: "雲原生智能業務自動化和數據編排平台"
@@ -161,7 +161,7 @@ subsystems:
       - "slsa"
       - "supply-chain-security"
     schema_namespace:
-      uri: "https://schema.synergymesh.io/docs-index/v1"
+      uri: "https://schema.machinenativeops.io/docs-index/v1"
       required_fields:
         - "id"
         - "path"
@@ -288,7 +288,7 @@ subsystems:
 directory_layout:
   root: "unmanned-island/"
   entries:
-    - path: "synergymesh.yaml"
+    - path: "machinenativeops.yaml"
       kind: "config"
       role: "unified-main-config"
     - path: "core/"

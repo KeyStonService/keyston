@@ -1,0 +1,594 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    SynergyMesh System Module Map
+#                    系統模組映射 - 統一目錄結構與元件整合
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# 此配置提供 SynergyMesh 統一系統的完整目錄映射與元件引用
+# This configuration provides the complete directory mapping and component 
+# references for the SynergyMesh unified system.
+#
+# Purpose:
+# - 清理根目錄混亂 (Clean up root directory clutter)
+# - 子目錄分類與群組化 (Subdirectory classification and grouping)
+# - 高度映射/引用整合 (High-level mapping/reference integration)
+# - 確保無缺失功能 (Ensure no missing functionality)
+# - 確保無重複定義 (Ensure no duplicate definitions)
+#
+# Related Configurations:
+# - config/system-manifest.yaml: 主系統宣告清單
+# - config/unified-config-index.yaml: Phase 2 統一配置索引 (目錄合併計畫)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "1.1.0"
+id: "machinenativeops.module-map"
+description: "SynergyMesh 系統模組映射 - 統一目錄結構"
+
+# Phase 2 Reference
+phase2_consolidation:
+  reference: "config/unified-config-index.yaml"
+  description: "詳細目錄合併計畫請參閱統一配置索引"
+
+# ============================================================================
+# Directory Categories (目錄分類)
+# ============================================================================
+directory_categories:
+  
+  # ─────────────────────────────────────────────────────────────────────────
+  # Core Platform (核心平台)
+  # ─────────────────────────────────────────────────────────────────────────
+  core_platform:
+    description: "核心平台服務與模組"
+    base_path: "core/"
+    modules:
+      # Unified Integration Layer
+      unified_integration:
+        path: "core/unified_integration/"
+        description: "統一系統整合層"
+        components:
+          - id: "unified_controller"
+            file: "unified_controller.py"
+            provides: ["SystemBootstrap", "PhaseCoordination"]
+          - id: "integration_hub"
+            file: "integration_hub.py"
+            provides: ["MessageRouting", "EventPubSub"]
+          - id: "system_orchestrator"
+            file: "system_orchestrator.py"
+            provides: ["WorkflowManagement", "TaskScheduling"]
+          - id: "configuration_manager"
+            file: "configuration_manager.py"
+            provides: ["ConfigManagement", "SecretManagement"]
+          - id: "service_registry"
+            file: "service_registry.py"
+            provides: ["ServiceDiscovery", "HealthMonitoring", "DependencyResolution"]
+          - id: "cognitive_processor"
+            file: "cognitive_processor.py"
+            provides: ["Perception", "Reasoning", "Execution", "Proof"]
+          - id: "configuration_optimizer"
+            file: "configuration_optimizer.py"
+            provides: ["ConfigValidation", "DriftDetection", "Recommendations"]
+          - id: "work_configuration_manager"
+            file: "work_configuration_manager.py"
+            provides: ["ModuleMappingIntegration", "StrategyPolicyManagement", "CrossReferenceValidation", "CapabilityRegistryAlignment"]
+      
+      # AI Constitution Layer
+      ai_constitution:
+        path: "core/ai_constitution/"
+        description: "AI 治理憲章"
+        provides: ["GovernancePolicies", "EthicalGuidelines"]
+      
+      # Contracts L1
+      contracts_l1:
+        path: "core/contract_service/contracts-L1/"
+        description: "L1 合約管理服務"
+        provides: ["ContractManagement", "ProvenanceAttestation"]
+      
+      # Execution Engine
+      execution_engine:
+        path: "core/execution_engine/"
+        description: "執行引擎"
+        provides: ["ActionExecution", "Rollback"]
+      
+      # Execution Architecture
+      execution_architecture:
+        path: "core/execution_architecture/"
+        description: "完整執行架構"
+        provides: ["FullExecutionPipeline"]
+      
+      # Safety Mechanisms
+      safety_mechanisms:
+        path: "core/safety_mechanisms/"
+        description: "安全機制"
+        provides: ["SafetyChecks", "RiskMitigation"]
+      
+      # Monitoring System
+      monitoring_system:
+        path: "core/monitoring_system/"
+        description: "監控系統"
+        provides: ["MetricsCollection", "AlertManagement"]
+      
+      # SLSA Provenance
+      slsa_provenance:
+        path: "core/slsa_provenance/"
+        description: "SLSA 溯源認證"
+        provides: ["Attestation", "SignatureVerification"]
+      
+      # Cloud Agent Delegation
+      cloud_agent_delegation:
+        path: "core/cloud_agent_delegation/"
+        description: "雲代理委派"
+        provides: ["AgentDelegation", "CloudIntegration"]
+      
+      # MCP Servers Enhanced
+      mcp_servers_enhanced:
+        path: "core/mcp_servers_enhanced/"
+        description: "增強型 MCP 伺服器"
+        provides: ["MCPProtocol", "ServerCapabilities"]
+      
+      # Virtual Experts
+      virtual_experts:
+        path: "core/virtual_experts/"
+        description: "虛擬專家系統"
+        provides: ["ExpertKnowledge", "DomainAnalysis"]
+      
+      # Training System
+      training_system:
+        path: "core/training_system/"
+        description: "訓練系統"
+        provides: ["KnowledgeTraining", "SkillDevelopment"]
+      
+      # AI Decision Engine
+      ai_decision_engine:
+        path: "core/ai_decision_engine.py"
+        description: "AI 決策引擎"
+        provides: ["DecisionMaking", "PolicyEnforcement"]
+      
+      # CI Error Handler
+      ci_error_handler:
+        path: "core/ci_error_handler/"
+        description: "CI 錯誤處理器"
+        provides: ["ErrorDetection", "AutoRemediation"]
+      
+      # YAML Module System
+      yaml_module_system:
+        path: "core/yaml_module_system/"
+        description: "YAML 模組系統"
+        provides: ["YAMLValidation", "SchemaEnforcement"]
+      
+      # Tech Stack
+      tech_stack:
+        path: "core/tech_stack/"
+        description: "技術棧定義"
+        provides: ["StackConfiguration", "ToolIntegration"]
+      
+      # Autonomous Trust Engine
+      autonomous_trust_engine:
+        path: "core/autonomous_trust_engine.py"
+        description: "自主信任引擎"
+        provides: ["TrustManagement", "GovernanceValidation"]
+      
+      # Auto Bug Detector
+      auto_bug_detector:
+        path: "core/auto_bug_detector.py"
+        description: "自動缺陷偵測"
+        provides: ["BugDetection", "QualityAssurance"]
+      
+      # Auto Governance Hub
+      auto_governance_hub:
+        path: "core/auto_governance_hub.py"
+        description: "自動治理中心"
+        provides: ["GovernanceOrchestration", "PolicyManagement"]
+      
+      # Context Understanding Engine
+      context_understanding_engine:
+        path: "core/context_understanding_engine.py"
+        description: "上下文理解引擎"
+        provides: ["ContextAnalysis", "SemanticUnderstanding"]
+      
+      # Hallucination Detector
+      hallucination_detector:
+        path: "core/hallucination_detector.py"
+        description: "幻覺偵測器"
+        provides: ["HallucinationDetection", "OutputValidation"]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Runtime (運行時)
+  # ─────────────────────────────────────────────────────────────────────────
+  runtime:
+    description: "運行時模組"
+    base_path: "runtime/"
+    modules:
+      mind_matrix:
+        path: "runtime/mind_matrix/"
+        description: "心智矩陣核心"
+        provides: ["CognitiveStack", "ExecutiveSystem", "MultiAgentHypergraph"]
+        entrypoint: "main.py"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Infrastructure (基礎設施)
+  # ─────────────────────────────────────────────────────────────────────────
+  infrastructure:
+    description: "基礎設施配置"
+    modules:
+      kubernetes:
+        path: "k8s/"
+        description: "Kubernetes 部署配置"
+        provides: ["Deployment", "Services", "Monitoring"]
+      
+      docker:
+        root_files:
+          - "Dockerfile"
+          - "docker-compose.yml"
+          - "docker-compose.dev.yml"
+        description: "Docker 容器配置"
+      
+      ci_cd:
+        path: ".github/workflows/"
+        description: "CI/CD 工作流程"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Automation (自動化)
+  # ─────────────────────────────────────────────────────────────────────────
+  automation:
+    description: "自動化系統"
+    modules:
+      intelligent_automation:
+        path: "automation/intelligent/"
+        description: "智能自動化"
+        provides: ["TaskOrchestration", "IntentUnderstanding"]
+      
+      intelligent_hyperautomation:
+        path: "automation/hyperautomation/"
+        description: "智能超自動化"
+        provides: ["HyperautomationPolicies", "UAVGovernance"]
+      
+      automation_architect:
+        path: "automation/architect/"
+        description: "自動化架構師"
+        provides: ["ArchitectureAnalysis", "RepairEngine"]
+      
+      autonomous_system:
+        path: "automation/autonomous/"
+        description: "自主系統"
+        provides: ["APIGovernance", "ArchitectureStability"]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Services (服務)
+  # ─────────────────────────────────────────────────────────────────────────
+  services:
+    description: "微服務"
+    modules:
+      mcp_servers:
+        path: "mcp-servers/"
+        description: "MCP 伺服器實作"
+        provides: ["CodeAnalyzer", "SecurityScanner", "TestGenerator"]
+      
+      agent:
+        path: "agent/"
+        description: "代理程式"
+        provides: ["RunbookExecutor", "AutoRepair", "VulnerabilityDetector"]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Configuration (配置)
+  # ─────────────────────────────────────────────────────────────────────────
+  configuration:
+    description: "配置管理"
+    base_path: "config/"
+    modules:
+      system_manifest:
+        file: "system-manifest.yaml"
+        description: "系統宣告清單"
+      
+      environment:
+        file: "environment.yaml"
+        description: "環境配置"
+      
+      dependencies:
+        file: "dependencies.yaml"
+        description: "依賴配置"
+      
+      module_map:
+        file: "system-module-map.yaml"
+        description: "模組映射"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Frontend (前端) - CONSOLIDATED
+  # ─────────────────────────────────────────────────────────────────────────
+  frontend:
+    description: "前端應用 (已整合)"
+    modules:
+      ui:
+        path: "frontend/ui/"
+        description: "統一前端UI套件 - 架構視覺化與系統UI"
+        provides: ["ArchitectureVisualization", "SystemUI", "CodeAnalyzerAPI"]
+        note: "Consolidated from frontend/architecture and frontend/system-ui"
+      
+      dist:
+        path: "frontend/dist/"
+        description: "進階系統編譯產出"
+        type: "build_output"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Documentation (文件)
+  # ─────────────────────────────────────────────────────────────────────────
+  documentation:
+    description: "文件資料"
+    modules:
+      docs:
+        path: "docs/"
+        description: "主要文件目錄"
+      
+      root_docs:
+        description: "根目錄文件"
+        files:
+          - "README.md"
+          - "README.en.md"
+          - "CONTRIBUTING.md"
+          - "SECURITY.md"
+          - "CHANGELOG.md"
+          - "CODE_OF_CONDUCT.md"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Testing (測試)
+  # ─────────────────────────────────────────────────────────────────────────
+  testing:
+    description: "測試相關"
+    modules:
+      tests:
+        path: "tests/unit/"
+        description: "測試套件"
+      
+      test_vectors:
+        path: "tests/vectors/"
+        description: "測試向量"
+      
+      performance_tests:
+        path: "tests/performance/"
+        description: "性能測試"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Governance (治理)
+  # ─────────────────────────────────────────────────────────────────────────
+  governance:
+    description: "治理與政策"
+    modules:
+      governance:
+        path: "governance/rules/"
+        description: "治理規則"
+      
+      policy:
+        path: "governance/policies/"
+        description: "政策定義"
+      
+      schemas:
+        path: "governance/schemas/"
+        description: "資料結構定義"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Tools & Scripts (工具與腳本)
+  # ─────────────────────────────────────────────────────────────────────────
+  tools:
+    description: "工具與腳本"
+    modules:
+      scripts:
+        path: "tools/scripts/"
+        description: "自動化腳本"
+      
+      tools:
+        path: "tools/utilities/"
+        description: "工具程式"
+      
+      ci:
+        path: "tools/ci/"
+        description: "CI 輔助工具"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # External Dependencies (外部依賴)
+  # ─────────────────────────────────────────────────────────────────────────
+  external:
+    description: "外部依賴與整合"
+    modules:
+      attest_build_provenance:
+        path: "attest-build-provenance-main/"
+        description: "建置認證主程式"
+        type: "external_dependency"
+      
+      bridges:
+        path: "bridges/"
+        description: "系統橋接"
+
+# ============================================================================
+# Skill & Capability Matrix (技能與能力矩陣)
+# ============================================================================
+capability_matrix:
+  cognitive_processing:
+    description: "認知處理能力"
+    providers:
+      - "core/unified_integration/cognitive_processor.py"
+      - "runtime/mind_matrix/"
+    capabilities:
+      - "perception"
+      - "reasoning"
+      - "execution"
+      - "proof"
+  
+  service_discovery:
+    description: "服務發現能力"
+    providers:
+      - "core/unified_integration/service_registry.py"
+    capabilities:
+      - "discovery"
+      - "health_monitoring"
+      - "dependency_resolution"
+  
+  configuration_management:
+    description: "配置管理能力"
+    providers:
+      - "core/unified_integration/configuration_manager.py"
+      - "core/unified_integration/configuration_optimizer.py"
+    capabilities:
+      - "config_validation"
+      - "drift_detection"
+      - "optimization_recommendations"
+  
+  workflow_orchestration:
+    description: "工作流編排能力"
+    providers:
+      - "core/unified_integration/system_orchestrator.py"
+      - "intelligent-automation/"
+    capabilities:
+      - "workflow_management"
+      - "task_scheduling"
+      - "intent_understanding"
+  
+  # NEW: Work Configuration (工作配置能力)
+  work_configuration:
+    description: "工作配置能力 - 統一工作流程與策略整合"
+    providers:
+      - "core/unified_integration/work_configuration_manager.py"
+    capabilities:
+      - "module_mapping_integration"
+      - "strategy_policy_management"
+      - "cross_reference_validation"
+      - "capability_registry_alignment"
+      - "work_configuration_lifecycle"
+  
+  security_compliance:
+    description: "安全合規能力"
+    providers:
+      - "core/slsa_provenance/"
+      - "core/safety_mechanisms/"
+      - "mcp-servers/security-scanner.js"
+    capabilities:
+      - "attestation"
+      - "vulnerability_detection"
+      - "safety_checks"
+  
+  code_analysis:
+    description: "程式碼分析能力"
+    providers:
+      - "mcp-servers/code-analyzer.js"
+      - "automation-architect/core/analysis/"
+    capabilities:
+      - "static_analysis"
+      - "architecture_analysis"
+      - "performance_analysis"
+  
+  deployment_automation:
+    description: "部署自動化能力"
+    providers:
+      - "k8s/"
+      - ".github/workflows/"
+    capabilities:
+      - "kubernetes_deployment"
+      - "ci_cd_pipelines"
+      - "monitoring_setup"
+
+# ============================================================================
+# Root Directory Cleanup Guidelines (根目錄清理指南)
+# ============================================================================
+root_directory_guidelines:
+  essential_root_files:
+    description: "必須保留在根目錄的檔案"
+    files:
+      - "README.md"
+      - "README.en.md"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "pyproject.toml"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - ".gitignore"
+      - ".eslintrc.yaml"
+      - ".prettierrc"
+      - "jest.config.js"
+  
+  documentation_to_consolidate:
+    description: "應移至 docs/ 的文件"
+    current_files:
+      - "ADVANCED_SYSTEM_INTEGRATION.md"
+      - "AUTO_FIX_BOT.md"
+      - "AUTO_FIX_BOT_GUIDE.md"
+      - "COMPREHENSIVE_IMPLEMENTATION_REPORT.md"
+      - "DELEGATION_WORKFLOW.md"
+      - "GHAS_IMPLEMENTATION_SUMMARY.md"
+      - "MONITORING_GUIDE.md"
+      - "PHASE1_IMPLEMENTATION_SUMMARY.md"
+      - "PHASE1_VALIDATION_REPORT.md"
+      - "PRODUCTION_READINESS.md"
+      - "REPOSITORY_INTEGRATION_ASSESSMENT.md"
+      - "ROOT_README.md"
+      - "SECURITY_SUMMARY.md"
+    target: "docs/"
+  
+  config_to_consolidate:
+    description: "應移至 config/ 的配置"
+    current_files:
+      - "auto-fix-bot.yml"
+      - "auto-fix-bot.prompt.yml"
+      - "cloud-agent-delegation.yml"
+      - "drone-config.yml"
+      - "island-control.yml"
+      - "machinenativeops.config.yaml"
+    target: "config/"
+  
+  hidden_directories:
+    description: "隱藏目錄（應保留）"
+    directories:
+      - "config/autofix"
+      - ".ci"
+      - ".config"
+      - "config/dev"
+      - ".docker-templates"
+      - ".github"
+      - ".github-private"
+      - ".governance"
+      - "governance/registry"
+      - ".vscode"
+
+# ============================================================================
+# Cross-Reference Index (交叉引用索引)
+# ============================================================================
+cross_references:
+  # Mind Matrix references
+  mind_matrix_dependencies:
+    - "config/topology-mind-matrix.yaml"
+    - "config/ai-constitution.yaml"
+    - "config/agents/team/virtual-experts.yaml"
+    - "config/safety-mechanisms.yaml"
+    - "core/unified_integration/"
+  
+  # Service Registry references
+  service_registry_integrations:
+    - "core/contract_service/contracts-L1/"
+    - "mcp-servers/"
+    - "core/slsa_provenance/"
+    - "core/execution_engine/"
+    - "core/monitoring_system/"
+  
+  # Configuration references
+  configuration_hierarchy:
+    - "config/system-manifest.yaml"      # Root manifest
+    - "config/system-module-map.yaml"    # Module mapping
+    - "config/environment.yaml"          # Environment config
+    - "config/dependencies.yaml"         # Dependencies config
+
+# ============================================================================
+# Validation Rules (驗證規則)
+# ============================================================================
+validation_rules:
+  no_duplicate_providers:
+    description: "確保同一能力只有一個主要提供者"
+    severity: "error"
+  
+  all_capabilities_covered:
+    description: "確保所有必要能力都有提供者"
+    severity: "error"
+  
+  consistent_naming:
+    description: "確保命名一致性"
+    severity: "warning"
+  
+  documentation_exists:
+    description: "確保每個模組都有文件"
+    severity: "warning"

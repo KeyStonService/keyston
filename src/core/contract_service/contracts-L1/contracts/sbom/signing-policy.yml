@@ -1,0 +1,132 @@
+# ==============================================================================
+# SBOM Signing Policy
+# ==============================================================================
+# 用途: 自動產出並簽章 SBOM 的策略定義
+# 工具: Syft + Cosign
+# 語言: 繁體中文註解
+# ==============================================================================
+
+apiVersion: v1
+kind: SBOMSigningPolicy
+metadata:
+  name: contracts-l1-sbom-policy
+  version: "1.0.0"
+  created_at: "2025-01-17T12:00:00Z"
+  language: zh-TW
+
+# SBOM 生成配置
+sbom_generation:
+  enabled: true
+  tool: syft
+  version: ">=0.100.0"
+  
+  # 掃描目標
+  targets:
+    - type: image
+      ref: "ghcr.io/we-can-fix/contracts-l1:${VERSION}"
+    - type: directory
+      path: "./dist"
+  
+  # 輸出格式
+  formats:
+    - name: spdx-json
+      version: "2.3"
+      output: "sbom/contracts-l1-sbom.spdx.json"
+    - name: cyclonedx-json
+      version: "1.5"
+      output: "sbom/contracts-l1-sbom.cyclonedx.json"
+  
+  # 掃描選項
+  options:
+    exclude:
+      - "/tmp/**"
+      - "/var/cache/**"
+    catalogers:
+      - npm-package-json
+      - node-modules
+    
+# 簽章配置
+signing:
+  enabled: true
+  tool: cosign
+  mode: keyless  # 使用 Sigstore keyless signing
+  
+  # OIDC 配置
+  oidc:
+    issuer: "https://token.actions.githubusercontent.com"
+    identity_regexp: ".*@imachinenativeops\\.com"
+  
+  # 簽章對象
+  targets:
+    - path: "sbom/contracts-l1-sbom.spdx.json"
+      signature_file: "sbom/contracts-l1-sbom.spdx.json.sig"
+    - path: "sbom/contracts-l1-sbom.cyclonedx.json"
+      signature_file: "sbom/contracts-l1-sbom.cyclonedx.json.sig"
+  
+  # 附加 attestation
+  attestation:
+    enabled: true
+    predicate_type: "https://in-toto.io/Statement/v0.1"
+    
+# 驗證配置
+verification:
+  enabled: true
+  
+  # 驗證步驟
+  checks:
+    - name: signature_valid
+      description: "驗證 SBOM 簽章有效性"
+      required: true
+    - name: identity_match
+      description: "驗證簽章者身份"
+      required: true
+    - name: timestamp_recent
+      description: "驗證簽章時間在 24 小時內"
+      required: false
+  
+  # 失敗動作
+  on_failure:
+    action: "block"
+    notify:
+      - "security@imachinenativeops.com"
+
+# 自動化配置
+automation:
+  # CI/CD 整合
+  ci_trigger:
+    - on_image_push
+    - on_release_tag
+  
+  # 自動上傳
+  upload:
+    enabled: true
+    destinations:
+      - type: github_release
+        asset_name: "sbom-${VERSION}.tar.gz"
+      - type: artifact_registry
+        path: "sbom/${VERSION}/"
+  
+  # 保留策略
+  retention:
+    days: 90
+    versions_to_keep: 10
+
+# ==============================================================================
+# 使用範例
+# ==============================================================================
+# 1. 生成 SBOM:
+#    syft packages docker:ghcr.io/we-can-fix/contracts-l1:1.0.0 \
+#      -o spdx-json=sbom/contracts-l1-sbom.spdx.json
+#
+# 2. 簽章 SBOM:
+#    cosign sign-blob sbom/contracts-l1-sbom.spdx.json \
+#      --output-signature sbom/contracts-l1-sbom.spdx.json.sig \
+#      --output-certificate sbom/contracts-l1-sbom.spdx.json.crt
+#
+# 3. 驗證簽章:
+#    cosign verify-blob sbom/contracts-l1-sbom.spdx.json \
+#      --signature sbom/contracts-l1-sbom.spdx.json.sig \
+#      --certificate sbom/contracts-l1-sbom.spdx.json.crt \
+#      --certificate-identity-regexp ".*@imachinenativeops\.com" \
+#      --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+# ==============================================================================

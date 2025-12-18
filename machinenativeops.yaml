@@ -1,0 +1,424 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#                    MachineNativeOps Master Configuration
+#                    主系統配置 - 統一入口點
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# Version: 4.0.0
+# Vision Version: 1.0.0 (aligned with governance/00-vision-strategy)
+# Updated: 2025-12-16
+# Purpose: Phase 4 整合 - 進一步壓縮目錄結構與統一服務管理
+#
+# This is THE single source of truth for all system configurations.
+# 這是所有系統配置的唯一真實來源。
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "4.0.0"
+vision_version: "1.0.0"
+name: "MachineNativeOps"
+description: |
+  次世代雲原生智能自動化平台 - 成為全球領先的企業級智能自動化平台，
+  透過整合 AI 決策引擎、結構化治理系統與自主框架，實現「無人值守」的智能運維，
+  讓企業專注於創新而非維運。
+  
+  Next-Generation Cloud-Native Intelligent Automation Platform - 
+  Achieve "unmanned" intelligent operations through integrated AI decision engines,
+  structural governance systems, and autonomous frameworks.
+
+# ============================================================================
+# System Identity (系統身份)
+# ============================================================================
+system:
+  id: "machinenativeops-main"
+  environment: "${ENVIRONMENT:-development}"
+  region: "${REGION:-default}"
+
+# ============================================================================
+# Configuration References (配置引用)
+# ============================================================================
+# All detailed configs are referenced here - single source of truth
+configs:
+  manifest: "config/system-manifest.yaml"
+  modules: "config/system-module-map.yaml"
+  index: "config/unified-config-index.yaml"
+  environment: "config/environment.yaml"
+  dependencies: "config/dependencies.yaml"
+
+  # Mind Matrix & AI
+  mind_matrix: "config/topology-mind-matrix.yaml"
+  ai_constitution: "config/ai-constitution.yaml"
+  virtual_experts: "config/agents/team/virtual-experts.yaml"
+  safety_mechanisms: "config/safety-mechanisms.yaml"
+
+  # Operations
+  monitoring: "config/monitoring.yaml"
+  ci_error_handler: "config/ci-error-handler.yaml"
+  auto_fix_bot: "config/auto-fix-bot.yml"
+
+# ============================================================================
+# Strategic Alignment (戰略對齊)
+# ============================================================================
+# References to governance/00-vision-strategy - the strategic foundation
+strategic_alignment:
+  vision_file: "src/governance/00-vision-strategy/vision-statement.yaml"
+  objectives_file: "src/governance/00-vision-strategy/strategic-objectives.yaml"
+  charter_file: "src/governance/00-vision-strategy/governance-charter.yaml"
+  alignment_file: "src/governance/00-vision-strategy/alignment-framework.yaml"
+  
+  # Four Key Outcomes (四大核心成果)
+  key_outcomes:
+    zero_touch_operations:
+      target: "95%+ automation"
+      metrics: ["自動化率 ≥ 95%", "MTTR ≤ 5分鐘"]
+    ai_driven_governance:
+      target: "100% compliance"
+      metrics: ["架構合規率 = 100%", "安全漏洞自動修復率 ≥ 90%"]
+    autonomous_framework:
+      target: "99.9%+ availability"
+      metrics: ["系統可用性 ≥ 99.9%", "自主決策準確率 ≥ 98%"]
+    enterprise_reliability:
+      target: "99.99%+ SLA"
+      metrics: ["SLA 可用性 ≥ 99.99%", "零數據丟失"]
+  
+  # Strategic Objectives (戰略目標)
+  objectives:
+    - id: "OBJ-01"
+      title: "建立世界級智能自動化平台"
+      priority: "P0"
+      owner: "CTO"
+    - id: "OBJ-02"
+      title: "實現 95%+ 運維自動化"
+      priority: "P0"
+      owner: "VP Engineering"
+    - id: "OBJ-03"
+      title: "建立完整的 23 維度治理矩陣"
+      priority: "P0"
+      owner: "VP Architecture"
+    - id: "OBJ-04"
+      title: "提供世界級開發者體驗"
+      priority: "P1"
+      owner: "VP Product"
+    - id: "OBJ-05"
+      title: "建立市場領導地位"
+      priority: "P1"
+      owner: "CEO"
+
+# ============================================================================
+# Machine-Native Documentation Layer (機器原生文檔層)
+# ============================================================================
+# MN-DOC v1 - Transforms narrative documentation into machine-consumable entities
+mndoc:
+  version: "1.0.0"
+  index: "docs/mndoc/index.yaml"
+  schemas:
+    mndoc: "src/governance/31-schemas/mndoc/mndoc.schema.json"
+    mndoc_index: "src/governance/31-schemas/mndoc/mndoc-index.schema.json"
+    mapping_rules: "src/governance/31-schemas/mndoc/mapping-rules.schema.json"
+    system: "src/governance/31-schemas/mndoc/entity-system.schema.json"
+    subsystem: "src/governance/31-schemas/mndoc/entity-subsystem.schema.json"
+    component: "src/governance/31-schemas/mndoc/entity-component.schema.json"
+    component_collection: "src/governance/31-schemas/mndoc/entity-component-collection.schema.json"
+    configuration: "src/governance/31-schemas/mndoc/entity-configuration.schema.json"
+    governance: "src/governance/31-schemas/mndoc/entity-governance.schema.json"
+  mapping_rules: "src/governance/32-rules/mapping-rules.yaml"
+  entities:
+    system: "docs/mndoc/system.yaml"
+    subsystems: "docs/mndoc/subsystems/"
+    components: "docs/mndoc/components/"
+    governance: "docs/mndoc/governance-pipeline.yaml"
+
+# ============================================================================
+# Directory Structure (目錄結構)
+# ============================================================================
+# Optimized directory layout after Phase 4 consolidation
+directories:
+  # Core modules (Phase 4: 小型模組整合至 src/core/modules/)
+  core: "src/core/" # 核心平台模組
+  core_modules: "src/core/modules/" # 統一管理的小型模組
+  config: "config/" # 所有配置檔案
+  config_docker: "config/docker/" # Docker 配置統一管理
+
+  # Automation
+  automation: "src/automation/" # 自動化模組
+
+  # Services (Phase 4: 整合 agent + mcp-servers)
+  services: "src/services/" # 統一服務入口
+  services_agents: "src/services/agents/" # Agent 服務
+  services_mcp: "src/services/mcp/" # MCP 伺服器 (legacy)
+  mcp_servers: "src/mcp-servers/" # MCP 伺服器 (npm workspace, CI 使用)
+
+  # Infrastructure (Phase 4: K8s 扁平化)
+  infrastructure: "src/autonomous/infrastructure/" # 基礎設施
+  k8s_manifests: "src/autonomous/infrastructure/kubernetes/manifests/" # K8s 清單
+
+  # Apps (Phase 4: 整合 frontend)
+  apps: "src/apps/" # 應用程式
+  apps_web: "src/apps/web/" # Web 前端
+
+  # Documentation
+  docs: "docs/" # 文件
+  docs_examples: "docs/examples/" # 範例配置
+
+  # Support
+  governance: "src/governance/" # 治理與政策
+  tools: "tools/" # 工具與腳本
+  tests: "src/tests/" # 測試
+  ops: "ops/" # 運維
+  shared: "src/shared/" # 共用資源
+  legacy: "legacy/" # 舊版本存檔
+
+  # Hidden/Config (Phase 4: 整合 .github-private)
+  devcontainer: "config/dev/" # 開發容器
+  github: ".github/" # GitHub 配置
+  github_private: ".github/private/" # 私有 GitHub 配置
+  vscode: ".vscode/" # VS Code 配置
+
+# ============================================================================
+# Capability Matrix (能力矩陣)
+# ============================================================================
+capabilities:
+  # Cognitive Processing
+  cognitive:
+    provider: "src/core/unified_integration/cognitive_processor.py"
+    layers: ["perception", "reasoning", "execution", "proof"]
+
+  # Service Management
+  services:
+    provider: "src/core/unified_integration/service_registry.py"
+    features: ["discovery", "health", "dependencies"]
+
+  # Configuration
+  configuration:
+    provider: "src/core/unified_integration/configuration_optimizer.py"
+    features: ["validation", "drift_detection", "optimization"]
+
+  # Security
+  security:
+    providers:
+      - "src/core/slsa_provenance/"
+      - "src/core/safety_mechanisms/"
+      - "src/mcp-servers/security-scanner.js"
+    features: ["attestation", "vulnerability_detection", "safety_checks", "path_validation", "secure_logging"]
+    enhancements:
+      pr_351_security_fixes:
+        date: "2025-12-15"
+        improvements:
+          - "Path traversal prevention with SAFE_ROOT validation"
+          - "Clear-text sensitive data logging eliminated"
+          - "Strong cryptographic algorithms enforced (SHA-256+)"
+        policy_compliance:
+          - "SEC-PATH-001: Path security validation"
+          - "SEC-LOG-001: Secure logging practices"
+          - "SEC-CRYPTO-001: Strong cryptographic algorithms"
+
+  # Code Analysis
+  analysis:
+    providers:
+      - "mcp-servers/code-analyzer.js"
+      - "automation/architect/"
+    features: ["static_analysis", "architecture_analysis", "performance"]
+
+  # Modules (Phase 4: 新增模組能力)
+  modules:
+    provider: "core/modules/__init__.py"
+    features:
+      [
+        "mind_matrix",
+        "training_system",
+        "virtual_experts",
+        "ci_error_handler",
+        "monitoring_system",
+        "execution_architecture",
+      ]
+
+  # Agents (Phase 4: 新增代理能力)
+  agents:
+    provider: "services/__init__.py"
+    features:
+      [
+        "auto-repair",
+        "code-analyzer",
+        "dependency-manager",
+        "vulnerability-detector",
+        "orchestrator",
+      ]
+
+  # Island AI Multi-Agent System (Stages 1-4 consolidated: 協作、自學習、生產化)
+  island_ai:
+    provider: "src/ai/src/index.ts"
+    provider_artifact: "src/ai/dist/index.js"
+    version: "0.1.0"
+    stage: 4  # Stages 1-3 completed; Stage 4 productionized
+    stages_completed: [1, 2, 3, 4]
+    agents:
+      architect:
+        name: "Architect Agent"
+        path: "src/ai/src/agents/architect/index.ts"
+        artifact: "src/ai/dist/agents/architect/index.js"
+        capabilities: ["system_analysis", "pattern_recommendation", "optimization"]
+        integration: "machinenativeops_core"
+      security:
+        name: "Security Agent"
+        path: "src/ai/src/agents/security/index.ts"
+        artifact: "src/ai/dist/agents/security/index.js"
+        capabilities: ["vulnerability_scan", "owasp_check", "cwe_check", "auto_patch"]
+        integration: "security_scanner"
+      devops:
+        name: "DevOps Agent"
+        path: "src/ai/src/agents/devops/index.ts"
+        artifact: "src/ai/dist/agents/devops/index.js"
+        capabilities: ["deployment", "monitoring", "scaling", "ci_cd_pipeline"]
+        integration: "ci_error_handler"
+      qa:
+        name: "QA Agent"
+        path: "src/ai/src/agents/qa/index.ts"
+        artifact: "src/ai/dist/agents/qa/index.js"
+        capabilities: ["unit_test", "integration_test", "e2e_test", "validation"]
+        integration: "test_framework"
+      data_scientist:
+        name: "Data Scientist Agent"
+        path: "src/ai/src/agents/data-scientist/index.ts"
+        artifact: "src/ai/dist/agents/data-scientist/index.js"
+        capabilities: ["data_analysis", "modeling", "prediction", "ml_pipeline"]
+        integration: "analytics_engine"
+      product_manager:
+        name: "Product Manager Agent"
+        path: "src/ai/src/agents/product-manager/index.ts"
+        artifact: "src/ai/dist/agents/product-manager/index.js"
+        capabilities: ["prioritization", "roadmap", "feedback_analysis", "kpi_tracking"]
+        integration: "mind_matrix"
+    orchestration:
+      enabled: true  # Stage 2 feature (productionized)
+      coordinator: "src/ai/src/collaboration/agent-coordinator.ts"
+      coordinator_artifact: "src/ai/dist/collaboration/agent-coordinator.js"
+      strategies:
+        - sequential
+        - parallel
+        - conditional
+        - iterative
+    next_stages:
+      stage_5:
+        status: "in_progress"
+        kickoff: "2025-12-16"
+        multi_tenancy:
+          status: "in_progress"
+          owner: "platform"
+          acceptance: "Multi-tenant isolation with org-level policy controls"
+        ha_deployment:
+          status: "in_progress"
+          owner: "devops"
+          acceptance: "High-availability deployment patterns"
+        advanced_iam:
+          status: "in_progress"
+          owner: "security"
+          acceptance: "Advanced identity with OIDC/SAML + fine-grained RBAC"
+        cost_dashboard:
+          status: "in_progress"
+          owner: "finops"
+          acceptance: "Cost management dashboard"
+        sla_monitoring:
+          status: "in_progress"
+          owner: "observability"
+          acceptance: "SLA monitoring and automated reporting"
+
+  # Actuators (執行器能力)
+  actuators:
+    cli_actuator:
+      id: "cli_actuator"
+      kind: "process"
+      description: "Admin Copilot CLI 作為 mind_matrix 的執行介面"
+      entrypoint: "tools/cli/"
+      bridge: "core/unified_integration/cli_bridge.py"
+      allowed_operations:
+        - build
+        - test
+        - lint
+        - fix
+        - analyze
+        - review
+        - generate
+      safety_policy_ref: "governance/policies/cli-safe-mode.rego"
+      provenance:
+        enabled: true
+        attestation_stream: "core/slsa_provenance/"
+      constraints:
+        max_concurrent_tasks: 5
+        timeout_seconds: 300
+        require_human_approval_for:
+          - "destructive_operations"
+          - "production_deployment"
+
+# ============================================================================
+# Boot Sequence (啟動序列)
+# ============================================================================
+boot:
+  phases:
+    - name: "core_configs"
+      load:
+        - "environment"
+        - "dependencies"
+        - "ai_constitution"
+        - "safety_mechanisms"
+
+    - name: "modules"
+      load:
+        - "core/modules"
+      depends_on:
+        - "core_configs"
+
+    - name: "mind_matrix"
+      load:
+        - "mind_matrix"
+        - "virtual_experts"
+      depends_on:
+        - "modules"
+
+    - name: "services"
+      load:
+        - "service_registry"
+        - "cognitive_processor"
+        - "configuration_optimizer"
+      depends_on:
+        - "mind_matrix"
+
+    - name: "agents"
+      load:
+        - "services/agents"
+      depends_on:
+        - "services"
+
+    - name: "runtime"
+      entrypoint: "core/modules/mind_matrix/main.py"
+      class: "MindMatrix"
+      method: "bootstrap"
+      depends_on:
+        - "agents"
+
+# ============================================================================
+# Feature Flags (功能標誌)
+# ============================================================================
+features:
+  auto_optimization: false
+  drift_detection: true
+  cognitive_processing: true
+  slsa_attestation: true
+  security_enhancements: true
+  path_traversal_protection: true
+  secure_logging: true
+
+# ============================================================================
+# Health Check (健康檢查)
+# ============================================================================
+health:
+  endpoint: "/health"
+  interval_seconds: 30
+  timeout_seconds: 10
+
+# ============================================================================
+# Validation (驗證)
+# ============================================================================
+validation:
+  strict_mode: true
+  rules:
+    - "no_duplicate_capabilities"
+    - "all_configs_exist"
+    - "no_circular_dependencies"

@@ -1,0 +1,40 @@
+{
+  "name": "@machinenativeops/mcp-servers",
+  "version": "1.0.0",
+  "description": "Enterprise-grade MCP servers for SynergyMesh AutoExecutionEngine Agent",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint *.js --max-warnings 0",
+    "lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint *.js --fix",
+    "test": "echo 'No test files found, skipping tests (use validate:* scripts for validation)'",
+    "validate:deployment": "node deployment-validator.js",
+    "validate:logic": "node logic-validator.js",
+    "validate:comprehensive": "node comprehensive-validator.js",
+    "validate:all": "npm run lint && npm run validate:deployment && npm run validate:logic",
+    "check:strict": "npm run validate:comprehensive",
+    "precommit": "npm run check:strict"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "machinenativeops",
+    "enterprise-integration",
+    "slsa",
+    "provenance",
+    "code-analysis"
+  ],
+  "author": "SynergyMesh Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.24.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0"
+  }
+}

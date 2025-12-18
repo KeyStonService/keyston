@@ -1,0 +1,50 @@
+apiVersion: governance.machinenativeops.io/v2
+kind: DimensionModule
+metadata:
+  id: 08-process
+  name: 流程治理
+  name_en: Process Governance
+  version: 1.0.0
+  created_at: '2025-12-11T22:17:20.907032Z'
+  updated_at: '2025-12-11T22:17:20.907038Z'
+  owner: governance-bot
+  category: strategic
+  tags:
+  - 08_process
+  - strategic
+spec:
+  description: Process Governance dimension for SynergyMesh governance framework
+  schema:
+    path: ./schema.json
+    format: json-schema
+    validation: optional
+  policy:
+    path: ./policy.rego
+    engine: opa
+    enforcement: optional
+  dependencies:
+    required: []
+    optional: []
+  interface:
+    inputs:
+    - name: config
+      type: object
+      required: true
+    outputs:
+    - name: result
+      type: object
+  status: active
+  compliance:
+    frameworks:
+    - ISO-42001
+    framework_mappings:
+    - framework: ISO-42001
+      controls: []
+      compliance_status: in_progress
+compliance:
+  frameworks:
+  - ISO-42001
+  framework_mappings:
+  - framework: ISO-42001
+    controls: []
+    compliance_status: in_progress

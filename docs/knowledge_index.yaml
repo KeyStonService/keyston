@@ -13,8 +13,8 @@
 # - Run: python tools/docs/validate_index.py
 # - CI automatically validates this file on every PR
 
-$schema: "https://schema.synergymesh.io/docs-index/v1"
-namespace: "synergymesh.docs"
+$schema: "https://schema.machinenativeops.io/docs-index/v1"
+namespace: "machinenativeops.docs"
 version: "1.0.0"
 last_updated: "2025-11-30"
 

@@ -1,0 +1,256 @@
+{
+  "timestamp": "2025-12-11T12:26:32.961796",
+  "project_root": "/home/runner/work/SynergyMesh/SynergyMesh",
+  "categories": {
+    "Configuration Files": {
+      "passed": 6,
+      "failed": 2,
+      "warnings": 0,
+      "total": 8,
+      "success_rate": 75.0,
+      "checks": [
+        {
+          "check": "AI 行為契約 存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/AI-BEHAVIOR-CONTRACT.md"
+        },
+        {
+          "check": "即時執行清單 存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml"
+        },
+        {
+          "check": "即時執行清單 YAML 語法錯誤",
+          "status": "FAIL",
+          "message": "expected a single document in the stream\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml\", line 4, column 1\nbut found another document\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml\", line 13, column 1"
+        },
+        {
+          "check": "自我修復框架 存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/14-improvement/unmanned-island-self-healing.yaml"
+        },
+        {
+          "check": "自我修復框架 YAML 語法錯誤",
+          "status": "FAIL",
+          "message": "expected a single document in the stream\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/14-improvement/unmanned-island-self-healing.yaml\", line 4, column 1\nbut found another document\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/14-improvement/unmanned-island-self-healing.yaml\", line 12, column 1"
+        },
+        {
+          "check": "整合清單 存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/30-integration/unmanned-island-integration-manifest.md"
+        },
+        {
+          "check": "整合引擎 存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/39-automation/unmanned_island_integration_engine.py"
+        },
+        {
+          "check": "整合引擎 Python 語法正確",
+          "status": "PASS",
+          "message": ""
+        }
+      ]
+    },
+    "AI Agents": {
+      "passed": 10,
+      "failed": 0,
+      "warnings": 4,
+      "total": 14,
+      "success_rate": 71.42857142857143,
+      "checks": [
+        {
+          "check": "CEO Agent (戰略決策) 目錄存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/unmanned-engineer-ceo"
+        },
+        {
+          "check": "Architect Agent (架構設計) 目錄存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/src/ai/src/agents/architect"
+        },
+        {
+          "check": "Developer Agent (代碼實現) 目錄不存在",
+          "status": "WARNING",
+          "message": "路徑: /home/runner/work/SynergyMesh/SynergyMesh/src/ai/src/agents/developer (可能尚未實現)"
+        },
+        {
+          "check": "Tester Agent (質量保證) 目錄不存在",
+          "status": "WARNING",
+          "message": "路徑: /home/runner/work/SynergyMesh/SynergyMesh/src/ai/src/agents/tester (可能尚未實現)"
+        },
+        {
+          "check": "Deployer Agent (部署管理) 目錄不存在",
+          "status": "WARNING",
+          "message": "路徑: /home/runner/work/SynergyMesh/SynergyMesh/v2-multi-islands/islands/deployment (可能尚未實現)"
+        },
+        {
+          "check": "Monitor Agent (監控分析) 目錄不存在",
+          "status": "WARNING",
+          "message": "路徑: /home/runner/work/SynergyMesh/SynergyMesh/v2-multi-islands/islands/monitoring (可能尚未實現)"
+        },
+        {
+          "check": "Coordinator Agent (協調器) 目錄存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/v2-multi-islands/orchestrator"
+        },
+        {
+          "check": "CEO Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Architect Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Developer Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Tester Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Deployer Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Monitor Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "Coordinator Agent 已在整合引擎中註冊",
+          "status": "PASS",
+          "message": ""
+        }
+      ]
+    },
+    "Governance Integration": {
+      "passed": 10,
+      "failed": 0,
+      "warnings": 1,
+      "total": 11,
+      "success_rate": 90.9090909090909,
+      "checks": [
+        {
+          "check": "Vision & Strategy (00-vision-strategy) 維度存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy"
+        },
+        {
+          "check": "Vision & Strategy 無無人島整合文件",
+          "status": "WARNING",
+          "message": "可能需要添加整合配置"
+        },
+        {
+          "check": "Improvement & Learning (14-improvement) 維度存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/14-improvement"
+        },
+        {
+          "check": "Improvement & Learning 有無人島整合文件",
+          "status": "PASS",
+          "message": "找到 1 個相關文件"
+        },
+        {
+          "check": "Tests & Validation (28-tests) 維度存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/28-tests"
+        },
+        {
+          "check": "Tests & Validation 有無人島整合文件",
+          "status": "PASS",
+          "message": "找到 1 個相關文件"
+        },
+        {
+          "check": "Integration & Coordination (30-integration) 維度存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/30-integration"
+        },
+        {
+          "check": "Integration & Coordination 有無人島整合文件",
+          "status": "PASS",
+          "message": "找到 1 個相關文件"
+        },
+        {
+          "check": "Automation & Orchestration (39-automation) 維度存在",
+          "status": "PASS",
+          "message": "/home/runner/work/SynergyMesh/SynergyMesh/governance/39-automation"
+        },
+        {
+          "check": "Automation & Orchestration 有無人島整合文件",
+          "status": "PASS",
+          "message": "找到 1 個相關文件"
+        },
+        {
+          "check": "AUTONOMOUS_AGENT_STATE.md 包含無人島整合狀態",
+          "status": "PASS",
+          "message": ""
+        }
+      ]
+    },
+    "API Endpoints": {
+      "passed": 7,
+      "failed": 0,
+      "warnings": 0,
+      "total": 7,
+      "success_rate": 100.0,
+      "checks": [
+        {
+          "check": "整合清單存在",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/vision/strategy 已定義",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/improvement/heal 已定義",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/tests/validate 已定義",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/integration/status 已定義",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/automation/deploy 已定義",
+          "status": "PASS",
+          "message": ""
+        },
+        {
+          "check": "API 端點 /api/coordinator/orchestrate 已定義",
+          "status": "PASS",
+          "message": ""
+        }
+      ]
+    },
+    "Performance Baselines": {
+      "passed": 0,
+      "failed": 1,
+      "warnings": 0,
+      "total": 1,
+      "success_rate": 0.0,
+      "checks": [
+        {
+          "check": "無法解析 INSTANT-EXECUTION-MANIFEST.yaml",
+          "status": "FAIL",
+          "message": "expected a single document in the stream\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml\", line 4, column 1\nbut found another document\n  in \"/home/runner/work/SynergyMesh/SynergyMesh/governance/00-vision-strategy/INSTANT-EXECUTION-MANIFEST.yaml\", line 13, column 1"
+        }
+      ]
+    }
+  }
+}

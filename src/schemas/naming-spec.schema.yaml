@@ -1,0 +1,516 @@
+# JSON Schema for Canonical Naming Spec
+# 用於驗證 canonical/machine-spec.yaml 的結構
+
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://governance.machinenativeops.io/schemas/naming-spec.schema.yaml
+title: Canonical Naming Spec Schema
+description: |
+  Validates the structure of canonical/machine-spec.yaml.
+  This schema ensures the Single Source of Truth maintains consistent structure.
+
+type: object
+required:
+  - apiVersion
+  - kind
+  - metadata
+  - spec
+
+properties:
+  apiVersion:
+    type: string
+    pattern: "^naming\\.machinenativeops\\.io/v[0-9]+((alpha|beta)[0-9]+)?$"
+    description: "API version (e.g., naming.machinenativeops.io/v1alpha1)"
+
+  kind:
+    type: string
+    enum: ["CanonicalNamingSpec"]
+    description: "Resource kind, must be 'CanonicalNamingSpec'"
+
+  metadata:
+    type: object
+    required:
+      - name
+      - version
+      - rfc
+    properties:
+      name:
+        type: string
+        description: "Spec name (e.g., canonical-naming-governance)"
+      version:
+        type: string
+        pattern: "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        description: "Semantic version (e.g., v1.0.0)"
+      rfc:
+        type: string
+        pattern: "^RFC-[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        description: "RFC identifier (e.g., RFC-2025-10-25)"
+      description:
+        type: string
+        description: "Brief description of the spec"
+      lastUpdated:
+        type: string
+        format: date
+        description: "Last update date (YYYY-MM-DD)"
+      owner:
+        type: string
+        description: "Owning team"
+      approvedBy:
+        type: string
+        description: "Approval authority"
+
+  spec:
+    type: object
+    required:
+      - naming
+      - required_labels
+      - validation_rules
+    properties:
+      # Naming rules
+      naming:
+        type: object
+        required:
+          - allowed_chars
+          - case
+          - max_length
+          - segments
+          - environments
+          - canonical_regex
+        properties:
+          allowed_chars:
+            type: string
+            description: "Regex pattern for allowed characters"
+            examples: ["[a-z0-9-]"]
+
+          case:
+            type: string
+            enum: ["lower", "upper", "mixed"]
+            description: "Character case requirement"
+
+          max_length:
+            type: integer
+            minimum: 1
+            maximum: 253
+            description: "Maximum name length (Kubernetes limit: 63 for most resources)"
+
+          segments:
+            type: array
+            items:
+              type: string
+              enum: ["domain", "component", "environment", "region", "version", "suffix", "tenant", "workload", "app", "team"]
+            minItems: 1
+            description: "Ordered list of naming segments"
+
+          reserved_tokens:
+            type: array
+            items:
+              type: string
+            description: "Keywords that cannot be used in names"
+            examples: [["core", "internal", "system"]]
+
+          environments:
+            type: array
+            items:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                name:
+                  type: string
+                  description: "Environment name"
+                description:
+                  type: string
+                  description: "Environment description"
+                aliases:
+                  type: array
+                  items:
+                    type: string
+                  description: "Alternative names for this environment"
+            minItems: 1
+            description: "Standard environment definitions"
+
+          canonical_regex:
+            type: string
+            description: "Primary regex pattern for validation"
+            examples: ["^(team|tenant|dev|test|staging|prod|learn)-[a-z0-9-]{1,56}[a-z0-9]$"]
+
+          naming_modes:
+            type: array
+            items:
+              type: object
+              required:
+                - id
+                - pattern
+                - regex
+                - example
+              properties:
+                id:
+                  type: string
+                  description: "Mode identifier"
+                pattern:
+                  type: string
+                  description: "Pattern template with {placeholders}"
+                regex:
+                  type: string
+                  description: "Regex for this specific mode"
+                example:
+                  type: string
+                  description: "Example resource name"
+                use_cases:
+                  type: array
+                  items:
+                    type: string
+                  description: "Applicable scenarios"
+                required_labels:
+                  type: array
+                  items:
+                    type: string
+                  description: "Labels required for this mode"
+            description: "Multiple naming patterns supported"
+
+      # Required labels
+      required_labels:
+        type: array
+        items:
+          type: object
+          required:
+            - key
+            - description
+            - required
+          properties:
+            key:
+              type: string
+              description: "Label key"
+            description:
+              type: string
+              description: "Label purpose"
+            validation_regex:
+              type: string
+              description: "Regex to validate label value"
+            required:
+              type: boolean
+              description: "Whether this label is mandatory"
+            scope:
+              type: array
+              items:
+                type: string
+              description: "Resource types this label applies to"
+            exemptions:
+              type: array
+              items:
+                type: string
+              description: "Resources exempt from this label requirement"
+        minItems: 1
+        description: "Labels that must be present on resources"
+
+      # URN mapping
+      urn_mapping:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: "Whether URN mapping is enabled"
+          format:
+            type: string
+            description: "URN format template"
+            examples: ["urn:machinenativeops:{domain}:{component}:env:{environment}:{version}"]
+          examples:
+            type: array
+            items:
+              type: object
+              properties:
+                namespace:
+                  type: string
+                urn:
+                  type: string
+            description: "Example URN mappings"
+          annotation_key:
+            type: string
+            description: "Kubernetes annotation key for URN"
+          description:
+            type: string
+            description: "URN usage description"
+
+      # Validation rules
+      validation_rules:
+        type: array
+        items:
+          type: object
+          required:
+            - id
+            - resource_type
+            - field
+            - rule_type
+            - severity
+          properties:
+            id:
+              type: string
+              pattern: "^RULE-[0-9]{3}$"
+              description: "Unique rule identifier"
+            resource_type:
+              type: string
+              description: "Kubernetes resource type (or 'all')"
+            field:
+              type: string
+              description: "Field to validate (e.g., metadata.name)"
+            rule_type:
+              type: string
+              enum: ["regex", "required_keys", "allow_list", "deny_list", "length", "custom"]
+              description: "Type of validation"
+            pattern:
+              type: string
+              description: "Regex pattern (for rule_type: regex)"
+            required_keys:
+              type: array
+              items:
+                type: string
+              description: "Required keys (for rule_type: required_keys)"
+            allowed_values:
+              type: array
+              items:
+                type: string
+              description: "Allowed values (for rule_type: allow_list)"
+            denied_values:
+              type: array
+              items:
+                type: string
+              description: "Denied values (for rule_type: deny_list)"
+            severity:
+              type: string
+              enum: ["critical", "high", "medium", "low", "info"]
+              description: "Rule severity level"
+            error_message:
+              type: string
+              description: "Error message to display on violation"
+            remediation:
+              type: string
+              description: "Remediation guidance"
+            exemptions:
+              type: array
+              items:
+                type: string
+              description: "Resources exempt from this rule"
+        minItems: 1
+        description: "Validation rules for enforcement"
+
+      # Migration configuration
+      migration:
+        type: object
+        properties:
+          conflict_detection:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              check_types:
+                type: array
+                items:
+                  type: string
+                  enum: ["duplicate_names", "reserved_keywords", "label_inconsistency", "urn_collision"]
+          auto_suggestion:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              algorithm:
+                type: string
+                enum: ["pattern_matching", "ml_model", "rule_based"]
+              fallback:
+                type: string
+                description: "Fallback naming pattern"
+          batch_config:
+            type: object
+            properties:
+              max_batch_size:
+                type: integer
+                minimum: 1
+              cooldown_period:
+                type: string
+                pattern: "^[0-9]+(s|m|h|d)$"
+              rollback_enabled:
+                type: boolean
+
+      # Tooling integration
+      tooling:
+        type: object
+        properties:
+          gatekeeper:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              constraint_template:
+                type: string
+              enforcement_action:
+                type: string
+                enum: ["deny", "dryrun", "warn"]
+          conftest:
+            type: object
+            properties:
+              enabled:
+                type: boolean
+              policy_path:
+                type: string
+              namespace:
+                type: string
+          cicd:
+            type: object
+            properties:
+              github_actions:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  workflow_path:
+                    type: string
+              gitlab_ci:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+          observability:
+            type: object
+            properties:
+              prometheus:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  metrics_path:
+                    type: string
+              grafana:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  dashboard_path:
+                    type: string
+
+      # Exemptions
+      exemptions:
+        type: array
+        items:
+          type: object
+          required:
+            - resource
+            - reason
+            - approved_by
+          properties:
+            resource:
+              type: string
+              description: "Resource name or pattern"
+            reason:
+              type: string
+              description: "Exemption justification"
+            approved_by:
+              type: string
+              description: "Approver"
+            expires_at:
+              type: string
+              description: "Expiration (ISO 8601 or 'permanent')"
+
+      # SLA targets
+      sla:
+        type: object
+        properties:
+          naming_compliance_rate:
+            $ref: "#/definitions/sla_metric"
+          validation_failure_rate:
+            $ref: "#/definitions/sla_metric"
+          migration_success_rate:
+            $ref: "#/definitions/sla_metric"
+
+      # Audit configuration
+      audit:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+          log_level:
+            type: string
+            enum: ["debug", "info", "warn", "error"]
+          retention:
+            type: string
+          fields:
+            type: array
+            items:
+              type: string
+
+  usage:
+    type: object
+    properties:
+      description:
+        type: string
+      how_to_consume:
+        type: array
+        items:
+          type: string
+      examples:
+        type: array
+        items:
+          type: object
+          properties:
+            description:
+              type: string
+            command:
+              type: string
+
+  versioning:
+    type: object
+    properties:
+      changelog:
+        type: string
+      upgrade_guide:
+        type: string
+
+# Reusable definitions
+definitions:
+  sla_metric:
+    type: object
+    required:
+      - target
+      - measurement
+    properties:
+      target:
+        type: number
+        description: "Target value"
+      measurement:
+        type: string
+        enum: ["percentage", "count", "duration"]
+        description: "Measurement unit"
+      alert_threshold:
+        type: number
+        description: "Alert threshold value"
+
+# Examples
+examples:
+  - apiVersion: naming.machinenativeops.io/v1alpha1
+    kind: CanonicalNamingSpec
+    metadata:
+      name: canonical-naming-governance
+      version: v1.0.0
+      rfc: RFC-2025-10-25
+    spec:
+      naming:
+        allowed_chars: "[a-z0-9-]"
+        case: "lower"
+        max_length: 63
+        segments: ["domain", "component", "environment"]
+        canonical_regex: "^(team|tenant)-[a-z0-9-]+-(?:dev|test|prod)$"
+        environments:
+          - name: dev
+            description: "Development environment"
+            aliases: ["develop"]
+      required_labels:
+        - key: environment
+          description: "Deployment environment"
+          validation_regex: "^(dev|test|prod)$"
+          required: true
+          scope: ["Namespace"]
+      validation_rules:
+        - id: RULE-001
+          resource_type: Namespace
+          field: metadata.name
+          rule_type: regex
+          pattern: "^(team|tenant)-[a-z0-9-]+-(?:dev|test|prod)$"
+          severity: critical

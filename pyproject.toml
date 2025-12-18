@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh Python Project Configuration
+#                    MachineNativeOps Python Project Configuration
 #                    Python 專案配置
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -8,17 +8,17 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "synergymesh"
-version = "1.0.0"
-description = "無人化自主協同網格系統 - Autonomous Coordination Grid System"
+name = "machinenativeops"
+version = "2.0.0"
+description = "Machine-Native Operations Platform - 機器原生運維平台"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 authors = [
-    {name = "SynergyMesh Team", email = "team@synergymesh.io"}
+    {name = "MachineNativeOps Team", email = "team@machinenativeops.io"}
 ]
 maintainers = [
-    {name = "SynergyMesh Team", email = "team@synergymesh.io"}
+    {name = "MachineNativeOps Team", email = "team@machinenativeops.io"}
 ]
 keywords = [
     "ai-agents",
@@ -109,29 +109,36 @@ full = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/SynergyMesh/SynergyMesh"
-Documentation = "https://synergymesh.io/docs"
-Repository = "https://github.com/SynergyMesh/SynergyMesh.git"
-Issues = "https://github.com/SynergyMesh/SynergyMesh/issues"
-Changelog = "https://github.com/SynergyMesh/SynergyMesh/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/MachineNativeOps/MachineNativeOps"
+Documentation = "https://github.com/MachineNativeOps/MachineNativeOps/tree/main/docs"
+Repository = "https://github.com/MachineNativeOps/MachineNativeOps.git"
+Issues = "https://github.com/MachineNativeOps/MachineNativeOps/issues"
+Changelog = "https://github.com/MachineNativeOps/MachineNativeOps/blob/main/CHANGELOG.md"
 
 [project.scripts]
-synergymesh = "synergymesh.cli:main"
-smesh = "synergymesh.cli:main"
+machinenativeops = "core.cli:main"
+mnops = "core.cli:main"
+machinenativeops-workflow = "automation.pipelines.instant_execution_pipeline:main"
+machinenativeops-contract = "core.contract_engine:main"
 
-[project.entry-points."synergymesh.plugins"]
-default = "synergymesh.plugins.default:DefaultPlugin"
+[project.entry-points."machinenativeops.plugins"]
+default = "core.plugins.default:DefaultPlugin"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #                         Tool Configurations
 # ═══════════════════════════════════════════════════════════════════════════════
 
 [tool.setuptools]
-packages = ["synergymesh", "core"]
-package-dir = {"" = "."}
+package-dir = {"" = "src"}
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["core", "core.*", "automation", "automation.*", "ai", "ai.*", "governance", "governance.*"]
 
 [tool.setuptools.package-data]
-synergymesh = ["py.typed", "*.yaml", "*.json"]
+"*" = ["py.typed", "*.yaml", "*.yml", "*.json", "*.txt"]
 
 # Black Configuration
 [tool.black]
@@ -160,7 +167,7 @@ profile = "black"
 line_length = 100
 skip_gitignore = true
 skip = [".venv", "node_modules", "dist", "build"]
-known_first_party = ["synergymesh", "core"]
+known_first_party = ["machinenativeops", "core", "automation", "ai", "governance"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
 # Ruff Configuration
@@ -246,8 +253,7 @@ addopts = [
     "-p no:warnings",
 ]
 testpaths = [
-    "tests",
-    "intelligent-automation/tests",
+    "src/tests",
 ]
 python_files = ["test_*.py", "*_test.py"]
 python_functions = ["test_*"]
@@ -261,7 +267,7 @@ markers = [
 
 # Coverage Configuration
 [tool.coverage.run]
-source = ["synergymesh", "core"]
+source = ["src"]
 branch = true
 omit = [
     "*/tests/*",

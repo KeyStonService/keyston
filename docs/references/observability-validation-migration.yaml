@@ -1,0 +1,323 @@
+# 可观测性、验证与迁移 Playbooks 参考文献
+# Observability, Validation and Migration Playbooks References
+
+apiVersion: governance.machinenativeops.io/v1alpha1
+kind: ReferenceLibrary
+metadata:
+  name: observability-validation-migration-references
+  description: "可观测性、验证与迁移相关的外部参考资源"
+  category: "governance-playbooks"
+  version: "v1.0.0"
+  lastUpdated: "2025-01-15"
+
+spec:
+  # 可观测性与监控
+  observability:
+    - id: REF-OBS-001
+      title: "Grafana 仪表盘设计"
+      url: "https://www.echo.cool/docs/observability/grafana/grafana-dashboard-design/"
+      description: "Grafana 仪表盘设计最佳实践和模式"
+      relevantTo:
+        - "监控仪表板设计"
+        - "可观测性可视化"
+      tags: ["grafana", "dashboard", "visualization"]
+
+    - id: REF-OBS-002
+      title: "Prometheus Best Practices"
+      url: "https://prometheus.io/docs/practices/"
+      description: "Prometheus 监控和告警最佳实践"
+      relevantTo:
+        - "指标收集"
+        - "告警规则"
+      tags: ["prometheus", "metrics", "monitoring"]
+
+    - id: REF-OBS-003
+      title: "Google SRE Book - Monitoring"
+      url: "https://sre.google/sre-book/monitoring-distributed-systems/"
+      description: "分布式系统监控的 SRE 实践"
+      relevantTo:
+        - "SLI/SLO 定义"
+        - "监控策略"
+      tags: ["sre", "monitoring", "distributed-systems"]
+
+  # CI/CD 与自动化测试
+  cicd:
+    - id: REF-CICD-001
+      title: "使用 CI/CD 实现持续测试自动化"
+      url: "https://zhuanlan.zhihu.com/p/491630021"
+      description: "CI/CD 如何彻底改变自动化测试"
+      relevantTo:
+        - "CI/CD 集成"
+        - "自动化验证"
+      tags: ["cicd", "automation", "testing"]
+
+    - id: REF-CICD-002
+      title: "Conftest Policy Testing"
+      url: "https://www.conftest.dev/"
+      description: "使用 Open Policy Agent 进行配置验证"
+      relevantTo:
+        - "策略验证"
+        - "PR 检查"
+      tags: ["conftest", "opa", "policy"]
+
+  # 容器安全扫描
+  security:
+    - id: REF-SEC-001
+      title: "2025年十大优秀 Kubernetes 容器安全扫描工具"
+      url: "https://www.51cto.com/article/812732.html"
+      description: "Kubernetes 容器安全扫描工具对比"
+      relevantTo:
+        - "容器扫描"
+        - "安全合规"
+      tags: ["kubernetes", "security", "scanning"]
+
+    - id: REF-SEC-002
+      title: "Kube-bench - CIS Kubernetes Benchmark"
+      url: "https://github.com/aquasecurity/kube-bench"
+      description: "CIS Kubernetes 基准测试工具"
+      relevantTo:
+        - "合规检查"
+        - "安全基准"
+      tags: ["kube-bench", "cis", "compliance"]
+
+    - id: REF-SEC-003
+      title: "Checkov - IaC Security Scanning"
+      url: "https://www.checkov.io/"
+      description: "基础设施即代码安全扫描"
+      relevantTo:
+        - "IaC 扫描"
+        - "安全验证"
+      tags: ["checkov", "iac", "security"]
+
+    - id: REF-SEC-004
+      title: "Kubeaudit"
+      url: "https://github.com/Shopify/kubeaudit"
+      description: "Kubernetes 集群安全审计"
+      relevantTo:
+        - "集群审计"
+        - "安全配置"
+      tags: ["kubeaudit", "audit", "security"]
+
+    - id: REF-SEC-005
+      title: "Kubescape"
+      url: "https://github.com/kubescape/kubescape"
+      description: "Kubernetes 安全态势管理"
+      relevantTo:
+        - "安全扫描"
+        - "风险评估"
+      tags: ["kubescape", "security", "risk"]
+
+  # 文档与流程自动化
+  automation:
+    - id: REF-AUTO-001
+      title: "AI 协助文件处理与流程自动化"
+      url: "https://ctlm.com.tw/ai%E5%8D%94%E5%8A%A9%E6%96%87%E4%BB%B6%E8%99%95%E7%90%86%E8%88%87%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8B%95%E5%8C%96/"
+      description: "AI 辅助合约审查、报表生成"
+      relevantTo:
+        - "文档生成"
+        - "报告自动化"
+      tags: ["ai", "automation", "documentation"]
+
+    - id: REF-AUTO-002
+      title: "Kubernetes Auto-labeller"
+      url: "https://ithelp.ithome.com.tw/articles/10194613"
+      description: "Kubernetes 自动标签管理"
+      relevantTo:
+        - "自动标注"
+        - "资源管理"
+      tags: ["kubernetes", "labels", "automation"]
+
+    - id: REF-AUTO-003
+      title: "利用 AI 产品命名自动化释放创造力"
+      url: "https://vizologi.com/zh-TW/%E5%88%A9%E7%94%A8%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7%E7%94%A2%E5%93%81%E5%91%BD%E5%90%8D%E8%87%AA%E5%8B%95%E5%8C%96%E9%87%8B%E6%94%BE%E5%89%B5%E9%80%A0%E5%8A%9B/"
+      description: "AI 辅助命名建议"
+      relevantTo:
+        - "命名生成"
+        - "AI 辅助"
+      tags: ["ai", "naming", "automation"]
+
+    - id: REF-AUTO-004
+      title: "Trend Micro Auto Remediation"
+      url: "https://docs.trendmicro.com/zh-tw/documentation/article/trend-vision-one-__auto-remediation-2"
+      description: "自动修复解决方案"
+      relevantTo:
+        - "自动修复"
+        - "问题响应"
+      tags: ["remediation", "automation", "security"]
+
+  # 网络拓扑与资产发现
+  discovery:
+    - id: REF-DISC-001
+      title: "网络拓扑自动发现工具 (The Dude)"
+      url: "https://blog.csdn.net/abcdu1/article/details/90297758"
+      description: "网络拓扑自动发现工具安装配置"
+      relevantTo:
+        - "资产发现"
+        - "网络拓扑"
+      tags: ["discovery", "network", "topology"]
+
+    - id: REF-DISC-002
+      title: "Kubernetes Resource Discovery"
+      url: "https://kubernetes.io/docs/reference/using-api/"
+      description: "Kubernetes 资源发现 API"
+      relevantTo:
+        - "资源盘点"
+        - "API 使用"
+      tags: ["kubernetes", "api", "discovery"]
+
+  # 迁移策略
+  migration:
+    - id: REF-MIG-001
+      title: "关于迁移策略 - AWS 规范性指导"
+      url: "https://docs.aws.amazon.com/zh_cn/prescriptive-guidance/latest/large-migration-guide/migration-strategies.html"
+      description: "大规模迁移策略和最佳实践"
+      relevantTo:
+        - "迁移规划"
+        - "策略选择"
+      tags: ["aws", "migration", "strategy"]
+
+    - id: REF-MIG-002
+      title: "GORM 自动迁移与命名策略"
+      url: "https://blog.csdn.net/qq_29752857/article/details/141093854"
+      description: "数据库迁移和命名策略"
+      relevantTo:
+        - "数据库迁移"
+        - "命名策略"
+      tags: ["database", "migration", "naming"]
+
+    - id: REF-MIG-003
+      title: "直接转换在存储迁移服务中的工作原理"
+      url: "https://learn.microsoft.com/zh-cn/windows-server/storage/storage-migration-service/cutover"
+      description: "存储迁移服务的切换机制"
+      relevantTo:
+        - "切换策略"
+        - "存储迁移"
+      tags: ["migration", "cutover", "storage"]
+
+    - id: REF-MIG-004
+      title: "切换运行手册模板 - AWS"
+      url: "https://docs.aws.amazon.com/zh_cn/prescriptive-guidance/latest/cutover-runbook/cutover-runbook-template.html"
+      description: "切换运行手册模板和最佳实践"
+      relevantTo:
+        - "切换计划"
+        - "运行手册"
+      tags: ["aws", "cutover", "runbook"]
+
+    - id: REF-MIG-005
+      title: "配置阶段自动回滚 - AWS CodePipeline"
+      url: "https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/stage-rollback-auto.html"
+      description: "自动回滚配置和策略"
+      relevantTo:
+        - "自动回滚"
+        - "CI/CD"
+      tags: ["aws", "rollback", "automation"]
+
+  # 审计追踪
+  audit:
+    - id: REF-AUD-001
+      title: "审计追踪 (Audit Trail) - Databend"
+      url: "https://docs.databend.cn/guides/security/audit-trail/"
+      description: "审计追踪实现和最佳实践"
+      relevantTo:
+        - "审计日志"
+        - "追踪机制"
+      tags: ["audit", "trail", "logging"]
+
+    - id: REF-AUD-002
+      title: "Kubernetes Audit Logs"
+      url: "https://kubernetes.io/docs/tasks/debug-application-cluster/audit/"
+      description: "Kubernetes 审计日志配置"
+      relevantTo:
+        - "集群审计"
+        - "日志记录"
+      tags: ["kubernetes", "audit", "logs"]
+
+  # SLA 和服务级别协议
+  sla:
+    - id: REF-SLA-001
+      title: "服务级别协议 Service Level Agreement"
+      url: "https://ithelp.ithome.com.tw/articles/10322154"
+      description: "SLA 定义和管理"
+      relevantTo:
+        - "SLA 定义"
+        - "指标管理"
+      tags: ["sla", "service-level", "metrics"]
+
+    - id: REF-SLA-002
+      title: "Google SRE Book - SLI, SLO, SLA"
+      url: "https://sre.google/sre-book/service-level-objectives/"
+      description: "服务级别目标的定义和实践"
+      relevantTo:
+        - "SLO 设置"
+        - "SLI 定义"
+      tags: ["sre", "slo", "sli"]
+
+  # 工具和框架
+  tools:
+    - id: REF-TOOL-001
+      title: "Open Policy Agent (OPA)"
+      url: "https://www.openpolicyagent.org/"
+      description: "策略即代码框架"
+      relevantTo:
+        - "策略验证"
+        - "规则引擎"
+      tags: ["opa", "policy", "validation"]
+
+    - id: REF-TOOL-002
+      title: "Prometheus Operator"
+      url: "https://prometheus-operator.dev/"
+      description: "Kubernetes 上的 Prometheus 运维"
+      relevantTo:
+        - "监控部署"
+        - "自动化配置"
+      tags: ["prometheus", "operator", "kubernetes"]
+
+    - id: REF-TOOL-003
+      title: "Grafana as Code"
+      url: "https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/dashboard-manage/"
+      description: "Grafana 仪表板代码化管理"
+      relevantTo:
+        - "仪表板管理"
+        - "基础设施即代码"
+      tags: ["grafana", "iac", "dashboards"]
+
+  # 书籍和深度资源
+  books:
+    - id: REF-BOOK-001
+      title: "Site Reliability Engineering (Google)"
+      url: "https://sre.google/books/"
+      description: "Google SRE 系列书籍"
+      relevantTo:
+        - "SRE 实践"
+        - "可靠性工程"
+      tags: ["sre", "google", "reliability"]
+
+    - id: REF-BOOK-002
+      title: "The DevOps Handbook"
+      url: "https://itrevolution.com/product/the-devops-handbook/"
+      description: "DevOps 实践手册"
+      relevantTo:
+        - "DevOps 文化"
+        - "自动化"
+      tags: ["devops", "automation", "culture"]
+
+# 使用指南
+usage:
+  description: |
+    本参考库包含可观测性、验证与迁移 Playbooks 相关的所有外部参考资源。
+    每个引用都包含唯一 ID、标题、URL、描述、相关性和标签。
+
+  howToUse:
+    - "通过 ID 引用特定资源"
+    - "通过标签查找相关资源"
+    - "通过相关性字段找到适用场景"
+
+  examples:
+    - description: "查找 Prometheus 相关资源"
+      query: "tags contains 'prometheus'"
+
+    - description: "查找迁移相关资源"
+      query: "category == 'migration'"
+
+    - description: "查找自动化相关资源"
+      query: "tags contains 'automation'"

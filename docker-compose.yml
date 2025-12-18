@@ -10,7 +10,7 @@ services:
     build:
       context: ./core/contract_service/contracts-L1/contracts
       dockerfile: Dockerfile
-    container_name: synergymesh-contracts-l1
+    container_name: machinenativeops-contracts-l1
     ports:
       - "3000:3000"
     environment:
@@ -25,11 +25,11 @@ services:
       start_period: 40s
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=contracts-l1"
-      - "com.synergymesh.tier=core"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=contracts-l1"
+      - "com.machinenativeops.tier=core"
+      - "com.machinenativeops.version=1.0.0"
 
   # ==================== 工具與驗證層 ====================
   
@@ -37,7 +37,7 @@ services:
     build:
       context: ./mcp-servers
       dockerfile: Dockerfile
-    container_name: synergymesh-mcp-servers
+    container_name: machinenativeops-mcp-servers
     ports:
       - "3001:3001"
     environment:
@@ -55,17 +55,17 @@ services:
       start_period: 40s
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=mcp-servers"
-      - "com.synergymesh.tier=tools"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=mcp-servers"
+      - "com.machinenativeops.tier=tools"
+      - "com.machinenativeops.version=1.0.0"
 
   # ==================== 儀表板與監控層 ====================
   
   dashboard:
     image: nginx:alpine
-    container_name: synergymesh-dashboard
+    container_name: machinenativeops-dashboard
     ports:
       - "8080:80"
     volumes:
@@ -76,11 +76,11 @@ services:
       - mcp-servers
     restart: unless-stopped
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     labels:
-      - "com.synergymesh.service=dashboard"
-      - "com.synergymesh.tier=frontend"
-      - "com.synergymesh.version=1.0.0"
+      - "com.machinenativeops.service=dashboard"
+      - "com.machinenativeops.tier=frontend"
+      - "com.machinenativeops.version=1.0.0"
   
   # ==================== 工作流程系統層 (可選) ====================
   # 使用 docker-compose --profile workflow up 啟用
@@ -88,8 +88,8 @@ services:
   workflow-system:
     build:
       context: .
-      dockerfile: deployment/docker/Dockerfile.workflow
-    container_name: synergymesh-workflow
+      dockerfile: src/autonomous/deployment/docker/Dockerfile.workflow
+    container_name: machinenativeops-workflow
     ports:
       - "8081:8080"
     environment:
@@ -106,18 +106,18 @@ services:
       workflow-redis:
         condition: service_healthy
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     restart: unless-stopped
     profiles:
       - workflow
     labels:
-      - "com.synergymesh.service=workflow-system"
-      - "com.synergymesh.tier=workflow"
-      - "com.synergymesh.version=2.0.0"
+      - "com.machinenativeops.service=workflow-system"
+      - "com.machinenativeops.tier=workflow"
+      - "com.machinenativeops.version=2.0.0"
   
   workflow-postgres:
     image: postgres:16-alpine
-    container_name: synergymesh-workflow-postgres
+    container_name: machinenativeops-workflow-postgres
     environment:
       - POSTGRES_DB=workflow
       - POSTGRES_USER=workflow
@@ -130,17 +130,17 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     restart: unless-stopped
     profiles:
       - workflow
     labels:
-      - "com.synergymesh.service=workflow-postgres"
-      - "com.synergymesh.tier=database"
+      - "com.machinenativeops.service=workflow-postgres"
+      - "com.machinenativeops.tier=database"
   
   workflow-redis:
     image: redis:7-alpine
-    container_name: synergymesh-workflow-redis
+    container_name: machinenativeops-workflow-redis
     command: redis-server --appendonly yes
     volumes:
       - workflow-redis-data:/data
@@ -150,17 +150,17 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     restart: unless-stopped
     profiles:
       - workflow
     labels:
-      - "com.synergymesh.service=workflow-redis"
-      - "com.synergymesh.tier=cache"
+      - "com.machinenativeops.service=workflow-redis"
+      - "com.machinenativeops.tier=cache"
   
   workflow-prometheus:
     image: prom/prometheus:latest
-    container_name: synergymesh-workflow-prometheus
+    container_name: machinenativeops-workflow-prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -171,17 +171,17 @@ services:
       - ./config/prometheus-config.yml:/etc/prometheus/prometheus.yml:ro
       - workflow-prometheus-data:/prometheus
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     restart: unless-stopped
     profiles:
       - workflow
     labels:
-      - "com.synergymesh.service=workflow-prometheus"
-      - "com.synergymesh.tier=monitoring"
+      - "com.machinenativeops.service=workflow-prometheus"
+      - "com.machinenativeops.tier=monitoring"
   
   workflow-grafana:
     image: grafana/grafana:latest
-    container_name: synergymesh-workflow-grafana
+    container_name: machinenativeops-workflow-grafana
     ports:
       - "3010:3000"
     environment:
@@ -191,52 +191,52 @@ services:
       - ./config/grafana-dashboard.json:/etc/grafana/provisioning/dashboards/workflow.json:ro
       - workflow-grafana-data:/var/lib/grafana
     networks:
-      - synergymesh-network
+      - machinenativeops-network
     restart: unless-stopped
     profiles:
       - workflow
     labels:
-      - "com.synergymesh.service=workflow-grafana"
-      - "com.synergymesh.tier=monitoring"
+      - "com.machinenativeops.service=workflow-grafana"
+      - "com.machinenativeops.tier=monitoring"
 
 # ==================== 網路配置 ====================
 
 networks:
-  synergymesh-network:
+  machinenativeops-network:
     driver: bridge
-    name: synergymesh-network
+    name: machinenativeops-network
     labels:
-      - "com.synergymesh.network=main"
+      - "com.machinenativeops.network=main"
 
 # ==================== 卷配置 (可選) ====================
 
 volumes:
   contracts-data:
-    name: synergymesh-contracts-data
+    name: machinenativeops-contracts-data
     labels:
-      - "com.synergymesh.volume=contracts"
+      - "com.machinenativeops.volume=contracts"
   
   mcp-data:
-    name: synergymesh-mcp-data
+    name: machinenativeops-mcp-data
     labels:
-      - "com.synergymesh.volume=mcp"
+      - "com.machinenativeops.volume=mcp"
   
   workflow-postgres-data:
-    name: synergymesh-workflow-postgres-data
+    name: machinenativeops-workflow-postgres-data
     labels:
-      - "com.synergymesh.volume=workflow-postgres"
+      - "com.machinenativeops.volume=workflow-postgres"
   
   workflow-redis-data:
-    name: synergymesh-workflow-redis-data
+    name: machinenativeops-workflow-redis-data
     labels:
-      - "com.synergymesh.volume=workflow-redis"
+      - "com.machinenativeops.volume=workflow-redis"
   
   workflow-prometheus-data:
-    name: synergymesh-workflow-prometheus-data
+    name: machinenativeops-workflow-prometheus-data
     labels:
-      - "com.synergymesh.volume=workflow-prometheus"
+      - "com.machinenativeops.volume=workflow-prometheus"
   
   workflow-grafana-data:
-    name: synergymesh-workflow-grafana-data
+    name: machinenativeops-workflow-grafana-data
     labels:
-      - "com.synergymesh.volume=workflow-grafana"
+      - "com.machinenativeops.volume=workflow-grafana"

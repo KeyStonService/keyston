@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Community Forum
-    url: https://community.synergymesh.io
+    url: https://community.machinenativeops.io
     about: Ask questions and get help from the community
   - name: 📖 Documentation
-    url: https://docs.synergymesh.io
+    url: https://docs.machinenativeops.io
     about: Check out our documentation for guides and tutorials
   - name: 🔒 Security Issues
     url: https://github.com/SynergyMesh/SynergyMesh/security/advisories/new

@@ -30,7 +30,7 @@ module.exports = {
   
   // Module name mapping (for path aliases)
   moduleNameMapper: {
-    '^@synergymesh/(.*)$': '<rootDir>/src/$1',
+    '^@machinenativeops/(.*)$': '<rootDir>/src/$1',
     '^@core/(.*)$': '<rootDir>/core/$1',
     '^@bridges/(.*)$': '<rootDir>/bridges/$1',
     '^@automation/(.*)$': '<rootDir>/automation/$1',

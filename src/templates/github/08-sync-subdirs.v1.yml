@@ -1,0 +1,36 @@
+name: 08-sync-subdirs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - 'island.bootstrap.stage0.yaml'
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure python dependencies
+        run: pip install pyyaml
+
+      - name: Materialize scaffold from manifest
+        run: python tools/bootstrap_from_manifest.py island.bootstrap.stage0.yaml --apply --steps scaffold.directories materialize.templates
+
+      - name: Commit sync changes
+        run: |
+          if git status --short | grep -q '.'; then
+            git config user.name "island-sync-bot"
+            git config user.email "sync-bot@src/ai.io"
+            git commit -am "chore: sync scaffold from manifest"
+            git push
+          else
+            echo "No changes detected"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

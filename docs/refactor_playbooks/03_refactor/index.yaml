@@ -119,11 +119,11 @@ clusters:
       auto_fixable: 0
     last_updated: "2025-12-06"
 
-  - cluster_id: "infra/kubernetes"
+  - cluster_id: "src/autonomous/infrastructure/kubernetes"
     domain: "infra"
     priority: "P1"
     status: "pending"
-    refactor_file: "infra/infra__kubernetes_refactor.md"
+    refactor_file: "src/autonomous/infrastructure/infra__kubernetes_refactor.md"
     deconstruction_file: "../01_deconstruction/infra__kubernetes_deconstruction.md"
     integration_file: "../02_integration/infra__kubernetes_integration.md"
     legacy_assets: []

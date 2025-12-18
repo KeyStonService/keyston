@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: contracts-l1
+  namespace: machinenativeops
+  labels:
+    app: contracts-l1
+    tier: core
+    prometheus: kube-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: contracts-l1
+  endpoints:
+  - port: metrics
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+    - machinenativeops

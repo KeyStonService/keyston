@@ -305,7 +305,7 @@ class KnowledgeGraphGenerator:
         """Process main configuration files."""
         seen_targets: set[Path] = set()
         config_files = [
-            "machine-native-ops.yaml",
+            "machinenativeops.yaml",
             "synergymesh.yaml",
             "config/system-manifest.yaml",
             "config/system-module-map.yaml",

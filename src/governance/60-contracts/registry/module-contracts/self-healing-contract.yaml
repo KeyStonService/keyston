@@ -1,0 +1,241 @@
+---
+# Self-Healing Module Contract
+# 自我修復模組契約
+
+contract:
+  id: "contract.self-healing.v1"
+  name: "Self-Healing Module Contract"
+  version: "1.0.0"
+  status: "active"
+  owner: "self-healing-team@machinenativeops.io"
+  created_at: "2025-12-11"
+  updated_at: "2025-12-11"
+
+# Module Interface
+interface:
+  module_id: "40-self-healing"
+  module_path: "governance/40-self-healing"
+  
+  # Input Schema
+  inputs:
+    health_status:
+      type: "object"
+      required: true
+      description: "Component health status information"
+      schema:
+        type: "object"
+        required: ["component_id", "status", "timestamp"]
+        properties:
+          component_id:
+            type: "string"
+            description: "Unique component identifier"
+          status:
+            type: "string"
+            enum: ["healthy", "degraded", "failed"]
+            description: "Current health status"
+          metrics:
+            type: "object"
+            description: "Health metrics"
+            properties:
+              cpu_usage: {type: "number", minimum: 0, maximum: 100}
+              memory_usage: {type: "number", minimum: 0, maximum: 100}
+              error_rate: {type: "number", minimum: 0}
+              latency_ms: {type: "number", minimum: 0}
+          timestamp:
+            type: "string"
+            format: "date-time"
+            description: "Status timestamp"
+    
+    recovery_policy:
+      type: "object"
+      required: false
+      description: "Recovery policy configuration"
+      schema:
+        type: "object"
+        properties:
+          strategy:
+            type: "string"
+            enum: ["restart", "failover", "scale", "rollback", "custom"]
+            default: "restart"
+          max_attempts:
+            type: "integer"
+            minimum: 1
+            maximum: 5
+            default: 3
+          timeout_seconds:
+            type: "integer"
+            minimum: 30
+            maximum: 300
+            default: 60
+          notify:
+            type: "boolean"
+            default: true
+  
+  # Output Schema
+  outputs:
+    recovery_result:
+      type: "object"
+      description: "Recovery operation result"
+      schema:
+        type: "object"
+        required: ["success", "actions_taken", "recovery_time"]
+        properties:
+          success:
+            type: "boolean"
+            description: "Whether recovery succeeded"
+          actions_taken:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                action: {type: "string"}
+                timestamp: {type: "string", format: "date-time"}
+                result: {type: "string"}
+          recovery_time:
+            type: "number"
+            description: "Time taken for recovery in seconds"
+          new_status:
+            type: "string"
+            enum: ["healthy", "degraded", "failed"]
+          message:
+            type: "string"
+            description: "Human-readable result message"
+  
+  # Error Codes
+  errors:
+    - code: "SH001"
+      name: "RecoveryFailure"
+      description: "Recovery attempt failed"
+      http_status: 500
+      retry_allowed: true
+    
+    - code: "SH002"
+      name: "InvalidPolicy"
+      description: "Invalid recovery policy provided"
+      http_status: 400
+      retry_allowed: false
+    
+    - code: "SH003"
+      name: "MaxAttemptsExceeded"
+      description: "Maximum recovery attempts exceeded"
+      http_status: 429
+      retry_allowed: false
+    
+    - code: "SH004"
+      name: "TimeoutExceeded"
+      description: "Recovery operation timed out"
+      http_status: 504
+      retry_allowed: true
+
+# Behavior Contracts
+behavior:
+  invariants:
+    - "Recovery must complete within configured timeout"
+    - "All recovery attempts must be logged with audit trail"
+    - "Must not perform destructive actions without explicit approval"
+    - "Must respect rate limiting (max 10 recoveries per minute per component)"
+    - "Must emit metrics for all recovery operations"
+  
+  side_effects:
+    - "May restart services or containers"
+    - "May scale resources (up or down)"
+    - "May trigger failover to backup instances"
+    - "May send notifications to monitoring systems"
+    - "May update health status in registry"
+  
+  performance:
+    - "Average recovery time: < 60 seconds"
+    - "P95 recovery time: < 120 seconds"
+    - "Max recovery time: 300 seconds"
+    - "Throughput: > 100 recoveries per minute (system-wide)"
+  
+  reliability:
+    - "Recovery success rate: > 90%"
+    - "False positive rate: < 10%"
+    - "Availability: 99.9%"
+
+# Dependencies
+dependencies:
+  required:
+    - contract_id: "contract.monitoring.v1"
+      description: "Requires monitoring service for health data"
+      version: "^1.0.0"
+    
+    - contract_id: "contract.automation.v1"
+      description: "Requires automation engine for executing recovery"
+      version: "^1.0.0"
+    
+    - contract_id: "contract.audit.v1"
+      description: "Requires audit system for logging"
+      version: "^1.0.0"
+  
+  optional:
+    - contract_id: "contract.notification.v1"
+      description: "Optional notification service integration"
+      version: "^1.0.0"
+
+# API Endpoints
+api:
+  base_path: "/api/v1/self-healing"
+  
+  endpoints:
+    - path: "/recover"
+      method: "POST"
+      description: "Trigger recovery operation"
+      request_body: "health_status + recovery_policy"
+      response: "recovery_result"
+      
+    - path: "/status/{component_id}"
+      method: "GET"
+      description: "Get component recovery status"
+      response: "component recovery history"
+      
+    - path: "/policies"
+      method: "GET"
+      description: "List available recovery policies"
+      response: "array of recovery policies"
+
+# Testing Requirements
+testing:
+  unit_tests:
+    coverage_requirement: 80
+    required_scenarios:
+      - successful_recovery
+      - failed_recovery
+      - timeout_scenario
+      - max_attempts_exceeded
+  
+  integration_tests:
+    required: true
+    test_scenarios:
+      - end_to_end_recovery
+      - dependency_integration
+      - error_handling
+  
+  contract_tests:
+    framework: "pact"
+    consumer_tests_required: true
+    provider_tests_required: true
+
+# Versioning
+versioning:
+  current_version: "1.0.0"
+  backward_compatible_with: []
+  forward_compatible: false
+  
+  changelog:
+    - version: "1.0.0"
+      date: "2025-12-11"
+      changes:
+        - "Initial contract definition"
+
+# Metadata
+metadata:
+  tags: ["self-healing", "recovery", "automation", "resilience"]
+  documentation_url: "https://docs.machinenativeops.io/contracts/self-healing"
+  support_contact: "self-healing-team@machinenativeops.io"
+  sla:
+    availability: 99.9
+    response_time_p95_ms: 100
+    support_hours: "24/7"
+
