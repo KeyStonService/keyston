@@ -21,7 +21,7 @@ echo "⏳ 等待基礎服務啟動..."
 sleep 5
 
 echo "[2/3] 啟動 contracts-l1 核心服務..."
-cd "$ROOT_DIR/core/contract_service/contracts-L1/contracts"
+cd "$ROOT_DIR/src/core/contract_service/contracts-L1/contracts"
 npm install --prefer-offline --no-audit >/dev/null 2>&1 || true
 npm run build --if-present >/dev/null 2>&1 || true
 nohup npm run dev >/tmp/contracts-l1-dev.log 2>&1 &
@@ -29,7 +29,7 @@ CONTRACTS_PID=$!
 echo "   ✅ contracts-l1 已啟動 (PID=$CONTRACTS_PID)"
 
 echo "[3/3] 啟動 mcp-servers..."
-cd "$ROOT_DIR/mcp-servers"
+cd "$ROOT_DIR/src/mcp-servers"
 npm install --prefer-offline --no-audit >/dev/null 2>&1 || true
 nohup npm start >/tmp/mcp-servers.log 2>&1 &
 MCP_PID=$!

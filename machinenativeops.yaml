@@ -59,10 +59,10 @@ configs:
 # ============================================================================
 # References to governance/00-vision-strategy - the strategic foundation
 strategic_alignment:
-  vision_file: "governance/00-vision-strategy/vision-statement.yaml"
-  objectives_file: "governance/00-vision-strategy/strategic-objectives.yaml"
-  charter_file: "governance/00-vision-strategy/governance-charter.yaml"
-  alignment_file: "governance/00-vision-strategy/alignment-framework.yaml"
+  vision_file: "src/governance/00-vision-strategy/vision-statement.yaml"
+  objectives_file: "src/governance/00-vision-strategy/strategic-objectives.yaml"
+  charter_file: "src/governance/00-vision-strategy/governance-charter.yaml"
+  alignment_file: "src/governance/00-vision-strategy/alignment-framework.yaml"
   
   # Four Key Outcomes (四大核心成果)
   key_outcomes:
@@ -110,16 +110,16 @@ mndoc:
   version: "1.0.0"
   index: "docs/mndoc/index.yaml"
   schemas:
-    mndoc: "governance/schemas/mndoc/mndoc.schema.json"
-    mndoc_index: "governance/schemas/mndoc/mndoc-index.schema.json"
-    mapping_rules: "governance/schemas/mndoc/mapping-rules.schema.json"
-    system: "governance/schemas/mndoc/entity-system.schema.json"
-    subsystem: "governance/schemas/mndoc/entity-subsystem.schema.json"
-    component: "governance/schemas/mndoc/entity-component.schema.json"
-    component_collection: "governance/schemas/mndoc/entity-component-collection.schema.json"
-    configuration: "governance/schemas/mndoc/entity-configuration.schema.json"
-    governance: "governance/schemas/mndoc/entity-governance.schema.json"
-  mapping_rules: "governance/mapping-rules.yaml"
+    mndoc: "src/governance/31-schemas/mndoc/mndoc.schema.json"
+    mndoc_index: "src/governance/31-schemas/mndoc/mndoc-index.schema.json"
+    mapping_rules: "src/governance/31-schemas/mndoc/mapping-rules.schema.json"
+    system: "src/governance/31-schemas/mndoc/entity-system.schema.json"
+    subsystem: "src/governance/31-schemas/mndoc/entity-subsystem.schema.json"
+    component: "src/governance/31-schemas/mndoc/entity-component.schema.json"
+    component_collection: "src/governance/31-schemas/mndoc/entity-component-collection.schema.json"
+    configuration: "src/governance/31-schemas/mndoc/entity-configuration.schema.json"
+    governance: "src/governance/31-schemas/mndoc/entity-governance.schema.json"
+  mapping_rules: "src/governance/32-rules/mapping-rules.yaml"
   entities:
     system: "docs/mndoc/system.yaml"
     subsystems: "docs/mndoc/subsystems/"
@@ -131,39 +131,39 @@ mndoc:
 # ============================================================================
 # Optimized directory layout after Phase 4 consolidation
 directories:
-  # Core modules (Phase 4: 小型模組整合至 core/modules/)
-  core: "core/" # 核心平台模組
-  core_modules: "core/modules/" # 統一管理的小型模組
+  # Core modules (Phase 4: 小型模組整合至 src/core/modules/)
+  core: "src/core/" # 核心平台模組
+  core_modules: "src/core/modules/" # 統一管理的小型模組
   config: "config/" # 所有配置檔案
   config_docker: "config/docker/" # Docker 配置統一管理
 
   # Automation
-  automation: "automation/" # 自動化模組
+  automation: "src/automation/" # 自動化模組
 
   # Services (Phase 4: 整合 agent + mcp-servers)
-  services: "services/" # 統一服務入口
-  services_agents: "services/agents/" # Agent 服務
-  services_mcp: "services/mcp/" # MCP 伺服器 (legacy)
-  mcp_servers: "mcp-servers/" # MCP 伺服器 (npm workspace, CI 使用)
+  services: "src/services/" # 統一服務入口
+  services_agents: "src/services/agents/" # Agent 服務
+  services_mcp: "src/services/mcp/" # MCP 伺服器 (legacy)
+  mcp_servers: "src/mcp-servers/" # MCP 伺服器 (npm workspace, CI 使用)
 
   # Infrastructure (Phase 4: K8s 扁平化)
-  infrastructure: "infrastructure/" # 基礎設施
-  k8s_manifests: "infrastructure/kubernetes/manifests/" # K8s 清單
+  infrastructure: "src/autonomous/infrastructure/" # 基礎設施
+  k8s_manifests: "src/autonomous/infrastructure/kubernetes/manifests/" # K8s 清單
 
   # Apps (Phase 4: 整合 frontend)
-  apps: "apps/" # 應用程式
-  apps_web: "apps/web/" # Web 前端
+  apps: "src/apps/" # 應用程式
+  apps_web: "src/apps/web/" # Web 前端
 
   # Documentation
   docs: "docs/" # 文件
   docs_examples: "docs/examples/" # 範例配置
 
   # Support
-  governance: "governance/" # 治理與政策
+  governance: "src/governance/" # 治理與政策
   tools: "tools/" # 工具與腳本
-  tests: "tests/" # 測試
+  tests: "src/tests/" # 測試
   ops: "ops/" # 運維
-  shared: "shared/" # 共用資源
+  shared: "src/shared/" # 共用資源
   legacy: "legacy/" # 舊版本存檔
 
   # Hidden/Config (Phase 4: 整合 .github-private)
@@ -178,25 +178,25 @@ directories:
 capabilities:
   # Cognitive Processing
   cognitive:
-    provider: "core/unified_integration/cognitive_processor.py"
+    provider: "src/core/unified_integration/cognitive_processor.py"
     layers: ["perception", "reasoning", "execution", "proof"]
 
   # Service Management
   services:
-    provider: "core/unified_integration/service_registry.py"
+    provider: "src/core/unified_integration/service_registry.py"
     features: ["discovery", "health", "dependencies"]
 
   # Configuration
   configuration:
-    provider: "core/unified_integration/configuration_optimizer.py"
+    provider: "src/core/unified_integration/configuration_optimizer.py"
     features: ["validation", "drift_detection", "optimization"]
 
   # Security
   security:
     providers:
-      - "core/slsa_provenance/"
-      - "core/safety_mechanisms/"
-      - "mcp-servers/security-scanner.js"
+      - "src/core/slsa_provenance/"
+      - "src/core/safety_mechanisms/"
+      - "src/mcp-servers/security-scanner.js"
     features: ["attestation", "vulnerability_detection", "safety_checks", "path_validation", "secure_logging"]
     enhancements:
       pr_351_security_fixes:

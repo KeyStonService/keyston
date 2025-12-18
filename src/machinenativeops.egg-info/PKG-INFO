@@ -2,8 +2,8 @@ Metadata-Version: 2.4
 Name: machinenativeops
 Version: 2.0.0
 Summary: Machine-Native Operations Platform - 機器原生運維平台
-Home-page: https://github.com/MachineNativeOps/MachineNativeOps
-Author: MachineNativeOps Team
+Home-page: https://github.com/synergymesh/SynergyMesh
+Author: SynergyMesh Team
 Author-email: MachineNativeOps Team <team@machinenativeops.io>
 Maintainer-email: MachineNativeOps Team <team@machinenativeops.io>
 License: MIT
@@ -325,9 +325,9 @@ progress:
 
 ```
 /
-├── src/                        # 🎯 應用程式主代碼 (即將建立)
-│   ├── core/                   # SynergyMesh 核心引擎
-│   ├── src/governance/         # 結構治理系統
+├── src/                        # 🎯 應用程式主代碼
+│   ├── core/                   # MachineNativeOps 核心引擎
+│   ├── governance/             # 結構治理系統
 │   ├── autonomous/             # 自主系統框架
 │   ├── ai/                     # AI 決策與代理系統
 │   ├── services/               # 微服務 (MCP servers等)
@@ -417,12 +417,15 @@ capabilities:
 
 **主要模組：**
 
-- core/unified_integration/ - 統一整合層（認知處理器、服務註冊表、配置優化器）
-- core/mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
-- src/core/safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
-- src/core/slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
-- **src/core/project_factory/** ⭐ **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
-- **src/ai/island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
+**Core 模組 (src/core/):**
+- unified_integration/ - 統一整合層（認知處理器、服務註冊表、配置優化器）
+- mind_matrix/ - 心智矩陣（執行長系統、多代理超圖）
+- safety_mechanisms/ - 安全機制（斷路器、緊急停止、回滾系統）
+- slsa_provenance/ - SLSA 溯源（證明管理、簽名驗證）
+- **project_factory/** ⭐ **NEW** - 專案生成工廠（一鍵生成完整專案交付物矩陣）
+
+**AI 模組 (src/ai/):**
+- **island-ai/** ⭐ **NEW** - Island AI Multi-Agent System（智能代理系統，Stage 1 已上線）
 
 #### 🏭 Project Factory（專案生成工廠）
 

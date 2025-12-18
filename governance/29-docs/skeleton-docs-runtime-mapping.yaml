@@ -1,9 +1,0 @@
-version: "1.0.0"
-skeleton_id: "docs-governance"
-
-mapping:
-  doc_standards: "docs/standards/"
-  doc_templates: "docs/templates/"
-  doc_index: "DOCUMENTATION_INDEX.md"
-  machine_docs: "docs/generated-mndoc.yaml"
-  doc_governance: "automation/self_awareness_report.py"

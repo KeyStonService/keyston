@@ -1,8 +1,0 @@
-version: "1.0.0"
-skeleton_id: "data-governance"
-
-mapping:
-  schema_definitions: "governance/schemas/data/"
-  data_policies: "governance/policies/data/"
-  retention_rules: "config/data-retention.yaml"
-  privacy_config: "config/privacy-compliance.yaml"

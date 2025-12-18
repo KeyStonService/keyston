@@ -588,6 +588,12 @@ src/core/hallucination_detector.py
 src/core/plugin_system.py
 src/core/advisory-database/package.json
 src/core/advisory-database/tsconfig.json
+src/core/advisory-database/node_modules/@eslint/eslintrc/package.json
+src/core/advisory-database/node_modules/@eslint/js/package.json
+src/core/advisory-database/node_modules/eslint/package.json
+src/core/advisory-database/node_modules/eslint/conf/replacements.json
+src/core/advisory-database/node_modules/eslint/conf/rule-type-list.json
+src/core/advisory-database/node_modules/eslint/lib/cli-engine/formatters/formatters-meta.json
 src/core/ai_constitution/__init__.py
 src/core/ai_constitution/adaptive_guidelines.py
 src/core/ai_constitution/constitution_engine.py
@@ -632,6 +638,12 @@ src/core/contract_service/contracts-L1/contracts/deploy/k8s/prometheusrule.yaml
 src/core/contract_service/contracts-L1/contracts/deploy/k8s/secret.yaml
 src/core/contract_service/contracts-L1/contracts/deploy/k8s/service-production.yaml
 src/core/contract_service/contracts-L1/contracts/deploy/k8s/servicemonitor.yaml
+src/core/contract_service/contracts-L1/contracts/node_modules/@eslint/eslintrc/package.json
+src/core/contract_service/contracts-L1/contracts/node_modules/@eslint/js/package.json
+src/core/contract_service/contracts-L1/contracts/node_modules/eslint/package.json
+src/core/contract_service/contracts-L1/contracts/node_modules/eslint/conf/replacements.json
+src/core/contract_service/contracts-L1/contracts/node_modules/eslint/conf/rule-type-list.json
+src/core/contract_service/contracts-L1/contracts/node_modules/eslint/lib/cli-engine/formatters/formatters-meta.json
 src/core/contract_service/contracts-L1/contracts/policy/report-schema.json
 src/core/contract_service/contracts-L1/contracts/sbom/signing-policy.yml
 src/core/contract_service/contracts-L1/contracts/web/package.json
