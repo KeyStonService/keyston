@@ -170,7 +170,6 @@ print("-" * 70)
 
 def test_kebab_case_agents():
     agents_dir = project_root / 'src' / 'autonomous' / 'agents'
-    py_files = [f.name for f in agents_dir.glob('*.py') if not f.name.startswith('_')]
 
     kebab_files = [
         'base-agent.py', 'coordinator-agent.py', 'autopilot-agent.py',
