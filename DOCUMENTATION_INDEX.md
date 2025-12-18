@@ -126,7 +126,7 @@ cat governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
 | [docs/architecture/README.md](./docs/architecture/README.md)                                                       | 架構文檔入口     | 架構文檔總覽            |
 | [docs/architecture/layers.md](./docs/architecture/layers.md) ⭐                                                    | 五層架構視圖     | 依賴規則、層級職責      |
 | [docs/architecture/repo-map.md](./docs/architecture/repo-map.md) ⭐                                                | 倉庫語義邊界     | 目錄結構、決策指南      |
-| [docs/architecture/ROOT_DIRECTORY_RESTRUCTURING.md](./docs/architecture/ROOT_DIRECTORY_RESTRUCTURING.md) ⭐ **NEW** | 根層目錄重構指南 | 重構原則、標準化子目錄框架、遷移計畫 |
+| [docs/architecture/ROOT_DIRECTORY_RESTRUCTURING.md](./docs/architecture/ROOT_DIRECTORY_RESTRUCTURING.md) ⭐ **NEW** | 根層目錄重構指南 | 重構原則、標準化子目錄框架、遷移計畫、machinenativeops-restructure-spec.json 對齊附錄 |
 | [docs/architecture/SYSTEM_ARCHITECTURE.md](./docs/architecture/SYSTEM_ARCHITECTURE.md)                             | 系統架構設計     | 四層微服務架構          |
 | [docs/architecture/DEPLOYMENT_INFRASTRUCTURE.md](./docs/architecture/DEPLOYMENT_INFRASTRUCTURE.md)                 | 部署基礎設施     | Docker、K8s、CI/CD 設置 |
 | [docs/architecture/CODE_QUALITY_CHECKS.md](./docs/architecture/CODE_QUALITY_CHECKS.md)                             | 代碼質量檢查     | 質量工具配置            |

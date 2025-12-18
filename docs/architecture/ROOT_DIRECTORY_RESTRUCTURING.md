@@ -13,6 +13,49 @@
 
 ---
 
+## 🔁 Addendum (2025-12-18) — machinenativeops-restructure-spec.json Alignment / 對齊補充
+
+- **Canonical sources / 單一權威來源**
+  - `machinenativeops-restructure-spec.json`（包含12個頂層模組定義，其中 microservicesArchitecture.services 定義6個微服務）
+  - `machinenativeops.yaml`（單一真實來源，需含 `version`、`vision_version`、`name`、`description`、`entrypoint`、`configs`；現行檔案缺少頂層 `entrypoint`，需於後續補齊）
+- **Naming / 命名規範**
+  - 目錄與檔名：採 **kebab-case**
+  - 顯示品牌：PascalCase（MachineNativeOps）；套件名稱：全小寫（machinenativeops）
+  - 同義字合併：
+    - `ai/`、`island-ai/` → `src/ai/`
+    - `infra/`、`infrastructure/` → `src/autonomous/infrastructure/`
+    - `deploy/`、`deployment/` → `src/autonomous/deployment/`
+    - `NamespaceTutorial` → `examples/namespace-tutorial`
+- **Target root layout / 目標根目錄佈局**
+  - `src/{ai,core,governance,autonomous/{infrastructure,deployment,agents}}`
+  - `config/{dev,staging,prod}`（合併 `.config/`、`config/`、`.devcontainer/`）
+  - `scripts/{dev,ci,ops,governance}`, `docs/`, `examples/namespace-tutorial/`
+  - `governance/{policies,strategies,docs,tools,assets}`, `tests/{unit,e2e}`（選配）, `.github/`
+- **Versioning / 版本策略**
+  - 採 SemVer `X.Y.Z`，Git tag `vX.Y.Z`，目前版本 `4.0.0`
+  - 發版流程：更新 `machinenativeops.yaml` → commit → 建立對應 tag
+- **Migration phases / 遷移階段**（對應 `migrationProcedure.phases`，保持規格中的 phase-0、phase-2.x 命名）
+  1. `phase-0` 備份：建立 `refactor/phase2-directory-restructure` 分支並推送 `pre-restructure-*` tag。
+  2. `phase-2.1` 骨架：建立標準目錄（`src/`、`config/`、`scripts/`、`governance/`、`examples/`）。
+  3. `phase-2.2` 非相依移動：如 `NamespaceTutorial` → `examples/namespace-tutorial`，治理文檔移至 `governance/docs/`。
+  4. `phase-2.3` 合併重複：`ai/`+`island-ai/`、`infra/`+`infrastructure/`、`deploy/`+`deployment/`、`.config/`+`config/`。
+  5. `phase-2.4` 路徑修正：更新程式碼匯入與模組路徑。
+  6. `phase-2.5` CI 更新：修正工作流程中的腳本路徑。
+- **Verification / 驗證命令**
+  - `tree -L 2 src config scripts governance examples`
+  - `diff -qr <source_dir>/ <target_dir>/`（例如 `diff -qr ai/ src/ai/`、`diff -qr infra/ src/autonomous/infrastructure/`，保持來源與目標皆以尾隨斜線結尾）
+  - `npm run build --noEmit`
+  - `python -c 'import src.ai.core'`
+  - `npm test -- --passWithNoTests`
+  - `yamllint .github/workflows/`
+- **Execution checklist / 執行檢查**
+  - [ ] 不在 `main` 分支，且已建立備份 tag
+  - [ ] 覆蓋率基線、依賴基線已保存
+  - [ ] 驗證命令全部通過，建置成功、測試可被發現
+  - [ ] `CONTRIBUTING.md` 與命名/目錄規範保持一致
+
+---
+
 ## 📋 Table of Contents / 目錄
 
 1. [Executive Summary / 執行摘要](#-executive-summary--執行摘要)
