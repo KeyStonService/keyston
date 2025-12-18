@@ -1,9 +1,18 @@
 """
 Orchestrators Module - 協調器模組
 
-提供統一的系統協調和管理功能。
+提供統一的系統協調和管理功能：
+- 基礎協調器 (SynergyMeshOrchestrator)
+- 島嶼協調器 (LanguageIslandOrchestrator)
+- 企業級協調器 (EnterpriseSynergyMeshOrchestrator)
+- 依賴解析 (DependencyResolver)
 """
 
+import importlib.util
+import sys
+from pathlib import Path
+
+# ===== 基礎協調器 =====
 from .synergy_mesh_orchestrator import (
     SynergyMeshOrchestrator,
     ExecutionResult,
@@ -12,12 +21,25 @@ from .synergy_mesh_orchestrator import (
     ComponentType
 )
 
-# 使用 importlib 來處理 kebab-case 的文件名
-import importlib.util
-import sys
-from pathlib import Path
+# ===== 企業級協調器 =====
+from .enterprise_synergy_mesh_orchestrator import (
+    EnterpriseSynergyMeshOrchestrator,
+    TenantConfig,
+    TenantTier,
+    ResourceQuota,
+    RetryPolicy,
+    AuditLog
+)
 
-# 導入 language-island-orchestrator
+# ===== 依賴解析 =====
+from .dependency_resolver import (
+    DependencyResolver,
+    DependencyNode,
+    ExecutionPhase
+)
+
+# ===== 島嶼協調器 =====
+# 使用 importlib 來處理 kebab-case 的文件名
 spec = importlib.util.spec_from_file_location(
     "language_island_orchestrator",
     Path(__file__).parent / "language-island-orchestrator.py"
@@ -36,10 +58,24 @@ else:
 
 
 __all__ = [
+    # 基礎
     "SynergyMeshOrchestrator",
     "LanguageIslandOrchestrator",
     "ExecutionResult",
     "SystemStatus",
     "ExecutionStatus",
-    "ComponentType"
+    "ComponentType",
+
+    # 企業級
+    "EnterpriseSynergyMeshOrchestrator",
+    "TenantConfig",
+    "TenantTier",
+    "ResourceQuota",
+    "RetryPolicy",
+    "AuditLog",
+
+    # 依賴管理
+    "DependencyResolver",
+    "DependencyNode",
+    "ExecutionPhase"
 ]
