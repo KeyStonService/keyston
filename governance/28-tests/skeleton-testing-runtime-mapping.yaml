@@ -1,8 +1,0 @@
-version: "1.0.0"
-skeleton_id: "testing-governance"
-
-mapping:
-  test_strategies: "tests/strategies/"
-  test_coverage: "config/coverage-requirements.yaml"
-  ci_quality_gates: ".github/workflows/"
-  test_frameworks: "tests/"

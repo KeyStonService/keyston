@@ -1,9 +1,0 @@
-# Development Configuration
-environment: "development"
-
-logging:
-  level: "DEBUG"
-
-database:
-  type: "sqlite"
-  path: "data/governance-dev.db"
