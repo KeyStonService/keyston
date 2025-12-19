@@ -25,18 +25,18 @@ if requirements_path.exists():
     ]
 
 setup(
-    name="synergymesh-workflow",
+    name="machinenativeops-workflow",
     version="2.0.0",
     author="SynergyMesh Team",
-    author_email="team@synergymesh.io",
+    author_email="team@machinenativeops.io",
     description="Production-ready workflow orchestration platform",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/synergymesh/SynergyMesh",
+    url="https://github.com/MachineNativeOps/MachineNativeOps",
     project_urls={
-        "Bug Reports": "https://github.com/synergymesh/SynergyMesh/issues",
-        "Source": "https://github.com/synergymesh/SynergyMesh",
-        "Documentation": "https://github.com/synergymesh/SynergyMesh/tree/main/docs",
+        "Bug Reports": "https://github.com/MachineNativeOps/MachineNativeOps/issues",
+        "Source": "https://github.com/MachineNativeOps/MachineNativeOps",
+        "Documentation": "https://github.com/MachineNativeOps/MachineNativeOps/tree/main/docs",
     },
     packages=find_packages(include=["core", "core.*", "automation", "automation.*", "tools", "tools.*"]),
     classifiers=[
@@ -67,11 +67,11 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "synergymesh-workflow=automation.pipelines.instant_execution_pipeline:main",
-            "synergymesh-contract=core.contract_engine:main",
-            "synergymesh-generate-contract=tools.generators.contract_generator:main",
-            "synergymesh-generate-validator=tools.generators.validator_generator:main",
-            "synergymesh-generate-docs=tools.generators.documentation_generator:main",
+            "machinenativeops-workflow=automation.pipelines.instant_execution_pipeline:main",
+            "machinenativeops-contract=core.contract_engine:main",
+            "machinenativeops-generate-contract=tools.generators.contract_generator:main",
+            "machinenativeops-generate-validator=tools.generators.validator_generator:main",
+            "machinenativeops-generate-docs=tools.generators.documentation_generator:main",
         ],
     },
     include_package_data=True,

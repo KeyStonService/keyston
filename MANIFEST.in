@@ -65,7 +65,7 @@ prune build/macos/dist
 prune build/macos/build
 prune build/linux/dist
 prune build/linux/build
-prune build/linux/debian/synergymesh-governance_*
+prune build/linux/debian/machinenativeops-governance_*
 
 # Exclude node_modules and other large directories
 prune node_modules

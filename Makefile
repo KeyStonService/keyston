@@ -184,7 +184,7 @@ clean:
 	@rm -rf build/windows/dist build/windows/build
 	@rm -rf build/macos/dist build/macos/build
 	@rm -rf build/linux/dist build/linux/build
-	@rm -rf build/linux/debian/synergymesh-governance_*
+	@rm -rf build/linux/debian/machinenativeops-governance_*
 	@rm -rf build/linux/redhat/*.rpm
 	@rm -f build/linux/*.AppImage
 	@find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
