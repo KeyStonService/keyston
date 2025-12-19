@@ -1,0 +1,253 @@
+apiVersion: examples.automation.io/v1
+kind: ExampleCodeConfig
+metadata:
+  name: intelligent-automation-examples
+  namespace: examples-system
+  version: "1.0.0"
+  created: "2025-12-19"
+spec:
+  # 代码生成配置
+  code_generation:
+    templates:
+      - name: basic_workflow
+        language: typescript
+        template_file: templates/basic_workflow.ts.tpl
+        output_path: 基础示例/examples/hello-world/workflow.ts
+        variables:
+          workflow_name: "示例工作流"
+          description: "基础工作流示例"
+          author: "SynergyMesh Team"
+      
+      - name: api_integration
+        language: typescript
+        template_file: templates/api_integration.ts.tpl
+        output_path: 集成示例/examples/external-apis/rest-api.ts
+        variables:
+          api_endpoint: "https://api.example.com/v1"
+          authentication: "bearer_token"
+      
+      - name: database_integration
+        language: typescript
+        template_file: templates/database.ts.tpl
+        output_path: 集成示例/examples/database-integration/postgresql.ts
+        variables:
+          database_type: "postgresql"
+          connection_pool: true
+      
+      - name: configuration_example
+        language: yaml
+        template_file: templates/config.yaml.tpl
+        output_path: 配置示例/examples/environment-configs/development.yaml
+        variables:
+          environment: "development"
+          debug_mode: true
+    
+    # 验证配置
+    validation:
+      syntax_check: true
+      compile_check: true
+      runtime_test: true
+      security_scan: true
+      
+      # 工具配置
+      tools:
+        typescript:
+          - eslint
+          - prettier
+          - tsc
+        python:
+          - flake8
+          - black
+          - mypy
+        yaml:
+          - yamllint
+  
+  # 示例分类
+  example_categories:
+    - category: 基础示例
+      id: basic-examples
+      description: "基础使用示例"
+      languages: ["typescript", "python", "java", "go"]
+      difficulty: beginner
+      prerequisites:
+        - "基本编程知识"
+        - "了解异步编程概念"
+      subcategories:
+        - hello_world
+        - core_concepts
+        - common_patterns
+    
+    - category: 集成示例
+      id: integration-examples
+      description: "集成示例"
+      languages: ["typescript", "python", "java"]
+      difficulty: intermediate
+      prerequisites:
+        - "API基础知识"
+        - "网络基础"
+        - "数据库基础"
+      subcategories:
+        - database_integration
+        - external_apis
+        - messaging_systems
+        - cloud_services
+    
+    - category: 配置示例
+      id: configuration-examples
+      description: "配置文件示例"
+      languages: ["yaml", "json"]
+      difficulty: intermediate
+      prerequisites:
+        - "YAML/JSON语法"
+        - "环境配置概念"
+      subcategories:
+        - environment_configs
+        - security_configs
+        - performance_configs
+        - monitoring_configs
+    
+    - category: 最佳实践
+      id: best-practices
+      description: "最佳实践指南"
+      languages: ["typescript", "python", "java"]
+      difficulty: advanced
+      prerequisites:
+        - "系统架构知识"
+        - "设计模式"
+        - "生产环境经验"
+      subcategories:
+        - coding_standards
+        - performance_optimization
+        - security_practices
+        - deployment_practices
+    
+    - category: 故障排除
+      id: troubleshooting
+      description: "故障排查示例"
+      languages: ["multiple"]
+      difficulty: intermediate
+      prerequisites:
+        - "系统运维基础"
+        - "日志分析"
+        - "调试技能"
+      subcategories:
+        - common_errors
+        - performance_issues
+        - integration_issues
+    
+    - category: 高级用法
+      id: advanced-usage
+      description: "高级用法示例"
+      languages: ["typescript", "python"]
+      difficulty: advanced
+      prerequisites:
+        - "系统架构知识"
+        - "分布式系统"
+        - "高级编程概念"
+      subcategories:
+        - custom_extensions
+        - complex_scenarios
+        - optimization_techniques
+  
+  # 语言配置
+  languages:
+    typescript:
+      version: "5.3"
+      runtime: "node"
+      runtime_version: "20.x"
+      package_manager: "npm"
+      linter: "eslint"
+      formatter: "prettier"
+      type_checker: "tsc"
+      
+    python:
+      version: "3.10+"
+      package_manager: "pip"
+      linter: "flake8"
+      formatter: "black"
+      type_checker: "mypy"
+      
+    java:
+      version: "17"
+      build_tool: "maven"
+      linter: "checkstyle"
+      formatter: "google-java-format"
+      
+    go:
+      version: "1.21"
+      build_tool: "go"
+      linter: "golint"
+      formatter: "gofmt"
+  
+  # 文档配置
+  documentation:
+    auto_generate: true
+    format: "markdown"
+    include_toc: true
+    include_examples: true
+    
+    sections:
+      - name: "概述"
+        required: true
+      - name: "前置知识"
+        required: true
+      - name: "代码示例"
+        required: true
+      - name: "运行方式"
+        required: true
+      - name: "预期输出"
+        required: false
+      - name: "常见问题"
+        required: false
+  
+  # 测试配置
+  testing:
+    enabled: true
+    frameworks:
+      typescript: "jest"
+      python: "pytest"
+      java: "junit"
+    
+    coverage:
+      enabled: true
+      minimum: 80
+      
+    types:
+      - unit
+      - integration
+      - e2e
+  
+  # 质量标准
+  quality_standards:
+    code_style:
+      enforce: true
+      auto_fix: true
+      
+    documentation:
+      require_readme: true
+      require_comments: true
+      min_comment_ratio: 0.2
+      
+    testing:
+      require_tests: true
+      min_coverage: 70
+      
+    security:
+      scan_enabled: true
+      block_vulnerabilities: true
+      severity_threshold: "high"
+  
+  # 发布配置
+  publishing:
+    enabled: true
+    registry: "npm"
+    scope: "@machinenativeops"
+    access: "public"
+    
+    versioning:
+      strategy: "semver"
+      auto_increment: true
+      
+    changelog:
+      auto_generate: true
+      format: "keepachangelog"

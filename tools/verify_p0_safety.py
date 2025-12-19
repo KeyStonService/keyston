@@ -63,8 +63,9 @@ class P0SafetyVerifier:
 
         # 檢查緊急停止實現文件
         emergency_files = [
-            self.repo_root / "core/safety_mechanisms/emergency_stop.py",
-            self.repo_root / "agent/dependency-manager/src/crossplatform/emergency_response.py",
+            self.repo_root / "src/core/safety/emergency_stop.py",
+            self.repo_root / "src/services/agents/dependency-manager/src/crossplatform/emergency_response.py",
+            self.repo_root / "src/ai/agents/dependency-manager/src/crossplatform/emergency_response.py",
         ]
 
         found_files = [f for f in emergency_files if f.exists()]

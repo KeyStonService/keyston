@@ -6,9 +6,10 @@ Tests for Advanced Prompt Combination Strategy Modules
 
 import unittest
 from datetime import datetime
+from pathlib import Path
 
 import sys
-sys.path.insert(0, '/home/runner/work/MachineNativeOps/MachineNativeOps/agent/dependency-manager/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from combination.core_satellite import (
     CoreSatelliteArchitecture,

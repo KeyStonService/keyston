@@ -5,8 +5,9 @@ Tests for Advanced Prompt Combination Strategy Modules
 
 import sys
 import unittest
+from pathlib import Path
 
-sys.path.insert(0, '/home/runner/work/SynergyMesh/SynergyMesh/agent/dependency-manager/src')
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from combination.combination_templates import (
     CombinationTemplateManager,

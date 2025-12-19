@@ -1,0 +1,326 @@
+# =============================================================================
+# 機器自主 AI平台 - 第一阶段环境准备
+# Stage 1: Environment Preparation & Validation
+# =============================================================================
+name: "Stage 1 - Environment Preparation"
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "**/*.sh"
+      - "**/*.py"
+      - "config/**"
+      - "scripts/**"
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+env:
+  PLATFORM_VERSION: "v1.0.0"
+  DEPLOYER_SCRIPT: "scripts/deployment/comprehensive-deploy.sh"
+  VALIDATION_DIRS: "config src docs scripts tools"
+  CONFIG_VALIDATION_FILES: "config/dependencies.yaml config/unified-config-index.yaml config/brand-mapping.yaml"
+
+jobs:
+  # =============================================================================
+  # 环境检测与验证
+  # =============================================================================
+  environment-detection:
+    name: "环境检测与系统验证"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      os-type: ${{ steps.os-detection.outputs.os-type }}
+      arch-type: ${{ steps.arch-detection.outputs.arch-type }}
+      tools-available: ${{ steps.tool-check.outputs.available }}
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 收集校验目录
+        id: collect-dirs
+        run: |
+          set -euo pipefail
+          mapfile -t existing_dirs < <(for dir in $VALIDATION_DIRS; do [ -d "$dir" ] && echo "$dir"; done)
+          if [ ${#existing_dirs[@]} -eq 0 ]; then
+            echo "dirs=" >> $GITHUB_OUTPUT
+            echo "ℹ️ 未找到可用的校验目录"
+          else
+            echo "dirs=${existing_dirs[*]}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 操作系统检测
+        id: os-detection
+        run: |
+          echo "检测操作系统环境..."
+          OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
+          echo "os-type=$OS_TYPE" >> $GITHUB_OUTPUT
+          echo "✅ 操作系统: $OS_TYPE"
+
+      - name: 架构检测
+        id: arch-detection
+        run: |
+          echo "检测系统架构..."
+          ARCH_TYPE=$(uname -m)
+          echo "arch-type=$ARCH_TYPE" >> $GITHUB_OUTPUT
+          echo "✅ 系统架构: $ARCH_TYPE"
+
+      - name: 基础工具检查
+        id: tool-check
+        run: |
+          echo "验证必需工具可用性..."
+          REQUIRED_TOOLS=("curl" "git" "jq" "python3" "docker" "kubectl")
+          MISSING_TOOLS=()
+          for tool in "${REQUIRED_TOOLS[@]}"; do
+            if command -v $tool &> /dev/null; then
+              echo "✅ $tool 可用"
+            else
+              echo "❌ $tool 缺失"
+              MISSING_TOOLS+=("$tool")
+            fi
+          done
+          if [ ${#MISSING_TOOLS[@]} -eq 0 ]; then
+            echo "available=true" >> $GITHUB_OUTPUT
+            echo "✅ 所有必需工具可用"
+          else
+            echo "available=false" >> $GITHUB_OUTPUT
+            echo "❌ 缺失工具: ${MISSING_TOOLS[*]}"
+            exit 1
+          fi
+
+      - name: 环境变量验证
+        run: |
+          echo "验证环境变量配置..."
+          REQUIRED_VARS=("PLATFORM_VERSION" "DEPLOYER_SCRIPT")
+          for var in "${REQUIRED_VARS[@]}"; do
+            if [ -z "${!var}" ]; then
+              echo "❌ 环境变量 $var 未设置"
+              exit 1
+            else
+              echo "✅ $var=${!var}"
+            fi
+          done
+
+  # =============================================================================
+  # 脚本语法验证
+  # =============================================================================
+  script-validation:
+    name: "部署脚本语法验证"
+    runs-on: ubuntu-latest
+    needs: environment-detection
+    timeout-minutes: 10
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: Shell脚本语法检查
+        run: |
+          set -euo pipefail
+          echo "验证Shell脚本语法..."
+          mapfile -t shell_files < <(find . -name "*.sh" -type f)
+          if [ ${#shell_files[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 Shell 脚本"
+          else
+            for script in "${shell_files[@]}"; do
+              echo "检查脚本: $script"
+              if bash -n "$script"; then
+                echo "✅ $script 语法正确"
+              else
+                echo "❌ $script 语法错误"
+                exit 1
+              fi
+            done
+          fi
+
+      - name: Python脚本语法检查
+        run: |
+          set -euo pipefail
+          echo "验证Python脚本语法..."
+          mapfile -t python_files < <(find . -name "*.py" -type f)
+          if [ ${#python_files[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 Python 脚本"
+          else
+            for script in "${python_files[@]}"; do
+              echo "检查脚本: $script"
+              if python3 -m py_compile "$script"; then
+                echo "✅ $script 语法正确"
+              else
+                echo "❌ $script 语法错误"
+                exit 1
+              fi
+            done
+          fi
+
+      - name: 部署脚本功能验证
+        run: |
+          set -euo pipefail
+          echo "验证主部署脚本功能..."
+          if [ -f "$DEPLOYER_SCRIPT" ]; then
+            echo "✅ 找到部署脚本: $DEPLOYER_SCRIPT"
+            chmod +x "$DEPLOYER_SCRIPT"
+            if bash -n "$DEPLOYER_SCRIPT"; then
+              echo "✅ 部署脚本语法正确"
+            else
+              echo "❌ 部署脚本语法错误"
+              exit 1
+            fi
+          else
+            echo "❌ 部署脚本不存在: $DEPLOYER_SCRIPT"
+            exit 1
+          fi
+
+  # =============================================================================
+  # 配置验证
+  # =============================================================================
+  config-validation:
+    name: "配置文件验证"
+    runs-on: ubuntu-latest
+    needs: environment-detection
+    timeout-minutes: 8
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 收集配置目录
+        id: collect-dirs
+        run: |
+          set -euo pipefail
+          echo "收集用于配置验证的目录..."
+          CANDIDATE_DIRS=($VALIDATION_DIRS)
+          EXISTING_DIRS=()
+          for d in "${CANDIDATE_DIRS[@]}"; do
+            if [ -d "$d" ]; then
+              EXISTING_DIRS+=("$d")
+            fi
+          done
+          if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
+            echo "dirs=" >> "$GITHUB_OUTPUT"
+            echo "ℹ️ 未找到可用的校验目录"
+          else
+            printf -v joined ' %s' "${EXISTING_DIRS[@]}"
+            joined=${joined:1}
+            echo "dirs=$joined" >> "$GITHUB_OUTPUT"
+            echo "将验证以下目录: $joined"
+          fi
+
+      - name: YAML配置语法检查
+        env:
+          VALIDATION_DIRS_RESOLVED: ${{ steps.collect-dirs.outputs.dirs }}
+        run: |
+          set -euo pipefail
+          echo "验证YAML配置文件..."
+          pip install --user "yamllint==1.35.1"
+          export PATH="$HOME/.local/bin:$PATH"
+          read -r -a VALIDATION_DIRS_ARRAY <<< "${VALIDATION_DIRS_RESOLVED:-}"
+          if [ ${#VALIDATION_DIRS_ARRAY[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 YAML 搜索目录"
+            yaml_files=()
+          else
+            mapfile -t yaml_files < <(find "${VALIDATION_DIRS_ARRAY[@]}" -type f \( -name "*.yaml" -o -name "*.yml" \))
+          fi
+          if [ ${#yaml_files[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 YAML 配置文件"
+          else
+            for file in "${yaml_files[@]}"; do
+              echo "检查文件: $file"
+              if yamllint "$file"; then
+                echo "✅ $file YAML语法正确"
+              else
+                echo "❌ $file YAML语法错误"
+                exit 1
+              fi
+            done
+          fi
+
+      - name: JSON配置语法检查
+        env:
+          VALIDATION_DIRS_RESOLVED: ${{ steps.collect-dirs.outputs.dirs }}
+        run: |
+          set -euo pipefail
+          echo "验证JSON配置文件..."
+          read -r -a VALIDATION_DIRS_ARRAY <<< "${VALIDATION_DIRS_RESOLVED:-}"
+          if [ ${#VALIDATION_DIRS_ARRAY[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 JSON 搜索目录"
+            json_files=()
+          else
+            mapfile -t json_files < <(find "${VALIDATION_DIRS_ARRAY[@]}" -type f -name "*.json")
+          fi
+          if [ ${#json_files[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 JSON 配置文件"
+          else
+            for file in "${json_files[@]}"; do
+              echo "检查文件: $file"
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ $file JSON语法正确"
+              else
+                echo "❌ $file JSON语法错误"
+                exit 1
+              fi
+            done
+          fi
+
+      - name: 环境配置验证
+        run: |
+          set -euo pipefail
+          echo "验证环境特定配置..."
+          read -r -a CONFIG_FILES <<< "${CONFIG_VALIDATION_FILES}"
+          missing_required=0
+          for config in "${CONFIG_FILES[@]}"; do
+            if [ -f "$config" ]; then
+              echo "✅ 找到配置文件: $config"
+            else
+              echo "❌ 配置文件缺失: $config"
+              missing_required=1
+            fi
+          done
+          if [ "$missing_required" -ne 0 ]; then
+            echo "❌ 部分必需的环境配置文件缺失，环境配置验证失败"
+            exit 1
+          fi
+
+  # =============================================================================
+  # 最终环境验证报告
+  # =============================================================================
+  environment-report:
+    name: "环境验证报告"
+    runs-on: ubuntu-latest
+    needs: [environment-detection, script-validation, config-validation]
+    if: always()
+    steps:
+      - name: 生成环境报告
+        run: |
+          REPORT_FILE="environment-report.txt"
+          echo "==========================================" | tee "$REPORT_FILE"
+          echo " 环境验证报告" | tee -a "$REPORT_FILE"
+          echo "==========================================" | tee -a "$REPORT_FILE"
+          echo "" | tee -a "$REPORT_FILE"
+          echo "📋 环境检测结果:" | tee -a "$REPORT_FILE"
+          echo " 操作系统: ${{ needs.environment-detection.outputs.os-type }}" | tee -a "$REPORT_FILE"
+          echo " 系统架构: ${{ needs.environment-detection.outputs.arch-type }}" | tee -a "$REPORT_FILE"
+          echo " 工具可用性: ${{ needs.environment-detection.outputs.tools-available }}" | tee -a "$REPORT_FILE"
+          echo "" | tee -a "$REPORT_FILE"
+          echo "📜 脚本验证结果:" | tee -a "$REPORT_FILE"
+          echo " 状态: ${{ needs.script-validation.result }}" | tee -a "$REPORT_FILE"
+          echo "" | tee -a "$REPORT_FILE"
+          echo "⚙️ 配置验证结果:" | tee -a "$REPORT_FILE"
+          echo " 状态: ${{ needs.config-validation.result }}" | tee -a "$REPORT_FILE"
+          echo "" | tee -a "$REPORT_FILE"
+          echo "==========================================" | tee -a "$REPORT_FILE"
+          if [ "${{ needs.environment-detection.result }}" = "success" ] && \
+             [ "${{ needs.script-validation.result }}" = "success" ] && \
+             [ "${{ needs.config-validation.result }}" = "success" ]; then
+            echo "🎉 环境验证全部通过" | tee -a "$REPORT_FILE"
+          else
+            echo "❌ 环境验证失败" | tee -a "$REPORT_FILE"
+          fi
+
+      - name: 上传验证报告
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: environment-validation-report
+          path: environment-report.txt
+          retention-days: 7

@@ -1,0 +1,308 @@
+apiVersion: examples.automation.io/v1
+kind: ExampleValidationConfig
+metadata:
+  name: example-validation
+  namespace: examples-system
+  version: "1.0.0"
+  created: "2025-12-19"
+spec:
+  # 验证规则
+  validation_rules:
+    # 语法验证
+    syntax_validation:
+      enabled: true
+      strict_mode: true
+      
+      tools:
+        typescript:
+          - name: eslint
+            config: ".eslintrc.json"
+            rules:
+              - no-console: "warn"
+              - no-unused-vars: "error"
+              - prefer-const: "error"
+          
+          - name: prettier
+            config: ".prettierrc"
+            options:
+              printWidth: 100
+              tabWidth: 2
+              semi: true
+              singleQuote: true
+        
+        python:
+          - name: flake8
+            config: ".flake8"
+            max_line_length: 100
+            ignore: ["E203", "W503"]
+          
+          - name: black
+            config: "pyproject.toml"
+            line_length: 100
+        
+        java:
+          - name: checkstyle
+            config: "checkstyle.xml"
+            style: "google"
+          
+          - name: google-java-format
+            version: "1.17.0"
+        
+        go:
+          - name: gofmt
+            simplify: true
+          
+          - name: golint
+            min_confidence: 0.8
+    
+    # 编译验证
+    compile_validation:
+      enabled: true
+      fail_on_warning: false
+      
+      environments:
+        - name: nodejs
+          version: "20.x"
+          commands:
+            - "npm install"
+            - "npm run build"
+          timeout: "5m"
+          cache_dependencies: true
+        
+        - name: python
+          version: "3.10"
+          commands:
+            - "pip install -r requirements.txt"
+            - "python -m py_compile *.py"
+          timeout: "3m"
+          use_venv: true
+        
+        - name: java
+          version: "17"
+          commands:
+            - "mvn clean compile"
+          timeout: "5m"
+        
+        - name: go
+          version: "1.21"
+          commands:
+            - "go build ./..."
+          timeout: "3m"
+    
+    # 运行时验证
+    runtime_validation:
+      enabled: true
+      fail_fast: false
+      
+      tests:
+        - type: unit_test
+          command: "npm test"
+          timeout: "5m"
+          coverage:
+            enabled: true
+            minimum: 70
+            reporters: ["text", "lcov", "html"]
+        
+        - type: integration_test
+          command: "npm run test:integration"
+          timeout: "10m"
+          prerequisites:
+            - docker_compose_up
+            - wait_for_services
+          cleanup:
+            - docker_compose_down
+        
+        - type: e2e_test
+          command: "npm run test:e2e"
+          timeout: "15m"
+          environment: "test"
+          headless: true
+      
+      # 运行时检查
+      runtime_checks:
+        - name: memory_leak_detection
+          enabled: true
+          threshold_mb: 500
+        
+        - name: performance_profiling
+          enabled: true
+          max_execution_time_ms: 5000
+        
+        - name: api_compatibility
+          enabled: true
+          check_breaking_changes: true
+    
+    # 安全验证
+    security_validation:
+      enabled: true
+      fail_on_high: true
+      fail_on_critical: true
+      
+      scans:
+        - tool: snyk
+          command: "snyk test"
+          options:
+            severity_threshold: "high"
+            fail_on: "upgradable"
+            json_output: true
+          
+        - tool: semgrep
+          command: "semgrep --config=auto"
+          rules:
+            - security
+            - best-practices
+            - owasp-top-ten
+          exclude_patterns:
+            - "test/**"
+            - "*.test.ts"
+          
+        - tool: trivy
+          command: "trivy filesystem ."
+          scan_type: "vulnerability"
+          severity: ["CRITICAL", "HIGH"]
+          ignore_unfixed: false
+          
+        - tool: npm-audit
+          command: "npm audit"
+          production_only: true
+          audit_level: "moderate"
+      
+      # 静态代码分析
+      static_analysis:
+        - tool: sonarqube
+          enabled: true
+          quality_gate: "strict"
+          coverage_threshold: 80
+          
+        - tool: codeql
+          enabled: true
+          languages: ["typescript", "python", "java"]
+          queries: ["security-extended"]
+    
+    # 依赖验证
+    dependency_validation:
+      enabled: true
+      
+      checks:
+        - name: version_compatibility
+          enabled: true
+          check_peer_dependencies: true
+        
+        - name: license_compliance
+          enabled: true
+          allowed_licenses:
+            - MIT
+            - Apache-2.0
+            - BSD-3-Clause
+            - ISC
+          denied_licenses:
+            - GPL-3.0
+            - AGPL-3.0
+        
+        - name: outdated_packages
+          enabled: true
+          max_age_days: 365
+        
+        - name: vulnerability_scan
+          enabled: true
+          severity_threshold: "moderate"
+  
+  # 验证流程
+  validation_pipeline:
+    stages:
+      - name: pre-validation
+        steps:
+          - install_dependencies
+          - setup_environment
+        
+      - name: syntax_check
+        parallel: true
+        steps:
+          - lint_code
+          - format_check
+          - type_check
+        
+      - name: compilation
+        depends_on: [syntax_check]
+        steps:
+          - compile_code
+        
+      - name: testing
+        depends_on: [compilation]
+        parallel: false
+        steps:
+          - unit_tests
+          - integration_tests
+          - e2e_tests
+        
+      - name: security_scan
+        depends_on: [compilation]
+        parallel: true
+        steps:
+          - dependency_audit
+          - vulnerability_scan
+          - static_analysis
+        
+      - name: post-validation
+        depends_on: [testing, security_scan]
+        steps:
+          - generate_report
+          - cleanup
+  
+  # 报告配置
+  reporting:
+    enabled: true
+    formats: ["json", "html", "markdown"]
+    
+    include:
+      - validation_summary
+      - failed_checks
+      - warnings
+      - metrics
+      - recommendations
+    
+    output_path: "validation-reports/"
+    
+    notifications:
+      - type: console
+        enabled: true
+        verbose: true
+      
+      - type: file
+        enabled: true
+        path: "validation.log"
+      
+      - type: slack
+        enabled: false
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+        channel: "#validation-alerts"
+  
+  # 缓存配置
+  caching:
+    enabled: true
+    cache_key: "validation-${git_commit_sha}"
+    
+    cache_paths:
+      - node_modules/
+      - .npm/
+      - .cache/
+      - __pycache__/
+    
+    invalidate_on:
+      - package.json
+      - requirements.txt
+      - pom.xml
+      - go.mod
+  
+  # 重试配置
+  retry:
+    enabled: true
+    max_attempts: 3
+    backoff: exponential
+    initial_delay_ms: 1000
+    max_delay_ms: 10000
+    
+    retry_on:
+      - network_error
+      - timeout
+      - rate_limit

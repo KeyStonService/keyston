@@ -94,19 +94,40 @@ class ExtremeProblemIdentifier:
     def log(self, message: str, level: str = "info"):
         """Log message with color. Redacts obvious secrets in logs."""
         def redact_sensitive(msg: str) -> str:
-            # Remove common possible secret substrings (passwords/keys/tokens) from msg (rudimentary)
-            patterns = [
-                r'(password\s*=\s*)(["\']?)[^"\',]+(\2)',
-                r'(api[_-]?key\s*=\s*)(["\']?)[^"\',]+(\2)',
-                r'(secret\s*=\s*)(["\']?)[^"\',]+(\2)',
-                r'(token\s*=\s*)(["\']?)[^"\',]+(\2)',
-            ]
+            # Remove common possible secret substrings (passwords/keys/tokens) from msg
             redacted = msg
+            # Use global secret regexes for consistency
+            for regex in SECRET_REGEXES:
+                redacted = regex.sub(lambda m: re.sub(r'(["\'])(.*?)(\1)', r'\1***\1', m.group(0)), redacted)
+            # Additional defensive redaction for simple key=value style secrets
+            patterns = [
+                r'(password\s*=\s*)(["\']?)[^"\',\s]+(\2)',
+                r'(api[_-]?key\s*=\s*)(["\']?)[^"\',\s]+(\2)',
+                r'(secret\s*=\s*)(["\']?)[^"\',\s]+(\2)',
+                r'(token\s*=\s*)(["\']?)[^"\',\s]+(\2)',
+            ]
             for p in patterns:
                 redacted = re.sub(p, r'\1***\3', redacted, flags=re.IGNORECASE)
             return redacted
 
+        def is_potentially_sensitive(msg: str) -> bool:
+            """Heuristic check to avoid logging messages that may contain secrets."""
+            lowered = msg.lower()
+            # Keyword-based heuristic
+            if any(s in lowered for s in ["password", "api key", "apikey", "secret", "token", "bearer "]):
+                return True
+            # Regex-based heuristic using global secret patterns
+            for regex in SECRET_REGEXES:
+                if regex.search(msg):
+                    return True
+            return False
+
         redacted_message = redact_sensitive(message)
+
+        # As a final safeguard, do not log messages that still look sensitive after redaction
+        if is_potentially_sensitive(redacted_message):
+            return
+
         if level == "critical":
             print(f"{Colors.FAIL}🔴 CRITICAL: {redacted_message}{Colors.ENDC}")
         elif level == "error":
@@ -117,10 +138,6 @@ class ExtremeProblemIdentifier:
             if self.verbose:
                 print(f"{Colors.OKBLUE}ℹ️  INFO: {redacted_message}{Colors.ENDC}")
         elif level == "success":
-            # Suppress all logs at success level containing secret-indicative words to prevent information disclosure
-            lowered = redacted_message.lower()
-            if any(s in lowered for s in ["password", "api key", "secret", "token"]):
-                return  # Do not log if message contains secret-indicative keywords
             print(f"{Colors.OKGREEN}✅ {redacted_message}{Colors.ENDC}")
     
     def add_problem(self, problem: Problem):
