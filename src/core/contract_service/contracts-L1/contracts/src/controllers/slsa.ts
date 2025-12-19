@@ -53,8 +53,7 @@ export class SLSAController {
     const relativePath = path.relative(SAFE_ROOT, resolvedPath);
     if (
       relativePath.startsWith('..') ||
-      path.isAbsolute(relativePath) ||
-      (!resolvedPath.startsWith(`${SAFE_ROOT}${path.sep}`) && resolvedPath !== SAFE_ROOT)
+      path.isAbsolute(relativePath)
     ) {
       throw new PathValidationError();
     }

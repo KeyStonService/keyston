@@ -107,14 +107,15 @@ class CodeRunner(Tool):
     def __init__(self, config: ToolConfig | None = None):
         super().__init__(config or ToolConfig(name="code_runner", tool_type=ToolType.CODE_RUNNER))
 
-    def _build_execution_command(self, language: str, temp_file: str) -> list[str]:
+    def _build_execution_command(self, lang_config: dict[str, str], temp_file: str) -> list[str]:
         """
         Construct an execution command using an allowlist to avoid user-controlled binaries.
         """
-        allowed = self.SUPPORTED_LANGUAGES.get(language)
-        if not allowed:
-            raise ValueError(f"Unsupported language: {language}")
-        return [allowed["cmd"], temp_file]
+        allowed_cmds = {cfg["cmd"] for cfg in self.SUPPORTED_LANGUAGES.values()}
+        base_cmd = lang_config.get("cmd")
+        if base_cmd not in allowed_cmds:
+            raise ValueError("Unsupported language command")
+        return [base_cmd, temp_file]
 
     async def execute(self, request: ExecutionRequest) -> ExecutionResult:
         """執行代碼"""
@@ -141,7 +142,7 @@ class CodeRunner(Tool):
                 temp_file = f.name
 
             # 執行代碼
-            exec_cmd = self._build_execution_command(language, temp_file)
+            exec_cmd = self._build_execution_command(lang_config, temp_file)
             result = subprocess.run(
                 exec_cmd,
                 capture_output=True,
