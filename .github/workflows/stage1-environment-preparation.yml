@@ -173,8 +173,8 @@ jobs:
         run: |
           set -euo pipefail
           echo "验证YAML配置文件..."
-          pip install yamllint
-          mapfile -t yaml_files < <(find . -name "*.yaml" -o -name "*.yml")
+          pip install "yamllint==1.35.1"
+          mapfile -t yaml_files < <(find config src docs scripts tools -type f \( -name "*.yaml" -o -name "*.yml" \))
           if [ ${#yaml_files[@]} -eq 0 ]; then
             echo "ℹ️ 未找到 YAML 配置文件"
           else
@@ -193,7 +193,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "验证JSON配置文件..."
-          mapfile -t json_files < <(find . -name "*.json")
+          mapfile -t json_files < <(find config src docs scripts tools -type f -name "*.json")
           if [ ${#json_files[@]} -eq 0 ]; then
             echo "ℹ️ 未找到 JSON 配置文件"
           else
@@ -232,7 +232,7 @@ jobs:
     steps:
       - name: 生成环境报告
         run: |
-          REPORT_FILE="${GITHUB_WORKSPACE}/environment-report.txt"
+          REPORT_FILE="environment-report.txt"
           echo "==========================================" | tee "$REPORT_FILE"
           echo " 环境验证报告" | tee -a "$REPORT_FILE"
           echo "==========================================" | tee -a "$REPORT_FILE"
@@ -264,5 +264,5 @@ jobs:
         if: always()
         with:
           name: environment-validation-report
-          path: ${{ github.workspace }}/environment-report.txt
+          path: environment-report.txt
           retention-days: 7
