@@ -174,7 +174,19 @@ jobs:
           set -euo pipefail
           echo "验证YAML配置文件..."
           pip install "yamllint==1.35.1"
-          mapfile -t yaml_files < <(find config src docs scripts tools -type f \( -name "*.yaml" -o -name "*.yml" \))
+          SEARCH_DIRS=(config src docs scripts tools)
+          EXISTING_DIRS=()
+          for dir in "${SEARCH_DIRS[@]}"; do
+            if [ -d "$dir" ]; then
+              EXISTING_DIRS+=("$dir")
+            fi
+          done
+          if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 YAML 搜索目錄"
+            yaml_files=()
+          else
+            mapfile -t yaml_files < <(find "${EXISTING_DIRS[@]}" -type f \( -name "*.yaml" -o -name "*.yml" \))
+          fi
           if [ ${#yaml_files[@]} -eq 0 ]; then
             echo "ℹ️ 未找到 YAML 配置文件"
           else
@@ -193,7 +205,19 @@ jobs:
         run: |
           set -euo pipefail
           echo "验证JSON配置文件..."
-          mapfile -t json_files < <(find config src docs scripts tools -type f -name "*.json")
+          SEARCH_DIRS=(config src docs scripts tools)
+          EXISTING_DIRS=()
+          for dir in "${SEARCH_DIRS[@]}"; do
+            if [ -d "$dir" ]; then
+              EXISTING_DIRS+=("$dir")
+            fi
+          done
+          if [ ${#EXISTING_DIRS[@]} -eq 0 ]; then
+            echo "ℹ️ 未找到 JSON 搜索目錄"
+            json_files=()
+          else
+            mapfile -t json_files < <(find "${EXISTING_DIRS[@]}" -type f -name "*.json")
+          fi
           if [ ${#json_files[@]} -eq 0 ]; then
             echo "ℹ️ 未找到 JSON 配置文件"
           else
