@@ -1,22 +1,14 @@
 import { createHash, randomUUID } from 'crypto';
 import { readFile, stat, realpath } from 'fs/promises';
 import path from 'path';
-import { tmpdir } from 'os';
 
 import sanitize from 'sanitize-filename';
 
 import { PathValidationError } from '../errors';
 import { SLSAAttestationService, SLSAProvenance, BuildMetadata } from './attestation';
 
-const systemTmpDir = tmpdir();
-
 const getSafeRoot = (): string =>
   path.resolve(process.env.SAFE_ROOT_PATH ?? path.resolve(process.cwd(), 'safefiles'));
-
-const isSubPath = (candidate: string, base: string): boolean => {
-  const relative = path.relative(base, candidate);
-  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
-};
 
 const assertPathValid = (filePath: string): void => {
   if (!filePath || typeof filePath !== 'string') {
@@ -49,7 +41,6 @@ const assertPathValid = (filePath: string): void => {
     throw new PathValidationError('Invalid file path');
   }
 };
-};
 
 async function resolveSafePath(userInputPath: string): Promise<string> {
   assertPathValid(userInputPath);
@@ -57,17 +48,23 @@ async function resolveSafePath(userInputPath: string): Promise<string> {
   const safeRoot = getSafeRoot();
   const normalizedInput = path.normalize(userInputPath);
 
-  let canonicalPath: string;
   let canonicalSafeRoot: string;
   try {
-    // Canonicalize the safe root directory for robust prefix checking.
+    canonicalSafeRoot = await realpath(safeRoot);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      throw new PathValidationError('Invalid file path');
+    }
+    throw error;
+  }
 
+  let canonicalPath: string;
+  try {
     // Always resolve user input relative to the canonical safe root.
     const resolvedCandidate = path.resolve(canonicalSafeRoot, normalizedInput);
 
     // Canonicalize the candidate to resolve any symlinks.
     canonicalPath = await realpath(resolvedCandidate);
-    canonicalSafeRoot = await realpath(safeRoot);
   } catch (error) {
     // Allow caller to handle missing files (ENOENT) or root misconfiguration.
     throw error;
