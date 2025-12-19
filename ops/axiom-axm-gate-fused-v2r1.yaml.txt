@@ -1,0 +1,646 @@
+# AXIOM × AXM Gate bundle baseline (frozen release)
+schema_version: "axiom.baseline.v2"
+schema_type: "BaselineAttestationAndIndex"
+metadata:
+  name: axiom-axm-gate-fused
+  version: "v2r1-frozen"
+  description: "AXIOM × AXM Gate 統合凍結版（分域三層・可重播・SSOT-ready）"
+  bundle_name: "axiom-axm-gate-fused-v2r1.yaml.txt"
+  generated_at: "2025-10-09T00:00:00Z"
+  freeze_status: "freeze-candidate"
+immutable: true
+retention: keep-forever
+
+gate_mapping_ref: "ops/gates.mapping.yaml.txt"
+ci_workflow_ref: ".github/workflows/gate-lock-attest.yaml.txt"
+
+ssot_hash:
+  sha3_512: "<TO_BE_FILLED_BY_PIPELINE>"
+  blake3: "<TO_BE_FILLED_BY_PIPELINE>"
+
+baseline_reference: "axiom-global-baseline-v2r1"
+baseline_hash:
+  sha3_512: "<TO_BE_FILLED_BY_PIPELINE>"
+  blake3: "<TO_BE_FILLED_BY_PIPELINE>"
+
+spec:
+  hash_policy:
+    primary: "sha3-512"
+    secondary: "blake3"
+    quantum_resistant: true
+  signing:
+    methods: ["cosign", "dsse_intoto"]
+    cosign:
+      sig_dir: "outputs/signatures"
+      bundle_enabled: true
+    dsse_intoto:
+      statement_path: "outputs/attestation.intoto.json.txt"
+    vault_transit:
+      enabled: true
+      key_ref: "transit/keys/cosign-axiom"
+
+  layers:
+    - id: "A"
+      scope: "source"
+      description: "原始輸入與正規化基線"
+      includes:
+        - "src/"
+        - "schemas/"
+        - "outputs/canonical/canonical.jsonl.txt"
+        - "outputs/hash/**"
+      required_artifacts:
+        - "outputs/canonical/canonical.jsonl.txt"
+        - "outputs/hash/digest.jsonl.txt"
+        - "outputs/locks/A.source.hashlock.json.txt"
+      hash:
+        sha3_512: ""
+        blake3: ""
+      lock: "outputs/locks/A.source.hashlock.json.txt"
+
+    - id: "B"
+      scope: "attest"
+      description: "政策、SBOM 與供應鏈證明"
+      includes:
+        - "policy/**"
+        - "sbom/**"
+        - "attestation/**"
+        - "provenance/**"
+        - "outputs/attestation.intoto.json.txt"
+        - "outputs/provenance.intoto.json.txt"
+        - "outputs/sbom.cdx.json.txt"
+        - "outputs/grype.report.json.txt"
+      depends_on: "A"
+      required_artifacts:
+        - "outputs/locks/B.attest.hashlock.json.txt"
+        - "outputs/sbom.cdx.json.txt"
+        - "outputs/grype.report.json.txt"
+      optional_placeholders_when_lazy_attestation: true
+      placeholder_files:
+        - "outputs/attestation.placeholder.json.txt"
+        - "outputs/provenance.placeholder.json.txt"
+      hash:
+        sha3_512: ""
+        blake3: ""
+      lock: "outputs/locks/B.attest.hashlock.json.txt"
+
+    - id: "C"
+      scope: "freeze"
+      description: "治理與最終凍結階段"
+      includes:
+        - "governance/**"
+        - "release/**"
+        - "outputs/signatures/**"
+        - "outputs/locks/C.freeze.hashlock.json.txt"
+      depends_on: "B"
+      required_artifacts:
+        - "outputs/locks/C.freeze.hashlock.json.txt"
+        - "outputs/frozen.bundle.json.txt"
+        - "outputs/signatures/*.pem"
+        - "outputs/signatures/*.sig"
+      post_finalize:
+        - "outputs/release-index.v1.yaml.txt"
+        - "outputs/manifest-map.v1.yaml.txt"
+      hash:
+        sha3_512: ""
+        blake3: ""
+      lock: "outputs/locks/C.freeze.hashlock.json.txt"
+
+  workflow_bindings:
+    entry_workflow: "ops/exec.workflows.yaml.txt"
+    mapping_precedence: "inline"
+    mapping_file: "ops/gates.mapping.yaml.txt"
+    signing_profile: "vault-transit-cosign+dsse"
+    lock_job: "ops/jobs/lock_bundle.sh.txt"
+    attest_job: "ops/jobs/attest_bundle.sh.txt"
+    output_dir: "outputs"
+    sbom:
+      cdx: "outputs/sbom.cdx.json.txt"
+      grype: "outputs/grype.report.json.txt"
+
+  pipeline_ready:
+    canonicalize:
+      required: true
+      engine: "scripts__supply-chain__canonicalize.py.txt"
+      output: "outputs/canonical/canonical.jsonl.txt"
+    compute_hash:
+      required: true
+      primary: "sha3-512"
+      secondary: "blake3"
+      output: "outputs/hash/digest.jsonl.txt"
+    lock_bundle:
+      required: true
+      output: "outputs/locks/full-bundle.hashlock.json.txt"
+    attest_bundle:
+      required: true
+      outputs:
+        - "outputs/locks/full-bundle.hashlock.json.txt.sig"
+        - "outputs/attestation.intoto.json.txt"
+        - "outputs/provenance.intoto.json.txt"
+    sbom_and_scan:
+      required: true
+      outputs:
+        - "outputs/sbom.cdx.json.txt"
+        - "outputs/grype.report.json.txt"
+
+  governance_policies:
+    - path: "ops/policies/pipeline.memory.policy.v1.0.0.yaml.txt"
+      purpose: "Memory governance and staged Gate batching under 48GiB SSOT environment"
+      required: true
+      immutable: true
+      hash:
+        sha3_512: "<TO_BE_FILLED_BY_PIPELINE>"
+        blake3: "<TO_BE_FILLED_BY_PIPELINE>"
+
+---
+apiVersion: axiom.io/v1
+kind: GateMapping
+metadata:
+  name: axiom-gates-01-48
+  description: "AXIOM 01~48 全鏈路門閘映射（YAML 即是代碼）"
+spec:
+  defaults:
+    severity: enforce
+    exception_required_fields: ["id","reason","owner","expire_at","scope","evidence"]
+    policy_bundles:
+      - ops/canonical.rules.yaml.txt
+      - ops/hash.lock.policy.yaml.txt
+      - ops/toolchain.manifest.yaml.txt
+      # 若在生產環境啟用 Cosign/Attestation 企業規則，請解除下列註解以追加專屬 policy（不影響現行驗證器）
+      # - ops/attestation.verify.policy.yaml.txt
+
+  stages:
+    - id: L0
+      name: "入庫/編目"
+    - id: L1
+      name: "建置/供應鏈"
+    - id: L2
+      name: "部署/執行"
+    - id: L3
+      name: "運行/治理"
+
+  gates:
+    - gate_id: G01
+      gate_name: "檔名規範 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "policy://naming/dual-extension"
+      checks:
+        - key: file.naming.double_extension
+          expect: [".yaml.txt",".json.txt"]
+        - key: file.naming.forbid_extensions
+          expect: [".sh",".py",".exe",".bin"]
+      artifacts:
+        requires: []
+        produces: []
+      remediation: "統一雙副檔名；將 .sh/.py 移至外部已簽章工具或轉為 YAML workflow。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G02
+      gate_name: "目錄扁平化 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "policy://structure/flat-directory"
+      checks:
+        - key: dir.structure.flat_only
+          expect: true
+      artifacts: {}
+      remediation: "禁止未授權子層；以 registry/index 方式連結，不以子目錄嵌套。"
+      exceptions:
+        allowed: true
+        schema: "exception/flat-dir.yaml"
+
+    - gate_id: G03
+      gate_name: "Canonical 投影 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "ops/canonical.rules.yaml.txt"
+      checks:
+        - key: canonical.yaml.safe_load
+          expect: pass
+        - key: canonical.json.compact_single_line
+          expect: stable
+      artifacts:
+        produces:
+          - "outputs/canonical/canonical.jsonl.txt"
+      remediation: "修正 YAML 結構或鍵排序；嚴禁 fallback 到 raw 模式。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G04
+      gate_name: "編碼與換行 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "policy://encoding/utf8-lf"
+      checks:
+        - key: text.encoding
+          expect: "utf-8"
+        - key: text.newline
+          expect: "LF"
+        - key: text.bom
+          expect: "absent"
+      artifacts: {}
+      remediation: "統一 UTF-8（無 BOM）、LF 換行；用 editorconfig 或 pre-commit 強制。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G05
+      gate_name: "雙雜湊計算 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "ops/hash.lock.policy.yaml.txt#double-hash"
+      checks:
+        - key: hash.primary
+          expect: "sha3-512"
+        - key: hash.secondary
+          expect: "blake3"
+      artifacts:
+        produces:
+          - "outputs/hash/digest.jsonl.txt"
+      remediation: "補齊 BLAKE3 或 SHA3-512，並對齊 concat 規則。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G06
+      gate_name: "HashLock 一致性 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "ops/hash.lock.policy.yaml.txt#lock-match"
+      checks:
+        - key: lock.working_set.equals
+          expect: true
+      artifacts:
+        requires:
+          - "outputs/locks/full-bundle.hashlock.json.txt"
+      remediation: "重新執行 lock-bundle；確保鎖對齊 working set。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G07
+      gate_name: "Hash 摘要聚合 Gate"
+      gate_stage: L0
+      severity: enforce
+      policy_ref: "ops/hash.lock.policy.yaml.txt#aggregate"
+      checks:
+        - key: hash.concat.primary
+          expect: 'join "path,sha3_512\n" sorted'
+        - key: hash.concat.secondary
+          expect: 'join "path,blake3\n" sorted'
+      artifacts: {}
+      remediation: "統一排序與 concat 格式；避免漏列檔案。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G08
+      gate_name: "簽章工具鏈驗證 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "ops/toolchain.manifest.yaml.txt#verify"
+      checks:
+        - key: tools.verify.sha3_512
+          expect: pass
+        - key: tools.verify.version_match
+          expect: pass
+      artifacts: {}
+      remediation: "更新工具至指定版本並補齊 sha3-512；拒用未知來源。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G09
+      gate_name: "受控工具白名單 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "ops/toolchain.manifest.yaml.txt#allowlist"
+      checks:
+        - key: tools.allowed
+          expect: ["cosign","b3sum","syft","grype","jq"]
+      artifacts: {}
+      remediation: "移除未列名工具；改用白名單內工具或提出變更。"
+      exceptions:
+        allowed: true
+        expire_at_required: true
+
+    - gate_id: G10
+      gate_name: "未簽章二進位阻擋 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://supply/signing-required"
+      checks:
+        - key: binary.signed
+          expect: true
+      artifacts: {}
+      remediation: "以 cosign 或企業簽章服務簽名；提供公鑰/證明。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G11
+      gate_name: "Attestation 存在性 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://supply/attestation-required"
+      checks:
+        - key: attest.intoto.exists
+          expect: true
+      artifacts:
+        requires:
+          - "outputs/attestation.intoto.json.txt"
+          - "outputs/provenance.intoto.json.txt"
+      remediation: "執行 attest-bundle 產生 DSSE/SLSA。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G12
+      gate_name: "Attestation 驗章 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://supply/attestation-verify"
+      checks:
+        - key: attest.cosign.verify
+          expect: pass
+      artifacts:
+        requires:
+          - "outputs/attestation.intoto.json.txt"
+      remediation: "修正簽章或公鑰指紋；重簽與重驗。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G13
+      gate_name: "Provenance 完整性 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://supply/slsa-provenance"
+      checks:
+        - key: provenance.slsa.required_fields
+          expect: complete
+      artifacts:
+        requires:
+          - "outputs/provenance.intoto.json.txt"
+      remediation: "補齊建置環境/依賴/來源追溯欄位。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G14
+      gate_name: "SBOM 生成 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://sbom/cyclonedx"
+      checks:
+        - key: sbom.format
+          expect: "cyclonedx-json"
+      artifacts:
+        produces:
+          - "outputs/sbom.cdx.json.txt"
+      remediation: "統一 CycloneDX JSON；確保與映像/工件一致。"
+      exceptions:
+        allowed: true
+
+    - gate_id: G15
+      gate_name: "CVE 掃描 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://vuln/grype"
+      checks:
+        - key: vuln.high_or_critical
+          expect: 0
+      artifacts:
+        requires:
+          - "outputs/sbom.cdx.json.txt"
+        produces:
+          - "outputs/grype.report.json.txt"
+      remediation: "修復高危 CVE，或提交時限性豁免並標注修補計畫。"
+      exceptions:
+        allowed: true
+        expire_at_required: true
+
+    - gate_id: G16
+      gate_name: "SBOM 秘密洩露掃描 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://security/secret-scan"
+      checks:
+        - key: secret.scan.findings
+          expect: 0
+      artifacts: {}
+      remediation: "移除明文秘密並改用 Vault/變數引用。"
+      exceptions:
+        allowed: true
+        require_evidence: true
+
+    - gate_id: G17
+      gate_name: "政策覆蓋率 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://governance/policy-coverage"
+      checks:
+        - key: policy.coverage.hit_ratio
+          expect: ">=0.95"
+      artifacts: {}
+      remediation: "補齊 Kyverno/OPA 規則，提升命中率。"
+      exceptions:
+        allowed: true
+        owner_required: true
+
+    - gate_id: G18
+      gate_name: "變更範圍 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://change/scope-guard"
+      checks:
+        - key: change.scope.allowed_paths
+          expect: ["ops/**",".github/workflows/**","outputs/**"]
+      artifacts: {}
+      remediation: "限制 PR 變更範圍或分拆至合適模組。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G19
+      gate_name: "版本鎖定 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://version/lock"
+      checks:
+        - key: version.lock.match
+          expect: true
+      artifacts: {}
+      remediation: "更新 version.lock/phase.lock 並重新雜湊。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G20
+      gate_name: "命名空間/URN 合法 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://naming/urn-uri"
+      checks:
+        - key: identity.urn.regex
+          expect: '^urn:axiom:module:[a-z0-9\\-]+:v1$'
+      artifacts: {}
+      remediation: "修正 URN/URI 以符合平臺規約。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G21
+      gate_name: "Workflow 入口唯一 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://workflow/single-entry"
+      checks:
+        - key: workflow.entry.unique
+          expect: true
+      artifacts: {}
+      remediation: "統一入口至 ops/exec.workflows.yaml.txt。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G22
+      gate_name: "Job 參數驗證 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://workflow/job-params"
+      checks:
+        - key: job.params.required
+          expect: complete
+      artifacts: {}
+      remediation: "補齊必填參數與型別；更新 schema。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G23
+      gate_name: "Runtime 指令語義 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://workflow/action-allowlist"
+      checks:
+        - key: runtime.action.allowed
+          expect: ["tools.verify","canonicalize.scan","hash.compute","hash.aggregate","persist.outputs","attest.generate","sign.blob","verify.signature"]
+      artifacts: {}
+      remediation: "移除未知 action 或提出新增流程提案。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G24
+      gate_name: "CI 觸發條件 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://ci/trigger-guard"
+      checks:
+        - key: ci.trigger.allowed_branches
+          expect: ["main","release/*","hotfix/*"]
+      artifacts: {}
+      remediation: "修正 workflow on: 設定；限制觸發來源。"
+      exceptions:
+        allowed: true
+
+    - gate_id: G25
+      gate_name: "跨域合約配對預檢 Gate"
+      gate_stage: L2
+      severity: enforce
+      policy_ref: "policy://cross-domain/contract-match"
+      checks:
+        - key: contract.exports_imports.match_rate
+          expect: ">=1.0"
+        - key: contract.schema.compatibility
+          expect: pass
+      artifacts:
+        produces:
+          - "outputs/cd/topology.preview.json.txt"
+      remediation: "補齊 imports 或修正 exports 名稱/版本以達成配對。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G26
+      gate_name: "嚴禁動態代碼 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://runtime/no-dynamic-code"
+      checks:
+        - key: runtime.dynamic.code_injection
+          expect: false
+        - key: runtime.network.unapproved_download
+          expect: false
+      artifacts: {}
+      remediation: "去除動態下載/執行；改為已簽章工具與 YAML 驅動。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G27
+      gate_name: "證書/金鑰來源 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://keys/source-of-trust"
+      checks:
+        - key: key.trust.origin
+          expect: ["vault","hsm","approved-pubkey"]
+      artifacts: {}
+      remediation: "移至 Vault/HSM；註冊公鑰指紋。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G28
+      gate_name: "秘密管理 Gate"
+      gate_stage: L1
+      severity: enforce
+      policy_ref: "policy://secrets/no-plaintext"
+      checks:
+        - key: secret.plaintext
+          expect: 0
+      artifacts: {}
+      remediation: "移除明文；以 secretRef 或 vaultRef。"
+      exceptions:
+        allowed: true
+        expire_at_required: true
+
+    - gate_id: G29
+      gate_name: "鏡像簽章 Gate"
+      gate_stage: L2
+      severity: enforce
+      policy_ref: "policy://images/signing-required"
+      checks:
+        - key: image.signed
+          expect: true
+      artifacts: {}
+      remediation: "為鏡像加簽並上傳簽章證據。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G30
+      gate_name: "鏡像漏洞 Gate"
+      gate_stage: L2
+      severity: enforce
+      policy_ref: "policy://images/vuln-zero-high"
+      checks:
+        - key: image.cve.high
+          expect: 0
+      artifacts: {}
+      remediation: "修補或替換鏡像；中危需附豁免與 SLA。"
+      exceptions:
+        allowed: true
+        expire_at_required: true
+
+    - gate_id: G31
+      gate_name: "K8s CRDs 檢測 Gate"
+      gate_stage: L2
+      severity: enforce
+      policy_ref: "policy://k8s/crd-registered"
+      checks:
+        - key: k8s.crd.registration_rate
+          expect: "100%"
+      artifacts: {}
+      remediation: "先部署 CRDs 再套用資源清單。"
+      exceptions:
+        allowed: false
+
+    - gate_id: G32
+      gate_name: "網路策略 Gate"
+      gate_stage: L2
+      severity: enforce
+      policy_ref: "policy://network/deny-all-egress"
+      checks:
+        - key: netpolicy.egress.default_deny
+          expect: true
+        - key: netpolicy.allow.cluster_local
+          expect: true
+      artifacts: {}
+      remediation: "補齊 deny-all 與 allow-lan 規則。"
+      exceptions:
+        allowed: false
