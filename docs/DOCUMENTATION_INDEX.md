@@ -153,6 +153,8 @@ cat governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
 | [docs/HOTSPOT_HEATMAP.md](./docs/HOTSPOT_HEATMAP.md)                                            | 違規熱點地圖             | 演算法、色碼、Top 熱點             |
 | [docs/MIGRATION_FLOW.md](./docs/MIGRATION_FLOW.md)                                              | 叢集遷移流模型           | 歷史/建議流程、遷移路徑            |
 | [docs/KNOWLEDGE_HEALTH.md](./docs/KNOWLEDGE_HEALTH.md)                                          | 知識庫健康度量           | 85/100 分數、趨勢、A-F 等級        |
+| [docs/LIVING_KNOWLEDGE_BASE.md](./docs/LIVING_KNOWLEDGE_BASE.md) ⭐                             | 活體知識庫               | 感知、建模、診斷、回饋循環         |
+| [src/governance/dimensions/99-metadata/](../src/governance/dimensions/99-metadata/) ⭐ **NEW**  | 元數據管理中心           | 元數據治理、溯源、血緣、知識庫整合 |
 | [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md) ⭐                 | PR #2 深度分析與行動計劃 | 差距分析、下一步、資源需求         |
 | [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md) ⭐ **NEW**      | 未完成任務掃描報告       | 1,952 項待辦、優先級、行動計劃     |
 | [governance/language-governance-report.md](./governance/language-governance-report.md)          | 治理報告                 | 違規清單、合規狀態                 |
