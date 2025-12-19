@@ -29,6 +29,7 @@ spec:
         image: autofix/auto-repair:latest
         securityContext:
           allowPrivilegeEscalation: false
+          privileged: false
         ports:
         - containerPort: 8082
         envFrom:
