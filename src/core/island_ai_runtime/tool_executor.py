@@ -208,13 +208,6 @@ class CodeRunner(Tool):
                     if any(danger in func_name for danger in dangerous_modules):
                         return False, f"Dangerous module call detected: {func_name}"
 
-            # Check for dangerous imports
-            if isinstance(node, ast.Import):
-                for alias in node.names:
-                    if alias.name in {"os", "subprocess"} and alias.asname is None:
-                        # Allow imports but flag if used unsafely
-                        pass
-
         return True, ""
 
     def _validate_javascript_code(self, code: str) -> tuple[bool, str]:
