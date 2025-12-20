@@ -28,24 +28,34 @@ from pathlib import Path
 
 def _import_kebab_module(module_alias: str, file_name: str, legacy_alias: str | None = None):
     """
-    Import a module from a kebab-case filename and register it under namespaced aliases.
+    Load kebab-case source files and expose them under underscore-based aliases.
+
+    This helper is used to load Python modules whose source files use kebab-case
+    filenames (for example, ``"base-agent.py"``) and to expose them under stable,
+    underscore-based aliases in ``sys.modules``.
 
     Parameters
     ----------
     module_alias:
-        Underscore-based alias for the module (e.g. ``"base_agent"``), combined
-        with this package name to form ``qualified_name = f"{__name__}.{module_alias}"``.
+        The underscore-based alias for the module (e.g. ``"base_agent"``),
+        *not* a full dotted module path. This value is combined with this
+        package's name to form the primary qualified module name:
+        ``qualified_name = f"{__name__}.{module_alias}"``. The module object
+        is always registered in ``sys.modules`` under this ``qualified_name``.
     file_name:
-        Kebab-case filename to load (e.g. ``"base-agent.py"``) relative to this directory.
+        The kebab-case filename of the module to load (e.g. ``"base-agent.py"``),
+        resolved relative to the directory containing this ``__init__`` file.
     legacy_alias:
-        Optional fully-qualified legacy import path (e.g. ``"agents.base_agent"``)
-        that will be registered to the same module object for backward compatibility.
+        Optional fully-qualified legacy module path (e.g. ``"agents.base_agent"``).
+        When provided, the same module object is additionally registered in
+        ``sys.modules[legacy_alias]`` for backwards compatibility, so both
+        ``qualified_name`` and ``legacy_alias`` refer to the identical module.
 
     Returns
     -------
     module | None
-        The loaded module object, or ``None`` if the source file is missing or could
-        not be loaded.
+        The imported module instance, or ``None`` if the source file does not
+        exist or a spec could not be created.
     """
     module_path = Path(__file__).parent / file_name
     if not module_path.exists():
