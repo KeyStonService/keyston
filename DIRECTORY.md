@@ -22,6 +22,7 @@
   - `archive/` 歷史資料
 
 ## 推薦閱讀路線
+
 1. `README.md`（平台概覽與目錄導覽）
 2. `machinenativeops.yaml`（統一配置來源）
 3. `docs/DIRECTORY.md` 或 `governance/README.md` 依需求深入
