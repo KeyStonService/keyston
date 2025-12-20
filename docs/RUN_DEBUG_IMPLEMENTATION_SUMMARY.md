@@ -230,6 +230,7 @@ response = await interface.process_message("如何優化？")
 - **聊天介面**: 適合自然語言互動
 
 ### 2. 智能診斷
+
 - 自動錯誤分析
 - 原因推斷
 - 修復建議
