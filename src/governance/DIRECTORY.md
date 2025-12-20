@@ -1,261 +1,122 @@
 # governance
 
 ## 目錄職責
-此目錄包含 [待補充：模組名稱] 的源代碼實現，負責 [待補充：核心功能描述]。作為系統的 [待補充：定位描述]，它與 [待補充：相關目錄] 緊密協作。
 
-- `00-vision-strategy/`
-- `01-architecture/`
-- `02-decision/`
-- `03-change/`
-- `04-risk/`
-- `05-compliance/`
-- `06-security/`
-- `07-audit/`
-- `08-process/`
-- `09-performance/`
-- `10-policy/`
-- `11-tools-systems/`
-- `12-culture-capability/`
-- `13-metrics-reporting/`
-- `14-improvement/`
-- `15-economic/`
-- `16-psychological/`
-- `17-sociological/`
-- `18-complex-system/`
-- `19-evolutionary/`
-- `20-intent/`
-- `21-ecological/`
-- `22-aesthetic/`
-- `23-policies/`
-- `24-registry/`
-- `25-principles/`
-- `26-tools/`
-- `27-templates/`
-- `28-tests/`
-- `29-docs/`
-- `30-agents/`
-- `31-schemas/`
-- `32-rules/`
-- `33-common/`
-- `34-config/`
-- `35-scripts/`
-- `36-modules/`
-- `37-behavior-contracts/`
-- `38-sbom/`
-- `39-automation/`
-- `40-self-healing/`
-- `60-contracts/`
-- `70-audit/`
-- `80-feedback/`
-- `_legacy/`
-- `_scratch/`
-- `ci/`
-- `dimensions/`
-- `index/`
-- `packages/`
-- `policies/`
-- `schemas/`
-- `scripts/`
+此目錄為 MachineNativeOps 的**治理框架**，包含治理政策、規則、安全配置和合規資源。採用分層閉環治理架構，整合 GitOps、Policy as Code、Intent-based Orchestration、AI Agent Governance 與 Feedback Loop。
 
-## 檔案說明
+## 分層治理架構 (Layered Governance Framework)
 
-### ADVANCED_RESTRUCTURING_REPORT.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+```
+策略層 (Strategy)     → 10-policy: Policy as Code Framework
+協調層 (Orchestration) → 20-intent: Intent-based Orchestration
+執行層 (Execution)    → 30-agents, 39-automation, 40-self-healing
+觀測層 (Observability) → 60-contracts, 70-audit
+回饋層 (Feedback)     → 80-feedback: Closed-Loop Optimization
+```
 
-### API_CONTRACT_README.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+## 子目錄分類
 
-### COMPREHENSIVE_SYSTEM_ANALYSIS.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 核心維度 (00-09)
 
-### CRITICAL_CLARIFICATION_執行能力澄清.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `00-vision-strategy/` | 願景與策略 |
+| `01-architecture/` | 架構定義 |
+| `02-decision/` | 決策記錄 |
+| `03-change/` | 變更管理 |
+| `04-risk/` | 風險管理 |
+| `05-compliance/` | 合規管理 |
+| `06-security/` | 安全管理 |
+| `07-audit/` | 審計配置 |
+| `08-process/` | 流程定義 |
+| `09-performance/` | 效能指標 |
 
-### DEBT_MANAGEMENT_README.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 策略與意圖 (10-22)
 
-### DEBT_TRACKING.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `10-policy/` | Policy as Code Framework |
+| `20-intent/` | Intent-based Orchestration |
+| `15-economic/` | 經濟模型 |
+| `16-psychological/` | 心理學維度 |
+| `17-sociological/` | 社會學維度 |
+| `18-complex-system/` | 複雜系統 |
+| `19-evolutionary/` | 演化維度 |
+| `21-ecological/` | 生態維度 |
+| `22-aesthetic/` | 美學維度 |
 
-### EXPANSION_COMPLETION_REPORT.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 規則與資源 (23-38)
 
-### GOVERNANCE_INTEGRATION_ARCHITECTURE.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `23-policies/` | 治理政策（主要） |
+| `24-registry/` | 模組註冊表 |
+| `25-principles/` | 設計原則 |
+| `26-tools/` | 治理工具 |
+| `27-templates/` | 模板 |
+| `28-tests/` | 測試套件 |
+| `29-docs/` | 文檔 |
+| `30-agents/` | AI Agent 治理 |
+| `31-schemas/` | Schema 定義（主要） |
+| `32-rules/` | 治理規則 |
+| `33-common/` | 共用工具 |
+| `34-config/` | 配置 |
+| `35-scripts/` | 自動化腳本（主要） |
+| `36-modules/` | 模組規範 |
+| `37-behavior-contracts/` | 行為契約 |
+| `38-sbom/` | 軟體物料清單 |
 
-### INSTANT_DEBT_RESOLUTION_REPORT.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 自動化與自我修復 (39-40)
 
-### INSTANT_EXECUTION_PROOF_即時執行證明.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `39-automation/` | 自動化引擎 |
+| `40-self-healing/` | 自我修復框架 |
 
-### INSTANT_EXECUTION_README.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 契約與審計 (60-80)
 
-### INSTANT_TRANSFORMATION_SUMMARY.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `60-contracts/` | 契約註冊表 |
+| `70-audit/` | 審計與追蹤 |
+| `80-feedback/` | 閉環回饋 |
 
-### INTEGRATION_EXAMPLE.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 支援目錄
 
-### LOGICAL_VALIDATION.json
-- **職責**：JSON 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `dimensions/` | 治理維度定義 |
+| `index/` | 索引 |
+| `packages/` | 套件 |
+| `ci/` | CI 整合 |
+| `_legacy/` | 已廢棄資源 |
+| `_scratch/` | 實驗性資源 |
 
-### MARKET_ALIGNMENT_REPORT.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+## 核心配置檔案
 
-### Makefile
-- **職責**：Makefile
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 檔案 | 職責 |
+|------|------|
+| `governance.yaml` | 主治理配置 |
+| `governance-map.yaml` | 治理映射 |
+| `governance-index.json` | 治理索引 |
+| `PHASE4_STATE.yaml` | Phase 4 狀態 |
+| `PHASE5_STATE.yaml` | Phase 5 狀態 |
 
-### PHASE4_STATE.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+## 依賴規則
 
-### PHASE5_STATE.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+**可被依賴於**：
+- CI/CD workflows - 策略驗證和合規檢查
+- `src/core/` - 讀取 AI 憲法和倫理規則
+- Security tools - SBOM 和安全策略
 
-### PR172_DEEP_ANALYSIS_AND_EVALUATION.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### PR172_評估摘要.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### README.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### RESTRUCTURING_BACKUP.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### RESTRUCTURING_GUIDE.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### RESTRUCTURING_SUMMARY.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### TECHNICAL_DEBT_REPORT.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### VERSION
-- **職責**：其他文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### deploy-instant.sh
-- **職責**：Shell 腳本
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### docker-compose.yml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### governance-index.json
-- **職責**：JSON 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### governance-map.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### governance.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### pyproject.toml
-- **職責**：TOML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### requirements.txt
-- **職責**：Python 依賴文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### setup.py
-- **職責**：Python 源代碼 - Setup configuration for SynergyMesh Governance Framework
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### technical-debt-report.json
-- **職責**：JSON 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### version.py
-- **職責**：Python 源代碼 - SynergyMesh Governance Framework Version
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-
-## 職責分離說明
-此目錄實現了嚴格的職責分離原則：
-- [待補充：各層次的職責說明]
+**不應依賴**：
+- 任何實作代碼 - 治理應獨立於實作
+- `runtime/` - 治理定義不應依賴運行時
 
 ## 設計原則
 
-### 單一職責原則 (SRP) 遵循
-1. **模組級別職責單一化**：[待補充]
-2. **文件級別職責專一化**：[待補充]
-3. **接口級別職責清晰化**：[待補充]
+1. **Policy as Code**：所有策略以程式碼形式定義
+2. **分層解耦**：策略、執行、觀測、回饋分層
+3. **閉環治理**：策略—執行—監控—回饋閉環
+4. **可審計性**：完整的審計追蹤
 
-### 未來維護注意事項
-1. **添加新功能時**：[待補充]
-2. **修改現有功能時**：[待補充]
-3. **擴展策略**：[待補充]
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*

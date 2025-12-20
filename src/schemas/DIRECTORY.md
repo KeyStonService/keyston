@@ -1,89 +1,57 @@
 # schemas
 
 ## 目錄職責
-此目錄包含 [待補充：模組名稱] 的源代碼實現，負責 [待補充：核心功能描述]。作為系統的 [待補充：定位描述]，它與 [待補充：相關目錄] 緊密協作。
 
+此目錄為 MachineNativeOps 的 **Schema 定義層**，包含各種 YAML Schema 定義，用於驗證配置文件和資料結構。
 
+## Schema 檔案說明
 
-## 檔案說明
+### 治理相關
 
-### audit-report.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 檔案 | 職責 |
+|------|------|
+| `audit-report.schema.yaml` | 審計報告格式定義 |
+| `change-request.schema.yaml` | 變更請求格式定義 |
+| `exception-request.schema.yaml` | 例外請求格式定義 |
+| `review-meeting.schema.yaml` | 審查會議格式定義 |
+| `validation-policy.schema.yaml` | 驗證策略格式定義 |
 
-### change-request.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 命名與資源
 
-### exception-request.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 檔案 | 職責 |
+|------|------|
+| `naming-spec.schema.yaml` | 命名規範定義 |
+| `naming-policy.schema.yaml` | 命名策略定義 |
+| `naming-observability.schema.yaml` | 命名可觀測性定義 |
+| `resource-name.schema.yaml` | 資源名稱格式定義 |
 
-### metric-definition.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+### 營運相關
 
-### migration-plan.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### naming-observability.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### naming-policy.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### naming-spec.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### remediation-playbook.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### resource-name.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### review-meeting.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### validation-policy.schema.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-
-## 職責分離說明
-此目錄實現了嚴格的職責分離原則：
-- [待補充：各層次的職責說明]
+| 檔案 | 職責 |
+|------|------|
+| `metric-definition.schema.yaml` | 指標定義格式 |
+| `migration-plan.schema.yaml` | 遷移計畫格式定義 |
+| `remediation-playbook.schema.yaml` | 修復劇本格式定義 |
 
 ## 設計原則
 
-### 單一職責原則 (SRP) 遵循
-1. **模組級別職責單一化**：[待補充]
-2. **文件級別職責專一化**：[待補充]
-3. **接口級別職責清晰化**：[待補充]
+1. **嚴格驗證**：所有配置必須符合 Schema
+2. **版本控制**：Schema 變更需版本管理
+3. **向後相容**：新版本 Schema 需相容舊資料
+4. **文檔完整**：每個 Schema 需包含說明和範例
 
-### 未來維護注意事項
-1. **添加新功能時**：[待補充]
-2. **修改現有功能時**：[待補充]
-3. **擴展策略**：[待補充]
+## 依賴規則
 
----
+**可被依賴於**：
+- `config/` - 驗證配置文件
+- `src/governance/` - 治理相關驗證
+- CI/CD pipelines - 自動化驗證
 
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
+**不應依賴**：
+- 任何實作代碼 - Schema 應獨立於實作
+
+## 與其他目錄的關係
+
+- **config/**：配置文件使用這些 Schema 驗證
+- **src/governance/**：治理相關 Schema 與治理框架整合
+

@@ -1,121 +1,90 @@
 # config
 
 ## 目錄職責
-此目錄包含 [待補充：環境/系統] 的配置文件，管理 [待補充：配置類型]。
 
-- `agents/`
-- `autofix/`
-- `automation/`
-- `ci-cd/`
-- `conftest/`
-- `deployment/`
-- `dev/`
-- `docker/`
-- `environments/`
-- `governance/`
-- `integrations/`
-- `monitoring/`
-- `pipelines/`
-- `prod/`
-- `security/`
-- `templates/`
+此目錄為 MachineNativeOps 的**統一配置中心**，管理所有環境配置、工具設定和系統參數。
 
-## 檔案說明
+## 子目錄說明
 
-### .auto-fix-bot.yml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+| 子目錄 | 職責 |
+|--------|------|
+| `dev/` | 開發環境配置 |
+| `prod/` | 生產環境配置 |
+| `environments/` | 環境變數定義 |
+| `agents/` | AI 代理配置 |
+| `autofix/` | 自動修復機器人配置 |
+| `automation/` | 自動化流程配置 |
+| `ci-cd/` | CI/CD 管道配置 |
+| `deployment/` | 部署相關配置 |
+| `docker/` | Docker 配置 |
+| `governance/` | 治理配置 |
+| `integrations/` | 外部整合配置 |
+| `monitoring/` | 監控配置 |
+| `pipelines/` | 管道配置 |
+| `security/` | 安全配置 |
+| `templates/` | 配置模板 |
+| `conftest/` | OPA/Conftest 策略 |
+| `build-tools/` | 構建工具配置 |
 
-### .dockerignore
-- **職責**：其他文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### .eslintrc.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### .markdownlint.json
-- **職責**：JSON 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### .markdownlintignore
-- **職責**：其他文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### .pre-commit-config.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### .prettierrc
-- **職責**：其他文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### README.md
-- **職責**：Markdown 文檔
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### brand-mapping.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### cloud-agent-delegation.yml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### dependencies.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### elasticsearch-config.sh
-- **職責**：Shell 腳本
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### external_repos.yaml.example
-- **職責**：其他文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### integrations-index.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
-
-### island-control.yml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+## 核心配置文件
 
 ### unified-config-index.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+- **職責**：統一配置索引（v2.1.0）
+- **功能**：所有配置的單一真實來源，對齊 governance/00-vision-strategy
+
+### .auto-fix-bot.yml
+- **職責**：Auto-Fix Bot 配置
+- **功能**：自動修復 CI 失敗的規則和行為定義
+
+### .pre-commit-config.yaml
+- **職責**：Pre-commit hooks 配置
+- **功能**：定義提交前執行的檢查腳本
+
+### .eslintrc.yaml / .prettierrc / .markdownlint.json
+- **職責**：Linter 配置
+- **功能**：代碼風格和格式檢查規則
+
+### cloud-agent-delegation.yml
+- **職責**：雲端代理委派配置
+- **功能**：定義雲端代理的任務委派規則
+
+### dependencies.yaml
+- **職責**：依賴管理配置
+- **功能**：定義專案依賴和版本約束
+
+### integrations-index.yaml
+- **職責**：整合索引
+- **功能**：外部系統整合的配置映射
+
+### island-control.yml
+- **職責**：Island 控制配置
+- **功能**：多島嶼系統的控制參數
 
 ### yaml-module-system.yaml
-- **職責**：YAML 配置文件
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
+- **職責**：YAML 模組系統配置
+- **功能**：YAML 為基礎的模組定義和載入
 
+## 配置層級
 
-## 職責分離說明
-- 環境特定配置與通用配置分離
-- 不同類型的配置分開管理
-- 敏感信息使用環境變量或密鑰管理
+```
+machinenativeops.yaml (根配置)
+    ↓
+config/unified-config-index.yaml (統一索引)
+    ↓
+config/{dev,prod}/*.yaml (環境配置)
+    ↓
+config/{module}/*.yaml (模組配置)
+```
 
 ## 設計原則
-配置文件層次化，支持繼承和覆蓋機制，確保配置的可維護性和安全性。
 
----
+1. **單一真實來源**：`unified-config-index.yaml` 為所有配置的入口
+2. **環境分離**：dev/prod 配置獨立，透過環境變數切換
+3. **可繼承覆蓋**：子配置可繼承父配置並覆蓋特定值
+4. **敏感資訊分離**：密鑰和憑證不存放於此，使用環境變數或密鑰管理服務
 
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
+## 與其他目錄的關係
+
+- **machinenativeops.yaml**：根目錄的主配置
+- **governance/**：治理相關的政策定義
+- **deploy/**：使用這裡的配置進行部署

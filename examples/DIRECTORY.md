@@ -1,29 +1,57 @@
 # examples
 
 ## 目錄職責
-此目錄包含 [待補充：示例類型] 的示例代碼和模板，用於 [待補充：示例用途]。
 
-- `advanced/`
-- `basic/`
-- `debug-examples/`
-- `templates/`
+此目錄包含 MachineNativeOps 平台的**範例代碼與專案模板**，供開發者學習和快速啟動新專案。
+
+## 子目錄說明
+
+| 子目錄 | 說明 | 內容 |
+|--------|------|------|
+| `basic/` | 基礎入門範例 | hello-world, simple-service |
+| `advanced/` | 進階使用範例 | microservices 架構範例 |
+| `templates/` | 專案模板 | api-service, batch-job, web-app |
+| `debug-examples/` | 調試與問題排查範例 | 調試技巧示範 |
 
 ## 檔案說明
 
 ### enterprise-orchestrator-example.py
-- **職責**：Python 源代碼
-- **功能**：[待補充具體功能說明]
-- **依賴**：[待補充依賴關係]
 
+- **職責**：企業級 SynergyMesh Orchestrator 使用示例
+- **功能**：
+  - 多租戶設置和管理
+  - 依賴解析和優化
+  - 容錯和重試機制
+  - 資源配額管理
+  - 審計日誌
+  - 監控和指標
+- **依賴**：`src/core/orchestrators` 模組
 
-## 職責分離說明
-- 基礎示例與高級示例分離
-- 不同功能的示例分開組織
-- 示例代碼與文檔說明配套
+## 目錄結構
 
-## 設計原則
-示例代碼簡潔明了，易於理解和使用，確保示例的實用性和教育性。
+```
+examples/
+├── basic/                    # 基礎範例
+│   ├── hello-world/         # 最簡單的入門範例
+│   └── simple-service/      # 簡單服務範例
+├── advanced/                 # 進階範例
+│   └── microservices/       # 微服務架構範例
+├── templates/                # 專案模板
+│   ├── api-service/         # API 服務模板
+│   ├── batch-job/           # 批次作業模板
+│   └── web-app/             # Web 應用模板
+├── debug-examples/           # 調試範例
+└── enterprise-orchestrator-example.py  # 企業編排器範例
+```
 
----
+## 使用方式
 
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
+1. **學習基礎**：從 `basic/hello-world` 開始
+2. **建立新專案**：複製 `templates/` 下的適當模板
+3. **進階學習**：參考 `advanced/` 和企業編排器範例
+
+## 與其他目錄的關係
+
+- **src/**：範例中引用的核心模組來源
+- **docs/tutorials/**：對應的教學文檔
+- **config/dev/templates/**：更多開發模板
