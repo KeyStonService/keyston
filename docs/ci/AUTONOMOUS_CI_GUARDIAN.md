@@ -33,6 +33,7 @@ Autonomous CI Guardian 是一個智能 CI/CD 工作流程，提供預測性失�
 - ✅ Python 語法錯誤
 
 **輸出：**
+
 - 詳細的問題檢測報告
 - 具體的修復步驟建議
 - 問題統計和摘要
@@ -111,6 +112,7 @@ permissions:
 ### 自動執行
 
 工作流程會在以下情況自動執行：
+
 1. 創建新的 Pull Request
 2. 更新 Pull Request (push 新的 commit)
 3. 重新打開已關閉的 Pull Request
@@ -136,6 +138,7 @@ permissions:
 ### 1. 關注風險警告
 
 當收到高風險警告時：
+
 - 仔細審查變更內容
 - 考慮將大型變更拆分為多個小 PR
 - 增加測試覆蓋率

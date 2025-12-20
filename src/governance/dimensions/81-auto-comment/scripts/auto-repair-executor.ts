@@ -21,8 +21,8 @@ import {
   DiagnosisReport,
   DiagnosedError,
   FixStep,
-  AutoFixPlan,
 } from "./ci-diagnosis-engine";
+import { parseCommandSegments } from "./safe-commands";
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -205,6 +205,40 @@ export class AutoRepairExecutor {
   }
 
   /**
+   * 安全地執行命令，避免 shell 注入
+   */
+  private runCommandSafely(command: string): { output: string; status: number } {
+    const segments = parseCommandSegments(command);
+    const outputs: string[] = [];
+    let lastStatus = 0;
+
+    for (const args of segments) {
+      const result: SpawnSyncReturns<string> = spawnSync(args[0], args.slice(1), {
+        encoding: "utf-8",
+        timeout: 300000,
+        stdio: "pipe",
+        cwd: process.cwd(),
+      });
+
+      lastStatus = result.status ?? 0;
+      if (result.error) {
+        throw result.error;
+      }
+      if (lastStatus !== 0) {
+        const commandLabel = args.join(" ");
+        const error = new Error(result.stderr || `Command failed: ${commandLabel}`);
+        (error as any).status = lastStatus;
+        throw error;
+      }
+      if (result.stdout) {
+        outputs.push(result.stdout);
+      }
+    }
+
+    return { output: outputs.join("\n"), status: lastStatus };
+  }
+
+  /**
    * 執行單個修復步驟
    */
   private async executeStep(step: FixStep): Promise<StepResult> {
@@ -225,24 +259,20 @@ export class AutoRepairExecutor {
 
     while (retries < this.config.maxRetries) {
       try {
-        const result = execSync(step.command, {
-          encoding: "utf-8",
-          timeout: 300000, // 5 分鐘超時
-          stdio: "pipe",
-          cwd: process.cwd(),
-        });
+        const result = this.runCommandSafely(step.command);
 
         return {
           step,
           success: true,
-          output: result || "命令執行成功",
+          output: result.output || "命令執行成功",
           duration: Date.now() - startTime,
         };
-      } catch (error: any) {
-        lastError = error.message || error.toString();
+      } catch (error: unknown) {
+        lastError = error instanceof Error ? error.message : String(error);
 
         // 某些命令失敗但實際上是成功的（如 eslint --fix 可能返回非零）
-        if (step.action.includes("fix") && error.status === 1) {
+        const status = (error as { status?: number }).status;
+        if (step.action.includes("fix") && status === 1) {
           // 檢查是否實際有修改
           const gitStatus = execSync("git status --porcelain", { encoding: "utf-8" });
           if (gitStatus.trim()) {

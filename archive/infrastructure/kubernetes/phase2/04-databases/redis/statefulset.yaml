@@ -99,6 +99,8 @@ spec:
       # Redis 主容器
       - name: redis
         image: redis:7-alpine
+        securityContext:
+          allowPrivilegeEscalation: false
         imagePullPolicy: IfNotPresent
         
         command:

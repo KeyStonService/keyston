@@ -25,13 +25,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-# Try to import OpenAI
-try:
-    import openai
-    HAS_OPENAI = True
-except ImportError:
-    HAS_OPENAI = False
-    print("⚠️  OpenAI package not installed. AI fixes will not be available.")
+from guardrails_client import chat_completion, client_available, get_api_key
 
 # ---------------------------------------------------------------------
 # Configuration
@@ -171,15 +165,12 @@ class AIFixGenerator:
     """Generate code fixes using AI"""
     
     def __init__(self, api_key: str = None):
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
-        self.available = False
-        
-        if self.api_key and HAS_OPENAI:
-            openai.api_key = self.api_key
-            self.available = True
-            print("✓ OpenAI API configured")
+        self.api_key = api_key or get_api_key()
+        self.available = client_available(self.api_key)
+        if self.available:
+            print("✓ Guardrails/OpenAI client configured")
         else:
-            print("⚠️  OpenAI API not available. Fixes will be limited to rule-based suggestions.")
+            print("⚠️  AI client not available. Fixes will be limited to rule-based suggestions.")
     
     def generate_fixes(self, issues: list[dict], repo_root: str) -> list[dict]:
         """Generate fixes for the given issues"""
@@ -263,15 +254,16 @@ Please provide a fix for this issue. Output as JSON with:
 - fixed_code: The corrected code (full file or relevant section)
 """
                 
-                # Call OpenAI API
-                response = openai.ChatCompletion.create(
+                # Call AI client via guardrails_client wrapper
+                response = chat_completion(
                     model="gpt-4",
                     messages=[
                         {"role": "system", "content": AI_FIX_SYSTEM_PROMPT},
                         {"role": "user", "content": context}
                     ],
                     temperature=0.3,
-                    max_tokens=1500
+                    max_tokens=1500,
+                    api_key=self.api_key,
                 )
                 
                 ai_response = response.choices[0].message.content

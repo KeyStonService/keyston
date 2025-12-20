@@ -1,6 +1,0 @@
-packages:
-  - mcp-servers
-  - core/contract_service/contracts-L1/contracts
-  - core/advisory-database
-  - apps/web
-  - src/ai

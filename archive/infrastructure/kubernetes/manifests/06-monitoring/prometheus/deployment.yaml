@@ -19,6 +19,8 @@ spec:
       containers:
       - name: prometheus
         image: prom/prometheus:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 9090
         args:

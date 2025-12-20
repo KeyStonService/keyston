@@ -50,6 +50,8 @@ spec:
       containers:
       - name: contracts-l1
         image: autofix/contracts-l1:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         imagePullPolicy: Always
         
         ports:

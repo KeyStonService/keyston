@@ -14,7 +14,10 @@ from typing import Dict, List, Optional, Any, Callable, Set
 from datetime import datetime
 import uuid
 import asyncio
+import logging
 from collections import defaultdict
+
+logger = logging.getLogger(__name__)
 
 
 class AgentRole(Enum):
@@ -257,12 +260,13 @@ class AgentCommunicationBus:
                             await callback(message)
                         else:
                             callback(message)
-                    except Exception:
-                        pass  # Log error in production
+                    except Exception as e:
+                        logger.error(f"Error in message callback for topic {topic}: {e}")
                 
             except asyncio.TimeoutError:
                 continue
-            except Exception:
+            except Exception as e:
+                logger.error(f"Critical error in message processing: {e}")
                 break
 
 

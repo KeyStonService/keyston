@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
+import { PathValidationError } from '../errors';
 import { sendSuccess, sendError, createTimestamp, getErrorMessage } from '../middleware/response';
 import { ProvenanceService } from '../services/provenance';
-import { PathValidationError } from '../errors';
 
 export class ProvenanceController {
   private provenanceService: ProvenanceService;

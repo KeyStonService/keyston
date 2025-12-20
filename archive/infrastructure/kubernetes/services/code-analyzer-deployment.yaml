@@ -20,6 +20,8 @@ spec:
       containers:
       - name: code-analyzer
         image: autofix-bot/code-analyzer:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8080
         - containerPort: 9090

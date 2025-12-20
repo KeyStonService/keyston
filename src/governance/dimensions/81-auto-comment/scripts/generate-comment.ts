@@ -22,8 +22,9 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 import { CIDiagnosisEngine, DiagnosisReport, DiagnosedError } from "./ci-diagnosis-engine";
+import { parseCommandSegments } from "./safe-commands";
 
 // =============================================================================
 // TYPE DEFINITIONS
@@ -251,6 +252,37 @@ function isProtectedBranch(branch?: string): boolean {
   return branch ? protectedBranches.includes(branch) : false;
 }
 
+function runSafeCommand(
+  command: string,
+  options?: { stdio?: "inherit" | "pipe"; timeoutMs?: number }
+): string {
+  const segments = parseCommandSegments(command);
+  const stdio = options?.stdio ?? "pipe";
+  const timeout = options?.timeoutMs ?? 300000;
+  let output = "";
+
+  for (const args of segments) {
+    const result = spawnSync(args[0], args.slice(1), {
+      encoding: "utf-8",
+      stdio: stdio === "inherit" ? "inherit" : "pipe",
+      timeout,
+    });
+
+    if (result.error) {
+      throw result.error;
+    }
+    if (typeof result.status === "number" && result.status !== 0) {
+      const commandLabel = args.join(" ");
+      throw new Error(result.stderr?.toString() || `Command failed: ${commandLabel}`);
+    }
+    if (stdio === "pipe" && result.stdout) {
+      output += result.stdout;
+    }
+  }
+
+  return output.trim();
+}
+
 function executeAutoFix(
   fixCommand: string,
   branch?: string
@@ -262,15 +294,17 @@ function executeAutoFix(
 
   try {
     console.log(`執行自動修復: ${fixCommand}`);
-    execSync(fixCommand, { stdio: "inherit" });
+    runSafeCommand(fixCommand, { stdio: "inherit" });
 
     // 檢查是否有變更
-    const status = execSync("git status --porcelain").toString().trim();
+    const status = runSafeCommand("git status --porcelain");
     if (status) {
       // 提交變更
-      execSync('git add .');
-      execSync('git commit -m "[auto-fix] 自動修復格式錯誤 (81-auto-comment)"');
-      const commitSha = execSync("git rev-parse HEAD").toString().trim();
+      runSafeCommand("git add .", { stdio: "inherit" });
+      runSafeCommand('git commit -m "[auto-fix] 自動修復格式錯誤 (81-auto-comment)"', {
+        stdio: "inherit",
+      });
+      const commitSha = runSafeCommand("git rev-parse HEAD");
       console.log(`自動修復已提交: ${commitSha}`);
       return { success: true, commit: commitSha };
     }
@@ -566,7 +600,7 @@ async function executeAutoRepairPlan(
 
       console.log(`  執行: ${step.command}`);
       try {
-        execSync(step.command, { stdio: "inherit" });
+        runSafeCommand(step.command, { stdio: "inherit" });
       } catch {
         // 某些命令可能返回非零但實際成功
         console.log(`  ⚠️ 命令返回非零，繼續執行...`);
@@ -574,11 +608,13 @@ async function executeAutoRepairPlan(
     }
 
     // 檢查是否有變更
-    const status = execSync("git status --porcelain").toString().trim();
+    const status = runSafeCommand("git status --porcelain");
     if (status) {
-      execSync("git add .");
-      execSync(`git commit -m "[auto-fix] 自動修復 CI 錯誤 (診斷 ID: ${report.id})"`);
-      const commitSha = execSync("git rev-parse HEAD").toString().trim();
+      runSafeCommand("git add .", { stdio: "inherit" });
+      runSafeCommand(`git commit -m "[auto-fix] 自動修復 CI 錯誤 (診斷 ID: ${report.id})"`, {
+        stdio: "inherit",
+      });
+      const commitSha = runSafeCommand("git rev-parse HEAD");
       console.log(`✅ 自動修復已提交: ${commitSha}`);
       return { success: true, commit: commitSha };
     }

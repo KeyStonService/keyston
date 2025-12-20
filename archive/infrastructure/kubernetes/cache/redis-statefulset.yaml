@@ -42,6 +42,8 @@ spec:
             secretKeyRef:
               name: autofix-bot-secrets
               key: redis-password
+        securityContext:
+          allowPrivilegeEscalation: false
         resources:
           requests:
             cpu: 1

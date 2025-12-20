@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
+import tempfile
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -98,7 +100,28 @@ class BootstrapContext:
         if self.apply:
             # Security: Only execute scripts from trusted YAML manifests
             # The manifest file should be version-controlled and reviewed
-            subprocess.run(formatted, shell=True, check=True, cwd=self.repo_root)
+            tmp_path: str | None = None
+            old_umask = os.umask(0o077)
+            try:
+                with tempfile.NamedTemporaryFile(
+                    "w", delete=False, prefix="bootstrap_", suffix=".sh"
+                ) as tmp:
+                    tmp.write(formatted)
+                    tmp_path = tmp.name
+            finally:
+                os.umask(old_umask)
+            try:
+                if tmp_path is not None:
+                    os.chmod(tmp_path, 0o600)
+                    subprocess.run(["/bin/bash", tmp_path], check=True, cwd=self.repo_root)
+            finally:
+                if tmp_path is not None:
+                    try:
+                        Path(tmp_path).unlink()
+                    except OSError:
+                        # Best-effort cleanup: ignore errors if file was already deleted
+                        # or if we lack permissions (e.g., concurrent deletion, unmounted fs)
+                        pass
             self.log("[shell] executed block")
         else:
             self.log("[dry-run] shell block:\n" + formatted)

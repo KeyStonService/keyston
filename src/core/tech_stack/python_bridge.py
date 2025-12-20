@@ -19,6 +19,9 @@ import os
 import sys
 import subprocess
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PythonVersion(Enum):
@@ -138,7 +141,8 @@ class PythonEnvironment:
                 return await self._use_system_python()
             else:
                 return False
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to create Python environment: {e}")
             return False
     
     async def _create_virtualenv(self) -> bool:
@@ -201,7 +205,8 @@ class PythonEnvironment:
             self.installed_packages[package.name] = package.version or "latest"
             
             return True
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to install package {package.name}: {e}")
             return False
     
     async def install_requirements(self, requirements_path: str) -> bool:
@@ -218,7 +223,8 @@ class PythonEnvironment:
             
             await asyncio.sleep(0.1)
             return True
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to install requirements from {requirements_path}: {e}")
             return False
     
     async def destroy(self) -> bool:
@@ -236,7 +242,8 @@ class PythonEnvironment:
             
             self.is_active = False
             return True
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to destroy environment {self.config.name}: {e}")
             return False
     
     def get_status(self) -> Dict[str, Any]:
@@ -545,7 +552,8 @@ class PythonBridge:
             
             self._initialized = True
             return True
-        except Exception:
+        except Exception as e:
+            logger.error(f"Failed to initialize Python bridge: {e}")
             return False
     
     def create_executor(

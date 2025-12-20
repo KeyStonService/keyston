@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-12-20T02:18:27.640297",
+  "summary": {
+    "total_tests": 10,
+    "passed_tests": 9,
+    "failed_tests": 1,
+    "success_rate": 90.0
+  },
+  "results": [
+    {
+      "name": "\u6838\u5fc3\u6a21\u7d44\u5c0e\u5165\u6e2c\u8a66",
+      "status": "FAIL",
+      "reason": "Test returned False"
+    },
+    {
+      "name": "\u696d\u52d9\u6a21\u7d44\u5c0e\u5165\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "\u6578\u64da\u6a21\u578b\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "API \u7aef\u9ede\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "\u914d\u7f6e\u6587\u4ef6\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "Docker \u6587\u4ef6\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "\u8173\u672c\u6b0a\u9650\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "\u4f9d\u8cf4\u6587\u4ef6\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "\u76ee\u9304\u7d50\u69cb\u6e2c\u8a66",
+      "status": "PASS"
+    },
+    {
+      "name": "Demo Core \u6e2c\u8a66",
+      "status": "PASS"
+    }
+  ]
+}

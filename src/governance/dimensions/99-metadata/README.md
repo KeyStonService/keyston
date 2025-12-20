@@ -116,6 +116,7 @@
 元數據按照以下四大類型進行管理：
 
 #### 技術元數據 (Technical Metadata)
+
 - **描述**: 數據源、格式、結構、依賴關係
 - **屬性**:
   - `data_source`: 數據來源
@@ -476,6 +477,7 @@ dependencies:
 ## 元規範約束 (Meta-Specification Constraints)
 
 作為元規範層維度，99-metadata：
+
 - ✅ 可被其他維度依賴
 - ❌ 不可依賴下游模組（防止循環）
 - ✅ 定義元數據管理的基礎標準

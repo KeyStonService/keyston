@@ -34,7 +34,17 @@ export default function Mermaid({ chart }: MermaidProps) {
       
       mermaid.render(id, chart).then(({ svg }) => {
         if (ref.current) {
-          ref.current.innerHTML = svg;
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(svg, "image/svg+xml");
+          const parserErrors = doc.getElementsByTagName('parsererror');
+          if (parserErrors && parserErrors.length > 0) {
+            console.error('Mermaid SVG parse error:', parserErrors[0].textContent || 'Unknown parser error');
+            ref.current.textContent = 'Error rendering diagram';
+            return;
+          }
+          const svgElement = doc.documentElement;
+          const target = ref.current;
+          target.replaceChildren(target.ownerDocument.importNode(svgElement, true));
         }
       }).catch(err => {
         console.error('Mermaid rendering error:', err);

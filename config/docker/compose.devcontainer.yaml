@@ -32,6 +32,8 @@ services:
     restart: unless-stopped
     ports:
       - '5432:5432'
+    security_opt:
+      - no-new-privileges:true
     environment:
       POSTGRES_DB: life_system
       POSTGRES_USER: life_admin

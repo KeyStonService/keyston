@@ -2,8 +2,10 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import helmet from 'helmet';
 
+// eslint-disable-next-line import/no-named-as-default
 import config from './config';
 import { errorMiddleware, notFoundMiddleware } from './middleware/error';
+// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
 import loggingMiddleware from './middleware/logging';
 import routes from './routes';
 
@@ -11,6 +13,7 @@ const app: Application = express();
 
 app.use(helmet());
 app.use(cors());
+// eslint-disable-next-line import/no-named-as-default-member
 app.use(express.json());
 
 app.use(loggingMiddleware);

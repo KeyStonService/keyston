@@ -24,13 +24,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-# Try to import OpenAI, but make it optional
-try:
-    import openai
-    HAS_OPENAI = True
-except ImportError:
-    HAS_OPENAI = False
-    print("⚠️  OpenAI package not installed. AI suggestions will use rule-based fallback.")
+from guardrails_client import chat_completion, client_available, get_api_key
 
 # ---------------------------------------------------------------------
 # File Loading Functions
@@ -217,15 +211,12 @@ class AISuggestionGenerator:
     """Generate suggestions using OpenAI GPT"""
     
     def __init__(self, api_key: str = None, model: str = "gpt-4"):
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        self.api_key = api_key or get_api_key()
         self.model = model
         
-        if self.api_key and HAS_OPENAI:
-            openai.api_key = self.api_key
-            self.available = True
-        else:
-            self.available = False
-            print("⚠️  AI suggestions not available. Set OPENAI_API_KEY environment variable.")
+        self.available = client_available(self.api_key)
+        if not self.available:
+            print("⚠️  AI suggestions not available. Set AI_INTEGRATIONS_OPENAI_API_KEY or OPENAI_API_KEY.")
     
     def generate_suggestions(self, context: str) -> str:
         """Generate AI-powered suggestions"""
@@ -233,14 +224,15 @@ class AISuggestionGenerator:
             return "AI suggestions not available. Using rule-based fallback."
         
         try:
-            response = openai.ChatCompletion.create(
+            response = chat_completion(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": AI_SYSTEM_PROMPT},
                     {"role": "user", "content": context}
                 ],
                 temperature=0.7,
-                max_tokens=2000
+                max_tokens=2000,
+                api_key=self.api_key,
             )
             
             return response.choices[0].message.content
@@ -264,7 +256,7 @@ class AIRefactorReviewer:
         
         # Initialize generators
         self.rule_generator = RuleBasedSuggestionGenerator()
-        self.ai_generator = AISuggestionGenerator() if HAS_OPENAI else None
+        self.ai_generator = AISuggestionGenerator()
     
     def load_all_reports(self):
         """Load all input reports"""

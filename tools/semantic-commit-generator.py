@@ -27,15 +27,9 @@ Semantic Commit Message Generator
 import argparse
 import os
 
+from guardrails_client import chat_completion, get_api_key, is_client_available
 from rich import print
 from rich.console import Console
-
-# OpenAI 是可選的
-try:
-    import openai
-    OPENAI_AVAILABLE = True
-except ImportError:
-    OPENAI_AVAILABLE = False
 
 console = Console()
 
@@ -49,18 +43,12 @@ def generate_semantic_commit_ai(
 ) -> str:
     """使用 AI 生成 semantic commit message"""
     
-    if not OPENAI_AVAILABLE:
-        console.print("[yellow]Warning: OpenAI not available, using rule-based generation[/yellow]")
-        return generate_semantic_commit_rules(files, action, reason, violation_type)
-    
     if not api_key:
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = get_api_key()
     
-    if not api_key:
-        console.print("[yellow]Warning: No OpenAI API key, using rule-based generation[/yellow]")
+    if not is_client_available(api_key):
+        console.print("[yellow]Warning: No OpenAI/Guardrails client, using rule-based generation[/yellow]")
         return generate_semantic_commit_rules(files, action, reason, violation_type)
-    
-    openai.api_key = api_key
     
     # 準備 prompt
     prompt = f"""Generate a semantic commit message following Conventional Commits specification.
@@ -87,7 +75,7 @@ Format:
 Generate the commit message:"""
     
     try:
-        response = openai.ChatCompletion.create(
+        response = chat_completion(
             model="gpt-4",
             messages=[
                 {
@@ -100,7 +88,8 @@ Generate the commit message:"""
                 }
             ],
             max_tokens=300,
-            temperature=0.7
+            temperature=0.7,
+            api_key=api_key,
         )
         
         commit_msg = response.choices[0].message.content.strip()

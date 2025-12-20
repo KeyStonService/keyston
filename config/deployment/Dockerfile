@@ -69,6 +69,11 @@ RUN npm run build --if-present
 # ─────────────────────────────────────────────────────────────────────────────
 FROM base AS development
 
+# Create non-root user for development
+RUN addgroup -g 1001 -S synergymesh \
+    && adduser -S synergymesh -u 1001 -G synergymesh \
+    && chown -R synergymesh:synergymesh /app
+
 # Copy dependencies
 COPY --from=dependencies /app/node_modules ./node_modules
 
@@ -87,12 +92,18 @@ ENV NODE_ENV=development
 ENV SYNERGYMESH_ENV=development
 
 # Start development server
+USER synergymesh
 CMD ["npm", "run", "dev"]
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Test Stage: For running tests
 # ─────────────────────────────────────────────────────────────────────────────
 FROM dependencies AS test
+
+# Create non-root user for test stage
+RUN addgroup -g 1001 -S synergymesh \
+    && adduser -S synergymesh -u 1001 -G synergymesh \
+    && chown -R synergymesh:synergymesh /app
 
 # Copy source code
 COPY . .
@@ -102,6 +113,7 @@ COPY --from=python-deps /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Run tests
+USER synergymesh
 CMD ["npm", "test"]
 
 # ─────────────────────────────────────────────────────────────────────────────

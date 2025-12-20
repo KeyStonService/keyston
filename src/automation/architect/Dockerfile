@@ -34,6 +34,12 @@ ENV ENVIRONMENT=production
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import sys; sys.exit(0)"
 
+# 創建非 root 用戶並切換
+RUN groupadd -g 1001 architect && \
+    useradd -m -u 1001 -g architect architect && \
+    chown -R architect:architect /app
+USER architect
+
 # 暴露端口（如果需要 API 服務）
 EXPOSE 8000
 

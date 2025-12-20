@@ -26,6 +26,8 @@ spec:
           containers:
           - name: backup
             image: postgres:15-alpine
+            securityContext:
+              allowPrivilegeEscalation: false
             command:
             - /bin/sh
             - -c

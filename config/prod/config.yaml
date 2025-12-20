@@ -1,0 +1,263 @@
+# MachineNativeOps Production Configuration
+# 生產環境配置
+
+# 應用程式配置
+app:
+  name: "MachineNativeOps"
+  version: "1.0.0"
+  environment: "production"
+  debug: false
+  
+# 服務配置
+services:
+  business_api:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    timeout: 30
+    max_connections: 1000
+    
+  workflow_engine:
+    max_concurrent_workflows: 50
+    workflow_timeout: 3600
+    retry_attempts: 3
+    
+  policy_engine:
+    policy_refresh_interval: 300
+    cache_ttl: 600
+
+# 數據庫配置
+database:
+  type: "postgresql"
+  host: "${DB_HOST:localhost}"
+  port: "${DB_PORT:5432}"
+  name: "${DB_NAME:machinenativeops}"
+  user: "${DB_USER:mno_user}"
+  password: "${DB_PASSWORD}"
+  ssl_mode: "require"
+  pool_size: 20
+  max_overflow: 30
+  
+# Redis 配置
+redis:
+  host: "${REDIS_HOST:localhost}"
+  port: "${REDIS_PORT:6379}"
+  password: "${REDIS_PASSWORD}"
+  db: 0
+  ssl: true
+  pool_size: 10
+
+# 安全配置
+security:
+  jwt:
+    secret_key: "${JWT_SECRET_KEY}"
+    algorithm: "HS256"
+    access_token_expire_minutes: 30
+    refresh_token_expire_days: 7
+    
+  cors:
+    allowed_origins: ["${FRONTEND_URL}"]
+    allowed_methods: ["GET", "POST", "PUT", "DELETE"]
+    allowed_headers: ["*"]
+    allow_credentials: true
+    
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+    burst_size: 10
+
+# 監控配置
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+    metrics_path: "/metrics"
+    
+  jaeger:
+    enabled: true
+    endpoint: "${JAEGER_ENDPOINT}"
+    service_name: "machinenativeops-business"
+    
+  health_check:
+    enabled: true
+    interval: 30
+    timeout: 5
+
+# 日誌配置
+logging:
+  level: "INFO"
+  format: "json"
+  
+  handlers:
+    console:
+      enabled: true
+      level: "INFO"
+      
+    file:
+      enabled: true
+      level: "INFO"
+      path: "/var/log/machinenativeops"
+      max_size: "100MB"
+      backup_count: 10
+      
+    syslog:
+      enabled: true
+      level: "WARNING"
+      address: "${SYSLOG_ADDRESS}"
+      facility: "local0"
+
+# 業務配置
+business:
+  projects:
+    max_per_user: 100
+    default_priority: "medium"
+    auto_cleanup_days: 365
+    
+  tasks:
+    max_per_project: 1000
+    default_estimated_hours: 8.0
+    auto_archive_days: 90
+    
+  workflows:
+    default_timeout: 3600
+    max_step_timeout: 300
+    retry_policy:
+      max_attempts: 3
+      backoff_factor: 2
+      
+  resources:
+    default_cost_per_hour: 0.5
+    utilization_threshold: 0.8
+
+# 緩存配置
+cache:
+  type: "redis"
+  ttl:
+    user_sessions: 1800
+    business_data: 300
+    metrics: 60
+    
+# 消息隊列配置
+message_queue:
+  type: "rabbitmq"
+  host: "${RABBITMQ_HOST:localhost}"
+  port: "${RABBITMQ_PORT:5672}"
+  user: "${RABBITMQ_USER}"
+  password: "${RABBITMQ_PASSWORD}"
+  virtual_host: "/mno"
+  
+  exchanges:
+    business_events: "mno.business"
+    workflow_events: "mno.workflows"
+    
+  queues:
+    project_tasks: "mno.project.tasks"
+    task_notifications: "mno.task.notifications"
+
+# 存儲配置
+storage:
+  type: "s3"
+  bucket: "${S3_BUCKET:machinenativeops-data}"
+  region: "${AWS_REGION:us-east-1}"
+  access_key: "${AWS_ACCESS_KEY_ID}"
+  secret_key: "${AWS_SECRET_ACCESS_KEY}"
+  
+  encryption:
+    enabled: true
+    algorithm: "AES256"
+    
+  lifecycle:
+    transition_days: 30
+    expiration_days: 365
+
+# 備份配置
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # 每天凌晨2點
+  retention_days: 30
+  s3_bucket: "${BACKUP_BUCKET:machinenativeops-backups}"
+  
+  databases:
+    - name: "primary"
+      type: "postgresql"
+      connection: "${DATABASE_URL}"
+      
+  files:
+    - path: "/var/lib/machinenativeops"
+      exclude_patterns: ["*.tmp", "*.log"]
+
+# 服務發現配置
+service_discovery:
+  enabled: true
+  type: "consul"
+  host: "${CONSUL_HOST:localhost}"
+  port: "${CONSUL_PORT:8500}"
+  
+  service:
+    name: "machinenativeops-business"
+    tags: ["business", "api", "v1"]
+    health_check_interval: 10
+    deregister_critical_service_after: "30s"
+
+# 負載均衡配置
+load_balancer:
+  enabled: true
+  algorithm: "round_robin"
+  health_check:
+    path: "/health"
+    interval: 5
+    timeout: 2
+    healthy_threshold: 2
+    unhealthy_threshold: 3
+
+# 自動擴展配置
+autoscaling:
+  enabled: true
+  min_replicas: 2
+  max_replicas: 10
+  target_cpu_utilization: 70
+  target_memory_utilization: 80
+  
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 70
+    - type: "Resource"
+      resource:
+        name: "memory"
+        target:
+          type: "Utilization"
+          averageUtilization: 80
+
+# 網絡配置
+network:
+  internal_port: 8000
+  external_port: 443
+  ssl:
+    enabled: true
+    certificate_path: "/etc/ssl/certs/mno.crt"
+    private_key_path: "/etc/ssl/private/mno.key"
+    
+  firewall:
+    enabled: true
+    allowed_ips: ["0.0.0.0/0"]
+    blocked_ips: []
+
+# 環境變量驗證
+required_env_vars:
+  - "JWT_SECRET_KEY"
+  - "DB_PASSWORD"
+  - "REDIS_PASSWORD"
+  - "AWS_ACCESS_KEY_ID"
+  - "AWS_SECRET_ACCESS_KEY"
+
+# 功能開關
+feature_flags:
+  advanced_analytics: true
+  real_time_notifications: true
+  custom_workflows: true
+  multi_tenant: false
+  advanced_security: true

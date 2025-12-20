@@ -12,6 +12,8 @@ spec:
           containers:
           - name: trivy
             image: aquasec/trivy:latest
+            securityContext:
+              allowPrivilegeEscalation: false
             command:
             - trivy
             - image

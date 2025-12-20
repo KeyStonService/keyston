@@ -21,6 +21,8 @@ spec:
       containers:
       - name: orchestrator
         image: autofix/orchestrator:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8083
         envFrom:

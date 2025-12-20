@@ -106,6 +106,8 @@ spec:
       # PostgreSQL 主容器
       - name: postgres
         image: postgres:15-alpine
+        securityContext:
+          allowPrivilegeEscalation: false
         imagePullPolicy: IfNotPresent
         
         ports:

@@ -16,6 +16,8 @@ spec:
       containers:
       - name: loki
         image: grafana/loki:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 3100
         volumeMounts:

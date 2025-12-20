@@ -10,7 +10,6 @@ import {
   PathValidationEventType,
   PathValidationEvent,
 } from '../events/path-validation-events';
-import { SLSAAttestationService } from '../services/attestation';
 
 export interface SelfHealingMetrics {
   totalValidations: number;
@@ -41,7 +40,6 @@ export interface SelfHealingAttestation {
 export class SelfHealingGovernanceIntegration {
   private metrics: SelfHealingMetrics;
   private attestations: SelfHealingAttestation[] = [];
-  private slsaService: SLSAAttestationService;
 
   constructor() {
     this.metrics = {
@@ -55,7 +53,6 @@ export class SelfHealingGovernanceIntegration {
       lastEventTimestamp: new Date().toISOString(),
     };
 
-    this.slsaService = new SLSAAttestationService();
     this.initializeEventListeners();
   }
 

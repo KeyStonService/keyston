@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import type { Router as RouterType } from 'express';
+import rateLimit from 'express-rate-limit';
 import { AssignmentController } from './controllers/assignment';
 import { EscalationController } from './controllers/escalation';
 import { ProvenanceController } from './controllers/provenance';
@@ -10,6 +11,14 @@ const provenanceController = new ProvenanceController();
 const slsaController = new SLSAController();
 const assignmentController = new AssignmentController();
 const escalationController = new EscalationController();
+
+// Generic API rate limiter for expensive endpoints
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // 健康檢查端點
 router.get('/healthz', (_req: Request, res: Response) => {
@@ -47,30 +56,30 @@ router.get('/status', (_req: Request, res: Response) => {
 });
 
 // 溯源認證端點
-router.post('/api/v1/provenance/attestations', provenanceController.createAttestation);
-router.post('/api/v1/provenance/attest', provenanceController.createAttestation); // Alias for tests
-router.post('/api/v1/provenance/verify', provenanceController.verifyAttestation);
-router.post('/api/v1/provenance/import', provenanceController.importAttestation);
-router.post('/api/v1/provenance/digest', provenanceController.getFileDigest); // POST for tests
-router.get('/api/v1/provenance/digest/:filePath(*)', provenanceController.getFileDigest);
-router.get('/api/v1/provenance/export/:id', provenanceController.exportAttestation);
+router.post('/api/v1/provenance/attestations', apiLimiter, provenanceController.createAttestation);
+router.post('/api/v1/provenance/attest', apiLimiter, provenanceController.createAttestation); // Alias for tests
+router.post('/api/v1/provenance/verify', apiLimiter, provenanceController.verifyAttestation);
+router.post('/api/v1/provenance/import', apiLimiter, provenanceController.importAttestation);
+router.post('/api/v1/provenance/digest', apiLimiter, provenanceController.getFileDigest); // POST for tests
+router.get('/api/v1/provenance/digest/:filePath(*)', apiLimiter, provenanceController.getFileDigest);
+router.get('/api/v1/provenance/export/:id', apiLimiter, provenanceController.exportAttestation);
 
 // SLSA 認證端點
-router.post('/api/v1/slsa/attestations', slsaController.createAttestation);
-router.post('/api/v1/slsa/verify', slsaController.verifyAttestation);
-router.post('/api/v1/slsa/digest', slsaController.generateDigest);
-router.post('/api/v1/slsa/contracts', slsaController.createContractAttestation);
-router.post('/api/v1/slsa/summary', slsaController.getAttestationSummary);
+router.post('/api/v1/slsa/attestations', apiLimiter, slsaController.createAttestation);
+router.post('/api/v1/slsa/verify', apiLimiter, slsaController.verifyAttestation);
+router.post('/api/v1/slsa/digest', apiLimiter, slsaController.generateDigest);
+router.post('/api/v1/slsa/contracts', apiLimiter, slsaController.createContractAttestation);
+router.post('/api/v1/slsa/summary', apiLimiter, slsaController.getAttestationSummary);
 
 // 自動分派端點 (Auto-Assignment Endpoints)
-router.post('/api/v1/assignment/assign', assignmentController.assignResponsibility);
-router.post('/api/v1/assignment/status/:id', assignmentController.updateStatus);
-router.get('/api/v1/assignment/status/:id', assignmentController.getAssignmentStatus);
-router.get('/api/v1/assignment/workload', assignmentController.getWorkload);
-router.post('/api/v1/assignment/reassign/:id', assignmentController.reassign);
-router.post('/api/v1/assignment/escalate/:id', assignmentController.escalate);
-router.get('/api/v1/assignment/all', assignmentController.getAllAssignments);
-router.get('/api/v1/assignment/report', assignmentController.getPerformanceReport);
+router.post('/api/v1/assignment/assign', apiLimiter, assignmentController.assignResponsibility);
+router.post('/api/v1/assignment/status/:id', apiLimiter, assignmentController.updateStatus);
+router.get('/api/v1/assignment/status/:id', apiLimiter, assignmentController.getAssignmentStatus);
+router.get('/api/v1/assignment/workload', apiLimiter, assignmentController.getWorkload);
+router.post('/api/v1/assignment/reassign/:id', apiLimiter, assignmentController.reassign);
+router.post('/api/v1/assignment/escalate/:id', apiLimiter, assignmentController.escalate);
+router.get('/api/v1/assignment/all', apiLimiter, assignmentController.getAllAssignments);
+router.get('/api/v1/assignment/report', apiLimiter, assignmentController.getPerformanceReport);
 
 // 進階升級端點 (Advanced Escalation Endpoints)
 router.post(

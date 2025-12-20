@@ -5,25 +5,13 @@
     "node": true,
     "jest": true
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:import/recommended", "plugin:import/typescript"],
-=======
-=======
->>>>>>> origin/copilot/sub-pr-402
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
-<<<<<<< HEAD
     "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
->>>>>>> origin/alert-autofix-37
-=======
-    "plugin:import/typescript"
-  ],
->>>>>>> origin/copilot/sub-pr-402
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",

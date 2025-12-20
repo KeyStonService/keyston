@@ -12,7 +12,10 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional
 import uuid
 import asyncio
+import logging
 import statistics
+
+logger = logging.getLogger(__name__)
 
 
 class MetricType(Enum):
@@ -147,8 +150,14 @@ class MetricsCollector:
                 value = config['collector']()
                 metric = self.collect(name, value)
                 collected.append(metric)
-            except Exception:
-                pass  # Skip failed collectors
+            except Exception as e:
+                logger.warning(
+                    "Metric collector '%s' failed with %s: %s",
+                    name,
+                    type(e).__name__,
+                    e,
+                    exc_info=True,
+                )
         return collected
     
     def get_metrics(self, name: str, since: Optional[datetime] = None) -> List[Metric]:

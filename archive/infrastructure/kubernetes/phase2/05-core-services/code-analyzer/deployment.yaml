@@ -50,6 +50,9 @@ spec:
       containers:
       - name: code-analyzer
         image: autofix/code-analyzer:latest
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
         imagePullPolicy: Always
         
         ports:

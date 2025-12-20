@@ -16,6 +16,8 @@ spec:
       containers:
       - name: fluent-bit
         image: fluent/fluent-bit:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         volumeMounts:
         - name: varlog
           mountPath: /var/log

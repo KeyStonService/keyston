@@ -157,6 +157,8 @@ services:
       - "16686:16686"  # UI
       - "4317:4317"    # OTLP gRPC
       - "4318:4318"    # OTLP HTTP
+    security_opt:
+      - no-new-privileges:true
     environment:
       - COLLECTOR_OTLP_ENABLED=true
     networks:

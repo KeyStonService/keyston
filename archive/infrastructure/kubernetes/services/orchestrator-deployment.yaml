@@ -20,6 +20,8 @@ spec:
       containers:
       - name: orchestrator
         image: autofix-bot/orchestrator:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8083
         - containerPort: 9090

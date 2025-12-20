@@ -29,7 +29,21 @@ export default function SankeyDiagram({ data }: SankeyDiagramProps) {
       
       mermaid.render(id, sankeyChart).then(({ svg }) => {
         if (ref.current) {
-          ref.current.innerHTML = svg;
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(svg, "image/svg+xml");
+          const parsererrorNs = 'http://www.mozilla.org/newlayout/xml/parsererror.xml';
+          const hasParserError =
+            doc.getElementsByTagName('parsererror').length > 0 ||
+            doc.getElementsByTagNameNS(parsererrorNs, 'parsererror').length > 0;
+
+          if (hasParserError) {
+            console.error('Error parsing SVG for Sankey diagram:', doc.documentElement.textContent);
+            ref.current.textContent = 'Error parsing diagram';
+            return;
+          }
+          const svgElement = doc.documentElement;
+          const target = ref.current;
+          target.replaceChildren(target.ownerDocument.importNode(svgElement, true));
         }
       }).catch(err => {
         console.error('Sankey diagram rendering error:', err);

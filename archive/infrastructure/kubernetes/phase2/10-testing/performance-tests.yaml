@@ -9,6 +9,8 @@ spec:
       containers:
       - name: k6
         image: loadimpact/k6:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         command:
         - k6
         - run

@@ -18,6 +18,7 @@ spec:
       - name: falco
         image: falcosecurity/falco:latest
         securityContext:
+          allowPrivilegeEscalation: false
           privileged: true
         volumeMounts:
         - name: dev

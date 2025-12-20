@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { Request, Response, NextFunction } from 'express';
 
+// eslint-disable-next-line import/no-named-as-default
 import config from '../config';
 
 interface RequestLog {

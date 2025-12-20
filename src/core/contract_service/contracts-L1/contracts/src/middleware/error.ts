@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { Request, Response, NextFunction } from 'express';
 
+// eslint-disable-next-line import/no-named-as-default
 import config from '../config';
 import { AppError, ErrorCode } from '../errors';
 
@@ -18,6 +19,7 @@ const testPattern = (pattern: RegExp, value: string): boolean => {
  */
 export class ErrorCleanupPatterns {
   // Matches ANSI escape sequences to strip terminal color/style codes from error messages
+  // eslint-disable-next-line no-control-regex
   public static readonly ansiEscapePattern: RegExp = /\x1B\[[0-?]*[ -/]*[@-~]/g;
 
   public static sanitizeMessage(message: string): string {
@@ -113,6 +115,23 @@ function sanitizeErrorMessage(message: string, isProduction: boolean): string {
   }
 
   return cleaned;
+}
+
+/**
+ * 404 Not Found middleware.
+ */
+export function notFoundMiddleware(req: Request, res: Response, _next: NextFunction): void {
+  res.status(404).json({
+    error: {
+      message: 'Route not found',
+      code: ErrorCode.NOT_FOUND,
+      traceId: randomUUID(),
+      timestamp: new Date().toISOString(),
+      path: req.url,
+      method: req.method,
+      status: 404,
+    },
+  });
 }
 
 /**

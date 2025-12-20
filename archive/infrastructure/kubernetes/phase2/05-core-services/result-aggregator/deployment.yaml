@@ -21,6 +21,8 @@ spec:
       containers:
       - name: result-aggregator
         image: autofix/result-aggregator:latest
+        securityContext:
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8084
         envFrom:

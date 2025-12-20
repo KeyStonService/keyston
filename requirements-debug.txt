@@ -1,0 +1,37 @@
+# 執行與偵錯系統依賴
+# Run & Debug System Dependencies
+
+# 核心依賴
+debugpy>=1.8.0          # Python 偵錯協議實作
+click>=8.1.0            # 命令列介面框架
+
+# 非同步支援
+asyncio>=3.4.3          # 非同步 I/O（Python 內建，但列出以示明確）
+
+# 可選依賴（用於特定功能）
+# Flask 偵錯
+flask>=3.0.0
+
+# Django 偵錯
+django>=4.2.0
+
+# FastAPI 偵錯
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# 測試框架
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# 程式碼品質
+pylint>=3.0.0
+black>=23.0.0
+mypy>=1.7.0
+
+# 文檔生成
+sphinx>=7.2.0
+sphinx-rtd-theme>=2.0.0
+
+# 開發工具
+ipython>=8.18.0
+jupyter>=1.0.0

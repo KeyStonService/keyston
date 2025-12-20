@@ -34,7 +34,7 @@ export interface SelfHealingConfig extends Partial<PathValidatorConfig> {
  * Self-healing path validator with event-driven recovery
  */
 export class SelfHealingPathValidator extends PathValidator {
-  private config: SelfHealingConfig;
+  protected config: SelfHealingConfig;
   private currentSnapshot: StructureSnapshot | null = null;
   private dagNodes: Map<string, DAGNodeState> = new Map();
   private recoveryAttempts: Map<string, number> = new Map();

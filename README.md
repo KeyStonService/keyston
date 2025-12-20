@@ -105,6 +105,14 @@ _成為全球領先的企業級智能自動化平台，透過整合 AI 決策引
     └── ✅ Stage 2-4: 協作、自學習、生產化 (完成)
 ```
 
+> ⚠️ **Reality Check / 完成標準**：以上「✅」僅代表架構宣告。真正的 Production Ready 必須：
+>
+> - 在 `machinenativeops.yaml` 標記 `status: PRODUCTION_READY`
+> - 在 `config/governance/system-manifest.yaml` 標記 `status: PRODUCTION_READY`
+> - 在 `config/governance/system-module-map.yaml` 處於非 `planning/keep` 狀態
+> - 具備測試、觀測、運維責任與交付工件  
+> 詳細定義與整改路徑請見 [docs/architecture/REALITY_CHECK_AND_REMEDIATION.md](docs/architecture/REALITY_CHECK_AND_REMEDIATION.md)。
+
 ### 🎯 發展階段
 
 #### ✅ Phase 1: 核心基礎建設 (Completed)

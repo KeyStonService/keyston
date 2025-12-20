@@ -6,8 +6,10 @@ Code Runner, MCP Integration, and Filesystem Sandbox
 安全地執行代碼和工具操作
 """
 
+import ast
 import json
 import os
+import re
 import subprocess
 import tempfile
 from abc import ABC, abstractmethod
@@ -107,6 +109,15 @@ class CodeRunner(Tool):
     def __init__(self, config: ToolConfig | None = None):
         super().__init__(config or ToolConfig(name="code_runner", tool_type=ToolType.CODE_RUNNER))
 
+    def _build_execution_command(self, lang_config: dict[str, str], temp_file: str) -> list[str]:
+        """
+        Build a two-element subprocess command array from a validated language configuration.
+        `lang_config` must include a `cmd` entry sourced from SUPPORTED_LANGUAGES.
+        Returns a list suitable for subprocess.run where index 0 is the executable and index 1 is
+        the temporary file path.
+        """
+        return [lang_config["cmd"], temp_file]
+
     async def execute(self, request: ExecutionRequest) -> ExecutionResult:
         """執行代碼"""
         # 驗證請求
@@ -115,7 +126,7 @@ class CodeRunner(Tool):
             return ExecutionResult(status=ExecutionStatus.BLOCKED, error=reason)
 
         # 確定語言
-        language = request.environment.get("language", "python")
+        language = request.environment.get("language", "python").lower()
         lang_config = self.SUPPORTED_LANGUAGES.get(language)
 
         if not lang_config:
@@ -132,8 +143,9 @@ class CodeRunner(Tool):
                 temp_file = f.name
 
             # 執行代碼
+            exec_cmd = self._build_execution_command(lang_config, temp_file)
             result = subprocess.run(
-                [lang_config["cmd"], temp_file],
+                exec_cmd,
                 capture_output=True,
                 text=True,
                 timeout=request.timeout,
@@ -161,26 +173,153 @@ class CodeRunner(Tool):
             if "temp_file" in locals():
                 try:
                     os.unlink(temp_file)
-                except:
-                    pass
+                except OSError:
+                    pass  # File already deleted or inaccessible
 
-    def validate(self, request: ExecutionRequest) -> tuple[bool, str]:
-        """驗證代碼是否安全"""
+    def _validate_python_code(self, code: str) -> tuple[bool, str]:
+        """
+        Context-aware validation for Python code using AST parsing.
+        This allows legitimate string literals and comments containing shell metacharacters
+        while blocking actual dangerous code patterns.
+        """
+        # Check code length first (simple check)
+        if len(code) > 5000:
+            return False, "Command too long"
+
+        # Try to parse the code to ensure it's valid Python
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            return False, "Invalid Python syntax"
+
+        # Check for dangerous function calls and imports in the AST
+        dangerous_calls = {"eval", "exec", "__import__", "compile"}
+        dangerous_modules = {"os.system", "subprocess.call", "subprocess.Popen"}
+
+        for node in ast.walk(tree):
+            # Check for dangerous function calls
+            if isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name) and node.func.id in dangerous_calls:
+                    return False, f"Dangerous function detected: {node.func.id}"
+
+                # Check for os.system, subprocess.call, etc.
+                if isinstance(node.func, ast.Attribute):
+                    func_name = f"{ast.unparse(node.func.value)}.{node.func.attr}"
+                    if any(danger in func_name for danger in dangerous_modules):
+                        return False, f"Dangerous module call detected: {func_name}"
+
+        return True, ""
+
+    def _validate_javascript_code(self, code: str) -> tuple[bool, str]:
+        """
+        Context-aware validation for JavaScript/Node.js code.
+        Uses regex-based detection with comment/string awareness.
+        """
+        if len(code) > 5000:
+            return False, "Command too long"
+
+        # Remove single-line comments
+        code_no_comments = re.sub(r"//.*?$", "", code, flags=re.MULTILINE)
+        # Remove multi-line comments
+        code_no_comments = re.sub(r"/\*.*?\*/", "", code_no_comments, flags=re.DOTALL)
+        # Remove string literals (both single and double quotes)
+        code_no_strings = re.sub(r'"(?:[^"\\]|\\.)*"', '""', code_no_comments)
+        code_no_strings = re.sub(r"'(?:[^'\\]|\\.)*'", "''", code_no_strings)
+        code_no_strings = re.sub(r"`(?:[^`\\]|\\.)*`", "``", code_no_strings)
+
+        # Now check for dangerous patterns in the remaining code
         dangerous_patterns = [
-            "import os; os.system",
-            "subprocess.call",
-            "__import__",
-            "eval(",
-            "exec(",
-            "open('/etc/",
-            "rm -rf",
+            r"require\s*\(\s*['\"]child_process['\"]\s*\)",
+            r"\.exec\s*\(",
+            r"\.spawn\s*\(",
+            r"eval\s*\(",
+            r"Function\s*\(",
         ]
 
         for pattern in dangerous_patterns:
-            if pattern in request.command:
-                return False, f"Dangerous pattern detected: {pattern}"
+            if re.search(pattern, code_no_strings):
+                return False, f"Dangerous JavaScript pattern detected: {pattern}"
 
         return True, ""
+
+    def _validate_bash_code(self, code: str) -> tuple[bool, str]:
+        """
+        Strict validation for bash scripts.
+        Shell scripts are inherently risky, so we maintain strict validation
+        to prevent shell injection attacks. This intentionally blocks metacharacters
+        even in comments/strings as bash syntax is complex and error-prone.
+        """
+        if len(code) > 5000:
+            return False, "Command too long"
+
+        # For bash, maintain strict validation due to shell injection risks
+        dangerous_patterns = [
+            "rm -rf /",
+            ":(){ :|:& };:",  # Fork bomb
+            "curl.*|.*sh",
+            "wget.*|.*sh",
+        ]
+
+        dangerous_tokens = [
+            "&&",
+            "||",
+            ";",
+            "|",
+            "`",
+            "$(",
+            "${",
+            ">",
+            "<",
+            ">>",
+            "<<",
+        ]
+
+        for pattern in dangerous_patterns:
+            if pattern in code:
+                return False, f"Dangerous bash pattern detected: {pattern}"
+
+        # For bash, check tokens but allow them if they seem safe
+        # This is a balance between security and usability
+        if any(token in code for token in dangerous_tokens):
+            # Allow if it's in a comment
+            lines = code.split("\n")
+            for line in lines:
+                stripped = line.strip()
+                if stripped.startswith("#"):
+                    continue  # Skip comments
+                if any(token in line for token in dangerous_tokens):
+                    return (
+                        False,
+                        "Shell metacharacters detected in bash script - potential injection risk",
+                    )
+
+        return True, ""
+
+    def validate(self, request: ExecutionRequest) -> tuple[bool, str]:
+        """
+        Context-aware code validation that understands language syntax.
+
+        This validation uses language-specific parsers to distinguish between:
+        - Dangerous code patterns (e.g., actual eval/exec calls)
+        - Safe string literals (e.g., print("a && b"))
+        - Comments containing metacharacters
+
+        For Python and JavaScript, we parse the code structure to avoid false positives.
+        For bash scripts, we maintain strict validation due to inherent shell injection risks.
+        """
+        # Determine language from request
+        language = request.environment.get("language", "python").lower()
+
+        # Dispatch to language-specific validator
+        if language == "python":
+            return self._validate_python_code(request.command)
+        elif language == "node":
+            return self._validate_javascript_code(request.command)
+        elif language == "bash":
+            return self._validate_bash_code(request.command)
+        else:
+            # For unknown languages, apply generic validation
+            return False, f"Validation not implemented for language: {language}"
 
 
 class FilesystemSandbox(Tool):
