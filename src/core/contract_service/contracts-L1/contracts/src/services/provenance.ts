@@ -50,12 +50,12 @@ async function resolveSafePath(userInputPath: string): Promise<string> {
   const normalizedInput = path.normalize(userInputPath);
 
   // Canonicalize the safe root directory for robust prefix checking.
+  const canonicalSafeRoot = await realpath(safeRoot);
   const canonicalSafeRootWithSep =
     canonicalSafeRoot.endsWith(path.sep) ? canonicalSafeRoot : canonicalSafeRoot + path.sep;
-  const canonicalSafeRoot = await realpath(safeRoot);
 
   // Always resolve user input relative to the canonical safe root.
-  const resolvedCandidate = path.resolve(canonicalSafeRootWithSep, normalizedInput);
+  const resolvedCandidate = path.resolve(canonicalSafeRoot, normalizedInput);
 
   // Canonicalize the candidate to resolve any symlinks.
   const canonicalPath = await realpath(resolvedCandidate);

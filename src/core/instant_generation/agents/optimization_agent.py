@@ -328,7 +328,7 @@ class OptimizationAgent(BaseAgent):
                 "Architecture review",
                 "Scalability testing",
                 "Technology stack evaluation"
-            }
+            ]
         }
     
     async def _calculate_improvement_metrics(self, results: Dict[str, Any]) -> Dict[str, Any]:
@@ -347,16 +347,81 @@ class OptimizationAgent(BaseAgent):
                 
                 if isinstance(improvements, dict):
                     for key, value in improvements.items():
+                        # 安全地解析百分比值
+                        parsed_value = self._parse_percentage_value(value)
+                        if parsed_value is None:
+                            continue
+                        
                         if "performance" in key.lower() or "response" in key.lower():
-                            metrics["performance_improvement"] += abs(int(value.replace("%", "")))
+                            metrics["performance_improvement"] += parsed_value
                         elif "cost" in key.lower():
-                            metrics["cost_savings"] += abs(int(value.replace("%", "")))
+                            metrics["cost_savings"] += parsed_value
                         elif "security" in key.lower():
-                            metrics["security_score_improvement"] += abs(int(value.replace("%", "")))
+                            metrics["security_score_improvement"] += parsed_value
                         elif "scalability" in key.lower():
-                            metrics["scalability_increase"] += abs(int(value.replace("%", "")))
+                            metrics["scalability_increase"] += parsed_value
         
         return metrics
+    
+    def _parse_percentage_value(self, value: Any) -> Optional[int]:
+        """
+        安全地解析百分比值，返回絕對值
+        
+        Args:
+            value: 可能包含百分比的值（例如 "30%", "-40%", "30-50%", "Enhanced security"）
+        
+        Returns:
+            解析後的整數絕對值，如果無法解析則返回 None。
+            注意：負值會被轉換為正數（例如 "-40%" → 40）
+        """
+        if value is None:
+            return None
+        
+        # 確保值是字符串
+        if not isinstance(value, str):
+            try:
+                value = str(value)
+            except Exception:
+                return None
+        
+        try:
+            # 移除百分比符號
+            value_str = value.replace("%", "").strip()
+            
+            # 檢查是否以負號開頭
+            is_negative = value_str.startswith("-")
+            if is_negative:
+                value_str = value_str[1:].strip()
+            
+            # 處理範圍值（例如 "30-50"），取第一個數字
+            # 只在不是負數的情況下處理連字符
+            if "-" in value_str:
+                # 分割並過濾空字符串
+                parts = [p.strip() for p in value_str.split("-") if p.strip()]
+                if parts:
+                    # 嘗試解析第一個部分
+                    value_str = parts[0]
+            
+            # 提取數字部分（處理類似 "30 faster" 的情況）
+            # 只保留數字
+            numeric_chars = ""
+            for char in value_str:
+                if char.isdigit():
+                    numeric_chars += char
+                elif numeric_chars:
+                    # 遇到非數字字符且已有數字，停止
+                    break
+            
+            if not numeric_chars:
+                return None
+            
+            # 轉換為整數並返回絕對值
+            return abs(int(numeric_chars))
+            
+        except (ValueError, AttributeError) as e:
+            # 記錄警告但不中斷執行
+            self.logger.debug(f"Unable to parse percentage value '{value}': {e}")
+            return None
     
     def _calculate_expected_improvements(self, results: Dict[str, Any]) -> Dict[str, str]:
         """計算預期改進"""

@@ -151,7 +151,13 @@ class MetricsCollector:
                 metric = self.collect(name, value)
                 collected.append(metric)
             except Exception as e:
-                logger.warning(f"Metric collector '{name}' failed: {e}")
+                logger.warning(
+                    "Metric collector '%s' failed with %s: %s",
+                    name,
+                    type(e).__name__,
+                    e,
+                    exc_info=True,
+                )
         return collected
     
     def get_metrics(self, name: str, since: Optional[datetime] = None) -> List[Metric]:

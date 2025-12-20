@@ -241,13 +241,13 @@ class CodeGenerationAgent(BaseAgent):
     def _load_fastapi_templates(self) -> Dict[str, str]:
         """加載FastAPI模板"""
         return {
-            "main_py": "from fastapi import FastAPI, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom routes import users, auth\nfrom config import settings\n\napp = FastAPI(\n    title=&quot;{app_name}&quot;,\n    description=&quot;Generated API&quot;,\n    version=&quot;1.0.0&quot;\n)\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[&quot;*&quot;],\n    allow_credentials=True,\n    allow_methods=[&quot;*&quot;],\n    allow_headers=[&quot;*&quot;],\n)\n\napp.include_router(users.router, prefix=&quot;/api/v1/users&quot;, tags=[&quot;users&quot;])\napp.include_router(auth.router, prefix=&quot;/api/v1/auth&quot;, tags=[&quot;auth&quot;])\n\n@app.get(&quot;/health&quot;)\nasync def health_check():\n    return {{&quot;status&quot;: &quot;healthy&quot;}}\n\nif __name__ == &quot;__main__&quot;:\n    import uvicorn\n    uvicorn.run(app, host=&quot;0.0.0.0&quot;, port=8000)"
+            "main_py": "from fastapi import FastAPI, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom routes import users, auth\nfrom config import settings\n\napp = FastAPI(\n    title=\"{app_name}\",\n    description=\"Generated API\",\n    version=\"1.0.0\"\n)\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\napp.include_router(users.router, prefix=\"/api/v1/users\", tags=[\"users\"])\napp.include_router(auth.router, prefix=\"/api/v1/auth\", tags=[\"auth\"])\n\n@app.get(\"/health\")\nasync def health_check():\n    return {\"status\": \"healthy\"}\n\nif __name__ == \"__main__\":\n    import uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)"
         }
     
     def _load_docker_templates(self) -> Dict[str, str]:
         """加載Docker模板"""
         return {
-            "dockerfile": "FROM python:3.11-slim\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nEXPOSE 8000\n\nCMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]"
+            "dockerfile": "FROM python:3.11-slim\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nEXPOSE 8000\n\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]"
         }
     
     # 代碼生成輔助方法

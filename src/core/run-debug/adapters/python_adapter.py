@@ -7,6 +7,7 @@ Python Debug Adapter
 
 import asyncio
 import json
+import os
 import socket
 import subprocess
 from typing import List, Optional, Dict, Any
@@ -428,7 +429,3 @@ class PythonDebugAdapter(DebugAdapter):
         if self.writer:
             self.writer.close()
             await self.writer.wait_closed()
-
-
-# 匯入 os 模組
-import os

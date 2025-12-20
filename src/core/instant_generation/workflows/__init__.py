@@ -134,8 +134,8 @@ class DAGOrchestrator:
             dependencies_completed = True
             for dep_id in task.dependencies:
                 if dep_id in workflow.tasks:
-                    dep_task = workflow.tasks[dep_id]
-                    if dep_task.status != TaskStatus.COMPLETED:
+                    dependency_task = workflow.tasks[dep_id]
+                    if dependency_task.status != TaskStatus.COMPLETED:
                         dependencies_completed = False
                         break
             

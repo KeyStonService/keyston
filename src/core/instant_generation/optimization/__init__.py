@@ -19,6 +19,7 @@ class OptimizationType(Enum):
     COST = "cost"
     SECURITY = "security"
     SCALABILITY = "scalability"
+    RELIABILITY = "reliability"
 
 class HealingStrategy(Enum):
     """修復策略枚舉"""
@@ -369,7 +370,7 @@ class PerformanceOptimizer:
         applied = []
         
         for rec in recommendations:
-            if rec.priority >= 7 and rec.implementation_effort == "low":
+            if rec.priority >= 7 and rec.risk_level == "low":
                 # 應用高優先級、低風險的優化
                 applied.append({
                     "recommendation": rec.description,

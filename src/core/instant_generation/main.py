@@ -231,7 +231,17 @@ class InstantGenerationSystem:
         
         try:
             # 檢查工作流引擎
-            workflow_health = await self.workflow_engine.health_check()
+            if hasattr(self.workflow_engine, "health_check"):
+                workflow_health_func = self.workflow_engine.health_check
+                if asyncio.iscoroutinefunction(workflow_health_func):
+                    workflow_health = await workflow_health_func()
+                else:
+                    workflow_health = workflow_health_func()
+            else:
+                workflow_health = {
+                    "status": "unknown",
+                    "details": "workflow_engine does not implement health_check"
+                }
             health_status["components"]["workflow_engine"] = workflow_health
             
             # 檢查自我修復系統
@@ -345,7 +355,7 @@ if __name__ == "__main__":
     
     async def main():
         if len(sys.argv) < 2:
-            print("Usage: python main.py &quot;<user_input>&quot;")
+            print('Usage: python main.py "<user_input>"')
             return
         
         user_input = " ".join(sys.argv[1:])
