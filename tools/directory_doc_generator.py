@@ -11,6 +11,53 @@ from pathlib import Path
 from typing import List, Dict, Set
 import json
 
+# 導覽優先模板：聚焦入口、任務、影響範圍與可轉換錨點
+NAV_TEMPLATE = """# {directory_name}
+
+## 為什麼會來這裡 / 入口
+- **位置**: `{directory_path}`
+- **我在這裡通常要解決什麼**： [待補充]
+- **首選入口**： [待補充：README、主要檔案或子目錄]
+- **常見任務**：
+  - [待補充：任務1]
+  - [待補充：任務2]
+- **子目錄速覽**：
+{subdir_list}
+
+## 推薦閱讀路線
+1. [待補充：第一個要看的檔案/README]
+2. [待補充：第二個步驟或檔案]
+3. [待補充：第三個步驟或檔案]
+
+## 輸入 / 輸出（直覺版）
+- **輸入**：[待補充：會依賴哪些配置/資料]
+- **輸出**：[待補充：會產出哪些工件/結果]
+- **主要上下游/協作者**：[待補充：關聯的模組或團隊]
+
+## 變更影響範圍（Blast radius）
+- [待補充：改動這裡通常會影響到哪些模組或流程]
+
+## 檔案速覽（人話版）
+{file_list}
+
+## 待釐清 / TODO
+- [待補充：目前不確定的部分或需要補資料]
+- [待補充]
+
+## 未來可轉 JSON 的錨點
+- **path**: `{directory_path}`
+- **entrypoints**: [待補充：關鍵檔案或子目錄名稱]
+- **status**: draft
+
+---
+
+*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
+"""
+NO_FILES_TEXT = "（此目錄暫無文件）"
+NO_SUBDIR_TEXT = "  - （此層沒有子目錄）"
+UNSURE_PLACEHOLDER = "[待補充]"
+RELATED_PLACEHOLDER = "[待補充]"
+
 class DirectoryDocGenerator:
     """DIRECTORY.md 文檔生成器"""
     
@@ -139,330 +186,49 @@ class DirectoryDocGenerator:
         
         return None
     
-    def determine_directory_type(self, dir_info: Dict) -> str:
-        """判斷目錄類型"""
-        path = dir_info['path']
-        name = dir_info['name']
-        
-        if 'test' in name.lower():
-            return 'test'
-        elif 'doc' in name.lower():
-            return 'docs'
-        elif 'config' in name.lower() or 'conf' in name.lower():
-            return 'config'
-        elif 'script' in name.lower():
-            return 'scripts'
-        elif 'tool' in name.lower():
-            return 'tools'
-        elif 'src' in path or 'source' in path:
-            return 'source'
-        elif 'deploy' in name.lower():
-            return 'deploy'
-        elif 'ops' in name.lower():
-            return 'ops'
-        elif 'example' in name.lower():
-            return 'examples'
-        else:
-            return 'general'
-    
     def generate_directory_md(self, dir_info: Dict) -> str:
         """生成 DIRECTORY.md 內容"""
-        dir_type = self.determine_directory_type(dir_info)
-        template = self.get_template(dir_type)
-        
-        # 填充模板
-        content = template.format(
+        template = self.get_navigation_template()
+        return template.format(
             directory_name=dir_info['name'],
             directory_path=dir_info['path'],
             file_list=self.format_file_list(dir_info['files']),
             subdir_list=self.format_subdir_list(dir_info['subdirs'])
         )
-        
-        return content
     
     def format_file_list(self, files: List[Dict]) -> str:
         """格式化文件列表"""
         if not files:
-            return "（此目錄暫無文件）"
+            return NO_FILES_TEXT
         
         formatted = []
         for file in files:
-            docstring = file.get('docstring', '')
-            desc = f" - {docstring}" if docstring else ""
-            formatted.append(f"### {file['name']}\n"
-                           f"- **職責**：{file['type']}{desc}\n"
-                           f"- **功能**：[待補充具體功能說明]\n"
-                           f"- **依賴**：[待補充依賴關係]\n")
+            summary = self.build_file_summary(file)
+            formatted.append(
+                f"### {file['name']}\n"
+                f"- **一句話摘要**：{summary}\n"
+                f"- **我不確定/待釐清**：{UNSURE_PLACEHOLDER}\n"
+                f"- **相關連結**：{RELATED_PLACEHOLDER}\n"
+            )
         
         return "\n".join(formatted)
+    
+    def build_file_summary(self, file: Dict) -> str:
+        """建構檔案摘要，優先提供類型與可用的 docstring"""
+        docstring = file.get('docstring', '')
+        file_type = file.get('type', '')
+        return f"{file_type} - {docstring}" if docstring else file_type
     
     def format_subdir_list(self, subdirs: List[str]) -> str:
         """格式化子目錄列表"""
         if not subdirs:
-            return ""
+            return NO_SUBDIR_TEXT
         
-        return "\n".join(f"- `{subdir}/`" for subdir in subdirs)
+        return "\n".join(f"  - `{subdir}/`" for subdir in subdirs)
     
-    def get_template(self, dir_type: str) -> str:
-        """獲取對應類型的模板"""
-        templates = {
-            'source': self.get_source_template(),
-            'test': self.get_test_template(),
-            'config': self.get_config_template(),
-            'docs': self.get_docs_template(),
-            'tools': self.get_tools_template(),
-            'scripts': self.get_scripts_template(),
-            'deploy': self.get_deploy_template(),
-            'ops': self.get_ops_template(),
-            'examples': self.get_examples_template(),
-            'general': self.get_general_template()
-        }
-        
-        return templates.get(dir_type, self.get_general_template())
-    
-    def get_general_template(self) -> str:
-        """通用模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄位於 `{directory_path}`，負責 [待補充：描述此目錄的主要職責和在系統中的定位]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-[待補充：說明此目錄內各檔案如何實現職責分離，以及職責邊界的劃分]
-
-## 設計原則
-[待補充：說明如何遵循單一職責原則，以及未來維護時應注意的事項]
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_source_template(self) -> str:
-        """源代碼目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：模組名稱] 的源代碼實現，負責 [待補充：核心功能描述]。作為系統的 [待補充：定位描述]，它與 [待補充：相關目錄] 緊密協作。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-此目錄實現了嚴格的職責分離原則：
-- [待補充：各層次的職責說明]
-
-## 設計原則
-
-### 單一職責原則 (SRP) 遵循
-1. **模組級別職責單一化**：[待補充]
-2. **文件級別職責專一化**：[待補充]
-3. **接口級別職責清晰化**：[待補充]
-
-### 未來維護注意事項
-1. **添加新功能時**：[待補充]
-2. **修改現有功能時**：[待補充]
-3. **擴展策略**：[待補充]
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_test_template(self) -> str:
-        """測試目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：測試對象] 的測試用例，確保代碼質量和功能正確性。測試覆蓋 [待補充：測試類型]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 單元測試專注於獨立功能測試
-- 集成測試專注於模組協作測試
-- 測試數據與測試邏輯分離
-
-## 設計原則
-每個測試檔案對應一個源代碼檔案或功能模組，測試邏輯清晰，避免測試間的相互依賴。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_config_template(self) -> str:
-        """配置目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：環境/系統] 的配置文件，管理 [待補充：配置類型]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 環境特定配置與通用配置分離
-- 不同類型的配置分開管理
-- 敏感信息使用環境變量或密鑰管理
-
-## 設計原則
-配置文件層次化，支持繼承和覆蓋機制，確保配置的可維護性和安全性。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_docs_template(self) -> str:
-        """文檔目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：文檔類型] 的技術文檔，提供 [待補充：文檔用途]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 按文檔類型組織
-- 圖片資源與文字內容分離
-- 不同語言版本的文檔分開管理
-
-## 設計原則
-文檔結構清晰，便於查找和維護，確保文檔與代碼同步更新。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_tools_template(self) -> str:
-        """工具目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：工具類型] 工具和實用程序，用於 [待補充：工具用途]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 開發工具與部署工具分開
-- 數據處理腳本與系統維護腳本分離
-- 一次性腳本與常用工具分開管理
-
-## 設計原則
-每個工具專注於特定任務，避免功能重疊，確保工具的獨立性和可重用性。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_scripts_template(self) -> str:
-        """腳本目錄模板"""
-        return self.get_tools_template()  # 使用相同的模板
-    
-    def get_deploy_template(self) -> str:
-        """部署目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：部署環境] 的部署配置和腳本，用於 [待補充：部署用途]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 不同環境的部署配置分離
-- 部署腳本與配置文件分離
-- 基礎設施代碼與應用配置分離
-
-## 設計原則
-部署配置標準化，支持多環境部署，確保部署的可重複性和可靠性。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_ops_template(self) -> str:
-        """運維目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：運維類型] 的運維工具和配置，用於 [待補充：運維用途]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 監控配置與告警規則分離
-- 自動化腳本與手動操作指南分離
-- 不同系統的運維工具分開管理
-
-## 設計原則
-運維工具標準化，支持自動化運維，確保系統的穩定性和可維護性。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
-    
-    def get_examples_template(self) -> str:
-        """示例目錄模板"""
-        return """# {directory_name}
-
-## 目錄職責
-此目錄包含 [待補充：示例類型] 的示例代碼和模板，用於 [待補充：示例用途]。
-
-{subdir_list}
-
-## 檔案說明
-
-{file_list}
-
-## 職責分離說明
-- 基礎示例與高級示例分離
-- 不同功能的示例分開組織
-- 示例代碼與文檔說明配套
-
-## 設計原則
-示例代碼簡潔明了，易於理解和使用，確保示例的實用性和教育性。
-
----
-
-*此文檔由 directory_doc_generator.py 自動生成，請根據實際情況補充和完善內容。*
-"""
+    def get_navigation_template(self) -> str:
+        """導覽優先模板：聚焦入口、任務與影響範圍"""
+        return NAV_TEMPLATE
     
     def process_directory(self, dir_path: Path, generate: bool = False) -> Dict:
         """處理單個目錄"""

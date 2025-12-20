@@ -11,18 +11,33 @@ from pathlib import Path
 from typing import List, Dict, Tuple
 import json
 
+# SECTION_GROUPS: 每組代表一個必填的「章節類別」，組內採 OR 檢查 (alternative headings per required category)
+SECTION_GROUPS = [
+    ['## 為什麼會來這裡 / 入口', '## 目錄職責'],
+    ['## 推薦閱讀路線', '## 設計原則'],
+    ['## 輸入 / 輸出（直覺版）'],
+    ['## 變更影響範圍（Blast radius）', '## 職責分離說明'],
+    ['## 檔案速覽（人話版）', '## 檔案說明'],
+    ['## 待釐清 / TODO'],
+    ['## 未來可轉 JSON 的錨點']
+]
+
+MIN_SECTION_CONTENT_LENGTH = 50
+OLD_FIELDS = ['**職責**', '**功能**', '**依賴**']
+NEW_FIELDS = [
+    ('**一句話摘要**', '一句話摘要'),
+    ('**我不確定/待釐清**', '待釐清欄位'),
+    ('**相關連結**', '相關連結欄位')
+]
+MISSING_SECTION_GROUP_MSG = "缺少必要章節組: {options}"
+
 
 class DirectoryDocValidator:
     """DIRECTORY.md 文檔驗證器"""
     
     def __init__(self, root_path: str):
         self.root_path = Path(root_path)
-        self.required_sections = [
-            '## 目錄職責',
-            '## 檔案說明',
-            '## 職責分離說明',
-            '## 設計原則'
-        ]
+        self.section_groups = SECTION_GROUPS
         self.validation_results = []
     
     def validate_file(self, doc_path: Path) -> Dict:
@@ -68,9 +83,9 @@ class DirectoryDocValidator:
     
     def check_required_sections(self, content: str, result: Dict):
         """檢查必要章節"""
-        for section in self.required_sections:
-            if section not in content:
-                result['errors'].append(f'缺少必要章節: {section}')
+        for group in self.section_groups:
+            if not any(section in content for section in group):
+                result['errors'].append(MISSING_SECTION_GROUP_MSG.format(options=' 或 '.join(group)))
     
     def check_title_format(self, content: str, result: Dict):
         """檢查標題格式"""
@@ -106,8 +121,8 @@ class DirectoryDocValidator:
         """檢查檔案說明格式"""
         # 提取檔案說明章節
         file_section_match = re.search(
-            r'## 檔案說明\s*\n(.*?)(?=\n## |$)', 
-            content, 
+            r'(## 檔案說明|## 檔案速覽（人話版）)\s*\n(.*?)(?=\n## |$)',
+            content,
             re.DOTALL
         )
         
@@ -115,7 +130,7 @@ class DirectoryDocValidator:
             result['errors'].append('找不到檔案說明章節')
             return
         
-        file_section = file_section_match.group(1)
+        file_section = file_section_match.group(2)
         
         # 檢查每個檔案是否有完整的說明
         file_entries = re.findall(r'### (.+?)\n', file_section)
@@ -132,12 +147,21 @@ class DirectoryDocValidator:
             if match:
                 desc = match.group(1)
                 
-                if '**職責**' not in desc:
-                    result['warnings'].append(f'檔案 {file_name} 缺少職責說明')
-                if '**功能**' not in desc:
-                    result['warnings'].append(f'檔案 {file_name} 缺少功能說明')
-                if '**依賴**' not in desc:
-                    result['warnings'].append(f'檔案 {file_name} 缺少依賴說明')
+                has_old_fields = any(field in desc for field in OLD_FIELDS)
+                has_new_fields = any(field in desc for field, _ in NEW_FIELDS)
+
+                if not (has_old_fields or has_new_fields):
+                    result['warnings'].append(f'檔案 {file_name} 缺少基本說明欄位')
+
+                if has_old_fields:
+                    for field in OLD_FIELDS:
+                        if field not in desc:
+                            result['warnings'].append(f'檔案 {file_name} 缺少{field.strip("*")}說明')
+
+                if has_new_fields:
+                    for field, label in NEW_FIELDS:
+                        if field not in desc:
+                            result['warnings'].append(f'檔案 {file_name} 缺少{label}')
                 
                 # 檢查是否有待補充標記
                 if '[待補充' in desc:
@@ -178,21 +202,18 @@ class DirectoryDocValidator:
             result['warnings'].append(f'發現 {len(todos)} 處待補充內容')
         
         # 檢查章節是否為空
-        for section in self.required_sections:
-            section_pattern = re.compile(
-                rf'{re.escape(section)}\s*\n(.*?)(?=\n## |$)',
-                re.DOTALL
-            )
-            match = section_pattern.search(content)
-            
-            if match:
-                section_content = match.group(1).strip()
-                if not section_content or len(section_content) < 50:
-                    result['warnings'].append(f'章節 {section} 內容過少或為空')
-        
-        # 檢查是否提到單一職責原則
-        if '單一職責原則' not in content and 'SRP' not in content:
-            result['warnings'].append('設計原則章節未提到單一職責原則')
+        for group in self.section_groups:
+            for section in group:
+                section_pattern = re.compile(
+                    rf'{re.escape(section)}\s*\n(.*?)(?=\n## |$)',
+                    re.DOTALL
+                )
+                match = section_pattern.search(content)
+                
+                if match:
+                    section_content = match.group(1).strip()
+                    if not section_content or len(section_content) < MIN_SECTION_CONTENT_LENGTH:
+                        result['warnings'].append(f'章節 {section} 內容過少或為空')
     
     def check_markdown_format(self, content: str, result: Dict):
         """檢查 Markdown 格式"""
