@@ -63,6 +63,7 @@
 - **相關連結**：`src/mcp-servers/`、`src/core/contract_service/contracts-L1/contracts/`
 
 ### requirements-prod.txt
+
 - **一句話摘要**：生產環境 Python 依賴清單。
 - **我不確定/待釐清**：與 dev/workflow 需求的差異。
 - **相關連結**：`requirements-debug.txt`、`requirements-workflow.txt`
