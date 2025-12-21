@@ -13,8 +13,8 @@
 <!-- 列出所有變更的檔案和影響範圍 -->
 ```yaml
 modified_files:
-  - src/enterprise/integrations/webhook.py
-  - 其他變更檔案...
+  - path/to/modified/file.ext
+  - path/to/another/modified/file.ext
 
 new_files:
   - 新增檔案...
