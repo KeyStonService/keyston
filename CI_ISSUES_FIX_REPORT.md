@@ -66,6 +66,7 @@ The actions actions/checkout@v4, actions/setup-python@v5, and actions/upload-art
 - ✅ **Workers Builds**: 這個問題需要檢查 Cloudflare 設定，可能不在我們控制範圍內
 
 ### PR 模板改善
+
 - ✅ **邏輯一致性**: 狀態和審核清單現在保持一致
 - ✅ **移動友善**: 改進了手機端驗證體驗
 - ✅ **驗證完整性**: 更清晰的證據鏈要求
