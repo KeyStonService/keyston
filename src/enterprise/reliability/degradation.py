@@ -14,7 +14,7 @@ Also includes:
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List, Callable, Awaitable, Protocol
+from typing import Optional, Dict, Any, Callable, Awaitable, Protocol
 from uuid import UUID
 from enum import Enum
 import asyncio

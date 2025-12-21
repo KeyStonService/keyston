@@ -20,8 +20,6 @@ from enterprise.iam.models import (
     APIToken,
     TokenScope,
     Permission,
-    ROLE_PERMISSIONS,
-    Role,
 )
 
 
