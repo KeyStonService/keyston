@@ -3,6 +3,7 @@
 本文件記錄所有 AI 代理在專案中使用的狀態標記（Status Marker）的約定。
 
 ## 狀態標記
+
 - ✅ (check mark): 表示任務或檢查項已完成。
 - ⏸️ (double vertical bar): 表示任務被暫停、中斷或被阻止。
 - 🔄 (arrows clockwise): 表示任務正在進行或循環中。
