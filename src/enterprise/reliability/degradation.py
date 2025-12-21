@@ -13,7 +13,7 @@ Also includes:
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional, Dict, Any, List, Callable, Awaitable, Protocol
 from uuid import UUID
 from enum import Enum
