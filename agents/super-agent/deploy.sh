@@ -3,11 +3,9 @@
 
 set -euo pipefail
 
-# Configuration
-ENVIRONMENT="${1:-dev}"  # Default to dev if not specified
-NAMESPACE="axiom-system"
+# Get environment from command line argument (default to dev)
+ENVIRONMENT="${1:-dev}"
 IMAGE_NAME="axiom-system/super-agent"
-IMAGE_TAG="v1.0.0"
 DOCKERFILE="Dockerfile"
 
 # Environment-specific settings

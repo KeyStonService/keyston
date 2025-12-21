@@ -18,7 +18,10 @@ images:
 - name: axiom-system/super-agent
   newTag: v1.0.0-rc
 
-# Keep default replicas (2) for staging
+# Use default replicas (2) from base for staging
+replicas:
+- name: super-agent
+  count: 2
 
 # Staging-specific configuration
 configMapGenerator:
