@@ -1,102 +1,48 @@
 # MachineNativeOps Root Layer Modules Registry
-apiVersion: machinenativeops.io/v1
-kind: ModuleRegistry
-metadata:
-  name: root-modules-registry
-  version: "1.0.0"
-  description: "Authoritative registry of all root layer modules"
-spec:
-  # Core modules registry
-  modules:
-    config-manager:
-      name: "config-manager"
-      version: "1.0.0"
-      description: "Configuration management and validation"
-      type: "core"
-      dependencies: []
-      status: "active"
-    
-    logging-service:
-      name: "logging-service"
-      version: "1.0.0"
-      description: "Centralized logging service"
-      type: "core"
-      dependencies: ["config-manager"]
-      status: "active"
-    
-    trust-manager:
-      name: "trust-manager"
-      version: "1.0.0"
-      description: "Trust chain and certificate management"
-      type: "security"
-      dependencies: ["config-manager"]
-      status: "active"
-    
-    governance-engine:
-      name: "governance-engine"
-      version: "1.0.0"
-      description: "Governance and policy enforcement"
-      type: "core"
-      dependencies: ["config-manager", "trust-manager"]
-      status: "active"
-    
-    provenance-tracker:
-      name: "provenance-tracker"
-      version: "1.0.0"
-      description: "Audit trail and provenance tracking"
-      type: "core"
-      dependencies: ["config-manager", "logging-service"]
-      status: "active"
-    
-    integrity-validator:
-      name: "integrity-validator"
-      version: "1.0.0"
-      description: "System integrity validation"
-      type: "security"
-      dependencies: ["config-manager", "trust-manager"]
-      status: "active"
-    
-    super-execution-engine:
-      name: "super-execution-engine"
-      version: "1.0.0"
-      description: "System bootstrapping and execution"
-      type: "core"
-      dependencies: ["config-manager", "governance-engine"]
-      status: "active"
-    
-    monitoring-service:
-      name: "monitoring-service"
-      version: "1.0.0"
-      description: "System monitoring and alerting"
-      type: "core"
-      dependencies: ["config-manager", "logging-service"]
-      status: "active"
+version: 1
+hash_policy:
+  authoritative: "sha3-512"
+  compatibility: "sha256"
 
-  # Module categories
-  categories:
-    core:
-      description: "Core system modules"
-      modules: ["config-manager", "logging-service", "governance-engine", "provenance-tracker", "super-execution-engine", "monitoring-service"]
-    
-    security:
-      description: "Security and trust modules"
-      modules: ["trust-manager", "integrity-validator"]
+modules:
+  config-manager:
+    id: "config-manager"
+    name: "config-manager"
+    version: "1.0.0"
+    description: "Configuration management and validation"
+    type: "core"
+    language: "python"
+    status: "active"
 
-  # Dependency graph
-  dependencies:
-    config-manager: []
-    logging-service: ["config-manager"]
-    trust-manager: ["config-manager"]
-    governance-engine: ["config-manager", "trust-manager"]
-    provenance-tracker: ["config-manager", "logging-service"]
-    integrity-validator: ["config-manager", "trust-manager"]
-    super-execution-engine: ["config-manager", "governance-engine"]
-    monitoring-service: ["config-manager", "logging-service"]
+    dependencies: []
 
-status:
-  created: "2025-12-21T05:14:00Z"
-  updated: "2025-12-21T05:14:00Z"
-  version: "1.0.0"
-  total_modules: 8
-  active_modules: 8
-  validated: true
+    build:
+      builder: "python-wheel"
+      context: "engine/config-manager"
+      pyproject: "engine/config-manager/pyproject.toml"
+      lock_optional_paths:
+        - "engine/config-manager/requirements.lock.txt"
+        - "engine/config-manager/uv.lock"
+        - "engine/config-manager/poetry.lock"
+      outputs:
+        - kind: "python-wheel"
+          path: "dist/artifacts/config-manager/1.0.0/"
+
+    runtime:
+      command: "config-manager"
+      module: "config_manager"
+      serve_port: 8080
+      health_path: "/health"
+
+    install:
+      rootfs_fragment:
+        enabled: true
+        paths:
+          - from: "tools/templates/config-manager/rootfs"
+            to: "/"
+
+    health:
+      kind: "http"
+      port: 8080
+      path: "/health"
+      timeout_seconds: 2

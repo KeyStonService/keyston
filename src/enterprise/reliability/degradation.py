@@ -13,14 +13,19 @@ Also includes:
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List, Callable, Awaitable, Protocol
+from datetime import datetime
+from typing import Optional, Dict, Any, Callable, Awaitable, Protocol
 from uuid import UUID
 from enum import Enum
 import asyncio
-import logging
+from datetime import datetime
 import time
-
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Protocol
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +57,8 @@ class FallbackResult:
     """Result of a fallback operation"""
     success: bool
     used_fallback: bool = False
-    fallback_reason: Optional[str] = None
-    original_error: Optional[str] = None
+    fallback_reason: str | None = None
+    original_error: str | None = None
     result: Any = None
     duration_ms: float = 0.0
 
@@ -65,7 +70,7 @@ class HealthCheckResult:
     status: ServiceHealth
     latency_ms: float = 0.0
     message: str = ""
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
     checked_at: datetime = field(default_factory=datetime.utcnow)
 
 
@@ -77,7 +82,7 @@ class AlertPublisher(Protocol):
         severity: str,
         title: str,
         message: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
     ) -> None:
         ...
 
@@ -99,13 +104,13 @@ class CircuitBreaker:
     state: CircuitState = CircuitState.CLOSED
     failure_count: int = 0
     success_count: int = 0
-    last_failure_time: Optional[datetime] = None
+    last_failure_time: datetime | None = None
     last_state_change: datetime = field(default_factory=datetime.utcnow)
 
     async def call(
         self,
         operation: Callable[[], Awaitable[Any]],
-        fallback: Optional[Callable[[], Awaitable[Any]]] = None,
+        fallback: Callable[[], Awaitable[Any]] | None = None,
     ) -> FallbackResult:
         """
         Execute operation through circuit breaker
@@ -227,9 +232,7 @@ class CircuitBreaker:
         self.last_failure_time = datetime.utcnow()
         self.success_count = 0
 
-        if self.state == CircuitState.HALF_OPEN:
-            self._transition_to(CircuitState.OPEN)
-        elif self.failure_count >= self.failure_threshold:
+        if self.state == CircuitState.HALF_OPEN or self.failure_count >= self.failure_threshold:
             self._transition_to(CircuitState.OPEN)
 
     def _should_attempt_reset(self) -> bool:
@@ -274,8 +277,8 @@ class HealthCheck:
     # State
     status: ServiceHealth = ServiceHealth.UNKNOWN
     consecutive_failures: int = 0
-    last_check: Optional[datetime] = None
-    last_success: Optional[datetime] = None
+    last_check: datetime | None = None
+    last_success: datetime | None = None
 
     async def check(self) -> HealthCheckResult:
         """Run health check"""
@@ -351,16 +354,16 @@ class DegradationStrategy:
     default_mode: DegradationMode = DegradationMode.FAIL_NEUTRAL
 
     # Per-org overrides
-    org_modes: Dict[str, DegradationMode] = field(default_factory=dict)
+    org_modes: dict[str, DegradationMode] = field(default_factory=dict)
 
     # Circuit breakers for dependencies
-    circuit_breakers: Dict[str, CircuitBreaker] = field(default_factory=dict)
+    circuit_breakers: dict[str, CircuitBreaker] = field(default_factory=dict)
 
     # Health checks
-    health_checks: Dict[str, HealthCheck] = field(default_factory=dict)
+    health_checks: dict[str, HealthCheck] = field(default_factory=dict)
 
     # Alert publisher
-    alert_publisher: Optional[AlertPublisher] = None
+    alert_publisher: AlertPublisher | None = None
 
     # Configuration
     gate_timeout_seconds: float = 300.0      # 5 minute gate timeout
@@ -368,8 +371,8 @@ class DegradationStrategy:
 
     # State
     is_degraded: bool = False
-    degraded_since: Optional[datetime] = None
-    degradation_reason: Optional[str] = None
+    degraded_since: datetime | None = None
+    degradation_reason: str | None = None
 
     # ------------------------------------------------------------------
     # Degradation Mode
@@ -392,7 +395,7 @@ class DegradationStrategy:
         org_id: UUID,
         run_id: UUID,
         elapsed_seconds: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Handle gate timeout
 
@@ -456,7 +459,7 @@ class DegradationStrategy:
         run_id: UUID,
         dependency: str,
         error: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Handle dependency failure (e.g., provider API down)
 
@@ -526,7 +529,7 @@ class DegradationStrategy:
         self,
         name: str,
         operation: Callable[[], Awaitable[Any]],
-        fallback: Optional[Callable[[], Awaitable[Any]]] = None,
+        fallback: Callable[[], Awaitable[Any]] | None = None,
     ) -> FallbackResult:
         """Execute operation through circuit breaker"""
         cb = self.get_circuit_breaker(name)
@@ -551,7 +554,7 @@ class DegradationStrategy:
         self.health_checks[name] = hc
         return hc
 
-    async def run_health_checks(self) -> Dict[str, HealthCheckResult]:
+    async def run_health_checks(self) -> dict[str, HealthCheckResult]:
         """Run all registered health checks"""
         results = {}
 
@@ -616,7 +619,7 @@ class DegradationStrategy:
         self.degraded_since = None
         self.degradation_reason = None
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current degradation status"""
         return {
             "is_degraded": self.is_degraded,

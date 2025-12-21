@@ -6,22 +6,21 @@ MVP can use email/password + magic link, but this module provides
 the backend interfaces for OIDC/SAML integration.
 """
 
+import hashlib
+import logging
+import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, Protocol
-from uuid import UUID
-import hashlib
-import secrets
-import logging
+from typing import Any, Dict, Optional, Protocol
 from urllib.parse import urlencode, urlparse
+from uuid import UUID
 
 from enterprise.iam.models import (
-    User,
-    SSOConfig,
     Membership,
     Role,
+    SSOConfig,
+    User,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -192,6 +191,7 @@ class SSOManager:
 
         if not discovery_response:
             raise ValueError("Failed to discover OIDC configuration: empty response")
+
         # Hash client secret for storage
         secret_hash = hashlib.sha256(client_secret.encode()).hexdigest()
 
@@ -369,6 +369,35 @@ class SSOManager:
             refresh_token=token_response.get("refresh_token"),
             expires_in=token_response.get("expires_in", 3600),
         )
+
+        # Validate ID token and nonce to prevent replay attacks
+        # Perform full JWT signature and claims verification using the provider's JWKS.
+        try:
+            jwks_uri = discovery.get("jwks_uri")
+            if not jwks_uri:
+                raise ValueError("OIDC discovery document missing 'jwks_uri'")
+
+            # Fetch the appropriate signing key for this ID token from the JWKS endpoint.
+            jwk_client = jwt.PyJWKClient(jwks_uri)
+            signing_key = jwk_client.get_signing_key_from_jwt(tokens.id_token)
+
+            # Decode and verify the ID token signature, issuer, audience, and expiry.
+            id_token_claims = jwt.decode(
+                tokens.id_token,
+                key=signing_key.key,
+                algorithms=["RS256", "RS384", "RS512", "ES256", "ES384", "ES512"],
+                audience=config.client_id,
+                issuer=discovery.get("issuer"),
+            )
+
+            # Verify nonce exists and matches to prevent replay attacks
+            token_nonce = id_token_claims.get("nonce")
+            if not token_nonce:
+                raise ValueError("Missing nonce claim in ID token")
+            if token_nonce != nonce:
+                raise ValueError("Nonce mismatch in ID token - possible replay attack")
+        except jwt.PyJWTError as e:
+            raise ValueError(f"Failed to validate ID token: {e}")
 
         # Get user info
         userinfo_endpoint = discovery.get("userinfo_endpoint")

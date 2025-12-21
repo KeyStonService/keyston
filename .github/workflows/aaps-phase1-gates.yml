@@ -1,0 +1,49 @@
+name: aaps-phase1-gates
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+
+jobs:
+  phase1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps (jsonschema, pyyaml, build)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema build
+
+      - name: Gate 1 - Root Schema Gate
+        run: |
+          python tools/root_schema_gate.py
+
+      - name: Gate 2 - Module Graph Gate
+        run: |
+          python tools/module_graph_gate.py
+
+      - name: Gate 3 - Build Recipe Gate (config-manager)
+        run: |
+          python tools/build_module.py config-manager
+
+      - name: Gate 4 - RootFS Assemble Gate
+        run: |
+          python tools/rootfs_assembler.py
+
+      - name: Gate 5 - Evidence Gate (sha3-512 authoritative + sha256 compatibility)
+        run: |
+          python tools/evidence_generator.py
+
+      - name: Upload dist as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/

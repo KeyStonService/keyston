@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict, Any, List, Protocol, Callable
 from enum import Enum
 import time
-import time
 import logging
 
 
@@ -507,7 +506,6 @@ class MetricsCollector:
         error_type: str,
     ) -> None:
         """Record an error"""
-        # Need to use raw dict for custom labels
         if self.backend:
             self.backend.counter_inc(
                 f"{self.prefix}_errors_total",
