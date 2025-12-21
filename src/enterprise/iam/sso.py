@@ -337,6 +337,7 @@ class SSOManager:
         org_id = UUID(pending["org_id"])
         code_verifier = pending["code_verifier"]
         redirect_uri = pending["redirect_uri"]
+        # TODO: In production, validate nonce from pending["nonce"] against ID token claims
 
         # Clean up pending auth
         del self._pending_auth[state]
