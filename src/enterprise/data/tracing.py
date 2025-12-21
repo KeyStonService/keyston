@@ -9,15 +9,12 @@ Provides request tracing across services:
 Essential for debugging distributed operations.
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Optional, Dict, Any, List, Protocol
-from uuid import UUID, uuid4
-from enum import Enum
-from contextvars import ContextVar
-import time
 import logging
-
+import time
+from contextvars import ContextVar
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Optional, Protocol
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +98,7 @@ class SpanEvent:
     """Event within a span"""
     name: str
     timestamp: float  # Unix timestamp
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    attributes: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -113,12 +110,12 @@ class Span:
     """
     name: str = ""
     context: SpanContext = field(default_factory=SpanContext)
-    parent_context: Optional[SpanContext] = None
+    parent_context: SpanContext | None = None
 
     # Timing
     start_time: float = 0.0      # Unix timestamp
-    end_time: Optional[float] = None
-    duration_ms: Optional[float] = None
+    end_time: float | None = None
+    duration_ms: float | None = None
 
     # Classification
     kind: SpanKind = SpanKind.INTERNAL
@@ -130,17 +127,17 @@ class Span:
     service_version: str = ""
 
     # Attributes
-    attributes: Dict[str, Any] = field(default_factory=dict)
+    attributes: dict[str, Any] = field(default_factory=dict)
 
     # Events within span
-    events: List[SpanEvent] = field(default_factory=list)
+    events: list[SpanEvent] = field(default_factory=list)
 
     # Links to other spans
-    links: List[SpanContext] = field(default_factory=list)
+    links: list[SpanContext] = field(default_factory=list)
 
     # Error info
-    exception: Optional[str] = None
-    exception_stacktrace: Optional[str] = None
+    exception: str | None = None
+    exception_stacktrace: str | None = None
 
     def __post_init__(self):
         if not self.start_time:
@@ -153,7 +150,7 @@ class Span:
         self.attributes[key] = value
         return self
 
-    def set_attributes(self, attributes: Dict[str, Any]) -> "Span":
+    def set_attributes(self, attributes: dict[str, Any]) -> "Span":
         """Set multiple attributes"""
         self.attributes.update(attributes)
         return self
@@ -161,7 +158,7 @@ class Span:
     def add_event(
         self,
         name: str,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: dict[str, Any] | None = None,
     ) -> "Span":
         """Add an event to the span"""
         event = SpanEvent(
@@ -209,7 +206,7 @@ class Span:
         self.duration_ms = (self.end_time - self.start_time) * 1000
         return self
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for export"""
         return {
             "name": self.name,
@@ -242,7 +239,7 @@ class TracingBackend(Protocol):
         """Export a completed span"""
         ...
 
-    async def export_spans(self, spans: List[Span]) -> None:
+    async def export_spans(self, spans: list[Span]) -> None:
         """Export multiple spans"""
         ...
 
@@ -256,7 +253,7 @@ class Tracer:
     OpenTelemetry compatible.
     """
 
-    backend: Optional[TracingBackend] = None
+    backend: TracingBackend | None = None
 
     # Configuration
     service_name: str = "machinenativeops"
@@ -267,7 +264,7 @@ class Tracer:
     sample_rate: float = 1.0  # 1.0 = 100% sampling
 
     # Pending spans for batch export
-    _pending_spans: List[Span] = field(default_factory=list)
+    _pending_spans: list[Span] = field(default_factory=list)
     _batch_size: int = 100
 
     # ------------------------------------------------------------------
@@ -278,8 +275,8 @@ class Tracer:
         self,
         name: str,
         kind: SpanKind = SpanKind.INTERNAL,
-        parent: Optional[SpanContext] = None,
-        attributes: Optional[Dict[str, Any]] = None,
+        parent: SpanContext | None = None,
+        attributes: dict[str, Any] | None = None,
     ) -> Span:
         """
         Start a new span
@@ -353,8 +350,8 @@ class Tracer:
 
     def extract_context(
         self,
-        headers: Dict[str, str],
-    ) -> Optional[SpanContext]:
+        headers: dict[str, str],
+    ) -> SpanContext | None:
         """
         Extract span context from HTTP headers
 
@@ -376,8 +373,8 @@ class Tracer:
     def inject_context(
         self,
         span: Span,
-        headers: Dict[str, str],
-    ) -> Dict[str, str]:
+        headers: dict[str, str],
+    ) -> dict[str, str]:
         """
         Inject span context into HTTP headers
 
@@ -398,7 +395,7 @@ class Tracer:
         self,
         name: str,
         kind: SpanKind = SpanKind.INTERNAL,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: dict[str, Any] | None = None,
     ) -> "SpanContextManager":
         """
         Context manager for tracing
@@ -414,11 +411,11 @@ class Tracer:
     # Current Span
     # ------------------------------------------------------------------
 
-    def get_current_span(self) -> Optional[Span]:
+    def get_current_span(self) -> Span | None:
         """Get the current active span"""
         return _current_span.get()
 
-    def get_current_trace_id(self) -> Optional[str]:
+    def get_current_trace_id(self) -> str | None:
         """Get the current trace ID"""
         span = _current_span.get()
         return span.context.trace_id if span else None
@@ -431,7 +428,7 @@ class Tracer:
         self,
         name: str,
         operation,
-        attributes: Optional[Dict[str, Any]] = None,
+        attributes: dict[str, Any] | None = None,
     ) -> Any:
         """
         Trace an async operation
@@ -465,8 +462,8 @@ class SpanContextManager:
     tracer: Tracer
     name: str
     kind: SpanKind = SpanKind.INTERNAL
-    attributes: Optional[Dict[str, Any]] = None
-    _span: Optional[Span] = None
+    attributes: dict[str, Any] | None = None
+    _span: Span | None = None
 
     async def __aenter__(self) -> Span:
         self._span = self.tracer.start_span(

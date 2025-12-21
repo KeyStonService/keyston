@@ -8,24 +8,25 @@ Manages API tokens with:
 - Expiration
 """
 
+import hashlib
+import logging
+import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol
+from typing import Any, Protocol
 from uuid import UUID
-import hashlib
-import secrets
-import logging
 
 from enterprise.iam.models import (
     APIToken,
-    TokenScope,
     Permission,
+    TokenScope,
 )
+
 logger = logging.getLogger(__name__)
 
 
 # Token scope to permissions mapping
-SCOPE_PERMISSIONS: Dict[TokenScope, List[Permission]] = {
+SCOPE_PERMISSIONS: dict[TokenScope, list[Permission]] = {
     TokenScope.READ: [
         Permission.ORG_READ,
         Permission.PROJECT_READ,
@@ -73,21 +74,21 @@ class TokenRepository(Protocol):
     async def save_token(self, token: APIToken) -> APIToken:
         ...
 
-    async def get_token_by_hash(self, token_hash: str) -> Optional[APIToken]:
+    async def get_token_by_hash(self, token_hash: str) -> APIToken | None:
         ...
 
     async def get_token_by_id(
         self, org_id: UUID, token_id: UUID
-    ) -> Optional[APIToken]:
+    ) -> APIToken | None:
         ...
 
     async def list_tokens(
         self,
         org_id: UUID,
-        user_id: Optional[UUID] = None,
+        user_id: UUID | None = None,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[APIToken]:
+    ) -> list[APIToken]:
         ...
 
     async def update_token(self, token: APIToken) -> APIToken:
@@ -107,7 +108,7 @@ class AuditLogger(Protocol):
         actor_id: UUID,
         resource_type: str,
         resource_id: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
     ) -> None:
         ...
 
@@ -116,10 +117,10 @@ class AuditLogger(Protocol):
 class TokenValidationResult:
     """Result of token validation"""
     valid: bool
-    token: Optional[APIToken] = None
-    org_id: Optional[UUID] = None
-    permissions: List[Permission] = None
-    error: Optional[str] = None
+    token: APIToken | None = None
+    org_id: UUID | None = None
+    permissions: list[Permission] = None
+    error: str | None = None
 
     def __post_init__(self):
         if self.permissions is None:
@@ -139,7 +140,7 @@ class TokenManager:
     """
 
     repository: TokenRepository
-    audit_logger: Optional[AuditLogger] = None
+    audit_logger: AuditLogger | None = None
 
     # Default token validity periods
     DEFAULT_EXPIRY_DAYS = 90
@@ -159,9 +160,9 @@ class TokenManager:
         scope: TokenScope,
         created_by: UUID,
         description: str = "",
-        expires_in_days: Optional[int] = None,
+        expires_in_days: int | None = None,
         is_personal: bool = True,
-        custom_permissions: Optional[List[Permission]] = None,
+        custom_permissions: list[Permission] | None = None,
     ) -> tuple[str, APIToken]:
         """
         Create a new API token
@@ -468,11 +469,11 @@ class TokenManager:
     async def list_tokens(
         self,
         org_id: UUID,
-        user_id: Optional[UUID] = None,
+        user_id: UUID | None = None,
         include_revoked: bool = False,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         List tokens for an organization
 
