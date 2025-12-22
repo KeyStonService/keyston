@@ -70,7 +70,10 @@ class NamespaceConverter:
                     # 轉換 apiVersion
                     if 'apiVersion' in doc:
                         old_version = doc['apiVersion']
-                        if not old_version.startswith('machinenativeops.io'):
+                        # 僅當 apiVersion 的 group 不是 machinenativeops.io 時才更新
+                        old_version_str = str(old_version)
+                        api_group = old_version_str.split('/', 1)[0]
+                        if api_group != 'machinenativeops.io':
                             doc['apiVersion'] = self.TARGET_API_VERSION
                             self.stats.api_version_updates += 1
                             modified = True
