@@ -1,0 +1,175 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsNamespaceConfig
+metadata:
+  name: machinenativeops-namespace-configuration
+  namespace: machinenativeops
+  labels:
+    machinenativeops.io/component: namespace-config
+    machinenativeops.io/version: v2
+  annotations:
+    machinenativeops.io/description: "MachineNativeOps 命名空間標準配置"
+    machinenativeops.io/urn: "urn:machinenativeops:config:namespace:v2"
+
+spec:
+  # 命名空間標準
+  namespace:
+    primary: "machinenativeops"
+    aliases:
+      - "mno"
+      - "machine-native-ops"
+  
+  # 域名標準
+  domains:
+    primary: "machinenativeops.io"
+    api_versions:
+      - "machinenativeops.io/v1"
+      - "machinenativeops.io/v2"
+    registry: "registry.machinenativeops.io"
+    documentation: "docs.machinenativeops.io"
+  
+  # URN 標準
+  urn:
+    prefix: "urn:machinenativeops:"
+    format: "urn:machinenativeops:{category}:{component}:{version}"
+    examples:
+      - "urn:machinenativeops:config:namespace:v2"
+      - "urn:machinenativeops:service:auth:v1"
+      - "urn:machinenativeops:policy:rbac:v2"
+  
+  # 標籤和註解標準
+  labels:
+    prefix: "machinenativeops.io/"
+    required:
+      - "machinenativeops.io/component"
+      - "machinenativeops.io/version"
+    recommended:
+      - "machinenativeops.io/environment"
+      - "machinenativeops.io/team"
+      - "machinenativeops.io/managed-by"
+  
+  # 證書路徑標準
+  certificates:
+    base_path: "/etc/machinenativeops/pkl"
+    ca_cert: "/etc/machinenativeops/pkl/ca.crt"
+    client_cert: "/etc/machinenativeops/pkl/client.crt"
+    client_key: "/etc/machinenativeops/pkl/client.key"
+  
+  # 集群標準
+  cluster:
+    etcd:
+      name: "super-agent-etcd-cluster"
+      namespace: "machinenativeops"
+      token_prefix: "super-agent-etcd-"
+    kubernetes:
+      namespace: "machinenativeops"
+      service_account_prefix: "machinenativeops-"
+  
+  # 遷移規則（從舊命名空間）
+  migration:
+    deprecated_patterns:
+      - pattern: "axiom\\.io"
+        replacement: "machinenativeops.io"
+        status: "deprecated"
+      - pattern: "AxiomGlobalBaseline"
+        replacement: "MachineNativeOpsGlobalBaseline"
+        status: "deprecated"
+      - pattern: "urn:axiom:"
+        replacement: "urn:machinenativeops:"
+        status: "deprecated"
+      - pattern: "axiom-"
+        replacement: "machinenativeops-"
+        status: "deprecated"
+    
+    conversion_rules:
+      strict_mode: true
+      preserve_comments: true
+      backup_originals: false
+  
+  # 驗證規則
+  validation:
+    enforce_urn_format: true
+    enforce_label_prefix: true
+    enforce_namespace: true
+    allow_legacy_references: false
+    
+    # 排除路徑
+    exclude_paths:
+      - ".git"
+      - ".github"
+      - "node_modules"
+      - "__pycache__"
+      - "dist"
+      - "build"
+      - ".venv"
+      - "venv"
+      - "archive"
+    
+    # 文件類型
+    file_extensions:
+      - ".yaml"
+      - ".yml"
+      - ".json"
+      - ".py"
+      - ".md"
+      - ".ts"
+      - ".js"
+---
+# MachineNativeOps Namespace Configuration
+# 機器原生運維命名空間配置
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: machinenativeops
+  labels:
+    machinenativeops.io/managed: "true"
+    machinenativeops.io/version: "v2"
+    machinenativeops.io/component: "core"
+  annotations:
+    machinenativeops.io/description: "MachineNativeOps 核心命名空間"
+    machinenativeops.io/registry: "registry.machinenativeops.io"
+    machinenativeops.io/certificate-path: "etc/machinenativeops/pkl"
+    machinenativeops.io/cluster-token: "super-agent-etcd-cluster"
+---
+# MachineNativeOps Registry Configuration
+# 鏡像倉庫配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-config
+  namespace: machinenativeops
+  labels:
+    machinenativeops.io/component: "registry"
+data:
+  registry.url: "registry.machinenativeops.io"
+  registry.mirror: "registry.machinenativeops.io/mirror"
+  certificate.path: "/etc/machinenativeops/pkl"
+  cluster.token: "super-agent-etcd-cluster"
+---
+# MachineNativeOps Global Baseline
+# 全局基線配置
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  name: global-baseline
+  namespace: machinenativeops
+  labels:
+    machinenativeops.io/baseline: "v2"
+spec:
+  namespace:
+    primary: "machinenativeops"
+    registry: "registry.machinenativeops.io"
+  tags:
+    domain: "machinenativeops.io"
+    prefix: "machinenativeops.io/"
+  paths:
+    certificates: "etc/machinenativeops/pkl"
+    config: "etc/machinenativeops/config"
+  cluster:
+    token: "super-agent-etcd-cluster"
+    name: "machinenativeops-cluster"
+  urn:
+    pattern: "urn:machinenativeops:{resource}:{version}"
+    examples:
+      - "urn:machinenativeops:agent:v1"
+      - "urn:machinenativeops:service:v2"
+      - "urn:machinenativeops:monitor:v1"

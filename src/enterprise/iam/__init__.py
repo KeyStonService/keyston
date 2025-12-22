@@ -11,23 +11,22 @@ All data must carry org_id as the tenant isolation root key.
 """
 
 from enterprise.iam.models import (
+    APIToken,
+    Membership,
+    OIDCProvider,
     Organization,
+    Permission,
     Project,
     Repository,
-    User,
-    Membership,
     Role,
-    Permission,
-    APIToken,
-    TokenScope,
     SSOConfig,
-    OIDCProvider,
+    TokenScope,
+    User,
 )
-
-from enterprise.iam.tenant_manager import TenantManager
 from enterprise.iam.rbac import RBACManager
-from enterprise.iam.token_manager import TokenManager
 from enterprise.iam.sso import SSOManager
+from enterprise.iam.tenant_manager import TenantManager
+from enterprise.iam.token_manager import TokenManager
 
 __all__ = [
     # Models

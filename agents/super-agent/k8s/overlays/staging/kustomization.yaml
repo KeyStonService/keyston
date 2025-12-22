@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namespace: axiom-system-staging
+
+namePrefix: staging-
+
+labels:
+- pairs:
+    environment: staging
+  includeSelectors: true
+
+# Override image tag for staging environment
+images:
+- name: axiom-system/super-agent
+  newTag: v1.0.0-rc
+
+# Use default replicas (2) from base for staging
+replicas:
+- name: super-agent
+  count: 2
+
+# Staging-specific configuration
+configMapGenerator:
+- name: super-agent-env
+  literals:
+  - LOG_LEVEL=INFO
+  - ENVIRONMENT=staging
+
+# Mount the configMap in the deployment
+patches:
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/envFrom
+      value:
+      - configMapRef:
+          name: super-agent-env
+  target:
+    kind: Deployment
+    name: super-agent

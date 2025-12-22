@@ -1,0 +1,93 @@
+version: "3.9"
+
+services:
+  super-agent:
+    build:
+      context: .
+      target: production
+    image: aaps/super-agent:latest
+    container_name: super-agent
+    ports:
+      - "8080:8080"
+    environment:
+      - SUPERAGENT_AGENT_ID=super-agent-001
+      - SUPERAGENT_ENV=production
+      - SUPERAGENT_LOG_LEVEL=INFO
+      - SUPERAGENT_LOG_FORMAT=json
+      - SUPERAGENT_EVENT_STORE_BACKEND=sqlite
+      - SUPERAGENT_EVENT_STORE_PATH=/app/data/events.db
+      - SUPERAGENT_AUDIT_PATH=/app/data/audit.db
+      - SUPERAGENT_ENABLE_TRACING=true
+    volumes:
+      - super-agent-data:/app/data
+      - super-agent-logs:/app/logs
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - aaps-network
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+
+  # Development configuration
+  super-agent-dev:
+    build:
+      context: .
+      target: development
+    image: aaps/super-agent:dev
+    container_name: super-agent-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - SUPERAGENT_ENV=development
+      - SUPERAGENT_LOG_LEVEL=DEBUG
+      - SUPERAGENT_LOG_FORMAT=text
+      - SUPERAGENT_EVENT_STORE_BACKEND=memory
+    volumes:
+      - .:/app:ro
+      - super-agent-dev-data:/app/data
+    profiles:
+      - dev
+    networks:
+      - aaps-network
+
+  # Test runner
+  test-runner:
+    build:
+      context: .
+      target: development
+    image: aaps/super-agent:test
+    container_name: super-agent-test
+    command: ["pytest", "-v", "--cov=.", "--cov-report=term-missing"]
+    environment:
+      - SUPERAGENT_ENV=test
+      - SUPERAGENT_EVENT_STORE_BACKEND=memory
+    volumes:
+      - .:/app
+    profiles:
+      - test
+    networks:
+      - aaps-network
+
+volumes:
+  super-agent-data:
+    name: super-agent-data
+  super-agent-logs:
+    name: super-agent-logs
+  super-agent-dev-data:
+    name: super-agent-dev-data
+
+networks:
+  aaps-network:
+    name: aaps-network
+    driver: bridge

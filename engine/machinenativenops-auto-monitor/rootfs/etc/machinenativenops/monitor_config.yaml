@@ -1,0 +1,31 @@
+# MachineNativeOps Auto Monitor - Production Configuration
+# This file is installed by the package and can be customized
+
+# Copy default configuration and modify as needed
+# See: /usr/share/machinenativenops-auto-monitor/assets/default_config.yaml
+
+# Override essential settings for production
+monitoring:
+  prometheus_port: 8000
+  interval: 30
+  
+logging:
+  level: "INFO"
+  file: "/var/log/machinenativenops/monitor.log"
+  
+database:
+  path: "/var/lib/machinenativenops/auto_monitor/metrics.db"
+  retention_days: 30
+
+# Quantum monitoring disabled by default in production
+quantum:
+  enabled: false
+
+# Auto-repair disabled by default (Phase 1)
+auto_repair:
+  enabled: false
+
+# Network security - no external connections by default
+network:
+  base_url: null
+  verify_ssl: true

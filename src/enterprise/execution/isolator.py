@@ -10,14 +10,13 @@ Provides isolated execution environments for analysis:
 CRITICAL: Never run external code without isolation!
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol
-from uuid import UUID, uuid4
-from enum import Enum
-import logging
 import asyncio
-
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +48,7 @@ class IsolationPolicy:
 
     # Network policy
     network_policy: NetworkPolicy = NetworkPolicy.DENY_ALL
-    allowed_egress: List[str] = field(default_factory=list)  # Allowlist if ALLOW_SPECIFIC
+    allowed_egress: list[str] = field(default_factory=list)  # Allowlist if ALLOW_SPECIFIC
 
     # Resource limits
     cpu_limit: str = "1"                    # CPU cores (e.g., "0.5", "1", "2")
@@ -67,12 +66,12 @@ class IsolationPolicy:
     user_id: int = 1000                    # UID to run as
 
     # Filesystem
-    allowed_volume_mounts: List[str] = field(default_factory=list)
+    allowed_volume_mounts: list[str] = field(default_factory=list)
     temp_dir_size_limit: str = "100Mi"
 
     # Security context
     seccomp_profile: str = "RuntimeDefault"
-    apparmor_profile: Optional[str] = None
+    apparmor_profile: str | None = None
 
 
 @dataclass
@@ -86,20 +85,20 @@ class ExecutionSpec:
 
     # Tenant isolation
     org_id: UUID = field(default_factory=uuid4)
-    run_id: Optional[UUID] = None
+    run_id: UUID | None = None
 
     # Container image
     image: str = ""                         # Worker image to use
-    image_pull_secret: Optional[str] = None
+    image_pull_secret: str | None = None
 
     # Command
-    command: List[str] = field(default_factory=list)
-    args: List[str] = field(default_factory=list)
+    command: list[str] = field(default_factory=list)
+    args: list[str] = field(default_factory=list)
     working_dir: str = "/workspace"
 
     # Environment
-    env_vars: Dict[str, str] = field(default_factory=dict)
-    secret_refs: List[str] = field(default_factory=list)  # Secrets to inject
+    env_vars: dict[str, str] = field(default_factory=dict)
+    secret_refs: list[str] = field(default_factory=list)  # Secrets to inject
 
     # Input
     input_source: str = ""                  # Git URL or artifact location
@@ -109,7 +108,7 @@ class ExecutionSpec:
     isolation_policy: IsolationPolicy = field(default_factory=IsolationPolicy)
 
     # Labels (for tracking)
-    labels: Dict[str, str] = field(default_factory=dict)
+    labels: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -123,27 +122,27 @@ class ExecutionResult:
     # Status
     success: bool = False
     exit_code: int = -1
-    error: Optional[str] = None
+    error: str | None = None
 
     # Output
     stdout: str = ""
     stderr: str = ""
-    output_artifacts: List[str] = field(default_factory=list)  # Paths to output files
+    output_artifacts: list[str] = field(default_factory=list)  # Paths to output files
 
     # Timing
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    duration_seconds: Optional[float] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    duration_seconds: float | None = None
 
     # Resource usage
-    cpu_usage_seconds: Optional[float] = None
-    memory_peak_bytes: Optional[int] = None
-    network_egress_bytes: Optional[int] = None
+    cpu_usage_seconds: float | None = None
+    memory_peak_bytes: int | None = None
+    network_egress_bytes: int | None = None
 
     # Execution details
-    container_id: Optional[str] = None
-    pod_name: Optional[str] = None
-    node_name: Optional[str] = None
+    container_id: str | None = None
+    pod_name: str | None = None
+    node_name: str | None = None
 
 
 class ContainerRuntime(Protocol):
@@ -188,7 +187,7 @@ class ContainerRuntime(Protocol):
     async def get_resource_usage(
         self,
         container_id: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get resource usage statistics"""
         ...
 
@@ -199,7 +198,7 @@ class KubernetesClient(Protocol):
     async def create_job(
         self,
         namespace: str,
-        job_spec: Dict[str, Any],
+        job_spec: dict[str, Any],
     ) -> str:
         """Create a Kubernetes Job, return job name"""
         ...
@@ -233,7 +232,7 @@ class KubernetesClient(Protocol):
         self,
         namespace: str,
         job_name: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get job status"""
         ...
 
@@ -248,8 +247,8 @@ class ExecutionIsolator:
     """
 
     # Runtime backends
-    container_runtime: Optional[ContainerRuntime] = None
-    kubernetes_client: Optional[KubernetesClient] = None
+    container_runtime: ContainerRuntime | None = None
+    kubernetes_client: KubernetesClient | None = None
 
     # Configuration
     default_namespace: str = "mno-workers"
@@ -286,7 +285,7 @@ class ExecutionIsolator:
 
             result.success = result.exit_code == 0
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             result.error = "Execution timed out"
             result.exit_code = 124  # Standard timeout exit code
 
@@ -411,7 +410,7 @@ class ExecutionIsolator:
         self,
         spec: ExecutionSpec,
         job_name: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Build Kubernetes Job specification"""
         policy = spec.isolation_policy
 
@@ -552,8 +551,8 @@ class ExecutionIsolator:
     def _build_network_policy(
         self,
         policy: IsolationPolicy,
-        labels: Dict[str, str],
-    ) -> Dict[str, Any]:
+        labels: dict[str, str],
+    ) -> dict[str, Any]:
         """Build Kubernetes NetworkPolicy for isolation"""
         if policy.network_policy == NetworkPolicy.DENY_ALL:
             return {

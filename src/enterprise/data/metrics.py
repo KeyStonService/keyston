@@ -9,11 +9,10 @@ Prometheus-compatible metrics for observability:
 Essential for operating at scale and delivering SLA.
 """
 
-from dataclasses import dataclass, field
-from typing import Optional, Dict, Any, List, Protocol, Callable
-from enum import Enum
-import time
 import logging
+import time
+from dataclasses import dataclass, field
+from enum import Enum
 
 
 logger = logging.getLogger(__name__)
@@ -34,16 +33,16 @@ class MetricLabels:
 
     Common labels used across metrics.
     """
-    org_id: Optional[str] = None
-    repo: Optional[str] = None
-    run_type: Optional[str] = None
-    provider: Optional[str] = None
-    status: Optional[str] = None
-    error_type: Optional[str] = None
-    tool: Optional[str] = None
-    queue: Optional[str] = None
+    org_id: str | None = None
+    repo: str | None = None
+    run_type: str | None = None
+    provider: str | None = None
+    status: str | None = None
+    error_type: str | None = None
+    tool: str | None = None
+    queue: str | None = None
 
-    def to_dict(self) -> Dict[str, str]:
+    def to_dict(self) -> dict[str, str]:
         """Convert to label dictionary"""
         return {
             k: v for k, v in {
@@ -66,7 +65,7 @@ class MetricsBackend(Protocol):
         self,
         name: str,
         value: float = 1.0,
-        labels: Optional[Dict[str, str]] = None,
+        labels: dict[str, str] | None = None,
     ) -> None:
         ...
 
@@ -74,7 +73,7 @@ class MetricsBackend(Protocol):
         self,
         name: str,
         value: float,
-        labels: Optional[Dict[str, str]] = None,
+        labels: dict[str, str] | None = None,
     ) -> None:
         ...
 
@@ -82,7 +81,7 @@ class MetricsBackend(Protocol):
         self,
         name: str,
         value: float,
-        labels: Optional[Dict[str, str]] = None,
+        labels: dict[str, str] | None = None,
     ) -> None:
         ...
 
@@ -96,13 +95,13 @@ class Counter:
     """
     name: str
     description: str = ""
-    labels: List[str] = field(default_factory=list)
-    _backend: Optional[MetricsBackend] = None
+    labels: list[str] = field(default_factory=list)
+    _backend: MetricsBackend | None = None
 
     def inc(
         self,
         value: float = 1.0,
-        labels: Optional[MetricLabels] = None,
+        labels: MetricLabels | None = None,
     ) -> None:
         """Increment the counter"""
         if self._backend:
@@ -122,13 +121,13 @@ class Gauge:
     """
     name: str
     description: str = ""
-    labels: List[str] = field(default_factory=list)
-    _backend: Optional[MetricsBackend] = None
+    labels: list[str] = field(default_factory=list)
+    _backend: MetricsBackend | None = None
 
     def set(
         self,
         value: float,
-        labels: Optional[MetricLabels] = None,
+        labels: MetricLabels | None = None,
     ) -> None:
         """Set the gauge value"""
         if self._backend:
@@ -141,7 +140,7 @@ class Gauge:
     def inc(
         self,
         value: float = 1.0,
-        labels: Optional[MetricLabels] = None,
+        labels: MetricLabels | None = None,
     ) -> None:
         """Increment the gauge"""
         # Note: Actual implementation would track current value
@@ -150,7 +149,7 @@ class Gauge:
     def dec(
         self,
         value: float = 1.0,
-        labels: Optional[MetricLabels] = None,
+        labels: MetricLabels | None = None,
     ) -> None:
         """Decrement the gauge"""
         pass
@@ -165,16 +164,16 @@ class Histogram:
     """
     name: str
     description: str = ""
-    labels: List[str] = field(default_factory=list)
-    buckets: List[float] = field(default_factory=lambda: [
+    labels: list[str] = field(default_factory=list)
+    buckets: list[float] = field(default_factory=lambda: [
         0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0
     ])
-    _backend: Optional[MetricsBackend] = None
+    _backend: MetricsBackend | None = None
 
     def observe(
         self,
         value: float,
-        labels: Optional[MetricLabels] = None,
+        labels: MetricLabels | None = None,
     ) -> None:
         """Observe a value"""
         if self._backend:
@@ -184,7 +183,7 @@ class Histogram:
                 labels.to_dict() if labels else None,
             )
 
-    def time(self, labels: Optional[MetricLabels] = None):
+    def time(self, labels: MetricLabels | None = None):
         """Context manager for timing operations"""
         return HistogramTimer(self, labels)
 
@@ -193,7 +192,7 @@ class Histogram:
 class HistogramTimer:
     """Context manager for timing with histogram"""
     histogram: Histogram
-    labels: Optional[MetricLabels] = None
+    labels: MetricLabels | None = None
     _start: float = 0.0
 
     def __enter__(self) -> "HistogramTimer":
@@ -213,7 +212,7 @@ class MetricsCollector:
     Central registry for all application metrics.
     """
 
-    backend: Optional[MetricsBackend] = None
+    backend: MetricsBackend | None = None
 
     # Metric prefix
     prefix: str = "mno"

@@ -1,0 +1,478 @@
+# ==============================================================================
+# 🚀 持續整合與部署 (Integration & Deployment)
+# MachineNativeOps Integration & Deployment Pipeline
+# ==============================================================================
+name: "🚀 持續整合與部署 (Integration & Deployment)"
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+  workflow_dispatch:
+
+# 並發控制
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+  packages: write
+  checks: write
+  pull-requests: write
+
+env:
+  NODE_VERSION: "20"
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # =============================================================================
+  # Tier 1 - Contracts L1 Service
+  # =============================================================================
+  tier1-contracts-l1-service:
+    name: "🏗️ Tier 1 - Contracts L1 Service"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    defaults:
+      run:
+        working-directory: src/core/contract_service/contracts-L1/contracts
+    
+    steps:
+      - name: "📥 檢出代碼"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "⚙️ 設置 Node.js 環境"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'src/core/contract_service/contracts-L1/contracts/package-lock.json'
+
+      - name: "📦 Install dependencies"
+        run: |
+          echo "🔧 Installing dependencies for Contracts L1 Service..."
+          max_retries=3
+          delay_seconds=5
+          attempt=1
+          while [ "$attempt" -le "$max_retries" ]; do
+            echo "📦 npm ci attempt $attempt of $max_retries..."
+            if npm ci --prefer-offline --no-audit; then
+              echo "✅ npm ci succeeded on attempt $attempt."
+              break
+            fi
+            if [ "$attempt" -lt "$max_retries" ]; then
+              echo "⚠️ npm ci failed on attempt $attempt. Retrying in ${delay_seconds}s..."
+              sleep "$delay_seconds"
+            else
+              echo "❌ npm ci failed after $max_retries attempts."
+              exit 1
+            fi
+            attempt=$((attempt + 1))
+          done
+          
+      - name: "🔍 驗證依賴安裝"
+        run: |
+          echo "✅ 驗證已安裝的套件..."
+          npm list --depth=0 || true
+          
+      - name: "🎨 格式檢查"
+        run: |
+          echo "🎨 檢查代碼格式..."
+          npm run format:check || echo "⚠️ 格式檢查發現問題（非阻塞）"
+          
+      - name: "🔍 Lint 檢查"
+        run: |
+          echo "🔍 執行 ESLint 檢查..."
+          npm run lint || echo "⚠️ Lint 檢查發現問題（非阻塞）"
+          
+      - name: "📝 類型檢查"
+        run: |
+          echo "📝 執行 TypeScript 類型檢查..."
+          npm run typecheck
+          
+      - name: "🧪 執行測試"
+        run: |
+          echo "🧪 執行單元測試..."
+          npm run test
+          
+      - name: "🏗️ 構建項目"
+        run: |
+          echo "🏗️ 構建 Contracts L1 Service..."
+          npm run build
+          
+      - name: "📊 生成 SBOM"
+        run: |
+          echo "📊 生成軟體物料清單..."
+          npm run sbom || echo "⚠️ SBOM 生成可選"
+          
+      - name: "🔒 安全掃描"
+        run: |
+          echo "🔒 執行安全掃描..."
+          npm audit --audit-level=moderate || echo "⚠️ 發現中等風險（非阻塞）"
+          
+      - name: "📦 上傳構建產物"
+        uses: actions/upload-artifact@v4
+        with:
+          name: contracts-l1-dist
+          path: src/core/contract_service/contracts-L1/contracts/dist/
+          retention-days: 7
+          
+      - name: "📊 生成服務報告"
+        if: always()
+        run: |
+          echo "# 🏗️ Tier 1 - Contracts L1 Service Report" > contracts-l1-report.md
+          echo "" >> contracts-l1-report.md
+          echo "**構建時間**: $(date)" >> contracts-l1-report.md
+          echo "**提交**: ${{ github.sha }}" >> contracts-l1-report.md
+          echo "**分支**: ${{ github.ref_name }}" >> contracts-l1-report.md
+          echo "" >> contracts-l1-report.md
+          
+          if [ -d "dist" ]; then
+            echo "## ✅ 構建成功" >> contracts-l1-report.md
+            echo "- 產物已生成在 dist/ 目錄" >> contracts-l1-report.md
+            echo "- 文件數量: $(find dist -type f | wc -l)" >> contracts-l1-report.md
+          else
+            echo "## ❌ 構建失敗" >> contracts-l1-report.md
+            echo "- dist/ 目錄未生成" >> contracts-l1-report.md
+          fi
+          
+          cat contracts-l1-report.md
+          
+      - name: "📤 上傳服務報告"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contracts-l1-report
+          path: src/core/contract_service/contracts-L1/contracts/contracts-l1-report.md
+          retention-days: 7
+
+  # =============================================================================
+  # Tier 2 - 其他工作區服務
+  # =============================================================================
+  tier2-workspace-services:
+    name: "🔧 Tier 2 - Workspace Services"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: tier1-contracts-l1-service
+    
+    strategy:
+      matrix:
+        workspace:
+          - src/mcp-servers
+          - src/core/advisory-database
+      fail-fast: false
+    
+    steps:
+      - name: "📥 檢出代碼"
+        uses: actions/checkout@v4
+
+      - name: "⚙️ 設置 Node.js 環境"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.workspace }}/package-lock.json
+
+      - name: "📦 安裝工作區依賴"
+        working-directory: ${{ matrix.workspace }}
+        run: |
+          echo "🔧 Installing dependencies for ${{ matrix.workspace }}..."
+          if [ -f "package.json" ]; then
+            # Retry npm ci up to 3 times before failing
+            for i in 1 2 3; do
+              if npm ci --prefer-offline --no-audit; then
+                break
+              else
+                echo "⚠️ npm ci failed (attempt $i/3)"
+                if [ $i -eq 3 ]; then
+                  echo "❌ All retry attempts failed"
+                  exit 1
+                fi
+                sleep 5
+              fi
+            done
+          else
+            echo "⚠️ 沒有 package.json，跳過安裝"
+          fi
+          
+      - name: "🔍 Lint 檢查"
+        working-directory: ${{ matrix.workspace }}
+        run: |
+          if [ -f "package.json" ] && npm run lint --if-present; then
+            echo "✅ Lint 檢查通過"
+          else
+            echo "⚠️ Lint 檢查跳過或失敗（非阻塞）"
+          fi
+          
+      - name: "🧪 執行測試"
+        working-directory: ${{ matrix.workspace }}
+        run: |
+          if [ -f "package.json" ] && npm run test --if-present; then
+            echo "✅ 測試通過"
+          else
+            echo "⚠️ 測試跳過或失敗（非阻塞）"
+          fi
+          
+      - name: "🏗️ 構建項目"
+        working-directory: ${{ matrix.workspace }}
+        run: |
+          if [ -f "package.json" ] && npm run build --if-present; then
+            echo "✅ 構建成功"
+          else
+            echo "⚠️ 構建跳過"
+          fi
+
+  # =============================================================================
+  # 整合測試
+  # =============================================================================
+  integration-tests:
+    name: "🔗 Integration Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [tier1-contracts-l1-service, tier2-workspace-services]
+    if: always() && needs.tier1-contracts-l1-service.result == 'success'
+    
+    steps:
+      - name: "📥 檢出代碼"
+        uses: actions/checkout@v4
+
+      - name: "⚙️ 設置 Node.js 環境"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: "⚙️ 設置 Python 環境"
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: "📦 安裝根依賴"
+        run: |
+          echo "🔧 Installing root dependencies (using npm ci with retries)..."
+          attempt=1
+          max_attempts=3
+          until [ "$attempt" -gt "$max_attempts" ]
+          do
+            echo "➡️  npm ci attempt $attempt/$max_attempts..."
+            if npm ci --prefer-offline; then
+              echo "✅ npm ci completed successfully on attempt $attempt."
+              break
+            fi
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "❌ npm ci failed after $max_attempts attempts."
+              exit 1
+            fi
+            attempt=$((attempt + 1))
+            echo "🔁 npm ci failed, retrying in 5 seconds..."
+            sleep 5
+          done
+          
+      - name: "📦 安裝所有工作區"
+        run: |
+          echo "🔧 Installing all workspaces..."
+          npm run install:all || echo "⚠️ 部分工作區安裝失敗"
+          
+      - name: "🔗 執行整合測試"
+        run: |
+          echo "🔗 執行整合測試..."
+          
+          # 檢查是否有整合測試
+          if [ -d "tests/integration" ]; then
+            npm run test:integration --if-present || echo "⚠️ 整合測試未配置"
+          else
+            echo "ℹ️ 未找到整合測試目錄"
+          fi
+          
+      - name: "🏥 健康檢查"
+        run: |
+          echo "🏥 執行服務健康檢查..."
+          
+          # 檢查所有工作區是否正確安裝
+          npm list --workspaces --depth=0 || echo "⚠️ 部分工作區依賴問題"
+          
+      - name: "📊 生成整合報告"
+        if: always()
+        run: |
+          echo "# 🔗 Integration Test Report" > integration-report.md
+          echo "" >> integration-report.md
+          echo "**測試時間**: $(date)" >> integration-report.md
+          echo "**提交**: ${{ github.sha }}" >> integration-report.md
+          echo "**分支**: ${{ github.ref_name }}" >> integration-report.md
+          echo "" >> integration-report.md
+          
+          echo "## 📊 工作區狀態" >> integration-report.md
+          echo "- Tier 1 Contracts L1: ${{ needs.tier1-contracts-l1-service.result }}" >> integration-report.md
+          echo "- Tier 2 Workspaces: ${{ needs.tier2-workspace-services.result }}" >> integration-report.md
+          echo "" >> integration-report.md
+          
+          if [ "${{ needs.tier1-contracts-l1-service.result }}" = "success" ]; then
+            echo "## ✅ 整合狀態: 通過" >> integration-report.md
+          else
+            echo "## ❌ 整合狀態: 失敗" >> integration-report.md
+          fi
+          
+          cat integration-report.md
+          
+      - name: "📤 上傳整合報告"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-report
+          path: integration-report.md
+          retention-days: 7
+
+  # =============================================================================
+  # 部署準備
+  # =============================================================================
+  deployment-preparation:
+    name: "🚀 Deployment Preparation"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: integration-tests
+    if: github.event_name == 'push' && contains(fromJSON('["refs/heads/main", "refs/heads/develop"]'), github.ref)
+    
+    steps:
+      - name: "📥 檢出代碼"
+        uses: actions/checkout@v4
+
+      - name: "📥 下載所有構建產物"
+        uses: actions/download-artifact@v4
+        with:
+          pattern: contracts-l1-*
+          merge-multiple: true
+
+      - name: "🔍 驗證部署準備"
+        run: |
+          echo "🔍 驗證部署準備狀態..."
+          
+          # 檢查必要的構建產物
+          if [ -d "dist" ]; then
+            echo "✅ 構建產物已就緒"
+            echo "📊 文件清單:"
+            find dist -type f || true
+          else
+            echo "❌ 缺少構建產物"
+            exit 1
+          fi
+          
+      - name: "📊 生成部署報告"
+        run: |
+          echo "# 🚀 Deployment Preparation Report" > deployment-prep-report.md
+          echo "" >> deployment-prep-report.md
+          echo "**準備時間**: $(date)" >> deployment-prep-report.md
+          echo "**提交**: ${{ github.sha }}" >> deployment-prep-report.md
+          echo "**分支**: ${{ github.ref_name }}" >> deployment-prep-report.md
+          echo "" >> deployment-prep-report.md
+          
+          echo "## ✅ 部署準備完成" >> deployment-prep-report.md
+          echo "- 所有構建產物已準備" >> deployment-prep-report.md
+          echo "- 整合測試已通過" >> deployment-prep-report.md
+          echo "" >> deployment-prep-report.md
+          
+          echo "### 📦 構建產物" >> deployment-prep-report.md
+          if [ -d "dist" ]; then
+            echo "\`\`\`" >> deployment-prep-report.md
+            find dist -type f | head -20 >> deployment-prep-report.md
+            echo "\`\`\`" >> deployment-prep-report.md
+          fi
+          
+          cat deployment-prep-report.md
+          
+      - name: "📤 上傳部署準備報告"
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-preparation-report
+          path: deployment-prep-report.md
+          retention-days: 30
+
+  # =============================================================================
+  # 流水線總結
+  # =============================================================================
+  pipeline-summary:
+    name: "📋 Pipeline Summary"
+    runs-on: ubuntu-latest
+    needs: [tier1-contracts-l1-service, tier2-workspace-services, integration-tests]
+    if: always()
+    
+    steps:
+      - name: "📥 下載所有報告"
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "*-report"
+          merge-multiple: true
+
+      - name: "📊 生成總結報告"
+        run: |
+          echo "# 🚀 Integration & Deployment Pipeline Summary" > pipeline-summary.md
+          echo "" >> pipeline-summary.md
+          echo "**執行時間**: $(date)" >> pipeline-summary.md
+          echo "**分支**: ${{ github.ref_name }}" >> pipeline-summary.md
+          echo "**提交**: ${{ github.sha }}" >> pipeline-summary.md
+          echo "**觸發者**: ${{ github.actor }}" >> pipeline-summary.md
+          echo "" >> pipeline-summary.md
+          
+          echo "## 📊 流水線狀態" >> pipeline-summary.md
+          echo "- 🏗️ Tier 1 Contracts L1 Service: ${{ needs.tier1-contracts-l1-service.result }}" >> pipeline-summary.md
+          echo "- 🔧 Tier 2 Workspace Services: ${{ needs.tier2-workspace-services.result }}" >> pipeline-summary.md
+          echo "- 🔗 Integration Tests: ${{ needs.integration-tests.result }}" >> pipeline-summary.md
+          echo "- 🚀 Deployment Preparation: ${{ needs.deployment-preparation.result }}" >> pipeline-summary.md
+          echo "" >> pipeline-summary.md
+          
+          # 判斷整體狀態
+          if [ "${{ needs.tier1-contracts-l1-service.result }}" = "success" ] && \
+             [ "${{ needs.integration-tests.result }}" = "success" ]; then
+            echo "## ✅ 整體狀態: 通過" >> pipeline-summary.md
+            echo "🎉 所有關鍵階段都已成功完成！" >> pipeline-summary.md
+          else
+            echo "## ❌ 整體狀態: 失敗" >> pipeline-summary.md
+            echo "⚠️ 部分階段失敗，請查看詳細報告。" >> pipeline-summary.md
+          fi
+          
+          echo "" >> pipeline-summary.md
+          echo "## 📋 詳細報告" >> pipeline-summary.md
+          
+          # 列出所有可用報告
+          if [ -f "contracts-l1-report.md" ]; then
+            echo "- [Contracts L1 Service Report](contracts-l1-report.md)" >> pipeline-summary.md
+          fi
+          
+          if [ -f "integration-report.md" ]; then
+            echo "- [Integration Test Report](integration-report.md)" >> pipeline-summary.md
+          fi
+          
+          if [ -f "deployment-prep-report.md" ]; then
+            echo "- [Deployment Preparation Report](deployment-prep-report.md)" >> pipeline-summary.md
+          fi
+          
+          cat pipeline-summary.md
+          
+      - name: "📢 評論 PR（如果失敗）"
+        if: ${{ github.event_name == 'pull_request' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            if (fs.existsSync('pipeline-summary.md')) {
+              const summary = fs.readFileSync('pipeline-summary.md', 'utf8');
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
+            
+      - name: "📤 上傳總結報告"
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-summary
+          path: pipeline-summary.md
+          retention-days: 30

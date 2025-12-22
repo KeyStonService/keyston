@@ -1,0 +1,53 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namespace: axiom-system
+
+labels:
+- pairs:
+    environment: prod
+  includeSelectors: true
+
+# Override image tag for production environment
+images:
+- name: axiom-system/super-agent
+  newTag: v1.0.0
+
+# Production uses higher replica count
+replicas:
+- name: super-agent
+  count: 3
+
+# Production-specific configuration
+configMapGenerator:
+- name: super-agent-env
+  literals:
+  - LOG_LEVEL=WARN
+  - ENVIRONMENT=prod
+
+# Patches for production-specific resources
+patches:
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/envFrom
+      value:
+      - configMapRef:
+          name: super-agent-env
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/requests/memory
+      value: 256Mi
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/requests/cpu
+      value: "200m"
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/limits/memory
+      value: 1Gi
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/limits/cpu
+      value: "1"
+  target:
+    kind: Deployment
+    name: super-agent

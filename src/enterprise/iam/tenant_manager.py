@@ -5,19 +5,18 @@ Handles tenant (Organization) lifecycle and ensures proper isolation.
 Every operation MUST be scoped to org_id.
 """
 
+import logging
+import re
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, List, Dict, Any, Protocol
+from typing import Any, Protocol
 from uuid import UUID
-import re
-import logging
 
 from enterprise.iam.models import (
     Organization,
     Project,
     Repository,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -28,10 +27,10 @@ class TenantRepository(Protocol):
     async def save_organization(self, org: Organization) -> Organization:
         ...
 
-    async def get_organization(self, org_id: UUID) -> Optional[Organization]:
+    async def get_organization(self, org_id: UUID) -> Organization | None:
         ...
 
-    async def get_organization_by_slug(self, slug: str) -> Optional[Organization]:
+    async def get_organization_by_slug(self, slug: str) -> Organization | None:
         ...
 
     async def update_organization(self, org: Organization) -> Organization:
@@ -42,16 +41,16 @@ class TenantRepository(Protocol):
 
     async def list_organizations(
         self,
-        user_id: Optional[UUID] = None,
+        user_id: UUID | None = None,
         offset: int = 0,
         limit: int = 100
-    ) -> List[Organization]:
+    ) -> list[Organization]:
         ...
 
     async def save_project(self, project: Project) -> Project:
         ...
 
-    async def get_project(self, org_id: UUID, project_id: UUID) -> Optional[Project]:
+    async def get_project(self, org_id: UUID, project_id: UUID) -> Project | None:
         ...
 
     async def list_projects(
@@ -59,29 +58,29 @@ class TenantRepository(Protocol):
         org_id: UUID,
         offset: int = 0,
         limit: int = 100
-    ) -> List[Project]:
+    ) -> list[Project]:
         ...
 
     async def save_repository(self, repo: Repository) -> Repository:
         ...
 
-    async def get_repository(self, org_id: UUID, repo_id: UUID) -> Optional[Repository]:
+    async def get_repository(self, org_id: UUID, repo_id: UUID) -> Repository | None:
         ...
 
     async def list_repositories(
         self,
         org_id: UUID,
-        project_id: Optional[UUID] = None,
+        project_id: UUID | None = None,
         offset: int = 0,
         limit: int = 100
-    ) -> List[Repository]:
+    ) -> list[Repository]:
         ...
 
 
 class TenantEventPublisher(Protocol):
     """Event publisher for tenant lifecycle events"""
 
-    async def publish(self, event_type: str, payload: Dict[str, Any]) -> None:
+    async def publish(self, event_type: str, payload: dict[str, Any]) -> None:
         ...
 
 
@@ -95,7 +94,7 @@ class TenantManager:
     """
 
     repository: TenantRepository
-    event_publisher: Optional[TenantEventPublisher] = None
+    event_publisher: TenantEventPublisher | None = None
 
     # Validation patterns
     SLUG_PATTERN = re.compile(r'^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$')
@@ -114,7 +113,7 @@ class TenantManager:
         name: str,
         slug: str,
         created_by: UUID,
-        display_name: Optional[str] = None,
+        display_name: str | None = None,
         plan: str = "free",
     ) -> Organization:
         """
@@ -177,18 +176,18 @@ class TenantManager:
         logger.info(f"Organization created: {org.slug} (id={org.id})")
         return org
 
-    async def get_organization(self, org_id: UUID) -> Optional[Organization]:
+    async def get_organization(self, org_id: UUID) -> Organization | None:
         """Get organization by ID"""
         return await self.repository.get_organization(org_id)
 
-    async def get_organization_by_slug(self, slug: str) -> Optional[Organization]:
+    async def get_organization_by_slug(self, slug: str) -> Organization | None:
         """Get organization by slug"""
         return await self.repository.get_organization_by_slug(slug.lower())
 
     async def update_organization(
         self,
         org_id: UUID,
-        updates: Dict[str, Any],
+        updates: dict[str, Any],
         updated_by: UUID,
     ) -> Organization:
         """
@@ -308,7 +307,7 @@ class TenantManager:
 
         return project
 
-    async def get_project(self, org_id: UUID, project_id: UUID) -> Optional[Project]:
+    async def get_project(self, org_id: UUID, project_id: UUID) -> Project | None:
         """
         Get project by ID
 
@@ -321,7 +320,7 @@ class TenantManager:
         org_id: UUID,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Project]:
+    ) -> list[Project]:
         """List projects for an organization"""
         return await self.repository.list_projects(org_id, offset, limit)
 
@@ -339,7 +338,7 @@ class TenantManager:
         provider_repo_id: str,
         clone_url: str,
         created_by: UUID,
-        provider_installation_id: Optional[str] = None,
+        provider_installation_id: str | None = None,
     ) -> Repository:
         """
         Register a repository for analysis
@@ -386,17 +385,17 @@ class TenantManager:
 
         return repo
 
-    async def get_repository(self, org_id: UUID, repo_id: UUID) -> Optional[Repository]:
+    async def get_repository(self, org_id: UUID, repo_id: UUID) -> Repository | None:
         """Get repository by ID with tenant isolation"""
         return await self.repository.get_repository(org_id, repo_id)
 
     async def list_repositories(
         self,
         org_id: UUID,
-        project_id: Optional[UUID] = None,
+        project_id: UUID | None = None,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Repository]:
+    ) -> list[Repository]:
         """List repositories for org/project"""
         return await self.repository.list_repositories(org_id, project_id, offset, limit)
 
@@ -407,7 +406,7 @@ class TenantManager:
     def verify_tenant_access(
         self,
         requested_org_id: UUID,
-        user_org_ids: List[UUID],
+        user_org_ids: list[UUID],
     ) -> bool:
         """
         Verify user has access to the requested organization
@@ -416,7 +415,7 @@ class TenantManager:
         """
         return requested_org_id in user_org_ids
 
-    async def get_tenant_context(self, org_id: UUID) -> Dict[str, Any]:
+    async def get_tenant_context(self, org_id: UUID) -> dict[str, Any]:
         """
         Get tenant context for request processing
 

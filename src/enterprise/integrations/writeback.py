@@ -12,14 +12,13 @@ Handles:
 - Idempotent writes
 """
 
+import asyncio
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, List, Dict, Any, Protocol
-from uuid import UUID
 from enum import Enum
-import logging
-import asyncio
-
+from typing import Any, Protocol
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +55,7 @@ class CheckRunOutput:
     title: str = ""
     summary: str = ""
     text: str = ""
-    annotations: List[Dict[str, Any]] = field(default_factory=list)
+    annotations: list[dict[str, Any]] = field(default_factory=list)
     # Each annotation: {path, start_line, end_line, annotation_level, message, title}
 
 
@@ -66,9 +65,9 @@ class CheckRunResult:
     check_run_id: int = 0
     url: str = ""
     status: CheckRunStatus = CheckRunStatus.QUEUED
-    conclusion: Optional[CheckRunConclusion] = None
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    conclusion: CheckRunConclusion | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
 
 
 @dataclass
@@ -92,17 +91,17 @@ class HTTPClient(Protocol):
     async def post(
         self,
         url: str,
-        data: Dict[str, Any] = None,
-        headers: Dict[str, str] = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any] = None,
+        headers: dict[str, str] = None,
+    ) -> dict[str, Any]:
         ...
 
     async def patch(
         self,
         url: str,
-        data: Dict[str, Any] = None,
-        headers: Dict[str, str] = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any] = None,
+        headers: dict[str, str] = None,
+    ) -> dict[str, Any]:
         ...
 
 
@@ -131,7 +130,7 @@ class CheckRunWriter:
     max_delay: float = 30.0
 
     # Idempotency tracking (in production, use Redis/DB)
-    _created_checks: Dict[str, int] = field(default_factory=dict)
+    _created_checks: dict[str, int] = field(default_factory=dict)
 
     async def create_check_run(
         self,
@@ -141,9 +140,9 @@ class CheckRunWriter:
         name: str,
         head_sha: str,
         status: CheckRunStatus = CheckRunStatus.QUEUED,
-        external_id: Optional[str] = None,
-        details_url: Optional[str] = None,
-        output: Optional[CheckRunOutput] = None,
+        external_id: str | None = None,
+        details_url: str | None = None,
+        output: CheckRunOutput | None = None,
     ) -> CheckRunResult:
         """
         Create a new check run
@@ -227,10 +226,10 @@ class CheckRunWriter:
         installation_id: str,
         repo_full_name: str,
         check_run_id: int,
-        status: Optional[CheckRunStatus] = None,
-        conclusion: Optional[CheckRunConclusion] = None,
-        output: Optional[CheckRunOutput] = None,
-        details_url: Optional[str] = None,
+        status: CheckRunStatus | None = None,
+        conclusion: CheckRunConclusion | None = None,
+        output: CheckRunOutput | None = None,
+        details_url: str | None = None,
     ) -> CheckRunResult:
         """
         Update an existing check run
@@ -300,7 +299,7 @@ class CheckRunWriter:
         repo_full_name: str,
         check_run_id: int,
         conclusion: CheckRunConclusion,
-        output: Optional[CheckRunOutput] = None,
+        output: CheckRunOutput | None = None,
     ) -> CheckRunResult:
         """
         Complete a check run with a conclusion
@@ -322,7 +321,7 @@ class CheckRunWriter:
         installation_id: str,
         repo_full_name: str,
         check_run_id: int,
-        annotations: List[Dict[str, Any]],
+        annotations: list[dict[str, Any]],
         output_title: str = "Analysis Results",
         output_summary: str = "",
     ) -> None:
@@ -355,8 +354,8 @@ class CheckRunWriter:
         method: str,
         url: str,
         token: str,
-        payload: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        payload: dict[str, Any],
+    ) -> dict[str, Any]:
         """Make HTTP request with exponential backoff retry"""
         headers = {
             "Authorization": f"token {token}",
@@ -416,7 +415,7 @@ class StatusWriter:
         state: CommitStatus,
         context: str = "MachineNativeOps",
         description: str = "",
-        target_url: Optional[str] = None,
+        target_url: str | None = None,
     ) -> StatusResult:
         """
         Create a commit status
@@ -481,7 +480,7 @@ class CommentWriter:
     max_retries: int = 3
 
     # Track created comments for updates
-    _created_comments: Dict[str, int] = field(default_factory=dict)
+    _created_comments: dict[str, int] = field(default_factory=dict)
 
     async def create_or_update_comment(
         self,
@@ -630,7 +629,7 @@ class GateWriteback:
         repo_full_name: str,
         check_run_id: int,
         summary: str = "",
-        annotations: Optional[List[Dict[str, Any]]] = None,
+        annotations: list[dict[str, Any]] | None = None,
     ) -> CheckRunResult:
         """Report gate passed"""
         output = CheckRunOutput(
@@ -655,7 +654,7 @@ class GateWriteback:
         repo_full_name: str,
         check_run_id: int,
         summary: str = "",
-        annotations: Optional[List[Dict[str, Any]]] = None,
+        annotations: list[dict[str, Any]] | None = None,
     ) -> CheckRunResult:
         """Report gate failed"""
         output = CheckRunOutput(

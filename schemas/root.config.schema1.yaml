@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: root-config-schema
+  namespace: machinenativenops-root
+data:
+  schema.yaml: "# Root Global Configuration Schema\ntype: object\nproperties:\n  system:\n\
+    \    type: object\n    properties:\n      name:\n        type: string\n      \
+    \  pattern: \"^[a-zA-Z][a-zA-Z0-9-]*$\"\n      version:\n        type: string\n\
+    \        pattern: \"^\\\\d+\\\\.\\\\d+\\\\.\\\\d+$\"\n      deployment_mode:\n\
+    \        type: string\n        enum: [\"development\", \"staging\", \"production\"\
+    ]\n      environment:\n        type: string\n      system_id:\n        type: string\n\
+    \        pattern: \"^[a-z0-9-]+$\"\n      instance_id:\n        type: string\n\
+    \    required: [\"name\", \"version\", \"deployment_mode\", \"system_id\"]\n \
+    \ namespace:\n    type: object\n    properties:\n      default:\n        type:\
+    \ string\n      governance:\n        type: string\n      modules:\n        type:\
+    \ string\n      trust:\n        type: string\n      provenance:\n        type:\
+    \ string\n      execution:\n        type: string\n    required: [\"default\"]\n\
+    \  localization:\n    type: object\n    properties:\n      timezone:\n       \
+    \ type: string\n      locale:\n        type: string\n      date_format:\n    \
+    \    type: string\n      time_format:\n        type: string\n      datetime_format:\n\
+    \        type: string\n    required: [\"timezone\", \"locale\"]\n  logging:\n\
+    \    type: object\n    properties:\n      level:\n        type: string\n     \
+    \   enum: [\"DEBUG\", \"INFO\", \"WARN\", \"ERROR\", \"FATAL\"]\n      format:\n\
+    \        type: string\n        enum: [\"structured\", \"unstructured\"]\n    \
+    \  outputs:\n        type: array\n        items:\n          type: object\n   \
+    \ required: [\"level\", \"format\", \"outputs\"]\nrequired: [\"system\", \"namespace\"\
+    , \"localization\", \"logging\"]"

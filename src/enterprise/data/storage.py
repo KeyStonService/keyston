@@ -10,15 +10,14 @@ Stores reports, artifacts, and raw results:
 Uses S3/MinIO/GCS compatible storage.
 """
 
+import hashlib
+import logging
+import mimetypes
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List, Protocol, AsyncIterator, BinaryIO
-from uuid import UUID, uuid4
 from enum import Enum
-import hashlib
-import mimetypes
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +51,7 @@ class StorageLocation:
     """
     bucket: str = ""
     key: str = ""
-    region: Optional[str] = None
+    region: str | None = None
 
     @property
     def uri(self) -> str:
@@ -89,25 +88,25 @@ class StorageObject:
 
     # Classification
     object_type: str = ""  # report, artifact, log, export
-    run_id: Optional[UUID] = None
-    repo_id: Optional[UUID] = None
+    run_id: UUID | None = None
+    repo_id: UUID | None = None
 
     # Storage settings
     storage_class: StorageClass = StorageClass.STANDARD
 
     # Versioning
-    version_id: Optional[str] = None
+    version_id: str | None = None
     is_latest: bool = True
 
     # Lifecycle
     created_at: datetime = field(default_factory=datetime.utcnow)
-    expires_at: Optional[datetime] = None
-    last_accessed_at: Optional[datetime] = None
+    expires_at: datetime | None = None
+    last_accessed_at: datetime | None = None
 
     # Tags
-    tags: Dict[str, str] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "id": str(self.id),
@@ -137,9 +136,9 @@ class StorageBackend(Protocol):
         key: str,
         data: bytes,
         content_type: str = "application/octet-stream",
-        metadata: Optional[Dict[str, str]] = None,
+        metadata: dict[str, str] | None = None,
         storage_class: str = "STANDARD",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Upload an object"""
         ...
 
@@ -163,7 +162,7 @@ class StorageBackend(Protocol):
         self,
         bucket: str,
         key: str,
-    ) -> Optional[Dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Get object metadata"""
         ...
 
@@ -172,7 +171,7 @@ class StorageBackend(Protocol):
         bucket: str,
         prefix: str = "",
         max_keys: int = 1000,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """List objects with prefix"""
         ...
 
@@ -192,7 +191,7 @@ class StorageBackend(Protocol):
         source_key: str,
         dest_bucket: str,
         dest_key: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Copy an object"""
         ...
 
@@ -203,26 +202,26 @@ class ObjectMetadataStore(Protocol):
     async def save(self, obj: StorageObject) -> StorageObject:
         ...
 
-    async def get(self, obj_id: UUID) -> Optional[StorageObject]:
+    async def get(self, obj_id: UUID) -> StorageObject | None:
         ...
 
     async def get_by_location(
         self, bucket: str, key: str
-    ) -> Optional[StorageObject]:
+    ) -> StorageObject | None:
         ...
 
     async def list_by_org(
         self,
         org_id: UUID,
-        object_type: Optional[str] = None,
+        object_type: str | None = None,
         limit: int = 100,
-    ) -> List[StorageObject]:
+    ) -> list[StorageObject]:
         ...
 
     async def list_by_run(
         self,
         run_id: UUID,
-    ) -> List[StorageObject]:
+    ) -> list[StorageObject]:
         ...
 
     async def delete(self, obj_id: UUID) -> bool:
@@ -242,7 +241,7 @@ class ObjectStorage:
     """
 
     backend: StorageBackend
-    metadata_store: Optional[ObjectMetadataStore] = None
+    metadata_store: ObjectMetadataStore | None = None
 
     # Configuration
     default_bucket: str = "mno-artifacts"
@@ -267,8 +266,8 @@ class ObjectStorage:
         run_id: UUID,
         filename: str,
         data: bytes,
-        content_type: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
+        content_type: str | None = None,
+        tags: dict[str, str] | None = None,
     ) -> StorageObject:
         """
         Store a run artifact
@@ -339,10 +338,10 @@ class ObjectStorage:
         org_id: UUID,
         filename: str,
         data: bytes,
-        run_id: Optional[UUID] = None,
-        repo_id: Optional[UUID] = None,
+        run_id: UUID | None = None,
+        repo_id: UUID | None = None,
         content_type: str = "application/json",
-        tags: Optional[Dict[str, str]] = None,
+        tags: dict[str, str] | None = None,
     ) -> StorageObject:
         """
         Store a report
@@ -444,7 +443,7 @@ class ObjectStorage:
     async def get_object(
         self,
         location: StorageLocation,
-    ) -> Optional[bytes]:
+    ) -> bytes | None:
         """Get object content by location"""
         try:
             return await self.backend.get_object(location.bucket, location.key)
@@ -455,7 +454,7 @@ class ObjectStorage:
     async def get_object_by_id(
         self,
         obj_id: UUID,
-    ) -> Optional[tuple[StorageObject, bytes]]:
+    ) -> tuple[StorageObject, bytes] | None:
         """Get object by ID (metadata + content)"""
         if not self.metadata_store:
             raise ValueError("Metadata store not configured")
@@ -494,7 +493,7 @@ class ObjectStorage:
         self,
         obj_id: UUID,
         expires_in: int = 3600,
-    ) -> Optional[str]:
+    ) -> str | None:
         """Get download URL for an object by ID"""
         if not self.metadata_store:
             raise ValueError("Metadata store not configured")
@@ -513,7 +512,7 @@ class ObjectStorage:
         self,
         org_id: UUID,
         run_id: UUID,
-    ) -> List[StorageObject]:
+    ) -> list[StorageObject]:
         """List artifacts for a run"""
         if self.metadata_store:
             return await self.metadata_store.list_by_run(run_id)
@@ -536,7 +535,7 @@ class ObjectStorage:
         self,
         org_id: UUID,
         limit: int = 100,
-    ) -> List[StorageObject]:
+    ) -> list[StorageObject]:
         """List reports for an organization"""
         if self.metadata_store:
             return await self.metadata_store.list_by_org(org_id, "report", limit)
@@ -608,7 +607,7 @@ class ObjectStorage:
 
     async def cleanup_expired(
         self,
-        org_id: Optional[UUID] = None,
+        org_id: UUID | None = None,
         dry_run: bool = True,
     ) -> int:
         """

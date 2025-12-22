@@ -10,13 +10,12 @@ Features:
 - Full audit trail
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol, Set
-from uuid import UUID, uuid4
 from enum import Enum
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +33,7 @@ class RunState(Enum):
 
 
 # Valid state transitions
-VALID_TRANSITIONS: Dict[RunState, Set[RunState]] = {
+VALID_TRANSITIONS: dict[RunState, set[RunState]] = {
     RunState.QUEUED: {RunState.PREPARING, RunState.RUNNING, RunState.CANCELED, RunState.SKIPPED},
     RunState.PREPARING: {RunState.RUNNING, RunState.FAILED, RunState.CANCELED, RunState.TIMED_OUT},
     RunState.RUNNING: {RunState.COMPLETED, RunState.FAILED, RunState.CANCELED, RunState.TIMED_OUT},
@@ -71,12 +70,12 @@ class RunTransition:
 
     # Context
     reason: str = ""
-    error: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    error: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Who/what triggered
-    triggered_by: Optional[str] = None  # User ID or "system"
-    worker_id: Optional[str] = None
+    triggered_by: str | None = None  # User ID or "system"
+    worker_id: str | None = None
 
     # Timing
     timestamp: datetime = field(default_factory=datetime.utcnow)
@@ -97,55 +96,55 @@ class Run:
     # Context
     repo_id: UUID = field(default_factory=uuid4)
     repo_full_name: str = ""
-    event_id: Optional[UUID] = None
-    job_id: Optional[UUID] = None
-    correlation_id: Optional[UUID] = None
+    event_id: UUID | None = None
+    job_id: UUID | None = None
+    correlation_id: UUID | None = None
 
     # Git context
     head_sha: str = ""
-    base_sha: Optional[str] = None
-    ref: Optional[str] = None
-    pr_number: Optional[int] = None
+    base_sha: str | None = None
+    ref: str | None = None
+    pr_number: int | None = None
 
     # State
     state: RunState = RunState.QUEUED
-    previous_state: Optional[RunState] = None
+    previous_state: RunState | None = None
 
     # Execution
     run_type: str = ""          # "gate", "report", "scan"
-    policy_ids: List[UUID] = field(default_factory=list)
-    tools: List[str] = field(default_factory=list)  # Tools to run
+    policy_ids: list[UUID] = field(default_factory=list)
+    tools: list[str] = field(default_factory=list)  # Tools to run
 
     # Results
-    result: Optional[Dict[str, Any]] = None
+    result: dict[str, Any] | None = None
     findings_count: int = 0
-    error: Optional[str] = None
+    error: str | None = None
 
     # Write-back
-    check_run_id: Optional[int] = None
-    status_id: Optional[int] = None
-    comment_id: Optional[int] = None
+    check_run_id: int | None = None
+    status_id: int | None = None
+    comment_id: int | None = None
 
     # Timing
     created_at: datetime = field(default_factory=datetime.utcnow)
-    queued_at: Optional[datetime] = None
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    queued_at: datetime | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
 
     # Timeouts
     timeout_seconds: int = 600
-    deadline: Optional[datetime] = None
+    deadline: datetime | None = None
 
     # Worker
-    worker_id: Optional[str] = None
-    worker_version: Optional[str] = None
+    worker_id: str | None = None
+    worker_version: str | None = None
 
     # Retry
     attempt: int = 1
     max_attempts: int = 3
 
     # Transitions history (for audit)
-    transitions: List[RunTransition] = field(default_factory=list)
+    transitions: list[RunTransition] = field(default_factory=list)
 
     @property
     def is_terminal(self) -> bool:
@@ -159,14 +158,14 @@ class Run:
         }
 
     @property
-    def duration_seconds(self) -> Optional[float]:
+    def duration_seconds(self) -> float | None:
         """Get run duration in seconds"""
         if not self.started_at:
             return None
         end = self.completed_at or datetime.utcnow()
         return (end - self.started_at).total_seconds()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "id": str(self.id),
@@ -211,7 +210,7 @@ class RunStorage(Protocol):
     async def save(self, run: Run) -> Run:
         ...
 
-    async def get(self, run_id: UUID) -> Optional[Run]:
+    async def get(self, run_id: UUID) -> Run | None:
         ...
 
     async def update(self, run: Run) -> Run:
@@ -220,26 +219,26 @@ class RunStorage(Protocol):
     async def query(
         self,
         org_id: UUID,
-        state: Optional[RunState] = None,
-        repo_id: Optional[UUID] = None,
-        head_sha: Optional[str] = None,
-        pr_number: Optional[int] = None,
+        state: RunState | None = None,
+        repo_id: UUID | None = None,
+        head_sha: str | None = None,
+        pr_number: int | None = None,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Run]:
+    ) -> list[Run]:
         ...
 
     async def save_transition(self, transition: RunTransition) -> RunTransition:
         ...
 
-    async def get_transitions(self, run_id: UUID) -> List[RunTransition]:
+    async def get_transitions(self, run_id: UUID) -> list[RunTransition]:
         ...
 
 
 class EventPublisher(Protocol):
     """Interface for publishing run events"""
 
-    async def publish(self, event_type: str, payload: Dict[str, Any]) -> None:
+    async def publish(self, event_type: str, payload: dict[str, Any]) -> None:
         ...
 
 
@@ -255,7 +254,7 @@ class RunStateMachine:
     """
 
     storage: RunStorage
-    event_publisher: Optional[EventPublisher] = None
+    event_publisher: EventPublisher | None = None
 
     # ------------------------------------------------------------------
     # Run Creation
@@ -268,13 +267,13 @@ class RunStateMachine:
         repo_full_name: str,
         head_sha: str,
         run_type: str,
-        event_id: Optional[UUID] = None,
-        job_id: Optional[UUID] = None,
-        base_sha: Optional[str] = None,
-        ref: Optional[str] = None,
-        pr_number: Optional[int] = None,
-        policy_ids: Optional[List[UUID]] = None,
-        tools: Optional[List[str]] = None,
+        event_id: UUID | None = None,
+        job_id: UUID | None = None,
+        base_sha: str | None = None,
+        ref: str | None = None,
+        pr_number: int | None = None,
+        policy_ids: list[UUID] | None = None,
+        tools: list[str] | None = None,
         timeout_seconds: int = 600,
     ) -> Run:
         """
@@ -354,11 +353,11 @@ class RunStateMachine:
         run_id: UUID,
         to_state: RunState,
         reason: str = "",
-        error: Optional[str] = None,
+        error: str | None = None,
         transition_type: TransitionType = TransitionType.AUTOMATIC,
-        triggered_by: Optional[str] = None,
-        worker_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        triggered_by: str | None = None,
+        worker_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> Run:
         """
         Transition a run to a new state
@@ -464,7 +463,7 @@ class RunStateMachine:
     async def complete_run(
         self,
         run_id: UUID,
-        result: Dict[str, Any],
+        result: dict[str, Any],
         findings_count: int = 0,
     ) -> Run:
         """Complete a run successfully"""
@@ -540,11 +539,11 @@ class RunStateMachine:
     # Queries
     # ------------------------------------------------------------------
 
-    async def get_run(self, run_id: UUID) -> Optional[Run]:
+    async def get_run(self, run_id: UUID) -> Run | None:
         """Get a run by ID"""
         return await self.storage.get(run_id)
 
-    async def get_run_with_transitions(self, run_id: UUID) -> Optional[Run]:
+    async def get_run_with_transitions(self, run_id: UUID) -> Run | None:
         """Get a run with full transition history"""
         run = await self.storage.get(run_id)
         if run:
@@ -554,13 +553,13 @@ class RunStateMachine:
     async def list_runs(
         self,
         org_id: UUID,
-        state: Optional[RunState] = None,
-        repo_id: Optional[UUID] = None,
-        head_sha: Optional[str] = None,
-        pr_number: Optional[int] = None,
+        state: RunState | None = None,
+        repo_id: UUID | None = None,
+        head_sha: str | None = None,
+        pr_number: int | None = None,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Run]:
+    ) -> list[Run]:
         """List runs with filters"""
         return await self.storage.query(
             org_id=org_id,
@@ -577,8 +576,8 @@ class RunStateMachine:
         org_id: UUID,
         repo_id: UUID,
         head_sha: str,
-        run_type: Optional[str] = None,
-    ) -> Optional[Run]:
+        run_type: str | None = None,
+    ) -> Run | None:
         """Get the most recent run for a commit"""
         runs = await self.storage.query(
             org_id=org_id,
@@ -598,7 +597,7 @@ class RunStateMachine:
 
     async def check_timeouts(
         self,
-        org_id: Optional[UUID] = None,
+        org_id: UUID | None = None,
     ) -> int:
         """
         Check for timed out runs and transition them

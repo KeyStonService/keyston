@@ -10,15 +10,12 @@ Securely manages sensitive credentials:
 Uses KMS/Vault/Secret Manager for secure storage.
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, Protocol, List
-from uuid import UUID, uuid4
 from enum import Enum
-import hashlib
-import base64
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -61,27 +58,27 @@ class Secret:
 
     # Scope
     scope: SecretScope = SecretScope.ORGANIZATION
-    org_id: Optional[UUID] = None
-    project_id: Optional[UUID] = None
-    repo_id: Optional[UUID] = None
+    org_id: UUID | None = None
+    project_id: UUID | None = None
+    repo_id: UUID | None = None
 
     # Metadata
     version: int = 1
     created_at: datetime = field(default_factory=datetime.utcnow)
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    created_by: Optional[UUID] = None
+    created_by: UUID | None = None
 
     # Expiration
-    expires_at: Optional[datetime] = None
-    rotation_interval_days: Optional[int] = None
-    last_rotated_at: Optional[datetime] = None
+    expires_at: datetime | None = None
+    rotation_interval_days: int | None = None
+    last_rotated_at: datetime | None = None
 
     # Audit
-    last_accessed_at: Optional[datetime] = None
+    last_accessed_at: datetime | None = None
     access_count: int = 0
 
     # Tags
-    tags: Dict[str, str] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
 
     @property
     def is_expired(self) -> bool:
@@ -108,7 +105,7 @@ class KMSProvider(Protocol):
         self,
         plaintext: bytes,
         key_id: str,
-        context: Optional[Dict[str, str]] = None,
+        context: dict[str, str] | None = None,
     ) -> bytes:
         """Encrypt data with a KMS key"""
         ...
@@ -117,7 +114,7 @@ class KMSProvider(Protocol):
         self,
         ciphertext: bytes,
         key_id: str,
-        context: Optional[Dict[str, str]] = None,
+        context: dict[str, str] | None = None,
     ) -> bytes:
         """Decrypt data with a KMS key"""
         ...
@@ -125,7 +122,7 @@ class KMSProvider(Protocol):
     async def generate_data_key(
         self,
         key_id: str,
-        context: Optional[Dict[str, str]] = None,
+        context: dict[str, str] | None = None,
     ) -> tuple[bytes, bytes]:
         """Generate a data key, return (plaintext, encrypted)"""
         ...
@@ -145,7 +142,7 @@ class SecretStorage(Protocol):
     async def get(
         self,
         secret_id: UUID,
-    ) -> Optional[tuple[Secret, bytes]]:
+    ) -> tuple[Secret, bytes] | None:
         """Get a secret and its encrypted value"""
         ...
 
@@ -153,25 +150,25 @@ class SecretStorage(Protocol):
         self,
         name: str,
         scope: SecretScope,
-        org_id: Optional[UUID] = None,
-        project_id: Optional[UUID] = None,
-        repo_id: Optional[UUID] = None,
-    ) -> Optional[tuple[Secret, bytes]]:
+        org_id: UUID | None = None,
+        project_id: UUID | None = None,
+        repo_id: UUID | None = None,
+    ) -> tuple[Secret, bytes] | None:
         """Get a secret by name and scope"""
         ...
 
     async def list(
         self,
         org_id: UUID,
-        secret_type: Optional[SecretType] = None,
-    ) -> List[Secret]:
+        secret_type: SecretType | None = None,
+    ) -> list[Secret]:
         """List secrets (metadata only)"""
         ...
 
     async def update(
         self,
         secret: Secret,
-        encrypted_value: Optional[bytes] = None,
+        encrypted_value: bytes | None = None,
     ) -> Secret:
         """Update a secret"""
         ...
@@ -189,12 +186,12 @@ class AuditLogger(Protocol):
 
     async def log(
         self,
-        org_id: Optional[UUID],
+        org_id: UUID | None,
         action: str,
-        actor_id: Optional[UUID],
+        actor_id: UUID | None,
         resource_type: str,
         resource_id: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
     ) -> None:
         ...
 
@@ -213,14 +210,14 @@ class SecretsManager:
 
     storage: SecretStorage
     kms_provider: KMSProvider
-    audit_logger: Optional[AuditLogger] = None
+    audit_logger: AuditLogger | None = None
 
     # KMS key IDs (different keys for different purposes)
     master_key_id: str = "alias/mno-secrets-master"
     provider_key_id: str = "alias/mno-provider-secrets"
 
     # Encryption context template
-    _encryption_context_template: Dict[str, str] = field(default_factory=lambda: {
+    _encryption_context_template: dict[str, str] = field(default_factory=lambda: {
         "service": "machinenativeops",
         "purpose": "secrets",
     })
@@ -234,14 +231,14 @@ class SecretsManager:
         name: str,
         value: str,
         secret_type: SecretType,
-        org_id: Optional[UUID] = None,
+        org_id: UUID | None = None,
         scope: SecretScope = SecretScope.ORGANIZATION,
-        project_id: Optional[UUID] = None,
-        repo_id: Optional[UUID] = None,
-        created_by: Optional[UUID] = None,
-        expires_at: Optional[datetime] = None,
-        rotation_interval_days: Optional[int] = None,
-        tags: Optional[Dict[str, str]] = None,
+        project_id: UUID | None = None,
+        repo_id: UUID | None = None,
+        created_by: UUID | None = None,
+        expires_at: datetime | None = None,
+        rotation_interval_days: int | None = None,
+        tags: dict[str, str] | None = None,
     ) -> Secret:
         """
         Create a new secret
@@ -321,8 +318,8 @@ class SecretsManager:
     async def get_secret_value(
         self,
         secret_id: UUID,
-        accessed_by: Optional[UUID] = None,
-    ) -> Optional[str]:
+        accessed_by: UUID | None = None,
+    ) -> str | None:
         """
         Retrieve a secret's value
 
@@ -376,12 +373,12 @@ class SecretsManager:
     async def get_secret_by_name(
         self,
         name: str,
-        org_id: Optional[UUID] = None,
+        org_id: UUID | None = None,
         scope: SecretScope = SecretScope.ORGANIZATION,
-        project_id: Optional[UUID] = None,
-        repo_id: Optional[UUID] = None,
-        accessed_by: Optional[UUID] = None,
-    ) -> Optional[str]:
+        project_id: UUID | None = None,
+        repo_id: UUID | None = None,
+        accessed_by: UUID | None = None,
+    ) -> str | None:
         """Get secret value by name and scope"""
         result = await self.storage.get_by_name(
             name, scope, org_id, project_id, repo_id
@@ -395,7 +392,7 @@ class SecretsManager:
     async def get_secret_metadata(
         self,
         secret_id: UUID,
-    ) -> Optional[Secret]:
+    ) -> Secret | None:
         """Get secret metadata (without value)"""
         result = await self.storage.get(secret_id)
         return result[0] if result else None
@@ -408,7 +405,7 @@ class SecretsManager:
         self,
         secret_id: UUID,
         new_value: str,
-        rotated_by: Optional[UUID] = None,
+        rotated_by: UUID | None = None,
     ) -> Secret:
         """
         Rotate a secret (update its value)
@@ -465,7 +462,7 @@ class SecretsManager:
     async def delete_secret(
         self,
         secret_id: UUID,
-        deleted_by: Optional[UUID] = None,
+        deleted_by: UUID | None = None,
     ) -> bool:
         """Delete a secret"""
         result = await self.storage.get(secret_id)
@@ -491,8 +488,8 @@ class SecretsManager:
     async def list_secrets(
         self,
         org_id: UUID,
-        secret_type: Optional[SecretType] = None,
-    ) -> List[Secret]:
+        secret_type: SecretType | None = None,
+    ) -> list[Secret]:
         """List secrets (metadata only, no values)"""
         return await self.storage.list(org_id, secret_type)
 
@@ -502,17 +499,17 @@ class SecretsManager:
 
     async def get_secrets_needing_rotation(
         self,
-        org_id: Optional[UUID] = None,
-    ) -> List[Secret]:
+        org_id: UUID | None = None,
+    ) -> list[Secret]:
         """Get secrets that need rotation"""
         all_secrets = await self.storage.list(org_id)
         return [s for s in all_secrets if s.needs_rotation]
 
     async def get_expiring_secrets(
         self,
-        org_id: Optional[UUID] = None,
+        org_id: UUID | None = None,
         within_days: int = 7,
-    ) -> List[Secret]:
+    ) -> list[Secret]:
         """Get secrets expiring soon"""
         all_secrets = await self.storage.list(org_id)
         cutoff = datetime.utcnow() + timedelta(days=within_days)
@@ -535,9 +532,9 @@ class SecretsManager:
 
     def _build_encryption_context(
         self,
-        org_id: Optional[UUID],
+        org_id: UUID | None,
         secret_type: SecretType,
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """Build encryption context for KMS"""
         context = {**self._encryption_context_template}
 
@@ -557,7 +554,7 @@ async def get_webhook_secret(
     secrets_manager: SecretsManager,
     org_id: UUID,
     repo_id: UUID,
-) -> Optional[str]:
+) -> str | None:
     """Get webhook secret for a repository"""
     return await secrets_manager.get_secret_by_name(
         name=f"webhook-{repo_id}",
@@ -571,7 +568,7 @@ async def get_provider_token(
     secrets_manager: SecretsManager,
     org_id: UUID,
     installation_id: str,
-) -> Optional[str]:
+) -> str | None:
     """Get provider installation token"""
     return await secrets_manager.get_secret_by_name(
         name=f"installation-token-{installation_id}",
