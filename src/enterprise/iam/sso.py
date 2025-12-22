@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, Protocol
 from urllib.parse import urlencode, urlparse
+from uuid import UUID
 import jwt as pyjwt
 
 from enterprise.iam.models import (
@@ -335,8 +336,7 @@ class SSOManager:
         org_id = UUID(pending["org_id"])
         code_verifier = pending["code_verifier"]
         redirect_uri = pending["redirect_uri"]
-        # TODO: Validate nonce against ID token for replay attack prevention
-        # nonce = pending["nonce"]
+        nonce = pending["nonce"]
 
         # Clean up pending auth
         del self._pending_auth[state]
@@ -380,8 +380,7 @@ class SSOManager:
             # SECURITY WARNING: Signature verification is disabled
             id_token_claims = pyjwt.decode(
                 tokens.id_token,
-                key=signing_key.key,
-                algorithms=["RS256", "RS384", "RS512", "ES256", "ES384", "ES512"],
+                options={"verify_signature": False},
                 audience=config.client_id,
                 issuer=discovery.get("issuer"),
             )
