@@ -829,6 +829,7 @@ CLI 工具與腳本文檔。
 
 | 文件路徑                                                                                                     | 說明             | 操作指引 |
 | ------------------------------------------------------------------------------------------------------------ | ---------------- | -------- |
+| [docs/AAPS_ANALYSIS_REPORT.md](./docs/AAPS_ANALYSIS_REPORT.md) ⭐ **NEW**                                   | AAPS 專案深度分析報告 | 可行性分析、競爭分析、技術債務、風險評估 |
 | [docs/reports/COMPREHENSIVE_IMPLEMENTATION_REPORT.md](./docs/reports/COMPREHENSIVE_IMPLEMENTATION_REPORT.md) | 綜合實施報告     | 完整報告 |
 | [docs/reports/PHASE1_IMPLEMENTATION_SUMMARY.md](./docs/reports/PHASE1_IMPLEMENTATION_SUMMARY.md)             | Phase 1 實施摘要 | 第一階段 |
 | [docs/reports/PHASE1_VALIDATION_REPORT.md](./docs/reports/PHASE1_VALIDATION_REPORT.md)                       | Phase 1 驗證報告 | 驗證結果 |
