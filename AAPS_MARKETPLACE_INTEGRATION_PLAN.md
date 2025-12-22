@@ -329,12 +329,14 @@ machine-native-ops-aaps/
     "src/core/advisory-database",
     "src/apps/web",
     "src/ai/src/ai",
-    "src/services/marketplace",           // 新增
-    "src/services/prompt-management",     // 新增
+    "src/services/marketplace",
+    "src/services/prompt-management",
     "archive/unmanned-engineer-ceo/80-skeleton-configs"
   ]
 }
 ```
+
+**註**: 新增的 workspace 路徑為 `src/services/marketplace` 和 `src/services/prompt-management`
 
 **Workspace 整合指引**:
 
@@ -447,7 +449,7 @@ npm init -y
 # 手動編輯或使用編輯器添加新的 workspace 路徑
 
 # 2.4 重新安裝依賴以鏈接 workspaces
-cd /path/to/root
+cd ../..  # 返回專案根目錄
 npm install
 
 # 3. 實施核心功能
