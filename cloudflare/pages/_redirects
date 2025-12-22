@@ -5,14 +5,14 @@
 # Documentation: https://developers.cloudflare.com/pages/configuration/redirects/
 # ============================================================================
 
-# API requests proxy to Workers
-/api/*  https://api.machinenativeops.com/api/:splat  302
+# API requests proxy to Workers (200 = proxy without redirect)
+/api/*  https://api.machinenativeops.com/api/:splat  200
 
-# Webhook endpoint proxy
-/webhooks/*  https://api.machinenativeops.com/webhooks/:splat  302
+# Webhook endpoint proxy (200 = proxy without redirect)
+/webhooks/*  https://api.machinenativeops.com/webhooks/:splat  200
 
-# Health check proxy
-/health  https://api.machinenativeops.com/health  302
+# Health check proxy (200 = proxy without redirect)
+/health  https://api.machinenativeops.com/health  200
 
 # Legacy URL redirects
 /docs/*  /documentation/:splat  301

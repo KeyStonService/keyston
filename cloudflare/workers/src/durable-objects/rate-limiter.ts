@@ -28,6 +28,9 @@ export class RateLimiter {
   // potential future use.
   constructor(state: DurableObjectState, _env: unknown) {
     this.state = state;
+    // Explicitly reference `_env` to satisfy static analysis while keeping
+    // the required Durable Object constructor signature.
+    void _env;
 
     // Load state from storage
     this.state.blockConcurrencyWhile(async () => {
@@ -38,7 +41,8 @@ export class RateLimiter {
     });
   }
 
-  async fetch(_request: Request): Promise<Response> {
+  async fetch(request: Request): Promise<Response> {
+    void request;
     const now = Date.now();
     const windowStart = now - this.config.windowMs;
 

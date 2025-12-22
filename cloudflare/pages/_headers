@@ -13,6 +13,8 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.machinenativeops.com https://*.cloudflare.com; frame-ancestors 'none'
+  # Note: 'unsafe-inline' in style-src is currently required for framework-generated inline styles.
+  # TODO: Migrate to nonce-based or hash-based CSP for inline styles in production.
 
 # Static assets - long cache
 /assets/*

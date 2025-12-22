@@ -91,6 +91,7 @@ export default {
    * Scheduled event handler (Cron Triggers)
    */
   async scheduled(event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
+    void _ctx;
     console.log(`Cron trigger: ${event.cron}`);
 
     // Perform scheduled tasks
@@ -108,6 +109,7 @@ export default {
    * Queue message handler
    */
   async queue(batch: MessageBatch<unknown>, _env: Env): Promise<void> {
+    void _env;
     for (const message of batch.messages) {
       console.log('Processing queue message:', message.body);
       // Process queue messages
