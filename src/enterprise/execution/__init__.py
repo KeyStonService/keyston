@@ -11,27 +11,24 @@ Since we run code/content from external repos, isolation is critical:
 
 from enterprise.execution.isolator import (
     ExecutionIsolator,
-    ExecutionSpec,
     ExecutionResult,
+    ExecutionSpec,
     IsolationPolicy,
 )
-
 from enterprise.execution.quota import (
-    ResourceQuotaManager,
-    ResourceQuota,
     QuotaExceededError,
+    ResourceQuota,
+    ResourceQuotaManager,
 )
-
 from enterprise.execution.secrets import (
-    SecretsManager,
     Secret,
+    SecretsManager,
     SecretType,
 )
-
 from enterprise.execution.supply_chain import (
-    SupplyChainValidator,
-    ImageAttestation,
     SBOM,
+    ImageAttestation,
+    SupplyChainValidator,
 )
 
 __all__ = [

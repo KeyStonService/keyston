@@ -1,0 +1,466 @@
+# ============================================================================
+# MachineNativeOps - Cloudflare Deployment Workflow
+# ============================================================================
+# This workflow handles automated deployments to Cloudflare Workers and Pages.
+# It integrates with GitHub events to provide continuous deployment.
+#
+# Required Secrets:
+# - CLOUDFLARE_API_TOKEN: Cloudflare API token with Workers/Pages permissions
+# - CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
+# - GITHUB_TOKEN: Automatically provided by GitHub Actions
+#
+# Optional Secrets:
+# - CLOUDFLARE_ZONE_ID: Zone ID for DNS management
+# - GITHUB_WEBHOOK_SECRET: Secret for GitHub webhook verification
+# ============================================================================
+
+name: Deploy to Cloudflare
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'cloudflare/**'
+      - 'wrangler.toml'
+      - '.github/workflows/deploy-cloudflare.yml'
+      - 'src/frontend/**'
+      - 'src/web/**'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'cloudflare/**'
+      - 'wrangler.toml'
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      deploy_workers:
+        description: 'Deploy Workers'
+        required: true
+        default: true
+        type: boolean
+      deploy_pages:
+        description: 'Deploy Pages'
+        required: true
+        default: true
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  WRANGLER_VERSION: '3.95.0'
+
+jobs:
+  # ============================================================================
+  # Pre-deployment Checks
+  # ============================================================================
+  pre-check:
+    name: Pre-deployment Checks
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.determine-env.outputs.environment }}
+      should_deploy_workers: ${{ steps.changes.outputs.workers }}
+      should_deploy_pages: ${{ steps.changes.outputs.pages }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine environment
+        id: determine-env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          else
+            echo "environment=development" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            workers:
+              - 'cloudflare/workers/**'
+              - 'wrangler.toml'
+            pages:
+              - 'src/frontend/**'
+              - 'src/web/**'
+              - 'cloudflare/pages/**'
+
+      - name: Summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** ${{ steps.determine-env.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deploy Workers:** ${{ steps.changes.outputs.workers }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deploy Pages:** ${{ steps.changes.outputs.pages }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Lint and Type Check
+  # ============================================================================
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    needs: pre-check
+    if: needs.pre-check.outputs.should_deploy_workers == 'true' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: cloudflare/workers/package-lock.json
+
+      - name: Install dependencies
+        working-directory: cloudflare/workers
+        run: npm ci
+
+      - name: Type check
+        working-directory: cloudflare/workers
+        run: npm run typecheck
+
+      - name: Lint
+        working-directory: cloudflare/workers
+        run: npm run lint || true
+
+  # ============================================================================
+  # Deploy Cloudflare Workers
+  # ============================================================================
+  deploy-workers:
+    name: Deploy Workers
+    runs-on: ubuntu-latest
+    needs: [pre-check, lint]
+    if: |
+      (needs.pre-check.outputs.should_deploy_workers == 'true' || github.event_name == 'workflow_dispatch') &&
+      (github.event_name != 'workflow_dispatch' || inputs.deploy_workers)
+    environment:
+      name: cloudflare-${{ needs.pre-check.outputs.environment }}
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: cloudflare/workers/package-lock.json
+
+      - name: Install dependencies
+        working-directory: cloudflare/workers
+        run: npm ci
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@${{ env.WRANGLER_VERSION }}
+
+      - name: Deploy Worker
+        id: deploy
+        working-directory: .
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          DEPLOY_ENV="${{ needs.pre-check.outputs.environment }}"
+
+          if [[ "$DEPLOY_ENV" == "production" ]]; then
+            wrangler deploy --env production
+            echo "url=https://api.machinenativeops.com" >> $GITHUB_OUTPUT
+          elif [[ "$DEPLOY_ENV" == "staging" ]]; then
+            wrangler deploy --env staging
+            echo "url=https://staging-api.machinenativeops.com" >> $GITHUB_OUTPUT
+          else
+            wrangler deploy --env development
+            echo "url=https://dev.machinenativeops.workers.dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set Worker Secrets
+        if: needs.pre-check.outputs.environment == 'production'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Set GitHub token for API access
+          echo "${{ secrets.WORKER_GITHUB_TOKEN }}" | wrangler secret put GITHUB_TOKEN --env production || true
+
+          # Set GitHub webhook secret
+          echo "${{ secrets.GITHUB_WEBHOOK_SECRET }}" | wrangler secret put GITHUB_WEBHOOK_SECRET --env production || true
+
+      - name: Deployment Summary
+        run: |
+          echo "## Workers Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** ${{ needs.pre-check.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Deploy Cloudflare Pages
+  # ============================================================================
+  deploy-pages:
+    name: Deploy Pages
+    runs-on: ubuntu-latest
+    needs: pre-check
+    if: |
+      (needs.pre-check.outputs.should_deploy_pages == 'true' || github.event_name == 'workflow_dispatch') &&
+      (github.event_name != 'workflow_dispatch' || inputs.deploy_pages)
+    environment:
+      name: cloudflare-pages-${{ needs.pre-check.outputs.environment }}
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: ${{ needs.pre-check.outputs.environment == 'production' && 'https://api.machinenativeops.com' || 'https://staging-api.machinenativeops.com' }}
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=machinenativeops --branch=${{ github.ref_name }}
+
+      - name: Deployment Summary
+        run: |
+          echo "## Pages Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** ${{ needs.pre-check.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Create/Update KV Namespaces
+  # ============================================================================
+  setup-kv:
+    name: Setup KV Namespaces
+    runs-on: ubuntu-latest
+    needs: [pre-check, deploy-workers]
+    if: needs.pre-check.outputs.environment == 'production' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@${{ env.WRANGLER_VERSION }}
+
+      - name: Create/Verify KV Namespaces
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # List existing namespaces
+          echo "Existing KV Namespaces:"
+          wrangler kv:namespace list || true
+
+          # Create namespaces if they don't exist (will error if exists, that's OK)
+          wrangler kv:namespace create "CACHE" 2>/dev/null || echo "CACHE namespace may already exist"
+          wrangler kv:namespace create "SESSIONS" 2>/dev/null || echo "SESSIONS namespace may already exist"
+
+  # ============================================================================
+  # Setup D1 Database
+  # ============================================================================
+  setup-d1:
+    name: Setup D1 Database
+    runs-on: ubuntu-latest
+    needs: [pre-check, deploy-workers]
+    if: needs.pre-check.outputs.environment == 'production' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@${{ env.WRANGLER_VERSION }}
+
+      - name: Create/Verify D1 Database
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # List existing databases
+          echo "Existing D1 Databases:"
+          wrangler d1 list || true
+
+          # Create database if it doesn't exist
+          wrangler d1 create machinenativeops-prod 2>/dev/null || echo "Database may already exist"
+
+      - name: Run D1 Migrations
+        if: false  # Enable when migrations are ready
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          wrangler d1 migrations apply machinenativeops-prod --env production
+
+  # ============================================================================
+  # Setup R2 Bucket
+  # ============================================================================
+  setup-r2:
+    name: Setup R2 Bucket
+    runs-on: ubuntu-latest
+    needs: [pre-check, deploy-workers]
+    if: needs.pre-check.outputs.environment == 'production' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@${{ env.WRANGLER_VERSION }}
+
+      - name: Create/Verify R2 Bucket
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # List existing buckets
+          echo "Existing R2 Buckets:"
+          wrangler r2 bucket list || true
+
+          # Create bucket if it doesn't exist
+          wrangler r2 bucket create machinenativeops-assets-prod 2>/dev/null || echo "Bucket may already exist"
+
+  # ============================================================================
+  # GitHub Webhook Configuration
+  # ============================================================================
+  configure-webhook:
+    name: Configure GitHub Webhook
+    runs-on: ubuntu-latest
+    needs: [pre-check, deploy-workers]
+    if: needs.pre-check.outputs.environment == 'production' && github.event_name == 'push'
+
+    steps:
+      - name: Configure GitHub Webhook
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## GitHub Webhook Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "To complete the GitHub integration, configure a webhook in your repository:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. Go to **Repository Settings > Webhooks > Add webhook**" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Payload URL:** \`https://api.machinenativeops.com/webhooks/github\`" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Content type:** \`application/json\`" >> $GITHUB_STEP_SUMMARY
+          echo "4. **Secret:** Use the value from \`GITHUB_WEBHOOK_SECRET\`" >> $GITHUB_STEP_SUMMARY
+          echo "5. **Events:** Select individual events or 'Send me everything'" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Recommended events:" >> $GITHUB_STEP_SUMMARY
+          echo "- Push" >> $GITHUB_STEP_SUMMARY
+          echo "- Pull requests" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues" >> $GITHUB_STEP_SUMMARY
+          echo "- Workflow runs" >> $GITHUB_STEP_SUMMARY
+          echo "- Releases" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Smoke Tests
+  # ============================================================================
+  smoke-test:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [pre-check, deploy-workers]
+    if: always() && needs.deploy-workers.result == 'success'
+
+    steps:
+      - name: Health Check
+        run: |
+          ENV="${{ needs.pre-check.outputs.environment }}"
+
+          if [[ "$ENV" == "production" ]]; then
+            URL="https://api.machinenativeops.com/health"
+          elif [[ "$ENV" == "staging" ]]; then
+            URL="https://staging-api.machinenativeops.com/health"
+          else
+            URL="https://machinenativeops-worker-dev.workers.dev/health"
+          fi
+
+          echo "Checking health endpoint: $URL"
+
+          for i in {1..5}; do
+            response=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
+            if [[ "$response" == "200" ]]; then
+              echo "Health check passed!"
+              exit 0
+            fi
+            echo "Attempt $i: Got status $response, retrying..."
+            sleep 10
+          done
+
+          echo "Health check failed after 5 attempts"
+          exit 1
+
+      - name: Test Results
+        if: always()
+        run: |
+          echo "## Smoke Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+
+  # ============================================================================
+  # Notify on Failure
+  # ============================================================================
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-workers, deploy-pages, smoke-test]
+    if: failure()
+
+    steps:
+      - name: Create Issue on Failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Cloudflare Deployment Failed - ${context.sha.substring(0, 7)}`,
+              body: `## Deployment Failure
+
+              **Workflow:** ${context.workflow}
+              **Run:** [${context.runNumber}](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+              **Commit:** ${context.sha}
+              **Branch:** ${context.ref}
+
+              Please investigate and fix the deployment issues.`,
+              labels: ['deployment', 'cloudflare', 'automated']
+            });

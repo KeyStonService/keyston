@@ -12,15 +12,14 @@ Features:
 - Visibility timeout for crash recovery
 """
 
+import asyncio
+import logging
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol, Callable, Awaitable
-from uuid import UUID, uuid4
 from enum import Enum
-import logging
-import asyncio
-import json
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -66,45 +65,45 @@ class Job:
 
     # Job type and data
     job_type: str = ""         # e.g., "analyze_pr", "generate_report"
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
 
     # Queue assignment
     queue: QueueType = QueueType.GATE
     priority: JobPriority = JobPriority.NORMAL
 
     # Source event (for tracing)
-    event_id: Optional[UUID] = None
-    correlation_id: Optional[UUID] = None
+    event_id: UUID | None = None
+    correlation_id: UUID | None = None
 
     # Status
     status: JobStatus = JobStatus.PENDING
-    result: Optional[Dict[str, Any]] = None
-    error: Optional[str] = None
+    result: dict[str, Any] | None = None
+    error: str | None = None
 
     # Timing
     created_at: datetime = field(default_factory=datetime.utcnow)
-    scheduled_at: Optional[datetime] = None  # For delayed jobs
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    scheduled_at: datetime | None = None  # For delayed jobs
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
 
     # Retry
     attempt: int = 0
     max_attempts: int = 3
-    next_retry_at: Optional[datetime] = None
+    next_retry_at: datetime | None = None
 
     # Visibility
     visibility_timeout: int = 300  # Seconds before job becomes visible again
-    visible_at: Optional[datetime] = None
+    visible_at: datetime | None = None
 
     # Worker
-    worker_id: Optional[str] = None
-    locked_until: Optional[datetime] = None
+    worker_id: str | None = None
+    locked_until: datetime | None = None
 
     # Metadata
     timeout_seconds: int = 600   # Job execution timeout
-    idempotency_key: Optional[str] = None
+    idempotency_key: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "id": str(self.id),
@@ -149,7 +148,7 @@ class JobStorage(Protocol):
     async def save(self, job: Job) -> Job:
         ...
 
-    async def get(self, job_id: UUID) -> Optional[Job]:
+    async def get(self, job_id: UUID) -> Job | None:
         ...
 
     async def update(self, job: Job) -> Job:
@@ -162,7 +161,7 @@ class JobStorage(Protocol):
         self,
         queue: QueueType,
         limit: int = 10,
-    ) -> List[Job]:
+    ) -> list[Job]:
         """Get pending jobs ordered by priority and creation time"""
         ...
 
@@ -171,14 +170,14 @@ class JobStorage(Protocol):
         org_id: UUID,
         status: JobStatus,
         limit: int = 100,
-    ) -> List[Job]:
+    ) -> list[Job]:
         ...
 
     async def count_jobs(
         self,
         org_id: UUID,
-        queue: Optional[QueueType] = None,
-        status: Optional[JobStatus] = None,
+        queue: QueueType | None = None,
+        status: JobStatus | None = None,
     ) -> int:
         ...
 
@@ -189,21 +188,21 @@ class DLQStorage(Protocol):
     async def save(self, dlq_job: DeadLetterJob) -> DeadLetterJob:
         ...
 
-    async def get(self, job_id: UUID) -> Optional[DeadLetterJob]:
+    async def get(self, job_id: UUID) -> DeadLetterJob | None:
         ...
 
     async def list(
         self,
         org_id: UUID,
         limit: int = 100,
-    ) -> List[DeadLetterJob]:
+    ) -> list[DeadLetterJob]:
         ...
 
     async def delete(self, job_id: UUID) -> bool:
         ...
 
 
-JobHandler = Callable[[Job], Awaitable[Dict[str, Any]]]
+JobHandler = Callable[[Job], Awaitable[dict[str, Any]]]
 
 
 @dataclass
@@ -219,10 +218,10 @@ class JobQueue:
     """
 
     storage: JobStorage
-    dlq_storage: Optional[DLQStorage] = None
+    dlq_storage: DLQStorage | None = None
 
     # Handler registry
-    handlers: Dict[str, JobHandler] = field(default_factory=dict)
+    handlers: dict[str, JobHandler] = field(default_factory=dict)
 
     # Configuration
     default_max_attempts: int = 3
@@ -240,14 +239,14 @@ class JobQueue:
         self,
         org_id: UUID,
         job_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         queue: QueueType = QueueType.GATE,
         priority: JobPriority = JobPriority.NORMAL,
-        event_id: Optional[UUID] = None,
-        correlation_id: Optional[UUID] = None,
-        scheduled_at: Optional[datetime] = None,
-        idempotency_key: Optional[str] = None,
-        max_attempts: Optional[int] = None,
+        event_id: UUID | None = None,
+        correlation_id: UUID | None = None,
+        scheduled_at: datetime | None = None,
+        idempotency_key: str | None = None,
+        max_attempts: int | None = None,
         timeout_seconds: int = 600,
     ) -> Job:
         """
@@ -297,8 +296,8 @@ class JobQueue:
         self,
         org_id: UUID,
         job_type: str,
-        payload: Dict[str, Any],
-        event_id: Optional[UUID] = None,
+        payload: dict[str, Any],
+        event_id: UUID | None = None,
         **kwargs,
     ) -> Job:
         """Convenience method for high-priority gate jobs"""
@@ -317,8 +316,8 @@ class JobQueue:
         self,
         org_id: UUID,
         job_type: str,
-        payload: Dict[str, Any],
-        event_id: Optional[UUID] = None,
+        payload: dict[str, Any],
+        event_id: UUID | None = None,
         **kwargs,
     ) -> Job:
         """Convenience method for lower-priority report jobs"""
@@ -341,7 +340,7 @@ class JobQueue:
         self,
         queue: QueueType,
         worker_id: str,
-    ) -> Optional[Job]:
+    ) -> Job | None:
         """
         Fetch the next available job from a queue
 
@@ -374,7 +373,7 @@ class JobQueue:
     async def complete_job(
         self,
         job_id: UUID,
-        result: Optional[Dict[str, Any]] = None,
+        result: dict[str, Any] | None = None,
     ) -> Job:
         """Mark a job as completed"""
         job = await self.storage.get(job_id)
@@ -504,7 +503,7 @@ class JobQueue:
             )
             return await self.complete_job(job.id, result)
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await self.fail_job(job.id, f"Job timed out after {job.timeout_seconds}s")
 
         except Exception as e:
@@ -540,7 +539,7 @@ class JobQueue:
     async def retry_dlq_job(
         self,
         dlq_job_id: UUID,
-    ) -> Optional[Job]:
+    ) -> Job | None:
         """Retry a job from the Dead Letter Queue"""
         if not self.dlq_storage:
             raise ValueError("DLQ storage not configured")
@@ -573,7 +572,7 @@ class JobQueue:
         self,
         org_id: UUID,
         limit: int = 100,
-    ) -> List[DeadLetterJob]:
+    ) -> list[DeadLetterJob]:
         """List jobs in the Dead Letter Queue"""
         if not self.dlq_storage:
             return []
@@ -586,7 +585,7 @@ class JobQueue:
     async def get_queue_stats(
         self,
         org_id: UUID,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get queue statistics"""
         stats = {}
 
@@ -632,7 +631,7 @@ class DeadLetterQueue:
         self,
         org_id: UUID,
         limit: int = 100,
-    ) -> List[DeadLetterJob]:
+    ) -> list[DeadLetterJob]:
         """List DLQ jobs"""
         return await self.storage.list(org_id, limit)
 

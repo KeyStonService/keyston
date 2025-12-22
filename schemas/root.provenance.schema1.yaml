@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: provenance-schema
+  namespace: machinenativenops-provenance
+data:
+  schema.yaml: "# Root Provenance Configuration Schema\ntype: object\nproperties:\n\
+    \  provenance_sources:\n    type: array\n    items:\n      type: object\n    \
+    \  properties:\n        name:\n          type: string\n        description:\n\
+    \          type: string\n        type:\n          type: string\n          enum:\
+    \ [\"git\", \"ci_cd\", \"deployment\", \"configuration\", \"access\"]\n      \
+    \  enabled:\n          type: boolean\n        collection_frequency:\n        \
+    \  type: string\n        data_points:\n          type: array\n        storage_backend:\n\
+    \          type: object\n        verification_methods:\n          type: array\n\
+    \      required: [\"name\", \"description\", \"type\", \"enabled\", \"collection_frequency\"\
+    , \"data_points\"]\n  metadata_schema:\n    type: object\n    properties:\n  \
+    \    common_fields:\n        type: array\n        items:\n          type: object\n\
+    \          properties:\n            name:\n              type: string\n      \
+    \      type:\n              type: string\n            description:\n         \
+    \     type: string\n            required:\n              type: boolean\n     \
+    \       indexed:\n              type: boolean\n          required: [\"name\",\
+    \ \"type\", \"description\", \"required\", \"indexed\"]\n      type_specific_schemas:\n\
+    \        type: object\n    required: [\"common_fields\", \"type_specific_schemas\"\
+    ]\n  audit_trails:\n    type: array\n    items:\n      type: object\n      properties:\n\
+    \        name:\n          type: string\n        description:\n          type:\
+    \ string\n        enabled:\n          type: boolean\n        scope:\n        \
+    \  type: string\n        retention_period:\n          type: string\n        collection_methods:\n\
+    \          type: array\n        immutable_storage:\n          type: object\n \
+    \       access_control:\n          type: object\n      required: [\"name\", \"\
+    description\", \"enabled\", \"scope\", \"retention_period\"]\nrequired: [\"provenance_sources\"\
+    , \"metadata_schema\", \"audit_trails\"]"

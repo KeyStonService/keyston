@@ -22,7 +22,7 @@ SUPER_AGENT_URL = "http://localhost:8080"
 
 
 class SimpleResponse:
-    """Lightweight response object providing the subset of the `requests.Response` API used in tests."""
+    """Lightweight response object providing the subset of the requests.Response API used in tests."""
 
     def __init__(self, status_code: int, text: str, content: bytes):
         self.status_code = status_code
@@ -37,9 +37,9 @@ class SimpleResponse:
 
 
 class HttpSession:
-    """Minimal HTTP session wrapper using urllib to emulate `requests.Session` for GET/POST."""
+    """Minimal HTTP session wrapper using urllib to emulate requests.Session for GET/POST."""
 
-    def get(self, url: str, timeout: float = 10) -> "SimpleResponse":
+    def get(self, url: str, timeout: float = 10) -> SimpleResponse:
         return self._request("GET", url, data=None, headers=None, timeout=timeout)
 
     def post(self, url: str, json_data: Dict[str, Any] | None = None, timeout: float = 10) -> "SimpleResponse":
@@ -57,7 +57,7 @@ class HttpSession:
         data: bytes | None,
         headers: Dict[str, str] | None,
         timeout: float = 10,
-    ) -> "SimpleResponse":
+    ) -> SimpleResponse:
         request = urllib.request.Request(url, data=data, method=method)
         if headers:
             for key, value in headers.items():
@@ -81,7 +81,7 @@ class SuperAgentTester:
     def generate_test_message(self, message_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         """Generate a test message with proper envelope"""
         import uuid
-        trace_id = f"axm-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4()}"
+        trace_id = f"mno-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4()}"
         
         return {
             "meta": {
@@ -95,6 +95,7 @@ class SuperAgentTester:
             },
             "context": {
                 "namespace": "machinenativeops",
+                "namespace": "machinenativenops-system",
                 "cluster": "test-cluster",
                 "urgency": "P1"
             },
@@ -168,6 +169,7 @@ class SuperAgentTester:
                 },
                 "context": {
                     "namespace": "machinenativeops"
+                    "namespace": "machinenativenops-system"
                 },
                 "payload": {}
             }

@@ -8,14 +8,13 @@ Manages Git provider integrations including:
 - Authorization state tracking
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol
-from uuid import UUID, uuid4
-from enum import Enum
 import logging
 import time
-
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -50,21 +49,21 @@ class ProviderAuth:
     auth_type: AuthType = AuthType.GITHUB_APP
 
     # For GitHub App
-    installation_id: Optional[str] = None
-    app_id: Optional[str] = None
+    installation_id: str | None = None
+    app_id: str | None = None
 
     # Tokens (encrypted in storage)
-    access_token_encrypted: Optional[str] = None
-    refresh_token_encrypted: Optional[str] = None
+    access_token_encrypted: str | None = None
+    refresh_token_encrypted: str | None = None
 
     # Token metadata
-    token_expires_at: Optional[datetime] = None
-    token_scopes: List[str] = field(default_factory=list)
+    token_expires_at: datetime | None = None
+    token_scopes: list[str] = field(default_factory=list)
 
     # Status
     is_active: bool = True
-    last_used_at: Optional[datetime] = None
-    last_refreshed_at: Optional[datetime] = None
+    last_used_at: datetime | None = None
+    last_refreshed_at: datetime | None = None
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
@@ -90,7 +89,7 @@ class ProviderInstallation:
     org_id: UUID = field(default_factory=uuid4)  # Tenant isolation
 
     provider: GitProvider = GitProvider.GITHUB
-    auth_id: Optional[UUID] = None  # Link to ProviderAuth
+    auth_id: UUID | None = None  # Link to ProviderAuth
 
     # Installation details
     installation_id: str = ""  # Provider's installation ID
@@ -100,20 +99,20 @@ class ProviderInstallation:
 
     # Authorized repositories
     repository_selection: str = "all"  # all, selected
-    authorized_repos: List[str] = field(default_factory=list)  # list of repo full names
+    authorized_repos: list[str] = field(default_factory=list)  # list of repo full names
 
     # Permissions granted
-    permissions: Dict[str, str] = field(default_factory=dict)
+    permissions: dict[str, str] = field(default_factory=dict)
     # e.g., {"checks": "write", "contents": "read", "pull_requests": "write"}
 
     # Events subscribed
-    events: List[str] = field(default_factory=list)
+    events: list[str] = field(default_factory=list)
     # e.g., ["push", "pull_request", "check_run"]
 
     # Status
     is_active: bool = True
-    suspended_at: Optional[datetime] = None
-    suspension_reason: Optional[str] = None
+    suspended_at: datetime | None = None
+    suspension_reason: str | None = None
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
@@ -126,12 +125,12 @@ class ProviderRepository(Protocol):
     async def save_auth(self, auth: ProviderAuth) -> ProviderAuth:
         ...
 
-    async def get_auth(self, org_id: UUID, auth_id: UUID) -> Optional[ProviderAuth]:
+    async def get_auth(self, org_id: UUID, auth_id: UUID) -> ProviderAuth | None:
         ...
 
     async def get_auth_by_installation(
         self, org_id: UUID, installation_id: str
-    ) -> Optional[ProviderAuth]:
+    ) -> ProviderAuth | None:
         ...
 
     async def update_auth(self, auth: ProviderAuth) -> ProviderAuth:
@@ -144,12 +143,12 @@ class ProviderRepository(Protocol):
 
     async def get_installation(
         self, org_id: UUID, installation_id: str
-    ) -> Optional[ProviderInstallation]:
+    ) -> ProviderInstallation | None:
         ...
 
     async def list_installations(
         self, org_id: UUID
-    ) -> List[ProviderInstallation]:
+    ) -> list[ProviderInstallation]:
         ...
 
     async def update_installation(
@@ -176,16 +175,16 @@ class HTTPClient(Protocol):
     async def get(
         self,
         url: str,
-        headers: Dict[str, str] = None,
-    ) -> Dict[str, Any]:
+        headers: dict[str, str] = None,
+    ) -> dict[str, Any]:
         ...
 
     async def post(
         self,
         url: str,
-        data: Dict[str, Any] = None,
-        headers: Dict[str, str] = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any] = None,
+        headers: dict[str, str] = None,
+    ) -> dict[str, Any]:
         ...
 
 
@@ -205,11 +204,11 @@ class GitProviderManager:
     http_client: HTTPClient
 
     # GitHub App configuration
-    github_app_id: Optional[str] = None
-    github_app_private_key: Optional[str] = None
+    github_app_id: str | None = None
+    github_app_private_key: str | None = None
 
     # Rate limit tracking
-    _rate_limits: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    _rate_limits: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     # ------------------------------------------------------------------
     # Installation Management
@@ -223,9 +222,9 @@ class GitProviderManager:
         account_id: str,
         account_type: str = "Organization",
         repository_selection: str = "all",
-        repositories: Optional[List[str]] = None,
-        permissions: Optional[Dict[str, str]] = None,
-        events: Optional[List[str]] = None,
+        repositories: list[str] | None = None,
+        permissions: dict[str, str] | None = None,
+        events: list[str] | None = None,
     ) -> ProviderInstallation:
         """
         Register a new GitHub App installation
@@ -269,8 +268,8 @@ class GitProviderManager:
         self,
         org_id: UUID,
         installation_id: str,
-        repositories_added: List[str],
-        repositories_removed: List[str],
+        repositories_added: list[str],
+        repositories_removed: list[str],
     ) -> ProviderInstallation:
         """
         Update installation's authorized repositories
@@ -446,7 +445,7 @@ class GitProviderManager:
         self,
         org_id: UUID,
         installation_id: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Check current rate limit status for an installation
 
@@ -525,7 +524,7 @@ class GitProviderManager:
         org_id: UUID,
         installation_id: str,
         repo_full_name: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get repository information from GitHub"""
         token = await self.get_installation_token(org_id, installation_id)
 
@@ -545,7 +544,7 @@ class GitProviderManager:
         installation_id: str,
         page: int = 1,
         per_page: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """List repositories accessible by the installation"""
         token = await self.get_installation_token(org_id, installation_id)
 

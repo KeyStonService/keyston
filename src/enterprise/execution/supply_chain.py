@@ -10,14 +10,12 @@ Ensures worker images are secure and traceable:
 Enterprise procurement will ask about these!
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, Dict, Any, List, Protocol
-from uuid import UUID, uuid4
 from enum import Enum
-import hashlib
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +72,7 @@ class ImageReference:
     registry: str = "ghcr.io"
     repository: str = "machinenativeops/worker"
     tag: str = "latest"
-    digest: Optional[ImageDigest] = None
+    digest: ImageDigest | None = None
 
     @property
     def full_name(self) -> str:
@@ -97,8 +95,8 @@ class SBOMPackage:
     supplier: str = ""
     license: str = ""
     purl: str = ""  # Package URL
-    checksums: Dict[str, str] = field(default_factory=dict)
-    vulnerabilities: List[str] = field(default_factory=list)
+    checksums: dict[str, str] = field(default_factory=dict)
+    vulnerabilities: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -123,7 +121,7 @@ class SBOM:
     tool_version: str = ""
 
     # Packages
-    packages: List[SBOMPackage] = field(default_factory=list)
+    packages: list[SBOMPackage] = field(default_factory=list)
 
     # Document
     document_namespace: str = ""
@@ -134,7 +132,7 @@ class SBOM:
     vulnerability_count: int = 0
 
     # Raw SBOM document
-    raw_document: Optional[Dict[str, Any]] = None
+    raw_document: dict[str, Any] | None = None
 
 
 @dataclass
@@ -154,17 +152,17 @@ class ImageSignature:
     signer_issuer: str = ""    # e.g., "https://accounts.google.com"
 
     # Verification
-    public_key: Optional[str] = None
-    certificate: Optional[str] = None
-    certificate_chain: List[str] = field(default_factory=list)
+    public_key: str | None = None
+    certificate: str | None = None
+    certificate_chain: list[str] = field(default_factory=list)
 
     # Timestamps
     signed_at: datetime = field(default_factory=datetime.utcnow)
-    verified_at: Optional[datetime] = None
+    verified_at: datetime | None = None
 
     # Sigstore/Cosign specific
-    rekor_log_index: Optional[int] = None
-    transparency_log_id: Optional[str] = None
+    rekor_log_index: int | None = None
+    transparency_log_id: str | None = None
 
 
 @dataclass
@@ -195,11 +193,11 @@ class SLSAProvenance:
     invocation_config_source: str = ""  # e.g., git URL
 
     # Materials (inputs to the build)
-    materials: List[Dict[str, Any]] = field(default_factory=list)
+    materials: list[dict[str, Any]] = field(default_factory=list)
 
     # Metadata
-    build_started_on: Optional[datetime] = None
-    build_finished_on: Optional[datetime] = None
+    build_started_on: datetime | None = None
+    build_finished_on: datetime | None = None
     reproducible: bool = False
 
     # Source
@@ -208,10 +206,10 @@ class SLSAProvenance:
     source_digest: str = ""
 
     # Signature
-    signature: Optional[ImageSignature] = None
+    signature: ImageSignature | None = None
 
     # Raw attestation
-    raw_attestation: Optional[Dict[str, Any]] = None
+    raw_attestation: dict[str, Any] | None = None
 
 
 @dataclass
@@ -227,14 +225,14 @@ class ImageAttestation:
     image_reference: ImageReference = field(default_factory=ImageReference)
 
     # Attestations
-    slsa_provenance: Optional[SLSAProvenance] = None
-    sbom: Optional[SBOM] = None
-    signature: Optional[ImageSignature] = None
+    slsa_provenance: SLSAProvenance | None = None
+    sbom: SBOM | None = None
+    signature: ImageSignature | None = None
 
     # Verification status
     verified: bool = False
-    verified_at: Optional[datetime] = None
-    verification_errors: List[str] = field(default_factory=list)
+    verified_at: datetime | None = None
+    verification_errors: list[str] = field(default_factory=list)
 
     # Vulnerability summary
     critical_vulns: int = 0
@@ -255,20 +253,20 @@ class AttestationStorage(Protocol):
     async def get_by_digest(
         self,
         digest: ImageDigest,
-    ) -> Optional[ImageAttestation]:
+    ) -> ImageAttestation | None:
         ...
 
     async def get_by_image(
         self,
         image_reference: ImageReference,
-    ) -> Optional[ImageAttestation]:
+    ) -> ImageAttestation | None:
         ...
 
     async def list_attestations(
         self,
         repository: str,
         limit: int = 100,
-    ) -> List[ImageAttestation]:
+    ) -> list[ImageAttestation]:
         ...
 
 
@@ -296,7 +294,7 @@ class SBOMScanner(Protocol):
     async def scan_vulnerabilities(
         self,
         sbom: SBOM,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         ...
 
 
@@ -312,9 +310,9 @@ class SupplyChainValidator:
     - Image version is allowed
     """
 
-    storage: Optional[AttestationStorage] = None
-    signature_verifier: Optional[SignatureVerifier] = None
-    sbom_scanner: Optional[SBOMScanner] = None
+    storage: AttestationStorage | None = None
+    signature_verifier: SignatureVerifier | None = None
+    sbom_scanner: SBOMScanner | None = None
 
     # Policy settings
     require_signature: bool = True
@@ -326,12 +324,12 @@ class SupplyChainValidator:
     max_high_vulns: int = 5
 
     # Allowed images
-    allowed_registries: List[str] = field(default_factory=lambda: [
+    allowed_registries: list[str] = field(default_factory=lambda: [
         "ghcr.io/machinenativeops",
         "docker.io/machinenativeops",
     ])
 
-    allowed_images: List[str] = field(default_factory=lambda: [
+    allowed_images: list[str] = field(default_factory=lambda: [
         "ghcr.io/machinenativeops/worker",
         "ghcr.io/machinenativeops/scanner",
     ])
@@ -343,7 +341,7 @@ class SupplyChainValidator:
     async def validate_image(
         self,
         image_reference: ImageReference,
-    ) -> tuple[bool, List[str]]:
+    ) -> tuple[bool, list[str]]:
         """
         Validate an image meets security requirements
 
@@ -432,9 +430,9 @@ class SupplyChainValidator:
     async def store_attestation(
         self,
         image_reference: ImageReference,
-        slsa_provenance: Optional[SLSAProvenance] = None,
-        sbom: Optional[SBOM] = None,
-        signature: Optional[ImageSignature] = None,
+        slsa_provenance: SLSAProvenance | None = None,
+        sbom: SBOM | None = None,
+        signature: ImageSignature | None = None,
     ) -> ImageAttestation:
         """Store attestation for an image"""
         attestation = ImageAttestation(
@@ -460,7 +458,7 @@ class SupplyChainValidator:
     async def get_attestation(
         self,
         image_reference: ImageReference,
-    ) -> Optional[ImageAttestation]:
+    ) -> ImageAttestation | None:
         """Get attestation for an image"""
         if not self.storage:
             return None
@@ -499,17 +497,17 @@ class ImagePinConfig:
     Pins specific image versions for stability and security.
     """
     # Pinned images
-    pinned_images: Dict[str, str] = field(default_factory=dict)
+    pinned_images: dict[str, str] = field(default_factory=dict)
     # e.g., {"worker": "ghcr.io/mno/worker@sha256:abc123..."}
 
     # Allowed digest prefixes (for emergency updates)
-    allowed_digest_prefixes: Dict[str, List[str]] = field(default_factory=dict)
+    allowed_digest_prefixes: dict[str, list[str]] = field(default_factory=dict)
 
     # Last updated
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    updated_by: Optional[str] = None
+    updated_by: str | None = None
 
-    def get_pinned_image(self, name: str) -> Optional[ImageReference]:
+    def get_pinned_image(self, name: str) -> ImageReference | None:
         """Get pinned image reference"""
         pinned = self.pinned_images.get(name)
         if not pinned:

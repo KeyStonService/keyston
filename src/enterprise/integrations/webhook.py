@@ -7,16 +7,15 @@ Handles incoming webhooks from Git providers with:
 - Rate limiting and backpressure
 """
 
+import hashlib
+import hmac
+import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, Dict, Any, Set, Protocol
-from uuid import UUID, uuid4
 from enum import Enum
-import hmac
-import hashlib
-import time
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -74,9 +73,9 @@ class WebhookEvent:
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Tenant isolation
-    org_id: Optional[UUID] = None
-    repo_id: Optional[UUID] = None
-    installation_id: Optional[str] = None
+    org_id: UUID | None = None
+    repo_id: UUID | None = None
+    installation_id: str | None = None
 
     # Repository info
     repo_full_name: str = ""
@@ -86,24 +85,24 @@ class WebhookEvent:
     action: str = ""  # opened, synchronize, closed, etc.
 
     # Pull Request / Push specific
-    head_sha: Optional[str] = None
-    base_sha: Optional[str] = None
-    head_ref: Optional[str] = None  # Branch name
-    base_ref: Optional[str] = None
-    pr_number: Optional[int] = None
-    pr_title: Optional[str] = None
-    pr_url: Optional[str] = None
+    head_sha: str | None = None
+    base_sha: str | None = None
+    head_ref: str | None = None  # Branch name
+    base_ref: str | None = None
+    pr_number: int | None = None
+    pr_title: str | None = None
+    pr_url: str | None = None
 
     # Sender
-    sender_login: Optional[str] = None
-    sender_id: Optional[str] = None
+    sender_login: str | None = None
+    sender_id: str | None = None
 
     # Raw payload (for debugging/audit)
-    raw_payload: Dict[str, Any] = field(default_factory=dict)
+    raw_payload: dict[str, Any] = field(default_factory=dict)
 
     # Validation
     is_verified: bool = False
-    verification_method: Optional[str] = None  # hmac, app_signature
+    verification_method: str | None = None  # hmac, app_signature
 
 
 class NonceStore(Protocol):
@@ -159,9 +158,9 @@ class WebhookReceiver:
     - Event normalization
     """
 
-    nonce_store: Optional[NonceStore] = None
-    rate_limiter: Optional[RateLimiter] = None
-    event_publisher: Optional[EventPublisher] = None
+    nonce_store: NonceStore | None = None
+    rate_limiter: RateLimiter | None = None
+    event_publisher: EventPublisher | None = None
 
     # Configuration
     replay_window_seconds: int = 300  # 5 minutes
@@ -169,11 +168,11 @@ class WebhookReceiver:
     max_payload_size: int = 10 * 1024 * 1024  # 10 MB
 
     # In-memory nonce cache (for MVP, use Redis in production)
-    _nonces: Set[str] = field(default_factory=set)
-    _nonce_timestamps: Dict[str, float] = field(default_factory=dict)
+    _nonces: set[str] = field(default_factory=set)
+    _nonce_timestamps: dict[str, float] = field(default_factory=dict)
 
     # Secrets (should come from secrets manager)
-    webhook_secrets: Dict[str, str] = field(default_factory=dict)  # repo_id -> secret
+    webhook_secrets: dict[str, str] = field(default_factory=dict)  # repo_id -> secret
 
     # ------------------------------------------------------------------
     # Webhook Reception
@@ -182,9 +181,9 @@ class WebhookReceiver:
     async def receive(
         self,
         provider: str,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
-        secret: Optional[str] = None,
+        secret: str | None = None,
     ) -> WebhookEvent:
         """
         Receive and validate a webhook
@@ -262,9 +261,9 @@ class WebhookReceiver:
 
     async def _verify_github_signature(
         self,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
-        secret: Optional[str],
+        secret: str | None,
     ) -> None:
         """
         Verify GitHub webhook signature
@@ -287,9 +286,9 @@ class WebhookReceiver:
 
     async def _verify_gitlab_signature(
         self,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
-        secret: Optional[str],
+        secret: str | None,
     ) -> None:
         """
         Verify GitLab webhook signature
@@ -309,9 +308,9 @@ class WebhookReceiver:
 
     async def _verify_bitbucket_signature(
         self,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
-        secret: Optional[str],
+        secret: str | None,
     ) -> None:
         """
         Verify Bitbucket webhook signature
@@ -328,7 +327,7 @@ class WebhookReceiver:
     async def _verify_hmac(
         self,
         body: bytes,
-        secret: Optional[str],
+        secret: str | None,
         signature_header: str,
         algorithm: str,
     ) -> None:
@@ -398,7 +397,7 @@ class WebhookReceiver:
         self._nonce_timestamps[nonce] = now
         return True
 
-    def _get_delivery_id(self, provider: str, headers: Dict[str, str]) -> Optional[str]:
+    def _get_delivery_id(self, provider: str, headers: dict[str, str]) -> str | None:
         """Get delivery ID from headers based on provider"""
         if provider == "github":
             return headers.get("X-GitHub-Delivery") or headers.get("x-github-delivery")
@@ -411,7 +410,7 @@ class WebhookReceiver:
     def _get_rate_limit_key(
         self,
         provider: str,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
     ) -> str:
         """Generate rate limit key"""
@@ -428,7 +427,7 @@ class WebhookReceiver:
     async def _parse_event(
         self,
         provider: str,
-        headers: Dict[str, str],
+        headers: dict[str, str],
         body: bytes,
     ) -> WebhookEvent:
         """Parse and normalize webhook payload"""
@@ -453,8 +452,8 @@ class WebhookReceiver:
 
     def _parse_github_event(
         self,
-        headers: Dict[str, str],
-        payload: Dict[str, Any],
+        headers: dict[str, str],
+        payload: dict[str, Any],
     ) -> WebhookEvent:
         """Parse GitHub webhook payload"""
         event_name = headers.get("X-GitHub-Event") or headers.get("x-github-event", "")
@@ -529,8 +528,8 @@ class WebhookReceiver:
 
     def _parse_gitlab_event(
         self,
-        headers: Dict[str, str],
-        payload: Dict[str, Any],
+        headers: dict[str, str],
+        payload: dict[str, Any],
     ) -> WebhookEvent:
         """Parse GitLab webhook payload"""
         object_kind = payload.get("object_kind", "")
@@ -581,8 +580,8 @@ class WebhookReceiver:
 
     def _parse_bitbucket_event(
         self,
-        headers: Dict[str, str],
-        payload: Dict[str, Any],
+        headers: dict[str, str],
+        payload: dict[str, Any],
     ) -> WebhookEvent:
         """Parse Bitbucket webhook payload"""
         event_key = headers.get("X-Event-Key") or headers.get("x-event-key", "")

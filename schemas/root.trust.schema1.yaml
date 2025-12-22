@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trust-schema
+  namespace: machinenativenops-trust
+data:
+  schema.yaml: "# Root Trust Configuration Schema\ntype: object\nproperties:\n  trust_roots:\n\
+    \    type: array\n    items:\n      type: object\n      properties:\n        name:\n\
+    \          type: string\n        description:\n          type: string\n      \
+    \  type:\n          type: string\n          enum: [\"root_ca\", \"intermediate_ca\"\
+    ]\n        status:\n          type: string\n          enum: [\"active\", \"inactive\"\
+    , \"revoked\"]\n        certificate_id:\n          type: string\n        key_algorithm:\n\
+    \          type: string\n        signature_algorithm:\n          type: string\n\
+    \        validity_period:\n          type: string\n        auto_rotation:\n  \
+    \        type: boolean\n      required: [\"name\", \"description\", \"type\",\
+    \ \"status\", \"certificate_id\", \"key_algorithm\", \"signature_algorithm\"]\n\
+    \  certificate_authorities:\n    type: array\n    items:\n      type: object\n\
+    \      properties:\n        name:\n          type: string\n        description:\n\
+    \          type: string\n        type:\n          type: string\n          enum:\
+    \ [\"internal\", \"external\"]\n        ca_certificate:\n          type: string\n\
+    \        issuing_policy:\n          type: array\n        revocation:\n       \
+    \   type: object\n      required: [\"name\", \"description\", \"type\", \"ca_certificate\"\
+    ]\n  verification_policies:\n    type: array\n    items:\n      type: object\n\
+    \      properties:\n        name:\n          type: string\n        description:\n\
+    \          type: string\n        enabled:\n          type: boolean\n        scope:\n\
+    \          type: array\n        requirements:\n          type: object\n      required:\
+    \ [\"name\", \"description\", \"enabled\", \"scope\", \"requirements\"]\nrequired:\
+    \ [\"trust_roots\", \"certificate_authorities\", \"verification_policies\"]"

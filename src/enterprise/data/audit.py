@@ -10,14 +10,13 @@ Records "who changed what when" for enterprise compliance:
 This is a HARD requirement for enterprise customers.
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List, Protocol
-from uuid import UUID, uuid4
-from enum import Enum
 import json
 import logging
-
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -124,34 +123,34 @@ class AuditEntry:
     severity: AuditSeverity = AuditSeverity.INFO
 
     # Who did it
-    actor_id: Optional[UUID] = None
+    actor_id: UUID | None = None
     actor_type: str = "user"  # user, service, system
-    actor_email: Optional[str] = None
-    actor_ip: Optional[str] = None
-    actor_user_agent: Optional[str] = None
+    actor_email: str | None = None
+    actor_ip: str | None = None
+    actor_user_agent: str | None = None
 
     # Where
-    org_id: Optional[UUID] = None
-    project_id: Optional[UUID] = None
-    repo_id: Optional[UUID] = None
+    org_id: UUID | None = None
+    project_id: UUID | None = None
+    repo_id: UUID | None = None
 
     # What was affected
     resource_type: str = ""   # e.g., "policy", "member", "secret"
     resource_id: str = ""     # ID of the resource
-    resource_name: Optional[str] = None  # Human-readable name
+    resource_name: str | None = None  # Human-readable name
 
     # Details
     description: str = ""
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
 
     # Change tracking (for updates)
-    old_value: Optional[Dict[str, Any]] = None
-    new_value: Optional[Dict[str, Any]] = None
+    old_value: dict[str, Any] | None = None
+    new_value: dict[str, Any] | None = None
 
     # Request context
-    request_id: Optional[str] = None
-    session_id: Optional[str] = None
-    correlation_id: Optional[UUID] = None
+    request_id: str | None = None
+    session_id: str | None = None
+    correlation_id: UUID | None = None
 
     # Timing
     timestamp: datetime = field(default_factory=datetime.utcnow)
@@ -160,7 +159,7 @@ class AuditEntry:
     version: str = "1.0"
     source: str = "api"  # api, webhook, scheduled, manual
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage/serialization"""
         return {
             "id": str(self.id),
@@ -193,15 +192,15 @@ class AuditEntry:
 @dataclass
 class AuditQuery:
     """Query parameters for audit log search"""
-    org_id: Optional[UUID] = None
-    actor_id: Optional[UUID] = None
-    actions: Optional[List[AuditAction]] = None
-    resource_type: Optional[str] = None
-    resource_id: Optional[str] = None
-    severity: Optional[AuditSeverity] = None
-    start_time: Optional[datetime] = None
-    end_time: Optional[datetime] = None
-    search_text: Optional[str] = None
+    org_id: UUID | None = None
+    actor_id: UUID | None = None
+    actions: list[AuditAction] | None = None
+    resource_type: str | None = None
+    resource_id: str | None = None
+    severity: AuditSeverity | None = None
+    start_time: datetime | None = None
+    end_time: datetime | None = None
+    search_text: str | None = None
 
 
 class AuditStorage(Protocol):
@@ -216,7 +215,7 @@ class AuditStorage(Protocol):
         query: AuditQuery,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """Query audit entries"""
         ...
 
@@ -224,7 +223,7 @@ class AuditStorage(Protocol):
         """Count matching entries"""
         ...
 
-    async def get_by_id(self, entry_id: UUID) -> Optional[AuditEntry]:
+    async def get_by_id(self, entry_id: UUID) -> AuditEntry | None:
         """Get a specific entry"""
         ...
 
@@ -254,7 +253,7 @@ class AuditLogger:
     """
 
     storage: AuditStorage
-    exporter: Optional[AuditExporter] = None
+    exporter: AuditExporter | None = None
 
     # Configuration
     enabled: bool = True
@@ -262,7 +261,7 @@ class AuditLogger:
     mask_sensitive_fields: bool = True
 
     # Sensitive field patterns to mask
-    sensitive_fields: List[str] = field(default_factory=lambda: [
+    sensitive_fields: list[str] = field(default_factory=lambda: [
         "password", "secret", "token", "api_key", "private_key",
         "access_token", "refresh_token", "credential",
     ])
@@ -277,19 +276,19 @@ class AuditLogger:
     async def log(
         self,
         action: AuditAction,
-        actor_id: Optional[UUID] = None,
-        org_id: Optional[UUID] = None,
+        actor_id: UUID | None = None,
+        org_id: UUID | None = None,
         resource_type: str = "",
         resource_id: str = "",
         description: str = "",
-        details: Optional[Dict[str, Any]] = None,
+        details: dict[str, Any] | None = None,
         severity: AuditSeverity = AuditSeverity.INFO,
-        old_value: Optional[Dict[str, Any]] = None,
-        new_value: Optional[Dict[str, Any]] = None,
-        actor_email: Optional[str] = None,
-        actor_ip: Optional[str] = None,
-        request_id: Optional[str] = None,
-        correlation_id: Optional[UUID] = None,
+        old_value: dict[str, Any] | None = None,
+        new_value: dict[str, Any] | None = None,
+        actor_email: str | None = None,
+        actor_ip: str | None = None,
+        request_id: str | None = None,
+        correlation_id: UUID | None = None,
     ) -> AuditEntry:
         """
         Log an audit event
@@ -411,7 +410,7 @@ class AuditLogger:
         org_id: UUID,
         member_id: UUID,
         action_type: str,  # added, removed, role_changed
-        details: Optional[Dict[str, Any]] = None,
+        details: dict[str, Any] | None = None,
     ) -> AuditEntry:
         """Log a membership change"""
         action_map = {
@@ -432,8 +431,8 @@ class AuditLogger:
 
     async def log_api_call(
         self,
-        actor_id: Optional[UUID],
-        org_id: Optional[UUID],
+        actor_id: UUID | None,
+        org_id: UUID | None,
         method: str,
         path: str,
         status_code: int,
@@ -473,7 +472,7 @@ class AuditLogger:
         query: AuditQuery,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """Query audit logs"""
         return await self.storage.query(query, offset, limit)
 
@@ -483,7 +482,7 @@ class AuditLogger:
         days: int = 30,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """Get audit log for an organization"""
         query = AuditQuery(
             org_id=org_id,
@@ -495,7 +494,7 @@ class AuditLogger:
         self,
         user_id: UUID,
         days: int = 30,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """Get activity for a specific user"""
         query = AuditQuery(
             actor_id=user_id,
@@ -507,7 +506,7 @@ class AuditLogger:
         self,
         org_id: UUID,
         days: int = 7,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """Get security-relevant events"""
         security_actions = [
             AuditAction.AUTH_LOGIN_FAILED,
@@ -571,7 +570,7 @@ class AuditLogger:
     # Private Methods
     # ------------------------------------------------------------------
 
-    def _mask_sensitive(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _mask_sensitive(self, data: dict[str, Any]) -> dict[str, Any]:
         """Mask sensitive fields in data"""
         if not data or not self.mask_sensitive_fields:
             return data

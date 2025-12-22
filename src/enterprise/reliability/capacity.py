@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ class CapacityPlan:
 
 
 # Predefined plans
-CAPACITY_PLANS: Dict[PlanTier, CapacityPlan] = {
+CAPACITY_PLANS: dict[PlanTier, CapacityPlan] = {
     PlanTier.FREE: CapacityPlan(
         tier=PlanTier.FREE,
         monthly_analysis_limit=100,
@@ -154,7 +154,7 @@ class UsageForecast:
 
     # Alerts
     will_exceed: bool = False
-    days_until_exceeded: Optional[int] = None
+    days_until_exceeded: int | None = None
 
     @property
     def is_at_risk(self) -> bool:
@@ -185,7 +185,7 @@ class CostEstimate:
     total_cost: float = 0.0
 
     # Usage details
-    usage_breakdown: Dict[str, float] = field(default_factory=dict)
+    usage_breakdown: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -218,7 +218,7 @@ class UsageStorage(Protocol):
         org_id: UUID,
         resource_type: ResourceType,
         days: int = 30,
-    ) -> List[UsageRecord]:
+    ) -> list[UsageRecord]:
         ...
 
 
@@ -241,11 +241,11 @@ class CapacityManager:
     - Capacity forecasting
     """
 
-    usage_storage: Optional[UsageStorage] = None
-    plan_provider: Optional[PlanProvider] = None
+    usage_storage: UsageStorage | None = None
+    plan_provider: PlanProvider | None = None
 
     # Cost rates ($ per unit)
-    rates: Dict[str, float] = field(default_factory=lambda: {
+    rates: dict[str, float] = field(default_factory=lambda: {
         "analysis_overage": 0.01,     # $0.01 per analysis over limit
         "storage_gb": 0.10,           # $0.10 per GB per month
         "compute_hour": 0.50,         # $0.50 per compute hour
@@ -253,7 +253,7 @@ class CapacityManager:
     })
 
     # Plan base costs
-    plan_costs: Dict[PlanTier, float] = field(default_factory=lambda: {
+    plan_costs: dict[PlanTier, float] = field(default_factory=lambda: {
         PlanTier.FREE: 0.0,
         PlanTier.STARTER: 49.0,
         PlanTier.PROFESSIONAL: 199.0,
@@ -301,7 +301,7 @@ class CapacityManager:
     async def get_usage_summary(
         self,
         org_id: UUID,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get usage summary for all resource types"""
         plan = await self._get_plan(org_id)
 
@@ -455,7 +455,7 @@ class CapacityManager:
     async def get_capacity_report(
         self,
         org_id: UUID,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get comprehensive capacity report"""
         forecasts = {}
 
@@ -484,8 +484,8 @@ class CapacityManager:
 
     def _generate_recommendations(
         self,
-        forecasts: Dict[str, Dict[str, Any]],
-    ) -> List[str]:
+        forecasts: dict[str, dict[str, Any]],
+    ) -> list[str]:
         """Generate capacity recommendations"""
         recommendations = []
 
@@ -509,8 +509,8 @@ class CapacityManager:
     async def estimate_cost(
         self,
         org_id: UUID,
-        period_start: Optional[datetime] = None,
-        period_end: Optional[datetime] = None,
+        period_start: datetime | None = None,
+        period_end: datetime | None = None,
     ) -> CostEstimate:
         """
         Estimate cost for an organization

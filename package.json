@@ -18,7 +18,20 @@
     "install:all": "npm install --workspaces",
     "dev:stack": "bash scripts/start-machinenativeops-dev.sh",
     "docs:lint": "markdownlint \"**/*.md\"",
-    "clean": "npm run clean --workspaces --if-present && rm -rf node_modules"
+    "clean": "npm run clean --workspaces --if-present && rm -rf node_modules",
+    "cf:dev": "cd cloudflare/workers && npm run dev",
+    "cf:deploy": "wrangler deploy",
+    "cf:deploy:staging": "wrangler deploy --env staging",
+    "cf:deploy:production": "wrangler deploy --env production",
+    "cf:tail": "wrangler tail",
+    "cf:tail:production": "wrangler tail --env production",
+    "cf:kv:list": "wrangler kv:namespace list",
+    "cf:d1:list": "wrangler d1 list",
+    "cf:r2:list": "wrangler r2 bucket list",
+    "cf:secret:put": "wrangler secret put",
+    "cf:login": "wrangler login",
+    "cf:whoami": "wrangler whoami",
+    "build:worker": "cd cloudflare/workers && npm run build"
   },
   "keywords": [
     "enterprise-integration",
@@ -41,6 +54,7 @@
     "npm": ">=8.0.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
     "@eslint/js": "^9.39.1",
     "eslint-config-prettier": "^9.1.2",
     "eslint-import-resolver-typescript": "^3.10.1",
@@ -48,7 +62,8 @@
     "eslint-plugin-prettier": "^5.5.4",
     "markdownlint-cli": "^0.46.0",
     "prettier": "^3.7.4",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^3.95.0"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.3.3"

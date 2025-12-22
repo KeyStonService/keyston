@@ -9,13 +9,12 @@ Manages resource quotas to prevent:
 Per-org quotas ensure fair resource distribution.
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, Protocol, List
-from uuid import UUID
 from enum import Enum
-import logging
-
+from typing import Protocol
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +46,7 @@ class QuotaExceededError(Exception):
         current: int,
         limit: int,
         period: QuotaPeriod,
-        resets_at: Optional[datetime] = None,
+        resets_at: datetime | None = None,
     ):
         self.resource_type = resource_type
         self.current = current
@@ -74,10 +73,10 @@ class ResourceQuota:
     period: QuotaPeriod = QuotaPeriod.MONTHLY
 
     # Soft limit triggers warnings
-    soft_limit: Optional[int] = None
+    soft_limit: int | None = None
 
     # Burst allowance for temporary spikes
-    burst_limit: Optional[int] = None
+    burst_limit: int | None = None
     burst_window_seconds: int = 60
 
 
@@ -89,7 +88,7 @@ class QuotaUsage:
     limit: int
     period: QuotaPeriod
     period_start: datetime
-    period_end: Optional[datetime] = None
+    period_end: datetime | None = None
 
     @property
     def percentage_used(self) -> float:
@@ -136,7 +135,7 @@ class OrgQuotaConfig:
     network_egress_bytes_per_month: int = 10737418240  # 10 GB
 
     # Custom quotas
-    custom_quotas: Dict[str, int] = field(default_factory=dict)
+    custom_quotas: dict[str, int] = field(default_factory=dict)
 
 
 class QuotaStorage(Protocol):
@@ -199,7 +198,7 @@ class ResourceQuotaManager:
     config_provider: QuotaConfigProvider
 
     # Cache for quota configs
-    _config_cache: Dict[str, tuple[OrgQuotaConfig, datetime]] = field(default_factory=dict)
+    _config_cache: dict[str, tuple[OrgQuotaConfig, datetime]] = field(default_factory=dict)
     _cache_ttl_seconds: int = 300
 
     # ------------------------------------------------------------------
@@ -387,7 +386,7 @@ class ResourceQuotaManager:
     async def get_all_usage(
         self,
         org_id: UUID,
-    ) -> Dict[str, QuotaUsage]:
+    ) -> dict[str, QuotaUsage]:
         """Get usage for all resource types"""
         result = {}
 
@@ -494,7 +493,7 @@ class ResourceQuotaManager:
         self,
         period: QuotaPeriod,
         period_start: datetime,
-    ) -> Optional[datetime]:
+    ) -> datetime | None:
         """Get end of period"""
         if period == QuotaPeriod.HOURLY:
             return period_start + timedelta(hours=1)

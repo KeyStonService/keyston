@@ -1,0 +1,29 @@
+{
+  "modules_registered": 8,
+  "modules_running": 1,
+  "modules_implemented": 1,
+  "dependency_graph_valid": true,
+  "load_sequence_valid": true,
+  "registered_at": "2025-12-21T15:14:57.940246",
+  "modules": [
+    "governance-engine",
+    "trust-manager",
+    "provenance-tracker",
+    "integrity-validator",
+    "super-execution-engine",
+    "config-manager",
+    "logging-service",
+    "monitoring-service"
+  ],
+  "running_modules": [
+    "config-manager"
+  ],
+  "running_processes": {
+    "config-manager": [
+      "2019",
+      "2020",
+      "2106"
+    ]
+  },
+  "verification_method": "actual_process_and_http_check"
+}

@@ -12,13 +12,8 @@ Also includes:
 - Graceful degradation patterns
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Optional, Dict, Any, Callable, Awaitable, Protocol
-from uuid import UUID
-from enum import Enum
 import asyncio
-from datetime import datetime
+import logging
 import time
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
@@ -170,7 +165,7 @@ class CircuitBreaker:
                 duration_ms=(time.monotonic() - start) * 1000,
             )
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             self._record_failure()
             error = f"Operation timed out after {self.timeout_seconds}s"
 
@@ -312,7 +307,7 @@ class HealthCheck:
                     message="Check returned false",
                 )
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             self._record_failure()
 
             return HealthCheckResult(

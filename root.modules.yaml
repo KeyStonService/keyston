@@ -8,8 +8,7 @@ metadata:
     machinenativeops.io/version: v1.0.0
     machinenativeops.io/component: modules-registry
   annotations:
-    machinenativeops.io/description: Root layer modules registration and dependency
-      management
+    machinenativeops.io/description: Root layer modules registration and dependency management
     machinenativeops.io/last-modified: '2025-12-20T22:00:00Z'
 spec:
   modules:
@@ -313,6 +312,50 @@ spec:
       value: '9090'
     - name: SCRAPE_INTERVAL
       value: 15s
+  - name: machinenativenops-auto-monitor
+    version: 2.0.0
+    description: Production-ready auto-monitoring with quantum state tracking
+    entrypoint: /usr/bin/machinenativenops-auto-monitor
+    group: monitoring
+    priority: 55
+    enabled: true
+    auto_start: true
+    health_check:
+      endpoint: /health
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    dependencies:
+    - name: config-manager
+      version: '>=1.0.0'
+      optional: false
+    - name: logging-service
+      version: '>=1.0.0'
+      optional: false
+    - name: database-connector
+      version: '>=1.0.0'
+      optional: false
+    resources:
+      cpu:
+        request: 200m
+        limit: 1000m
+      memory:
+        request: 256Mi
+        limit: 1Gi
+      storage:
+        request: 500Mi
+        limit: 5Gi
+    environment:
+    - name: MNO_PROMETHEUS_PORT
+      value: '8000'
+    - name: MNO_LOG_LEVEL
+      value: INFO
+    - name: QUANTUM_ENABLED
+      value: 'false'
+    - name: AUTO_REPAIR_ENABLED
+      value: 'false'
+    - name: MNO_DATABASE_PATH
+      value: /var/lib/machinenativenops/auto_monitor/metrics.db
   groups:
   - name: core
     description: Core system modules required for basic functionality
@@ -385,6 +428,10 @@ spec:
     - workflow-engine
     - task-queue
     - governance-engine
+    machinenativenops-auto-monitor:
+    - config-manager
+    - logging-service
+    - database-connector
   load_sequence:
   - stage: 0
     modules:
@@ -403,6 +450,7 @@ spec:
     - notification-service
     - workflow-engine
     - task-queue
+    - machinenativenops-auto-monitor
     description: Supporting services
   - stage: 3
     modules:

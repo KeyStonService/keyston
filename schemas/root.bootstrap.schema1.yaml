@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bootstrap-schema
+  namespace: machinenativenops-bootstrap
+data:
+  schema.yaml: "# Root Bootstrap Configuration Schema\ntype: object\nproperties:\n\
+    \  init_sequence:\n    type: array\n    items:\n      type: object\n      properties:\n\
+    \        phase:\n          type: string\n        description:\n          type:\
+    \ string\n        timeout:\n          type: string\n        critical:\n      \
+    \    type: boolean\n        on_failure:\n          type: string\n        steps:\n\
+    \          type: array\n      required: [\"phase\", \"description\", \"timeout\"\
+    , \"critical\", \"on_failure\", \"steps\"]\n  preload_modules:\n    type: array\n\
+    \    items:\n      type: object\n      properties:\n        name:\n          type:\
+    \ string\n        description:\n          type: string\n        critical:\n  \
+    \        type: boolean\n        startup_priority:\n          type: integer\n \
+    \       resources:\n          type: object\n        environment:\n          type:\
+    \ array\n      required: [\"name\", \"description\", \"critical\", \"startup_priority\"\
+    , \"resources\", \"environment\"]\n  environment_setup:\n    type: object\n  \
+    \  properties:\n      system_environment:\n        type: array\n      security_environment:\n\
+    \        type: array\n      performance_environment:\n        type: array\n  \
+    \  required: [\"system_environment\", \"security_environment\", \"performance_environment\"\
+    ]\n  error_handling_strategies:\n    type: object\n    properties:\n      critical_errors:\n\
+    \        type: array\n      recoverable_errors:\n        type: array\n      warning_conditions:\n\
+    \        type: array\n    required: [\"critical_errors\", \"recoverable_errors\"\
+    , \"warning_conditions\"]\nrequired: [\"init_sequence\", \"preload_modules\",\
+    \ \"environment_setup\", \"error_handling_strategies\"]"

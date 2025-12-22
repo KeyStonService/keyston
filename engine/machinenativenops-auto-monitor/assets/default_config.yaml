@@ -1,0 +1,67 @@
+# MachineNativeOps Auto Monitor - Default Configuration
+# Version: 2.0.0
+# Architecture Hash: e7f8a9b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9
+
+version: "2.0.0"
+architecture_hash: "e7f8a9b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9"
+
+# Monitoring configuration
+monitoring:
+  interval: 30                    # Monitoring interval in seconds
+  prometheus_port: 8000           # Prometheus metrics port
+  health_check_timeout: 5         # Health check timeout
+  cpu_threshold: 80.0             # CPU usage alert threshold (%)
+  memory_threshold: 85.0          # Memory usage alert threshold (%)
+  disk_threshold: 90.0            # Disk usage alert threshold (%)
+  api_response_threshold: 2000.0  # API response time threshold (ms)
+  quantum_fidelity_threshold: 0.94 # Quantum fidelity threshold
+  quantum_error_rate_threshold: 0.01 # Quantum error rate threshold
+
+# Quantum monitoring configuration
+quantum:
+  enabled: false                  # Enable quantum monitoring
+  fidelity_threshold: 0.94        # Quantum fidelity threshold
+  coherence_time_threshold: 100.0 # Coherence time threshold (μs)
+  error_rate_threshold: 0.01      # Quantum error rate threshold
+  services: {}                    # Quantum service endpoints
+
+# Services configuration
+services:
+  foundation_layer: {}            # Foundation layer services
+  intelligence_layer: {}          # Intelligence layer services
+  quantum_layer: {}               # Quantum layer services
+  auto_discover: true             # Auto-discover services
+  discovery_namespaces:           # Namespaces to discover services
+    - "default"
+    - "machinenativenops-system"
+
+# Auto-repair configuration (Phase 1: disabled)
+auto_repair:
+  enabled: false                  # Enable auto-repair
+  max_repair_attempts: 3          # Max repair attempts
+  cooldown_period: 300            # Cooldown period (seconds)
+  strategies: []                  # Repair strategies
+
+# Logging configuration
+logging:
+  level: "INFO"                   # Log level
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"  # Log format
+  file: "/var/log/machinenativenops/monitor.log"  # Log file path
+  max_size: "10MB"               # Max log file size
+  backup_count: 5                # Number of backup logs
+
+# Database configuration
+database:
+  path: "/var/lib/machinenativenops/auto_monitor/metrics.db"  # Database path
+  retention_days: 30             # Data retention days
+  backup_enabled: true           # Enable database backups
+  backup_interval: 3600          # Backup interval (seconds)
+
+# Network configuration
+network:
+  base_url: null                 # Base URL for external services
+  timeout: 30                    # Network timeout
+  retry_attempts: 3              # Retry attempts
+  verify_ssl: true               # Verify SSL certificates
+  headers: {}                    # Default headers
+  auth_token: null               # Authentication token

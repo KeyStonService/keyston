@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: integrity-schema
+  namespace: machinenativenops-integrity
+data:
+  schema.yaml: "# Root Integrity Configuration Schema\ntype: object\nproperties:\n\
+    \  hash_lock_rules:\n    type: array\n    items:\n      type: object\n      properties:\n\
+    \        name:\n          type: string\n        description:\n          type:\
+    \ string\n        enabled:\n          type: boolean\n        scope:\n        \
+    \  type: string\n        file_patterns:\n          type: array\n        hash_algorithm:\n\
+    \          type: string\n        verification_frequency:\n          type: string\n\
+    \        baseline_storage:\n          type: object\n        violation_actions:\n\
+    \          type: array\n      required: [\"name\", \"description\", \"enabled\"\
+    , \"scope\", \"file_patterns\", \"hash_algorithm\"]\n  drift_detection:\n    type:\
+    \ array\n    items:\n      type: object\n      properties:\n        name:\n  \
+    \        type: string\n        description:\n          type: string\n        enabled:\n\
+    \          type: boolean\n        check_frequency:\n          type: string\n \
+    \       comparison_baseline:\n          type: string\n        drift_threshold:\n\
+    \          type: number\n        monitored_attributes:\n          type: array\n\
+    \        alerting:\n          type: object\n      required: [\"name\", \"description\"\
+    , \"enabled\", \"check_frequency\", \"comparison_baseline\", \"drift_threshold\"\
+    ]\n  freeze_policies:\n    type: array\n    items:\n      type: object\n     \
+    \ properties:\n        name:\n          type: string\n        description:\n \
+    \         type: string\n        enabled:\n          type: boolean\n        schedule:\n\
+    \          type: array\n        frozen_operations:\n          type: array\n  \
+    \      exception_process:\n          type: object\n      required: [\"name\",\
+    \ \"description\", \"enabled\", \"schedule\", \"frozen_operations\"]\nrequired:\
+    \ [\"hash_lock_rules\", \"drift_detection\", \"freeze_policies\"]"

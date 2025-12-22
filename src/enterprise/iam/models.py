@@ -5,13 +5,12 @@ Multi-tenant data models with org_id as the root isolation key.
 Every piece of data MUST carry org_id for proper tenant isolation.
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum, auto
-from typing import Optional, List, Dict, Any, Set
-from uuid import UUID, uuid4
 import hashlib
 import secrets
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from uuid import UUID, uuid4
 
 
 class Role(Enum):
@@ -86,7 +85,7 @@ class Permission(Enum):
 
 
 # Role to Permission mapping
-ROLE_PERMISSIONS: Dict[Role, Set[Permission]] = {
+ROLE_PERMISSIONS: dict[Role, set[Permission]] = {
     Role.OWNER: set(Permission),  # All permissions
 
     Role.ADMIN: {
@@ -190,12 +189,12 @@ class Organization:
 
     # Billing & Plan
     plan: str = "free"  # free, starter, professional, enterprise
-    billing_email: Optional[str] = None
+    billing_email: str | None = None
 
     # SSO Configuration
     sso_enabled: bool = False
-    sso_provider: Optional[str] = None  # oidc, saml
-    sso_config_id: Optional[UUID] = None
+    sso_provider: str | None = None  # oidc, saml
+    sso_config_id: UUID | None = None
 
     # Quotas
     max_projects: int = 10
@@ -207,12 +206,12 @@ class Organization:
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    created_by: Optional[UUID] = None
+    created_by: UUID | None = None
 
     # Status
     is_active: bool = True
-    suspended_at: Optional[datetime] = None
-    suspension_reason: Optional[str] = None
+    suspended_at: datetime | None = None
+    suspension_reason: str | None = None
 
     @property
     def org_id(self) -> UUID:
@@ -241,7 +240,7 @@ class Project:
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    created_by: Optional[UUID] = None
+    created_by: UUID | None = None
 
     is_active: bool = True
 
@@ -263,14 +262,14 @@ class Repository:
     # Git Provider Info
     provider: str = "github"  # github, gitlab, bitbucket
     provider_repo_id: str = ""  # Provider's internal repo ID
-    provider_installation_id: Optional[str] = None  # GitHub App installation ID
+    provider_installation_id: str | None = None  # GitHub App installation ID
 
     clone_url: str = ""
     default_branch: str = "main"
 
     # Webhook
-    webhook_id: Optional[str] = None
-    webhook_secret_hash: Optional[str] = None  # Hashed for storage
+    webhook_id: str | None = None
+    webhook_secret_hash: str | None = None  # Hashed for storage
     webhook_active: bool = False
 
     # Settings
@@ -281,7 +280,7 @@ class Repository:
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    last_sync_at: Optional[datetime] = None
+    last_sync_at: datetime | None = None
 
     is_active: bool = True
 
@@ -298,24 +297,24 @@ class User:
     email: str = ""
     username: str = ""
     display_name: str = ""
-    avatar_url: Optional[str] = None
+    avatar_url: str | None = None
 
     # Authentication
-    password_hash: Optional[str] = None  # For email/password auth
+    password_hash: str | None = None  # For email/password auth
     email_verified: bool = False
 
     # SSO/OIDC fields
-    sso_provider: Optional[str] = None
-    sso_subject: Optional[str] = None  # OIDC 'sub' claim
+    sso_provider: str | None = None
+    sso_subject: str | None = None  # OIDC 'sub' claim
 
     # 2FA
     mfa_enabled: bool = False
-    mfa_secret_hash: Optional[str] = None
+    mfa_secret_hash: str | None = None
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
     updated_at: datetime = field(default_factory=datetime.utcnow)
-    last_login_at: Optional[datetime] = None
+    last_login_at: datetime | None = None
 
     is_active: bool = True
 
@@ -332,9 +331,9 @@ class Membership:
     role: Role = Role.MEMBER
 
     # Invitation
-    invited_by: Optional[UUID] = None
-    invited_at: Optional[datetime] = None
-    accepted_at: Optional[datetime] = None
+    invited_by: UUID | None = None
+    invited_at: datetime | None = None
+    accepted_at: datetime | None = None
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
@@ -362,26 +361,26 @@ class APIToken:
 
     # Scope
     scope: TokenScope = TokenScope.READ
-    permissions: List[str] = field(default_factory=list)  # Fine-grained permissions
+    permissions: list[str] = field(default_factory=list)  # Fine-grained permissions
 
     # Ownership
-    created_by: Optional[UUID] = None
+    created_by: UUID | None = None
     is_personal: bool = True  # True if user token, False if org/service token
 
     # Validity
-    expires_at: Optional[datetime] = None
-    last_used_at: Optional[datetime] = None
-    last_used_ip: Optional[str] = None
+    expires_at: datetime | None = None
+    last_used_at: datetime | None = None
+    last_used_ip: str | None = None
 
     # Rotation
-    rotated_from: Optional[UUID] = None  # Previous token if rotated
-    rotated_at: Optional[datetime] = None
+    rotated_from: UUID | None = None  # Previous token if rotated
+    rotated_at: datetime | None = None
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
-    revoked_at: Optional[datetime] = None
-    revoked_by: Optional[UUID] = None
-    revoke_reason: Optional[str] = None
+    revoked_at: datetime | None = None
+    revoked_by: UUID | None = None
+    revoke_reason: str | None = None
 
     @property
     def is_valid(self) -> bool:
@@ -418,17 +417,17 @@ class SSOConfig:
     provider_type: str = "oidc"  # oidc, saml
 
     # OIDC Settings
-    issuer_url: Optional[str] = None
-    client_id: Optional[str] = None
-    client_secret_hash: Optional[str] = None  # Encrypted in DB
+    issuer_url: str | None = None
+    client_id: str | None = None
+    client_secret_hash: str | None = None  # Encrypted in DB
 
     # SAML Settings
-    idp_entity_id: Optional[str] = None
-    idp_sso_url: Optional[str] = None
-    idp_certificate_hash: Optional[str] = None
+    idp_entity_id: str | None = None
+    idp_sso_url: str | None = None
+    idp_certificate_hash: str | None = None
 
     # Mapping
-    attribute_mapping: Dict[str, str] = field(default_factory=dict)
+    attribute_mapping: dict[str, str] = field(default_factory=dict)
     # e.g., {"email": "preferred_email", "name": "displayName"}
 
     # Default role for new SSO users
@@ -436,7 +435,7 @@ class SSOConfig:
 
     # JIT (Just-In-Time) Provisioning
     jit_enabled: bool = True
-    jit_allowed_domains: List[str] = field(default_factory=list)
+    jit_allowed_domains: list[str] = field(default_factory=list)
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
@@ -459,19 +458,19 @@ class OIDCProvider:
     provider_type: str = "oidc"  # oidc, saml, oauth2
 
     # Discovery
-    discovery_url: Optional[str] = None  # .well-known/openid-configuration
+    discovery_url: str | None = None  # .well-known/openid-configuration
 
     # Endpoints (if not using discovery)
-    authorization_endpoint: Optional[str] = None
-    token_endpoint: Optional[str] = None
-    userinfo_endpoint: Optional[str] = None
-    jwks_uri: Optional[str] = None
+    authorization_endpoint: str | None = None
+    token_endpoint: str | None = None
+    userinfo_endpoint: str | None = None
+    jwks_uri: str | None = None
 
     # Scopes
-    default_scopes: List[str] = field(default_factory=lambda: ["openid", "email", "profile"])
+    default_scopes: list[str] = field(default_factory=lambda: ["openid", "email", "profile"])
 
     # Claim mapping
-    claim_mapping: Dict[str, str] = field(default_factory=lambda: {
+    claim_mapping: dict[str, str] = field(default_factory=lambda: {
         "sub": "sso_subject",
         "email": "email",
         "name": "display_name",

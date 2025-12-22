@@ -8,13 +8,12 @@ Ensures business continuity:
 - Recovery Time Objective (RTO) and Recovery Point Objective (RPO)
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List, Protocol
-from uuid import UUID, uuid4
 from enum import Enum
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -102,24 +101,24 @@ class BackupRecord:
     size_bytes: int = 0
 
     # Timing
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    duration_seconds: Optional[float] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    duration_seconds: float | None = None
 
     # Chain (for incremental)
-    parent_backup_id: Optional[UUID] = None
+    parent_backup_id: UUID | None = None
     sequence_number: int = 0
 
     # Verification
     verified: bool = False
-    verified_at: Optional[datetime] = None
+    verified_at: datetime | None = None
     checksum: str = ""
 
     # Retention
-    expires_at: Optional[datetime] = None
+    expires_at: datetime | None = None
 
     # Error
-    error: Optional[str] = None
+    error: str | None = None
 
 
 @dataclass
@@ -140,7 +139,7 @@ class RecoveryPoint:
     objects_recoverable: bool = True
 
     # Backups needed for recovery
-    required_backups: List[UUID] = field(default_factory=list)
+    required_backups: list[UUID] = field(default_factory=list)
 
     # Estimated recovery time
     estimated_rto_minutes: int = 30
@@ -166,15 +165,15 @@ class RecoveryPlan:
     target_rpo_minutes: int = 15    # Recovery Point Objective
 
     # Steps
-    steps: List[Dict[str, Any]] = field(default_factory=list)
+    steps: list[dict[str, Any]] = field(default_factory=list)
 
     # Dependencies
-    required_resources: List[str] = field(default_factory=list)
-    required_credentials: List[str] = field(default_factory=list)
+    required_resources: list[str] = field(default_factory=list)
+    required_credentials: list[str] = field(default_factory=list)
 
     # Testing
-    last_tested_at: Optional[datetime] = None
-    last_test_result: Optional[str] = None
+    last_tested_at: datetime | None = None
+    last_test_result: str | None = None
     test_frequency_days: int = 30
 
     # Status
@@ -189,15 +188,15 @@ class BackupStorage(Protocol):
     async def save_backup(self, record: BackupRecord) -> BackupRecord:
         ...
 
-    async def get_backup(self, backup_id: UUID) -> Optional[BackupRecord]:
+    async def get_backup(self, backup_id: UUID) -> BackupRecord | None:
         ...
 
     async def list_backups(
         self,
-        backup_type: Optional[BackupType] = None,
-        status: Optional[BackupStatus] = None,
+        backup_type: BackupType | None = None,
+        status: BackupStatus | None = None,
         limit: int = 100,
-    ) -> List[BackupRecord]:
+    ) -> list[BackupRecord]:
         ...
 
     async def delete_backup(self, backup_id: UUID) -> bool:
@@ -211,14 +210,14 @@ class DatabaseBackupService(Protocol):
         self,
         backup_type: BackupType,
         destination: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         ...
 
     async def restore_backup(
         self,
         source: str,
         target_database: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         ...
 
     async def verify_backup(
@@ -236,7 +235,7 @@ class EventLogBackupService(Protocol):
         start_time: datetime,
         end_time: datetime,
         destination: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         ...
 
     async def import_events(
@@ -255,12 +254,12 @@ class DisasterRecovery:
     """
 
     config: BackupConfig = field(default_factory=BackupConfig)
-    backup_storage: Optional[BackupStorage] = None
-    db_backup_service: Optional[DatabaseBackupService] = None
-    event_log_service: Optional[EventLogBackupService] = None
+    backup_storage: BackupStorage | None = None
+    db_backup_service: DatabaseBackupService | None = None
+    event_log_service: EventLogBackupService | None = None
 
     # Recovery plans
-    recovery_plans: Dict[str, RecoveryPlan] = field(default_factory=dict)
+    recovery_plans: dict[str, RecoveryPlan] = field(default_factory=dict)
 
     # ------------------------------------------------------------------
     # Backup Operations
@@ -378,7 +377,7 @@ class DisasterRecovery:
     async def _get_last_backup(
         self,
         backup_type: BackupType,
-    ) -> Optional[BackupRecord]:
+    ) -> BackupRecord | None:
         """Get the most recent successful backup of a type"""
         if not self.backup_storage:
             return None
@@ -410,7 +409,7 @@ class DisasterRecovery:
         self,
         start_time: datetime,
         end_time: datetime,
-    ) -> List[RecoveryPoint]:
+    ) -> list[RecoveryPoint]:
         """
         Get available recovery points in a time range
 
@@ -469,7 +468,7 @@ class DisasterRecovery:
         self,
         recovery_point: RecoveryPoint,
         target_environment: str = "restore",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Restore to a recovery point
 
@@ -586,7 +585,7 @@ class DisasterRecovery:
     async def test_recovery_plan(
         self,
         plan_name: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test a recovery plan"""
         plan = self.recovery_plans.get(plan_name)
         if not plan:

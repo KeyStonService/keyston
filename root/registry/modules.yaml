@@ -1,0 +1,176 @@
+# MachineNativeOps Registry - Module Definitions
+# Follows root.specs.naming.yaml standards
+
+apiVersion: machinenativeops.io/v1
+kind: RootModulesConfig
+metadata:
+  name: modules-registry
+  namespace: machinenativenops-specs
+  labels:
+    machinenativenops.io/tier: "registry"
+    machinenativenops.io/version: "v1.0.0"
+    machinenativenops.io/component: "modules-config"
+  annotations:
+    machinenativenops.io/description: "MachineNativeOps module registry configuration"
+    machinenativenops.io/enforcement: "strict"
+    machinenativenops.io/last-modified: "2025-12-21T20:00:00Z"
+
+spec:
+  version: 1
+  registry_version: "1.0.0"
+  
+modules:
+  machinenativenops-auto-monitor:
+    id: "machinenativenops-auto-monitor"
+    version: "2.0.0"
+    language: "python"
+    type: "app"
+    description: "System monitoring with quantum state tracking"
+    
+    build:
+      builder: "python-wheel"
+      context: "engine/machinenativenops-auto-monitor"
+      pyproject: "engine/machinenativenops-auto-monitor/pyproject.toml"
+      outputs:
+        - kind: "python-wheel"
+          path: "dist/artifacts/machinenativenops-auto-monitor/2.0.0/"
+        - kind: "rootfs-fragment"
+          path: "engine/machinenativenops-auto-monitor/rootfs"
+    
+    runtime:
+      command: "machinenativenops-auto-monitor"
+      args: ["serve"]
+      serve_port: 8000
+      health_path: "/health"
+      metrics_path: "/metrics"
+      config_path: "/etc/machinenativenops/monitor_config.yaml"
+      environment:
+        MNO_LOG_LEVEL: "INFO"
+        QUANTUM_ENABLED: "false"
+        AUTO_REPAIR_ENABLED: "false"
+    
+    install:
+      rootfs_fragment:
+        enabled: true
+        paths:
+          - from: "engine/machinenativenops-auto-monitor/rootfs"
+            to: "/"
+      config_templates:
+        - from: "engine/machinenativenops-auto-monitor/assets/default_config.yaml"
+          to: "/etc/machinenativenops/monitor_config.yaml"
+    
+    policy:
+      network:
+        allow: ["cluster-local"]
+        deny: ["external-internet"]
+      kubernetes:
+        allow: ["list-services", "get-services", "list-deployments", "get-deployments", "list-pods", "get-pods"]
+        deny: ["create", "update", "patch", "delete"]
+      filesystem_write:
+        allow: ["/var/lib/machinenativenops/auto_monitor", "/var/log/machinenativenops"]
+        deny: ["/etc", "/usr", "/bin", "/sbin"]
+      capabilities:
+        allow: []
+        deny: ["CAP_SYS_ADMIN", "CAP_NET_ADMIN"]
+
+  governance-engine:
+    id: "governance-engine"
+    version: "1.0.0"
+    language: "python"
+    type: "service"
+    description: "Core governance and policy enforcement engine"
+    
+    build:
+      builder: "python-wheel"
+      context: "engine/governance-engine"
+      pyproject: "engine/governance-engine/pyproject.toml"
+      outputs:
+        - kind: "python-wheel"
+          path: "dist/artifacts/governance-engine/1.0.0/"
+    
+    runtime:
+      command: "governance-engine"
+      args: ["serve"]
+      serve_port: 9000
+      health_path: "/health"
+      metrics_path: "/metrics"
+    
+    policy:
+      network:
+        allow: ["cluster-local"]
+      kubernetes:
+        allow: ["list", "get", "watch"]
+        deny: ["create", "update", "patch", "delete"]
+      filesystem_write:
+        allow: ["/var/lib/governance-engine"]
+
+  trust-manager:
+    id: "trust-manager"
+    version: "1.0.0"
+    language: "python"
+    type: "service"
+    description: "Trust and attestation management service"
+    
+    build:
+      builder: "python-wheel"
+      context: "engine/trust-manager"
+      pyproject: "engine/trust-manager/pyproject.toml"
+      outputs:
+        - kind: "python-wheel"
+          path: "dist/artifacts/trust-manager/1.0.0/"
+    
+    runtime:
+      command: "trust-manager"
+      args: ["serve"]
+      serve_port: 9001
+      health_path: "/health"
+      metrics_path: "/metrics"
+    
+    policy:
+      network:
+        allow: ["cluster-local"]
+      filesystem_write:
+        allow: ["/var/lib/trust-manager"]
+
+  config-manager:
+    id: "config-manager"
+    version: "1.0.0"
+    language: "python"
+    type: "service"
+    description: "Configuration management and synchronization service"
+    
+    build:
+      builder: "python-wheel"
+      context: "engine/config-manager"
+      pyproject: "engine/config-manager/pyproject.toml"
+      outputs:
+        - kind: "python-wheel"
+          path: "dist/artifacts/config-manager/1.0.0/"
+    
+    runtime:
+      command: "config-manager"
+      args: ["serve"]
+      serve_port: 9002
+      health_path: "/health"
+      metrics_path: "/metrics"
+    
+    policy:
+      network:
+        allow: ["cluster-local"]
+      filesystem_write:
+        allow: ["/var/lib/config-manager"]
+
+status:
+  phase: "Active"
+  conditions:
+    - type: "Validated"
+      status: "True"
+      lastTransitionTime: "2025-12-21T20:00:00Z"
+      reason: "RegistryComplete"
+      message: "Module registry is complete and validated"
+  
+  statistics:
+    total_modules: 4
+    total_engines: 3
+    total_apps: 1
+    coverage: "100%"

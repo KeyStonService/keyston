@@ -14,9 +14,8 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import hashlib
-import logging
-
+from typing import Any, Generic, Protocol, TypeVar
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 

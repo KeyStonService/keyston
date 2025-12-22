@@ -10,14 +10,12 @@ This enables:
 This is the CORE of event-driven architecture.
 """
 
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional, List, Dict, Any, Protocol, AsyncIterator
-from uuid import UUID, uuid4
 from enum import Enum
-import json
-import logging
-
+from typing import Any, Protocol
+from uuid import UUID, uuid4
 
 logger = logging.getLogger(__name__)
 
@@ -50,38 +48,38 @@ class StoredEvent:
     source_id: str = ""          # Provider's event ID (delivery_id)
 
     # Correlation
-    correlation_id: Optional[UUID] = None  # Links related events
-    causation_id: Optional[UUID] = None    # Event that caused this one
+    correlation_id: UUID | None = None  # Links related events
+    causation_id: UUID | None = None    # Event that caused this one
 
     # Repository context
-    repo_id: Optional[UUID] = None
+    repo_id: UUID | None = None
     repo_full_name: str = ""
 
     # Event-specific data (denormalized for querying)
-    head_sha: Optional[str] = None
-    pr_number: Optional[int] = None
-    ref: Optional[str] = None
+    head_sha: str | None = None
+    pr_number: int | None = None
+    ref: str | None = None
 
     # Full payload
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
 
     # Processing status
     status: EventStatus = EventStatus.RECEIVED
-    processed_at: Optional[datetime] = None
-    process_error: Optional[str] = None
+    processed_at: datetime | None = None
+    process_error: str | None = None
     retry_count: int = 0
 
     # Jobs spawned from this event
-    job_ids: List[UUID] = field(default_factory=list)
+    job_ids: list[UUID] = field(default_factory=list)
 
     # Metadata
     received_at: datetime = field(default_factory=datetime.utcnow)
     schema_version: str = "1.0"
 
     # Audit
-    processed_by: Optional[str] = None  # Worker ID that processed
+    processed_by: str | None = None  # Worker ID that processed
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return {
             "id": str(self.id),
@@ -108,7 +106,7 @@ class StoredEvent:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "StoredEvent":
+    def from_dict(cls, data: dict[str, Any]) -> "StoredEvent":
         """Create from dictionary"""
         return cls(
             id=UUID(data["id"]),
@@ -138,16 +136,16 @@ class StoredEvent:
 @dataclass
 class EventFilter:
     """Filter for querying events"""
-    org_id: Optional[UUID] = None
-    event_types: Optional[List[str]] = None
-    source: Optional[str] = None
-    repo_id: Optional[UUID] = None
-    head_sha: Optional[str] = None
-    pr_number: Optional[int] = None
-    status: Optional[EventStatus] = None
-    received_after: Optional[datetime] = None
-    received_before: Optional[datetime] = None
-    correlation_id: Optional[UUID] = None
+    org_id: UUID | None = None
+    event_types: list[str] | None = None
+    source: str | None = None
+    repo_id: UUID | None = None
+    head_sha: str | None = None
+    pr_number: int | None = None
+    status: EventStatus | None = None
+    received_after: datetime | None = None
+    received_before: datetime | None = None
+    correlation_id: UUID | None = None
 
 
 class EventStorage(Protocol):
@@ -156,7 +154,7 @@ class EventStorage(Protocol):
     async def save(self, event: StoredEvent) -> StoredEvent:
         ...
 
-    async def get(self, event_id: UUID) -> Optional[StoredEvent]:
+    async def get(self, event_id: UUID) -> StoredEvent | None:
         ...
 
     async def update(self, event: StoredEvent) -> StoredEvent:
@@ -167,7 +165,7 @@ class EventStorage(Protocol):
         filter: EventFilter,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[StoredEvent]:
+    ) -> list[StoredEvent]:
         ...
 
     async def count(self, filter: EventFilter) -> int:
@@ -194,7 +192,7 @@ class EventLog:
     """
 
     storage: EventStorage
-    publisher: Optional[EventPublisher] = None
+    publisher: EventPublisher | None = None
 
     # Retention settings
     retention_days: int = 90
@@ -210,13 +208,13 @@ class EventLog:
         event_type: str,
         source: str,
         source_id: str,
-        payload: Dict[str, Any],
-        repo_id: Optional[UUID] = None,
+        payload: dict[str, Any],
+        repo_id: UUID | None = None,
         repo_full_name: str = "",
-        head_sha: Optional[str] = None,
-        pr_number: Optional[int] = None,
-        ref: Optional[str] = None,
-        correlation_id: Optional[UUID] = None,
+        head_sha: str | None = None,
+        pr_number: int | None = None,
+        ref: str | None = None,
+        correlation_id: UUID | None = None,
     ) -> StoredEvent:
         """
         Store a new event (落盤)
@@ -269,7 +267,7 @@ class EventLog:
 
         return event
 
-    async def get_event(self, event_id: UUID) -> Optional[StoredEvent]:
+    async def get_event(self, event_id: UUID) -> StoredEvent | None:
         """Get an event by ID"""
         return await self.storage.get(event_id)
 
@@ -278,7 +276,7 @@ class EventLog:
         filter: EventFilter,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[StoredEvent]:
+    ) -> list[StoredEvent]:
         """Query events with filter"""
         return await self.storage.query(filter, offset, limit)
 
@@ -305,7 +303,7 @@ class EventLog:
     async def mark_processed(
         self,
         event_id: UUID,
-        job_ids: Optional[List[UUID]] = None,
+        job_ids: list[UUID] | None = None,
     ) -> StoredEvent:
         """Mark an event as successfully processed"""
         event = await self.storage.get(event_id)
@@ -450,7 +448,7 @@ class EventLog:
     async def get_correlated_events(
         self,
         correlation_id: UUID,
-    ) -> List[StoredEvent]:
+    ) -> list[StoredEvent]:
         """Get all events with the same correlation ID"""
         filter = EventFilter(correlation_id=correlation_id)
         return await self.storage.query(filter, limit=1000)
@@ -458,7 +456,7 @@ class EventLog:
     async def get_event_chain(
         self,
         event_id: UUID,
-    ) -> List[StoredEvent]:
+    ) -> list[StoredEvent]:
         """Get the causation chain for an event"""
         event = await self.storage.get(event_id)
         if not event:
@@ -484,8 +482,8 @@ class EventLog:
     async def get_event_count(
         self,
         org_id: UUID,
-        since: Optional[datetime] = None,
-    ) -> Dict[str, int]:
+        since: datetime | None = None,
+    ) -> dict[str, int]:
         """Get event counts by status"""
         counts = {}
 
@@ -502,7 +500,7 @@ class EventLog:
     async def cleanup_old_events(
         self,
         org_id: UUID,
-        older_than_days: Optional[int] = None,
+        older_than_days: int | None = None,
         dry_run: bool = True,
     ) -> int:
         """

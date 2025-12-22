@@ -5,21 +5,18 @@ Enforces permission checks for all operations.
 Any "setting change" MUST check permissions before proceeding.
 """
 
+import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, List, Dict, Set, Any, Protocol
+from typing import Any, Protocol
 from uuid import UUID
-import logging
 
 from enterprise.iam.models import (
-    User,
-    Membership,
-    Role,
-    Permission,
     ROLE_PERMISSIONS,
-    Organization,
+    Membership,
+    Permission,
+    Role,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -29,17 +26,17 @@ class MembershipRepository(Protocol):
 
     async def get_membership(
         self, org_id: UUID, user_id: UUID
-    ) -> Optional[Membership]:
+    ) -> Membership | None:
         ...
 
     async def list_memberships_for_user(
         self, user_id: UUID
-    ) -> List[Membership]:
+    ) -> list[Membership]:
         ...
 
     async def list_memberships_for_org(
         self, org_id: UUID, offset: int = 0, limit: int = 100
-    ) -> List[Membership]:
+    ) -> list[Membership]:
         ...
 
     async def save_membership(self, membership: Membership) -> Membership:
@@ -62,7 +59,7 @@ class AuditLogger(Protocol):
         actor_id: UUID,
         resource_type: str,
         resource_id: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
     ) -> None:
         ...
 
@@ -93,7 +90,7 @@ class RBACManager:
     """
 
     membership_repository: MembershipRepository
-    audit_logger: Optional[AuditLogger] = None
+    audit_logger: AuditLogger | None = None
 
     # ------------------------------------------------------------------
     # Permission Checking
@@ -141,7 +138,7 @@ class RBACManager:
         self,
         org_id: UUID,
         user_id: UUID,
-        permissions: List[Permission],
+        permissions: list[Permission],
         require_all: bool = True,
     ) -> bool:
         """
@@ -175,21 +172,21 @@ class RBACManager:
 
     async def get_user_role(
         self, org_id: UUID, user_id: UUID
-    ) -> Optional[Role]:
+    ) -> Role | None:
         """Get user's role in an organization"""
         membership = await self.membership_repository.get_membership(org_id, user_id)
         return membership.role if membership and membership.is_active else None
 
     async def get_user_permissions(
         self, org_id: UUID, user_id: UUID
-    ) -> Set[Permission]:
+    ) -> set[Permission]:
         """Get all permissions a user has in an organization"""
         role = await self.get_user_role(org_id, user_id)
         if not role:
             return set()
         return ROLE_PERMISSIONS.get(role, set())
 
-    async def get_user_organizations(self, user_id: UUID) -> List[Dict[str, Any]]:
+    async def get_user_organizations(self, user_id: UUID) -> list[dict[str, Any]]:
         """Get all organizations a user belongs to with their roles"""
         memberships = await self.membership_repository.list_memberships_for_user(user_id)
         return [
@@ -404,7 +401,7 @@ class RBACManager:
         requester_id: UUID,
         offset: int = 0,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         List all members of an organization
 
@@ -450,7 +447,7 @@ class RBACManager:
     # Private Methods
     # ------------------------------------------------------------------
 
-    def _can_assign_role(self, assigner_role: Optional[Role], target_role: Role) -> bool:
+    def _can_assign_role(self, assigner_role: Role | None, target_role: Role) -> bool:
         """Check if assigner can assign the target role"""
         if not assigner_role:
             return False
@@ -481,17 +478,17 @@ class PermissionContext:
     org_id: UUID
     user_id: UUID
     role: Role
-    permissions: Set[Permission]
+    permissions: set[Permission]
 
     def has_permission(self, permission: Permission) -> bool:
         """Check if context has a specific permission"""
         return permission in self.permissions
 
-    def has_any_permission(self, permissions: List[Permission]) -> bool:
+    def has_any_permission(self, permissions: list[Permission]) -> bool:
         """Check if context has any of the specified permissions"""
         return any(p in self.permissions for p in permissions)
 
-    def has_all_permissions(self, permissions: List[Permission]) -> bool:
+    def has_all_permissions(self, permissions: list[Permission]) -> bool:
         """Check if context has all of the specified permissions"""
         return all(p in self.permissions for p in permissions)
 

@@ -1,54 +1,94 @@
-# SuperAgent Kubernetes Deployment
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Namespace
 metadata:
   name: machinenativeops
   labels:
     name: machinenativeops
     purpose: multi-agent-orchestration
+  name: machinenativenops-system
+  labels:
+    machinenativeops.io/name: machinenativenops-system
+    machinenativeops.io/purpose: multi-agent-orchestration
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: ServiceAccount
 metadata:
   name: super-agent
   namespace: machinenativeops
   labels:
-    app: super-agent
-    component: control-plane
+    machinenativeops.io/app: super-agent
+    machinenativeops.io/component: control-plane
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRole
 metadata:
   name: super-agent-role
   labels:
-    app: super-agent
+    machinenativeops.io/app: super-agent
 rules:
-  # Read permissions for observability
-  - apiGroups: [""]
-    resources: ["pods", "services", "configmaps", "secrets", "events", "namespaces"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["apps"]
-    resources: ["deployments", "replicasets", "daemonsets", "statefulsets"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["argoproj.io"]
-    resources: ["applications"]
-    verbs: ["get", "list", "watch"]
-  # Write permissions for coordination resources only
-  - apiGroups: [""]
-    resources: ["configmaps", "events"]
-    verbs: ["create", "update", "patch"]
-    resourceNames: ["incident-trace", "execution-plans", "agent-status"]
-  # RBAC read permissions
-  - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["roles", "rolebindings", "clusterroles", "clusterrolebindings"]
-    verbs: ["get", "list", "watch"]
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  - services
+  - configmaps
+  - secrets
+  - events
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - replicasets
+  - daemonsets
+  - statefulsets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - argoproj.io
+  resources:
+  - applications
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  - events
+  verbs:
+  - create
+  - update
+  - patch
+  resourceNames:
+  - incident-trace
+  - execution-plans
+  - agent-status
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - roles
+  - rolebindings
+  - clusterroles
+  - clusterrolebindings
+  verbs:
+  - get
+  - list
+  - watch
 ---
-apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: machinenativeops.io/v2
 kind: ClusterRoleBinding
 metadata:
   name: super-agent-binding
   labels:
-    app: super-agent
+    machinenativeops.io/app: super-agent
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -57,16 +97,17 @@ subjects:
 - kind: ServiceAccount
   name: super-agent
   namespace: machinenativeops
+  namespace: machinenativenops-system
 ---
-apiVersion: apps/v1
+apiVersion: machinenativeops.io/v2
 kind: Deployment
 metadata:
   name: super-agent
   namespace: machinenativeops
   labels:
-    app: super-agent
-    component: control-plane
-    version: v1.0.0
+    machinenativeops.io/app: super-agent
+    machinenativeops.io/component: control-plane
+    machinenativeops.io/version: v1.0.0
 spec:
   replicas: 2
   selector:
@@ -79,9 +120,9 @@ spec:
         component: control-plane
         version: v1.0.0
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
-        prometheus.io/path: "/metrics"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9090'
+        prometheus.io/path: /metrics
     spec:
       serviceAccountName: super-agent
       securityContext:
@@ -96,6 +137,7 @@ spec:
         # registry.machinenativeops.io/machinenativeops/super-agent:v1.0.0) or otherwise made
         # available to the cluster before deployment.
         image: machinenativeops/super-agent:v1.0.0
+        image: machinenativenops-system/super-agent:v1.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -118,18 +160,18 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         - name: AGENT_TYPE
-          value: "super-agent"
+          value: super-agent
         - name: LOG_LEVEL
-          value: "INFO"
+          value: INFO
         - name: TRACE_EXPORTER
-          value: "jaeger"
+          value: jaeger
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: 128Mi
+            cpu: 100m
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: 512Mi
+            cpu: 500m
         livenessProbe:
           httpGet:
             path: /health
@@ -178,18 +220,18 @@ spec:
                   - super-agent
               topologyKey: kubernetes.io/hostname
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: super-agent
   namespace: machinenativeops
   labels:
-    app: super-agent
-    component: control-plane
+    machinenativeops.io/app: super-agent
+    machinenativeops.io/component: control-plane
   annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "8080"
-    prometheus.io/path: "/metrics"
+    machinenativeops.io/scrape: 'true'
+    machinenativeops.io/port: '8080'
+    machinenativeops.io/path: /metrics
 spec:
   selector:
     app: super-agent
@@ -204,13 +246,13 @@ spec:
     protocol: TCP
   type: ClusterIP
 ---
-apiVersion: v1
+apiVersion: machinenativeops.io/v2
 kind: Service
 metadata:
   name: super-agent-headless
   namespace: machinenativeops
   labels:
-    app: super-agent
+    machinenativeops.io/app: super-agent
 spec:
   selector:
     app: super-agent
@@ -220,7 +262,7 @@ spec:
     targetPort: 8080
   clusterIP: None
 ---
-apiVersion: policy/v1
+apiVersion: machinenativeops.io/v2
 kind: PodDisruptionBudget
 metadata:
   name: super-agent-pdb
@@ -231,7 +273,7 @@ spec:
     matchLabels:
       app: super-agent
 ---
-apiVersion: autoscaling/v2
+apiVersion: machinenativeops.io/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: super-agent-hpa
