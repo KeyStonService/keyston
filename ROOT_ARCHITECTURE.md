@@ -82,6 +82,31 @@ MachineNativeOps/
 
 ---
 
+## ⚡ 根層建置步驟（僅處理 Root Layer，其他目錄後續整合）
+
+> 依據現有 `root.*` SSOT、FHS 映射與最小化開機流程，先完成根層落地，再銜接其他目錄。
+
+1) **治理 SSOT 就緒**  
+   - 核對頂層檔案：`root.config.yaml`、`root.governance.yaml`、`root.modules.yaml`、`root.trust.yaml`、`root.provenance.yaml`、`root.integrity.yaml`。  
+   - 確認登錄檔：`root.registry.modules.yaml`、`root.registry.urns.yaml` 與 `gates.map.yaml`。  
+   - 執行驗證：`python scripts/validation/validate-root-specs.py`（輸出 `root-specs-validation-report.md`，用於修正命名/鍵名/URN 漂移）。
+
+2) **佈建 FHS 骨架**  
+   - 依 `root.fs.map` 建立核心目錄組：`/bin /sbin /etc /lib /var /usr /opt /srv /tmp /home /etc/init.d`。  
+   - 部署平台目錄：`/opt/machinenativenops` 下的 `bin/ sbin/ lib/ modules/ share/`、`/etc/machinenativenops`、`/var/{log,lib,cache}/machinenativenops`，權限遵循 map 中的 permissions 欄位與 `[admin_permissions]`、`[service_permissions]` 等範本。  
+   - 安全優先：先建立 `mno_trust_root`、`mno_trust_certs`、`mno_trust_keys`、`mno_trust_crl`、`mno_trust_ocsp`、`mno_trust_bundles`（依 `root.fs.map` 列示）等受限目錄，以及 `mno_security`、`mno_secrets`，套用 700 權限與 root 擁有者。
+
+3) **啟動最小化開機流程**  
+   - 使用 `root.bootstrap.minimal.yaml` 的 5 步序列：`validate_root_integrity` → `load_governance_framework` → `load_module_registry` → `initialize_trust_chain` → `finalize_and_emit_provenance`。  
+   - 輸入來源保持一致：治理讀 `root.governance.yaml`，模組讀 `root.modules.yaml` + `root.registry.modules.yaml`，信任讀 `root.trust.yaml`，證跡輸出到 `var/audit/`（如 `root-validate-report.json`、`bootstrap-provenance.json`）。  
+   - 若需要完整模式，切換至 `root.bootstrap.yaml`，但仍沿用上述驗證與目錄骨架。
+
+4) **完成檢核與可觀測性**  
+   - 依 `root.bootstrap.yaml` 的 `bootstrap_completion_verification` 執行健康檢查與安全態勢確認。  
+   - 產出就緒訊號（如 `var/run/platform.ready`）與日誌/證跡，對應 `root.provenance.yaml` 的收集要求，確保後續子目錄整合有可追溯憑證。
+
+---
+
 ## 📊 目錄用途說明
 
 ### 治理層（Root Layer）
