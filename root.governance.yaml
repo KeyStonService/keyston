@@ -360,6 +360,59 @@ spec:
         - "timeout_escalation_to: executive_committee"
         - "consensus_required: true"
 
+    - name: "evidence-chain-policy"
+      description: "Evidence chain and documentation requirements"
+      rules:
+        - id: "EVP-001"
+          name: "require-four-core-evidences"
+          description: "Require four core evidences: repo, branch, commit, PR"
+          condition: "change.type in ['code', 'config', 'governance']"
+          action: "validate_four_core_evidences"
+          effect: "require"
+          priority: 100
+
+        - id: "EVP-002"
+          name: "require-agents-compliance"
+          description: "Require AGENTS.md compliance for AI-related changes"
+          condition: "change.ai_related = true"
+          action: "validate_agents_documentation"
+          effect: "require"
+          priority: 95
+
+        - id: "EVP-003"
+          name: "require-status-consistency"
+          description: "Require status and checklist logical consistency"
+          condition: "change.source = 'pull_request'"
+          action: "validate_status_consistency"
+          effect: "require"
+          priority: 90
+
+    - name: "evidence-chain-policy"
+      description: "Evidence chain and documentation requirements"
+      rules:
+        - id: "EVP-001"
+          name: "require-four-core-evidences"
+          description: "Require four core evidences: repo, branch, commit, PR"
+          condition: "change.type in ['code', 'config', 'governance']"
+          action: "validate_four_core_evidences"
+          effect: "require"
+          priority: 100
+
+        - id: "EVP-002"
+          name: "require-agents-compliance"
+          description: "Require AGENTS.md compliance for AI-related changes"
+          condition: "change.ai_related = true"
+          action: "validate_agents_documentation"
+          effect: "require"
+          priority: 95
+
+        - id: "EVP-003"
+          name: "require-status-consistency"
+          description: "Require status and checklist logical consistency"
+          condition: "change.source = 'pull_request'"
+          action: "validate_status_consistency"
+          effect: "require"
+          priority: 90
 status:
   phase: "Active"
   conditions:

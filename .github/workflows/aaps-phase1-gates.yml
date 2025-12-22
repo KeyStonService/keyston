@@ -8,12 +8,14 @@ on:
 jobs:
   phase1:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599  # v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d534527d238d7a7  # v5
         with:
           python-version: "3.11"
 
@@ -43,7 +45,7 @@ jobs:
           python tools/evidence_generator.py
 
       - name: Upload dist as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
         with:
           name: dist
           path: dist/

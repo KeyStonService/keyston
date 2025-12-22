@@ -1,0 +1,22 @@
+# ============================================================================
+# Cloudflare Pages - Redirects Configuration
+# ============================================================================
+# This file configures URL redirects for the Cloudflare Pages deployment.
+# Documentation: https://developers.cloudflare.com/pages/configuration/redirects/
+# ============================================================================
+
+# API requests proxy to Workers
+/api/*  https://api.machinenativeops.com/api/:splat  200
+
+# Webhook endpoint proxy
+/webhooks/*  https://api.machinenativeops.com/webhooks/:splat  200
+
+# Health check proxy
+/health  https://api.machinenativeops.com/health  200
+
+# Legacy URL redirects
+/docs/*  /documentation/:splat  301
+/blog/*  /articles/:splat  301
+
+# SPA fallback - all routes serve index.html
+/*  /index.html  200

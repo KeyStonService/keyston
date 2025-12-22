@@ -13,6 +13,8 @@ jobs:
   update-memory:
     name: Update Project Memory
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     if: github.event_name == 'push' || (github.event.pull_request.merged == true)
     
     steps:

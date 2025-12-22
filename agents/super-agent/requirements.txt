@@ -1,0 +1,27 @@
+# SuperAgent Requirements
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+python-multipart==0.0.18
+
+# Async HTTP Client
+aiohttp==3.12.14
+aiofiles==23.2.1
+
+# Database (SQLite async support)
+aiosqlite==0.19.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2
+
+# Type checking
+mypy==1.7.1
+
+# Code formatting (optional, for development)
+black==24.3.0
+ruff==0.1.8

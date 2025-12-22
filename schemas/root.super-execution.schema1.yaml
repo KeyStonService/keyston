@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: super-execution-schema
+  namespace: machinenativenops-execution
+data:
+  schema.yaml: "# Root Super Execution Configuration Schema\ntype: object\nproperties:\n\
+    \  execution_flows:\n    type: array\n    items:\n      type: object\n      properties:\n\
+    \        name:\n          type: string\n        description:\n          type:\
+    \ string\n        version:\n          type: string\n        enabled:\n       \
+    \   type: boolean\n        criticality:\n          type: string\n          enum:\
+    \ [\"critical\", \"high\", \"medium\", \"low\"]\n        triggers:\n         \
+    \ type: array\n        steps:\n          type: array\n        success_actions:\n\
+    \          type: array\n        failure_actions:\n          type: array\n    \
+    \  required: [\"name\", \"description\", \"version\", \"enabled\", \"criticality\"\
+    , \"triggers\", \"steps\"]\n  triggers:\n    type: array\n    items:\n      type:\
+    \ object\n      properties:\n        name:\n          type: string\n        type:\n\
+    \          type: string\n          enum: [\"event\", \"time\", \"manual\"]\n \
+    \       description:\n          type: string\n      required: [\"name\", \"type\"\
+    , \"description\"]\n  fallback_handlers:\n    type: array\n    items:\n      type:\
+    \ object\n      properties:\n        name:\n          type: string\n        description:\n\
+    \          type: string\n        module:\n          type: string\n        action:\n\
+    \          type: string\n        parameters:\n          type: object\n       \
+    \ conditions:\n          type: array\n      required: [\"name\", \"description\"\
+    , \"module\", \"action\", \"conditions\"]\nrequired: [\"execution_flows\", \"\
+    triggers\", \"fallback_handlers\"]"

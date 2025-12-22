@@ -1,0 +1,203 @@
+# ============================================================================
+# MachineNativeOps - Cloudflare Workers Configuration
+# ============================================================================
+# This configuration file defines the Cloudflare Workers deployment settings
+# for the MachineNativeOps platform.
+#
+# Documentation: https://developers.cloudflare.com/workers/wrangler/configuration/
+# ============================================================================
+
+name = "machinenativeops-worker"
+main = "cloudflare/workers/src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ============================================================================
+# Account Configuration
+# ============================================================================
+# Set these via environment variables or wrangler secrets:
+# - CLOUDFLARE_ACCOUNT_ID
+# - CLOUDFLARE_API_TOKEN
+# account_id = "" # Set via CF_ACCOUNT_ID environment variable
+
+# ============================================================================
+# Build Configuration
+# ============================================================================
+[build]
+command = "npm run build:worker"
+cwd = "."
+watch_dir = "cloudflare/workers/src"
+
+# ============================================================================
+# Development Configuration
+# ============================================================================
+[dev]
+ip = "localhost"
+port = 8787
+local_protocol = "http"
+upstream_protocol = "https"
+
+# ============================================================================
+# Production Environment
+# ============================================================================
+[env.production]
+name = "machinenativeops-worker-prod"
+routes = [
+  { pattern = "api.machinenativeops.com/*", zone_name = "machinenativeops.com" }
+]
+vars = { ENVIRONMENT = "production" }
+
+# KV Namespace bindings for production
+[[env.production.kv_namespaces]]
+binding = "CACHE"
+id = "" # Set via Cloudflare Dashboard or wrangler kv:namespace create
+
+[[env.production.kv_namespaces]]
+binding = "SESSIONS"
+id = "" # Set via Cloudflare Dashboard
+
+# D1 Database binding for production
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "machinenativeops-prod"
+database_id = "" # Set via wrangler d1 create
+
+# R2 Bucket binding for production
+[[env.production.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "machinenativeops-assets-prod"
+
+# Durable Objects for production
+[[env.production.durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+# ============================================================================
+# Staging Environment
+# ============================================================================
+[env.staging]
+name = "machinenativeops-worker-staging"
+routes = [
+  { pattern = "staging-api.machinenativeops.com/*", zone_name = "machinenativeops.com" }
+]
+vars = { ENVIRONMENT = "staging" }
+
+[[env.staging.kv_namespaces]]
+binding = "CACHE"
+id = "" # Set via Cloudflare Dashboard
+
+[[env.staging.kv_namespaces]]
+binding = "SESSIONS"
+id = "" # Set via Cloudflare Dashboard
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "machinenativeops-staging"
+database_id = "" # Set via wrangler d1 create
+
+[[env.staging.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "machinenativeops-assets-staging"
+
+[[env.staging.durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+# ============================================================================
+# Development Environment
+# ============================================================================
+[env.development]
+name = "machinenativeops-worker-dev"
+vars = { ENVIRONMENT = "development" }
+
+[[env.development.kv_namespaces]]
+binding = "CACHE"
+id = "" # Set via Cloudflare Dashboard
+
+[[env.development.kv_namespaces]]
+binding = "SESSIONS"
+id = "" # Set via Cloudflare Dashboard
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "machinenativeops-dev"
+database_id = "" # Set via wrangler d1 create
+
+[[env.development.r2_buckets]]
+binding = "ASSETS"
+bucket_name = "machinenativeops-assets-dev"
+
+# ============================================================================
+# Durable Objects Migrations
+# ============================================================================
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimiter"]
+
+# ============================================================================
+# Observability
+# ============================================================================
+[observability]
+enabled = true
+
+# Logpush configuration (logs to external service)
+[observability.logs]
+enabled = true
+invocation_logs = true
+
+# ============================================================================
+# Limits
+# ============================================================================
+[limits]
+cpu_ms = 50
+
+# ============================================================================
+# Placement (Smart Placement)
+# ============================================================================
+[placement]
+mode = "smart"
+
+# ============================================================================
+# Assets Configuration (for static files)
+# ============================================================================
+# [assets]
+# directory = "./public"
+# binding = "ASSETS"
+
+# ============================================================================
+# Tail Workers (for logging/tracing)
+# ============================================================================
+# [[tail_consumers]]
+# service = "machinenativeops-logger"
+
+# ============================================================================
+# AI Bindings (for Workers AI)
+# ============================================================================
+# [ai]
+# binding = "AI"
+
+# ============================================================================
+# Vectorize Bindings (for vector search)
+# ============================================================================
+# [[vectorize]]
+# binding = "VECTOR_INDEX"
+# index_name = "machinenativeops-embeddings"
+
+# ============================================================================
+# Hyperdrive (for database connection pooling)
+# ============================================================================
+# [[hyperdrive]]
+# binding = "HYPERDRIVE"
+# id = "" # Set via wrangler hyperdrive create
+
+# ============================================================================
+# Queue Bindings
+# ============================================================================
+# [[queues.producers]]
+# queue = "machinenativeops-tasks"
+# binding = "TASK_QUEUE"
+
+# [[queues.consumers]]
+# queue = "machinenativeops-tasks"
+# max_batch_size = 10
+# max_batch_timeout = 30

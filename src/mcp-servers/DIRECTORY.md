@@ -21,7 +21,7 @@
 - **特性**：循環複雜度、認知複雜度、安全漏洞、效能問題檢測
 
 ### test-generator.js
-- **職責**：測試生成 MCP 服務器
+- **職責**：測試生成 MCP 伺服器
 - **功能**：
   - `generate-unit-tests` - 單元測試生成
   - `generate-integration-tests` - API 整合測試生成
@@ -29,7 +29,7 @@
 - **特性**：支援 Jest, Mocha, Vitest, Playwright, Cypress
 
 ### doc-generator.js
-- **職責**：文檔生成 MCP 服務器
+- **職責**：文檔生成 MCP 伺服器
 - **功能**：
   - `generate-jsdoc` - JSDoc 文檔生成
   - `generate-api-docs` - API 文檔生成（Markdown, OpenAPI）
@@ -37,7 +37,7 @@
 - **特性**：多種文檔風格、自動 API 參考、多種輸出格式
 
 ### slsa-validator.js
-- **職責**：SLSA 驗證 MCP 服務器
+- **職責**：SLSA 驗證 MCP 伺服器
 - **功能**：
   - `validate-provenance` - 驗證 SLSA 溯源數據
   - `check-slsa-compliance` - 檢查 SLSA 等級合規性
@@ -45,7 +45,7 @@
 - **特性**：SLSA Level 1-4 驗證、差距分析、修復建議
 
 ### security-scanner.js
-- **職責**：安全掃描 MCP 服務器
+- **職責**：安全掃描 MCP 伺服器
 - **功能**：
   - `scan-vulnerabilities` - 安全漏洞掃描
   - `check-dependencies` - 依賴 CVE 檢查
@@ -53,7 +53,7 @@
 - **特性**：SQL 注入、XSS、命令注入、硬編碼密鑰檢測
 
 ### performance-analyzer.js
-- **職責**：效能分析 MCP 服務器
+- **職責**：效能分析 MCP 伺服器
 - **功能**：
   - `analyze-performance` - 代碼效能指標分析
   - `identify-bottlenecks` - 效能瓶頸識別
@@ -96,7 +96,7 @@
 ## 執行模式
 
 ```
-1. 服務器初始化 - 創建 MCP 服務器與能力
+1. 伺服器初始化 - 創建 MCP 伺服器與能力
 2. 工具註冊 - 註冊可用工具與 schema
 3. 請求處理 - 處理工具調用與驗證
 4. 回應生成 - 返回結構化結果
@@ -115,5 +115,5 @@
 - **src/core/**：調用平台級 AI 能力
 - **src/ai/**：AI 模組透過 MCP 調用工具
 - **src/services/**：服務層可封裝 MCP 端點為 HTTP API
-- **.github/agents/**：Agent 配置引用 MCP 服務器
+- **.github/agents/**：Agent 配置引用 MCP 伺服器
 

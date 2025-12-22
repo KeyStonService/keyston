@@ -225,6 +225,7 @@ cat governance/00-vision-strategy/AUTONOMOUS_AGENT_STATE.md
 | [docs/LIVING_KNOWLEDGE_BASE.md](./docs/LIVING_KNOWLEDGE_BASE.md) ⭐                             | 活體知識庫               | 感知、建模、診斷、回饋循環         |
 | [src/governance/dimensions/99-metadata/](../src/governance/dimensions/99-metadata/) ⭐ **NEW**  | 元數據管理中心           | 元數據治理、溯源、血緣、知識庫整合 |
 | [docs/PR_ANALYSIS_AND_ACTION_PLAN.md](./docs/PR_ANALYSIS_AND_ACTION_PLAN.md) ⭐                 | PR #2 深度分析與行動計劃 | 差距分析、下一步、資源需求         |
+| [docs/AAPS_ANALYSIS_REPORT.md](./docs/AAPS_ANALYSIS_REPORT.md) ⭐ **NEW**                      | AAPS 專案深度分析報告    | 架構評估、可行性分析、實施建議     |
 | [docs/INCOMPLETE_TASKS_SCAN_REPORT.md](./docs/INCOMPLETE_TASKS_SCAN_REPORT.md) ⭐ **NEW**      | 未完成任務掃描報告       | 1,952 項待辦、優先級、行動計劃     |
 | [governance/language-governance-report.md](./governance/language-governance-report.md)          | 治理報告                 | 違規清單、合規狀態                 |
 | [governance/sankey-data.json](./governance/sankey-data.json)                                    | Sankey 圖資料            | 違規流向                           |
@@ -829,6 +830,7 @@ CLI 工具與腳本文檔。
 
 | 文件路徑                                                                                                     | 說明             | 操作指引 |
 | ------------------------------------------------------------------------------------------------------------ | ---------------- | -------- |
+| [docs/AAPS_ANALYSIS_REPORT.md](./docs/AAPS_ANALYSIS_REPORT.md) ⭐ **NEW**                                   | AAPS 專案深度分析報告 | 可行性分析、競爭分析、技術債務、風險評估 |
 | [docs/reports/COMPREHENSIVE_IMPLEMENTATION_REPORT.md](./docs/reports/COMPREHENSIVE_IMPLEMENTATION_REPORT.md) | 綜合實施報告     | 完整報告 |
 | [docs/reports/PHASE1_IMPLEMENTATION_SUMMARY.md](./docs/reports/PHASE1_IMPLEMENTATION_SUMMARY.md)             | Phase 1 實施摘要 | 第一階段 |
 | [docs/reports/PHASE1_VALIDATION_REPORT.md](./docs/reports/PHASE1_VALIDATION_REPORT.md)                       | Phase 1 驗證報告 | 驗證結果 |

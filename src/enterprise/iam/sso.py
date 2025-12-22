@@ -378,11 +378,13 @@ class SSOManager:
         try:
             # Decode without verification to extract nonce claim
             # SECURITY WARNING: Signature verification is disabled
+            # Full signature verification should be done with JWKS in production
             id_token_claims = pyjwt.decode(
                 tokens.id_token,
                 options={"verify_signature": False},
                 audience=config.client_id,
                 issuer=discovery.get("issuer"),
+                options={"verify_signature": False}
             )
             token_nonce = id_token_claims.get("nonce")
             if token_nonce != nonce:

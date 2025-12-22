@@ -289,3 +289,41 @@ daily_cleanup=02:30
 weekly_cleanup=Sunday 03:00
 monthly_cleanup=First Sunday 04:00
 emergency_cleanup=as_needed
+
+# === Cloudflare Edge 服務目錄 (Cloudflare Edge Service Directories) ===
+
+# Cloudflare 核心目錄
+mno_cloudflare:/opt/machinenativenops/cloudflare:ext4:relatime,rw:-rwxr-xr-x:Cloudflare edge services root
+mno_cf_workers:/opt/machinenativenops/cloudflare/workers:ext4:relatime,rw:-rwxr-xr-x:Cloudflare Workers source code
+mno_cf_pages:/opt/machinenativenops/cloudflare/pages:ext4:relatime,rw:-rwxr-xr-x:Cloudflare Pages configuration
+mno_cf_config:/etc/machinenativenops/cloudflare:ext4:relatime,rw:-rwx------:Cloudflare configuration
+mno_cf_secrets:/etc/machinenativenops/cloudflare/secrets:ext4:relatime,rw:-rwx------:Cloudflare API tokens and secrets
+
+# Cloudflare 資料儲存 (映射至 Cloudflare 服務)
+mno_cf_kv:/var/lib/machinenativenops/cloudflare/kv:ext4:relatime,rw:-rwxr-xr-x:Cloudflare KV namespace data (local cache)
+mno_cf_d1:/var/lib/machinenativenops/cloudflare/d1:ext4:relatime,rw:-rwx------:Cloudflare D1 database (local cache)
+mno_cf_r2:/var/lib/machinenativenops/cloudflare/r2:ext4:relatime,rw:-rwxr-xr-x:Cloudflare R2 storage (local cache)
+mno_cf_durable:/var/lib/machinenativenops/cloudflare/durable-objects:ext4:relatime,rw:-rwxr-xr-x:Cloudflare Durable Objects state
+
+# Cloudflare 日誌與監控
+mno_cf_logs:/var/log/machinenativenops/cloudflare:ext4:relatime,rw:-rwxr-xr-x:Cloudflare deployment logs
+mno_cf_analytics:/var/lib/machinenativenops/cloudflare/analytics:ext4:relatime,rw:-rwxr-xr-x:Cloudflare analytics data
+mno_cf_cache:/var/cache/machinenativenops/cloudflare:ext4:relatime,rw:-rwxr-xr-x:Cloudflare edge cache
+
+# GitHub 整合目錄
+mno_github:/opt/machinenativenops/github:ext4:relatime,rw:-rwxr-xr-x:GitHub integration root
+mno_gh_webhooks:/var/lib/machinenativenops/github/webhooks:ext4:relatime,rw:-rwxr-xr-x:GitHub webhook event storage
+mno_gh_actions:/var/lib/machinenativenops/github/actions:ext4:relatime,rw:-rwxr-xr-x:GitHub Actions workflow data
+mno_gh_secrets:/etc/machinenativenops/github/secrets:ext4:relatime,rw:-rwx------:GitHub API tokens
+
+# === Cloudflare 目錄群組 (Cloudflare Directory Groups) ===
+
+# Cloudflare 服務目錄
+[cloudflare_directories]
+members=mno_cloudflare,mno_cf_workers,mno_cf_pages,mno_cf_config,mno_cf_kv,mno_cf_d1,mno_cf_r2
+description=Cloudflare edge service directories
+
+# GitHub 整合目錄
+[github_integration_directories]
+members=mno_github,mno_gh_webhooks,mno_gh_actions,mno_gh_secrets
+description=GitHub integration directories

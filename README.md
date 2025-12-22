@@ -538,6 +538,7 @@ docker-compose logs -f governance
 ### 📋 學習路徑建議
 
 **新用戶入門順序**：
+
 1. 📖 閱讀 [README.md](./README.md) - 系統概覽
 2. 📥 按照 [INSTALL.md](./docs/INSTALL.md) 安裝
 3. 🚀 跟隨 [快速開始](#-快速開始) 啟動服務
