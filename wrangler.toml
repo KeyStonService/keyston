@@ -7,7 +7,7 @@
 # Documentation: https://developers.cloudflare.com/workers/wrangler/configuration/
 # ============================================================================
 
-name = "machinenativeops-worker"
+name = "aaps-worker"
 main = "cloudflare/workers/src/index.ts"
 compatibility_date = "2025-12-01"
 compatibility_flags = ["nodejs_compat"]
