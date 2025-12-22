@@ -11,18 +11,72 @@ This script tests the SuperAgent functionality including:
 
 import asyncio
 import json
-import requests
 import time
 from datetime import datetime
 from typing import Dict, Any
+import urllib.request
+import urllib.error
 
 # Configuration
 SUPER_AGENT_URL = "http://localhost:8080"
 
+
+class SimpleResponse:
+    """Lightweight response object providing the subset of the requests.Response API used in tests."""
+
+    def __init__(self, status_code: int, text: str, content: bytes):
+        self.status_code = status_code
+        self.text = text
+        self._content = content
+
+    def json(self) -> Any:
+        """Parse the response body as JSON, returning None if the body is empty."""
+        if not self._content:
+            return None
+        return json.loads(self._content.decode("utf-8"))
+
+
+class HttpSession:
+    """Minimal HTTP session wrapper using urllib to emulate requests.Session for GET/POST."""
+
+    def get(self, url: str, timeout: float = 10) -> SimpleResponse:
+        return self._request("GET", url, data=None, headers=None, timeout=timeout)
+
+    def post(self, url: str, json: Dict[str, Any] | None = None, timeout: float = 10) -> SimpleResponse:
+        data = None
+        headers: Dict[str, str] | None = None
+        if json is not None:
+            data = json.dumps(json).encode("utf-8")
+            headers = {"Content-Type": "application/json"}
+        return self._request("POST", url, data=data, headers=headers, timeout=timeout)
+
+    def _request(
+        self,
+        method: str,
+        url: str,
+        data: bytes | None,
+        headers: Dict[str, str] | None,
+        timeout: float = 10,
+    ) -> SimpleResponse:
+        request = urllib.request.Request(url, data=data, method=method)
+        if headers:
+            for key, value in headers.items():
+                request.add_header(key, value)
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                content = response.read()
+                status_code = response.getcode()
+        except urllib.error.HTTPError as e:
+            content = e.read()
+            status_code = e.code
+        text = content.decode("utf-8") if content else ""
+        return SimpleResponse(status_code=status_code, text=text, content=content)
+
+
 class SuperAgentTester:
     def __init__(self, base_url: str = SUPER_AGENT_URL):
         self.base_url = base_url
-        self.session = requests.Session()
+        self.session = HttpSession()
     
     def generate_test_message(self, message_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         """Generate a test message with proper envelope"""

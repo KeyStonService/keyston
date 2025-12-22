@@ -8,6 +8,8 @@ on:
 jobs:
   phase1:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@0ad4b8f3a27c304e21892351cbf9860471245599  # v4
