@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: axiom-system-staging
+  labels:
+    name: axiom-system-staging
+    purpose: multi-agent-orchestration
+    environment: staging

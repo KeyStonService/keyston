@@ -38,6 +38,7 @@ OPEN → TRIAGE → RCA → PROPOSE → VERIFY → APPROVE → EXECUTE → VALID
 - Docker
 - Kubernetes cluster
 - kubectl configured
+- kustomize (optional, kubectl has built-in kustomize support)
 
 ### Local Development
 ```bash
@@ -53,11 +54,14 @@ python test_super_agent.py
 
 ### Docker Build & Test
 ```bash
-# Build image
-docker build -t machinenativeops/super-agent:v1.0.0 .
+# Build image (with environment-specific tag)
+docker build -t axiom-system/super-agent:dev-latest .
 
 # Run container
-docker run -p 8080:8080 machinenativeops/super-agent:v1.0.0
+docker run -p 8080:8080 axiom-system/super-agent:dev-latest
+
+# Example: build a specific release tag
+# docker build -t axiom-system/super-agent:v1.0.0 .
 
 # Test container
 python test_super_agent.py http://localhost:8080
@@ -65,85 +69,102 @@ python test_super_agent.py http://localhost:8080
 
 ### Kubernetes Deployment
 
-The SuperAgent uses a Kustomize-based deployment strategy with environment-specific overlays for dev, staging, and production.
+The SuperAgent uses **Kustomize** for environment-specific deployments, making version updates easier across dev, staging, and production environments.
 
-#### Deployment Structure
-
-```
-k8s/
-├── base/                    # Base Kubernetes manifests
-│   ├── deployment.yaml     # Base deployment configuration
-│   └── kustomization.yaml  # Base Kustomize configuration
-└── overlays/               # Environment-specific overlays
-    ├── dev/                # Development environment
-    │   └── kustomization.yaml
-    ├── staging/            # Staging environment
-    │   └── kustomization.yaml
-    └── prod/               # Production environment
-        └── kustomization.yaml
-```
-
-#### Environment Configuration
-
-Each environment has specific settings:
-
-| Setting | Dev | Staging | Prod |
-|---------|-----|---------|------|
-| **Namespace** | `axiom-system-dev` | `axiom-system-staging` | `axiom-system` |
-| **Image Tag** | `dev-latest` | `v1.0.0-rc` | `v1.0.0` |
-| **Replicas** | 1 | 2 | 3 |
-| **Log Level** | DEBUG | INFO | WARN |
-| **Resource Limits** | Standard | Standard | Enhanced |
-
-#### Deployment Commands
+#### Quick Deployment
 
 ```bash
-# Deploy to development environment
-./deploy.sh dev
+# Deploy to dev environment (default)
+./deploy.sh
 
-# Deploy to staging environment  
+# Deploy to staging
 ./deploy.sh staging
 
-# Deploy to production environment
+# Deploy to production
 ./deploy.sh prod
+```
+
+#### Manual Kustomize Deployment
+```bash
+# Preview what will be deployed to dev
+kustomize build overlays/dev
+
+# Deploy to dev using kustomize
+kustomize build overlays/dev | kubectl apply -f -
+
+# Or using kubectl's built-in kustomize
+kubectl apply -k overlays/dev
+
+# Deploy to staging
+kubectl apply -k overlays/staging
+
+# Deploy to production
+kubectl apply -k overlays/prod
+```
+
+#### Traditional Deployment (without Kustomize - Advanced Use Only)
+
+> ⚠️ **Security Warning**: The base deployment manifest includes cluster-wide RBAC permissions (ClusterRole/ClusterRoleBinding) that grant read access to secrets across all namespaces. **This configuration is not suitable for production or shared clusters.**
+>
+> **Before deploying:**
+> - Review and harden the RBAC permissions in `base/deployment.yaml`
+> - Remove or tightly scope any `secrets` access
+> - Consider using namespace-scoped Role/RoleBinding instead of cluster-scoped resources
+> - This method is intended only for local/demo clusters
+>
+> **For production deployments, always use the Kustomize overlays** which provide environment isolation and proper configuration management.
+
+```bash
+# Deploy base configuration (local/demo clusters only)
+# WARNING: Review RBAC permissions before deploying
+kubectl apply -f base/deployment.yaml
+
+> Note: Resources are prefixed per environment (e.g. `dev-super-agent`, `staging-super-agent`, `prod-super-agent`) to avoid cluster-scoped RBAC name collisions.
 
 # Port forward for local testing
-kubectl port-forward -n machinenativeops svc/super-agent 8080:8080
+# dev
+kubectl port-forward -n axiom-system-dev svc/dev-super-agent 8080:8080
+# staging
+# kubectl port-forward -n axiom-system-staging svc/staging-super-agent 8080:8080
+# prod
+# kubectl port-forward -n axiom-system svc/prod-super-agent 8080:8080
 
 # Test deployed service
 python test_super_agent.py http://localhost:8080
 ```
 
-#### Manual Deployment with Kustomize
+#### Environment-Specific Configuration
+
+Each environment has different default settings. Dev and staging environments inherit the base HPA configuration (2-5 replicas), while production uses a custom HPA range (3-10 replicas):
+
+| Environment | Namespace | Image Tag | Replicas | HPA Range |
+|------------|-----------|-----------|----------|-----------|
+| **dev** | axiom-system-dev | dev-latest | 1 | 2-5 (from base) |
+| **staging** | axiom-system-staging | staging-v1.0.0 | 2 | 2-5 (from base) |
+| **prod** | axiom-system | v1.0.0 | 3 | 3-10 (custom) |
+
+**Overriding image tags:**
+
+The `deploy.sh` script supports dynamic image tag overrides via the `IMAGE_TAG` environment variable:
 
 ```bash
-# Using kubectl with kustomize (built-in)
-kubectl apply -k k8s/overlays/dev
-kubectl apply -k k8s/overlays/staging
-kubectl apply -k k8s/overlays/prod
-
-# Or using standalone kustomize
-kustomize build k8s/overlays/dev | kubectl apply -f -
-kustomize build k8s/overlays/staging | kubectl apply -f -
-kustomize build k8s/overlays/prod | kubectl apply -f -
-```
-
-#### Updating Image Versions
-
-To update the image version for an environment, edit the corresponding overlay's `kustomization.yaml`:
-
-```yaml
-# k8s/overlays/prod/kustomization.yaml
-images:
-- name: axiom-system/super-agent
-  newTag: v1.1.0  # Update this tag
-```
-
-Then redeploy:
-```bash
+# Build and deploy with custom image tag
+export IMAGE_TAG=v1.2.0
 ./deploy.sh prod
 ```
 
+This will:
+1. Build Docker image as `axiom-system/super-agent:v1.2.0`
+2. Deploy that image to the production environment using Kustomize
+
+Alternatively, you can permanently change an environment's image tag by editing the overlay's `kustomization.yaml`:
+
+```yaml
+# In overlays/prod/kustomization.yaml
+images:
+- name: axiom-system/super-agent
+  newTag: v1.2.0  # Update version here
+```
 ## 📡 API Endpoints
 
 ### Core Endpoints
@@ -314,12 +335,61 @@ python test_super_agent.py http://super-agent.machinenativeops.svc.cluster.local
 - `LOG_LEVEL`: Logging level (default: "INFO")
 - `TRACE_EXPORTER`: Trace exporter (default: "jaeger")
 
+### Kustomize Structure
+
+The SuperAgent uses Kustomize for managing environment-specific configurations:
+
+```
+agents/super-agent/
+├── base/
+│   ├── deployment.yaml      # Base Kubernetes resources
+│   └── kustomization.yaml   # Base kustomization config
+└── overlays/
+    ├── dev/
+    │   ├── namespace.yaml        # Dev namespace
+    │   └── kustomization.yaml    # Dev overrides
+    ├── staging/
+    │   ├── namespace.yaml       # Dev namespace
+    │   └── kustomization.yaml   # Dev overrides
+    ├── staging/
+    │   ├── namespace.yaml       # Staging namespace
+    │   └── kustomization.yaml   # Staging overrides
+    └── prod/
+        ├── namespace.yaml       # Production namespace
+        └── kustomization.yaml   # Production overrides
+```
+
+**Key benefits:**
+- ✅ **Version Management**: Image tags configured per environment
+- ✅ **Environment Isolation**: Separate namespaces and configs
+- ✅ **Easy Updates**: Change image version in one place
+- ✅ **GitOps Ready**: Compatible with ArgoCD and Flux
+- ✅ **Multi-Environment Support**: Name prefixes prevent resource conflicts when deploying multiple environments to the same cluster
+
+**Environment-specific resource naming:**
+
+Each overlay uses a `namePrefix` to ensure cluster-scoped resources (ClusterRole, ClusterRoleBinding) don't conflict when multiple environments are deployed to the same cluster:
+
+- **dev**: Resources prefixed with `dev-` (e.g., `dev-super-agent`, `dev-super-agent-role`)
+- **staging**: Resources prefixed with `staging-` (e.g., `staging-super-agent`, `staging-super-agent-role`)
+- **prod**: Resources prefixed with `prod-` (e.g., `prod-super-agent`, `prod-super-agent-role`)
+
+This allows you to safely deploy dev, staging, and production environments side-by-side in the same Kubernetes cluster without RBAC conflicts.
+
+**Customizing image versions:**
+```yaml
+# In overlays/prod/kustomization.yaml
+images:
+- name: axiom-system/super-agent
+  newTag: v1.2.0  # Update version here
+```
+
 ### Kubernetes Resources
-- **ServiceAccount**: `super-agent` with minimal required permissions
-- **ClusterRole**: Read permissions + limited write permissions
-- **Deployment**: 2 replicas with anti-affinity
+- **ServiceAccount**: `<env>-super-agent` with minimal required permissions
+- **ClusterRole**: `<env>-super-agent-role` - Read permissions + limited write permissions
+- **Deployment**: 2 replicas with anti-affinity (configurable per environment)
 - **Service**: ClusterIP service for internal communication
-- **HPA**: Horizontal pod autoscaling (2-5 replicas)
+- **HPA**: Horizontal pod autoscaling (2-5 replicas in base, 3-10 in prod)
 - **PDB**: Pod disruption budget (minAvailable: 1)
 
 ## 📊 Monitoring

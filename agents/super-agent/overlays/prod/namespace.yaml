@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: axiom-system
+  labels:
+    name: axiom-system
+    purpose: multi-agent-orchestration
+    environment: prod
