@@ -1,0 +1,206 @@
+name: ci_pipeline
+version: "1.0.0"
+description: |
+  Unified CI Pipeline - Code quality, security, and testing
+  Replaces .github/workflows/ci.yml
+
+triggers:
+  - event: PULL_REQUEST_OPENED
+    conditions:
+      branches: [main, develop]
+  - event: PULL_REQUEST_SYNCHRONIZED
+    conditions:
+      branches: [main, develop]
+  - event: CODE_CHANGE_DETECTED
+    conditions:
+      branches: [main, develop]
+
+concurrency:
+  group: "ci-{branch}"
+  cancel_in_progress: true
+
+timeout_minutes: 60
+
+roles:
+  orchestrator: ci-orchestrator
+  reviewers:
+    - code-reviewer
+    - security-scanner
+  testers:
+    - unit-tester
+    - integration-tester
+
+stages:
+  - id: code_quality
+    name: "Code Quality Analysis"
+    agent: code-reviewer
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: setup_environment
+        params:
+          languages: [python, nodejs]
+          
+      - action: run_linters
+        params:
+          python:
+            tools: [pylint, black, flake8, mypy]
+            config:
+              max_line_length: 100
+              ignore: [C0114, C0115, C0116]
+          javascript:
+            tools: [eslint, prettier]
+            config:
+              extends: ["@typescript-eslint"]
+              
+      - action: generate_report
+        output:
+          artifact: code-quality-report.md
+          retention_days: 30
+
+  - id: security_scan
+    name: "Security Vulnerability Scan"
+    agent: security-scanner
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: scan_dependencies
+        params:
+          python:
+            tools: [safety, bandit]
+          nodejs:
+            tools: [npm-audit]
+          go:
+            tools: [govulncheck]
+            
+      - action: run_sast
+        params:
+          tool: semgrep
+          config:
+            - p/security-audit
+            - p/owasp-top-ten
+            - p/secrets
+            
+      - action: generate_sarif
+        output:
+          artifact: security-scan.sarif
+          upload_to_github: true
+
+  - id: unit_tests
+    name: "Unit Tests"
+    agent: unit-tester
+    depends_on: []
+    matrix:
+      python_version: ["3.9", "3.11", "3.12"]
+    evidence_required: true
+    steps:
+      - action: setup_python
+        params:
+          version: "{matrix.python_version}"
+          
+      - action: run_pytest
+        params:
+          args:
+            - --verbose
+            - --tb=short
+            - --cov=.
+            - --cov-report=xml
+            - --cov-report=html
+            - --junit-xml=test-results.xml
+            
+      - action: collect_coverage
+        output:
+          artifacts:
+            - test-results.xml
+            - coverage.xml
+            - htmlcov/
+
+  - id: integration_tests
+    name: "Integration Tests"
+    agent: integration-tester
+    depends_on: [code_quality, security_scan]
+    evidence_required: true
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        health_check:
+          cmd: pg_isready
+          interval: 10s
+          timeout: 5s
+          retries: 5
+      redis:
+        image: redis:7
+        health_check:
+          cmd: redis-cli ping
+          interval: 10s
+    steps:
+      - action: setup_environment
+        params:
+          env:
+            DATABASE_URL: "postgresql://postgres:testpass@localhost:5432/testdb"
+            REDIS_URL: "redis://localhost:6379"
+            TEST_ENV: integration
+            
+      - action: run_integration_tests
+        params:
+          timeout_minutes: 30
+          
+      - action: generate_report
+        output:
+          artifact: integration-test-report.md
+
+  - id: summary
+    name: "CI Summary Report"
+    agent: ci-orchestrator
+    depends_on: [code_quality, security_scan, unit_tests, integration_tests]
+    run_on: always
+    steps:
+      - action: aggregate_results
+        params:
+          stages: [code_quality, security_scan, unit_tests, integration_tests]
+          
+      - action: generate_summary
+        output:
+          artifact: ci-summary-report.md
+          
+      - action: notify_pr
+        condition: "github.event_name == 'pull_request' && status == 'failure'"
+        params:
+          comment_body: "{summary_report}"
+
+quality_gates:
+  - stage: code_quality
+    required: true
+    threshold:
+      pylint_score: 7.0
+      
+  - stage: security_scan
+    required: true
+    threshold:
+      critical_vulnerabilities: 0
+      high_vulnerabilities: 0
+      
+  - stage: unit_tests
+    required: true
+    threshold:
+      coverage_percent: 60
+      test_pass_rate: 100
+
+artifacts:
+  - name: ci-reports
+    paths:
+      - "*.md"
+      - "*.xml"
+      - "*.json"
+      - htmlcov/
+    retention_days: 30
+
+notifications:
+  on_failure:
+    - type: github_comment
+      target: pull_request
+    - type: audit_log
+      severity: warning

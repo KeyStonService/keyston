@@ -1,4 +1,4 @@
-version: v1
+version: v2
 description: "代理註冊表 - 統一管理所有 AI 代理的單一真相來源 (SSOT)"
 updated_at: "2025-12-22"
 
@@ -12,11 +12,106 @@ agents:
     language: "python"
     source: "teams/default-team/orchestrator"
     entry_point: "main.py"
+    profile: "teams/default-team/profiles/role.ci_orchestrator.md"
     capabilities:
       - orchestration
       - consensus
       - state_management
       - event_handling
+    status: "active"
+
+  # ============================================
+  # CI/CD Pipeline Agents (NEW)
+  # ============================================
+  - id: "pipeline.ci-orchestrator"
+    name: "CI Orchestrator"
+    type: "orchestrator"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.ci_orchestrator.md"
+    capabilities:
+      - pipeline_coordination
+      - job_scheduling
+      - artifact_management
+      - status_reporting
+    status: "active"
+
+  - id: "pipeline.cd-deployer"
+    name: "CD Deployer"
+    type: "specialist"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.cd_deployer.md"
+    capabilities:
+      - multi_environment_deployment
+      - container_building
+      - kubernetes_deployment
+      - rollback_management
+    status: "active"
+
+  - id: "pipeline.code-reviewer"
+    name: "Code Reviewer"
+    type: "specialist"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.code_reviewer.md"
+    capabilities:
+      - static_analysis
+      - security_pattern_detection
+      - performance_analysis
+      - style_verification
+    status: "active"
+
+  - id: "pipeline.security-scanner"
+    name: "Security Scanner"
+    type: "specialist"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.security_scanner.md"
+    capabilities:
+      - vulnerability_detection
+      - dependency_scanning
+      - secret_detection
+      - compliance_checking
+    status: "active"
+
+  - id: "pipeline.governance-guardian"
+    name: "Governance Guardian"
+    type: "specialist"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.governance_guardian.md"
+    capabilities:
+      - policy_enforcement
+      - naming_validation
+      - schema_validation
+      - audit_management
+    status: "active"
+
+  - id: "pipeline.dependency-updater"
+    name: "Dependency Updater"
+    type: "service"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.dependency_updater.md"
+    capabilities:
+      - version_monitoring
+      - security_patching
+      - pr_creation
+      - compatibility_testing
+    status: "active"
+
+  - id: "pipeline.workflow-optimizer"
+    name: "Workflow Optimizer"
+    type: "service"
+    language: "python"
+    source: "teams/default-team/orchestrator"
+    profile: "teams/default-team/profiles/role.workflow_optimizer.md"
+    capabilities:
+      - performance_analysis
+      - bottleneck_detection
+      - cache_optimization
+      - cost_analysis
     status: "active"
 
   # ============================================
@@ -339,6 +434,30 @@ agents:
     status: "active"
 
 # ============================================
+# Playbook 映射 (Playbook Mappings)
+# ============================================
+playbooks:
+  ci_pipeline:
+    path: "teams/default-team/playbooks/ci_pipeline.yaml"
+    replaces: ".github/workflows/ci.yml"
+    agents: [ci-orchestrator, code-reviewer, security-scanner]
+    
+  cd_pipeline:
+    path: "teams/default-team/playbooks/cd_pipeline.yaml"
+    replaces: ".github/workflows/cd.yml"
+    agents: [cd-deployer, security-scanner, governance-guardian]
+    
+  security_pipeline:
+    path: "teams/default-team/playbooks/security_pipeline.yaml"
+    replaces: ".github/workflows/security.yml"
+    agents: [security-scanner, governance-guardian]
+    
+  governance_pipeline:
+    path: "teams/default-team/playbooks/governance_pipeline.yaml"
+    replaces: ".github/workflows/governance.yml"
+    agents: [governance-guardian]
+
+# ============================================
 # 供應商配置 (Provider Configuration)
 # ============================================
 providers:
@@ -382,13 +501,18 @@ providers:
 # 元數據 (Metadata)
 # ============================================
 metadata:
-  total_agents: 25
+  total_agents: 32
   languages:
-    python: 17
+    python: 24
     typescript: 6
   layers:
-    orchestration: 1
-    specialist: 6
-    service: 5
+    orchestration: 2
+    specialist: 10
+    service: 7
     pipeline: 6
     autonomous: 7
+  playbooks:
+    total: 4
+    ci_cd: 2
+    security: 1
+    governance: 1

@@ -1,0 +1,8 @@
+[console_scripts]
+machinenativeops = core.cli:main
+machinenativeops-contract = core.contract_engine:main
+machinenativeops-workflow = automation.pipelines.instant_execution_pipeline:main
+mnops = core.cli:main
+
+[machinenativeops.plugins]
+default = core.plugins.default:DefaultPlugin

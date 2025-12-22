@@ -1,0 +1,246 @@
+name: cd_pipeline
+version: "1.0.0"
+description: |
+  Unified CD Pipeline - Build, scan, and deploy
+  Replaces .github/workflows/cd.yml
+
+triggers:
+  - event: CODE_CHANGE_DETECTED
+    conditions:
+      branches: [main]
+  - event: MANUAL_OVERRIDE
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        default: staging
+      force_deploy:
+        type: boolean
+        default: false
+
+concurrency:
+  group: "cd-{branch}"
+  cancel_in_progress: false
+
+timeout_minutes: 90
+
+roles:
+  orchestrator: cd-deployer
+  validators:
+    - security-scanner
+    - governance-guardian
+  approvers:
+    - senior-engineer
+    - ops-lead
+
+env:
+  DOCKER_REGISTRY: "ghcr.io"
+  IMAGE_NAME: "machinenativeops"
+  KUBERNETES_NAMESPACE: "machinenativeops"
+
+stages:
+  - id: pre_deploy_checks
+    name: "Pre-Deployment Checks"
+    agent: governance-guardian
+    evidence_required: true
+    steps:
+      - action: check_ci_status
+        params:
+          workflow: ci_pipeline
+          required_status: success
+          
+      - action: risk_assessment
+        params:
+          factors:
+            - commit_count_since_main
+            - file_change_scope
+            - affected_services
+            
+      - action: check_deploy_blocks
+        params:
+          block_files: [DEPLOY_BLOCK, .deploy-hold]
+          
+      - action: generate_report
+        output:
+          artifact: pre-deploy-report.md
+          outputs:
+            deploy_approved: bool
+            risk_level: string
+
+  - id: build_and_push
+    name: "Build & Push Docker Image"
+    agent: cd-deployer
+    depends_on: [pre_deploy_checks]
+    condition: "stages.pre_deploy_checks.outputs.deploy_approved == true"
+    evidence_required: true
+    steps:
+      - action: setup_buildx
+        
+      - action: docker_login
+        params:
+          registry: "{env.DOCKER_REGISTRY}"
+          
+      - action: extract_metadata
+        params:
+          tags:
+            - type: ref
+              event: branch
+            - type: sha
+              prefix: "{branch}-"
+            - type: raw
+              value: latest
+              enable: "{is_default_branch}"
+              
+      - action: build_and_push
+        params:
+          platforms: [linux/amd64, linux/arm64]
+          cache_from: type=gha
+          cache_to: type=gha,mode=max
+          build_args:
+            BUILD_DATE: "{timestamp}"
+            VCS_REF: "{commit_sha}"
+            VERSION: "{version}"
+        output:
+          outputs:
+            image_digest: string
+            image_tag: string
+
+  - id: container_security
+    name: "Container Security Scan"
+    agent: security-scanner
+    depends_on: [build_and_push]
+    evidence_required: true
+    steps:
+      - action: trivy_scan
+        params:
+          image_ref: "{stages.build_and_push.outputs.image_tag}"
+          format: sarif
+          severity: [CRITICAL, HIGH]
+          
+      - action: upload_sarif
+        params:
+          file: trivy-results.sarif
+          
+      - action: generate_report
+        output:
+          artifact: container-security-report.md
+
+  - id: performance_tests
+    name: "Performance Tests"
+    agent: performance-tester
+    depends_on: [build_and_push]
+    parallel_with: [container_security]
+    evidence_required: true
+    steps:
+      - action: deploy_test_environment
+        params:
+          compose_file: docker-compose.test.yml
+          wait_seconds: 30
+          
+      - action: run_load_tests
+        params:
+          tool: k6
+          script: tests/performance/load-test.js
+          
+      - action: cleanup_test_environment
+        run_on: always
+        
+      - action: generate_report
+        output:
+          artifact: performance-test-report.md
+
+  - id: deploy
+    name: "Deploy to Environment"
+    agent: cd-deployer
+    depends_on: [pre_deploy_checks, build_and_push, container_security, performance_tests]
+    condition: |
+      stages.pre_deploy_checks.outputs.deploy_approved == true &&
+      stages.build_and_push.status == 'success' &&
+      stages.container_security.status == 'success'
+    evidence_required: true
+    consensus_required:
+      environment: production
+      quorum: 0.6
+      approvers: [senior-engineer, ops-lead]
+    steps:
+      - action: configure_kubernetes
+        params:
+          environment: "{input.environment}"
+          
+      - action: helm_deploy
+        params:
+          chart: helm/machinenativeops
+          namespace: "{env.KUBERNETES_NAMESPACE}"
+          values:
+            image.tag: "{stages.build_and_push.outputs.image_tag}"
+            environment: "{input.environment}"
+          wait: true
+          timeout: 10m
+          
+      - action: verify_rollout
+        params:
+          deployment: machinenativeops
+          timeout: 5m
+          
+      - action: health_check
+        params:
+          retries: 10
+          interval: 30s
+          endpoint: /health
+          
+      - action: generate_report
+        output:
+          artifact: deployment-report.md
+
+  - id: post_deploy_notification
+    name: "Post-Deployment Notification"
+    agent: ci-orchestrator
+    depends_on: [deploy]
+    run_on: always
+    steps:
+      - action: aggregate_results
+        params:
+          stages: [pre_deploy_checks, build_and_push, container_security, performance_tests, deploy]
+          
+      - action: create_deployment_status
+        params:
+          state: "{deploy.status}"
+          environment: "{input.environment}"
+          
+      - action: notify
+        params:
+          channels: [github, audit]
+          summary: "{deployment_summary}"
+
+quality_gates:
+  - stage: pre_deploy_checks
+    required: true
+    
+  - stage: container_security
+    required: true
+    threshold:
+      critical_vulnerabilities: 0
+      
+  - stage: deploy
+    required: true
+
+rollback:
+  enabled: true
+  trigger:
+    error_rate_threshold: 5
+    health_check_failures: 3
+  strategy: automatic
+  target: previous_stable
+
+artifacts:
+  - name: cd-reports
+    paths:
+      - "*.md"
+      - "*.sarif"
+      - "*.json"
+    retention_days: 30
+
+audit:
+  enabled: true
+  retention_days: 90
+  evidence_required: true

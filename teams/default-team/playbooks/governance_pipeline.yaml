@@ -1,0 +1,221 @@
+name: governance_pipeline
+version: "1.0.0"
+description: |
+  Governance and Compliance Pipeline
+  Enforces naming conventions, schema validation, and policy compliance
+
+triggers:
+  - event: CODE_CHANGE_DETECTED
+    conditions:
+      paths:
+        - "src/governance/**"
+        - "schemas/**"
+        - "config/**"
+        - "*.yaml"
+        - "*.yml"
+  - event: PULL_REQUEST_OPENED
+  - event: SCHEDULED_EVENT
+    cron: "0 6 * * 1"  # Weekly governance audit
+  - event: MANUAL_OVERRIDE
+
+timeout_minutes: 30
+
+roles:
+  orchestrator: governance-guardian
+  validators:
+    - schema-validator
+    - policy-enforcer
+
+stages:
+  - id: naming_convention_check
+    name: "Naming Convention Validation"
+    agent: governance-guardian
+    evidence_required: true
+    steps:
+      - action: validate_urn_format
+        params:
+          pattern: "urn:machinenativeops:{domain}:{resource}:{version}"
+          domains:
+            - governance
+            - ai
+            - core
+            - autonomous
+            - config
+            - dimension
+            
+      - action: validate_directory_names
+        params:
+          pattern: kebab-case
+          exclude:
+            - node_modules
+            - __pycache__
+            - .git
+            
+      - action: validate_yaml_keys
+        params:
+          pattern: snake_case
+          paths:
+            - "**/*.yaml"
+            - "**/*.yml"
+            
+      - action: validate_json_api
+        params:
+          pattern: camelCase
+          paths:
+            - "src/apps/web/**/*.ts"
+            - "src/apps/web/**/*.tsx"
+            
+      - action: generate_report
+        output:
+          artifact: naming-convention-report.md
+
+  - id: schema_validation
+    name: "Schema Validation"
+    agent: governance-guardian
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: validate_json_schemas
+        params:
+          schema_dir: schemas/
+          targets:
+            - teams/**/*.yaml
+            - config/**/*.yaml
+            
+      - action: validate_openapi_specs
+        params:
+          paths:
+            - "src/core/**/openapi.yaml"
+            
+      - action: validate_drizzle_schemas
+        params:
+          schema_path: shared/schema.ts
+          config_path: config/drizzle.config.ts
+          
+      - action: generate_report
+        output:
+          artifact: schema-validation-report.md
+
+  - id: policy_compliance
+    name: "Policy Compliance Check"
+    agent: governance-guardian
+    evidence_required: true
+    steps:
+      - action: check_dimension_compliance
+        params:
+          dimension_index: src/governance/dimensions/index.yaml
+          required_dimensions:
+            - 00-09  # Strategic Layer
+            - 10-29  # Operational Layer
+            - 30-49  # Execution Layer
+            
+      - action: validate_agent_contracts
+        params:
+          contract_path: .github/AI-BEHAVIOR-CONTRACT.md
+          agents:
+            - teams/default-team/profiles/*.md
+            
+      - action: check_slsa_provenance
+        params:
+          required_level: 2
+          
+      - action: generate_report
+        output:
+          artifact: policy-compliance-report.md
+
+  - id: change_management
+    name: "Change Management Validation"
+    agent: governance-guardian
+    condition: "trigger == 'pull_request'"
+    evidence_required: true
+    steps:
+      - action: validate_pr_template
+        params:
+          required_sections:
+            - Description
+            - Changes
+            - Testing
+            
+      - action: check_breaking_changes
+        params:
+          api_paths:
+            - "src/core/**"
+            - "shared/**"
+            
+      - action: require_approval
+        condition: "breaking_changes.count > 0"
+        params:
+          approvers:
+            - architecture-team
+            - senior-engineer
+            
+      - action: generate_report
+        output:
+          artifact: change-management-report.md
+
+  - id: governance_summary
+    name: "Governance Summary"
+    agent: governance-guardian
+    depends_on: [naming_convention_check, schema_validation, policy_compliance, change_management]
+    run_on: always
+    steps:
+      - action: aggregate_results
+        params:
+          stages:
+            - naming_convention_check
+            - schema_validation
+            - policy_compliance
+            - change_management
+            
+      - action: calculate_compliance_score
+        
+      - action: generate_governance_map
+        output:
+          artifact: governance-map.yaml
+          
+      - action: generate_summary
+        output:
+          artifact: governance-summary-report.md
+          
+      - action: update_dashboard
+        params:
+          metrics:
+            - compliance_score
+            - violations_count
+            - dimensions_covered
+
+quality_gates:
+  - stage: naming_convention_check
+    required: true
+    threshold:
+      violations: 0
+      
+  - stage: schema_validation
+    required: true
+    threshold:
+      invalid_schemas: 0
+      
+  - stage: policy_compliance
+    required: true
+    threshold:
+      compliance_score: 1.0
+
+artifacts:
+  - name: governance-reports
+    paths:
+      - "*.md"
+      - "*.yaml"
+    retention_days: 90
+
+audit:
+  enabled: true
+  retention_days: 365
+  evidence_required: true
+  sign_artifacts: true
+  
+notifications:
+  on_violation:
+    - type: github_comment
+      target: pull_request
+    - type: audit_log
+      severity: warning

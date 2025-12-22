@@ -1,0 +1,246 @@
+name: security_pipeline
+version: "1.0.0"
+description: |
+  Comprehensive Security Pipeline
+  Replaces .github/workflows/security.yml
+
+triggers:
+  - event: PULL_REQUEST_OPENED
+    conditions:
+      paths:
+        - "**/*.py"
+        - "**/*.js"
+        - "**/*.ts"
+        - "**/*.go"
+        - "**/Dockerfile*"
+        - "**/requirements.txt"
+        - "**/package.json"
+  - event: CODE_CHANGE_DETECTED
+    conditions:
+      branches: [main]
+  - event: SCHEDULED_EVENT
+    cron: "0 2 * * *"
+  - event: MANUAL_OVERRIDE
+
+timeout_minutes: 60
+
+roles:
+  orchestrator: security-scanner
+  specialists:
+    - code-reviewer
+    - governance-guardian
+
+stages:
+  - id: code_security_analysis
+    name: "Code Security Analysis"
+    agent: security-scanner
+    matrix:
+      language: [python, javascript, typescript, go]
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: setup_language
+        params:
+          language: "{matrix.language}"
+          
+      - action: codeql_init
+        params:
+          languages: ["{matrix.language}"]
+          
+      - action: codeql_analyze
+        params:
+          category: "/language:{matrix.language}"
+          
+      - action: semgrep_scan
+        params:
+          config:
+            - p/security-audit
+            - p/owasp-top-ten
+            - p/cwe-top-25
+            - p/secrets
+            - p/docker-security
+          generate_sarif: true
+
+  - id: dependency_scan
+    name: "Dependency Vulnerability Scan"
+    agent: security-scanner
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: python_dependency_scan
+        params:
+          tools: [safety, pip-audit]
+          find_patterns:
+            - requirements*.txt
+            - setup.py
+            - pyproject.toml
+            
+      - action: nodejs_dependency_scan
+        params:
+          tools: [npm-audit, audit-ci]
+          find_patterns:
+            - package.json
+            
+      - action: go_dependency_scan
+        params:
+          tools: [govulncheck]
+          find_patterns:
+            - go.mod
+            
+      - action: generate_report
+        output:
+          artifact: dependency-security-report.md
+
+  - id: container_security
+    name: "Container Security Scan"
+    agent: security-scanner
+    condition: "contains(modified_files, 'Dockerfile') || trigger == 'schedule'"
+    evidence_required: true
+    steps:
+      - action: build_test_images
+        params:
+          find_patterns:
+            - "Dockerfile*"
+            
+      - action: trivy_scan
+        params:
+          format: sarif
+          severity: [CRITICAL, HIGH, MEDIUM]
+          
+      - action: grype_scan
+        params:
+          format: sarif
+          
+      - action: docker_bench_security
+        
+      - action: upload_sarif
+        params:
+          files:
+            - trivy-container-results.sarif
+            - grype-container-results.sarif
+            
+      - action: generate_report
+        output:
+          artifact: container-security-report.md
+
+  - id: secrets_scan
+    name: "Secrets Detection"
+    agent: security-scanner
+    parallel: true
+    evidence_required: true
+    steps:
+      - action: gitleaks_scan
+        params:
+          report_format: sarif
+          
+      - action: trufflehog_scan
+        params:
+          base: main
+          head: HEAD
+          format: json
+          
+      - action: upload_sarif
+        params:
+          file: gitleaks-results.sarif
+          
+      - action: generate_report
+        output:
+          artifact: secrets-scan-report.md
+
+  - id: compliance_check
+    name: "Security Compliance Check"
+    agent: governance-guardian
+    evidence_required: true
+    steps:
+      - action: checkov_iac_scan
+        params:
+          frameworks:
+            - terraform
+            - kubernetes
+            - cloudformation
+            
+      - action: oscal_compliance_check
+        params:
+          catalog: compliance/oscal-catalog.json
+          
+      - action: generate_report
+        output:
+          artifact: compliance-report.md
+
+  - id: security_summary
+    name: "Security Summary Report"
+    agent: security-scanner
+    depends_on: [code_security_analysis, dependency_scan, container_security, secrets_scan, compliance_check]
+    run_on: always
+    steps:
+      - action: aggregate_findings
+        params:
+          stages:
+            - code_security_analysis
+            - dependency_scan
+            - container_security
+            - secrets_scan
+            - compliance_check
+            
+      - action: calculate_risk_score
+        
+      - action: generate_summary
+        output:
+          artifact: security-summary-report.md
+          
+      - action: notify_on_critical
+        condition: "findings.critical > 0"
+        params:
+          channels: [github, slack, email]
+          severity: critical
+
+quality_gates:
+  - stage: code_security_analysis
+    required: true
+    threshold:
+      critical: 0
+      
+  - stage: dependency_scan
+    required: true
+    threshold:
+      critical: 0
+      high: 5
+      
+  - stage: secrets_scan
+    required: true
+    threshold:
+      secrets_found: 0
+      
+  - stage: compliance_check
+    required: true
+    threshold:
+      compliance_score: 0.9
+
+artifacts:
+  - name: security-reports
+    paths:
+      - "*.md"
+      - "*.sarif"
+      - "*.json"
+    retention_days: 90
+
+notifications:
+  on_critical:
+    - type: slack
+      channel: "#security-alerts"
+      severity: critical
+    - type: email
+      recipients: [security-team@company.com]
+  on_failure:
+    - type: github_comment
+      target: pull_request
+    - type: audit_log
+
+audit:
+  enabled: true
+  retention_days: 365
+  evidence_required: true
+  compliance_frameworks:
+    - ISO/IEC 27001
+    - SOC 2
+    - GDPR

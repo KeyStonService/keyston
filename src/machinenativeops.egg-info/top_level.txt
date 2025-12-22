@@ -1,0 +1,5 @@
+ai
+automation
+core
+enterprise
+governance
