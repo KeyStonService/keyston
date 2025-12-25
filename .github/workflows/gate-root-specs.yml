@@ -29,5 +29,5 @@ on:
 jobs:
   validate-root-specs:
     name: Validate Root Layer Specifications
-    uses: ./.github/workflows/baseline-validation.yml
+    uses: ./.github/workflows/enhanced-validation.yml
     secrets: inherit
