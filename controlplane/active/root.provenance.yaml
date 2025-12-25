@@ -1,0 +1,62 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root provenance tracking
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: provenance
+  name: root-provenance
+  namespace: machinenativenops
+spec:
+  auditLog:
+    enabled: true
+    includeReadOperations: false
+    path: overlay/journal/provenance
+    retention: 365
+  supplyChain:
+    attestation:
+      enabled: true
+      format: in-toto
+      path: overlay/evidence/attestation
+    sbom:
+      enabled: true
+      format: SPDX
+      path: overlay/evidence/sbom
+    verification:
+      algorithm: ed25519
+      enabled: true
+      method: signature
+  tracking:
+    enabled: true
+    format: SLSA
+    level: 3
+    metadata:
+    - fields:
+      - commit
+      - branch
+      - author
+      - timestamp
+      source: git
+    - fields:
+      - builder
+      - buildId
+      - artifacts
+      source: build
+    - fields:
+      - deployer
+      - environment
+      - timestamp
+      source: deploy
+  verification:
+    baseline:
+      requireAttestation: true
+      requireProvenance: true
+      requireSignature: true
+    overlay:
+      requireAttestation: false
+      requireProvenance: false
+      requireSignature: false

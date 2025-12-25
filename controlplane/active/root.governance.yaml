@@ -1,0 +1,66 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root governance configuration
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: governance
+  name: root-governance
+  namespace: machinenativenops
+spec:
+  approvalProcess:
+    baseline:
+      approvers: 2
+      method: PR + signature
+      required: true
+    overlay:
+      approvers: 1
+      method: automated
+      required: false
+  audit:
+    enabled: true
+    includeReadOperations: false
+    logPath: overlay/journal
+    retention: 90
+  changeManagement:
+    baseline:
+      process: controlled
+      requiresPR: true
+      requiresPromotion: true
+      requiresSignature: true
+    overlay:
+      process: automated
+      requiresPR: false
+      requiresPromotion: false
+      requiresSignature: false
+  governanceModel:
+    auditEnabled: true
+    enforcement: strict
+    type: hierarchical
+  permissions:
+    active:
+      delete: []
+      read:
+      - all
+      write: []
+    baseline:
+      delete:
+      - admin
+      read:
+      - all
+      write:
+      - ci-cd
+      - admin
+    overlay:
+      delete:
+      - admin
+      read:
+      - all
+      write:
+      - runtime
+      - self-heal
+      - admin

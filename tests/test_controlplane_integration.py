@@ -8,12 +8,20 @@ import sys
 import os
 import subprocess
 import tempfile
+import logging
 from pathlib import Path
 
 # 添加 lib 到路徑
 sys.path.insert(0, str(Path(__file__).parent.parent / "lib"))
 
 from controlplane import ControlplaneConfig, get_config, validate_name
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class Colors:
     GREEN = '\033[92m'
@@ -64,7 +72,11 @@ class ControlplaneIntegrationTests:
                 timeout=30
             )
             return result.returncode == 0, result.stdout, result.stderr
-        except Exception as e:
+        except subprocess.TimeoutExpired as e:
+            logger.error(f"Command timed out after 30s: {cmd}", exc_info=True)
+            return False, "", f"Timeout: {str(e)}"
+        except (OSError, subprocess.SubprocessError) as e:
+            logger.error(f"Subprocess error running command '{cmd}': {e}", exc_info=True)
             return False, "", str(e)
     
     def assert_true(self, condition, message):
@@ -120,8 +132,12 @@ class ControlplaneIntegrationTests:
             is_valid, _ = validate_name("test-file.yaml", "file")
             self.assert_true(is_valid, "Convenience function works")
             
-        except Exception as e:
+        except (FileNotFoundError, RuntimeError, KeyError, AttributeError) as e:
+            logger.error(f"Python library test failed with expected error: {e}", exc_info=True)
             self.assert_true(False, f"Python library test failed: {e}")
+        except Exception as e:
+            logger.error(f"Python library test failed with unexpected error: {e}", exc_info=True)
+            raise  # Re-raise unexpected exceptions to avoid masking errors
     
     def test_cli_tool(self):
         """測試 CLI 工具"""
@@ -254,8 +270,12 @@ class ControlplaneIntegrationTests:
             trust = config.get_trust_policy()
             self.assert_true(len(trust) > 0, "Trust policy accessible")
             
-        except Exception as e:
+        except (FileNotFoundError, RuntimeError, KeyError, AttributeError) as e:
+            logger.error(f"Configuration access failed with expected error: {e}", exc_info=True)
             self.assert_true(False, f"Configuration access failed: {e}")
+        except Exception as e:
+            logger.error(f"Configuration access failed with unexpected error: {e}", exc_info=True)
+            raise  # Re-raise unexpected exceptions to avoid masking errors
     
     def test_overlay_extension(self):
         """測試 Overlay 擴展"""
@@ -279,8 +299,12 @@ class ControlplaneIntegrationTests:
             # 清理
             extension_file.unlink()
             
-        except Exception as e:
+        except (FileNotFoundError, RuntimeError, OSError, AttributeError) as e:
+            logger.error(f"Overlay extension test failed with expected error: {e}", exc_info=True)
             self.assert_true(False, f"Overlay extension test failed: {e}")
+        except Exception as e:
+            logger.error(f"Overlay extension test failed with unexpected error: {e}", exc_info=True)
+            raise  # Re-raise unexpected exceptions to avoid masking errors
     
     def test_active_synthesis(self):
         """測試 Active 視圖合成"""
@@ -299,8 +323,12 @@ class ControlplaneIntegrationTests:
             active_configs = list(active_path.glob("*.yaml"))
             self.assert_true(len(active_configs) > 0, "Active configs synthesized")
             
-        except Exception as e:
+        except (FileNotFoundError, RuntimeError, OSError, AttributeError) as e:
+            logger.error(f"Active synthesis failed with expected error: {e}", exc_info=True)
             self.assert_true(False, f"Active synthesis failed: {e}")
+        except Exception as e:
+            logger.error(f"Active synthesis failed with unexpected error: {e}", exc_info=True)
+            raise  # Re-raise unexpected exceptions to avoid masking errors
     
     def test_pre_commit_hook(self):
         """測試 Pre-commit Hook"""

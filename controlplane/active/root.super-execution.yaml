@@ -1,0 +1,55 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root super execution configuration
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: execution
+  name: root-super-execution
+  namespace: machinenativenops
+spec:
+  environment:
+    secrets:
+    - name: github-token
+      path: etc/machinenativeops/secrets/github
+    - name: api-keys
+      path: etc/machinenativeops/secrets/api
+    variables:
+      BOOT_MODE: production
+      CONTROLPLANE_PATH: ./controlplane
+      WORKSPACE_PATH: ./workspace
+  executionMode:
+    parallelism: 4
+    retryPolicy:
+      backoff: exponential
+      maxRetries: 3
+    timeout: 3600
+    type: autonomous
+  monitoring:
+    enabled: true
+    logsPath: var/log/machinenativeops
+    metricsPath: var/machinenativeops/metrics
+    tracingEnabled: true
+  resources:
+    cpu:
+      limit: 2000m
+      request: 1000m
+    memory:
+      limit: 4Gi
+      request: 1Gi
+    storage:
+      limit: 50Gi
+      request: 10Gi
+  security:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add:
+      - NET_BIND_SERVICE
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true

@@ -1,0 +1,76 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root naming policy and conventions
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: naming-policy
+  name: root-naming-policy
+  namespace: machinenativenops
+spec:
+  directoryNaming:
+    forbidden:
+    - description: No uppercase
+      pattern: .*[A-Z].*
+    - description: Use hyphens, not underscores
+      pattern: .*_.*
+    patterns:
+      standard:
+        description: Lowercase with hyphens
+        examples:
+        - config
+        - specifications
+        - validation
+        pattern: ^[a-z][a-z0-9-]*$
+  fileNaming:
+    forbidden:
+    - description: No double extensions
+      pattern: .*\..*\..*
+    - description: No uppercase in filenames
+      pattern: .*[A-Z].*
+    - description: No spaces in filenames
+      pattern: .*\s.*
+    patterns:
+      baseline:
+        description: Baseline files use lowercase with hyphens
+        examples:
+        - validate-root-specs.py
+        - gate-root-specs.yml
+        pattern: ^[a-z][a-z0-9-]*\.(yaml|yml|py|sh)$
+      overlay:
+        description: Overlay files for runtime data
+        examples:
+        - controlplane.manifest.json
+        - validation.report.json
+        pattern: ^[a-z][a-z0-9-]*\.(yaml|yml|json|log)$
+      root:
+        description: Root files must start with 'root.'
+        examples:
+        - root.config.yaml
+        - root.bootstrap.yaml
+        - root.env.sh
+        pattern: ^root\.[a-z-]+\.(yaml|yml|map|sh)$
+  labelNaming:
+    format: '{prefix}{key}'
+    prefix: machinenativeops.io/
+    standardLabels:
+    - machinenativeops.io/component
+    - machinenativeops.io/layer
+    - machinenativeops.io/type
+    - machinenativeops.io/version
+  urnNaming:
+    examples:
+    - urn:machinenativeops:module:config-manager:v1.0.0
+    - urn:machinenativeops:agent:super-agent:v1.0.0
+    format: urn:machinenativeops:{type}:{name}:{version}
+    validation:
+      enabled: true
+      strictMode: true
+  validation:
+    enabled: true
+    onViolation: block
+    reportPath: overlay/evidence/naming-violations.json

@@ -1,0 +1,102 @@
+created: '2025-12-25'
+dependencies:
+  context:
+  - naming
+  - references
+  - mapping
+  - logic
+  evidence:
+  - integrity
+  integrity:
+  - naming
+  - references
+  - mapping
+  - logic
+  - context
+  logic:
+  - naming
+  - references
+  - mapping
+  mapping:
+  - naming
+  - references
+  naming: []
+  references:
+  - naming
+execution_order:
+- naming
+- references
+- mapping
+- logic
+- context
+- integrity
+- evidence
+failure_handling:
+  block_on_failure: true
+  partial_success_allowed: false
+  require_all_gates: true
+  strict_mode: true
+gates:
+  context:
+    description: 驗證跨文件上下文一致性
+    enabled: true
+    priority: 5
+    rules:
+    - root.specs.context.yaml
+    workflows:
+    - gate-root-specs.yml
+  evidence:
+    description: 驗證PR證據的完整性
+    enabled: true
+    priority: 7
+    workflows:
+    - gate-pr-evidence.yml
+  integrity:
+    description: 驗證文件完整性和雜湊值
+    enabled: true
+    priority: 6
+    rules:
+    - root.integrity.yaml
+    workflows:
+    - gate-root-specs.yml
+  logic:
+    description: 驗證配置邏輯的完整性
+    enabled: true
+    priority: 4
+    rules:
+    - root.specs.logic.yaml
+    workflows:
+    - gate-root-specs.yml
+  mapping:
+    description: 驗證配置映射的一致性
+    enabled: true
+    priority: 3
+    rules:
+    - root.specs.mapping.yaml
+    workflows:
+    - gate-root-specs.yml
+  naming:
+    description: 驗證文件和配置的命名規範
+    enabled: true
+    priority: 1
+    rules:
+    - root.specs.naming.yaml
+    workflows:
+    - gate-root-naming.yml
+  references:
+    description: 驗證URN引用的有效性
+    enabled: true
+    priority: 2
+    rules:
+    - root.specs.references.yaml
+    workflows:
+    - gate-root-specs.yml
+notifications:
+  include_details: true
+  notify_channels:
+  - pr_comment
+  - workflow_summary
+  on_failure: true
+  on_success: false
+updated: '2025-12-25'
+version: 1.0.0

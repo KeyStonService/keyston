@@ -1,0 +1,61 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root configuration - Single Source of Truth
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: config
+  name: root-config
+  namespace: machinenativenops
+spec:
+  controlplane:
+    autoRepair: false
+    entrypoints:
+      governance: baseline/config/root.governance.yaml
+      modules: baseline/config/root.modules.yaml
+      superExecution: baseline/config/root.super-execution.yaml
+      trust: baseline/config/root.trust.yaml
+      validation: baseline/validation/validate-root-specs.py
+    mode: production
+    paths:
+      active: ./controlplane/active
+      baseline: ./controlplane/baseline
+      overlay: ./controlplane/overlay
+      workspace: ./workspace
+    requiredFiles:
+    - baseline/config/root.config.yaml
+    - baseline/config/root.governance.yaml
+    - baseline/registries/root.registry.modules.yaml
+    - baseline/validation/gate-root-specs.yml
+    strictValidation: true
+    version: v1.0.0
+  healthCheck:
+    enabled: true
+    fullValidation: false
+    interval: 60
+    quickCheck:
+    - requiredFiles existence
+    - evidence digest validation
+    timeout: 10
+  validation:
+    enabled: true
+    evidencePath: overlay/evidence
+    outputs:
+      manifest: overlay/evidence/controlplane.manifest.json
+      report: overlay/evidence/validation.report.json
+    runOnce: true
+    validator: baseline/validation/validate-root-specs.py
+  writeRules:
+    allowedPaths:
+    - overlay/patches/**
+    - overlay/hotfix/**
+    - overlay/evidence/**
+    - overlay/journal/**
+    enforcement: strict
+    forbiddenPaths:
+    - baseline/**
+    - active/**

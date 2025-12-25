@@ -1,0 +1,45 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root modules configuration
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: modules
+  name: root-modules
+  namespace: machinenativenops
+spec:
+  coreModules:
+  - autoLoad: true
+    name: config-manager
+    path: opt/machinenativeops/modules/config-manager
+    required: true
+    version: v1.0.0
+  - autoLoad: true
+    name: auto-monitor
+    path: engine/machinenativenops-auto-monitor
+    required: true
+    version: v1.0.0
+  - autoLoad: false
+    name: super-agent
+    path: workspace/src/agents/super-agent
+    required: false
+    version: v1.0.0
+  dependencies:
+    auto-monitor:
+    - config-manager
+    config-manager: []
+    super-agent:
+    - config-manager
+    - auto-monitor
+  loadOrder:
+  - config-manager
+  - auto-monitor
+  - super-agent
+  registry:
+    autoSync: true
+    source: baseline/registries/root.registry.modules.yaml
+    validation: true

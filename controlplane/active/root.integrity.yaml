@@ -1,0 +1,53 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root integrity verification
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: integrity
+  name: root-integrity
+  namespace: machinenativenops
+spec:
+  fileMonitoring:
+    action: log
+    enabled: true
+    events:
+    - create
+    - modify
+    - delete
+    watchPaths:
+    - baseline/**
+  hashVerification:
+    enabled: true
+    manifestPath: overlay/evidence/controlplane.manifest.json
+    onMismatch:
+      action: alert
+      logging: true
+      notification: true
+  integrityCheck:
+    algorithm: sha3-512
+    enabled: true
+    exclude:
+    - overlay/**
+    - '*.log'
+    - '*.tmp'
+    frequency: on-access
+    scope:
+    - baseline/**
+    - active/**
+  reporting:
+    enabled: true
+    format: json
+    includeDigests: true
+    includeTimestamp: true
+    path: overlay/evidence
+  selfHealing:
+    enabled: false
+    overlay:
+      backupBeforeRepair: true
+      enabled: true
+      maxAttempts: 3

@@ -1,0 +1,45 @@
+apiVersion: machinenativeops.io/v2
+kind: MachineNativeOpsGlobalBaseline
+metadata:
+  annotations:
+    machinenativeops.io/description: Root trust configuration
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: trust
+  name: root-trust
+  namespace: machinenativenops
+spec:
+  certificates:
+    autoRenew: true
+    renewBefore: 30
+    storage: etc/machinenativeops/pki
+  signatureVerification:
+    algorithm: ed25519
+    enabled: true
+    requiredSigners: 1
+    trustedSigners:
+    - name: ci-cd-bot
+      publicKey: etc/machinenativeops/pki/ci-cd.pub
+    - name: admin
+      publicKey: etc/machinenativeops/pki/admin.pub
+  trustPolicy:
+    baseline:
+      allowSelfSigned: false
+      requireSignature: true
+      requireVerification: true
+    overlay:
+      allowSelfSigned: true
+      requireSignature: false
+      requireVerification: true
+  trustRoots:
+  - algorithm: RSA-4096
+    name: machinenativeops-ca
+    path: etc/machinenativeops/pki/ca.crt
+    type: certificate
+  - name: github-verified
+    organization: MachineNativeOps
+    provider: github.com
+    type: identity

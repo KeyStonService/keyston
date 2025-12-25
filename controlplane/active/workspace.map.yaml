@@ -1,0 +1,156 @@
+apiVersion: machinenativeops.io/v2
+kind: Configuration
+metadata:
+  annotations:
+    machinenativeops.io/description: Workspace directory structure and mapping
+    machinenativeops.io/immutable: 'true'
+    machinenativeops.io/version: v1.0.0
+  labels:
+    machinenativeops.io/component: controlplane
+    machinenativeops.io/layer: baseline
+    machinenativeops.io/type: configuration
+  name: workspace-map
+  namespace: machinenativeops
+spec:
+  boundaries:
+    governance:
+      description: Governance files must NOT be in workspace
+      prohibited:
+      - Specifications (must be in controlplane/baseline/specifications/)
+      - Registries (must be in controlplane/baseline/registries/)
+      - Authoritative validators (must be in controlplane/baseline/validation/)
+      - Gate rules (must be in controlplane/baseline/validation/)
+    runtime:
+      allowed:
+      - ./workspace/runtime/logs/
+      - ./workspace/runtime/tmp/
+      - ./workspace/runtime/cache/
+      - ./workspace/runtime/artifacts/
+      - /var/log/
+      - /var/run/
+      - /var/cache/
+      - /tmp/
+      description: Runtime outputs must go to designated locations
+      prohibited:
+      - Runtime data in controlplane/baseline/ (immutable)
+      - Runtime data in root directory
+    tooling:
+      allowed:
+      - Wrapper scripts that call controlplane validators
+      - Development utilities
+      - Build tools
+      - Testing utilities
+      description: Development tools can CALL but not REPLACE controlplane validators
+      prohibited:
+      - Governance validators (must be in controlplane/baseline/validation/)
+      - Specifications (must be in controlplane/baseline/specifications/)
+      - Any tool that replaces controlplane validators
+  directories:
+    archivePurpose: Archived content
+    archiveRoot: ./workspace/archive
+    archiveWritable: true
+    chatopsPurpose: ChatOps automation framework
+    chatopsRoot: ./workspace/chatops
+    chatopsSubdirectories:
+      adapters: ./workspace/chatops/adapters
+      commands: ./workspace/chatops/commands
+      policies: ./workspace/chatops/policies
+      routing: ./workspace/chatops/routing
+      runbooks: ./workspace/chatops/runbooks
+      workflows: ./workspace/chatops/workflows
+    chatopsWritable: true
+    configPurpose: Application configurations
+    configRoot: ./workspace/config
+    configWritable: true
+    dbPurpose: Database files
+    dbRoot: ./workspace/db
+    dbSubdirectories:
+      configs: ./workspace/db/configs
+      migrations: ./workspace/db/migrations
+      seeds: ./workspace/db/seeds
+    dbWritable: true
+    deployPurpose: Deployment configurations
+    deployRoot: ./workspace/deploy
+    deployWritable: true
+    docsPurpose: Documentation
+    docsRoot: ./workspace/docs
+    docsWritable: true
+    opsPurpose: Operations files
+    opsRoot: ./workspace/ops
+    opsWritable: true
+    privatePurpose: Private configurations
+    privateRoot: ./workspace/private
+    privateWritable: true
+    runtimePurpose: Runtime outputs (logs, tmp, cache, artifacts)
+    runtimeRoot: ./workspace/runtime
+    runtimeSubdirectories:
+      artifacts: ./workspace/runtime/artifacts
+      cache: ./workspace/runtime/cache
+      logs: ./workspace/runtime/logs
+      tmp: ./workspace/runtime/tmp
+    runtimeWritable: true
+    servicesPurpose: Service implementations
+    servicesRoot: ./workspace/services
+    servicesSubdirectories:
+      baselines: ./workspace/services/baselines
+      connectors: ./workspace/services/connectors
+      core: ./workspace/services/core
+      gateway: ./workspace/services/gateway
+    servicesWritable: true
+    sharedPurpose: Shared libraries and utilities
+    sharedRoot: ./workspace/shared
+    sharedSubdirectories:
+      contracts: ./workspace/shared/contracts
+      schema: ./workspace/shared/schema
+      types: ./workspace/shared/types
+      utils: ./workspace/shared/utils
+    sharedWritable: true
+    srcPurpose: Source code and scripts
+    srcRoot: ./workspace/src
+    srcSubdirectories:
+      adapters: ./workspace/src/adapters
+      agents: ./workspace/src/agents
+      bin: ./workspace/src/bin
+      core: ./workspace/src/core
+      scripts: ./workspace/src/scripts
+      tooling: ./workspace/src/tooling
+    srcWritable: true
+    testsPurpose: Test files
+    testsRoot: ./workspace/tests
+    testsWritable: true
+    toolingNote: Tools can CALL controlplane validators but not replace them
+    toolingPurpose: Development tools that CALL controlplane validators
+    toolingRoot: ./workspace/src/tooling
+    toolingWritable: true
+  namespaceMappings:
+  - directory: ./workspace
+    namespace: workspace
+    writable: true
+  - directory: ./workspace/src
+    namespace: workspace.src
+    writable: true
+  - directory: ./workspace/src/tooling
+    namespace: workspace.tooling
+    note: Tools can CALL controlplane validators but not replace them
+    writable: true
+  - directory: ./workspace/chatops
+    namespace: workspace.chatops
+    writable: true
+  - directory: ./workspace/runtime
+    namespace: workspace.runtime
+    writable: true
+  - directory: ./workspace/config
+    namespace: workspace.config
+    writable: true
+  workspaceRoot: ./workspace
+  writePolicies:
+    immutable:
+      description: Cannot be modified
+      paths: []
+    restricted:
+      description: Requires elevated permissions
+      paths: []
+    writable:
+      description: Open for general writes
+      paths:
+      - ./workspace/**
