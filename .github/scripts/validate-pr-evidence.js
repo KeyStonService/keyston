@@ -46,4 +46,4 @@ function validate({ context, core }) {
   }
 }
 
-module.exports = validate;
+module.exports = { validatePREvidence: validate };

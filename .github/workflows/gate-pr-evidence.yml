@@ -26,8 +26,15 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const validate = require('.github/scripts/validate-pr-evidence');
-            validate({ context, core });
+            const fs = require('fs');
+            const scriptPath = './.github/scripts/validate-pr-evidence.js';
+
+            if (!fs.existsSync(scriptPath)) {
+              core.setFailed(`Missing validator script at ${scriptPath}`);
+            } else {
+              const { validatePREvidence } = require(scriptPath);
+              validatePREvidence({ context, core });
+            }
 
       - name: 📊 驗證結果輸出
         if: always()
