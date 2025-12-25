@@ -1,0 +1,113 @@
+# Gates Mapping Configuration
+# 閘門映射配置
+# 這個文件定義了各種驗證閘門的映射關係
+
+version: "1.0.0"
+created: "2025-12-25"
+updated: "2025-12-25"
+
+# 閘門定義
+gates:
+  # 命名規範閘門
+  naming:
+    enabled: true
+    description: "驗證文件和配置的命名規範"
+    workflows:
+      - "gate-root-naming.yml"
+    rules:
+      - "root.specs.naming.yaml"
+    priority: 1
+    
+  # 引用規範閘門
+  references:
+    enabled: true
+    description: "驗證URN引用的有效性"
+    workflows:
+      - "gate-root-specs.yml"
+    rules:
+      - "root.specs.references.yaml"
+    priority: 2
+    
+  # 映射規範閘門
+  mapping:
+    enabled: true
+    description: "驗證配置映射的一致性"
+    workflows:
+      - "gate-root-specs.yml"
+    rules:
+      - "root.specs.mapping.yaml"
+    priority: 3
+    
+  # 邏輯規範閘門
+  logic:
+    enabled: true
+    description: "驗證配置邏輯的完整性"
+    workflows:
+      - "gate-root-specs.yml"
+    rules:
+      - "root.specs.logic.yaml"
+    priority: 4
+    
+  # 上下文規範閘門
+  context:
+    enabled: true
+    description: "驗證跨文件上下文一致性"
+    workflows:
+      - "gate-root-specs.yml"
+    rules:
+      - "root.specs.context.yaml"
+    priority: 5
+    
+  # 完整性閘門
+  integrity:
+    enabled: true
+    description: "驗證文件完整性和雜湊值"
+    workflows:
+      - "gate-root-specs.yml"
+    rules:
+      - "root.integrity.yaml"
+    priority: 6
+    
+  # 證據閘門
+  evidence:
+    enabled: true
+    description: "驗證PR證據的完整性"
+    workflows:
+      - "gate-pr-evidence.yml"
+    priority: 7
+
+# 閘門執行順序
+execution_order:
+  - naming
+  - references
+  - mapping
+  - logic
+  - context
+  - integrity
+  - evidence
+
+# 失敗處理策略
+failure_handling:
+  strict_mode: true
+  block_on_failure: true
+  require_all_gates: true
+  partial_success_allowed: false
+
+# 通知配置
+notifications:
+  on_success: false
+  on_failure: true
+  include_details: true
+  notify_channels:
+    - "pr_comment"
+    - "workflow_summary"
+
+# 閘門依賴關係
+dependencies:
+  naming: []
+  references: ["naming"]
+  mapping: ["naming", "references"]
+  logic: ["naming", "references", "mapping"]
+  context: ["naming", "references", "mapping", "logic"]
+  integrity: ["naming", "references", "mapping", "logic", "context"]
+  evidence: ["integrity"]
