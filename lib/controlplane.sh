@@ -60,6 +60,11 @@ cp_get_yaml_value() {
     local key_path="$2"
     local default_value="${3:-}"
     
+    if [[ -z "$yaml_file" || -z "$key_path" ]]; then
+        echo "$default_value"
+        return 1
+    fi
+    
     if [[ ! -f "$yaml_file" ]]; then
         echo "$default_value"
         return 1
@@ -77,8 +82,10 @@ cp_get_yaml_value() {
     
     # 回退到 Python
     if command -v python3 &> /dev/null; then
-        python3 -c "
-import yaml, sys
+        python3 - "$yaml_file" "$key_path" "$default_value" <<'PY'
+import sys
+import yaml
+
 try:
     with open(sys.argv[1], 'r') as f:
         data = yaml.safe_load(f)
@@ -91,9 +98,9 @@ try:
             value = None
             break
     print(value if value is not None else sys.argv[3])
-except:
+except Exception:
     print(sys.argv[3])
-" "$yaml_file" "$key_path" "$default_value"
+PY
         return 0
     fi
     
@@ -281,7 +288,6 @@ cp_synthesize_active() {
     
     # 複製 baseline 配置
     if [[ -d "$CP_BASELINE_PATH/config" ]]; then
-        # 使用 nullglob 確保沒有匹配時不會把萬用字元當成字串傳給 cp
         shopt -s nullglob
         local yaml_files=("$CP_BASELINE_PATH"/config/*.yaml)
         if ((${#yaml_files[@]} > 0)); then

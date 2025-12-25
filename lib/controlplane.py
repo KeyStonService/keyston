@@ -132,6 +132,7 @@ class ControlplaneConfig:
         import re
         
         naming_rules = self.get_naming_rules()
+        rules = naming_rules.get('spec', {}).get('naming_rules', {})
         
         # 根據類型獲取規則
         if name_type == "file":

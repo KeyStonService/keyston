@@ -86,10 +86,28 @@ analysis:
     - name: "security"
       enabled: true
       severity: ["critical", "high", "medium"]
-
-=======
-      
->>>>>>> origin/copilot/sub-pr-402
+      # 特定安全檢查 (Specific security checks)
+      checks:
+        - type: "weak_crypto"
+          description: "檢測弱加密算法使用 (Alert #54)"
+          patterns: ["md5", "sha1", "des"]
+          auto_fix: true
+        - type: "path_injection"
+          description: "檢測路徑注入風險 (Alert #45)"
+          patterns: ["user.*path", "join.*input"]
+          auto_fix: true
+        - type: "debug_exposure"
+          description: "檢測調試模式暴露 (Alert #53)"
+          patterns: ["debug.*true", "DEBUG.*=.*True"]
+          auto_fix: true
+        - type: "sensitive_logging"
+          description: "檢測敏感數據日志 (Alert #49)"
+          patterns: ["log.*password", "print.*token", "console.*secret"]
+          auto_fix: true
+        - type: "code_injection"
+          description: "檢測代碼注入風險 (Alert #37)"
+          patterns: ['\beval\s*\(', '\bexec\s*\(', '\b__import__\s*\(', '__import__']
+          auto_fix: true
     # 性能分析 (Performance Analysis)
     # 驗證：至少啟用一種檢查類型
     # 目的：優化算法效率和記憶體使用
@@ -148,20 +166,102 @@ fix:
     - "import_errors"
     - "format_issues"
     - "simple_logic_errors"
-
-  # 修復策略
-  strategy:
-    conservative: false # 保守模式，只修復確定的問題
-    aggressive: true # 積極模式，嘗試修復更多問題
-
-=======
+    - "security_vulnerabilities"  # 新增：安全漏洞修復
+    - "weak_cryptography"         # 新增：弱加密算法修復
+    - "path_traversal"            # 新增：路徑穿越修復
+    - "debug_mode_issues"         # 新增：調試模式問題修復
+    - "sensitive_data_exposure"   # 新增：敏感數據暴露修復
     
   # 修復策略
   strategy:
     conservative: false  # 保守模式，只修復確定的問題
     aggressive: true    # 積極模式，嘗試修復更多問題
     
->>>>>>> origin/copilot/sub-pr-402
+  # 安全漏洞自動修復策略 (Security Vulnerability Auto-Fix Strategies)
+  security_fixes:
+    # Alert #54: 弱加密算法修復
+    weak_crypto:
+      enabled: true
+      strategy: "replace"
+      replacements:
+        - from: "hashlib.md5"
+          to: "hashlib.sha256"
+          language: "python"
+        - from: "createHash('md5')"
+          to: "createHash('sha256')"
+          language: "javascript"
+        - from: "MessageDigest.getInstance(\"MD5\")"
+          to: "MessageDigest.getInstance(\"SHA-256\")"
+          language: "java"
+    
+    # Alert #45: 路徑穿越修復
+    path_traversal:
+      enabled: true
+      strategy: "add_validation"
+      patterns:
+        - language: "typescript"
+          add_imports: ["realpath from 'fs/promises'", "resolve from 'path'"]
+          add_validation: true
+          validation_template: |
+            const safePath = resolve(SAFE_ROOT, userInputPath);
+            const realPath = await realpath(safePath);
+            if (!realPath.startsWith(SAFE_ROOT)) {
+              throw new Error('Access denied');
+            }
+        - language: "python"
+          add_imports: ["from pathlib import Path", "import os"]
+          add_validation: true
+          validation_template: |
+            safe_root = Path(SAFE_ROOT).resolve()
+            safe_path = (safe_root / user_input).resolve(strict=True)
+            # Robust path validation - works with supported Python 3.8+
+            try:
+                safe_path.relative_to(safe_root)
+            except ValueError:
+                raise ValueError('Access denied: path outside safe root')
+    
+    # Alert #53: 調試模式修復
+    debug_mode:
+      enabled: true
+      strategy: "remove_or_env"
+      patterns:
+        - language: "python"
+          from: "app.run(debug=True)"
+          to: "app.run(debug=os.getenv('DEBUG', 'False').lower() == 'true')"
+        - language: "python"
+          from: "debug=True"
+          to: "debug=False"
+        - language: "javascript"
+          from: "{ debug: true }"
+          to: "{ debug: process.env.DEBUG === 'true' }"
+    
+    # Alert #49: 敏感數據日志修復
+    sensitive_logging:
+      enabled: true
+      strategy: "mask_or_remove"
+      patterns:
+        - detect: "log.*password"
+          action: "mask"
+          mask_char: "*"
+        - detect: "print.*token"
+          action: "remove"
+        - detect: "console\\.log.*secret"
+          action: "mask"
+    
+    # Alert #37: 代碼注入修復
+    code_injection:
+      enabled: true
+      strategy: "replace_or_sanitize"
+      patterns:
+        - from: '\beval\s*\('
+          to: "# SECURITY: eval() removed - use safe alternatives"
+          action: "comment_and_remove"
+          regex: true
+        - from: '\bexec\s*\('
+          to: "# SECURITY: exec() removed - use safe alternatives"
+          action: "comment_and_remove"
+          regex: true
+  
   # 測試驗證
   verify_with_tests: true
   run_tests_after_fix: true
@@ -193,22 +293,19 @@ optimization:
 # Security scanning configuration optimized based on CodeQL alerts
 security:
   enabled: true
-
-  # 掃描類型
-=======
   
   # 掃描類型 (Scan Types)
->>>>>>> origin/alert-autofix-37
   scan_types:
     - "sql_injection"
     - "xss"
     - "csrf"
     - "sensitive_data"
     - "dependency_vulnerabilities"
-
-=======
-    
->>>>>>> origin/copilot/sub-pr-402
+    - "weak_cryptography"        # 新增：弱加密算法檢測 (Alert #54)
+    - "path_traversal"           # 新增：路徑穿越檢測 (Alert #45)
+    - "debug_mode_exposure"      # 新增：調試模式暴露檢測 (Alert #53)
+    - "clear_text_logging"       # 新增：明文日志檢測 (Alert #49)
+    - "code_injection"           # 新增：代碼注入檢測 (Alert #37)
   # 嚴重程度
   severity_threshold: "medium"  # low, medium, high, critical
   
@@ -546,10 +643,12 @@ integrations:
   github:
     enabled: true
     token: "${GITHUB_TOKEN}"
-
-=======
-    
->>>>>>> origin/copilot/sub-pr-402
+    # GitHub Advanced Security 集成
+    advanced_security:
+      enabled: true
+      use_code_scanning: true
+      use_secret_scanning: true
+      use_dependency_review: true
   # GitLab
   gitlab:
     enabled: false

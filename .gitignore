@@ -145,6 +145,9 @@ outputs/
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
 
-# Controlplane generated files
+# Controlplane active and overlay generated files
 controlplane/active/
+controlplane/overlay/evidence/
