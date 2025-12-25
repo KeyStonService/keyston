@@ -252,6 +252,7 @@ Controlplane 強制執行以下命名規範：
 - ❌ `MyNamespace` (不是 kebab-case)
 
 ### 模組名
+
 - ✅ `core-validator` (kebab-case)
 - ✅ `automation-engine` (kebab-case)
 - ❌ `CoreValidator` (不是 kebab-case)
