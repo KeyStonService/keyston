@@ -242,6 +242,7 @@ git commit -m "Add file"
 - **之後**: 100% - 完整的工具鏈和 API
 
 ### 開發者體驗
+
 - **之前**: 需要手動讀取 YAML 文件
 - **之後**: 3 種便捷方式（CLI、Python、Shell）
 
