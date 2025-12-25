@@ -1,4 +1,4 @@
-name: Auto Memory Update
+name: Auto Memory Update (Enhanced)
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   update-memory:
-    name: Sync memory + architecture
+    name: Enhanced Memory + Architecture Sync
     if: github.actor != 'github-actions[bot]' && (github.event_name == 'push' || github.event_name == 'pull_request')
     runs-on: ubuntu-latest
     env:
@@ -31,9 +31,19 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run auto memory + architecture sync
+      - name: Install dependencies
         if: env.RUN_UPDATE == 'true'
-        run: python workspace/src/scripts/automation/auto_memory_arch_sync.py
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Run enhanced memory + architecture sync
+        if: env.RUN_UPDATE == 'true'
+        run: python workspace/src/scripts/automation/enhanced_memory_sync.py
+
+      - name: Generate knowledge graph visualization
+        if: env.RUN_UPDATE == 'true'
+        run: python workspace/src/scripts/automation/knowledge_graph_visualizer.py
 
       - name: Commit changes
         id: commit
@@ -45,7 +55,7 @@ jobs:
           fi
           git config user.name "machine-native-ops-bot"
           git config user.email "actions@users.noreply.github.com"
-          git commit -am "chore: auto memory + architecture sync [skip ci]"
+          git commit -am "chore: enhanced memory + architecture sync [skip ci]"
           echo "changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Push changes
