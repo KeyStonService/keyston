@@ -14,8 +14,8 @@ import sys
 import json
 import subprocess
 import tempfile
-from typing import Dict, List, Any
-from dataclasses import dataclass, asdict
+from typing import Dict, List
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -123,7 +123,7 @@ class AdvancedCodeScanner:
             with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
                 bandit_output_path = tmp_file.name
             
-            result = subprocess.run(
+            subprocess.run(
                 ["bandit", "-r", str(self.repo_path), "-f", "json", "-o", bandit_output_path],
                 capture_output=True,
                 text=True,
@@ -186,13 +186,39 @@ class AdvancedCodeScanner:
                 
                 for line_num, line in enumerate(lines, 1):
                     line_lower = line.lower()
+                    line_stripped = line.strip()
+                    
+                    # 跳過註釋和測試/示例代碼
+                    if line_stripped.startswith("#"):
+                        continue
+                    if any(marker in str(file_path).lower() for marker in ['test', 'example', 'demo', 'sample']):
+                        continue
                     
                     # 檢查硬編碼憑證
                     for key_type, keywords in patterns.items():
                         for keyword in keywords:
-                            if f"{keyword} = " in line_lower or f'"{keyword}": ' in line_lower:
-                                if '=' in line and any(c in line for c in ['"', "'"]):
-                                    if not line.strip().startswith("#"):
+                            # 檢查變量賦值或字典鍵
+                            if (f"{keyword} = " in line_lower or f'"{keyword}": ' in line_lower or 
+                                f"'{keyword}': " in line_lower or f"{keyword}=" in line_lower):
+                                # 確保是字符串賦值（有引號），而不是變量引用或函數調用
+                                if '=' in line:
+                                    # 查找等號後的內容
+                                    after_equals = line.split('=', 1)[1] if '=' in line else ''
+                                    # 檢查是否為非空字符串字面量（不是 None, '', "", 變量名等）
+                                    if any(pattern in after_equals for pattern in ['"', "'"]):
+                                        # 排除明顯的佔位符和測試值
+                                        exclude_patterns = [
+                                            'your_', 'example', 'test', 'dummy', 'fake', 'placeholder',
+                                            'xxx', '***', 'TODO', 'FIXME', 'changeme', 'sample'
+                                        ]
+                                        if any(excl.lower() in after_equals.lower() for excl in exclude_patterns):
+                                            continue
+                                        
+                                        # 排除空字符串或明顯的環境變量引用
+                                        if ('""' in after_equals or "''" in after_equals or 
+                                            'os.environ' in after_equals or 'getenv' in after_equals):
+                                            continue
+                                        
                                         findings.append({
                                             "severity": "high",
                                             "type": "Hardcoded Credential",
@@ -245,7 +271,11 @@ class AdvancedCodeScanner:
                             "confidence": 0.9
                         })
             
+            except (IOError, OSError, UnicodeDecodeError) as e:
+                print(f"  ⚠️ 無法讀取依賴文件 {req_file}: {e}")
+                continue
             except Exception as e:
+                print(f"  ⚠️ 處理依賴文件 {req_file} 時發生意外錯誤: {e}")
                 continue
         
         return findings
@@ -298,7 +328,11 @@ class AdvancedCodeScanner:
                             "confidence": 1.0
                         })
             
-            except Exception:
+            except (IOError, OSError, UnicodeDecodeError) as e:
+                print(f"  ⚠️ 無法讀取文件 {file_path}: {e}")
+                continue
+            except Exception as e:
+                print(f"  ⚠️ 處理文件 {file_path} 時發生意外錯誤: {e}")
                 continue
         
         return findings
@@ -439,12 +473,22 @@ def main() -> None:
     從命令行參數讀取儲存庫路徑並執行掃描。
     如果發現嚴重或高嚴重性問題，將以非零狀態碼退出。
     """
-    if len(sys.argv) > 1:
-        repo_path = sys.argv[1]
-    else:
-        repo_path = "."
+    import argparse
     
-    scanner = AdvancedCodeScanner(repo_path)
+    parser = argparse.ArgumentParser(description='高階深度代碼掃描工具')
+    parser.add_argument('--repo', default='.', help='待掃描的儲存庫路徑')
+    parser.add_argument('--output-dir', default='.github/code-scanning/reports', 
+                        help='掃描報告輸出目錄')
+    parser.add_argument('repo_path', nargs='?', default=None,
+                        help='待掃描的儲存庫路徑（位置參數，與 --repo 擇一使用）')
+    
+    args = parser.parse_args()
+    
+    # 優先使用命名參數，如果沒有則使用位置參數
+    repo_path = args.repo if args.repo != '.' or args.repo_path is None else args.repo_path
+    output_dir = args.output_dir
+    
+    scanner = AdvancedCodeScanner(repo_path, output_dir)
     results = scanner.deep_scan()
     
     # 返回適當的退出代碼
