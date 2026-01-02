@@ -15,7 +15,7 @@ import json
 import re
 import ast
 from typing import Dict, List, Tuple
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from pathlib import Path
 from datetime import datetime
 from abc import ABC, abstractmethod
@@ -101,6 +101,7 @@ class HardcodedPasswordFixer(VulnerabilityFixer):
                 return True, original_line.strip(), fixed_line.strip()
         
         except Exception as e:
+            print(f"  ⚠️ 修復硬編碼密碼時發生錯誤: {e}")
             return False, "", str(e)
         
         return False, original_line, "無法自動修復此硬編碼密碼"
@@ -139,6 +140,7 @@ class SQLInjectionFixer(VulnerabilityFixer):
             return False, original_content, "未檢測到可自動修復的 SQL 注入模式"
         
         except Exception as e:
+            print(f"  ⚠️ 檢測 SQL 注入時發生錯誤: {e}")
             return False, "", str(e)
     
     def get_description(self) -> str:
@@ -175,6 +177,7 @@ class UnpinnedDependencyFixer(VulnerabilityFixer):
             return True, original_line.strip(), fixed_line.strip()
         
         except Exception as e:
+            print(f"  ⚠️ 修復未固定版本依賴時發生錯誤: {e}")
             return False, "", str(e)
     
     def get_description(self) -> str:
@@ -227,6 +230,7 @@ class LongLineFixer(VulnerabilityFixer):
             return True, original_line.strip(), '\n'.join(fixed_lines).strip()
         
         except Exception as e:
+            print(f"  ⚠️ 修復過長代碼行時發生錯誤: {e}")
             return False, "", str(e)
     
     def get_description(self) -> str:

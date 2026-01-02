@@ -16,6 +16,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from enum import Enum
 from collections import defaultdict
+from pathlib import Path
 
 class RootCauseType(Enum):
     """根因類型枚舉"""

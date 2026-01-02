@@ -13,6 +13,7 @@ import os
 import sys
 import json
 import subprocess
+import tempfile
 from typing import Dict, List, Any
 from dataclasses import dataclass, asdict
 from datetime import datetime
@@ -95,33 +96,43 @@ class AdvancedCodeScanner:
         # Python 安全掃描 (Bandit)
         try:
             print("  - 執行 Bandit 掃描...")
-            result = subprocess.run(
-                ["bandit", "-r", str(self.repo_path), "-f", "json", "-o", "/tmp/bandit.json"],
-                capture_output=True,
-                text=True,
-                timeout=300
-            )
+            # 使用臨時文件來存儲 Bandit 輸出
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp_file:
+                bandit_output_path = tmp_file.name
             
-            if os.path.exists("/tmp/bandit.json"):
-                with open("/tmp/bandit.json") as f:
-                    bandit_data = json.load(f)
+            try:
+                result = subprocess.run(
+                    ["bandit", "-r", str(self.repo_path), "-f", "json", "-o", bandit_output_path],
+                    capture_output=True,
+                    text=True,
+                    timeout=300
+                )
                 
-                for issue in bandit_data.get("results", []):
-                    findings.append({
-                        "severity": self._map_severity(issue.get("issue_severity")),
-                        "type": issue.get("issue_text"),
-                        "location": f"{issue.get('filename')}:{issue.get('line_number')}",
-                        "file_path": issue.get("filename"),
-                        "line_number": issue.get("line_number"),
-                        "code_snippet": issue.get("code", ""),
-                        "cwe_id": str(issue.get("test_id", "Unknown")),
-                        "description": issue.get("issue_text"),
-                        "recommendation": f"參考 CWE-{issue.get('test_id')} 修復建議",
-                        "tool": "bandit",
-                        "confidence": issue.get("issue_confidence", "Medium")
-                    })
+                if os.path.exists(bandit_output_path):
+                    with open(bandit_output_path) as f:
+                        bandit_data = json.load(f)
+                    
+                    for issue in bandit_data.get("results", []):
+                        findings.append({
+                            "severity": self._map_severity(issue.get("issue_severity")),
+                            "type": issue.get("issue_text"),
+                            "location": f"{issue.get('filename')}:{issue.get('line_number')}",
+                            "file_path": issue.get("filename"),
+                            "line_number": issue.get("line_number"),
+                            "code_snippet": issue.get("code", ""),
+                            "cwe_id": str(issue.get("test_id", "Unknown")),
+                            "description": issue.get("issue_text"),
+                            "recommendation": f"參考 CWE-{issue.get('test_id')} 修復建議",
+                            "tool": "bandit",
+                            "confidence": issue.get("issue_confidence", "Medium")
+                        })
+            finally:
+                # 清理臨時文件
+                if os.path.exists(bandit_output_path):
+                    os.unlink(bandit_output_path)
         except Exception as e:
             print(f"  ⚠️ Bandit 掃描失敗: {e}")
+        
         
         # 自定義安全規則檢查
         print("  - 執行自定義安全規則...")
