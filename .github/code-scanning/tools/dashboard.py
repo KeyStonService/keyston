@@ -230,10 +230,10 @@ def main() -> None:
     try:
         port = int(os.environ.get('DASHBOARD_PORT', DEFAULT_PORT))
         if not (MIN_PORT <= port <= MAX_PORT):
-            print(f"⚠️  警告：端口 {port} 超出有效範圍 ({MIN_PORT}-{MAX_PORT})，使用預設值 {DEFAULT_PORT}")
+            print(f"⚠️  警告：指定的端口超出有效範圍 ({MIN_PORT}-{MAX_PORT})，使用預設值 {DEFAULT_PORT}")
             port = DEFAULT_PORT
     except (ValueError, TypeError):
-        print(f"⚠️  警告：無效的 DASHBOARD_PORT 值，使用預設值 {DEFAULT_PORT}")
+        print(f"⚠️  警告：環境變數 DASHBOARD_PORT 無效，使用預設值 {DEFAULT_PORT}")
         port = DEFAULT_PORT
     
     # 驗證並解析除錯模式
