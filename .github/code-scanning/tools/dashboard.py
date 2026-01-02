@@ -209,6 +209,10 @@ def main() -> None:
     if not template_file.exists():
         create_default_template(template_file)
     
+    # 啟動服務器
+    print("🚀 啟動高階代碼掃描儀表板...")
+    print("📊 訪問 http://localhost:5000 查看儀表板")
+    app.run(debug=True, host='0.0.0.0', port=5000)
     # 從環境變數讀取配置，預設為安全的 localhost 綁定
     host = os.environ.get('DASHBOARD_HOST', DEFAULT_HOST)
     

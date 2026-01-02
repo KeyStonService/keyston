@@ -45,9 +45,7 @@ jobs:
     - name: 📦 安裝掃描工具
       run: |
         python -m pip install --upgrade pip
-        if [ -f ".github/code-scanning/requirements.txt" ]; then
-          pip install -r .github/code-scanning/requirements.txt
-        fi
+        pip install bandit
 
     - name: 🔍 執行高階深度掃描
       id: scan
@@ -87,6 +85,7 @@ jobs:
 
     - name: 🎯 執行根因分析
       id: root_cause
+      needs: scan
       if: steps.scan.outputs.scan_report != ''
       run: |
         echo "🎯 開始根因分析..."
@@ -98,6 +97,7 @@ jobs:
 
     - name: 🔧 執行自動修復
       id: auto_fix
+      needs: scan
       if: |
         steps.scan.outputs.scan_report != '' &&
         (github.event.inputs.run_auto_fix == 'true' || github.event_name == 'push')

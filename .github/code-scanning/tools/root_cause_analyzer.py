@@ -491,7 +491,7 @@ class RootCauseAnalyzer:
             ]
         elif risk_level == 'medium':
             return [
-                "計劃在下次迭代中修復",
+                "在下次迭代的計劃修復",
                 "建立定期掃描機制"
             ]
         else:
