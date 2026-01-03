@@ -306,6 +306,7 @@ class LongLineFixer(VulnerabilityFixer):
                 return False, original_line, "此行包含註釋，需要人工檢查"
             
             # 若此行主要為字符串字面量（可選的簡單賦值之後緊跟字符串），則跳過自動拆分
+            stripped_after_assign = re.sub(r'^[\w\.\[\]\(\)\s]+= *', '', stripped)
             stripped_after_assign = re.sub(r'^\w+\s*=\s*', '', stripped)
             if stripped_after_assign.startswith('"') or stripped_after_assign.startswith("'"):
                 return False, original_line, "此行主要為字符串字面量，需要人工檢查"
