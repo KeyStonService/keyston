@@ -432,8 +432,8 @@ MNO_LOG_LEVEL=DEBUG machinenativenops-auto-monitor serve
 ## Support
 
 - **Documentation**: <https://docs.machinenativenops.io>
-- **Issues**: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/issues>
-- **Community**: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/discussions>
+- **Issues**: <https://github.com/MachineNativeOps/machine-native-ops/issues>
+- **Community**: <https://github.com/MachineNativeOps/machine-native-ops/discussions>
 - **Email**: <support@machinenativenops.io>
 
 ## References

@@ -45,7 +45,11 @@ jobs:
     - name: 📦 安裝掃描工具
       run: |
         python -m pip install --upgrade pip
-        pip install bandit
+        if [ -f ".github/code-scanning/requirements.txt" ]; then
+          pip install -r .github/code-scanning/requirements.txt
+        else
+          pip install bandit
+        fi
 
     - name: 🔍 執行高階深度掃描
       id: scan

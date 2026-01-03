@@ -13,7 +13,6 @@ One-Click Auto Fix System
 import os
 import json
 import re
-import ast
 from typing import Dict, List, Tuple
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -101,6 +100,43 @@ class HardcodedPasswordFixer(VulnerabilityFixer):
                     for i, line in enumerate(lines):
                         if line.startswith('import ') or line.startswith('from '):
                             insert_pos = i + 1
+                    
+                    # 跳過 shebang
+                    if lines and lines[0].startswith('#!'):
+                        insert_pos = 1
+                    
+                    # 跳過模組 docstring（單行或多行）
+                    if insert_pos < len(lines):
+                        line = lines[insert_pos].lstrip()
+                        if line.startswith(('"""', "'''")):
+                            docstring_delim = line[:3]
+                            if line.count(docstring_delim) >= 2:
+                                # 單行 docstring
+                                insert_pos += 1
+                            else:
+                                # 多行 docstring
+                                insert_pos += 1
+                                while insert_pos < len(lines) and docstring_delim not in lines[insert_pos]:
+                                    insert_pos += 1
+                                if insert_pos < len(lines):
+                                    insert_pos += 1
+                    
+                    # 跳過 from __future__ imports
+                    while insert_pos < len(lines) and lines[insert_pos].lstrip().startswith('from __future__ import'):
+                        insert_pos += 1
+                    
+                    # 找到標準庫導入的位置（在其他導入之前）
+                    # 如果已有標準庫導入，插入到它們之後
+                    found_stdlib_import = False
+                    for i in range(insert_pos, len(lines)):
+                        if lines[i].startswith('import ') or lines[i].startswith('from '):
+                            if not lines[i].startswith(('import os', 'from os ')):
+                                found_stdlib_import = True
+                                insert_pos = i + 1
+                        elif found_stdlib_import and lines[i].strip() and not lines[i].startswith(('#', 'import', 'from')):
+                            # 找到第一個非導入、非空、非註釋行，說明導入區結束
+                            break
+                    
                     lines.insert(insert_pos, 'import os\n')
                 
                 # 寫入文件
@@ -212,6 +248,24 @@ class LongLineFixer(VulnerabilityFixer):
             
             # 簡單的拆分策略（實際需要更智能的 AST 分析）
             # 在逗號或操作符處拆分
+            # 檢查是否為字符串字面量或註釋（不適合自動拆分）
+            stripped = original_line.lstrip()
+            if stripped.startswith('#'):
+                return False, original_line, "此行包含註釋，需要人工檢查"
+            
+            # 若此行主要為字符串字面量（可選的簡單賦值之後緊跟字符串），則跳過自動拆分
+            stripped_after_assign = re.sub(r'^[\w\.\[\]\(\)\s]+= *', '', stripped)
+            if stripped_after_assign.startswith('"') or stripped_after_assign.startswith("'"):
+                return False, original_line, "此行主要為字符串字面量，需要人工檢查"
+            
+            # 檢測縮進
+            indent = len(original_line) - len(stripped)
+            indent_str = original_line[:indent]
+            
+            # 檢測文件的縮進風格
+            file_indent = self._detect_indentation(lines)
+            
+            # 簡單的拆分策略：在逗號或操作符處拆分
             fixed_lines = []
             remaining = original_line.rstrip('\n')
             
@@ -484,7 +538,8 @@ def main() -> None:
         print("⚠️  干運行模式尚未完全實現，將跳過文件寫入操作")
         # Note: 完整的干運行模式需要在各個修復器中添加dry_run參數支持
     else:
-        report = fixer.auto_fix_all(scan_results)
+        fixer.auto_fix_all(scan_results)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()

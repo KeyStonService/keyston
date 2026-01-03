@@ -38,6 +38,7 @@ def run_validation(verbose: bool = False) -> int:
     print()
     
     # Call the authoritative validator
+    # Safe subprocess usage: hardcoded command with parameter list, no shell=True
     cmd = [sys.executable, str(CONTROLPLANE_VALIDATOR)]
     if verbose:
         cmd.append("--verbose")

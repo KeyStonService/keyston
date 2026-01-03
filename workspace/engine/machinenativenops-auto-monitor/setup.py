@@ -18,11 +18,11 @@ setup(
     long_description_content_type="text/markdown",
     author="MachineNativeOps Platform Team",
     author_email="platform@machinenativeops.io",
-    url="https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops",
+    url="https://github.com/MachineNativeOps/machine-native-ops",
     project_urls={
         "Documentation": "https://docs.machinenativeops.io",
-        "Source": "https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops",
-        "Tracker": "https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/issues",
+        "Source": "https://github.com/MachineNativeOps/machine-native-ops",
+        "Tracker": "https://github.com/MachineNativeOps/machine-native-ops/issues",
     },
     
     # Package configuration

@@ -55,7 +55,7 @@
 **狀態檢查**:
 
 ```
-gh pr list --repo MachineNativeOps/machine-native-ops-machine-native-ops
+gh pr list --repo MachineNativeOps/machine-native-ops
 ```
 
 結果: PR #714 已經成功合併 (MERGED)

@@ -424,8 +424,8 @@ MachineNativeOps Auto Monitor is a production-ready system monitoring solution w
 
 ```bash
 # Clone repository
-git clone https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops.git
-cd machine-native-ops-machine-native-ops/engine/machinenativenops-auto-monitor
+git clone https://github.com/MachineNativeOps/machine-native-ops.git
+cd machine-native-ops/engine/machinenativenops-auto-monitor
 
 # Install in development mode
 pip install -e .
@@ -780,5 +780,5 @@ MIT License - see LICENSE file for details.
 ## Support
 
 - Documentation: <https://docs.machinenativenops.io>
-- Issues: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/issues>
-- Community: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/discussions>
+- Issues: <https://github.com/MachineNativeOps/machine-native-ops/issues>
+- Community: <https://github.com/MachineNativeOps/machine-native-ops/discussions>
