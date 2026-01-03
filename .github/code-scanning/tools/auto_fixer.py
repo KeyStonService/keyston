@@ -78,19 +78,6 @@ class HardcodedPasswordFixer(VulnerabilityFixer):
                 return f"{lhs}os.environ.get('{env_name}')"
             
             fixed_line = re.sub(
-                r'((?P<var>\w*password\w*)\s*=\s*)["\'][^"\']+["\']',
-                _replace_password,
-                original_line,
-                flags=re.IGNORECASE
-                lhs = match.group('lhs')
-                var_name = match.group('var') or 'password'
-                # 將變量名轉換為環境變量名，例如 api_password -> API_PASSWORD
-                env_name = re.sub(r'\W+', '_', var_name).upper()
-                if not env_name:
-                    env_name = 'PASSWORD'
-                return f"{lhs}os.environ.get('{env_name}')"
-
-            fixed_line = re.sub(
                 r'(?P<lhs>\b(?P<var>\w*password\w*)\s*=\s*)["\'][^"\']+["\']',
                 _replace_password,
                 original_line
@@ -142,7 +129,7 @@ class HardcodedPasswordFixer(VulnerabilityFixer):
                         if lines[i].startswith('import ') or lines[i].startswith('from '):
                             if not lines[i].startswith(('import os', 'from os ')):
                                 found_stdlib_import = True
-                                insert_pos = i
+                                insert_pos = i + 1
                         elif found_stdlib_import and lines[i].strip() and not lines[i].startswith(('#', 'import', 'from')):
                             # 找到第一個非導入、非空、非註釋行，說明導入區結束
                             break
@@ -587,7 +574,8 @@ def main() -> None:
         print("⚠️  試運行模式尚未完全實現，將跳過文件寫入操作")
         # Note: 完整的試運行模式需要在各個修復器中添加dry_run參數支持
     else:
-        fixer.auto_fix_all(scan_results)
+        report = fixer.auto_fix_all(scan_results)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()
