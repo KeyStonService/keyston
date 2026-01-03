@@ -1,8 +1,8 @@
+from engine.main import discovery
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from engine.main import discovery
 
 def test_discovery_empty(tmp_path: Path):
     rep = discovery(tmp_path / "missing")

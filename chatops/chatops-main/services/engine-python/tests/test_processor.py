@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # services/engine-python/tests/test_processor.py
 """Tests for the Processor class."""
+from server import Processor
 import sys
 import os
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from server import Processor
 
 
 class TestProcessor:

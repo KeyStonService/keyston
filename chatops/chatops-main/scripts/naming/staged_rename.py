@@ -2,13 +2,16 @@
 import argparse
 import csv
 import json
-from datetime import datetime, timezone
 from pathlib import Path
+import sys
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
+# Add scripts directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from common_utils import now_iso  # noqa: E402
+
 
 WAVES = [10, 25, 50, 100]
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -34,13 +37,17 @@ def main():
         "plan": str(plan),
         "total_items": total,
         "waves": waves,
-        "notes": "This is a simulation. Integrate with kubectl/kustomize/helm and cluster verification in CI/CD deploy stage.",
+        "notes": (
+            "This is a simulation. Integrate with kubectl/kustomize/helm "
+            "and cluster verification in CI/CD deploy stage."
+        ),
     }
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"staged-rename: simulated waves={len(waves)} out={out}")
+
 
 if __name__ == "__main__":
     main()

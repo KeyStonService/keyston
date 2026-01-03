@@ -2,10 +2,12 @@
 import argparse
 import json
 from pathlib import Path
-from datetime import datetime, timezone
+import sys
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
+# Add scripts directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from common_utils import now_iso  # noqa: E402
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -25,6 +27,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"kubeaudit: stub out={out}")
+
 
 if __name__ == "__main__":
     main()

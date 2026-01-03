@@ -7,6 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--discovery", required=True)
@@ -29,6 +30,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"metrics: wrote {out}")
+
 
 if __name__ == "__main__":
     main()

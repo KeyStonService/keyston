@@ -3,11 +3,13 @@ from pathlib import Path
 import subprocess
 import sys
 
+
 def run(cmd):
     p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     if p.returncode != 0:
         print(p.stdout)
     return p.returncode
+
 
 def main() -> int:
     py_files = []
@@ -32,6 +34,7 @@ def main() -> int:
 
     print("lint-python: OK")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

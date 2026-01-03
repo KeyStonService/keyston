@@ -2,14 +2,17 @@
 import argparse
 import json
 import os
-from datetime import datetime, timezone
 from pathlib import Path
+import sys
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
+# Add scripts directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from common_utils import now_iso  # noqa: E402
+
 
 def clamp(v, lo=0.0, hi=100.0):
     return max(lo, min(hi, v))
+
 
 def compute_score(metrics: dict) -> float:
     pylint = clamp(float(metrics.get("pylint_score_0_100", 0.0)))
@@ -17,7 +20,8 @@ def compute_score(metrics: dict) -> float:
     security = clamp(float(metrics.get("security_score_0_100", 100.0)))
     naming = clamp(float(metrics.get("naming_compliance_0_100", 100.0)))
     # weights
-    return round((pylint*0.25 + coverage*0.35 + security*0.25 + naming*0.15), 1)
+    return round((pylint * 0.25 + coverage * 0.35 + security * 0.25 + naming * 0.15), 1)
+
 
 def gate_status(score: float, branch: str) -> str:
     if branch == "main":
@@ -27,6 +31,7 @@ def gate_status(score: float, branch: str) -> str:
     else:
         thr = 70.0
     return "pass" if score >= thr else "block"
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -60,6 +65,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"quality-gates: {status} score={score} out={out}")
+
 
 if __name__ == "__main__":
     main()

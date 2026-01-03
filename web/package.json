@@ -1,0 +1,21 @@
+{
+  "name": "machine-native-ops-pages",
+  "version": "1.0.0",
+  "description": "Cloudflare Pages deployment for MachineNativeOps",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^7.3.0"
+  },
+  "keywords": [
+    "cloudflare-pages",
+    "machine-native-ops"
+  ],
+  "author": "MachineNativeOps Team",
+  "license": "MIT"
+}

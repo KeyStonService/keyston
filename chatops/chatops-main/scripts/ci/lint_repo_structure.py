@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import sys
 
 REQUIRED_DIRS = [
     Path(".github/workflows"),
@@ -15,6 +14,7 @@ REQUIRED_FILES = [
     Path("policies/opa/naming_test.rego"),
     Path("policies/conftest.toml"),
 ]
+
 
 def main() -> int:
     missing = []
@@ -33,6 +33,7 @@ def main() -> int:
 
     print("repo-structure: OK")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

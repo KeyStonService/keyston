@@ -3,13 +3,17 @@ import argparse
 import json
 import os
 import re
-from datetime import datetime, timezone
+import sys
+from datetime import datetime
 from pathlib import Path
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
+# Add scripts directory to path for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from common_utils import now_iso  # noqa: E402
+
 
 WHITELIST_ROOTS = ["scripts", "policies", "deployments", ".github", "artifacts", "var", "tests", "services", "proto"]
+
 
 def ensure_file(path: Path, content: str) -> bool:
     if path.exists():
@@ -18,9 +22,11 @@ def ensure_file(path: Path, content: str) -> bool:
     path.write_text(content, encoding="utf-8")
     return True
 
+
 def is_allowed(path: Path) -> bool:
     parts = path.parts
     return len(parts) > 0 and parts[0] in WHITELIST_ROOTS
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -36,7 +42,8 @@ def main():
     # Safe: add missing placeholders
     for fp in [repo / "artifacts/.gitkeep", repo / "var/.gitkeep", repo / "policies/opa/.gitkeep"]:
         if is_allowed(fp) and ensure_file(fp, ""):
-            changes.append({"type": "create", "path": str(fp.relative_to(repo)), "reason": "ensure directory placeholder exists"})
+            changes.append({"type": "create", "path": str(fp.relative_to(repo)),
+                           "reason": "ensure directory placeholder exists"})
 
     # Safe: generate actions hardening report (does not modify workflows)
     report_path = repo / "artifacts/auto-fix/actions-hardening.report.json"
@@ -51,7 +58,8 @@ def main():
             txt = p.read_text(encoding="utf-8")
             for i, line in enumerate(txt.splitlines(), start=1):
                 if "uses:" in line and unpinned.search(line):
-                    findings.append({"file": str(p.relative_to(repo)), "line": i, "issue": "unpinned_action", "text": line.strip()})
+                    findings.append({"file": str(p.relative_to(repo)), "line": i,
+                                    "issue": "unpinned_action", "text": line.strip()})
 
     hardening = {"ts": now_iso(), "trace_id": trace_id, "summary": {"count": len(findings)}, "findings": findings}
     report_path.write_text(json.dumps(hardening, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -70,6 +78,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(summary)
+
 
 if __name__ == "__main__":
     main()

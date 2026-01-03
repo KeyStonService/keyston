@@ -240,30 +240,61 @@ class EnvironmentManager:
         return variables.get('DEPLOY_TARGET', 'dev')
 
 
+def _print_usage(manager):
+    """Print usage information."""
+    print("Usage: python environment_manager.py <command> [environment]")
+    print("")
+    print("Commands:")
+    print("  setup <env>     - Set up an environment")
+    print("  validate <env>  - Validate an environment")
+    print("  list            - List all environments")
+    print("  target <env>    - Get deploy target for environment")
+    print("")
+    print("Environments:", ", ".join(manager.list_environments()))
+
+
+def _handle_list_command(manager):
+    """Handle the list command."""
+    print("Available environments:")
+    for env in manager.list_environments():
+        target = manager.get_deploy_target(env)
+        print(f"  - {env} (deploy-target: {target})")
+    return 0
+
+
+def _handle_setup_command(manager, env_name):
+    """Handle the setup command."""
+    success = manager.setup_environment(env_name)
+    if success:
+        manager.validate_environment(env_name)
+    return 0 if success else 1
+
+
+def _handle_validate_command(manager, env_name):
+    """Handle the validate command."""
+    success = manager.validate_environment(env_name)
+    return 0 if success else 1
+
+
+def _handle_target_command(manager, env_name):
+    """Handle the target command."""
+    target = manager.get_deploy_target(env_name)
+    print(target)
+    return 0
+
+
 def main():
     """CLI entry point for environment manager."""
     manager = EnvironmentManager()
 
     if len(sys.argv) < 2:
-        print("Usage: python environment_manager.py <command> [environment]")
-        print("")
-        print("Commands:")
-        print("  setup <env>     - Set up an environment")
-        print("  validate <env>  - Validate an environment")
-        print("  list            - List all environments")
-        print("  target <env>    - Get deploy target for environment")
-        print("")
-        print("Environments:", ", ".join(manager.list_environments()))
+        _print_usage(manager)
         sys.exit(1)
 
     command = sys.argv[1]
 
     if command == 'list':
-        print("Available environments:")
-        for env in manager.list_environments():
-            target = manager.get_deploy_target(env)
-            print(f"  - {env} (deploy-target: {target})")
-        sys.exit(0)
+        sys.exit(_handle_list_command(manager))
 
     if len(sys.argv) < 3:
         print(f"Error: Command '{command}' requires an environment name")
@@ -271,21 +302,14 @@ def main():
 
     env_name = sys.argv[2]
 
-    if command == 'setup':
-        success = manager.setup_environment(env_name)
-        if success:
-            manager.validate_environment(env_name)
-        sys.exit(0 if success else 1)
+    handlers = {
+        'setup': _handle_setup_command,
+        'validate': _handle_validate_command,
+        'target': _handle_target_command,
+    }
 
-    elif command == 'validate':
-        success = manager.validate_environment(env_name)
-        sys.exit(0 if success else 1)
-
-    elif command == 'target':
-        target = manager.get_deploy_target(env_name)
-        print(target)
-        sys.exit(0)
-
+    if command in handlers:
+        sys.exit(handlers[command](manager, env_name))
     else:
         print(f"Unknown command: {command}")
         sys.exit(1)

@@ -1,0 +1,62 @@
+# ============================================================================
+# MachineNativeOps - Cloudflare Pages Configuration
+# ============================================================================
+# This configuration is for Cloudflare Pages deployment.
+# For Workers deployment, see the root wrangler.toml file.
+#
+# Documentation: https://developers.cloudflare.com/pages/
+# ============================================================================
+
+name = "machine-native-ops"
+compatibility_date = "2025-12-24"
+
+# ============================================================================
+# Pages Configuration
+# ============================================================================
+pages_build_output_dir = "dist"
+
+# ============================================================================
+# Development Configuration
+# ============================================================================
+[dev]
+ip = "localhost"
+port = 3000
+local_protocol = "http"
+
+# ============================================================================
+# Environment Variables (set via Cloudflare Dashboard or wrangler)
+# ============================================================================
+# Use `wrangler pages secret put <KEY>` for sensitive values
+# Use environment variables in Pages dashboard for non-sensitive values
+
+# Example:
+# [vars]
+# API_URL = "https://api.machinenativeops.com"
+# ENVIRONMENT = "production"
+
+# ============================================================================
+# Pages Functions Configuration
+# ============================================================================
+# Uncomment to configure Pages Functions
+# [functions]
+# directory = "functions"
+
+# ============================================================================
+# Build Configuration
+# ============================================================================
+# Note: Build commands are typically configured in the Cloudflare Pages dashboard
+# Build command: npm run build
+# Build output directory: dist
+# Root directory: web
+
+# ============================================================================
+# Compatibility
+# ============================================================================
+# Set compatibility flags as needed
+# compatibility_flags = []
+
+# ============================================================================
+# Placement
+# ============================================================================
+[placement]
+mode = "smart"

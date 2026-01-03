@@ -3,45 +3,76 @@ import argparse
 import json
 import os
 import re
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from datetime import datetime, timezone
 from pathlib import Path
+
+# Add scripts directory for common utilities
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'scripts'))
+from common_utils import now_iso  # noqa: E402
 
 NAME_PATTERN = re.compile(r"^(dev|staging|prod)-[a-z0-9-]+-(deploy|svc|ing|cm|secret)-v\d+\.\d+\.\d+(-[A-Za-z0-9]+)?$")
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
 
-def discovery(root: Path):
-    items = []
-    if not root.exists():
-        return {"ts": now_iso(), "root": str(root), "resources": [], "summary": {"total": 0, "compliant": 0, "noncompliant": 0, "compliance_rate": 100.0}}
-    for p in root.rglob("*.y*ml"):
-        try:
-            text = p.read_text(encoding="utf-8")
-        except Exception:
-            continue
-        kind = None
-        name = None
-        for line in text.splitlines():
-            s = line.strip()
-            if s.startswith("kind:"):
-                kind = s.split(":", 1)[1].strip()
-            if s.startswith("name:") and name is None:
-                name = s.split(":", 1)[1].strip().strip('"').strip("'")
-        if kind and name:
-            ok = bool(NAME_PATTERN.match(name))
-            items.append({"file": str(p), "kind": kind, "name": name, "pattern": NAME_PATTERN.pattern, "compliant": ok})
+def _extract_yaml_metadata(text: str):
+    """Extract kind and name from YAML text."""
+    kind = None
+    name = None
+    for line in text.splitlines():
+        s = line.strip()
+        if s.startswith("kind:"):
+            kind = s.split(":", 1)[1].strip()
+        if s.startswith("name:") and name is None:
+            name = s.split(":", 1)[1].strip().strip('"').strip("'")
+    return kind, name
 
+
+def _calculate_summary(items):
+    """Calculate compliance summary for discovered resources."""
     total = len(items)
     compliant = len([x for x in items if x["compliant"]])
-    summary = {
+    return {
         "total": total,
         "compliant": compliant,
         "noncompliant": total - compliant,
         "compliance_rate": round((compliant / total) * 100, 2) if total else 100.0,
     }
+
+
+def discovery(root: Path):
+    """Discover and validate Kubernetes resources in directory."""
+    items = []
+    if not root.exists():
+        return {
+            "ts": now_iso(),
+            "root": str(root),
+            "resources": [],
+            "summary": {
+                "total": 0,
+                "compliant": 0,
+                "noncompliant": 0,
+                "compliance_rate": 100.0}}
+
+    for p in root.rglob("*.y*ml"):
+        try:
+            text = p.read_text(encoding="utf-8")
+        except Exception:
+            continue
+
+        kind, name = _extract_yaml_metadata(text)
+        if kind and name:
+            ok = bool(NAME_PATTERN.match(name))
+            items.append({
+                "file": str(p),
+                "kind": kind,
+                "name": name,
+                "pattern": NAME_PATTERN.pattern,
+                "compliant": ok
+            })
+
+    summary = _calculate_summary(items)
     return {"ts": now_iso(), "root": str(root), "resources": items, "summary": summary}
+
 
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code: int, body: str, ctype: str = "application/json; charset=utf-8"):
@@ -80,15 +111,17 @@ class Handler(BaseHTTPRequestHandler):
 
         self._send(404, json.dumps({"error": "not found"}))
 
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--host", default="0.0.0.0")
+    ap.add_argument("--host", default=os.getenv("HOST", "127.0.0.1"))
     ap.add_argument("--port", type=int, default=int(os.getenv("PORT", "8080")))
     args = ap.parse_args()
 
     httpd = HTTPServer((args.host, args.port), Handler)
     print(f"engine-python listening on {args.host}:{args.port}")
     httpd.serve_forever()
+
 
 if __name__ == "__main__":
     main()

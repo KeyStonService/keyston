@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 import argparse
-import json
 import subprocess
 from pathlib import Path
+
 
 def which(cmd: str) -> bool:
     from shutil import which as w
     return w(cmd) is not None
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -29,6 +30,7 @@ def main():
     cmd = ["conftest", "test", str(target_dir), "--policy", str(policy_dir)]
     p = subprocess.run(cmd, text=True)
     raise SystemExit(p.returncode)
+
 
 if __name__ == "__main__":
     main()

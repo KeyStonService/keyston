@@ -98,6 +98,7 @@ class EngineServicer:
                     'metadata': {},
                     'processing_time': processing_time
                 })()
+
     def HealthCheck(self, request, context):
         """Health check endpoint."""
         if PROTO_AVAILABLE:

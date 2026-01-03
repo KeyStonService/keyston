@@ -393,6 +393,7 @@ class IntelligentCodeReviewer:
         """Generate recommendations based on found issues."""
         recommendations: List[str] = []
 
+        # Check for critical security issues
         security_errors = [i for i in issues if i.category == 'security' and i.severity == 'error']
         if security_errors:
             recommendations.append(
@@ -400,6 +401,7 @@ class IntelligentCodeReviewer:
                 'Must be fixed before prod gate approval.'
             )
 
+        # Check for maintainability issues
         maintainability_issues = [i for i in issues if i.category == 'maintainability']
         if maintainability_issues:
             recommendations.append(
@@ -407,6 +409,7 @@ class IntelligentCodeReviewer:
                 'Consider adding to technical debt backlog.'
             )
 
+        # Check for auto-fixable issues
         auto_fixable = [i for i in issues if i.auto_fixable]
         if auto_fixable:
             recommendations.append(

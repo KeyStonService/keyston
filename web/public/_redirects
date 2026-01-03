@@ -1,0 +1,8 @@
+# Redirects and rewrites for Cloudflare Pages
+# See: https://developers.cloudflare.com/pages/platform/redirects/
+
+# Redirect old URLs (example)
+# /old-path  /new-path  301
+
+# SPA fallback - redirect all non-file requests to index.html
+/* /index.html 200

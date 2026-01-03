@@ -7,6 +7,7 @@ from pathlib import Path
 
 NAME_PATTERN = re.compile(r"^(dev|staging|prod)-[a-z0-9-]+-(deploy|svc|ing|cm|secret)-v\d+\.\d+\.\d+(-[A-Za-z0-9]+)?$")
 
+
 def suggest_name(kind: str, raw_name: str, env: str = "prod", app: str = "chatops") -> str:
     kind_map = {
         "Deployment": "deploy",
@@ -18,6 +19,7 @@ def suggest_name(kind: str, raw_name: str, env: str = "prod", app: str = "chatop
     suffix = kind_map.get(kind, "cm")
     # minimal deterministic suggestion
     return f"{env}-{app}-{suffix}-v1.0.0"
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -42,12 +44,13 @@ def main():
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["file","kind","current_name","suggested_name","action","dry_run"])
+        w = csv.DictWriter(f, fieldnames=["file", "kind", "current_name", "suggested_name", "action", "dry_run"])
         w.writeheader()
         for row in rows:
             w.writerow(row)
 
     print(f"naming-plan: out={out} rows={len(rows)}")
+
 
 if __name__ == "__main__":
     main()

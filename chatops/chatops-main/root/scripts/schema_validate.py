@@ -9,6 +9,7 @@ import yaml
 import jsonschema
 from pathlib import Path
 
+
 def find_schemas():
     """Find all JSON schema files"""
     schemas = {}
@@ -20,24 +21,25 @@ def find_schemas():
                 schemas[schema_file.stem] = schema
     return schemas
 
+
 def validate_yaml_files():
     """Validate YAML files against schemas"""
     schemas = find_schemas()
     if not schemas:
         print("  ⚠️  No schemas found, skipping validation")
         return True
-    
+
     errors = []
     validated = 0
-    
+
     for yaml_file in Path(".").rglob("*.yaml"):
         if ".git" in str(yaml_file):
             continue
-            
+
         try:
             with open(yaml_file, 'r') as f:
                 data = yaml.safe_load(f)
-            
+
             # Try to find matching schema
             for schema_name, schema in schemas.items():
                 try:
@@ -47,10 +49,10 @@ def validate_yaml_files():
                     break
                 except jsonschema.ValidationError:
                     continue
-                    
+
         except Exception as e:
             errors.append(f"{yaml_file}: {e}")
-    
+
     if errors:
         print("  ❌ Validation errors:")
         for error in errors:
@@ -59,6 +61,7 @@ def validate_yaml_files():
     else:
         print(f"  ✅ Validated {validated} files")
         return True
+
 
 if __name__ == "__main__":
     print("🔍 Running schema validation...")
