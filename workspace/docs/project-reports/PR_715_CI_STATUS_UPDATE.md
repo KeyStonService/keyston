@@ -169,10 +169,10 @@
 
 ```bash
 # 選項 1: 使用 GitHub CLI
-gh pr merge 715 --repo MachineNativeOps/machine-native-ops-machine-native-ops --squash
+gh pr merge 715 --repo MachineNativeOps/machine-native-ops --squash
 
 # 選項 2: 使用 Web 界面
-# 訪問: https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/pull/715
+# 訪問: https://github.com/MachineNativeOps/machine-native-ops/pull/715
 # 點擊 "Merge pull request"
 ```
 

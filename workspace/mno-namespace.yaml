@@ -539,14 +539,16 @@ validation:
 # ============================================================================
   migration:
   legacy_namespaces:
-    - "machine-native-ops-machine-native-ops"
+    - "machine-native-ops-aaps"
     - "machine-native-ops"
+    - "aaps"
     - "machine-native-ops-apps"
     - "apps"
     
   mapping:
-    "machine-native-ops-machine-native-ops": "machinenativeops"
+    "machine-native-ops-aaps": "machinenativeops"
     "machine-native-ops": "machinenativeops"
+    "aaps": "machinenativeops"
     "machine-native-ops-apps": "machinenativeops"
     "apps": "machinenativeops"
     

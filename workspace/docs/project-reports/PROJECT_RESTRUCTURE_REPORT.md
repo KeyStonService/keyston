@@ -1,4 +1,4 @@
-# 🏗️ MachineNativeOps MachineNativeOps 項目重構報告
+# 🏗️ MachineNativeOps 項目重構報告
 
 ## 📋 重構概要
 
