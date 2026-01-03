@@ -415,7 +415,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops.git
+    repoURL: https://github.com/MachineNativeOps/machine-native-ops.git
     targetRevision: main
     path: deployments/multi-agent
   destination:
@@ -727,7 +727,7 @@ spec:
 set -euo pipefail
 
 NAMESPACE="machinenativeops"
-REPO="https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops.git"
+REPO="https://github.com/MachineNativeOps/machine-native-ops.git"
 BRANCH="main"
 
 echo "🚀 部署MachineNativeOps多代理MPC系統..."
@@ -910,7 +910,7 @@ echo "2. 查看日誌: kubectl logs -f deployment/super-agent -n $NAMESPACE"
 echo "3. 測試API: curl http://$SUPER_AGENT_IP:8080/health"
 echo "4. 部署其他代理: 繼續部署monitoring-agent, problem-solver-agent, maintenance-agent"
 echo ""
-echo "📚 詳細文檔: https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/tree/main/docs/multi-agent"
+echo "📚 詳細文檔: https://github.com/MachineNativeOps/machine-native-ops/tree/main/docs/multi-agent"
 ```
 
 ---
