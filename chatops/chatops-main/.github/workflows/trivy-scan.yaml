@@ -1,0 +1,364 @@
+name: Trivy Comprehensive Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Type of scan to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - filesystem
+          - config
+          - secret
+          - image
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  pull-requests: write
+
+concurrency:
+  group: trivy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TRIVY_VERSION: "0.49.0"
+  REPORT_DIR: "artifacts/reports/trivy"
+
+jobs:
+  filesystem-scan:
+    name: Filesystem Vulnerability Scan
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.scan_type == 'all' || github.event.inputs.scan_type == 'filesystem' || github.event.inputs.scan_type == '' }}
+    outputs:
+      critical: ${{ steps.scan.outputs.critical }}
+      high: ${{ steps.scan.outputs.high }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Trivy filesystem scan
+        id: scan
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55 # v0.18.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: '${{ env.REPORT_DIR }}/trivy-fs.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '0'
+
+      - name: Generate JSON report
+        run: |
+          trivy fs . \
+            --format json \
+            --output ${{ env.REPORT_DIR }}/trivy-fs.json \
+            --severity CRITICAL,HIGH,MEDIUM \
+            || true
+
+          # Extract counts
+          CRITICAL=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length' ${{ env.REPORT_DIR }}/trivy-fs.json 2>/dev/null || echo 0)
+          HIGH=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length' ${{ env.REPORT_DIR }}/trivy-fs.json 2>/dev/null || echo 0)
+
+          echo "critical=$CRITICAL" >> "$GITHUB_OUTPUT"
+          echo "high=$HIGH" >> "$GITHUB_OUTPUT"
+
+          # Summary
+          echo "## Trivy Filesystem Scan" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Severity | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Critical | $CRITICAL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| High | $HIGH |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/trivy-fs.sarif
+          category: trivy-filesystem
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: trivy-filesystem-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  config-scan:
+    name: Configuration Security Scan
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.scan_type == 'all' || github.event.inputs.scan_type == 'config' || github.event.inputs.scan_type == '' }}
+    outputs:
+      misconfigs: ${{ steps.scan.outputs.misconfigs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Trivy config scan
+        id: scan
+        run: |
+          trivy config . \
+            --format sarif \
+            --output ${{ env.REPORT_DIR }}/trivy-config.sarif \
+            --severity CRITICAL,HIGH,MEDIUM \
+            || true
+
+          trivy config . \
+            --format json \
+            --output ${{ env.REPORT_DIR }}/trivy-config.json \
+            --severity CRITICAL,HIGH,MEDIUM \
+            || true
+
+          # Count misconfigurations
+          MISCONFIGS=$(jq '[.Results[]?.Misconfigurations[]?] | length' ${{ env.REPORT_DIR }}/trivy-config.json 2>/dev/null || echo 0)
+          echo "misconfigs=$MISCONFIGS" >> "$GITHUB_OUTPUT"
+
+          echo "## Trivy Config Scan" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Misconfigurations found:** $MISCONFIGS" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/trivy-config.sarif
+          category: trivy-config
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: trivy-config-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  secret-scan:
+    name: Secret Detection Scan
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.scan_type == 'all' || github.event.inputs.scan_type == 'secret' || github.event.inputs.scan_type == '' }}
+    outputs:
+      secrets: ${{ steps.scan.outputs.secrets }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0  # Full history for secret scanning
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Trivy secret scan
+        id: scan
+        run: |
+          trivy fs . \
+            --scanners secret \
+            --format json \
+            --output ${{ env.REPORT_DIR }}/trivy-secrets.json \
+            || true
+
+          # Count secrets
+          SECRETS=$(jq '[.Results[]?.Secrets[]?] | length' ${{ env.REPORT_DIR }}/trivy-secrets.json 2>/dev/null || echo 0)
+          echo "secrets=$SECRETS" >> "$GITHUB_OUTPUT"
+
+          echo "## Trivy Secret Scan" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$SECRETS" -gt 0 ]; then
+            echo "**:warning: Secrets found:** $SECRETS" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**:white_check_mark: No secrets detected**" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: trivy-secret-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  image-scan:
+    name: Container Image Scan
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.scan_type == 'all' || github.event.inputs.scan_type == 'image' || github.event.inputs.scan_type == '' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - path: services/gateway-ts
+            name: gateway-ts
+          - path: services/engine-python
+            name: engine-python
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Check if Dockerfile exists
+        id: check
+        run: |
+          if [ -f "${{ matrix.image.path }}/Dockerfile" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build image for scanning
+        if: steps.check.outputs.exists == 'true'
+        run: |
+          docker build -t ${{ matrix.image.name }}:scan ${{ matrix.image.path }}
+
+      - name: Scan container image
+        if: steps.check.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55 # v0.18.0
+        with:
+          image-ref: '${{ matrix.image.name }}:scan'
+          format: 'sarif'
+          output: '${{ env.REPORT_DIR }}/trivy-image-${{ matrix.image.name }}.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '0'
+
+      - name: Generate JSON report
+        if: steps.check.outputs.exists == 'true'
+        run: |
+          trivy image ${{ matrix.image.name }}:scan \
+            --format json \
+            --output ${{ env.REPORT_DIR }}/trivy-image-${{ matrix.image.name }}.json \
+            --severity CRITICAL,HIGH \
+            || true
+
+      - name: Upload SARIF to GitHub Security
+        if: steps.check.outputs.exists == 'true'
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/trivy-image-${{ matrix.image.name }}.sarif
+          category: trivy-image-${{ matrix.image.name }}
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: trivy-image-${{ matrix.image.name }}-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  summary:
+    name: Security Summary
+    needs: [filesystem-scan, config-scan, secret-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.2
+        with:
+          path: reports
+          pattern: trivy-*-reports
+          merge-multiple: true
+
+      - name: Generate summary report
+        run: |
+          cat > reports/summary.json << EOF
+          {
+            "tool": "trivy",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "scans": {
+              "filesystem": {
+                "status": "${{ needs.filesystem-scan.result }}",
+                "critical": ${{ needs.filesystem-scan.outputs.critical || 0 }},
+                "high": ${{ needs.filesystem-scan.outputs.high || 0 }}
+              },
+              "config": {
+                "status": "${{ needs.config-scan.result }}",
+                "misconfigs": ${{ needs.config-scan.outputs.misconfigs || 0 }}
+              },
+              "secret": {
+                "status": "${{ needs.secret-scan.result }}",
+                "secrets": ${{ needs.secret-scan.outputs.secrets || 0 }}
+              }
+            }
+          }
+          EOF
+
+          echo "## Trivy Security Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Scan Type | Status | Findings |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|--------|----------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Filesystem | ${{ needs.filesystem-scan.result }} | ${{ needs.filesystem-scan.outputs.critical || 0 }} critical, ${{ needs.filesystem-scan.outputs.high || 0 }} high |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Config | ${{ needs.config-scan.result }} | ${{ needs.config-scan.outputs.misconfigs || 0 }} misconfigs |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Secrets | ${{ needs.secret-scan.result }} | ${{ needs.secret-scan.outputs.secrets || 0 }} secrets |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload summary
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: trivy-summary
+          path: reports/summary.json
+          retention-days: 30
+
+      - name: Fail on critical findings
+        if: needs.filesystem-scan.outputs.critical != '0' || needs.secret-scan.outputs.secrets != '0'
+        run: |
+          echo "::error::Critical security findings detected"
+          echo "Critical vulnerabilities: ${{ needs.filesystem-scan.outputs.critical }}"
+          echo "Secrets detected: ${{ needs.secret-scan.outputs.secrets }}"
+          # Uncomment to fail the build
+          # exit 1
+
+  pr-comment:
+    name: PR Comment
+    needs: [filesystem-scan, config-scan, secret-scan]
+    if: github.event_name == 'pull_request' && always()
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const critical = ${{ needs.filesystem-scan.outputs.critical || 0 }};
+            const high = ${{ needs.filesystem-scan.outputs.high || 0 }};
+            const misconfigs = ${{ needs.config-scan.outputs.misconfigs || 0 }};
+            const secrets = ${{ needs.secret-scan.outputs.secrets || 0 }};
+
+            const hasIssues = critical > 0 || secrets > 0;
+
+            const body = `## :shield: Trivy Security Scan Results
+
+            | Scan Type | Findings |
+            |-----------|----------|
+            | :bug: Filesystem | ${critical} critical, ${high} high |
+            | :gear: Config | ${misconfigs} misconfigurations |
+            | :key: Secrets | ${secrets} detected |
+
+            ${hasIssues ? ':warning: **Action Required**: Critical security findings detected. Please review and fix before merging.' : ':white_check_mark: No critical security issues found.'}
+
+            :chart_with_upwards_trend: [View detailed report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

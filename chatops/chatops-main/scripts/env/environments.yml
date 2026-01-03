@@ -1,0 +1,141 @@
+# scripts/env/environments.yml
+# Phase-1: Environment Configuration for Multi-Agent AI CI/CD
+# chatops Production Architecture
+
+environments:
+  development:
+    variables:
+      DEBUG: 'true'
+      LOG_LEVEL: debug
+      DEPLOY_TARGET: dev
+      GATEWAY_PORT: '3000'
+      ENGINE_PORT: '8000'
+      GRPC_PORT: '50051'
+    services:
+      - redis
+      - postgres
+    ports:
+      gateway: 3000
+      engine: 8000
+      grpc: 50051
+    required_variables: []
+
+  staging:
+    variables:
+      DEBUG: 'false'
+      LOG_LEVEL: info
+      DEPLOY_TARGET: stage
+      GATEWAY_PORT: '80'
+      ENGINE_PORT: '8080'
+      GRPC_PORT: '50051'
+    services:
+      - redis
+      - postgres
+      - nginx
+    ports:
+      gateway: 80
+      engine: 8080
+      grpc: 50051
+    required_variables:
+      - STAGE_DB_URL
+
+  production:
+    variables:
+      DEBUG: 'false'
+      LOG_LEVEL: warn
+      DEPLOY_TARGET: prod
+      GATEWAY_PORT: '443'
+      ENGINE_PORT: '8443'
+      GRPC_PORT: '50051'
+    services:
+      - redis-cluster
+      - postgres-ha
+      - nginx
+    ports:
+      gateway: 443
+      engine: 8443
+      grpc: 50051
+    required_variables:
+      - PROD_DB_URL
+      - PROD_REDIS_URL
+
+# Multi-Agent AI Configuration (Phase-1)
+agent_config:
+  policy_agent:
+    enabled: true
+    description: Environment mapping and deployment target adjudication (dev/stage/prod)
+    verdict_default: pass
+    phase: phase-1-active
+
+  ci_agent:
+    enabled: true
+    description: Execute workflows, produce outputs (deploy-target, etc.)
+    trace_prefix: trace
+    output_fields:
+      - deploy-target
+      - trace_id
+      - policy_verdict
+    phase: phase-1-active
+
+  security_agent:
+    enabled: true
+    description: Restrict secrets output, ensure no leakage
+    secret_mask: true
+    blocked_patterns:
+      - '*_KEY'
+      - '*_SECRET'
+      - '*_PASSWORD'
+      - '*_TOKEN'
+    phase: phase-1-active
+
+  deploy_agent:
+    enabled: false
+    description: Consume deploy-target=prod/stage/dev in later phases
+    phase: phase-1-disabled
+    note: Phase-1 only produces outputs, does not deploy
+
+  observability_agent:
+    enabled: true
+    description: Retain audit/trace fields
+    audit_path: var/audit
+    artifact_path: artifacts/audit
+    retention_days: 90
+    phase: phase-1-active
+
+  repair_agent:
+    enabled: false
+    description: Auto-repair functionality (placeholder)
+    phase: phase-1-disabled
+    note: Reserved for future phases
+
+# Service Configuration
+services:
+  gateway-ts:
+    type: rest
+    language: typescript
+    path: services/gateway-ts
+    port: 3000
+    health_endpoint: /health
+
+  engine-python:
+    type: grpc
+    language: python
+    path: services/engine-python
+    port: 50051
+    health_check: grpc_health_probe
+
+# Test Configuration
+test_config:
+  unit:
+    coverage_threshold: 70
+    priority: high
+
+  integration:
+    coverage_threshold: 80
+    priority: high
+
+  e2e:
+    coverage_threshold: 100
+    priority: critical
+    critical_paths:
+      - rest_to_grpc

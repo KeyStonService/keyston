@@ -1,0 +1,18 @@
+# runtime
+var/
+artifacts/
+!.gitkeep
+
+# node
+node_modules/
+pnpm-lock.yaml
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# editor
+.DS_Store
+.idea/
+.vscode/

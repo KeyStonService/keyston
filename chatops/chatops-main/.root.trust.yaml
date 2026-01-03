@@ -1,0 +1,12 @@
+version: 1
+trust:
+  allowedActions:
+    - "actions/checkout"
+    - "actions/cache"
+    - "actions/upload-artifact"
+    - "actions/download-artifact"
+    - "github/codeql-action"
+  pinnedRequired: true
+  allowedRegistries:
+    - ghcr.io
+    - docker.io

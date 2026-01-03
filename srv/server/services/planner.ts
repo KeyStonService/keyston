@@ -85,7 +85,20 @@ function analyzeIntent(message: string): IntentAnalysis {
 }
 
 function extractTargets(message: string): string[] {
-  const repoPattern = /[\w-]+\/[\w.-]+/g;
+  // Prevent ReDoS: Limit input length and use a more specific pattern
+  // that doesn't allow ambiguous backtracking.
+  // Pattern: alphanumeric boundaries with hyphens allowed in owner name,
+  // slash separator, then alphanumeric with hyphens/dots/underscores in repo name.
+  // Max length check prevents excessive processing on malicious input.
+  if (message.length > 10000) {
+    return [];
+  }
+  
+  // Safe pattern with explicit character classes to prevent polynomial backtracking:
+  // - Owner: 1-40 chars, alphanumeric, hyphens allowed in middle
+  // - Repo: 1-101 chars, alphanumeric, hyphens/dots/underscores allowed in middle
+  // Matches: a/b, owner/repo, owner-name/repo-name.git, etc.
+  const repoPattern = /\b[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,38}[a-zA-Z0-9])?\/[a-zA-Z0-9](?:[a-zA-Z0-9._-]{0,99}[a-zA-Z0-9])?\b/g;
   const matches = message.match(repoPattern) || [];
   return matches;
 }

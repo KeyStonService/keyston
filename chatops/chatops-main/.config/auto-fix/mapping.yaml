@@ -1,0 +1,8 @@
+version: 1
+mapping:
+  workflows:
+    report: "artifacts/reports/auto-fix/summary.json"
+  naming:
+    report: "artifacts/reports/naming/compliance_report.json"
+  artifacts:
+    report: "artifacts/reports/audit.jsonl"

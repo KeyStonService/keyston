@@ -1,0 +1,16 @@
+name: Autofix Request
+description: Request automated fix for policy violation
+labels: ["autofix"]
+body:
+  - type: input
+    id: violation
+    attributes:
+      label: Violation ID
+      placeholder: e.g., naming-001
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe the violation and expected fix

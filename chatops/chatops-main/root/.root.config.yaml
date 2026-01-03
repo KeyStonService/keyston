@@ -1,0 +1,40 @@
+apiVersion: root.platform.io/v1
+kind: RootConfig
+metadata:
+  name: machine-native-ops-config
+  version: 0.1.0
+  owners:
+    - platform-team@machine-native-ops.org
+  description: System configuration for Machine Native Ops control plane
+spec:
+  system_id: machine-native-ops
+  timezone: UTC
+  deployment_mode: dev
+  default_namespace: root-system
+  # Git provider configuration
+  git_provider: github
+  repo_url: https://github.com/MachineNativeOps/machine-native-ops.git
+  # Resource defaults
+  default_resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  # Security settings
+  security:
+    enforce_pod_security: true
+    pod_security_standard: restricted
+    network_policy: true
+    rbac_enabled: true
+  # Logging and monitoring
+  logging:
+    level: info
+    format: json
+    audit_enabled: true
+  # Backup settings
+  backup:
+    enabled: false
+    schedule: 0 2 * * *
+    retention: 7d

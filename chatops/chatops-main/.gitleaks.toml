@@ -1,0 +1,17 @@
+title = "chatops gitleaks config"
+
+[allowlist]
+description = "Allowlist common test strings"
+paths = [
+  '''^artifacts/''',
+  '''^docs/''',
+  '''^local/''',
+  '''^deploy/''',
+]
+regexes = [
+  '''(?i)example-token''',
+  '''(?i)dummy-secret''',
+]
+
+[extend]
+useDefault = true

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chatops
+  labels:
+    app.kubernetes.io/part-of: chatops
+    chatops.io/naming-compliant: "true"
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+  annotations:
+    chatops.io/governance-version: "1.0"
+    chatops.io/owner: platform-team

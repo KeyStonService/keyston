@@ -1,0 +1,9 @@
+slsa:
+  targetLevel: 3
+  required:
+    - sbom
+    - provenance
+    - attestations
+  signing:
+    method: cosign
+    keyless: true

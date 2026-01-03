@@ -1,0 +1,177 @@
+# ChatOps Platform - Default Values
+
+global:
+  # Environment: dev, staging, prod
+  environment: dev
+
+  # Naming convention prefix
+  namingPrefix: ""
+
+  # Image settings
+  image:
+    registry: ghcr.io
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+  # Security settings
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 1001
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1001
+    capabilities:
+      drop:
+        - ALL
+
+  # Service mesh
+  serviceMesh:
+    enabled: false
+    provider: istio
+
+  # Observability
+  observability:
+    metrics:
+      enabled: true
+      serviceMonitor: true
+    tracing:
+      enabled: false
+      provider: jaeger
+    logging:
+      format: json
+      level: info
+
+# Gateway component
+gateway:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: chatops/gateway-ts
+    tag: ""
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+
+# Engine component
+engine:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: chatops/engine-python
+    tag: ""
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 20
+    targetCPUUtilizationPercentage: 70
+
+# PostgreSQL (Bitnami chart)
+postgresql:
+  enabled: true
+  auth:
+    username: chatops
+    database: chatops
+    existingSecret: chatops-postgresql-secret
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+# Redis (Bitnami chart)
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    existingSecret: chatops-redis-secret
+  master:
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      limits:
+        cpu: 250m
+        memory: 256Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+  replica:
+    replicaCount: 1
+
+# Ingress
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: chatops.example.com
+      paths:
+        - path: /api
+          pathType: Prefix
+          service: gateway
+        - path: /
+          pathType: Prefix
+          service: gateway
+  tls:
+    - secretName: chatops-tls
+      hosts:
+        - chatops.example.com
+
+# Network policies
+networkPolicies:
+  enabled: true
+
+# Pod disruption budgets
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Service accounts
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# RBAC
+rbac:
+  create: true
+
+# Secrets management
+secrets:
+  provider: kubernetes  # kubernetes, vault, aws-secrets-manager
+  vault:
+    enabled: false
+    address: ""
+    path: ""
+  awsSecretsManager:
+    enabled: false
+    region: ""

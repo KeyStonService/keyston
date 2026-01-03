@@ -1,0 +1,30 @@
+name: Drift Detection
+on:
+  schedule:
+    - cron: "7 */12 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: drift-detection
+  cancel-in-progress: false
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Drift detect (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/drift-detect.sh
+      - name: Upload report
+        uses: actions/upload-artifact@26f96df89e6c6a4b3c4d3e9a41d5d2a8d9a4c2a7
+        with:
+          name: drift
+          path: artifacts/reports/drift.json

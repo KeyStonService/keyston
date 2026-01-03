@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package chatops.quality.v1;
+
+message QualityMetrics {
+  double pylint_score_0_100 = 1;
+  double coverage_0_100 = 2;
+  double security_score_0_100 = 3;
+  double naming_compliance_0_100 = 4;
+}
+
+message QualityGatesReport {
+  string trace_id = 1;
+  string ts = 2;
+  string branch = 3;
+  QualityMetrics metrics = 4;
+  double quality_score = 5;
+  string gate_status = 6; // pass|block
+}

@@ -1,0 +1,40 @@
+name: Freeze Gate
+on:
+  pull_request:
+    paths:
+      - "gate-lock-attest.yaml"
+      - "deploy/**"
+      - "ops/**"
+  push:
+    branches: [main, develop]
+    paths:
+      - "gate-lock-attest.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: freeze-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Evaluate freeze gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import yaml,sys
+          p="gate-lock-attest.yaml"
+          d=yaml.safe_load(open(p))
+          frozen=bool(d.get("spec",{}).get("frozen",False))
+          if frozen:
+              print("FREEZE: active -> block deployments")
+              sys.exit(2)
+          print("FREEZE: not active")
+          PY

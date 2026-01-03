@@ -1,0 +1,27 @@
+{
+  "name": "@chatops/auto-fix-bot",
+  "version": "1.0.0",
+  "description": "Automated fix bot for ChatOps governance violations",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "@octokit/webhooks": "^12.0.10",
+    "express": "^4.18.2",
+    "js-yaml": "^4.1.0",
+    "prom-client": "^15.1.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3"
+  }
+}

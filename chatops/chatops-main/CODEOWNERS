@@ -1,0 +1,14 @@
+# Global ownership
+* @platform-team
+
+# Security-sensitive areas
+/.github/ @platform-team @security-team
+/.config/policy/ @security-team
+/.config/sast/ @security-team
+/scripts/cosign-sign.sh @security-team
+/scripts/verify-signature.sh @security-team
+
+# Deployment/GitOps
+/deploy/ @platform-team @sre-team
+/ops/ @platform-team @sre-team
+/observability/ @sre-team

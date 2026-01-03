@@ -1,0 +1,174 @@
+apiVersion: root.platform.io/v1
+kind: RootModuleRegistry
+metadata:
+  name: machine-native-ops-modules
+  version: 0.1.0
+  owners:
+    - platform-team@machine-native-ops.org
+  description: Module registry for platform components
+spec:
+  modules:
+    - name: governance
+      version: v1.0.0
+      description: Governance and policy enforcement module
+      category: security
+      dependencies: []
+      entrypoint:
+        type: kustomize
+        path: deploy/kustomize/overlays/dev
+        resources:
+          - rbac.yaml
+          - networkpolicy.yaml
+      health_check:
+        endpoint: /healthz
+        initial_delay: 30s
+        timeout: 10s
+      owner: governance-team@machine-native-ops.org
+    - name: monitoring
+      version: v1.0.0
+      description: Monitoring and observability module
+      category: observability
+      dependencies:
+        - name: governance
+          version: '>=v1.0.0'
+      entrypoint:
+        type: kustomize
+        path: deploy/kustomize/overlays/dev
+        resources:
+          - service-monitor.yaml
+          - prometheus-rule.yaml
+      health_check:
+        endpoint: /metrics
+        initial_delay: 60s
+        timeout: 15s
+      owner: observability-team@machine-native-ops.org
+    - name: security
+      version: v1.0.0
+      description: Security scanning and policy enforcement module
+      category: security
+      dependencies:
+        - name: governance
+          version: '>=v1.0.0'
+      entrypoint:
+        type: kustomize
+        path: deploy/kustomize/overlays/dev
+        resources:
+          - pod-security-policy.yaml
+          - security-context.yaml
+      health_check:
+        command:
+          - kubectl
+          - get
+          - pods
+          - -n
+          - root-system
+        initial_delay: 30s
+        timeout: 10s
+      owner: security-team@machine-native-ops.org
+    - name: cert-management
+      version: v1.0.0
+      description: Certificate management module
+      category: security
+      dependencies:
+        - name: governance
+          version: '>=v1.0.0'
+      entrypoint:
+        type: helm
+        chart: cert-manager
+        repository: https://charts.jetstack.io
+        version: v1.12.0
+        values_file: deploy/cert-manager/values.yaml
+      health_check:
+        endpoint: /healthz
+        initial_delay: 120s
+        timeout: 30s
+      owner: platform-team@machine-native-ops.org
+    - name: ingress
+      version: v1.0.0
+      description: Ingress controller and routing module
+      category: networking
+      dependencies:
+        - name: cert-management
+          version: '>=v1.0.0'
+      entrypoint:
+        type: kustomize
+        path: deploy/kustomize/overlays/dev
+        resources:
+          - ingress-controller.yaml
+          - ingress-routes.yaml
+      health_check:
+        endpoint: /healthz
+        initial_delay: 60s
+        timeout: 15s
+      owner: networking-team@machine-native-ops.org
+  # Module groups
+  groups:
+    - name: core
+      description: Core platform modules
+      modules:
+        - governance
+        - security
+      required: true
+    - name: observability
+      description: Monitoring and logging modules
+      modules:
+        - monitoring
+      required: false
+    - name: networking
+      description: Networking modules
+      modules:
+        - ingress
+        - cert-management
+      required: false
+  # Deployment constraints
+  deployment_constraints:
+    - name: resource-limits
+      description: Resource limits for modules
+      modules:
+        - '*'
+      constraints:
+        max_cpu: 2000m
+        max_memory: 4Gi
+        max_replicas: 10
+    - name: namespace-isolation
+      description: Modules must be deployed in dedicated namespaces
+      modules:
+        - '*'
+      constraints:
+        namespace_pattern: root-{module}
+        allow_cross_namespace: false
+    - name: security-context
+      description: Security context requirements
+      modules:
+        - '*'
+      constraints:
+        run_as_non_root: true
+        read_only_root_filesystem: true
+        allow_privilege_escalation: false
+  # Module lifecycle
+  lifecycle:
+    phases:
+      - name: plan
+        description: Planning and approval phase
+        duration: 1d
+        gates:
+          - security-review
+          - compliance-check
+      - name: deploy
+        description: Deployment phase
+        duration: 2h
+        gates:
+          - pre-deploy-checks
+          - health-check
+      - name: verify
+        description: Post-deployment verification
+        duration: 1d
+        gates:
+          - smoke-tests
+          - security-scan
+      - name: operate
+        description: Operating phase
+        duration: unlimited
+        gates:
+          - monitoring-alerts
+          - compliance-audit

@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: chatops-pdb
+  namespace: chatops
+  labels:
+    app.kubernetes.io/part-of: chatops
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: chatops

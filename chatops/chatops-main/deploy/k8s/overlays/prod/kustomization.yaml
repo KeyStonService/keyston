@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: chatops-prod
+
+namespace: chatops-prod
+
+namePrefix: prod-
+
+commonLabels:
+  environment: prod
+  chatops.io/environment: prod
+
+commonAnnotations:
+  chatops.io/naming-pattern: "prod-*"
+  chatops.io/sla-tier: "gold"
+
+resources:
+  - ../../base
+
+patches:
+  - path: patches/namespace.yaml
+  - path: patches/resource-limits.yaml
+  - path: patches/hpa.yaml
+
+configMapGenerator:
+  - name: chatops-config
+    literals:
+      - ENVIRONMENT=prod
+      - LOG_LEVEL=warn
+      - METRICS_ENABLED=true
+
+replicas:
+  - name: my-app
+    count: 3

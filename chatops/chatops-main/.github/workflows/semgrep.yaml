@@ -1,0 +1,187 @@
+name: Semgrep SAST
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 4 * * 1'  # Weekly Monday 4 AM UTC
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Semgrep config to use'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - p/security-audit
+          - p/owasp-top-ten
+          - p/ci
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+concurrency:
+  group: semgrep-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SEMGREP_RULES: "auto"
+  REPORT_DIR: "artifacts/reports/semgrep"
+
+jobs:
+  scan:
+    name: Semgrep Static Analysis
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep:latest
+    outputs:
+      findings: ${{ steps.scan.outputs.findings }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Semgrep scan
+        id: scan
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          CONFIG="${{ github.event.inputs.config || env.SEMGREP_RULES }}"
+
+          # Run with multiple output formats
+          semgrep scan \
+            --config "$CONFIG" \
+            --config .config/sast/semgrep.yaml \
+            --sarif \
+            --sarif-output ${{ env.REPORT_DIR }}/semgrep.sarif \
+            --json \
+            --json-output ${{ env.REPORT_DIR }}/semgrep.json \
+            --error \
+            --verbose \
+            . || SCAN_EXIT=$?
+
+          # Extract findings count
+          FINDINGS=$(jq '.results | length' ${{ env.REPORT_DIR }}/semgrep.json 2>/dev/null || echo 0)
+          echo "findings=$FINDINGS" >> "$GITHUB_OUTPUT"
+
+          # Generate severity breakdown
+          CRITICAL=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' ${{ env.REPORT_DIR }}/semgrep.json 2>/dev/null || echo 0)
+          HIGH=$(jq '[.results[] | select(.extra.severity == "WARNING")] | length' ${{ env.REPORT_DIR }}/semgrep.json 2>/dev/null || echo 0)
+          INFO=$(jq '[.results[] | select(.extra.severity == "INFO")] | length' ${{ env.REPORT_DIR }}/semgrep.json 2>/dev/null || echo 0)
+
+          # Generate summary
+          cat > ${{ env.REPORT_DIR }}/summary.json << EOF
+          {
+            "tool": "semgrep",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "config": "$CONFIG",
+            "summary": {
+              "total": $FINDINGS,
+              "critical": $CRITICAL,
+              "high": $HIGH,
+              "info": $INFO
+            }
+          }
+          EOF
+
+          # Step summary
+          echo "## Semgrep SAST Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Severity | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔴 Critical | $CRITICAL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟠 High | $HIGH |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔵 Info | $INFO |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Total findings:** $FINDINGS" >> "$GITHUB_STEP_SUMMARY"
+
+          exit ${SCAN_EXIT:-0}
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/semgrep.sarif
+          category: semgrep
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: semgrep-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  pr-comment:
+    name: PR Comment
+    needs: scan
+    if: github.event_name == 'pull_request' && needs.scan.outputs.findings != '0'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Download reports
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.2
+        with:
+          name: semgrep-reports
+          path: reports
+
+      - name: Comment on PR
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('reports/summary.json', 'utf8'));
+
+            let findingsTable = '| File | Rule | Severity | Message |\n|------|------|----------|--------|\n';
+
+            try {
+              const results = JSON.parse(fs.readFileSync('reports/semgrep.json', 'utf8'));
+              for (const result of results.results.slice(0, 10)) {
+                const file = result.path;
+                const rule = result.check_id.split('.').pop();
+                const severity = result.extra.severity || 'INFO';
+                const msg = result.extra.message?.substring(0, 50) || '';
+                findingsTable += `| \`${file}\` | ${rule} | ${severity} | ${msg}... |\n`;
+              }
+              if (results.results.length > 10) {
+                findingsTable += `\n*...and ${results.results.length - 10} more findings*\n`;
+              }
+            } catch (e) {
+              findingsTable = '*Unable to parse detailed findings*\n';
+            }
+
+            const body = `## 🔍 Semgrep SAST Results
+
+            | Severity | Count |
+            |----------|-------|
+            | 🔴 Critical | ${summary.summary.critical} |
+            | 🟠 High | ${summary.summary.high} |
+            | 🔵 Info | ${summary.summary.info} |
+
+            **Total findings:** ${summary.summary.total}
+
+            ### Top Findings
+            ${findingsTable}
+
+            📊 [View full report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

@@ -1,0 +1,50 @@
+name: "ChatOps CodeQL Configuration"
+
+# Paths to include in analysis
+paths:
+  - services
+  - scripts
+  - src
+
+# Paths to exclude from analysis
+paths-ignore:
+  - node_modules
+  - vendor
+  - dist
+  - build
+  - '**/*.test.ts'
+  - '**/*.spec.ts'
+  - '**/*_test.go'
+  - '**/testdata/**'
+  - '**/fixtures/**'
+  - local
+  - artifacts
+
+# Query suites to use
+queries:
+  - uses: security-extended
+  - uses: security-and-quality
+
+# Disable default queries for specific languages if needed
+# disable-default-queries: false
+
+# Query filters
+query-filters:
+  # Exclude low-severity issues in test files
+  - exclude:
+      tags contain: test
+      problem.severity: recommendation
+
+# Threat models for security analysis
+threat-models:
+  - remote
+
+# Additional packs (optional)
+# packs:
+#   javascript:
+#     - codeql/javascript-experimental-atm-queries
+
+# Registries configuration (for custom query packs)
+# registries:
+#   - url: https://ghcr.io/v2/
+#     packages: 'codeql/*'

@@ -1,0 +1,236 @@
+name: kube-bench CIS Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      benchmark:
+        description: 'CIS benchmark version'
+        required: false
+        default: 'cis-1.8'
+        type: choice
+        options:
+          - cis-1.8
+          - cis-1.7
+          - cis-1.6
+          - eks-1.2
+          - gke-1.4
+          - aks-1.3
+      target:
+        description: 'Target to benchmark'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - master
+          - node
+          - controlplane
+          - policies
+  schedule:
+    - cron: "0 3 * * 1"  # Weekly Monday 3 AM UTC
+  push:
+    branches: [main]
+    paths:
+      - 'deploy/k8s/**'
+      - 'local/kind/**'
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: kube-bench
+  cancel-in-progress: false
+
+env:
+  KUBE_BENCH_VERSION: "0.7.1"
+  REPORT_DIR: "artifacts/reports/kube-bench"
+
+jobs:
+  benchmark:
+    name: CIS Kubernetes Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Kind cluster
+        uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 # v1.8.0
+        with:
+          cluster_name: kube-bench-test
+          config: local/kind/cluster.yaml
+          wait: 120s
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Install kube-bench
+        run: |
+          curl -sLO "https://github.com/aquasecurity/kube-bench/releases/download/v${{ env.KUBE_BENCH_VERSION }}/kube-bench_${{ env.KUBE_BENCH_VERSION }}_linux_amd64.tar.gz"
+          tar -xzf "kube-bench_${{ env.KUBE_BENCH_VERSION }}_linux_amd64.tar.gz"
+          sudo mv kube-bench /usr/local/bin/
+          kube-bench version
+
+      - name: Run kube-bench on Kind node
+        id: benchmark
+        run: |
+          set -euo pipefail
+
+          BENCHMARK="${{ github.event.inputs.benchmark || 'cis-1.8' }}"
+          TARGET="${{ github.event.inputs.target || 'all' }}"
+
+          # Get kind node container
+          NODE_CONTAINER=$(docker ps --filter "name=kube-bench-test-control-plane" --format "{{.Names}}" | head -1)
+
+          if [ -z "$NODE_CONTAINER" ]; then
+            echo "::error::Could not find Kind node container"
+            exit 1
+          fi
+
+          # Copy kube-bench into container
+          docker cp /usr/local/bin/kube-bench "$NODE_CONTAINER:/usr/local/bin/"
+
+          # Run kube-bench inside the Kind node
+          docker exec "$NODE_CONTAINER" kube-bench run \
+            --benchmark "$BENCHMARK" \
+            --json \
+            > ${{ env.REPORT_DIR }}/kube-bench.json 2>&1 || true
+
+          # Also generate text report
+          docker exec "$NODE_CONTAINER" kube-bench run \
+            --benchmark "$BENCHMARK" \
+            > ${{ env.REPORT_DIR }}/kube-bench.txt 2>&1 || true
+
+          # Parse results
+          if [ -f "${{ env.REPORT_DIR }}/kube-bench.json" ]; then
+            PASS=$(jq '[.Controls[].tests[].results[] | select(.status == "PASS")] | length' ${{ env.REPORT_DIR }}/kube-bench.json 2>/dev/null || echo 0)
+            FAIL=$(jq '[.Controls[].tests[].results[] | select(.status == "FAIL")] | length' ${{ env.REPORT_DIR }}/kube-bench.json 2>/dev/null || echo 0)
+            WARN=$(jq '[.Controls[].tests[].results[] | select(.status == "WARN")] | length' ${{ env.REPORT_DIR }}/kube-bench.json 2>/dev/null || echo 0)
+            INFO=$(jq '[.Controls[].tests[].results[] | select(.status == "INFO")] | length' ${{ env.REPORT_DIR }}/kube-bench.json 2>/dev/null || echo 0)
+          else
+            PASS=0
+            FAIL=0
+            WARN=0
+            INFO=0
+          fi
+
+          echo "pass=$PASS" >> "$GITHUB_OUTPUT"
+          echo "fail=$FAIL" >> "$GITHUB_OUTPUT"
+          echo "warn=$WARN" >> "$GITHUB_OUTPUT"
+          echo "info=$INFO" >> "$GITHUB_OUTPUT"
+
+          # Generate summary JSON
+          cat > ${{ env.REPORT_DIR }}/summary.json << EOF
+          {
+            "tool": "kube-bench",
+            "version": "${{ env.KUBE_BENCH_VERSION }}",
+            "benchmark": "$BENCHMARK",
+            "target": "$TARGET",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "commit": "${{ github.sha }}",
+            "summary": {
+              "pass": $PASS,
+              "fail": $FAIL,
+              "warn": $WARN,
+              "info": $INFO,
+              "total": $((PASS + FAIL + WARN + INFO))
+            }
+          }
+          EOF
+
+          # Step summary
+          echo "## kube-bench CIS Benchmark Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Benchmark:** $BENCHMARK" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Status | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ✅ Pass | $PASS |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ❌ Fail | $FAIL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ⚠️ Warn | $WARN |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ℹ️ Info | $INFO |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Generate SARIF report
+        if: always()
+        run: |
+          # Convert kube-bench JSON to SARIF format
+          cat > ${{ env.REPORT_DIR }}/kube-bench.sarif << 'EOF'
+          {
+            "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+            "version": "2.1.0",
+            "runs": [
+              {
+                "tool": {
+                  "driver": {
+                    "name": "kube-bench",
+                    "version": "${{ env.KUBE_BENCH_VERSION }}",
+                    "informationUri": "https://github.com/aquasecurity/kube-bench"
+                  }
+                },
+                "results": []
+              }
+            ]
+          }
+          EOF
+
+          # Process failures into SARIF format if jq available
+          if [ -f "${{ env.REPORT_DIR }}/kube-bench.json" ]; then
+            jq --arg uri "https://github.com/aquasecurity/kube-bench" '
+            {
+              "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+              "version": "2.1.0",
+              "runs": [{
+                "tool": {
+                  "driver": {
+                    "name": "kube-bench",
+                    "version": "${{ env.KUBE_BENCH_VERSION }}",
+                    "informationUri": $uri,
+                    "rules": [.Controls[].tests[].results[] | select(.status == "FAIL") | {
+                      "id": .test_number,
+                      "name": .test_number,
+                      "shortDescription": {"text": .test_desc},
+                      "fullDescription": {"text": (.test_desc + ": " + .reason)},
+                      "defaultConfiguration": {"level": "error"}
+                    }]
+                  }
+                },
+                "results": [.Controls[].tests[].results[] | select(.status == "FAIL") | {
+                  "ruleId": .test_number,
+                  "level": "error",
+                  "message": {"text": .reason},
+                  "locations": [{
+                    "physicalLocation": {
+                      "artifactLocation": {"uri": "kubernetes-cluster"}
+                    }
+                  }]
+                }]
+              }]
+            }' ${{ env.REPORT_DIR }}/kube-bench.json > ${{ env.REPORT_DIR }}/kube-bench.sarif 2>/dev/null || true
+          fi
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/kube-bench.sarif
+          category: kube-bench
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: kube-bench-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+      - name: Cleanup Kind cluster
+        if: always()
+        run: kind delete cluster --name kube-bench-test
+
+      - name: Fail on critical findings
+        if: steps.benchmark.outputs.fail != '0'
+        run: |
+          echo "::warning::kube-bench found ${{ steps.benchmark.outputs.fail }} failed checks"
+          # Optionally fail the build for critical failures
+          # exit 1

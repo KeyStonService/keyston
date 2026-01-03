@@ -1,0 +1,273 @@
+apiVersion: root.platform.io/v1
+kind: RootJobsIndex
+metadata:
+  name: machine-native-ops-jobs-index
+  version: 0.1.0
+  owners:
+    - platform-team@machine-native-ops.org
+  description: Index of all available jobs and bundles
+spec:
+  # Job registry
+  jobs:
+    - name: attestation-provenance.bundle.v1
+      description: Bundle for attestation and provenance collection
+      version: v1.0.0
+      category: evidence
+      bundle_file: attestation-provenance.bundle.v1.yaml
+      enabled: true
+      schedule: on_demand
+      inputs:
+        - type: manifests
+          path: dist/manifests.yaml
+          required: true
+        - type: evidence
+          path: dist/evidence/
+          required: true
+      outputs:
+        - type: attestation
+          path: dist/evidence/attestation.intoto.json
+        - type: provenance
+          path: dist/evidence/provenance.intoto.json
+        - type: sbom
+          path: dist/evidence/sbom.json
+      triggered_by:
+        - schema
+        - render
+        - evidence
+      execution:
+        timeout: 10m
+        retry_count: 2
+        parallel_allowed: false
+      dependencies:
+        - name: evidence-collection
+          version: '>=v1.0.0'
+    - name: canonical-hash-lock.bundle.v1
+      description: Bundle for canonical hash locking and integrity verification
+      version: v1.0.0
+      category: integrity
+      bundle_file: canonical-hash-lock.bundle.v1.yaml
+      enabled: true
+      schedule: on_change
+      inputs:
+        - type: yaml-files
+          pattern: root/.root.*.yaml
+          required: true
+        - type: manifests
+          path: dist/manifests.yaml
+          required: true
+        - type: scripts
+          pattern: root/scripts/*.py
+          required: true
+      outputs:
+        - type: digests
+          path: dist/evidence/digests.json
+        - type: merkle-root
+          path: dist/evidence/merkle-root.json
+        - type: hash-lock
+          path: dist/evidence/hash-lock.json
+      triggered_by:
+        - schema
+        - render
+        - integrity
+      execution:
+        timeout: 5m
+        retry_count: 1
+        parallel_allowed: false
+      dependencies:
+        - name: hash-computation
+          version: '>=v1.0.0'
+  # Job categories
+  categories:
+    - name: evidence
+      description: Evidence collection and attestation jobs
+      jobs:
+        - attestation-provenance.bundle.v1
+      priority: 1
+    - name: integrity
+      description: Integrity verification and hash locking jobs
+      jobs:
+        - canonical-hash-lock.bundle.v1
+      priority: 2
+    - name: validation
+      description: Validation and verification jobs
+      jobs: []
+      priority: 3
+    - name: deployment
+      description: Deployment-related jobs
+      jobs: []
+      priority: 4
+  # Job execution policies
+  execution_policies:
+    - name: resource-limits
+      description: Resource limits for job execution
+      default_limits:
+        cpu: 500m
+        memory: 1Gi
+        ephemeral_storage: 2Gi
+      category_limits:
+        evidence:
+          cpu: 1000m
+          memory: 2Gi
+        integrity:
+          cpu: 300m
+          memory: 512Mi
+    - name: scheduling
+      description: Job scheduling policies
+      default_schedule: on_demand
+      concurrency_limit: 5
+      category_schedules:
+        evidence: on_demand
+        integrity: on_change
+    - name: retry-policies
+      description: Retry policies for failed jobs
+      default_retry_count: 2
+      backoff_strategy: exponential
+      max_delay: 5m
+      category_retry:
+        evidence:
+          retry_count: 3
+          max_delay: 10m
+        integrity:
+          retry_count: 1
+          max_delay: 2m
+  # Job dependencies
+  dependencies:
+    - name: evidence-collection
+      description: Evidence collection dependencies
+      version: v1.0.0
+      type: internal
+      components:
+        - schema_validate.py
+        - hash_artifacts.py
+        - evidence_collect.py
+    - name: hash-computation
+      description: Hash computation dependencies
+      version: v1.0.0
+      type: internal
+      components:
+        - hash_artifacts.py
+        - build_merkle_root.py
+      external_tools:
+        - sha3sum
+        - blake3sum
+  # Job monitoring
+  monitoring:
+    enabled: true
+    metrics_port: 9095
+    metrics:
+      - name: job_execution_duration
+        type: histogram
+        labels:
+          - job_name
+          - category
+          - status
+      - name: job_execution_total
+        type: counter
+        labels:
+          - job_name
+          - category
+          - status
+      - name: job_queue_depth
+        type: gauge
+        labels:
+          - category
+    alerts:
+      - name: job-timeout
+        description: Job execution timeout
+        condition: job_execution_duration > job_timeout
+        severity: warning
+      - name: job-failure-rate-high
+        description: High job failure rate
+        condition: job_failure_rate > 0.2
+        severity: critical
+      - name: job-queue-backlog
+        description: Job queue backlog
+        condition: job_queue_depth > 10
+        severity: warning
+  # Job security
+  security:
+    isolation:
+      enabled: true
+      sandbox_type: container
+      security_context:
+        run_as_non_root: true
+        read_only_root_filesystem: true
+        allow_privilege_escalation: false
+        capabilities:
+          drop:
+            - ALL
+    permissions:
+      default_permissions:
+        - read_configmaps
+        - read_secrets
+      category_permissions:
+        evidence:
+          - write_evidence
+          - read_manifests
+        integrity:
+          - read_all_files
+          - write_hash_files
+  # Job storage
+  storage:
+    workspace_size: 1Gi
+    artifact_retention: 30d
+    storage_classes:
+      - name: fast-ssd
+        description: Fast SSD storage for performance-critical jobs
+        default_for:
+          - evidence
+      - name: standard
+        description: Standard storage for general jobs
+        default_for:
+          - integrity
+  # Job notifications
+  notifications:
+    enabled: true
+    channels:
+      - name: slack
+        type: webhook
+        events:
+          - failure
+          - success
+        template: slack-job-notification
+      - name: email
+        type: smtp
+        events:
+          - failure
+        template: email-job-notification
+        recipients:
+          - ops@machine-native-ops.org
+    templates:
+      - name: slack-job-notification
+        format: json
+        content: |-
+          {
+            "text": "Job {{.JobName}} {{.Status}}",
+            "attachments": [
+              {
+                "color": "{{if eq .Status &quot;success&quot;}}good{{else}}danger{{end}}",
+                "fields": [
+                  {
+                    "title": "Job",
+                    "value": "{{.JobName}}",
+                    "short": true
+                  },
+                  {
+                    "title": "Status",
+                    "value": "{{.Status}}",
+                    "short": true
+                  },
+                  {
+                    "title": "Duration",
+                    "value": "{{.Duration}}",
+                    "short": true
+                  },
+                  {
+                    "title": "Category",
+                    "value": "{{.Category}}",
+                    "short": true
+                  }
+                ]
+              }
+            ]
+          }

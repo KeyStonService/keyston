@@ -1,0 +1,291 @@
+name: CI Pipeline with Security and Governance
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # Daily security scan at 2 AM UTC
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+  actions: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Stage 1: Metadata and validation
+  metadata:
+    name: Extract Metadata
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      sha_short: ${{ steps.meta.outputs.sha_short }}
+      branch: ${{ steps.meta.outputs.branch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Extract metadata
+        id: meta
+        run: |
+          VERSION=$(cat package.json 2>/dev/null | jq -r '.version // "0.0.0"' || echo "0.0.0")
+          SHA_SHORT=$(git rev-parse --short HEAD)
+          BRANCH=${GITHUB_REF#refs/heads/}
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "sha_short=$SHA_SHORT" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+  # Stage 2: Policy validation
+  policy:
+    name: Policy Validation
+    runs-on: ubuntu-latest
+    needs: metadata
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@34a30e8a924d1b03ce2cf7abe97571bbb1f1f579 # v2.2.0
+        with:
+          version: 0.61.0
+
+      - name: Setup Conftest
+        run: |
+          curl -sLO https://github.com/open-policy-agent/conftest/releases/download/v0.49.0/conftest_0.49.0_Linux_x86_64.tar.gz
+          tar -xzf conftest_0.49.0_Linux_x86_64.tar.gz
+          sudo mv conftest /usr/local/bin/
+          conftest --version
+
+      - name: Run naming policy validation
+        run: |
+          conftest test . \
+            --policy .config/conftest/policies/ \
+            --all-namespaces \
+            --output json \
+            > artifacts/reports/policy.json 2>&1 || true
+
+          echo "## Policy Validation Results" >> "$GITHUB_STEP_SUMMARY"
+          if [ -s artifacts/reports/policy.json ]; then
+            jq -r '.[] | select(.failures | length > 0) | .filename + ": " + (.failures | length | tostring) + " failures"' artifacts/reports/policy.json >> "$GITHUB_STEP_SUMMARY" || true
+          else
+            echo "No policy violations found" >> "$GITHUB_STEP_SUMMARY"
+          fi
+        continue-on-error: true
+
+      - name: Upload policy results
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: policy-results
+          path: artifacts/reports/
+          retention-days: 30
+
+  # Stage 3: Security scanning
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: metadata
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Create report directories
+        run: mkdir -p artifacts/reports/security
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@d710430a6722f083d3b36b8339ff66b32f22ee55 # v0.18.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'artifacts/reports/security/trivy.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '0'
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@cb7149a9b57195b609c63e8518d2c6056677d2d0 # v2.3.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Upload to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: artifacts/reports/security/trivy.sarif
+          category: trivy-ci
+
+      - name: Upload security results
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: security-results
+          path: artifacts/reports/security/
+          retention-days: 30
+
+  # Stage 4: Contract testing
+  contracts:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    needs: metadata
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Spectral
+        run: npm install -g @stoplight/spectral-cli
+
+      - name: Validate OpenAPI specs
+        run: |
+          mkdir -p artifacts/reports/contracts
+          find . -name "openapi*.yaml" -o -name "openapi*.json" | while read spec; do
+            spectral lint "$spec" --ruleset .spectral.yaml --format json > "artifacts/reports/contracts/$(basename "$spec").json" 2>&1 || true
+          done
+        continue-on-error: true
+
+      - name: Upload contract results
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: contract-results
+          path: artifacts/reports/contracts/
+          retention-days: 30
+
+  # Stage 5: Build
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [policy, security, contracts]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Go
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Setup Python
+        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          [ -f package.json ] && npm ci || true
+          [ -f go.mod ] && go mod download || true
+          [ -f requirements.txt ] && pip install -r requirements.txt || true
+
+      - name: Run tests
+        run: |
+          make test || echo "No test target"
+
+      - name: Build
+        run: |
+          make build || echo "No build target"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: build-artifacts
+          path: |
+            dist/
+            build/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # Stage 6: Evidence and SBOM
+  evidence:
+    name: Generate Evidence
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create evidence directories
+        run: mkdir -p artifacts/sbom artifacts/attestations
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@78fc58e266e87a38d4194b2137a3d4e9bcaf7ca1 # v0.15.8
+        with:
+          path: .
+          format: spdx-json
+          output-file: artifacts/sbom/sbom.spdx.json
+
+      - name: Generate CycloneDX SBOM
+        uses: anchore/sbom-action@78fc58e266e87a38d4194b2137a3d4e9bcaf7ca1 # v0.15.8
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: artifacts/sbom/sbom.cyclonedx.json
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: evidence
+          path: artifacts/
+          retention-days: 90
+
+  # Summary job
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [metadata, policy, security, contracts, build, evidence]
+    if: always()
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.2
+        with:
+          path: all-artifacts
+          merge-multiple: true
+
+      - name: Generate CI summary
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" << EOF
+          ## CI Pipeline Summary
+
+          | Stage | Status |
+          |-------|--------|
+          | Metadata | ${{ needs.metadata.result }} |
+          | Policy | ${{ needs.policy.result }} |
+          | Security | ${{ needs.security.result }} |
+          | Contracts | ${{ needs.contracts.result }} |
+          | Build | ${{ needs.build.result }} |
+          | Evidence | ${{ needs.evidence.result }} |
+
+          **Version:** ${{ needs.metadata.outputs.version }}
+          **Commit:** ${{ needs.metadata.outputs.sha_short }}
+          **Branch:** ${{ needs.metadata.outputs.branch }}
+          EOF

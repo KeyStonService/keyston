@@ -1,0 +1,9 @@
+version: 1
+integrity:
+  hash:
+    algorithms: ["sha3-512", "blake3"]
+  signing:
+    method: "cosign"
+    keyless: true
+  verification:
+    required: true

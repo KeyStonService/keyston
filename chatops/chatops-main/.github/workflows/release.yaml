@@ -1,0 +1,31 @@
+name: Release
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "CHANGELOG.md"
+      - "package.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Create tag (demo)
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          git config user.name "chatops-release-bot"
+          git config user.email "chatops-release-bot@users.noreply.github.com"
+          git tag -a "v${VERSION}" -m "release v${VERSION}" || true
+          git push origin "v${VERSION}" || true

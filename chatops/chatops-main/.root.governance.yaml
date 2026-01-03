@@ -1,0 +1,27 @@
+version: 1
+controls:
+  - id: GOV-NAMING-001
+    title: "Naming Governance"
+    severity: P0
+    enforcement: "block"
+    policy:
+      opa: ".config/policy/naming.rego"
+      conftest: ".config/conftest/policies/naming_policy.rego"
+  - id: GOV-ACTIONS-001
+    title: "GitHub Actions Hardening"
+    severity: P0
+    enforcement: "block"
+    requirements:
+      pinnedSHA: true
+      minimalPermissions: true
+      concurrency: true
+
+sla:
+  metrics:
+    NCR: "naming compliance rate"
+    VFC: "validation failure count"
+    MFR: "migration failure rate"
+    ARS: "auto repair success rate"
+  alerting:
+    ncrThreshold: 0.98
+    mfrThreshold: 0.05

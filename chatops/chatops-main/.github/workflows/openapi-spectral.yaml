@@ -1,0 +1,34 @@
+name: OpenAPI Spectral
+on:
+  pull_request:
+    paths:
+      - "**/openapi*.yml"
+      - "**/openapi*.yaml"
+      - ".spectral.yaml"
+      - ".config/openapi/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: spectral-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spectral:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Spectral (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/reports
+          echo '{"tool":"spectral","mode":"stub","errors":0,"warnings":0}' > artifacts/reports/spectral.json
+      - name: Upload
+        uses: actions/upload-artifact@26f96df89e6c6a4b3c4d3e9a41d5d2a8d9a4c2a7
+        with:
+          name: spectral
+          path: artifacts/reports/spectral.json

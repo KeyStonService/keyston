@@ -1,0 +1,13 @@
+version: 1
+classification:
+  - name: public
+    description: "May be shared publicly."
+  - name: internal
+    description: "Internal use only."
+  - name: confidential
+    description: "Restricted access. May contain secrets (must not be committed)."
+rules:
+  - id: DATA-001
+    rule: "No secrets committed. Use external secret store."
+  - id: DATA-002
+    rule: "Audit logs must not include tokens."

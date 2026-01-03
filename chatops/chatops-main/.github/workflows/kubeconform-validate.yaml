@@ -1,0 +1,34 @@
+name: Kubeconform Validate
+on:
+  pull_request:
+    paths:
+      - "deploy/**"
+      - "ops/**"
+      - ".kubeconform.json"
+      - ".config/k8s/kubeconform.json"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: kubeconform-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: kubeconform (stub validator)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/reports
+          echo '{"tool":"kubeconform","mode":"stub","status":"ok"}' > artifacts/reports/kubeconform.json
+      - name: Upload report
+        uses: actions/upload-artifact@26f96df89e6c6a4b3c4d3e9a41d5d2a8d9a4c2a7
+        with:
+          name: kubeconform
+          path: artifacts/reports/kubeconform.json

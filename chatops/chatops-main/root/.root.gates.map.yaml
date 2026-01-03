@@ -1,0 +1,451 @@
+apiVersion: root.platform.io/v1
+kind: RootGatesMap
+metadata:
+  name: machine-native-ops-gates-map
+  version: 0.1.0
+  owners:
+    - platform-team@machine-native-ops.org
+  description: Gate mapping for validation and verification checks
+spec:
+  # Gate definitions
+  gates:
+    - name: fmt
+      description: Code formatting check
+      category: quality
+      inputs:
+        - root/.root.*.yaml
+        - deploy/**/*.yaml
+        - '*.md'
+      tool: fmt.sh
+      pass_criteria:
+        - no_formatting_issues
+        - all_files_checked
+      on_fail:
+        action: fail
+        message: Code formatting issues detected
+        auto_fix_available: true
+      execution:
+        timeout: 2m
+        retry_count: 1
+    - name: lint
+      description: Linting checks for YAML and configuration files
+      category: quality
+      inputs:
+        - root/.root.*.yaml
+        - deploy/**/*.yaml
+        - Makefile
+      tool: lint.sh
+      pass_criteria:
+        - no_lint_errors
+        - no_lint_warnings
+      on_fail:
+        action: fail
+        message: Linting errors detected
+        auto_fix_available: false
+      execution:
+        timeout: 3m
+        retry_count: 1
+    - name: schema
+      description: JSON Schema validation for YAML files
+      category: validation
+      inputs:
+        - root/.root.*.yaml
+        - root/jobs/*.yaml
+      tool: schema_validate.py
+      pass_criteria:
+        - all_files_valid
+        - no_schema_errors
+      on_fail:
+        action: fail
+        message: Schema validation failed
+        auto_fix_available: false
+      execution:
+        timeout: 5m
+        retry_count: 1
+      outputs:
+        - dist/evidence/schema.report.json
+    - name: test-vectors
+      description: Test vector validation
+      category: validation
+      inputs:
+        - root/tests/vectors/**
+      tool: vector_test.py
+      pass_criteria:
+        - all_valid_tests_pass
+        - all_invalid_tests_fail_as_expected
+      on_fail:
+        action: fail
+        message: Test vector validation failed
+        auto_fix_available: false
+      execution:
+        timeout: 5m
+        retry_count: 1
+      outputs:
+        - dist/evidence/vectors.report.json
+    - name: render
+      description: Kubernetes manifests rendering
+      category: generation
+      inputs:
+        - deploy/kustomize/**
+        - root/.root.*.yaml
+      tool: render_manifests.sh
+      pass_criteria:
+        - render_successful
+        - manifests_valid
+      on_fail:
+        action: fail
+        message: Manifest rendering failed
+        auto_fix_available: false
+      execution:
+        timeout: 10m
+        retry_count: 2
+      outputs:
+        - dist/manifests.yaml
+        - dist/evidence/render.report.json
+    - name: policy
+      description: Policy validation using Kyverno
+      category: policy
+      inputs:
+        - dist/manifests.yaml
+        - deploy/policies/kyverno/**
+      tool: policy_check.sh
+      pass_criteria:
+        - all_policies_pass
+        - no_policy_violations
+      on_fail:
+        action: warn # Allow warnings for missing tools
+        message: Policy validation failed or tool not available
+        auto_fix_available: false
+      execution:
+        timeout: 5m
+        retry_count: 1
+      outputs:
+        - dist/evidence/policy.report.json
+    - name: evidence
+      description: Evidence chain generation
+      category: evidence
+      inputs:
+        - dist/manifests.yaml
+        - dist/evidence/*.json
+        - root/.root.*.yaml
+      tool: evidence_collect.py
+      pass_criteria:
+        - evidence_generated
+        - all_reports_present
+      on_fail:
+        action: fail
+        message: Evidence chain generation failed
+        auto_fix_available: false
+      execution:
+        timeout: 3m
+        retry_count: 1
+      outputs:
+        - dist/evidence/gate-report.json
+        - dist/evidence/run-manifest.json
+        - dist/evidence/provenance.intoto.json
+        - dist/evidence/attestation.intoto.json
+        - dist/evidence/digests.json
+        - dist/evidence/merkle-root.json
+    - name: sbom
+      description: Software Bill of Materials generation
+      category: supply-chain
+      inputs:
+        - dist/manifests.yaml
+        - root/.root.*.yaml
+      tool: generate_sbom.sh
+      pass_criteria:
+        - sbom_generated
+        - format_valid
+      on_fail:
+        action: warn # Allow warnings for missing tools
+        message: SBOM generation failed or tool not available
+        auto_fix_available: false
+      execution:
+        timeout: 5m
+        retry_count: 1
+      outputs:
+        - dist/evidence/sbom.json
+        - supply-chain/sbom/manifests.spdx.json
+    - name: sign
+      description: Artifact signing
+      category: supply-chain
+      inputs:
+        - dist/manifests.yaml
+        - dist/evidence/digests.json
+      tool: sign_artifacts.sh
+      pass_criteria:
+        - signatures_created
+        - signatures_valid
+      on_fail:
+        action: warn # Allow warnings for missing keys
+        message: Artifact signing failed or keys not available
+        auto_fix_available: false
+      execution:
+        timeout: 3m
+        retry_count: 1
+      outputs:
+        - dist/evidence/signing.report.json
+    - name: attest
+      description: Attestation generation
+      category: evidence
+      inputs:
+        - dist/evidence/**/*.json
+        - supply-chain/attestations/**
+      tool: generate_attestation.sh
+      pass_criteria:
+        - attestations_generated
+        - format_valid
+      on_fail:
+        action: warn # Allow warnings for missing tools
+        message: Attestation generation failed
+        auto_fix_available: false
+      execution:
+        timeout: 3m
+        retry_count: 1
+      outputs:
+        - dist/evidence/attestation.intoto.json
+        - supply-chain/attestations/deployment.attestation.json
+    - name: verify-evidence
+      description: Evidence chain verification
+      category: evidence
+      inputs:
+        - dist/evidence/**
+      tool: verify_evidence.sh
+      pass_criteria:
+        - evidence_intact
+        - signatures_valid
+        - hashes_match
+      on_fail:
+        action: fail
+        message: Evidence verification failed
+        auto_fix_available: false
+      execution:
+        timeout: 5m
+        retry_count: 1
+      outputs:
+        - dist/evidence/verification.report.json
+  # Gate dependencies
+  dependencies:
+    - gate: fmt
+      depends_on: []
+    - gate: lint
+      depends_on:
+        - fmt
+    - gate: schema
+      depends_on:
+        - lint
+    - gate: test-vectors
+      depends_on:
+        - schema
+    - gate: render
+      depends_on:
+        - schema
+    - gate: policy
+      depends_on:
+        - render
+    - gate: evidence
+      depends_on:
+        - schema
+        - test-vectors
+        - render
+        - policy
+    - gate: sbom
+      depends_on:
+        - render
+    - gate: sign
+      depends_on:
+        - sbom
+    - gate: attest
+      depends_on:
+        - evidence
+        - sign
+    - gate: verify-evidence
+      depends_on:
+        - evidence
+        - attest
+  # Gate workflows
+  workflows:
+    - name: all
+      description: Complete validation pipeline
+      gates:
+        - fmt
+        - lint
+        - schema
+        - test-vectors
+        - render
+        - policy
+        - evidence
+        - verify-evidence
+      parallel_execution: false
+      fail_fast: true
+    - name: quick-check
+      description: Quick validation for development
+      gates:
+        - fmt-check
+        - lint
+        - schema
+      parallel_execution: false
+      fail_fast: true
+    - name: deploy-prep
+      description: Preparation for deployment
+      gates:
+        - fmt
+        - lint
+        - schema
+        - test-vectors
+        - render
+        - policy
+      parallel_execution: false
+      fail_fast: true
+    - name: supply-chain
+      description: Supply chain validation only
+      gates:
+        - sbom
+        - sign
+        - attest
+        - verify-evidence
+      parallel_execution: false
+      fail_fast: false
+    - name: evidence-only
+      description: Evidence generation only
+      gates:
+        - evidence
+        - verify-evidence
+      parallel_execution: false
+      fail_fast: true
+  # Gate execution environment
+  execution:
+    default_timeout: 5m
+    default_retry_count: 1
+    parallel_limit: 5
+    environments:
+      - name: local
+        description: Local development environment
+        timeout_multiplier: 2.0
+        allow_warnings: true
+      - name: ci
+        description: CI/CD environment
+        timeout_multiplier: 1.0
+        allow_warnings: false
+      - name: production
+        description: Production environment
+        timeout_multiplier: 1.0
+        allow_warnings: false
+        additional_gates:
+          - manual-approval
+          - compliance-check
+  # Gate reporting
+  reporting:
+    enabled: true
+    format: json
+    include_outputs: true
+    include_metrics: true
+    report_types:
+      - name: gate-summary
+        description: Summary of gate execution results
+        template: gate-summary.template
+      - name: detailed-report
+        description: Detailed gate execution report
+        template: detailed-report.template
+      - name: compliance-report
+        description: Compliance-focused report
+        template: compliance-report.template
+    notifications:
+      - name: slack
+        type: webhook
+        events:
+          - failure
+          - success
+        template: slack.template
+      - name: email
+        type: smtp
+        events:
+          - failure
+        template: email.template
+  # Gate policies
+  policies:
+    - name: mandatory-gates
+      description: Gates that must always pass
+      gates:
+        - schema
+        - render
+      environments:
+        - ci
+        - production
+    - name: warning-tolerated-gates
+      description: Gates that can pass with warnings
+      gates:
+        - policy
+        - sbom
+        - sign
+        - attest
+      environments:
+        - local
+        - ci
+    - name: parallel-execution-gates
+      description: Gates that can run in parallel
+      gates:
+        - sbom
+        - sign
+        - attest
+      max_parallel: 3
+  # Gate integration
+  integrations:
+    - name: github-actions
+      type: ci-cd
+      config:
+        workflow_files:
+          - .github/workflows/ci.yaml
+          - .github/workflows/gate-lock-attest.yaml
+        artifact_upload: true
+    - name: gitlab-ci
+      type: ci-cd
+      config:
+        workflow_file: .gitlab-ci.yml
+        artifact_upload: true
+    - name: argocd
+      type: gitops
+      config:
+        sync_policy:
+          automated:
+            prune: false
+            self_heal: false
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+  # Gate monitoring
+  monitoring:
+    metrics:
+      enabled: true
+      port: 9094
+    metrics_collected:
+      - name: gate_execution_duration
+        type: histogram
+        labels:
+          - gate_name
+          - status
+      - name: gate_execution_total
+        type: counter
+        labels:
+          - gate_name
+          - status
+      - name: gate_failure_rate
+        type: gauge
+        labels:
+          - gate_name
+    alerts:
+      - name: gate-timeout
+        description: Gate execution timeout
+        condition: gate_execution_duration > gate_timeout
+        severity: warning
+      - name: gate-failure-rate-high
+        description: High gate failure rate
+        condition: gate_failure_rate > 0.1
+        severity: critical
+      - name: evidence-missing
+        description: Missing evidence files
+        condition: evidence_files_missing > 0
+        severity: warning

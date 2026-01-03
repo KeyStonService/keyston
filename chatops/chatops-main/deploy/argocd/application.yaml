@@ -1,0 +1,85 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chatops
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: chatops
+  annotations:
+    chatops.io/naming-compliant: "true"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/MachineNativeOps/chatops.git
+    targetRevision: HEAD
+    path: deploy/k8s/overlays/dev
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chatops-dev
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chatops-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MachineNativeOps/chatops.git
+    targetRevision: HEAD
+    path: deploy/k8s/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chatops-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chatops-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MachineNativeOps/chatops.git
+    targetRevision: HEAD
+    path: deploy/k8s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chatops-prod
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true

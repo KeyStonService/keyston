@@ -1,0 +1,137 @@
+# .github/workflows/foundation.setup.yml
+# Phase-1: CI/CD Foundation Setup for Multi-Agent AI Production Environment
+name: CI/CD Foundation Setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Environment'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.9'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  environment-setup:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy-target: ${{ steps.env-config.outputs.target }}
+      agent-ci-trace-id: ${{ steps.trace.outputs.trace_id }}
+      policy-verdict: ${{ steps.policy.outputs.verdict }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Trace Id
+        id: trace
+        run: |
+          TRACE_ID="trace-$(date +%s)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          echo "trace_id=$TRACE_ID" >> $GITHUB_OUTPUT
+          echo "::notice title=Trace ID::$TRACE_ID"
+
+      - name: Environment Configuration
+        id: env-config
+        run: |
+          case "${{ github.event.inputs.environment }}" in
+            "production")
+              DB_URL="${{ secrets.PROD_DB_URL }}"
+              if [ -z "$DB_URL"]; then
+                echo "Error: PROD_DB_URL secret is not set or is empty." >&2
+                exit 1
+              fi
+              echo "target=prod" >> "$GITHUB_OUTPUT"
+              echo "DB_URL=$DB_URL" >> "$GITHUB_ENV"
+              ;;
+            "staging")
+              DB_URL="${{ secrets.STAGE_DB_URL }}"
+              if [ -z "$DB_URL"]; then
+                echo "Error: STAGE_DB_URL secret is not set or is empty." >&2
+                exit 1
+              fi
+              echo "target=stage" >> "$GITHUB_OUTPUT"
+              echo "DB_URL=$DB_URL" >> "$GITHUB_ENV"
+              ;;
+            *)
+              DB_URL="${{ secrets.DEV_DB_URL }}"
+              if [ -z "$DB_URL"]; then
+                echo "Error: DEV_DB_URL secret is not set or is empty." >&2
+                exit 1
+              fi
+              echo "target=dev" >> "$GITHUB_OUTPUT"
+              echo "DB_URL=$DB_URL" >> "$GITHUB_ENV"
+              ;;
+          esac
+
+      - name: Policy Agent (Phase-1 Placeholder Verdict)
+        id: policy
+        run: |
+          # Phase-1: Always allow, Phase-3+ will enable quality/security gates
+          echo "verdict=pass" >> $GITHUB_OUTPUT
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.cache/pip
+            node_modules
+            .venv
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/package-lock.json', '**/requirements.txt', '**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Audit Log (Observability Agent)
+        run: |
+          mkdir -p var/audit
+          cat > var/audit/foundation-setup.jsonl <<EOF
+          {"trace_id":"${{ steps.trace.outputs.trace_id }}","event":"foundation_setup","deploy_target":"${{ steps.env-config.outputs.target }}","policy_verdict":"${{ steps.policy.outputs.verdict }}","ref":"${GITHUB_REF}","sha":"${GITHUB_SHA}","timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)"}
+          EOF
+
+      - name: Upload Audit Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundation-audit-${{ steps.trace.outputs.trace_id }}
+          path: var/audit/
+          retention-days: 90
+
+      - name: Summary
+        run: |
+          echo "## Foundation Setup Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Trace ID | \`${{ steps.trace.outputs.trace_id }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deploy Target | \`${{ steps.env-config.outputs.target }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Policy Verdict | \`${{ steps.policy.outputs.verdict }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Node Version | ${{ env.NODE_VERSION }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Python Version | ${{ env.PYTHON_VERSION }} |" >> $GITHUB_STEP_SUMMARY

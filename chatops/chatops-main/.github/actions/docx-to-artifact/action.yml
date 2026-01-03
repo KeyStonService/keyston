@@ -1,0 +1,31 @@
+name: "docx-to-artifact"
+description: "Convert DOCX/PDF/MD sources into structured Artifact modules and reports"
+author: "chatops"
+inputs:
+  sources_dir:
+    description: "Input directory containing docx/pdf/md files"
+    required: true
+    default: "artifacts/sources"
+  modules_dir:
+    description: "Output directory for structured modules"
+    required: true
+    default: "artifacts/modules"
+  reports_dir:
+    description: "Output directory for reports"
+    required: true
+    default: "artifacts/reports"
+  fail_on_error:
+    description: "Fail workflow if conversion encounters errors"
+    required: false
+    default: "true"
+outputs:
+  report_path:
+    description: "Path to conversion report json"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.sources_dir }}
+    - ${{ inputs.modules_dir }}
+    - ${{ inputs.reports_dir }}
+    - ${{ inputs.fail_on_error }}

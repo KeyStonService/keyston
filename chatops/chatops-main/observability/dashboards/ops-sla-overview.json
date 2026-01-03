@@ -1,0 +1,48 @@
+{
+  "title": "Ops SLA Overview",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "templating": {
+    "list": [
+      { "name": "env", "type": "custom", "query": "local,dev,staging,prod", "current": { "text": "prod", "value": "prod" } },
+      { "name": "app", "type": "custom", "query": "chatops,my-app", "current": { "text": "chatops", "value": "chatops" } },
+      { "name": "region", "type": "custom", "query": "local,us-east-1,ap-northeast-1,eu-west-1", "current": { "text": "local", "value": "local" } }
+    ]
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "NCR",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "avg(chatops_naming_compliance_rate{env=\"$env\",app=\"$app\",region=\"$region\"})", "legendFormat": "NCR" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "MFR",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "avg(chatops_naming_migration_failure_rate{env=\"$env\",app=\"$app\",region=\"$region\"})", "legendFormat": "MFR" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "VFC",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "sum(chatops_naming_validation_failures_total{env=\"$env\",app=\"$app\",region=\"$region\"})", "legendFormat": "VFC" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "ARS rate",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "rate(chatops_naming_autofix_success_total{env=\"$env\",app=\"$app\",region=\"$region\"}[5m])", "legendFormat": "ARS rate" }
+      ]
+    }
+  ]
+}

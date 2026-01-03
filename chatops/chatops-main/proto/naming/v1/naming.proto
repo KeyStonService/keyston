@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package chatops.naming.v1;
+
+message NamingViolation {
+  string file = 1;
+  string kind = 2;
+  string name = 3;
+  string pattern = 4;
+  bool compliant = 5;
+}
+
+message NamingDiscoveryReport {
+  string trace_id = 1;
+  string ts = 2;
+  string root = 3;
+  repeated NamingViolation resources = 4;
+
+  message Summary {
+    int32 total = 1;
+    int32 compliant = 2;
+    int32 noncompliant = 3;
+    double compliance_rate = 4; // 0..100
+  }
+  Summary summary = 5;
+}

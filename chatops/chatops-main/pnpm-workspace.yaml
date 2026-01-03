@@ -1,0 +1,5 @@
+packages:
+  - "apps/**"
+  - "tools/**"
+  - "apps/my-app/web"
+  - "apps/my-app/node-runtime"

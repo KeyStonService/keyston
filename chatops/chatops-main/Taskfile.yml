@@ -1,0 +1,45 @@
+version: "3"
+
+vars:
+  ARTIFACTS: artifacts
+  REPORTS: artifacts/reports
+
+tasks:
+  bootstrap:
+    desc: "Initialize local folders and verify toolchain"
+    cmds:
+      - mkdir -p {{.ARTIFACTS}}/sbom {{.ARTIFACTS}}/attestations {{.REPORTS}}/auto-fix/details {{.REPORTS}}/naming
+      - bash scripts/bootstrap.sh
+
+  naming:
+    desc: "Naming governance pipeline (discovery->verify->report)"
+    cmds:
+      - bash scripts/naming/discover.sh
+      - bash scripts/naming/conftest-verify.sh
+      - bash scripts/naming/remediate.sh || true
+      - bash scripts/naming/dry-run.sh
+      - bash scripts/naming/staged-rename.sh
+      - bash scripts/naming/cutover.sh
+      - bash scripts/naming/rollback.sh
+      - bash scripts/naming/verify-post-rollback.sh || true
+      - node scripts/naming/report-sla.mjs || true
+
+  sbom:
+    desc: "Generate SBOM (stub by default)"
+    cmds:
+      - bash scripts/gen-sbom.sh
+
+  policy:
+    desc: "Validate policies (OPA/Conftest + Gatekeeper template lint)"
+    cmds:
+      - bash scripts/policy-validate.sh
+
+  freeze:
+    desc: "Freeze deployments via gate-lock file"
+    cmds:
+      - bash scripts/freeze-deploy.sh
+
+  unfreeze:
+    desc: "Unfreeze deployments"
+    cmds:
+      - bash scripts/unfreeze-deploy.sh

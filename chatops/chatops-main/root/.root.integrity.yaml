@@ -1,0 +1,318 @@
+apiVersion: root.platform.io/v1
+kind: RootIntegrity
+metadata:
+  name: machine-native-ops-integrity
+  version: 0.1.0
+  owners:
+    - security-team@machine-native-ops.org
+  description: Integrity protection and drift detection
+spec:
+  # Hash lock configuration
+  hash_lock:
+    enabled: true
+    algorithm: sha3-512
+    secondary_algorithm: blake3
+    lock_file: dist/evidence/digests.json
+    monitored_paths:
+      - root/.root.*.yaml
+      - root/jobs/*.yaml
+      - root/init/steps/*.sh
+      - deploy/kustomize/base/*.yaml
+      - deploy/policies/kyverno/*.yaml
+      - .github/workflows/*.yaml
+      - Makefile
+    hash_generation:
+      schedule: on_change
+      parallel: true
+      include_metadata: true
+    verification:
+      on_startup: true
+      on_change: true
+      on_schedule: 0 */6 * * * # Every 6 hours
+    exceptions:
+      - path: dist/**
+        reason: Generated artifacts
+      - path: examples/**
+        reason: Example files
+      - path: '*.tmp'
+        reason: Temporary files
+  # Drift detection
+  drift_detection:
+    enabled: true
+    baseline_strategy: git_head
+    detection_interval: 5m
+    alert_threshold: 1
+    monitored_resources:
+      - type: kubernetes
+        namespaces:
+          - root-system
+          - kube-system
+        resources:
+          - deployments
+          - configmaps
+          - secrets
+          - services
+          - ingresses
+        fields:
+          - spec
+          - metadata.labels
+          - metadata.annotations
+      - type: files
+        paths:
+          - root/.root.*.yaml
+          - deploy/kustomize/overlays/**
+        hash_algorithm: sha3-512
+      - type: container-images
+        repositories:
+          - ghcr.io/machine-native-ops/*
+        fields:
+          - digest
+          - labels
+          - annotations
+    drift_types:
+      - name: configuration-drift
+        description: Configuration changes compared to baseline
+        severity: medium
+        auto_remediation: false
+      - name: security-drift
+        description: Security-related changes
+        severity: high
+        auto_remediation: false
+      - name: version-drift
+        description: Version changes
+        severity: low
+        auto_remediation: false
+      - name: permission-drift
+        description: RBAC and permission changes
+        severity: high
+        auto_remediation: false
+    response_actions:
+      - name: alert-only
+        description: Send alert only
+        triggers:
+          - configuration-drift
+          - version-drift
+      - name: block-deployment
+        description: Block further deployments
+        triggers:
+          - security-drift
+          - permission-drift
+      - name: auto-rollback
+        description: Automatic rollback to baseline
+        triggers: []
+        # Disabled by default, requires explicit enablement
+  # Freeze policies
+  freeze_policy:
+    enabled: true
+    default_duration: 2h
+    max_duration: 24h
+    freeze_conditions:
+      - name: compliance-audit
+        description: Freeze during compliance audit
+        trigger:
+          type: event
+          event: compliance_audit_started
+        duration: 4h
+        affected_paths:
+          - root/**
+          - deploy/policies/**
+      - name: security-incident
+        description: Freeze during security incident
+        trigger:
+          type: event
+          event: security_incident_declared
+        duration: until_resolved
+        affected_paths:
+          - '**' # All paths
+      - name: maintenance-window
+        description: Scheduled maintenance freeze
+        trigger:
+          type: schedule
+          schedule: 0 2 * * 0 # Sunday 2 AM
+        duration: 6h
+        affected_paths:
+          - deploy/kustomize/overlays/prod/**
+      - name: release-freeze
+        description: Pre-release freeze
+        trigger:
+          type: manual
+          approval_required: true
+        duration: 12h
+        affected_paths:
+          - root/**
+          - deploy/**
+    freeze_actions:
+      - name: block-commits
+        description: Block commits to protected branches
+        enabled: true
+        protection_level: protected_branches
+      - name: block-deployments
+        description: Block deployments to production
+        enabled: true
+        environments:
+          - production
+          - staging
+      - name: pause-cron-jobs
+        description: Pause scheduled jobs
+        enabled: false
+        jobs: []
+  # Immutable artifacts
+  immutable_artifacts:
+    enabled: true
+    artifact_types:
+      - name: signed-images
+        description: Cryptographically signed container images
+        verification: cosign
+        storage: oci-registry
+      - name: sbom-reports
+        description: Software Bill of Materials reports
+        verification: sha256
+        storage: s3
+      - name: attestations
+        description: in-toto attestations
+        verification: signature
+        storage: transparency-log
+      - name: audit-logs
+        description: Audit log files
+        verification: hash_chain
+        storage: worm-storage
+    protection_mechanisms:
+      - name: write-once-read-many
+        description: WORM storage for critical artifacts
+        storage_backends:
+          - s3-worm
+          - azure-immutable-blob
+      - name: blockchain-anchoring
+        description: Anchor hashes in blockchain
+        enabled: false
+        config:
+          network: ethereum
+          contract: artifact-registry
+      - name: transparency-log
+        description: Public transparency log
+        backend: rekor
+  # Integrity verification
+  verification:
+    enabled: true
+    schedule: 0 */1 * * * # Every hour
+    verification_types:
+      - name: hash-verification
+        description: Verify file hashes against stored values
+        algorithm: sha3-512
+        parallel: true
+      - name: signature-verification
+        description: Verify digital signatures
+        tools:
+          - cosign
+          - gpg
+          - x509
+      - name: schema-verification
+        description: Verify YAML/JSON schemas
+        schema_store: root/schemas/
+      - name: dependency-verification
+        description: Verify dependency integrity
+        check_transitive: true
+        vulnerability_scan: true
+    failure_handling:
+      - name: log-and-alert
+        description: Log failure and send alert
+        severity: warning
+      - name: block-operation
+        description: Block the operation that failed verification
+        applies_to:
+          - deploy
+          - update
+      - name: quarantine
+        description: Quarantine affected resources
+        applies_to:
+          - images
+          - artifacts
+  # Recovery and remediation
+  recovery:
+    enabled: true
+    backup_strategies:
+      - name: git-backup
+        description: Git-based backup of configuration
+        schedule: 0 3 * * *
+        retention: 30d
+      - name: snapshot-backup
+        description: Point-in-time snapshots
+        schedule: 0 4 * * 0 # Weekly
+        retention: 90d
+      - name: incremental-backup
+        description: Incremental backups
+        schedule: '*/30 * * * *'
+        retention: 7d
+    remediation_actions:
+      - name: restore-from-backup
+        description: Restore from known good backup
+        approval_required: true
+        backup_types:
+          - git-backup
+          - snapshot-backup
+      - name: reset-to-baseline
+        description: Reset to Git HEAD baseline
+        approval_required: false
+        auto_execute: false
+      - name: rebuild-from-source
+        description: Rebuild artifacts from source
+        approval_required: true
+        rebuild_options:
+          - rebuild-images
+          - regenerate-manifests
+          - recreate-configmaps
+  # Compliance and audit
+  compliance:
+    frameworks:
+      - name: NIST-800-53
+        controls:
+          - CM-3 # Configuration Change Control
+          - CM-5 # Access Restrictions for Change
+          - SI-7 # Software, Firmware, and Information Integrity
+          - AU-10 # Non-Repudiation
+      - name: CIS-Controls
+        controls:
+          - "3.7" # Protect Data via Encryption
+          - "4.1" # Establish and Maintain a Secure Configuration Process
+          - "16.1" # Establish and Maintain a Security Incident Response Process
+    audit_events:
+      - name: integrity-verification
+        description: Integrity verification results
+        retention: 7y
+      - name: drift-detection
+        description: Drift detection events
+        retention: 5y
+      - name: freeze-activation
+        description: Freeze policy activation
+        retention: 3y
+      - name: remediation-actions
+        description: Remediation and recovery actions
+        retention: 5y
+  # Performance and monitoring
+  monitoring:
+    metrics:
+      enabled: true
+      port: 9092
+    metrics_collected:
+      - name: integrity_checks_total
+        type: counter
+        description: Total integrity checks performed
+      - name: integrity_failures_total
+        type: counter
+        description: Total integrity check failures
+      - name: drift_detections_total
+        type: counter
+        description: Total drift detections
+      - name: hash_verification_duration
+        type: histogram
+        description: Time taken for hash verification
+    health_checks:
+      - name: hash-lock-health
+        endpoint: /health/hash-lock
+        interval: 30s
+      - name: drift-detection-health
+        endpoint: /health/drift-detection
+        interval: 30s
+      - name: verification-service-health
+        endpoint: /health/verification
+        interval: 30s

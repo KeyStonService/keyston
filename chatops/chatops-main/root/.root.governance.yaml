@@ -1,0 +1,164 @@
+apiVersion: root.platform.io/v1
+kind: RootGovernance
+metadata:
+  name: machine-native-ops-governance
+  version: 0.1.0
+  owners:
+    - governance-team@machine-native-ops.org
+  description: Governance model and role-based access control
+spec:
+  # Role definitions
+  roles:
+    - name: admin
+      description: Full system access
+      permissions:
+        - '*'
+      namespaces:
+        - '*'
+      policies:
+        - allow-all
+    - name: operator
+      description: Operational access to deploy and manage resources
+      permissions:
+        - read
+        - deploy
+        - scale
+        - restart
+        - logs
+      namespaces:
+        - root-system
+        - app-*
+      policies:
+        - allow-deploy
+        - allow-scale
+        - allow-restart
+    - name: viewer
+      description: Read-only access
+      permissions:
+        - read
+        - logs
+      namespaces:
+        - '*'
+      policies:
+        - allow-read
+  # Policies
+  policies:
+    - name: allow-all
+      description: Allow all actions (admin only)
+      rules:
+        - action: '*'
+          resource: '*'
+          effect: allow
+    - name: allow-deploy
+      description: Allow deployment operations
+      rules:
+        - action:
+            - create
+            - update
+            - delete
+          resource:
+            - deployments
+            - configmaps
+            - secrets
+          effect: allow
+    - name: allow-scale
+      description: Allow scaling operations
+      rules:
+        - action:
+            - patch
+            - update
+          resource:
+            - deployments
+            - replicasets
+          effect: allow
+    - name: allow-restart
+      description: Allow restart operations
+      rules:
+        - action:
+            - create
+          resource:
+            - pods
+          condition: restart
+          effect: allow
+    - name: allow-read
+      description: Allow read operations
+      rules:
+        - action:
+            - get
+            - list
+            - watch
+          resource: '*'
+          effect: allow
+  # Audit rules
+  audit_rules:
+    - name: all-admin-actions
+      description: Audit all admin actions
+      roles:
+        - admin
+      actions:
+        - '*'
+      resources:
+        - '*'
+      log_level: info
+    - name: deploy-operations
+      description: Audit deployment operations
+      roles:
+        - operator
+      actions:
+        - create
+        - update
+        - delete
+      resources:
+        - deployments
+        - configmaps
+      log_level: info
+    - name: access-denied
+      description: Log all access denied events
+      roles:
+        - '*'
+      actions:
+        - '*'
+      resources:
+        - '*'
+      condition: denied
+      log_level: warning
+  # Compliance settings
+  compliance:
+    frameworks:
+      - name: SOC2
+        enabled: true
+        controls:
+          - A1.1
+          - A1.2
+          - A6.1
+      - name: ISO27001
+        enabled: false
+        controls: []
+    data_classification:
+      - level: public
+        description: Public information
+        retention: 1y
+      - level: internal
+        description: Internal use only
+        retention: 3y
+      - level: confidential
+        description: Confidential information
+        retention: 7y
+  # Approval workflows
+  approval_workflows:
+    - name: production-deploy
+      description: Approval required for production deployment
+      trigger:
+        event: deploy
+        target: production
+      steps:
+        - type: peer_review
+          required: 1
+        - type: security_review
+          required: 1
+          conditions:
+            - high_risk_changes
+        - type: compliance_review
+          required: 1
+          conditions:
+            - data_access_changes

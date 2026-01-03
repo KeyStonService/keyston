@@ -1,0 +1,312 @@
+apiVersion: root.platform.io/v1
+kind: RootProvenance
+metadata:
+  name: machine-native-ops-provenance
+  version: 0.1.0
+  owners:
+    - security-team@machine-native-ops.org
+  description: Provenance tracking and supply chain transparency
+spec:
+  # Data sources
+  sources:
+    - name: git-repository
+      type: git
+      description: Primary source code repository
+      config:
+        url: https://github.com/MachineNativeOps/machine-native-ops.git
+        branch: main
+        commit_verification:
+          enabled: true
+          required_signatures: true
+        tag_verification:
+          enabled: true
+          required_signatures: true
+      metadata_fields:
+        - commit_hash
+        - commit_message
+        - author
+        - committer
+        - timestamp
+        - branch
+        - tags
+    - name: container-registry
+      type: oci
+      description: Container image registry
+      config:
+        registry: ghcr.io/machine-native-ops
+        repositories:
+          - root-controller
+          - operator
+        signature_verification:
+          enabled: true
+          tool: cosign
+        vulnerability_scanning:
+          enabled: true
+          tool: trivy
+          max_severity: medium
+      metadata_fields:
+        - image_digest
+        - image_tags
+        - image_size
+        - creation_time
+        - layers
+        - vulnerabilities
+    - name: artifact-repository
+      type: generic
+      description: Generic artifact repository
+      config:
+        storage: s3
+        bucket: machine-native-ops-artifacts
+        prefix: provenance/
+        encryption:
+          enabled: true
+          algorithm: AES256
+      metadata_fields:
+        - artifact_name
+        - artifact_size
+        - checksum
+        - upload_time
+        - uploader
+  # Metadata schema version
+  metadata_schema_version: v1.2.0
+  # Audit trails
+  audit_trails:
+    - name: provenance-log
+      description: Provenance events and changes
+      type: file
+      config:
+        path: /var/log/provenance.log
+        rotation: daily
+        retention: 7y
+        format: json
+      events:
+        - artifact_created
+        - artifact_updated
+        - signature_verified
+        - vulnerability_detected
+        - compliance_check
+    - name: supply-chain-events
+      description: Supply chain related events
+      type: database
+      config:
+        driver: postgresql
+        connection_string: postgresql://user:pass@db:5432/provenance
+        table: supply_chain_events
+      events:
+        - build_started
+        - build_completed
+        - test_execution
+        - deployment_started
+        - deployment_completed
+    - name: compliance-audit
+      description: Compliance and audit events
+      type: elasticsearch
+      config:
+        endpoint: https://elasticsearch.machine-native-ops.org:9200
+        index: provenance-compliance
+        template: compliance-template
+      events:
+        - policy_evaluation
+        - control_assessment
+        - risk_assessment
+        - exception_granted
+  # Provenance collection
+  collection:
+    enabled: true
+    schedule: continuous
+    batch_size: 100
+    retry_count: 3
+    timeout: 30s
+    collectors:
+      - name: git-collector
+        type: git
+        enabled: true
+        config:
+          repository: .
+          follow_branches:
+            - main
+            - release/*
+          collect_tags: true
+      - name: image-collector
+        type: oci
+        enabled: true
+        config:
+          registries:
+            - ghcr.io/machine-native-ops
+          scan_interval: 1h
+          collect_signatures: true
+      - name: build-collector
+        type: cicd
+        enabled: true
+        config:
+          platforms:
+            - github
+            - gitlab
+          collect_artifacts: true
+          collect_logs: true
+  # Transformation and enrichment
+  transformation:
+    enabled: true
+    processors:
+      - name: normalize-timestamps
+        type: timestamp
+        config:
+          input_format: iso8601
+          output_format: unix
+          timezone: UTC
+      - name: enrich-metadata
+        type: enrichment
+        config:
+          add_git_context: true
+          add_build_context: true
+          add_security_context: true
+      - name: classify-sensitivity
+        type: classification
+        config:
+          rules:
+            - pattern: secret|password|token|key
+              classification: sensitive
+            - pattern: config|settings
+              classification: configuration
+            - pattern: test|spec
+              classification: test
+  # Storage and retention
+  storage:
+    primary:
+      type: s3
+      config:
+        bucket: machine-native-ops-provenance
+        region: us-west-2
+        encryption: SSE-KMS
+        key_id: provenance-key
+    backup:
+      type: glacier
+      config:
+        vault: provenance-archive
+        retention: 10y
+    retention_policies:
+      - name: default
+        description: Default retention policy
+        period: 7y
+        conditions: []
+      - name: compliance
+        description: Compliance retention policy
+        period: 10y
+        conditions:
+          - field: classification
+            value: compliance
+      - name: security
+        description: Security events retention
+        period: permanent
+        conditions:
+          - field: classification
+            value: security
+  # Query and analysis
+  query:
+    enabled: true
+    api_version: v1
+    query_engines:
+      - name: sql
+        type: postgresql
+        enabled: true
+      - name: search
+        type: elasticsearch
+        enabled: true
+      - name: graph
+        type: neo4j
+        enabled: false # Optional
+    common_queries:
+      - name: artifact-lineage
+        description: Trace artifact lineage
+        template: SELECT * FROM lineage WHERE artifact_id = ?
+      - name: compliance-status
+        description: Get compliance status
+        template: SELECT * FROM compliance WHERE timestamp > ?
+      - name: vulnerability-report
+        description: Generate vulnerability report
+        template: SELECT * FROM vulnerabilities WHERE severity >= ?
+  # Compliance and standards
+  compliance:
+    frameworks:
+      - name: SLSA
+        version: v1.0
+        requirements:
+          - SLSA_BUILDER # Builder identification
+          - SLSA_MATERIALS # Material provenance
+          - SLSA_REPRODUCIBLE # Reproducible builds
+      - name: in-toto
+        version: "1.0"
+        requirements:
+          - layout # Layout definition
+          - link # Link metadata
+          - attestation # Attestation metadata
+    attestations:
+      - name: build-attestation
+        type: slsa-provenance
+        description: SLSA build provenance attestation
+        required: true
+        fields:
+          - builder
+          - materials
+          - recipe
+          - metadata
+      - name: security-attestation
+        type: security-scan
+        description: Security scan attestation
+        required: true
+        fields:
+          - scanner
+          - vulnerabilities
+          - score
+          - recommendations
+      - name: compliance-attestation
+        type: compliance-check
+        description: Compliance check attestation
+        required: false
+        fields:
+          - framework
+          - controls
+          - status
+          - evidence
+  # Integration points
+  integrations:
+    - name: sigstore
+      type: transparency-log
+      description: Sigstore integration for transparency
+      config:
+        rekor_url: https://rekor.sigstore.dev
+        fulcio_url: https://fulcio.sigstore.dev
+    - name: grafeas
+      type: metadata-api
+      description: Grafeas API integration
+      config:
+        endpoint: https://grafeas.machine-native-ops.org
+        project_id: machine-native-ops
+    - name: spdx
+      type: sbom
+      description: SPDX SBOM generation
+      config:
+        format: tag-value
+        version: SPDX-2.3
+        include_dependencies: true
+  # Monitoring and alerting
+  monitoring:
+    metrics:
+      enabled: true
+      port: 9091
+      endpoints:
+        - /metrics
+        - /health
+    alerts:
+      - name: provenance-gap
+        description: Missing provenance data
+        condition: missing_provenance > 0
+        severity: warning
+      - name: integrity-failure
+        description: Provenance integrity check failed
+        condition: integrity_check == 'failed'
+        severity: critical
+      - name: compliance-violation
+        description: Compliance requirement not met
+        condition: compliance_status == 'violation'
+        severity: high

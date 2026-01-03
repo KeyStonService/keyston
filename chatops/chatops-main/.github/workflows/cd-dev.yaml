@@ -1,0 +1,40 @@
+name: CD Dev (blocked by freeze-gate)
+on:
+  push:
+    branches: [develop]
+    paths:
+      - "deploy/**"
+      - "ops/**"
+      - "apps/**"
+      - "scripts/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Freeze gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/freeze-deploy.sh --check-only
+
+  deploy_dev:
+    runs-on: ubuntu-latest
+    needs: [freeze_check]
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Deploy (dev demo)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "deploy dev (demo): render helm/kustomize and apply to cluster"

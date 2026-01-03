@@ -1,0 +1,334 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: alertmanager
+    app.kubernetes.io/component: alerting
+    app.kubernetes.io/part-of: observability
+data:
+  alertmanager.yml: |
+    global:
+      # Global configuration
+      resolve_timeout: 5m
+      smtp_smarthost: 'smtp.example.com:587'
+      smtp_from: 'alertmanager@example.com'
+      smtp_auth_username: 'alertmanager'
+      smtp_auth_password_file: /etc/alertmanager/secrets/smtp_password
+      slack_api_url_file: /etc/alertmanager/secrets/slack_webhook
+
+    # Templates for notifications
+    templates:
+      - '/etc/alertmanager/templates/*.tmpl'
+
+    # Route tree for alert routing
+    route:
+      # Default receiver
+      receiver: 'default-receiver'
+      # Group alerts by these labels
+      group_by: ['alertname', 'cluster', 'service', 'severity']
+      # Wait before sending first notification
+      group_wait: 30s
+      # Wait before sending updated notification
+      group_interval: 5m
+      # Wait before resending
+      repeat_interval: 4h
+
+      # Child routes for specific routing
+      routes:
+        # P0 Critical - immediate notification
+        - receiver: 'critical-pagerduty'
+          matchers:
+            - severity="critical"
+          group_wait: 10s
+          group_interval: 1m
+          repeat_interval: 15m
+          continue: true
+
+        # P0 Critical - also send to Slack
+        - receiver: 'critical-slack'
+          matchers:
+            - severity="critical"
+          group_wait: 10s
+          group_interval: 1m
+          repeat_interval: 15m
+
+        # P1 High - Slack notification
+        - receiver: 'high-slack'
+          matchers:
+            - severity="high"
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 1h
+
+        # P2 Medium - Email notification
+        - receiver: 'medium-email'
+          matchers:
+            - severity="medium"
+          group_wait: 5m
+          group_interval: 15m
+          repeat_interval: 6h
+
+        # P3 Low/Info - Weekly digest
+        - receiver: 'low-email'
+          matchers:
+            - severity=~"low|info"
+          group_wait: 1h
+          group_interval: 6h
+          repeat_interval: 24h
+
+        # Naming convention alerts
+        - receiver: 'naming-governance-slack'
+          matchers:
+            - alertname=~"NamingConvention.*"
+          group_by: ['alertname', 'namespace']
+          group_wait: 1m
+          group_interval: 10m
+          repeat_interval: 2h
+
+        # Security alerts - high priority
+        - receiver: 'security-team'
+          matchers:
+            - team="security"
+          group_wait: 10s
+          group_interval: 1m
+          repeat_interval: 30m
+          continue: true
+
+        # Infrastructure alerts
+        - receiver: 'infrastructure-slack'
+          matchers:
+            - team="infrastructure"
+          group_wait: 1m
+          group_interval: 5m
+          repeat_interval: 2h
+
+        # Application alerts
+        - receiver: 'application-slack'
+          matchers:
+            - team="application"
+          group_wait: 1m
+          group_interval: 5m
+          repeat_interval: 2h
+
+    # Inhibition rules to suppress notifications
+    inhibit_rules:
+      # If critical alert is firing, suppress high alerts for same service
+      - source_matchers:
+          - severity="critical"
+        target_matchers:
+          - severity="high"
+        equal: ['alertname', 'cluster', 'service']
+
+      # If high alert is firing, suppress medium alerts for same service
+      - source_matchers:
+          - severity="high"
+        target_matchers:
+          - severity="medium"
+        equal: ['alertname', 'cluster', 'service']
+
+      # If cluster is down, suppress all service alerts
+      - source_matchers:
+          - alertname="ClusterDown"
+        target_matchers:
+          - severity=~"critical|high|medium"
+        equal: ['cluster']
+
+      # If node is down, suppress pod alerts on that node
+      - source_matchers:
+          - alertname="NodeDown"
+        target_matchers:
+          - alertname=~"Pod.*"
+        equal: ['node']
+
+      # Suppress duplicate naming alerts within same namespace
+      - source_matchers:
+          - alertname="NamingConventionCriticalViolation"
+        target_matchers:
+          - alertname="NamingConventionWarning"
+        equal: ['namespace', 'resource']
+
+      # During maintenance, suppress non-critical alerts
+      - source_matchers:
+          - alertname="MaintenanceWindow"
+        target_matchers:
+          - severity=~"medium|low|info"
+
+    # Receiver definitions
+    receivers:
+      # Default receiver
+      - name: 'default-receiver'
+        slack_configs:
+          - channel: '#alerts-default'
+            send_resolved: true
+            title: '{{ template "slack.default.title" . }}'
+            text: '{{ template "slack.default.text" . }}'
+
+      # Critical - PagerDuty
+      - name: 'critical-pagerduty'
+        pagerduty_configs:
+          - service_key_file: /etc/alertmanager/secrets/pagerduty_key
+            severity: critical
+            description: '{{ template "pagerduty.default.description" . }}'
+            details:
+              firing: '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
+              resolved: '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
+              num_firing: '{{ .Alerts.Firing | len }}'
+              num_resolved: '{{ .Alerts.Resolved | len }}'
+
+      # Critical - Slack
+      - name: 'critical-slack'
+        slack_configs:
+          - channel: '#alerts-critical'
+            send_resolved: true
+            color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+            title: ':fire: CRITICAL: {{ .GroupLabels.alertname }}'
+            text: |
+              *Cluster:* {{ .GroupLabels.cluster }}
+              *Service:* {{ .GroupLabels.service }}
+              *Severity:* {{ .GroupLabels.severity }}
+
+              {{ range .Alerts }}
+              *Alert:* {{ .Annotations.summary }}
+              *Description:* {{ .Annotations.description }}
+              *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+              {{ end }}
+
+              <{{ .ExternalURL }}/#/alerts?filter=%7Balertname%3D%22{{ .GroupLabels.alertname }}%22%7D|View in Alertmanager>
+            actions:
+              - type: button
+                text: 'View Runbook'
+                url: '{{ (index .Alerts 0).Annotations.runbook_url }}'
+              - type: button
+                text: 'Silence Alert'
+                url: '{{ .ExternalURL }}/#/silences/new?filter=%7Balertname%3D%22{{ .GroupLabels.alertname }}%22%7D'
+
+      # High - Slack
+      - name: 'high-slack'
+        slack_configs:
+          - channel: '#alerts-high'
+            send_resolved: true
+            color: '{{ if eq .Status "firing" }}warning{{ else }}good{{ end }}'
+            title: ':warning: HIGH: {{ .GroupLabels.alertname }}'
+            text: '{{ template "slack.default.text" . }}'
+
+      # Medium - Email
+      - name: 'medium-email'
+        email_configs:
+          - to: 'ops-team@example.com'
+            send_resolved: true
+            headers:
+              Subject: '[MEDIUM] {{ .GroupLabels.alertname }} - {{ .Status | toUpper }}'
+            html: '{{ template "email.default.html" . }}'
+
+      # Low - Email digest
+      - name: 'low-email'
+        email_configs:
+          - to: 'ops-digest@example.com'
+            send_resolved: false
+            headers:
+              Subject: '[LOW] Alert Digest - {{ .Alerts | len }} alerts'
+
+      # Naming governance - Slack
+      - name: 'naming-governance-slack'
+        slack_configs:
+          - channel: '#naming-governance'
+            send_resolved: true
+            color: '{{ if eq .Status "firing" }}warning{{ else }}good{{ end }}'
+            title: ':label: Naming Convention: {{ .GroupLabels.alertname }}'
+            text: |
+              *Namespace:* {{ .GroupLabels.namespace }}
+              *Compliance Rate:* {{ (index .Alerts 0).Annotations.compliance_rate }}
+
+              {{ range .Alerts }}
+              {{ .Annotations.description }}
+              {{ end }}
+
+              <{{ (index .Alerts 0).Annotations.dashboard_url }}|View Dashboard>
+
+      # Security team
+      - name: 'security-team'
+        slack_configs:
+          - channel: '#security-alerts'
+            send_resolved: true
+            color: 'danger'
+            title: ':shield: Security Alert: {{ .GroupLabels.alertname }}'
+            text: '{{ template "slack.default.text" . }}'
+        pagerduty_configs:
+          - service_key_file: /etc/alertmanager/secrets/security_pagerduty_key
+            severity: high
+
+      # Infrastructure team
+      - name: 'infrastructure-slack'
+        slack_configs:
+          - channel: '#infra-alerts'
+            send_resolved: true
+            title: ':gear: Infrastructure: {{ .GroupLabels.alertname }}'
+            text: '{{ template "slack.default.text" . }}'
+
+      # Application team
+      - name: 'application-slack'
+        slack_configs:
+          - channel: '#app-alerts'
+            send_resolved: true
+            title: ':package: Application: {{ .GroupLabels.alertname }}'
+            text: '{{ template "slack.default.text" . }}'
+
+  # Custom notification templates
+  notifications.tmpl: |
+    {{ define "slack.default.title" }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.alertname }}
+    {{ end }}
+
+    {{ define "slack.default.text" }}
+    {{ range .Alerts }}
+    *Alert:* {{ .Annotations.summary }}
+    *Description:* {{ .Annotations.description }}
+    *Severity:* {{ .Labels.severity }}
+    *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+    {{ if .Annotations.runbook_url }}*Runbook:* <{{ .Annotations.runbook_url }}|View>{{ end }}
+    ---
+    {{ end }}
+    {{ end }}
+
+    {{ define "pagerduty.default.description" }}
+    {{ .GroupLabels.alertname }}: {{ (index .Alerts 0).Annotations.summary }}
+    {{ end }}
+
+    {{ define "pagerduty.default.instances" }}
+    {{ range . }}
+    - {{ .Labels.instance }}: {{ .Annotations.summary }}
+    {{ end }}
+    {{ end }}
+
+    {{ define "email.default.html" }}
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; }
+        .alert { padding: 10px; margin: 10px 0; border-left: 4px solid; }
+        .critical { border-color: #dc3545; background: #f8d7da; }
+        .high { border-color: #fd7e14; background: #fff3cd; }
+        .medium { border-color: #ffc107; background: #fff3cd; }
+        .low { border-color: #17a2b8; background: #d1ecf1; }
+      </style>
+    </head>
+    <body>
+      <h2>Alert Notification</h2>
+      {{ range .Alerts }}
+      <div class="alert {{ .Labels.severity }}">
+        <h3>{{ .Labels.alertname }}</h3>
+        <p><strong>Summary:</strong> {{ .Annotations.summary }}</p>
+        <p><strong>Description:</strong> {{ .Annotations.description }}</p>
+        <p><strong>Severity:</strong> {{ .Labels.severity }}</p>
+        <p><strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}</p>
+        {{ if .Annotations.runbook_url }}
+        <p><a href="{{ .Annotations.runbook_url }}">View Runbook</a></p>
+        {{ end }}
+      </div>
+      {{ end }}
+    </body>
+    </html>
+    {{ end }}

@@ -1,0 +1,10 @@
+{
+  "strict": true,
+  "summary": true,
+  "ignore-missing-schemas": true,
+  "kubernetes-version": "1.29.0",
+  "schema-location": [
+    "default",
+    "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/"
+  ]
+}

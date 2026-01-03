@@ -1,0 +1,15 @@
+version: 1
+owner: security-team
+risks:
+  - id: RISK-001
+    title: "Unpinned GitHub Actions introduces supply-chain risk"
+    severity: high
+    mitigations:
+      - "Pinned SHA enforced by policy + CI checks"
+      - "Allowlist of actions"
+  - id: RISK-002
+    title: "Naming migration can cause downtime"
+    severity: medium
+    mitigations:
+      - "Staged rename + cutover + rollback under 20 minutes"
+      - "Pre/post verification scripts + alerts"

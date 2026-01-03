@@ -1,0 +1,6 @@
+version: 1
+builder:
+  id: github-actions
+subjects:
+  - path: artifacts/sbom
+  - path: artifacts/attestations

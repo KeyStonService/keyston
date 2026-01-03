@@ -1,0 +1,23 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8snamingpattern
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sNamingPattern
+      validation:
+        openAPIV3Schema:
+          properties:
+            pattern:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8snamingpattern
+        violation[{"msg": msg}] {
+          pattern := input.parameters.pattern
+          not regex.match(pattern, input.review.object.metadata.name)
+          msg := sprintf("name %s does not match pattern %s", [input.review.object.metadata.name, pattern])
+        }

@@ -1,0 +1,21 @@
+version: 1
+modules:
+  - id: naming-governance
+    paths:
+      - scripts/naming/**
+      - .config/policy/naming.rego
+      - .config/conftest/policies/naming_policy.rego
+      - observability/dashboards/naming-compliance.json
+      - observability/alerts/prometheus-rules/naming-convention-alerts.yaml
+  - id: autofix-loop
+    paths:
+      - scripts/auto-fix/**
+      - .config/auto-fix/**
+      - .github/workflows/auto-fix-bot.yaml
+      - .github/workflows/auto-fix-verify.yaml
+      - .github/workflows/auto-fix-retro-report.yaml
+  - id: artifact-pipeline
+    paths:
+      - .github/actions/docx-to-artifact/**
+      - scripts/docx/**
+      - .github/workflows/docx-artifact-build.yaml

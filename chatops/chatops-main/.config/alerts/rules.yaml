@@ -1,0 +1,10 @@
+groups:
+  - name: chatops.rules
+    rules:
+      - alert: PlaceholderRule
+        expr: vector(0)
+        for: 1m
+        labels:
+          severity: P3
+        annotations:
+          summary: "placeholder"

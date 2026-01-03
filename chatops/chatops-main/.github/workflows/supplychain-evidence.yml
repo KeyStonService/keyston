@@ -1,0 +1,52 @@
+name: Supply Chain Evidence (SBOM/Provenance/Attestation placeholders)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/**'
+      - 'proto/**'
+      - 'scripts/**'
+      - 'deployments/**'
+      - 'policies/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supplychain-evidence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout (no third-party action)
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .git
+          git init
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git fetch --depth=1 origin "${{ github.sha }}"
+          git checkout -f FETCH_HEAD
+
+      - name: Bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+          mkdir -p artifacts/{evidence,reports,tmp}
+
+      - name: SBOM (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/supplychain/sbom_stub.py --out artifacts/evidence/sbom.spdx.json
+
+      - name: Provenance (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/supplychain/provenance_stub.py --out artifacts/evidence/provenance.intoto.json

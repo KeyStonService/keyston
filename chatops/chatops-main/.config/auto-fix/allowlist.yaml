@@ -1,0 +1,16 @@
+version: 1
+scopes:
+  - workflows
+  - naming
+  - formatting
+  - dependencies
+  - artifacts
+paths:
+  roots:
+    - scripts
+    - .github
+    - .config
+    - artifacts
+    - deploy
+    - ops
+    - docs

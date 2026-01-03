@@ -1,0 +1,48 @@
+name: OPA Policy Check
+on:
+  pull_request:
+    paths:
+      - ".config/policy/**"
+      - "deploy/**"
+      - "ops/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: opa-policy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  opa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Validate rego files (syntax)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          bad=0
+          for p in Path(".config/policy").rglob("*.rego"):
+              t=p.read_text(encoding="utf-8")
+              if "package " not in t:
+                  print("rego missing package:", p)
+                  bad+=1
+          print("rego-syntax:", "OK" if bad==0 else "FAIL")
+          sys.exit(2 if bad else 0)
+          PY
+      - name: PR comment (summary)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -sS -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            -d '{"body":"OPA policy syntax check passed."}' >/dev/null

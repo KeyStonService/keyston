@@ -1,0 +1,14 @@
+version: 1
+repo:
+  name: chatops
+  mode: prod
+  defaultBranch: main
+paths:
+  artifacts: artifacts
+  observability: observability
+  compliance: compliance
+  config: .config
+governance:
+  namingPattern: "^(dev|staging|prod)-[a-z0-9-]+-(deploy|svc|ing|cm|secret)-v\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9]+)?$"
+  requirePinnedActions: true
+  requireLeastPrivilege: true

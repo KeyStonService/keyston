@@ -1,0 +1,10 @@
+{
+  "name": "chatops-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "naming:suggest": "node scripts/naming/suggest-name.mjs --help",
+    "docx:convert": "bash scripts/docx/convert.sh artifacts/sources artifacts/modules artifacts/reports"
+  }
+}

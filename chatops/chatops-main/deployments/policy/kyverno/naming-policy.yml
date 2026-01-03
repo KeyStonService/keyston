@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: chatops-naming-policy
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: validate-resource-names
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - Service
+                - Ingress
+                - ConfigMap
+                - Secret
+      validate:
+        message: "Resource name must match governance pattern."
+        pattern:
+          metadata:
+            name: "prod-?*"

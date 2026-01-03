@@ -1,0 +1,44 @@
+{
+  "title": "Naming Governance - Compliance & AutoFix",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "templating": {
+    "list": [
+      {
+        "name": "env",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(chatops_naming_compliance_rate, env)",
+        "current": { "text": "prod", "value": "prod" }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Naming Compliance Rate",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "chatops_naming_compliance_rate{env=\"$env\"}", "legendFormat": "compliance" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Naming Violations (count)",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "chatops_naming_violations_total{env=\"$env\"}", "legendFormat": "violations" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "AutoFix Success Rate",
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "chatops_naming_autofix_success_rate{env=\"$env\"}", "legendFormat": "success_rate" }
+      ]
+    }
+  ]
+}

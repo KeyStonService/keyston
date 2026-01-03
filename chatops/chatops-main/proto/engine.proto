@@ -1,0 +1,103 @@
+// proto/engine.proto
+// gRPC Protocol Buffer definitions for chatops Engine Service
+syntax = "proto3";
+
+package chatops.engine;
+
+option go_package = "github.com/chatops/proto/engine";
+
+// EngineService provides processing capabilities for the chatops platform
+service EngineService {
+  // Process a single request
+  rpc Process(ProcessRequest) returns (ProcessResponse);
+
+  // Process multiple requests in batch
+  rpc BatchProcess(BatchProcessRequest) returns (BatchProcessResponse);
+
+  // Health check endpoint
+  rpc HealthCheck(HealthRequest) returns (HealthResponse);
+
+  // Stream processing for long-running operations
+  rpc StreamProcess(stream ProcessRequest) returns (stream ProcessResponse);
+}
+
+// ProcessRequest represents a single processing request
+message ProcessRequest {
+  // Input data to process
+  string input = 1;
+
+  // Trace ID for distributed tracing
+  string trace_id = 2;
+
+  // JSON-encoded options for processing
+  string options = 3;
+
+  // Optional metadata
+  map<string, string> metadata = 4;
+}
+
+// ProcessResponse represents the result of a processing request
+message ProcessResponse {
+  // Processed output
+  string output = 1;
+
+  // Response metadata
+  map<string, string> metadata = 2;
+
+  // Processing time in milliseconds
+  int64 processing_time = 3;
+
+  // Trace ID echoed back
+  string trace_id = 4;
+}
+
+// BatchProcessRequest for processing multiple items
+message BatchProcessRequest {
+  // List of items to process
+  repeated ProcessRequest items = 1;
+
+  // Trace ID for the batch
+  string trace_id = 2;
+
+  // Batch-level options
+  string options = 3;
+}
+
+// BatchProcessResponse contains results for all items
+message BatchProcessResponse {
+  // List of results
+  repeated ProcessResponse results = 1;
+
+  // Total processing time
+  int64 total_processing_time = 2;
+
+  // Number of successful items
+  int32 success_count = 3;
+
+  // Number of failed items
+  int32 failure_count = 4;
+}
+
+// HealthRequest for health check
+message HealthRequest {
+  // Optional service name to check
+  string service = 1;
+}
+
+// HealthResponse contains health status
+message HealthResponse {
+  // Health status (healthy, unhealthy, degraded)
+  string status = 1;
+
+  // Service name
+  string service = 2;
+
+  // Timestamp of health check
+  string timestamp = 3;
+
+  // Optional version info
+  string version = 4;
+
+  // Component-level health
+  map<string, string> components = 5;
+}

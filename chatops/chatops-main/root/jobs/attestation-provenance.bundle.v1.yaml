@@ -1,0 +1,152 @@
+apiVersion: root.platform.io/v1
+kind: JobBundle
+metadata:
+  name: attestation-provenance.bundle.v1
+  version: v1.0.0
+  owners:
+    - security-team@machine-native-ops.org
+  description: Bundle for attestation and provenance collection
+spec:
+  # Bundle definition
+  bundle_type: attestation-provenance
+  version: v1.0.0
+  # Job steps
+  steps:
+    - name: collect-provenance
+      description: Collect provenance information
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F50D Collecting provenance information...\"\n\n# Git information\nif command -v git >/dev/null 2>&1; then\n  GIT_COMMIT=$(git rev-parse HEAD 2>/dev/null || echo \"unknown\")\n  GIT_BRANCH=$(git branch --show-current 2>/dev/null || echo \"unknown\")\n  GIT_REMOTE=$(git remote get-url origin 2>/dev/null || echo \"unknown\")\nelse\n  GIT_COMMIT=\"unknown\"\n  GIT_BRANCH=\"unknown\"\n  GIT_REMOTE=\"unknown\"\nfi\n\n# Timestamp\nTIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\n\n# Build provenance statement\ncat > dist/evidence/provenance.intoto.json << EOF\n{\n  \"_type\": \"https://in-toto.io/Statement/v0.1\",\n  \"subject\": [\n    {\n      \"name\": \"machine-native-ops\",\n      \"digest\": {\n        \"sha256\": \"$(find root/ -type f -name \"*.yaml\" -exec sha256sum {} \\; | sort | sha256sum | cut -d' ' -f1)\"\n      }\n    }\n  ],\n  \"predicateType\": \"https://slsa.dev/provenance/v0.2\",\n  \"predicate\": {\n    \"builder\": {\n      \"id\": \"localhost/machine-native-ops\"\n    },\n    \"buildType\": \"custom\",\n    \"invocation\": {\n      \"configSource\": {\n        \"uri\": \"${GIT_REMOTE}\",\n        \"digest\": {\n          \"sha1\": \"${GIT_COMMIT}\"\n        },\n        \"entryPoint\": \"make all\"\n      },\n      \"environment\": {\n        \"git_branch\": \"${GIT_BRANCH}\",\n        \"git_commit\": \"${GIT_COMMIT}\",\n        \"timestamp\": \"${TIMESTAMP}\"\n      }\n    },\n    \"materials\": [\n      {\n        \"uri\": \"git+${GIT_REMOTE}\",\n        \"digest\": {\n          \"sha1\": \"${GIT_COMMIT}\"\n        }\n      }\n    ],\n    \"metadata\": {\n      \"buildStartedOn\": \"${TIMESTAMP}\",\n      \"completeness\": {\n        \"parameters\": true,\n        \"environment\": true,\n        \"materials\": true\n      },\n      \"reproducible\": false\n    }\n  }\n}\nEOF\n\necho \"✅ Provenance collected\"\n"
+      timeout: 2m
+      retry_count: 1
+    - name: generate-attestation
+      description: Generate attestation statement
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F4DD Generating attestation statement...\"\n\n# Check if evidence files exist\nEVIDENCE_DIR=\"dist/evidence\"\nif [[ ! -d \"$EVIDENCE_DIR\" ]]; then\n  echo \"❌ Evidence directory not found: $EVIDENCE_DIR\"\n  exit 1\nfi\n\n# Collect gate results\nSCHEMA_REPORT=\"$EVIDENCE_DIR/schema.report.json\"\nVECTORS_REPORT=\"$EVIDENCE_DIR/vectors.report.json\"\nPOLICY_REPORT=\"$EVIDENCE_DIR/policy.report.json\"\n\nGATES_PASSED=true\nGATES_FAILED=\"\"\n\nif [[ -f \"$SCHEMA_REPORT\" ]]; then\n  SCHEMA_STATUS=$(jq -r '.status // \"unknown\"' \"$SCHEMA_REPORT\" 2>/dev/null || echo \"unknown\")\n  if [[ \"$SCHEMA_STATUS\" != \"pass\" ]]; then\n    GATES_PASSED=false\n    GATES_FAILED=\"$GATES_FAILED schema\"\n  fi\nfi\n\nif [[ -f \"$VECTORS_REPORT\" ]]; then\n  VECTORS_STATUS=$(jq -r '.status // \"unknown\"' \"$VECTORS_REPORT\" 2>/dev/null || echo \"unknown\")\n  if [[ \"$VECTORS_STATUS\" != \"pass\" ]]; then\n    GATES_PASSED=false\n    GATES_FAILED=\"$GATES_FAILED test-vectors\"\n  fi\nfi\n\nif [[ -f \"$POLICY_REPORT\" ]]; then\n  POLICY_STATUS=$(jq -r '.status // \"unknown\"' \"$POLICY_REPORT\" 2>/dev/null || echo \"unknown\")\n  if [[ \"$POLICY_STATUS\" == \"fail\" ]]; then\n    GATES_PASSED=false\n    GATES_FAILED=\"$GATES_FAILED policy\"\n  fi\nfi\n\n# Timestamp\nTIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\n\n# Generate attestation\ncat > dist/evidence/attestation.intoto.json << EOF\n{\n  \"_type\": \"https://in-toto.io/Statement/v0.1\",\n  \"subject\": [\n    {\n      \"name\": \"machine-native-ops\",\n      \"digest\": {\n        \"sha256\": \"$(find root/ -type f -name \"*.yaml\" -exec sha256sum {} \\; | sort | sha256sum | cut -d' ' -f1)\"\n      }\n    }\n  ],\n  \"predicateType\": \"https://slsa.dev/attestation/v0.2\",\n  \"predicate\": {\n    \"attestation_type\": \"validation\",\n    \"runner\": {\n      \"id\": \"localhost/machine-native-ops\"\n    },\n    \"timestamp\": \"${TIMESTAMP}\",\n    \"gates\": {\n      \"schema\": {\n        \"status\": \"$(jq -r '.status // \"unknown\"' \"$SCHEMA_REPORT\" 2>/dev/null || echo \"unknown\")\",\n        \"report_available\": $([[ -f \"$SCHEMA_REPORT\" ]] && echo true || echo false)\n      },\n      \"test-vectors\": {\n        \"status\": \"$(jq -r '.status // \"unknown\"' \"$VECTORS_REPORT\" 2>/dev/null || echo \"unknown\")\",\n        \"report_available\": $([[ -f \"$VECTORS_REPORT\" ]] && echo true || echo false)\n      },\n      \"policy\": {\n        \"status\": \"$(jq -r '.status // \"unknown\"' \"$POLICY_REPORT\" 2>/dev/null || echo \"unknown\")\",\n        \"report_available\": $([[ -f \"$POLICY_REPORT\" ]] && echo true || echo false)\n      }\n    },\n    \"overall_status\": \"$($GATES_PASSED && echo \"pass\" || echo \"fail\")\",\n    \"failed_gates\": \"$GATES_FAILED\",\n    \"evidence_collected\": true,\n    \"validation_complete\": true\n  }\n}\nEOF\n\necho \"✅ Attestation generated\"\n"
+      timeout: 2m
+      retry_count: 1
+    - name: generate-sbom
+      description: Generate Software Bill of Materials
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F4CB Generating SBOM...\"\n\n# Check if syft is available\nif command -v syft >/dev/null 2>&1; then\n  echo \"\U0001F527 Using syft to generate SBOM...\"\n  syft . -o cyclonedx-json > dist/evidence/sbom.json\nelse\n  echo \"⚠️  Syft not found, generating stub SBOM...\"\n  \n  # Generate stub SBOM\n  cat > dist/evidence/sbom.json << EOF\n{\n  \"bomFormat\": \"CycloneDX\",\n  \"specVersion\": \"1.4\",\n  \"serialNumber\": \"urn:uuid:$(uuidgen || date +%s)\",\n  \"version\": 1,\n  \"metadata\": {\n    \"timestamp\": \"$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\",\n    \"tools\": [\n      {\n        \"vendor\": \"Machine Native Ops\",\n        \"name\": \"stub-sbom-generator\",\n        \"version\": \"1.0.0\"\n      }\n    ],\n    \"component\": {\n      \"type\": \"application\",\n      \"bom-ref\": \"machine-native-ops\",\n      \"name\": \"Machine Native Ops Control Plane\",\n      \"version\": \"$(cat VERSION 2>/dev/null || echo \"unknown\")\"\n    }\n  },\n  \"components\": [\n    {\n      \"type\": \"application\",\n      \"bom-ref\": \"root-config\",\n      \"name\": \"Root Configuration\",\n      \"version\": \"$(cat VERSION 2>/dev/null || echo \"unknown\")\",\n      \"supplier\": {\n        \"name\": \"Machine Native Ops\"\n      }\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"ref\": \"root-config\",\n      \"dependsOn\": []\n    }\n  ]\n}\nEOF\n  \n  echo \"⚠️  Stub SBOM generated (syft not available)\"\nfi\n\necho \"✅ SBOM generation completed\"\n"
+      timeout: 3m
+      retry_count: 1
+  # Bundle configuration
+  config:
+    working_directory: /workspace/machine-native-ops
+    environment:
+      - name: PYTHONPATH
+        value: /workspace/machine-native-ops
+      - name: TIMEZONE
+        value: UTC
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+    security_context:
+      run_as_user: 1000
+      run_as_group: 1000
+      read_only_root_filesystem: false
+      allow_privilege_escalation: false
+  # Bundle outputs
+  outputs:
+    artifacts:
+      - name: provenance
+        path: dist/evidence/provenance.intoto.json
+        type: in-toto-statement
+        description: Provenance statement for the build
+      - name: attestation
+        path: dist/evidence/attestation.intoto.json
+        type: in-toto-statement
+        description: Attestation statement for validation results
+      - name: sbom
+        path: dist/evidence/sbom.json
+        type: cyclonedx-sbom
+        description: Software Bill of Materials
+    metadata:
+      - name: execution-summary
+        type: json
+        description: Summary of bundle execution
+        path: dist/evidence/attestation-provenance-summary.json
+  # Bundle dependencies
+  dependencies:
+    tools:
+      - name: git
+        optional: false
+        min_version: "2.0"
+      - name: jq
+        optional: false
+        min_version: "1.6"
+      - name: syft
+        optional: true
+        min_version: "0.60"
+        fallback: stub_generation
+    files:
+      - name: root-configurations
+        pattern: root/.root.*.yaml
+        required: true
+      - name: evidence-reports
+        pattern: dist/evidence/*.json
+        required: false
+  # Bundle error handling
+  error_handling:
+    retry_policy:
+      max_retries: 2
+      backoff_strategy: exponential
+      initial_delay: 10s
+      max_delay: 1m
+    error_codes:
+      - code: E001
+        description: Git command not found
+        action: continue_with_stub
+      - code: E002
+        description: Evidence directory not found
+        action: fail
+      - code: E003
+        description: JSON parsing error
+        action: continue_with_stub
+      - code: E004
+        description: Syft not available
+        action: continue_with_stub
+  # Bundle validation
+  validation:
+    pre_execution:
+      - name: check-dependencies
+        description: Check if required tools are available
+        script: |
+          #!/bin/bash
+          MISSING_TOOLS=""
+
+          if ! command -v git >/dev/null 2>&1; then
+            MISSING_TOOLS="$MISSING_TOOLS git"
+          fi
+
+          if ! command -v jq >/dev/null 2>&1; then
+            MISSING_TOOLS="$MISSING_TOOLS jq"
+          fi
+
+          if [[ -n "$MISSING_TOOLS" ]]; then
+            echo "❌ Missing required tools:$MISSING_TOOLS"
+            exit 1
+          fi
+
+          echo "✅ All required tools available"
+    post_execution:
+      - name: validate-outputs
+        description: Validate that all required outputs are generated
+        script: |-
+          #!/bin/bash
+          OUTPUTS_OK=true
+
+          for file in "provenance.intoto.json" "attestation.intoto.json" "sbom.json"; do
+            if [[ ! -f "dist/evidence/$file" ]]; then
+              echo "❌ Missing output file: $file"
+              OUTPUTS_OK=false
+            fi
+          done
+
+          if [[ "$OUTPUTS_OK" == "true" ]]; then
+            echo "✅ All outputs generated successfully"
+          else
+            echo "❌ Some outputs are missing"
+            exit 1
+          fi

@@ -1,0 +1,147 @@
+name: Gitleaks Secret Detection
+
+on:
+  pull_request: {}
+  push:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+concurrency:
+  group: gitleaks-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REPORT_DIR: "artifacts/reports/gitleaks"
+
+jobs:
+  scan:
+    name: Gitleaks Scan
+    runs-on: ubuntu-latest
+    outputs:
+      leaks_found: ${{ steps.scan.outputs.leaks_found }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Gitleaks
+        id: scan
+        uses: gitleaks/gitleaks-action@cb7149a9b57195b609c63e8518d2c6056677d2d0 # v2.3.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+        continue-on-error: true
+
+      - name: Generate detailed report
+        if: always()
+        run: |
+          # Install gitleaks for detailed report
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz | tar -xz
+          chmod +x gitleaks
+
+          # Run with JSON output
+          ./gitleaks detect \
+            --config .gitleaks.toml \
+            --source . \
+            --report-format json \
+            --report-path ${{ env.REPORT_DIR }}/gitleaks.json \
+            --exit-code 0 \
+            || true
+
+          # Generate SARIF format for GitHub Security
+          ./gitleaks detect \
+            --config .gitleaks.toml \
+            --source . \
+            --report-format sarif \
+            --report-path ${{ env.REPORT_DIR }}/gitleaks.sarif \
+            --exit-code 0 \
+            || true
+
+          # Count findings
+          if [ -f "${{ env.REPORT_DIR }}/gitleaks.json" ]; then
+            LEAKS=$(jq 'length' ${{ env.REPORT_DIR }}/gitleaks.json 2>/dev/null || echo 0)
+          else
+            LEAKS=0
+          fi
+
+          echo "leaks_found=$LEAKS" >> "$GITHUB_OUTPUT"
+
+          # Summary
+          echo "## Gitleaks Secret Detection" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$LEAKS" -gt 0 ]; then
+            echo ":warning: **$LEAKS potential secret(s) detected**" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "| File | Rule | Line |" >> "$GITHUB_STEP_SUMMARY"
+            echo "|------|------|------|" >> "$GITHUB_STEP_SUMMARY"
+            jq -r '.[] | "| \(.File) | \(.RuleID) | \(.StartLine) |"' ${{ env.REPORT_DIR }}/gitleaks.json 2>/dev/null | head -20 >> "$GITHUB_STEP_SUMMARY" || true
+          else
+            echo ":white_check_mark: No secrets detected" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always() && hashFiles(format('{0}/gitleaks.sarif', env.REPORT_DIR)) != ''
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/gitleaks.sarif
+          category: gitleaks
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: gitleaks-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+  pr-comment:
+    name: PR Comment
+    needs: scan
+    if: github.event_name == 'pull_request' && needs.scan.outputs.leaks_found != '0'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const leaks = ${{ needs.scan.outputs.leaks_found }};
+            const body = `## :key: Gitleaks Secret Detection
+
+            :warning: **${leaks} potential secret(s) detected in this PR**
+
+            Please review the findings and ensure no sensitive data is being committed.
+
+            ### Common causes:
+            - API keys or tokens
+            - Private keys
+            - Passwords
+            - Connection strings
+
+            :chart_with_upwards_trend: [View detailed report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Fail on secrets
+        if: needs.scan.outputs.leaks_found != '0'
+        run: |
+          echo "::error::Gitleaks detected ${{ needs.scan.outputs.leaks_found }} potential secret(s)"
+          exit 1

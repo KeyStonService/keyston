@@ -1,0 +1,12 @@
+extends: default
+rules:
+  # Ignore missing document start warnings for existing files
+  document-start: disable
+  # Allow very long lines for complex configurations
+  line-length:
+    max: 4000
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  # Allow comments with fewer spaces for readability
+  comments:
+    min-spaces-from-content: 1

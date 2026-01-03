@@ -1,0 +1,49 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: naming-convention-alerts
+  namespace: monitoring
+  labels:
+    app: chatops
+spec:
+  groups:
+    - name: naming.convention
+      rules:
+        # Count-based detection example:
+        # count(chatops_naming_violations_total{env="prod"}) > 0
+        - alert: NamingViolationP0
+          expr: count(chatops_naming_violations_total{env="prod"}) > 50
+          for: 5m
+          labels:
+            severity: P0
+            route: pager
+          annotations:
+            summary: "P0: Naming violations exceed 50 in prod"
+            runbook: "docs/RUNBOOKS/naming-migration-playbook.md"
+        - alert: NamingViolationP1
+          expr: count(chatops_naming_violations_total{env="prod"}) > 10
+          for: 10m
+          labels:
+            severity: P1
+            route: pager
+          annotations:
+            summary: "P1: Naming violations exceed 10 in prod"
+            runbook: "docs/RUNBOOKS/naming-migration-playbook.md"
+        - alert: NamingViolationP2
+          expr: count(chatops_naming_violations_total{env="staging"}) > 10
+          for: 15m
+          labels:
+            severity: P2
+            route: chat
+          annotations:
+            summary: "P2: Naming violations exceed 10 in staging"
+            runbook: "docs/RUNBOOKS/naming-migration-playbook.md"
+        - alert: NamingViolationP3
+          expr: count(chatops_naming_violations_total{env="dev"}) > 10
+          for: 30m
+          labels:
+            severity: P3
+            route: chat
+          annotations:
+            summary: "P3: Naming violations exceed 10 in dev"
+            runbook: "docs/RUNBOOKS/naming-migration-playbook.md"

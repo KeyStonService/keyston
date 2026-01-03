@@ -1,0 +1,12 @@
+[
+  {
+    "name": "valid naming",
+    "input": { "kind": "Deployment", "metadata": { "name": "prod-app-deploy-v1.0.0" } },
+    "expected_deny": false
+  },
+  {
+    "name": "invalid naming",
+    "input": { "kind": "Deployment", "metadata": { "name": "my-app" } },
+    "expected_deny": true
+  }
+]

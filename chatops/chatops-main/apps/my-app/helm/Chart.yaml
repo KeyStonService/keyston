@@ -1,0 +1,17 @@
+apiVersion: v2
+name: my-app
+description: Sample application following ChatOps naming conventions
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - chatops
+  - naming-convention
+  - kubernetes
+maintainers:
+  - name: ChatOps Team
+    email: chatops@example.com
+dependencies: []
+annotations:
+  chatops.io/naming-compliant: "true"
+  chatops.io/governance-version: "1.0"

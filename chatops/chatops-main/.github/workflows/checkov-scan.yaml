@@ -1,0 +1,242 @@
+name: Checkov IaC Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "deploy/**"
+      - "ops/**"
+      - "local/**"
+      - ".config/checkov/**"
+      - "**/*.tf"
+      - "**/*.yaml"
+      - "**/*.yml"
+  pull_request:
+    paths:
+      - "deploy/**"
+      - "ops/**"
+      - "local/**"
+      - ".config/checkov/**"
+  workflow_dispatch:
+    inputs:
+      scan_path:
+        description: 'Path to scan'
+        required: false
+        default: '.'
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+
+concurrency:
+  group: checkov-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CHECKOV_VERSION: "3.2.0"
+  REPORT_DIR: "artifacts/reports/checkov"
+
+jobs:
+  scan:
+    name: Checkov Security Scan
+    runs-on: ubuntu-latest
+    outputs:
+      passed: ${{ steps.results.outputs.passed }}
+      failed: ${{ steps.results.outputs.failed }}
+      skipped: ${{ steps.results.outputs.skipped }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Setup Python
+        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Checkov
+        run: |
+          pip install checkov==${{ env.CHECKOV_VERSION }}
+          checkov --version
+
+      - name: Create report directories
+        run: mkdir -p ${{ env.REPORT_DIR }}
+
+      - name: Run Checkov - Kubernetes manifests
+        id: checkov-k8s
+        continue-on-error: true
+        run: |
+          checkov \
+            --directory . \
+            --framework kubernetes \
+            --config-file .config/checkov/.checkov.yaml \
+            --output cli \
+            --output json \
+            --output sarif \
+            --output-file-path console,${{ env.REPORT_DIR }}/k8s.json,${{ env.REPORT_DIR }}/k8s.sarif \
+            --soft-fail \
+            --compact
+
+      - name: Run Checkov - Dockerfile
+        id: checkov-docker
+        continue-on-error: true
+        run: |
+          checkov \
+            --directory . \
+            --framework dockerfile \
+            --config-file .config/checkov/.checkov.yaml \
+            --output cli \
+            --output json \
+            --output-file-path console,${{ env.REPORT_DIR }}/docker.json \
+            --soft-fail \
+            --compact
+
+      - name: Run Checkov - GitHub Actions
+        id: checkov-gha
+        continue-on-error: true
+        run: |
+          checkov \
+            --directory .github \
+            --framework github_actions \
+            --config-file .config/checkov/.checkov.yaml \
+            --output cli \
+            --output json \
+            --output-file-path console,${{ env.REPORT_DIR }}/gha.json \
+            --soft-fail \
+            --compact
+
+      - name: Run Checkov - Helm charts
+        id: checkov-helm
+        continue-on-error: true
+        run: |
+          if [ -d "deploy/helm" ]; then
+            checkov \
+              --directory deploy/helm \
+              --framework helm \
+              --config-file .config/checkov/.checkov.yaml \
+              --output cli \
+              --output json \
+              --output-file-path console,${{ env.REPORT_DIR }}/helm.json \
+              --soft-fail \
+              --compact
+          else
+            echo '{"passed":0,"failed":0,"skipped":0,"framework":"helm","status":"no_charts_found"}' > ${{ env.REPORT_DIR }}/helm.json
+          fi
+
+      - name: Run Checkov - Secrets detection
+        id: checkov-secrets
+        continue-on-error: true
+        run: |
+          checkov \
+            --directory . \
+            --framework secrets \
+            --config-file .config/checkov/.checkov.yaml \
+            --output cli \
+            --output json \
+            --output-file-path console,${{ env.REPORT_DIR }}/secrets.json \
+            --soft-fail \
+            --compact
+
+      - name: Aggregate results
+        id: results
+        run: |
+          set -euo pipefail
+
+          # Aggregate all JSON reports
+          PASSED=0
+          FAILED=0
+          SKIPPED=0
+
+          for f in ${{ env.REPORT_DIR }}/*.json; do
+            if [ -f "$f" ] && [ -s "$f" ]; then
+              P=$(jq '.passed // 0 | if type == "array" then length else . end' "$f" 2>/dev/null || echo 0)
+              F=$(jq '.failed // 0 | if type == "array" then length else . end' "$f" 2>/dev/null || echo 0)
+              S=$(jq '.skipped // 0 | if type == "array" then length else . end' "$f" 2>/dev/null || echo 0)
+              PASSED=$((PASSED + P))
+              FAILED=$((FAILED + F))
+              SKIPPED=$((SKIPPED + S))
+            fi
+          done
+
+          echo "passed=$PASSED" >> "$GITHUB_OUTPUT"
+          echo "failed=$FAILED" >> "$GITHUB_OUTPUT"
+          echo "skipped=$SKIPPED" >> "$GITHUB_OUTPUT"
+
+          # Generate summary report
+          cat > ${{ env.REPORT_DIR }}/summary.json << EOF
+          {
+            "tool": "checkov",
+            "version": "${{ env.CHECKOV_VERSION }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "summary": {
+              "passed": $PASSED,
+              "failed": $FAILED,
+              "skipped": $SKIPPED,
+              "total": $((PASSED + FAILED + SKIPPED))
+            },
+            "frameworks": ["kubernetes", "dockerfile", "github_actions", "helm", "secrets"]
+          }
+          EOF
+
+          # Print summary
+          echo "## Checkov Scan Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Metric | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ✅ Passed | $PASSED |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ❌ Failed | $FAILED |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| ⏭️ Skipped | $SKIPPED |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@1b1aada464948af03b950897e5eb522f92603cc2 # v3.24.0
+        if: always() && hashFiles(format('{0}/k8s.sarif', env.REPORT_DIR)) != ''
+        continue-on-error: true
+        with:
+          sarif_file: ${{ env.REPORT_DIR }}/k8s.sarif
+          category: checkov-kubernetes
+
+      - name: Upload reports
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        if: always()
+        with:
+          name: checkov-reports
+          path: ${{ env.REPORT_DIR }}/
+          retention-days: 30
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.results.outputs.failed != '0'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const passed = ${{ steps.results.outputs.passed }};
+            const failed = ${{ steps.results.outputs.failed }};
+            const skipped = ${{ steps.results.outputs.skipped }};
+
+            const body = `## 🔒 Checkov Security Scan Results
+
+            | Status | Count |
+            |--------|-------|
+            | ✅ Passed | ${passed} |
+            | ❌ Failed | ${failed} |
+            | ⏭️ Skipped | ${skipped} |
+
+            ${failed > 0 ? '⚠️ **Action Required**: Please review and fix the security findings.' : '✅ All security checks passed!'}
+
+            📊 [View detailed report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Fail on critical findings
+        if: steps.results.outputs.failed != '0' && github.event_name == 'push'
+        run: |
+          echo "::error::Checkov found ${{ steps.results.outputs.failed }} security issues"
+          exit 1

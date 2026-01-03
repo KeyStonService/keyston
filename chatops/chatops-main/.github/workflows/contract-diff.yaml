@@ -1,0 +1,31 @@
+name: Contract Diff
+on:
+  pull_request:
+    paths:
+      - "apps/my-app/repo/contracts/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: contract-diff-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Contract diff (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/reports
+          echo '{"tool":"contract-diff","mode":"stub","breaking":false}' > artifacts/reports/contract-diff.json
+      - name: Upload
+        uses: actions/upload-artifact@26f96df89e6c6a4b3c4d3e9a41d5d2a8d9a4c2a7
+        with:
+          name: contract-diff
+          path: artifacts/reports/contract-diff.json

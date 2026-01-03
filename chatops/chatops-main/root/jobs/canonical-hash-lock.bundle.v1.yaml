@@ -1,0 +1,181 @@
+apiVersion: root.platform.io/v1
+kind: JobBundle
+metadata:
+  name: canonical-hash-lock.bundle.v1
+  version: v1.0.0
+  owners:
+    - security-team@machine-native-ops.org
+  description: Bundle for canonical hash locking and integrity verification
+spec:
+  # Bundle definition
+  bundle_type: canonical-hash-lock
+  version: v1.0.0
+  # Job steps
+  steps:
+    - name: compute-digests
+      description: Compute cryptographic digests for all relevant files
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F510 Computing cryptographic digests...\"\n\nEVIDENCE_DIR=\"dist/evidence\"\nmkdir -p \"$EVIDENCE_DIR\"\n\n# Initialize digests JSON\ncat > \"$EVIDENCE_DIR/digests.json\" << 'EOF'\n{\n  \"metadata\": {\n    \"generated_at\": \"\",\n    \"generator\": \"machine-native-ops/hash-lock-bundle\",\n    \"version\": \"v1.0.0\",\n    \"algorithms\": [\"sha3-512\", \"blake3\"]\n  },\n  \"files\": []\n}\nEOF\n\nTIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\n\n# Update metadata\njq --arg timestamp \"$TIMESTAMP\" '.metadata.generated_at = $timestamp' \"$EVIDENCE_DIR/digests.json\" > \"$EVIDENCE_DIR/digests.json.tmp\" && mv \"$EVIDENCE_DIR/digests.json.tmp\" \"$EVIDENCE_DIR/digests.json\"\n\n# Function to compute hashes\ncompute_hashes() {\n  local file=\"$1\"\n  local relative_path=\"${file#./}\"\n  \n  if [[ ! -f \"$file\" ]]; then\n    echo \"⚠️  File not found: $file\"\n    return\n  fi\n  \n  # Compute SHA3-512 (if available, fallback to SHA512)\n  if command -v sha3sum >/dev/null 2>&1; then\n    SHA3_DIGEST=$(sha3sum -a 512 \"$file\" | cut -d' ' -f1)\n  elif command -v openssl >/dev/null 2>&1; then\n    SHA3_DIGEST=$(openssl dgst -sha3-512 \"$file\" | cut -d' ' -f2)\n  else\n    SHA3_DIGEST=$(sha512sum \"$file\" | cut -d' ' -f1)\n    echo \"⚠️  SHA3-512 not available, using SHA512 as fallback\"\n  fi\n  \n  # Compute BLAKE3 (if available, fallback to SHA256)\n  if command -v b3sum >/dev/null 2>&1; then\n    BLAKE3_DIGEST=$(b3sum \"$file\" | cut -d' ' -f1)\n  elif command -v openssl >/dev/null 2>&1; then\n    BLAKE3_DIGEST=$(openssl dgst -blake3 \"$file\" | cut -d' ' -f2)\n  else\n    BLAKE3_DIGEST=$(sha256sum \"$file\" | cut -d' ' -f1)\n    echo \"⚠️  BLAKE3 not available, using SHA256 as fallback\"\n  fi\n  \n  # Get file size and mode\n  FILE_SIZE=$(stat -c%s \"$file\" 2>/dev/null || stat -f%z \"$file\" 2>/dev/null || echo \"0\")\n  FILE_MODE=$(stat -c%a \"$file\" 2>/dev/null || stat -f%Mp \"$file\" 2>/dev/null || echo \"644\")\n  \n  # Add to digests JSON\n  jq --arg path \"$relative_path\" \\\n     --arg sha3 \"$SHA3_DIGEST\" \\\n     --arg blake3 \"$BLAKE3_DIGEST\" \\\n     --arg size \"$FILE_SIZE\" \\\n     --arg mode \"$FILE_MODE\" \\\n     '.files += [{\n       \"path\": $path,\n       \"sha3_512\": $sha3,\n       \"blake3\": $blake3,\n       \"size\": ($size | tonumber),\n       \"mode\": $mode,\n       \"type\": \"file\"\n     }]' \"$EVIDENCE_DIR/digests.json\" > \"$EVIDENCE_DIR/digests.json.tmp\" && \\\n  mv \"$EVIDENCE_DIR/digests.json.tmp\" \"$EVIDENCE_DIR/digests.json\"\n}\n\n# Compute hashes for root configurations\necho \"\U0001F4C4 Computing hashes for root configurations...\"\nfind root/ -type f \\( -name \"*.yaml\" -o -name \"*.yml\" \\) -print0 | while IFS= read -r -d '' file; do\n  compute_hashes \"$file\"\ndone\n\n# Compute hashes for job files\necho \"\U0001F4C4 Computing hashes for job files...\"\nfind root/jobs/ -type f -name \"*.yaml\" -print0 | while IFS= read -r -d '' file; do\n  compute_hashes \"$file\"\ndone\n\n# Compute hashes for scripts\necho \"\U0001F4C4 Computing hashes for scripts...\"\nfind root/scripts/ -type f \\( -name \"*.py\" -o -name \"*.sh\" \\) -print0 | while IFS= read -r -d '' file; do\n  compute_hashes \"$file\"\ndone\n\n# Compute hashes for manifests if they exist\nif [[ -f \"dist/manifests.yaml\" ]]; then\n  echo \"\U0001F4C4 Computing hashes for manifests...\"\n  compute_hashes \"dist/manifests.yaml\"\nfi\n\necho \"✅ Digests computation completed\"\necho \"\U0001F4CA Processed $(jq '.files | length' \"$EVIDENCE_DIR/digests.json\") files\"\n"
+      timeout: 5m
+      retry_count: 1
+    - name: build-merkle-root
+      description: Build Merkle tree root hash from digests
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F333 Building Merkle tree root hash...\"\n\nEVIDENCE_DIR=\"dist/evidence\"\nDIGESTS_FILE=\"$EVIDENCE_DIR/digests.json\"\n\nif [[ ! -f \"$DIGESTS_FILE\" ]]; then\n  echo \"❌ Digests file not found: $DIGESTS_FILE\"\n  exit 1\nfi\n\nTIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\n\n# Extract all SHA3-512 hashes, sort them for determinism\nHASHES=$(jq -r '.files[].sha3_512' \"$DIGESTS_FILE\" | sort)\n\n# Simple Merkle tree implementation\n# In a production environment, you'd want a more sophisticated implementation\nCURRENT_LEVEL=\"$HASHES\"\nLEVEL=0\n\nwhile [[ $(echo \"$CURRENT_LEVEL\" | wc -l) -gt 1 ]]; do\n  NEXT_LEVEL=\"\"\n  PAIR_COUNT=0\n  \n  while IFS= read -r hash; do\n    if [[ -n \"$hash\" ]]; then\n      PAIR_COUNT=$((PAIR_COUNT + 1))\n      \n      if [[ $((PAIR_COUNT % 2)) -eq 1 ]]; then\n        # First hash of pair\n        FIRST_HASH=\"$hash\"\n      else\n        # Second hash of pair, combine them\n        if command -v sha3sum >/dev/null 2>&1; then\n          COMBINED_HASH=$(echo -n \"${FIRST_HASH}${hash}\" | sha3sum -a 512 | cut -d' ' -f1)\n        elif command -v openssl >/dev/null 2>&1; then\n          COMBINED_HASH=$(echo -n \"${FIRST_HASH}${hash}\" | openssl dgst -sha3-512 | cut -d' ' -f2)\n        else\n          COMBINED_HASH=$(echo -n \"${FIRST_HASH}${hash}\" | sha512sum | cut -d' ' -f1)\n        fi\n        \n        NEXT_LEVEL=\"${NEXT_LEVEL}${COMBINED_HASH}\n           NEXT_LEVEL=\"${NEXT_LEVEL}${COMBINED_HASH}\"\n  done <<< \"$CURRENT_LEVEL\"\n  \n  # If odd number of hashes, duplicate the last one\n  if [[ $((PAIR_COUNT % 2)) -eq 1 ]]; then\n    if command -v sha3sum >/dev/null 2>&1; then\n      COMBINED_HASH=$(echo -n \"${FIRST_HASH}${FIRST_HASH}\" | sha3sum -a 512 | cut -d' ' -f1)\n    elif command -v openssl >/dev/null 2>&1; then\n      COMBINED_HASH=$(echo -n \"${FIRST_HASH}${FIRST_HASH}\" | openssl dgst -sha3-512 | cut -d' ' -f2)\n    else\n      COMBINED_HASH=$(echo -n \"${FIRST_HASH}${FIRST_HASH}\" | sha512sum | cut -d' ' -f1)\n    fi\n    \n    NEXT_LEVEL=\"${NEXT_LEVEL}${COMBINED_HASH}\n       NEXT_LEVEL=\"${NEXT_LEVEL}${COMBINED_HASH}\"\n  \n  CURRENT_LEVEL=\"$NEXT_LEVEL\"\n  LEVEL=$((LEVEL + 1))\n  \n  # Safety check to prevent infinite loop\n  if [[ $LEVEL -gt 20 ]]; then\n    echo \"❌ Merkle tree level too deep, something went wrong\"\n    exit 1\n  fi\ndone\n\n# The final hash is our Merkle root\nMERKLE_ROOT=$(echo \"$CURRENT_LEVEL\" | head -n1)\n\n# Create Merkle root file\ncat > \"$EVIDENCE_DIR/merkle-root.json\" << EOF\n{\n  \"metadata\": {\n    \"generated_at\": \"${TIMESTAMP}\",\n    \"generator\": \"machine-native-ops/hash-lock-bundle\",\n    \"version\": \"v1.0.0\",\n    \"algorithm\": \"sha3-512\",\n    \"tree_levels\": ${LEVEL},\n    \"leaf_count\": $(jq '.files | length' \"$DIGESTS_FILE\")\n  },\n  \"merkle_root\": \"${MERKLE_ROOT}\",\n  \"algorithm\": \"sha3-512\",\n  \"construction_method\": \"simple_pairwise_combination\",\n  \"input_hashes\": $(echo \"$HASHES\" | jq -R . | jq -s .)\n}\nEOF\n\n# Add Merkle root to digests file\njq --arg merkle_root \"$MERKLE_ROOT\" \\\n   --arg timestamp \"$TIMESTAMP\" \\\n   '.merkle_root = {\n     \"hash\": $merkle_root,\n     \"algorithm\": \"sha3-512\",\n     \"timestamp\": $timestamp\n   }' \"$DIGESTS_FILE\" > \"$DIGESTS_FILE.tmp\" && \\\nmv \"$DIGESTS_FILE.tmp\" \"$DIGESTS_FILE\"\n\necho \"✅ Merkle root computed: ${MERKLE_ROOT:0:16}...\"\necho \"\U0001F333 Tree levels: $LEVEL\"\necho \"\U0001F4CA Leaf count: $(jq '.files | length' \"$DIGESTS_FILE\")\"\n"
+      timeout: 2m
+      retry_count: 1
+    - name: create-hash-lock
+      description: Create hash lock file for integrity verification
+      script: "#!/bin/bash\nset -euo pipefail\n\necho \"\U0001F512 Creating hash lock file...\"\n\nEVIDENCE_DIR=\"dist/evidence\"\nDIGESTS_FILE=\"$EVIDENCE_DIR/digests.json\"\nMERKLE_FILE=\"$EVIDENCE_DIR/merkle-root.json\"\n\nif [[ ! -f \"$DIGESTS_FILE\" ]] || [[ ! -f \"$MERKLE_FILE\" ]]; then\n  echo \"❌ Required files not found\"\n  exit 1\nfi\n\nTIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\nMERKLE_ROOT=$(jq -r '.merkle_root' \"$MERKLE_FILE\")\n\n# Create hash lock file\ncat > \"$EVIDENCE_DIR/hash-lock.json\" << EOF\n{\n  \"lock_version\": \"v1.0.0\",\n  \"created_at\": \"${TIMESTAMP}\",\n  \"creator\": \"machine-native-ops/hash-lock-bundle\",\n  \"description\": \"Hash lock for Machine Native Ops control plane\",\n  \"root_hash\": \"${MERKLE_ROOT}\",\n  \"algorithm\": \"sha3-512\",\n  \"verification_method\": \"merkle_tree\",\n  \"locked_files_count\": $(jq '.files | length' \"$DIGESTS_FILE\"),\n  \"verification_commands\": {\n    \"verify_all\": \"sha512sum -c dist/evidence/digests.sha512\",\n    \"verify_merkle\": \"python root/scripts/verify_merkle_root.py\",\n    \"verify_integrity\": \"make verify-evidence\"\n  },\n  \"integrity_guarantees\": [\n    \"file_immutable\",\n    \"tamper_detection\",\n    \"cryptographic_proof\",\n    \"deterministic_verification\"\n  ],\n  \"trust_anchor\": \"merkle_root\",\n  \"fallback_verification\": \"sha512_checksum\"\n}\nEOF\n\n# Create SHA512 checksum file for fallback verification\nfind root/ -type f \\( -name \"*.yaml\" -o -name \"*.yml\" -o -name \"*.py\" -o -name \"*.sh\" \\) -exec sha512sum {} \\; | sort > \"$EVIDENCE_DIR/digests.sha512\"\n\n# Add manifests if they exist\nif [[ -f \"dist/manifests.yaml\" ]]; then\n  sha512sum \"dist/manifests.yaml\" >> \"$EVIDENCE_DIR/digests.sha512\"\nfi\n\necho \"✅ Hash lock file created\"\necho \"\U0001F512 Root hash: ${MERKLE_ROOT:0:16}...\"\necho \"\U0001F4CA Locked files: $(jq '.files | length' \"$DIGESTS_FILE\")\"\necho \"\U0001F4CB Checksum file: $EVIDENCE_DIR/digests.sha512\"\n"
+      timeout: 1m
+      retry_count: 1
+  # Bundle configuration
+  config:
+    working_directory: /workspace/machine-native-ops
+    environment:
+      - name: PYTHONPATH
+        value: /workspace/machine-native-ops
+      - name: TIMEZONE
+        value: UTC
+    resources:
+      requests:
+        cpu: 300m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+    security_context:
+      run_as_user: 1000
+      run_as_group: 1000
+      read_only_root_filesystem: false
+      allow_privilege_escalation: false
+  # Bundle outputs
+  outputs:
+    artifacts:
+      - name: digests
+        path: dist/evidence/digests.json
+        type: json-digest-list
+        description: Cryptographic digests for all monitored files
+      - name: merkle-root
+        path: dist/evidence/merkle-root.json
+        type: json-merkle-root
+        description: Merkle tree root hash for integrity verification
+      - name: hash-lock
+        path: dist/evidence/hash-lock.json
+        type: json-hash-lock
+        description: Hash lock file for integrity verification
+      - name: checksums
+        path: dist/evidence/digests.sha512
+        type: sha512-checksums
+        description: SHA512 checksums for fallback verification
+    metadata:
+      - name: hash-lock-summary
+        type: json
+        description: Summary of hash lock generation
+        path: dist/evidence/hash-lock-summary.json
+  # Bundle dependencies
+  dependencies:
+    tools:
+      - name: sha3sum
+        optional: true
+        min_version: "1.0"
+        fallback: openssl or sha512sum
+      - name: b3sum
+        optional: true
+        min_version: "1.0"
+        fallback: openssl or sha256sum
+      - name: openssl
+        optional: false
+        min_version: "1.1"
+      - name: jq
+        optional: false
+        min_version: "1.6"
+    files:
+      - name: root-configurations
+        pattern: root/.root.*.yaml
+        required: true
+      - name: job-files
+        pattern: root/jobs/*.yaml
+        required: true
+      - name: scripts
+        pattern: root/scripts/*.*
+        required: true
+  # Bundle error handling
+  error_handling:
+    retry_policy:
+      max_retries: 1
+      backoff_strategy: fixed
+      delay: 5s
+    error_codes:
+      - code: E101
+        description: SHA3-512 not available
+        action: fallback_to_sha512
+      - code: E102
+        description: BLAKE3 not available
+        action: fallback_to_sha256
+      - code: E103
+        description: OpenSSL not available
+        action: fail
+      - code: E104
+        description: Merkle tree construction error
+        action: fail
+  # Bundle validation
+  validation:
+    pre_execution:
+      - name: check-crypto-tools
+        description: Check if cryptographic tools are available
+        script: |
+          #!/bin/bash
+          MISSING_TOOLS=""
+
+          if ! command -v openssl >/dev/null 2>&1; then
+            MISSING_TOOLS="$MISSING_TOOLS openssl"
+          fi
+
+          if ! command -v jq >/dev/null 2>&1; then
+            MISSING_TOOLS="$MISSING_TOOLS jq"
+          fi
+
+          if [[ -n "$MISSING_TOOLS" ]]; then
+            echo "❌ Missing required tools:$MISSING_TOOLS"
+            exit 1
+          fi
+
+          echo "✅ All required tools available"
+    post_execution:
+      - name: validate-hash-lock
+        description: Validate that hash lock is properly generated
+        script: |-
+          #!/bin/bash
+          OUTPUTS_OK=true
+
+          for file in "digests.json" "merkle-root.json" "hash-lock.json"; do
+            if [[ ! -f "dist/evidence/$file" ]]; then
+              echo "❌ Missing output file: $file"
+              OUTPUTS_OK=false
+            fi
+          done
+
+          # Validate JSON format
+          for file in "digests.json" "merkle-root.json" "hash-lock.json"; do
+            if [[ -f "dist/evidence/$file" ]]; then
+              if ! jq empty "dist/evidence/$file" 2>/dev/null; then
+                echo "❌ Invalid JSON in file: $file"
+                OUTPUTS_OK=false
+              fi
+            fi
+          done
+
+          # Validate Merkle root format
+          if [[ -f "dist/evidence/merkle-root.json" ]]; then
+            MERKLE_ROOT=$(jq -r '.merkle_root' "dist/evidence/merkle-root.json")
+            if [[ "$MERKLE_ROOT" == "null" ]] || [[ ${#MERKLE_ROOT} -ne 128 ]]; then
+              echo "❌ Invalid Merkle root format"
+              OUTPUTS_OK=false
+            fi
+          fi
+
+          if [[ "$OUTPUTS_OK" == "true" ]]; then
+            echo "✅ Hash lock validation successful"
+          else
+            echo "❌ Hash lock validation failed"
+            exit 1
+          fi

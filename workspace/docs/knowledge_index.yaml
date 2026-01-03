@@ -333,6 +333,18 @@ items:
     last_reviewed: "2025-11-01"
     description: "Automated PR review and merge workflow."
 
+  - id: "wrangler_install_update"
+    path: "docs/deployment/WRANGLER_INSTALL_UPDATE.md"
+    title: "Wrangler Installation & Update Guide Wrangler 安裝與更新指南"
+    domain: "operations"
+    layer: "enablement"
+    type: "guide"
+    tags: ["wrangler", "cloudflare", "deployment", "installation", "workers"]
+    owner: "devops-team"
+    status: "stable"
+    last_reviewed: "2026-01-03"
+    description: "Comprehensive guide for installing and updating Wrangler CLI tool for Cloudflare Workers deployment."
+
   # ===== Guides 指南 =====
   - id: "quick_start"
     path: "docs/QUICK_START.md"

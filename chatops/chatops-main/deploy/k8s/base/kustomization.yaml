@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: chatops-base
+  annotations:
+    chatops.io/naming-compliant: "true"
+
+# Common labels applied to all resources
+commonLabels:
+  app.kubernetes.io/part-of: chatops
+  app.kubernetes.io/managed-by: kustomize
+  chatops.io/naming-compliant: "true"
+
+# Common annotations
+commonAnnotations:
+  chatops.io/governance-version: "1.0"
+
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - networkpolicy.yaml
+  - poddisruptionbudget.yaml
+
+# Config maps and secrets generators
+configMapGenerator: []
+secretGenerator: []
+
+# Strategic merge patches
+patches: []
+
+# Images to override
+images: []

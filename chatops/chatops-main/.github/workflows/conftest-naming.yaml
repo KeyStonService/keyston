@@ -1,0 +1,272 @@
+name: Naming Convention Enforcement
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  naming-convention-check:
+    name: Enforce Naming Conventions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Conftest
+        uses: instrumenta/conftest-action@master
+        with:
+          files: .
+            policy: .config/conftest/policies/
+
+      - name: Validate file naming conventions
+        run: |
+          # Create temporary config for naming validation
+          cat > naming-config.yaml << EOF
+          files:
+            - pattern: "*.yaml"
+              naming: "kebab-case"
+            - pattern: "*.yml"
+              naming: "kebab-case"
+            - pattern: "*.md"
+              naming: "kebab-case"
+            - pattern: "*.sh"
+              naming: "kebab-case"
+          EOF
+
+      - name: Run Conftest naming policy validation
+        run: |
+          # Validate YAML files against naming policies
+          find . -name "*.yaml" -o -name "*.yml" | while read file; do
+            echo "Checking naming for: $file"
+            conftest test "$file" --policy .config/conftest/policies/naming_policy.rego --namespace naming || echo "Naming violation found in $file"
+          done
+
+      - name: Check directory naming conventions
+        run: |
+          echo "Checking directory naming conventions..."
+          
+          # Find directories with invalid naming
+          find . -type d -name "*[A-Z]*" -o -name "*_*" | while read dir; do
+            if [[ "$dir" != "./.git"*]] && [[ "$dir" != "./.github"*]]; then
+              echo "❌ Invalid directory name: $dir (should be kebab-case)"
+              exit 1
+            fi
+          done
+
+      - name: Validate resource naming in YAML files
+        run: |
+          echo "Validating resource naming in YAML files..."
+          
+          find . -name "*.yaml" -o -name "*.yml" | while read file; do
+            # Skip certain files
+            if [[ "$file" == *".github"*]] || [[ "$file" == *"node_modules"*]]; then
+              continue
+            fi
+            
+            echo "Checking resource names in: $file"
+            
+            # Check for camelCase in resource names
+            if grep -q "[a-z][A-Z]" "$file"; then
+              echo "❌ CamelCase found in $file"
+              grep -n "[a-z][A-Z]" "$file" | head -5
+            fi
+            
+            # Check for underscores in resource names
+            if grep -q "_[a-z]" "$file"; then
+              echo "❌ Snake_case found in $file"
+              grep -n "_[a-z]" "$file" | head -5
+            fi
+          done
+
+      - name: Generate naming violation report
+        if: failure()
+        run: |
+          cat > naming-violations.md << EOF
+          # Naming Convention Violations Report
+          
+          ## Summary
+          The naming convention check found violations that need to be addressed.
+          
+          ## Naming Rules
+          - **Files**: Use kebab-case (e.g., `my-config.yaml`)
+          - **Directories**: Use kebab-case (e.g., `my-directory/`)
+          - **Resources**: Use kebab-case in YAML resource names
+          - **Variables**: Use snake_case in shell scripts
+          
+          ## Common Violations
+          - CamelCase in filenames or resource names
+          - Snake_case in filenames
+          - Mixed case in directory names
+          
+          ## Auto-Fix Suggestions
+          1. Rename files to use kebab-case
+          2. Update all references to renamed files
+          3. Update resource names in YAML files
+          4. Ensure consistency across the repository
+          
+          ## Generated
+          Date: $(date)
+          Commit: ${{ github.sha }}
+          Workflow: ${{ github.workflow }}
+          EOF
+
+      - name: Upload naming violation report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: naming-violations
+          path: naming-violations.md
+          retention-days: 30
+
+      - name: Comment on PR with naming violations
+        if: failure() && github.event_name == 'pull_request'
+        run: |
+          cat > pr-comment.md << EOF
+          ## 🚫 Naming Convention Violations Found
+          
+          The automated naming convention check found violations that need to be addressed before this PR can be merged.
+          
+          ### Issues Found:
+          - Invalid naming in files or directories
+          - Non-kebab-case resource names in YAML files
+          
+          ### Required Actions:
+          1. Review the naming violations report in the artifacts
+          2. Fix all naming convention issues
+          3. Update all references to renamed items
+          
+          ### Naming Standards:
+          - **Files/Dirs**: kebab-case (e.g., `my-service.yaml`)
+          - **Resources**: kebab-case in YAML
+          - **Variables**: snake_case in shell scripts
+          
+          Please fix these issues and push updates to this PR.
+          EOF
+          
+          gh pr comment ${{ github.event.pull_request.number }} --body-file pr-comment.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  auto-fix-naming:
+    name: Auto-Fix Naming Issues
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-fix file naming (experimental)
+        run: |
+          echo "Attempting to auto-fix naming issues..."
+          
+          # This is experimental - use with caution
+          # Only safe renames are performed
+          
+          # Rename common patterns that are safe to change
+          find . -name "*_config.yaml" -not -path "./.git/*" | while read file; do
+            new_name=$(echo "$file" | sed 's/_config/-config/g')
+            if [ "$file" != "$new_name"]; then
+              echo "Renaming: $file -> $new_name"
+              git mv "$file" "$new_name"
+            fi
+          done
+
+      - name: Update references after renames
+        run: |
+          echo "Updating references after auto-renames..."
+          
+          # Update references in YAML files
+          find . -name "*.yaml" -o -name "*.yml" | while read file; do
+            # Update common patterns
+            sed -i 's/_config/-config/g' "$file"
+            sed -i 's/_service/-service/g' "$file"
+            sed -i 's/_deployment/-deployment/g' "$file"
+          done
+
+      - name: Commit auto-fixes
+        run: |
+          git config --local user.email "auto-fix-naming@github.com"
+          git config --local user.name "Auto-Fix Naming Bot"
+          
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "auto: Fix naming convention violations
+
+          - Auto-renamed common patterns to kebab-case
+          - Updated references in configuration files
+          - Applied naming convention enforcement"
+            git push
+          else
+            echo "No naming auto-fixes applied"
+          fi
+
+  naming-compliance-report:
+    name: Generate Naming Compliance Report
+    runs-on: ubuntu-latest
+    if: always()
+    needs: naming-convention-check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate compliance report
+        run: |
+          cat > naming-compliance-report.md << EOF
+          # Naming Convention Compliance Report
+          
+          ## Summary
+          - Status: ${{ needs.naming-convention-check.result }}
+          - Date: $(date)
+          - Commit: ${{ github.sha }}
+          - Branch: ${{ github.ref }}
+          
+          ## Compliance Analysis
+          
+          ### File Naming Analysis
+          EOF
+          
+          # Analyze file naming
+          find . -name "*.yaml" -o -name "*.yml" -o -name "*.md" -o -name "*.sh" | while read file; do
+            basename_file=$(basename "$file")
+            if [[ "$basename_file" =~ [A-Z]]] || [[ "$basename_file" =~ _]]; then
+              echo "- ❌ $basename_file (violates kebab-case)" >> naming-compliance-report.md
+            else
+              echo "- ✅ $basename_file (compliant)" >> naming-compliance-report.md
+            fi
+          done
+          
+          echo "" >> naming-compliance-report.md
+          echo "### Directory Naming Analysis" >> naming-compliance-report.md
+          
+          # Analyze directory naming
+          find . -type d -not -path "./.git/*" -not -path "./.github/*" | while read dir; do
+            basename_dir=$(basename "$dir")
+            if [[ "$basename_dir" =~ [A-Z]]] || [[ "$basename_dir" =~ _]]; then
+              echo "- ❌ $basename_dir/ (violates kebab-case)" >> naming-compliance-report.md
+            else
+              echo "- ✅ $basename_dir/ (compliant)" >> naming-compliance-report.md
+            fi
+          done
+          
+          echo "" >> naming-compliance-report.md
+          echo "## Recommendations" >> naming-compliance-report.md
+          echo "- All files and directories should use kebab-case naming" >> naming-compliance-report.md
+          echo "- Resource names in YAML files should be consistent" >> naming-compliance-report.md
+          echo "- Update all references when renaming files" >> naming-compliance-report.md
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: naming-compliance-report
+          path: naming-compliance-report.md
+          retention-days: 30

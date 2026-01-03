@@ -1,0 +1,9 @@
+.git
+node_modules
+artifacts
+var
+.vscode
+.devcontainer
+local
+**/*.test
+**/*_test.go

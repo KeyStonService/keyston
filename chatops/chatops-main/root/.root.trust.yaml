@@ -1,0 +1,242 @@
+apiVersion: root.platform.io/v1
+kind: RootTrust
+metadata:
+  name: machine-native-ops-trust
+  version: 0.1.0
+  owners:
+    - security-team@machine-native-ops.org
+  description: Trust management and cryptographic verification
+spec:
+  # Trust roots
+  trust_roots:
+    - name: platform-ca
+      type: x509
+      description: Platform Certificate Authority
+      config:
+        cert_file: examples/certs/platform-ca.crt
+        key_file: examples/certs/platform-ca.key
+        ca_chain_file: examples/certs/ca-chain.crt
+      verification_policies:
+        - name: code-signing
+          description: Code signing verification
+          required: true
+          oid_mapping:
+            - oid: 2.5.29.37 # Extended Key Usage
+              value: 1.3.6.1.5.5.7.3.3 # Code Signing
+        - name: timestamp-signing
+          description: Timestamp signing verification
+          required: false
+      rotation_policy:
+        auto_rotate: true
+        rotation_days: 365
+        advance_warning_days: 30
+    - name: image-signing
+      type: cosign
+      description: Container image signing
+      config:
+        key_id: cosign-key-id
+        public_key: examples/cosign/cosign.pub
+        signature_algorithm: ecdsa-sha2-nistp256
+      verification_policies:
+        - name: signed-only
+          description: Only allow signed images
+          required: true
+        - name: trusted-registries
+          description: Only allow images from trusted registries
+          required: true
+          allowed_registries:
+            - registry.k8s.io
+            - docker.io/machine-native-ops
+            - ghcr.io/machine-native-ops
+      rotation_policy:
+        auto_rotate: false
+        rotation_days: 730
+        advance_warning_days: 60
+    - name: git-signing
+      type: git
+      description: Git commit and tag signing
+      config:
+        gpg_key_id: git-signing-key
+        public_key: examples/gpg/git-signing.pub
+        signature_algorithm: rsa4096
+      verification_policies:
+        - name: signed-commits
+          description: Require signed commits for protected branches
+          required: true
+          protected_branches:
+            - main
+            - release/*
+        - name: signed-tags
+          description: Require signed tags for releases
+          required: true
+      rotation_policy:
+        auto_rotate: false
+        rotation_days: 1095
+        advance_warning_days: 90
+  # Key rotation policies
+  key_rotation:
+    enabled: true
+    schedule: 0 3 1 * * # Monthly at 3 AM
+    advance_warning_days: 30
+    grace_period_days: 7
+    retention_days: 90
+    rotation_strategies:
+      - name: automatic
+        description: Automatic key rotation
+        applicable_to:
+          - platform-ca
+          - image-signing
+        steps:
+          - generate_new_key
+          - distribute_new_key
+          - update_verification_policies
+          - retire_old_key
+      - name: manual
+        description: Manual key rotation with approval
+        applicable_to:
+          - git-signing
+        steps:
+          - generate_new_key
+          - security_review
+          - distribute_new_key
+          - update_verification_policies
+          - retire_old_key
+        approval_required: true
+  # Verification policies
+  verification_policies:
+    global:
+      signed_only: true
+      trust_anchor_validation: true
+      certificate_revocation_check: true
+    policies:
+      - name: container-images
+        description: Container image verification policy
+        resources:
+          - container-images
+        rules:
+          - type: signature
+            required: true
+            key: image-signing
+          - type: registry
+            required: true
+            allowed_registries:
+              - registry.k8s.io
+              - ghcr.io/machine-native-ops
+          - type: vulnerability-scan
+            required: false
+            max_severity: medium
+      - name: configuration-files
+        description: Configuration file verification policy
+        resources:
+          - yaml-files
+          - json-files
+        rules:
+          - type: signature
+            required: false # Optional for now
+          - type: integrity
+            required: true
+            algorithm: sha3-512
+          - type: schema
+            required: true
+      - name: git-commits
+        description: Git commit verification policy
+        resources:
+          - git-commits
+          - git-tags
+        rules:
+          - type: signature
+            required: true
+            key: git-signing
+          - type: author-verification
+            required: true
+            trusted_authors:
+              - '@machine-native-ops.org'
+  # Trust stores
+  trust_stores:
+    - name: certificates
+      type: x509
+      path: /etc/trust/certs
+      auto_update: true
+      update_interval: 24h
+    - name: cosign-keys
+      type: cosign
+      path: /etc/trust/cosign
+      auto_update: false
+    - name: gpg-keys
+      type: gpg
+      path: /etc/trust/gpg
+      auto_update: true
+      key_servers:
+        - keyserver.ubuntu.com
+        - pgp.mit.edu
+  # Audit and compliance
+  audit:
+    enabled: true
+    log_level: info
+    retention_days: 2555 # 7 years
+    audit_events:
+      - name: verification-success
+        description: Successful verification events
+        enabled: true
+      - name: verification-failure
+        description: Failed verification events
+        enabled: true
+        alert_severity: high
+      - name: key-rotation
+        description: Key rotation events
+        enabled: true
+      - name: trust-root-update
+        description: Trust root update events
+        enabled: true
+        alert_severity: medium
+  # Integration with external systems
+  integrations:
+    - name: vault
+      type: hashicorp-vault
+      description: HashiCorp Vault integration
+      config:
+        address: https://vault.machine-native-ops.org
+        auth_method: kubernetes
+        mount_path: secret
+      secrets:
+        - path: trust/keys/platform-ca
+          type: certificate
+        - path: trust/keys/cosign
+          type: cosign-key
+    - name: cmdb
+      type: service-now
+      description: CMDB integration for trust asset tracking
+      config:
+        instance: machine-native-ops.service-now.com
+        table: cmdb_ci_trust_asset
+    - name: siem
+      type: splunk
+      description: SIEM integration for trust events
+      config:
+        endpoint: https://splunk.machine-native-ops.org:8088
+        index: trust_events
+  # Compliance and standards
+  compliance:
+    frameworks:
+      - name: NIST-CSF
+        version: "1.1"
+        controls:
+          - PR.AC-1 # Identities and credentials
+          - PR.AC-5 # Network access control
+          - PR.DS-1 # Data-at-rest protection
+          - PR.DS-2 # Data-in-transit protection
+      - name: CIS-Controls
+        version: "8"
+        controls:
+          - "3.3" # Configure Data Access Control Lists
+          - "3.7" # Protect Data via Encryption
+          - "4.1" # Establish and Maintain a Secure Configuration Process
+          - "13.2" # Perform Vulnerability Scanning
+    certifications:
+      - name: FedRAMP
+        level: Moderate
+        requirements:
+          - SC-8 # Transmission Integrity
+          - SC-12 # Cryptographic Key Establishment
+          - SC-13 # Cryptographic Protection
+          - SI-4 # System Monitoring

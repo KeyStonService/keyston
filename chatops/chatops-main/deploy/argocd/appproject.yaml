@@ -1,0 +1,85 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: chatops
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: chatops
+spec:
+  description: ChatOps Platform Project
+
+  # Source repositories
+  sourceRepos:
+    - https://github.com/MachineNativeOps/chatops.git
+    - https://github.com/MachineNativeOps/*
+
+  # Destination clusters and namespaces
+  destinations:
+    - namespace: chatops-*
+      server: https://kubernetes.default.svc
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
+
+  # Allowed cluster resources
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRole
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRoleBinding
+
+  # Namespace resources (default: all allowed)
+  namespaceResourceBlacklist:
+    - group: ''
+      kind: ResourceQuota
+    - group: ''
+      kind: LimitRange
+
+  # Roles
+  roles:
+    - name: admin
+      description: Admin access to ChatOps project
+      policies:
+        - p, proj:chatops:admin, applications, *, chatops/*, allow
+      groups:
+        - chatops-admins
+
+    - name: developer
+      description: Developer access - can sync but not delete
+      policies:
+        - p, proj:chatops:developer, applications, get, chatops/*, allow
+        - p, proj:chatops:developer, applications, sync, chatops/*, allow
+      groups:
+        - chatops-developers
+
+    - name: readonly
+      description: Read-only access
+      policies:
+        - p, proj:chatops:readonly, applications, get, chatops/*, allow
+      groups:
+        - chatops-viewers
+
+  # Sync windows
+  syncWindows:
+    - kind: deny
+      schedule: '0 22 * * 5'  # No deploys Friday 10 PM
+      duration: 36h
+      applications:
+        - '*-prod'
+      namespaces:
+        - chatops-prod
+    - kind: allow
+      schedule: '0 9 * * 1-5'  # Allow weekdays 9 AM - 6 PM
+      duration: 9h
+      applications:
+        - '*'
+      manualSync: true
+
+  # Orphaned resources monitoring
+  orphanedResources:
+    warn: true
+    ignore:
+      - group: ''
+        kind: ConfigMap
+        name: kube-root-ca.crt

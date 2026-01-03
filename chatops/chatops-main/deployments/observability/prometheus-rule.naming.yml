@@ -1,0 +1,30 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prod-chatops-cm-v1.0.0
+  namespace: monitoring
+  labels:
+    app: chatops
+spec:
+  groups:
+    - name: naming-governance.rules
+      rules:
+        - alert: NamingComplianceDrop
+          expr: chatops_naming_compliance_rate < 0.98
+          for: 10m
+          labels:
+            severity: warning
+            env: prod
+          annotations:
+            summary: "Naming compliance below 98%"
+            description: "Compliance rate dropped to {{ $value }}. Trigger naming playbook."
+
+        - alert: NamingAutoFixFailureRateHigh
+          expr: chatops_naming_autofix_failure_rate > 0.05
+          for: 15m
+          labels:
+            severity: critical
+            env: prod
+          annotations:
+            summary: "Naming auto-fix failure rate high"
+            description: "Auto-fix failure rate exceeded 5% ({{ $value }}). Investigate."

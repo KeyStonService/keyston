@@ -1,0 +1,7 @@
+version: 1
+provenance:
+  format: "in-toto"
+  slsa: "v1"
+  generator: "slsa-provenance"
+  outputs:
+    - artifacts/attestations/provenance.intoto.json

@@ -1,0 +1,77 @@
+name: Naming Governance (Observe → Validate → Plan → Dry-run)
+on:
+  pull_request:
+    paths:
+      - 'deployments/**'
+      - 'policies/**'
+      - '.github/workflows/**'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'deployments/**'
+      - 'policies/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: naming-governance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  naming:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout (no third-party action)
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .git
+          git init
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git fetch --depth=1 origin "${{ github.sha }}"
+          git checkout -f FETCH_HEAD
+
+      - name: Bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+          mkdir -p artifacts/{reports,audit,tmp}
+
+      - name: Discovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/naming/discovery.py --root deployments --out artifacts/reports/naming-discovery.json
+
+      - name: Plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/naming/plan.py --discovery artifacts/reports/naming-discovery.json --out artifacts/reports/naming-plan.csv
+
+      - name: Dry-run
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/naming/dryrun.py --plan artifacts/reports/naming-plan.csv --out artifacts/reports/naming-dryrun.json
+
+      - name: PR Comment
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          RATE=$(python3 -c "import json; d=json.load(open('artifacts/reports/naming-discovery.json')); print(d['summary']['compliance_rate'])")
+          NON=$(python3 -c "import json; d=json.load(open('artifacts/reports/naming-discovery.json')); print(d['summary']['noncompliant'])")
+          BODY="Naming compliance: **${RATE}%** (violations=${NON}). Artifacts: naming-discovery.json, naming-plan.csv, naming-dryrun.json"
+          curl -sS -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            -d "$(python3 -c 'import json,os; print(json.dumps({\"body\": os.environ[\"BODY\"]}))')" >/dev/null
+        env:
+          BODY: "placeholder"

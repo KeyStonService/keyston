@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prod-chatops-deploy-v1.0.0
+  labels:
+    env: prod
+    app: chatops
+    region: local
+    governance/naming: enforced
+spec:
+  selector:
+    matchLabels:
+      app: chatops
+  template:
+    metadata:
+      labels:
+        env: prod
+        app: chatops
+        region: local

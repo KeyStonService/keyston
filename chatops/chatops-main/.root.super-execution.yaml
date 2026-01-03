@@ -1,0 +1,21 @@
+version: 1
+pipeline:
+  stages:
+    - name: metadata
+      required: true
+    - name: policy
+      required: true
+    - name: security
+      required: true
+    - name: contracts
+      required: true
+    - name: build
+      required: true
+    - name: evidence
+      required: true
+    - name: deploy
+      required: false
+execution:
+  auditLog: artifacts/reports/audit.jsonl
+  failAction: "open_issue_and_block"
+  artifactSharing: true

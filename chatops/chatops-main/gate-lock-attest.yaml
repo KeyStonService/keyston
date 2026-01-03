@@ -1,0 +1,9 @@
+apiVersion: chatops.io/v1
+kind: GateLock
+metadata:
+  name: freeze-gate
+spec:
+  frozen: false
+  reason: ""
+  createdBy: "system"
+  instructions: "Set frozen=true to block CD workflows."

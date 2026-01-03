@@ -1,0 +1,6 @@
+version: 1
+detectors:
+  - id: unpinned-actions
+    type: regex
+    pattern: "uses:\\s*[^@\\s]+@v\\d+"
+    severity: P0

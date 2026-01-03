@@ -1,0 +1,36 @@
+name: Auto Fix Verify
+on:
+  pull_request:
+    paths:
+      - "artifacts/reports/auto-fix/**"
+      - "scripts/auto-fix/**"
+      - ".config/auto-fix/**"
+      - ".github/workflows/auto-fix-*.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: autofix-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: Verify report format
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f artifacts/reports/auto-fix/summary.json
+          python3 - <<'PY'
+          import json
+          p="artifacts/reports/auto-fix/summary.json"
+          d=json.load(open(p))
+          for k in ["version","generatedAt","traceId","changes","risk"]:
+              assert k in d, f"missing {k}"
+          print("auto-fix report: OK")
+          PY

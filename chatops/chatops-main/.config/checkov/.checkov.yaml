@@ -1,0 +1,8 @@
+framework:
+  - kubernetes
+  - dockerfile
+output:
+  - json
+quiet: true
+skip-check: []
+soft-fail: true

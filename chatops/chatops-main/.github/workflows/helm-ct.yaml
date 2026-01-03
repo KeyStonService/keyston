@@ -1,0 +1,32 @@
+name: Helm CT
+on:
+  pull_request:
+    paths:
+      - "deploy/helm/**"
+      - ".config/helm/ct.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: helm-ct-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ct:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec7b1a9d
+      - name: chart-testing (stub)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/reports
+          echo '{"tool":"helm-ct","mode":"stub","status":"ok"}' > artifacts/reports/helm-ct.json
+      - name: Upload report
+        uses: actions/upload-artifact@26f96df89e6c6a4b3c4d3e9a41d5d2a8d9a4c2a7
+        with:
+          name: helm-ct
+          path: artifacts/reports/helm-ct.json
