@@ -305,12 +305,11 @@ class LongLineFixer(VulnerabilityFixer):
                 continue
             
             spaces = len(line) - len(stripped)
-            # 只統計精確為 2/4/8 個空格的縮進，避免將多級縮進誤判為基本縮進風格
-            if spaces == 8:
+            if spaces % 8 == 0 and spaces > 0:
                 indent_counts[8] += 1
-            elif spaces == 4:
+            elif spaces % 4 == 0 and spaces > 0:
                 indent_counts[4] += 1
-            elif spaces == 2:
+            elif spaces % 2 == 0 and spaces > 0:
                 indent_counts[2] += 1
         
         # 返回最常用的縮進風格
