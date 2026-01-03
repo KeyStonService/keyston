@@ -191,6 +191,10 @@ def download_report(filename):
         # Path is not relative to base_path (i.e., outside REPORTS_DIR)
         return jsonify({'error': 'Report not found'}), 404
 
+    # Ensure it's not the base directory itself and is a file
+    if report_path == base_path or not report_path.is_file():
+        return jsonify({'error': 'Report not found'}), 404
+
     if report_path.exists():
         return send_file(report_path, as_attachment=True)
     
