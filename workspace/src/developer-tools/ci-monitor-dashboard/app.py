@@ -139,7 +139,10 @@ class CIMonitorDashboard:
                 runs = workflow.get_runs(per_page=10)
                 
                 for run in runs:
-                    run_started_at = run.run_started_at if hasattr(run, "run_started_at") else None
+                    try:
+                        run_started_at = run.run_started_at
+                    except AttributeError:
+                        run_started_at = None
                     workflow_data = {
                         'id': run.id,
                         'name': workflow.name,
@@ -153,7 +156,7 @@ class CIMonitorDashboard:
                         'head_sha': run.head_sha,
                         'triggered_by': run.triggered_by,
                         'event': run.event
-                     }
+                    }
                     
                     # 獲取運行日誌和工件信息
                     try:
@@ -483,11 +486,18 @@ class CIMonitorDashboard:
                 month_ago = current_time - timedelta(days=30)
                 monthly_metrics = [m for m in metrics if m.timestamp > month_ago]
                 total_monthly = len(monthly_metrics)
-                avg_runtime_month = (sum(m.duration for m in monthly_metrics) / total_monthly) if total_monthly else 0
-                avg_queue_month = (sum(m.queue_time for m in monthly_metrics) / total_monthly) if total_monthly else 0
-                failure_count_month = sum(1 for m in monthly_metrics if m.status == PipelineStatus.FAILURE)
+                runtime_sum = queue_sum = failure_count_month = failed_usage_month = 0
+                
+                for m in monthly_metrics:
+                    runtime_sum += m.duration
+                    queue_sum += m.queue_time
+                    if m.status == PipelineStatus.FAILURE:
+                        failure_count_month += 1
+                        failed_usage_month += m.duration
+                
+                avg_runtime_month = (runtime_sum / total_monthly) if total_monthly else 0
+                avg_queue_month = (queue_sum / total_monthly) if total_monthly else 0
                 failure_rate_month = (failure_count_month / total_monthly * 100) if total_monthly else 0
-                failed_usage_month = sum(m.duration for m in monthly_metrics if m.status == PipelineStatus.FAILURE)
                 
                 return [
                     [self._metric_to_dict(m) for m in metrics],
