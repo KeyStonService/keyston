@@ -302,17 +302,48 @@ class LongLineFixer(VulnerabilityFixer):
     def _detect_indentation(self, lines: List[str]) -> str:
         """檢測文件的縮進風格（空格或制表符）"""
         # 檢查文件中的縮進模式
-        space_count = 0
+        space_indents = {}  # 記錄不同空格縮進的出現次數
         tab_count = 0
         
         for line in lines:
-            if line.startswith('    '):
-                space_count += 1
-            elif line.startswith('\t'):
+            if not line.strip():  # 跳過空行
+                continue
+            
+            # 計算行首的空格和制表符
+            stripped = line.lstrip()
+            if stripped == line:  # 沒有縮進
+                continue
+            
+            indent = line[:len(line) - len(stripped)]
+            
+            if '\t' in indent:
                 tab_count += 1
+            elif ' ' in indent:
+                # 記錄空格縮進的長度
+                space_len = len(indent)
+                space_indents[space_len] = space_indents.get(space_len, 0) + 1
         
-        # 返回最常見的縮進風格
-        return '\t' if tab_count > space_count else '    '
+        # 如果制表符更常見，返回制表符
+        if tab_count > sum(space_indents.values()):
+            return '\t'
+        
+        # 否則找出最常見的空格縮進長度
+        if space_indents:
+            # 獲取最常見的縮進單位（2或4空格）
+            common_indent = max(space_indents, key=space_indents.get)
+            # 找出最大公約數作為縮進單位
+            from math import gcd
+            indent_unit = common_indent
+            for length in space_indents.keys():
+                if length > 0:
+                    indent_unit = gcd(indent_unit, length)
+            
+            # 確保縮進單位在合理範圍內（2或4空格）
+            if indent_unit in (2, 4):
+                return ' ' * indent_unit
+        
+        # 默認返回4個空格
+        return '    '
 
 class AutoFixer:
     """
