@@ -56,10 +56,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/MachineNativeOps/machine-native-ops-aaps"
+Homepage = "https://github.com/MachineNativeOps/machine-native-ops"
 Documentation = "https://docs.machinenativeops.io"
-Repository = "https://github.com/MachineNativeOps/machine-native-ops-aaps"
-Issues = "https://github.com/MachineNativeOps/machine-native-ops-aaps/issues"
+Repository = "https://github.com/MachineNativeOps/machine-native-ops"
+Issues = "https://github.com/MachineNativeOps/machine-native-ops/issues"
 
 [project.scripts]
 machinenativenops-auto-monitor = "machinenativenops_auto_monitor.__main__:main"
