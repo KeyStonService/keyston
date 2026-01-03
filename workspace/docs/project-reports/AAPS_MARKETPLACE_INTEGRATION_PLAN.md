@@ -264,7 +264,7 @@ Workspace 整合策略:
 4. 前端組件整合到現有的 `src/apps/web` workspace (待創建)
 
 ```
-machine-native-ops-machine-native-ops/
+machine-native-ops/
 ├── agents/
 │   ├── super-agent/          # 現有
 │   ├── monitoring-agent/     # 擴展 (Python)

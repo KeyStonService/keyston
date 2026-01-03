@@ -497,6 +497,8 @@ def verify_password(password: str, hashed: str) -> bool:
                     }
                 )
 
+        # Security scanner: Detecting dangerous eval/exec usage in analyzed code
+        # This is NOT using eval/exec itself, but checking for them in user code
         if "eval(" in code_lower or "exec(" in code_lower:
             issues.append(
                 {

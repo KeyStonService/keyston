@@ -1,8 +1,13 @@
-# MachineNativeOps MachineNativeOps 通用命名空間遷移與管理計劃
+# MachineNativeOps AAPS 通用命名空間遷移與管理計劃
 
 ## 🚀 項目概述
 
-本計劃為 MachineNativeOps MachineNativeOps (Advanced Application Platform System) 提供完整的命名空間管理方案，不僅是遷移，更是整個生命週期的統一管理系統，適用於架構設計、部署、重構、重建、集成和整合等所有場景。
+本計劃為 MachineNativeOps AAPS (Advanced Application Platform System) 提供完整的命名空間管理方案，不僅是遷移，更是整個生命週期的統一管理系統，適用於架構設計、部署、重構、重建、集成和整合等所有場景。
+# MachineNativeOps 通用命名空間遷移與管理計劃
+
+## 🚀 項目概述
+
+本計劃為 MachineNativeOps (Advanced Application Platform System) 提供完整的命名空間管理方案，不僅是遷移，更是整個生命週期的統一管理系統，適用於架構設計、部署、重構、重建、集成和整合等所有場景。
 
 ## 🎯 核心目標
 
@@ -231,7 +236,8 @@ docs/migration/
 
 ### ✅ 技術標準
 
-- [ ] 所有配置文件符合 MachineNativeOps MachineNativeOps 標準
+- [ ] 所有配置文件符合 MachineNativeOps AAPS 標準
+- [ ] 所有配置文件符合 MachineNativeOps 標準
 - [ ] 無遺留的舊命名空間引用
 - [ ] 系統功能完整性保持
 - [ ] 性能無顯著下降
@@ -272,5 +278,6 @@ docs/migration/
 
 *最後更新: 2025-12-22*  
 *版本: v2.0*  
-*適用範圍: MachineNativeOps MachineNativeOps 全平台*  
+*適用範圍: MachineNativeOps AAPS 全平台*  
+*適用範圍: MachineNativeOps 全平台*  
 *狀態: 持續維護與升級中*

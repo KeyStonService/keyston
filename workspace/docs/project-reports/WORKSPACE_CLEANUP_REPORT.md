@@ -15,9 +15,9 @@
 這些目錄是在之前的操作中意外克隆到工作空間的，現已全部移除：
 
 1. ✅ **MachineNativeOps/** - 重複的倉庫克隆
-2. ✅ **machine-native-ops-machine-native-ops/** - 重複的倉庫克隆
-3. ✅ **machine-native-ops-machine-native-ops-fresh/** - 臨時克隆目錄
-4. ✅ **machine-native-ops-machine-native-ops-new/** - 臨時克隆目錄
+2. ✅ **machine-native-ops/** - 重複的倉庫克隆
+3. ✅ **machine-native-ops-fresh/** - 臨時克隆目錄
+4. ✅ **machine-native-ops-new/** - 臨時克隆目錄
 5. ✅ **reference-repo/** - 參考倉庫克隆
 6. ✅ **axm-tools/** - 工具目錄克隆
 7. ✅ **current-repo/** - 當前倉庫克隆

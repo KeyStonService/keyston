@@ -164,7 +164,7 @@ apiVersion: root.bootstrap/v1
 kind: RootBootstrap
 
 metadata:
-  name: machine-native-ops-machine-native-ops-bootstrap
+  name: machine-native-ops-bootstrap
   version: v1.0.0
   description: Root layer bootstrap configuration for MachineNativeOps
 

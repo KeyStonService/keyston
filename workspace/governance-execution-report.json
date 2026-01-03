@@ -32099,7 +32099,7 @@
                 "timestamp": "2025-12-22T16:51:40.231724+00:00",
                 "component": {
                   "type": "application",
-                  "name": "machine-native-ops-machine-native-ops",
+                  "name": "machine-native-ops",
                   "version": "1.0.0",
                   "supplier": {
                     "name": "MachineNativeOps"
@@ -77093,7 +77093,7 @@
               "predicateType": "https://slsa.dev/provenance/v1",
               "subject": [
                 {
-                  "name": "machine-native-ops-machine-native-ops",
+                  "name": "machine-native-ops",
                   "digest": {
                     "sha256": "63ccea4dda3512eebf6a5a644577283ea7be0aab6b9062cadb481380fd61c42e"
                   }
@@ -77102,11 +77102,11 @@
               "predicate": {
                 "buildType": "https://github.com/actions",
                 "builder": {
-                  "id": "https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/actions/runs/123456789"
+                  "id": "https://github.com/MachineNativeOps/machine-native-ops/actions/runs/123456789"
                 },
                 "invocation": {
                   "configSource": {
-                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops@refs/heads/main",
+                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops@refs/heads/main",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     },
@@ -77134,7 +77134,7 @@
                 },
                 "materials": [
                   {
-                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops",
+                    "uri": "git+https://github.com/MachineNativeOps/machine-native-ops",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }
@@ -77148,7 +77148,7 @@
                 "predicateType": "https://in-toto.io/attestation/v0.1",
                 "subject": [
                   {
-                    "name": "machine-native-ops-machine-native-ops",
+                    "name": "machine-native-ops",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }
@@ -77191,7 +77191,7 @@
                 "predicateType": "https://in-toto.io/attestation/v0.1",
                 "subject": [
                   {
-                    "name": "machine-native-ops-machine-native-ops",
+                    "name": "machine-native-ops",
                     "digest": {
                       "sha256": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
                     }

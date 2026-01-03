@@ -14,8 +14,8 @@ import sys
 import json
 import subprocess
 import tempfile
-from typing import Dict, List, Any
-from dataclasses import dataclass, asdict
+from typing import Dict, List
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
@@ -443,6 +443,22 @@ def main() -> None:
         repo_path = sys.argv[1]
     else:
         repo_path = "."
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='高階深度代碼掃描工具')
+    parser.add_argument('--repo', default='.', help='待掃描的儲存庫路徑')
+    parser.add_argument('--output-dir', default='.github/code-scanning/reports', 
+                        help='掃描報告輸出目錄')
+    parser.add_argument('repo_path', nargs='?', default=None,
+                        help='待掃描的儲存庫路徑（位置參數，與 --repo 擇一使用）')
+    
+    args = parser.parse_args()
+    
+    # 優先使用命名參數，如果沒有則使用位置參數
+    repo_path = args.repo if args.repo_path is None else args.repo_path
+    # 優先使用位置參數，如果沒有則使用命名參數
+    repo_path = args.repo_path if args.repo_path is not None else args.repo
+    output_dir = args.output_dir
     
     scanner = AdvancedCodeScanner(repo_path)
     results = scanner.deep_scan()
