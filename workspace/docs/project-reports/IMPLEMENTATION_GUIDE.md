@@ -11,14 +11,17 @@
 ## 🎯 三階段實施策略
 
 ### 階段 1: 立即生效（10 分鐘）✅
+
 **目標**: 讓 PR 模板強制要求證據
 
 **步驟**:
+
 1. 確認 `.github/pull_request_template.md` 已部署
 2. 測試：開一個新 PR，確認模板自動載入
 3. 驗證：四大證據欄位都出現在 PR 描述中
 
 **驗收標準**:
+
 - ✅ 新 PR 自動顯示模板
 - ✅ 四大證據欄位清晰可見
 - ✅ 第五證據（命名規範）欄位存在
@@ -26,9 +29,11 @@
 ---
 
 ### 階段 2: 自動化驗證（30 分鐘）🔄
+
 **目標**: 啟用 GitHub Actions 自動檢查
 
 **步驟**:
+
 1. 確認以下檔案已部署：
    - `.github/workflows/gate-pr-evidence.yml`
    - `.github/workflows/gate-root-naming.yml`
@@ -45,6 +50,7 @@
    - 應該看到 ✅ 綠勾（檢查通過）
 
 **驗收標準**:
+
 - ✅ Actions 能正確偵測缺失證據
 - ✅ Actions 能正確偵測命名違規
 - ✅ 通過檢查後顯示綠勾
@@ -52,14 +58,18 @@
 ---
 
 ### 階段 3: 強制執行（1 小時）🔒
+
 **目標**: 讓不合規的 PR 無法合併
 
-**前提條件**: 
+**前提條件**:
+
 - 您必須是 repo 的 Owner 或 Admin
 - 如果不是，請聯絡 Owner 協助設定
 
 **步驟**:
+
 1. 進入 GitHub repo 設定：
+
    ```
    Settings → Branches → Branch protection rules
    ```
@@ -69,7 +79,7 @@
 3. 啟用以下選項：
    - ✅ **Require a pull request before merging**
    - ✅ **Require status checks to pass before merging**
-   
+
 4. 在「Status checks that are required」中搜尋並勾選：
    - ✅ `gate-pr-evidence / validate-pr-evidence`
    - ✅ `gate-root-naming / validate_root_naming`
@@ -82,6 +92,7 @@
 6. 儲存設定
 
 **驗收標準**:
+
 - ✅ 嘗試合併一個檢查失敗的 PR → 應該被阻擋
 - ✅ 只有檢查通過的 PR 才能合併
 - ✅ 直接 push 到 main 被阻擋
@@ -91,9 +102,11 @@
 ## 🧪 測試計畫
 
 ### 測試案例 1: 正常流程 ✅
+
 **目的**: 驗證正常的 PR 流程
 
 **步驟**:
+
 1. 創建新分支：`feature/test-normal-flow`
 2. 新增一個簡單檔案：`test.md`
 3. 提交並推送
@@ -103,6 +116,7 @@
 7. 合併 PR
 
 **預期結果**:
+
 - ✅ PR 模板自動載入
 - ✅ Actions 檢查通過
 - ✅ 可以成功合併
@@ -110,15 +124,18 @@
 ---
 
 ### 測試案例 2: 缺失證據 ❌
+
 **目的**: 驗證證據驗證機制
 
 **步驟**:
+
 1. 創建新分支：`feature/test-missing-evidence`
 2. 新增一個簡單檔案
 3. 開 PR，但**故意不填**四大證據
 4. 等待 Actions 執行
 
 **預期結果**:
+
 - ❌ `gate-pr-evidence` 檢查失敗
 - 📝 PR 中出現自動評論列出缺失項目
 - 🚫 無法合併（如果已啟用分支保護）
@@ -126,15 +143,18 @@
 ---
 
 ### 測試案例 3: 命名違規 ❌
+
 **目的**: 驗證命名規範檢查
 
 **步驟**:
+
 1. 創建新分支：`feature/test-naming-violation`
 2. 在 `root/` 下新增違規檔案：`root/Root.Config.yaml`（大寫）
 3. 開 PR，填入完整證據
 4. 等待 Actions 執行
 
 **預期結果**:
+
 - ❌ `gate-root-naming` 檢查失敗
 - 📝 PR 中出現自動評論說明違規項目
 - 🚫 無法合併
@@ -173,16 +193,19 @@
 ## 📊 成功指標
 
 ### 短期指標（1 週內）
+
 - ✅ 所有新 PR 都使用模板
 - ✅ 90% 的 PR 第一次就填寫完整證據
 - ✅ 命名違規能被自動偵測
 
 ### 中期指標（1 個月內）
+
 - ✅ 不合規 PR 數量降低 80%
 - ✅ PR 審核時間縮短 50%
 - ✅ 「找不到交付成果」的情況歸零
 
 ### 長期指標（3 個月內）
+
 - ✅ 治理系統成為團隊習慣
 - ✅ 新協作者能快速適應流程
 - ✅ 架構穩定性顯著提升
@@ -220,16 +243,19 @@
 ## 📞 支援資源
 
 ### 文檔連結
+
 - [Root 治理層 README](./root/README.md)
 - [代理人交付合約](./root/AGENT_DELIVERY_CONTRACT.md)
 - [驗證清單](./root/VALIDATION_CHECKLIST.md)
 - [命名規範政策](./root/root.naming-policy.yaml)
 
 ### 自動化工具
+
 - [PR 證據驗證](./.github/workflows/gate-pr-evidence.yml)
 - [命名規範驗證](./.github/workflows/gate-root-naming.yml)
 
 ### 聯絡方式
+
 - **GitHub Issues**: 標註 `治理` 標籤
 - **緊急問題**: 標註 `治理緊急` 標籤
 

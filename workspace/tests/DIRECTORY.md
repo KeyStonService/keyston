@@ -36,22 +36,27 @@ tests/
 ## 根目錄測試檔說明
 
 ### test_enterprise_integration.py
+
 - **職責**：企業級整合測試
 - **功能**：測試多租戶、資源配額、審計等企業功能的整合
 
 ### test_enterprise_orchestrator.py
+
 - **職責**：企業編排器測試
 - **功能**：測試 SynergyMesh Orchestrator 的核心功能
 
 ### test_performance_benchmarks.py
+
 - **職責**：效能基準測試
 - **功能**：測量系統效能指標（TPS、延遲、資源使用）
 
 ### test_refactoring_integration.py
+
 - **職責**：重構整合測試
 - **功能**：驗證重構後的代碼行為一致性
 
 ### test_tool_executor_validation.py
+
 - **職責**：工具執行器驗證
 - **功能**：測試工具執行器的正確性和安全性
 

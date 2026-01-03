@@ -11,6 +11,7 @@ The Architecture Optimization Dashboard provides real-time visibility into the U
 ### Definition
 
 The dashboard tracks **optimization toward ideal state** across multiple dimensions. Each objective function defines:
+
 - **Current State**: Measured from live system
 - **Ideal State**: Theoretical optimum based on architecture principles
 - **Gap**: Distance from ideal (what remains to be improved)

@@ -111,32 +111,20 @@ ops/                     █ 3.0% (58 項)
 
 #### 🔴 測試與質量保證
 
-1. **高風險與關鍵路徑識別**
-   (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/checklists.md:6`)
-=======
-1. **高風險與關鍵路徑識別** (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/checklists.md:6`)
->>>>>>> origin/copilot/sub-pr-402
-   - 類別: 測試治理
-   - 影響: 測試策略有效性
-   - 建議: P0 - 風險評估
 
-2. **測試覆蓋率目標達成**
-   (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/checklists.md:27`)
-=======
-2. **測試覆蓋率目標達成** (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/testing-governance/checklists.md:27`)
->>>>>>> origin/copilot/sub-pr-402
-   - 目標: >85% 代碼覆蓋、>90% 關鍵路徑
-   - 影響: 代碼質量
-   - 建議: P0 - 持續追蹤
+- 類別: 測試治理
+- 影響: 測試策略有效性
+- 建議: P0 - 風險評估
 
-3. **關鍵路徑 E2E 測試**
-   (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/checklists.md:52`)
-=======
-3. **關鍵路徑 E2E 測試** (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/checklists.md:52`)
->>>>>>> origin/copilot/sub-pr-402
-   - 類別: 端到端測試
-   - 影響: 用戶體驗
-   - 建議: P0 - 建立測試套件
+
+- 目標: >85% 代碼覆蓋、>90% 關鍵路徑
+- 影響: 代碼質量
+- 建議: P0 - 持續追蹤
+
+
+- 類別: 端到端測試
+- 影響: 用戶體驗
+- 建議: P0 - 建立測試套件
 
 #### 🔴 CI/CD 與部署
 
@@ -184,12 +172,6 @@ ops/                     █ 3.0% (58 項)
     - 影響: 事件響應時間
     - 建議: P0 - 建立基線
 
-3. **關鍵指標自動追蹤** (`enterprise_copilot_prompt_system.md:662`)
-    - 類別: 自動化監控
-    - 影響: 營運效率
-    - 建議: P0 - 實施自動化
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -1067,14 +1049,6 @@ jobs:
 
 #### 長期指標 (Quarter 1-2)
 
-| 指標 | 目標 | 追蹤頻率 |
-|------|------|---------|
-| 所有 Clusters 重構 | 100% | 每月 |
-| 技術債減少 | >50% | 每季 |
-| 性能改善 | >30% | 每季 |
-| 團隊滿意度 | >4/5 | 每季 |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 

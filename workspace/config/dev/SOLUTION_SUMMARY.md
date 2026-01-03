@@ -153,7 +153,7 @@ mkdir -p logs
 1. 創建新的 Codespace
 2. 觀察初始化過程
 3. 確認自動啟動
-4. 訪問 http://localhost:3000
+4. 訪問 <http://localhost:3000>
 
 ### 預期結果
 

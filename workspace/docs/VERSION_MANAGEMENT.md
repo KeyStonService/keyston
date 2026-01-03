@@ -64,6 +64,7 @@ description: |
 ### 為什麼選擇 `machinenativeops.yaml`？
 
 ✅ **優勢**:
+
 1. **機器可讀** - YAML 格式易於自動化處理
 2. **統一入口** - 符合專案「單一配置檔作為真實來源」的設計理念
 3. **易於維護** - 集中管理所有系統級配置
@@ -71,6 +72,7 @@ description: |
 5. **跨語言支援** - YAML 解析器在所有主流語言中可用
 
 ❌ **不使用 `package.json` 的原因**:
+
 - 只覆蓋 Node.js 生態系統
 - 專案使用多語言（TypeScript、Python、Go、Rust）
 - `package.json` 應從 `machinenativeops.yaml` 同步版本
@@ -78,6 +80,7 @@ description: |
 ### 版本號讀取範例
 
 **TypeScript**:
+
 ```typescript
 import { readFileSync } from 'fs';
 import { parse } from 'yaml';
@@ -91,6 +94,7 @@ console.log(`Version: ${getProjectVersion()}`); // Version: 4.0.0
 ```
 
 **Python**:
+
 ```python
 import yaml
 
@@ -103,6 +107,7 @@ print(f"Version: {get_project_version()}")  # Version: 4.0.0
 ```
 
 **Bash**:
+
 ```bash
 # 使用 yq (YAML processor)
 VERSION=$(yq eval '.version' machinenativeops.yaml)
@@ -149,6 +154,7 @@ breaking_changes:
 ```
 
 **範例**:
+
 ```typescript
 // v4.x.x
 function createUser(name: string): User { ... }
@@ -171,6 +177,7 @@ new_features:
 ```
 
 **範例**:
+
 ```typescript
 // v4.2.0
 interface UserConfig {
@@ -200,6 +207,7 @@ bug_fixes:
 ```
 
 **範例**:
+
 ```typescript
 // v4.2.1 - 修復前
 function calculateSum(a: number, b: number): number {
@@ -236,6 +244,7 @@ echo "Current version: $CURRENT_VERSION"
 #### 步驟 2: 更新版本號
 
 **手動更新**:
+
 ```bash
 # 編輯 machinenativeops.yaml
 vim machinenativeops.yaml
@@ -245,6 +254,7 @@ version: "5.0.0"  # 從 4.x.x 升級到 5.0.0
 ```
 
 **自動化更新** (推薦):
+
 ```bash
 # 使用自動化腳本
 npm run version:bump -- --type major
@@ -340,6 +350,7 @@ git push origin --tags
 創建 GitHub Release（自動或手動）：
 
 **自動化** (透過 CI/CD):
+
 ```yaml
 # .github/workflows/release.yml
 name: Release
@@ -361,6 +372,7 @@ jobs:
 ```
 
 **手動**:
+
 1. 前往 GitHub Repository → Releases
 2. 點擊 "Draft a new release"
 3. 選擇 tag: `v5.0.0`
@@ -446,12 +458,14 @@ packages:
 ### 為什麼使用統一版本？
 
 ✅ **優勢**:
+
 1. **簡化管理** - 只需維護一個版本號
 2. **一致性** - 所有模組版本同步
 3. **易於追蹤** - 版本號對應明確的系統狀態
 4. **發布簡單** - 一次發布所有模組
 
 ❌ **獨立版本的問題**:
+
 - 版本管理複雜度高（需追蹤數十個版本號）
 - 模組間依賴關係難以管理
 - 發布流程繁瑣
@@ -478,6 +492,7 @@ echo "✅ All packages synced to v$VERSION"
 ```
 
 **使用方法**:
+
 ```bash
 # 自動同步所有子模組版本
 npm run version:sync
@@ -540,6 +555,7 @@ git tag -a v4.2.6 -m "Hotfix: ..."
 ### Q5: CI/CD 如何自動讀取版本號？
 
 **GitHub Actions 範例**:
+
 ```yaml
 # .github/workflows/build.yml
 name: Build

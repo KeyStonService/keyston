@@ -74,6 +74,7 @@ async function postgresqlIntegration() {
 ```
 
 📂 **其他数据库示例**:
+
 - MySQL: `examples/database-integration/mysql.ts`
 - MongoDB: `examples/database-integration/mongodb.ts`
 - Redis: `examples/database-integration/redis.ts`
@@ -140,6 +141,7 @@ async function restApiIntegration() {
 ```
 
 📂 **其他API示例**:
+
 - GraphQL: `examples/external-apis/graphql.ts`
 - SOAP: `examples/external-apis/soap.ts`
 - Webhook: `examples/external-apis/webhook.ts`
@@ -207,6 +209,7 @@ async function kafkaIntegration() {
 ```
 
 📂 **其他消息系统示例**:
+
 - RabbitMQ: `examples/messaging-systems/rabbitmq.ts`
 - AWS SQS: `examples/messaging-systems/aws-sqs.ts`
 - Google Pub/Sub: `examples/messaging-systems/google-pubsub.ts`
@@ -271,6 +274,7 @@ async function awsServicesIntegration() {
 ```
 
 📂 **其他云服务示例**:
+
 - Azure: `examples/cloud-services/azure-services.ts`
 - GCP: `examples/cloud-services/gcp-services.ts`
 - 云存储: `examples/cloud-services/cloud-storage.ts`

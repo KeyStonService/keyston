@@ -7,22 +7,26 @@
 ## 📝 遷移步驟
 
 ### 步驟 1：環境檢查
+
 ```bash
 git status
 git checkout -b feature/machinenativeops-namespace-migration
 ```
 
 ### 步驟 2：試運行驗證
+
 ```bash
 python scripts/migration/namespace-converter.py --dry-run .
 ```
 
 ### 步驟 3：正式轉換
+
 ```bash
 python scripts/migration/namespace-converter.py .
 ```
 
 ### 步驟 4：驗證轉換
+
 ```bash
 # 檢查 YAML 語法
 find . -name "*.yaml" -exec python -c "import yaml; yaml.safe_load(open('{}'))" \;
@@ -32,6 +36,7 @@ python scripts/migration/namespace-converter.py --verify .
 ```
 
 ### 步驟 5：提交變更
+
 ```bash
 git add .
 git commit -m "feat: migrate AXIOM namespace to MachineNativeOps"
@@ -42,12 +47,14 @@ git commit -m "feat: migrate AXIOM namespace to MachineNativeOps"
 ### 常見問題
 
 #### 1. 轉換工具執行失敗
+
 ```bash
 # 檢查 Python 版本
 python --version
 ```
 
 #### 2. YAML 語法錯誤
+
 ```bash
 # 手動檢查
 python -c "import yaml; yaml.safe_load(open('problem-file.yaml'))"

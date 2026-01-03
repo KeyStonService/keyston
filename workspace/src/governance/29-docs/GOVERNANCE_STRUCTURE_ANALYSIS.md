@@ -32,11 +32,13 @@ This document synthesizes an inferred analysis of the `/governance` directory ba
 ## 3. Assessment
 
 **Strengths**
+
 - High granularity for regulated environments.
 - Operational rigor and auditability.
 - Scalable decentralized model; potential for automation.
 
 **Gaps**
+
 - Over-fragmentation (90+ top-level dirs) and governance debt.
 - Ownership metadata not cataloged per subdirectory; status/recency may be unclear without further audit.
 - Low discoverability of decision/voting/conflict processes within numbered directories; needs validation and pointers from existing summaries.

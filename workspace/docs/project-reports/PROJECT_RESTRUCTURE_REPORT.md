@@ -1,4 +1,4 @@
-# 🏗️ MachineNativeOps AAPS 項目重構報告
+# 🏗️ MachineNativeOps MachineNativeOps 項目重構報告
 
 ## 📋 重構概要
 
@@ -12,7 +12,9 @@
 ## 🎯 重構目標
 
 ### 核心理念
+
 將項目根層簡化為「類 Linux 最小系統骨架」+ 少量「引導指標」，實現：
+
 1. **根層極簡化**: 只保留 FHS 標準目錄 + 3 個引導文件
 2. **治理集中化**: 所有治理、規格、驗證文件移到 `controlplane/`
 3. **工作區隔離**: 所有項目文件移到 `workspace/`
@@ -24,6 +26,7 @@
 ### 1. 根層結構（極簡化）
 
 #### FHS 標準目錄 (11 個)
+
 ```
 ✅ bin/        - 基本用戶命令二進制檔案
 ✅ sbin/       - 系統管理二進制檔案
@@ -87,6 +90,7 @@ controlplane/
 ### 3. Workspace 結構（項目文件）
 
 移動的目錄 (18 個):
+
 ```
 ✅ archive/          - 歸檔文件
 ✅ cloudflare/       - Cloudflare 配置
@@ -109,6 +113,7 @@ controlplane/
 ```
 
 移動的文件 (100+ 個):
+
 - 所有 Markdown 文檔
 - 所有配置文件
 - 所有 Python 腳本
@@ -146,6 +151,7 @@ controlplane/
 ### 引導文件內容
 
 #### 1. root.bootstrap.yaml
+
 ```yaml
 apiVersion: root.bootstrap/v1
 kind: RootBootstrap
@@ -174,6 +180,7 @@ bootMode:
 ```
 
 #### 2. root.fs.map
+
 ```yaml
 apiVersion: root.fs.map/v1
 kind: FilesystemMapping
@@ -194,6 +201,7 @@ fhsDirectories:
 ```
 
 #### 3. root.env.sh
+
 ```bash
 export CONTROLPLANE_PATH="./controlplane"
 export WORKSPACE_PATH="./workspace"
@@ -223,11 +231,13 @@ export MACHINENATIVEOPS_VERSION="v1.0.0"
 ### 3. 治理集中化
 
 **重構前**:
+
 - ❌ 治理文件分散在根層
 - ❌ 難以統一管理
 - ❌ 版本控制複雜
 
 **重構後**:
+
 - ✅ 所有治理文件在 controlplane/
 - ✅ 統一的版本管理
 - ✅ 清晰的權限控制
@@ -235,11 +245,13 @@ export MACHINENATIVEOPS_VERSION="v1.0.0"
 ### 4. 開發友好
 
 **重構前**:
+
 - ❌ 根層混亂，難以導航
 - ❌ 文件查找困難
 - ❌ 新人上手難度高
 
 **重構後**:
+
 - ✅ 清晰的目錄結構
 - ✅ 邏輯分組明確
 - ✅ 易於理解和維護
@@ -324,12 +336,14 @@ cd docs/
 所有引用根層文件的路徑需要更新：
 
 **舊路徑**:
+
 ```python
 config_path = "root.config.yaml"
 docs_path = "docs/"
 ```
 
 **新路徑**:
+
 ```python
 config_path = "controlplane/config/root.config.yaml"
 docs_path = "workspace/docs/"
@@ -422,18 +436,21 @@ config_path = os.path.join(
 ### 重構成就
 
 **架構層面**:
+
 - ✅ 實現了類 Linux 的最小系統骨架
 - ✅ 建立了清晰的 controlplane 治理層
 - ✅ 創建了獨立的 workspace 工作區
 - ✅ 完成了 FHS 3.0 標準化
 
 **技術層面**:
+
 - ✅ 5963 個文件成功遷移
 - ✅ 20 個治理文件集中管理
 - ✅ 18 個項目目錄邏輯分組
 - ✅ 3 個引導文件精簡高效
 
 **質量層面**:
+
 - ✅ 結構清晰度提升 98%
 - ✅ 可維護性大幅改善
 - ✅ 符合業界最佳實踐

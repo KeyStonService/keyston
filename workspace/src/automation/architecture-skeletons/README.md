@@ -10,10 +10,7 @@
 This directory serves as the entry point for the **Unified Architecture
 Skeletons System**, integrating:
 
-=======
-This directory serves as the entry point for the **Unified Architecture Skeletons System**, integrating:
 
->>>>>>> origin/copilot/sub-pr-402
 - **unmanned-engineer-ceo** complete architecture guides (11 skeletons)
 - **automation/autonomous** implementation code
 
@@ -104,12 +101,6 @@ This directory serves as the entry point for the **Unified Architecture Skeleton
     - 用途: 成本監控、預算規劃、資源優化
     - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/cost-management/) | [實現](../autonomous/cost-management/)
 
-2. **docs-governance** - 文檔治理
-    - 狀態: ✅ 生產就緒
-    - 用途: 文檔標準、更新流程、機器可讀文檔
-    - [指南](../../unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/docs-governance/) | [實現](../autonomous/docs-examples/)
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ## 🚀 快速開始 / Quick Start
 

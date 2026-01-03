@@ -13,7 +13,7 @@ This document provides comprehensive risk assessment for the governance complian
 - **Risk Description**: Updating Actions to specific commit SHAs could introduce breaking changes if pinned commits become unavailable or malicious
 - **Impact Level**: High - Could break CI/CD pipeline entirely
 - **Probability**: Low - Official GitHub Actions are generally stable
-- **Mitigation**: 
+- **Mitigation**:
   - All SHA values verified from official actions repository
   - Monitoring setup for action availability
   - Rollback plan documented

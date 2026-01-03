@@ -11,11 +11,13 @@
 這是知識庫的「心臟」，記錄所有 artifacts 及其治理元數據。
 
 **用途：**
+
 - DAR 讀取全局狀態
 - 向量索引層獲取向量 ID
 - RAG 獲取上下文和標籤
 
 **關鍵字段：**
+
 - `artifacts[]`: 所有資產列表
 - `governance_dag`: 治理關係圖
 - `statistics`: 統計信息
@@ -25,11 +27,13 @@
 定義資源之間的治理關係（誰管誰、誰依賴誰）。
 
 **用途：**
+
 - 檢測循環依賴
 - 分析影響範圍
 - 可視化治理結構
 
 **關係類型：**
+
 - `governs`: 治理關係（policy → artifact）
 - `depends_on`: 依賴關係
 - `defines`: 定義關係
@@ -40,6 +44,7 @@
 所有 OPA 策略的聚合文件（引用自 `../../policy.rego`）。
 
 **包含：**
+
 - 命名規範
 - 元數據完整性
 - 血緣完整性
@@ -50,6 +55,7 @@
 記錄所有治理事件的審計軌跡。
 
 **用途：**
+
 - 完整的審計追蹤
 - 合規證據
 - 事件溯源
@@ -114,6 +120,7 @@ jq '.trust_chain[] | select(.event_type == "policy_enforced")' trust-chain.json
 ### 更新 index.json
 
 每次添加新 artifact 時：
+
 1. 添加 artifact 記錄
 2. 更新 `governance_dag`
 3. 更新 `statistics`
@@ -122,6 +129,7 @@ jq '.trust_chain[] | select(.event_type == "policy_enforced")' trust-chain.json
 ### 更新 DAG
 
 每次修改依賴關係時：
+
 1. 更新 `dag.graphml`
 2. 驗證無循環依賴
 3. 同步更新 `index.json`

@@ -1,6 +1,7 @@
 # Node.js Docker 使用者權限標準配置
 
 ## 問題描述
+
 在 Dockerfile 中切換到非 root 使用者（nodejs）後執行 `npm install` 或 `npm ci` 時，
 會出現 `EACCES` 權限錯誤，因為 npm 需要寫入 `/home/nodejs/.npm` 快取目錄。
 

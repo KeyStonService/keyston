@@ -1,10 +1,7 @@
 # Legacy Scratch Refactor Playbook System - Analysis Report
 
 # \_legacy_scratch 重構劇本系統 - 完整分析報告
-=======
 
-# _legacy_scratch 重構劇本系統 - 完整分析報告
->>>>>>> origin/copilot/sub-pr-402
 
 **Generated:** 2025-12-06  
 **Source:** `docs/refactor_playbooks/_legacy_scratch/refactor_readme.txt` (已移除 / Removed)  

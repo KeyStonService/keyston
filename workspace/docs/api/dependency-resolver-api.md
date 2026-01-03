@@ -35,6 +35,7 @@ resolver = DependencyResolver()
 添加組件到依賴圖。
 
 **參數：**
+
 - `component_id` (str): 組件 ID（唯一標識符）
 - `component_type` (str): 組件類型（如 "agent", "service", "task"）
 - `priority` (int): 優先級（預設: 0，數字越大優先級越高）
@@ -43,6 +44,7 @@ resolver = DependencyResolver()
 **返回值：** bool（成功返回 True）
 
 **示例：**
+
 ```python
 # 添加數據庫組件
 resolver.add_component("database", "service", priority=10, weight=0.5)
@@ -55,6 +57,7 @@ resolver.add_component("worker", "task", priority=1, weight=2.0)
 ```
 
 **最佳實踐：**
+
 - 使用描述性的組件 ID（如 `user_service` 而非 `svc1`）
 - 為關鍵服務設置更高的優先級
 - 根據預期執行時間設置權重
@@ -66,6 +69,7 @@ resolver.add_component("worker", "task", priority=1, weight=2.0)
 添加依賴關係。
 
 **參數：**
+
 - `from_component` (str): 依賴者的組件 ID
 - `to_component` (str): 被依賴的組件 ID
 
@@ -74,6 +78,7 @@ resolver.add_component("worker", "task", priority=1, weight=2.0)
 **返回值：** bool（成功返回 True，如果會創建循環則返回 False）
 
 **示例：**
+
 ```python
 # API 服務依賴於數據庫
 resolver.add_dependency("api_service", "database")
@@ -89,6 +94,7 @@ if not result:
 
 **循環依賴檢測：**
 在添加依賴前，系統會自動檢測是否會創建循環：
+
 ```
 依賴鏈: A → B → C → A
                    ^
@@ -103,11 +109,13 @@ if not result:
 執行拓撲排序。
 
 **參數：**
+
 - `component_ids` (List[str], optional): 要排序的組件列表。如果為 None，排序所有組件。
 
 **返回值：** 排序後的組件 ID 列表
 
 **示例：**
+
 ```python
 # 排序所有組件
 order = resolver.topological_sort()
@@ -118,6 +126,7 @@ subset = resolver.topological_sort(["api_service", "worker", "database"])
 ```
 
 **執行順序保證：**
+
 - 依賴的組件在被依賴的組件之後
 - 同級組件按優先級排序
 - 算法複雜度: O(V + E)，其中 V 是組件數，E 是依賴數
@@ -129,11 +138,13 @@ subset = resolver.topological_sort(["api_service", "worker", "database"])
 獲取執行階段（識別可並行執行的組件）。
 
 **參數：**
+
 - `component_ids` (List[str], optional): 要分析的組件列表
 
 **返回值：** `ExecutionPhase` 對象列表
 
 **示例：**
+
 ```python
 phases = resolver.get_execution_phases()
 
@@ -146,6 +157,7 @@ for phase in phases:
 ```
 
 **ExecutionPhase 屬性：**
+
 - `phase_number`: 階段序號（從 1 開始）
 - `components`: 該階段中的組件列表
 - `can_parallel`: 該階段的組件是否可並行執行
@@ -153,6 +165,7 @@ for phase in phases:
 - `dependency_count`: 該階段的總依賴數
 
 **並行化示例：**
+
 ```
 階段 1: [database]              (1 個組件)
 階段 2: [cache, auth]           (2 個並行)
@@ -175,6 +188,7 @@ for phase in phases:
 **返回值：** 組件 ID 列表（按順序）
 
 **示例：**
+
 ```python
 critical = resolver.get_critical_path()
 print(f"關鍵路徑: {' → '.join(critical)}")
@@ -182,6 +196,7 @@ print(f"路徑長度: {len(critical)} 個組件")
 ```
 
 **用途：**
+
 - 識別系統的瓶頸
 - 優化重點（對關鍵路徑上的組件優化最有效）
 - 性能預測
@@ -193,9 +208,11 @@ print(f"路徑長度: {len(critical)} 個組件")
 獲取並行化分析結果。
 
 **參數：**
+
 - `component_ids` (List[str], optional): 要分析的組件列表
 
 **返回值：** 包含以下鍵的字典：
+
 - `total_components`: 總組件數
 - `execution_phases`: 執行階段數
 - `sequential_time_ms`: 順序執行的估計時間
@@ -204,6 +221,7 @@ print(f"路徑長度: {len(critical)} 個組件")
 - `potential_speedup`: 格式化的加速倍數字符串
 
 **示例：**
+
 ```python
 analysis = resolver.get_parallelization_analysis()
 
@@ -216,6 +234,7 @@ print(f"預期加速: {analysis['potential_speedup']}")
 ```
 
 **輸出示例：**
+
 ```
 組件總數: 20
 執行階段: 5
@@ -236,6 +255,7 @@ print(f"預期加速: {analysis['potential_speedup']}")
 **返回值：** 建議字符串列表
 
 **示例：**
+
 ```python
 recommendations = resolver.get_optimization_recommendations()
 
@@ -244,6 +264,7 @@ for rec in recommendations:
 ```
 
 **可能的建議：**
+
 - ⚠️ 依賴複雜性高，考慮重構以減少耦合
 - 💡 低並行化機會，考慮優化依賴關係
 - 🔗 依賴深度深，考慮引入中間層
@@ -260,6 +281,7 @@ for rec in recommendations:
 **返回值：** 統計字典
 
 **示例：**
+
 ```python
 stats = resolver.get_dependency_stats()
 
@@ -281,6 +303,7 @@ print(f"循環依賴: {stats['circular_dependencies']}")
 **返回值：** 包含節點、邊和統計的字典
 
 **示例：**
+
 ```python
 import json
 
@@ -297,6 +320,7 @@ print(f"統計: {graph_data['statistics']}")
 ```
 
 **導出格式：**
+
 ```json
 {
   "nodes": [
@@ -441,12 +465,14 @@ else:
 ### 優化建議
 
 **對於大型圖（>1000 個組件）：**
+
 1. 預先驗證沒有循環依賴
 2. 使用圖緩存避免重複計算
 3. 批量操作而不是單個添加
 4. 考慮分層管理
 
 **記憶快取：**
+
 - 拓撲排序結果被自動緩存
 - 修改圖時快取被清除
 - 手動調用 `memo_cache.clear()` 清除

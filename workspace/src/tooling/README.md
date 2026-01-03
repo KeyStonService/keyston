@@ -7,12 +7,14 @@ Development tools and utilities for the workspace layer.
 ### 1. Tools vs. Validators
 
 **CRITICAL DISTINCTION:**
+
 - **Authoritative Validators** (controlplane/baseline/validation/): Single source of truth for validation
 - **Development Tools** (workspace/src/tooling/): Convenience wrappers that CALL validators
 
 ### 2. What Goes Here
 
 **Allowed:**
+
 - Development utilities that call controlplane validators
 - Build tools and scripts
 - Testing utilities
@@ -21,6 +23,7 @@ Development tools and utilities for the workspace layer.
 - Development workflow automation
 
 **NOT Allowed:**
+
 - Governance validators (must be in controlplane/baseline/validation/)
 - Specifications (must be in controlplane/baseline/specifications/)
 - Registries (must be in controlplane/baseline/registries/)
@@ -42,6 +45,7 @@ All tools in this directory must follow these principles:
 Development validation tool that wraps the authoritative controlplane validator.
 
 **Usage:**
+
 ```bash
 # Run full validation suite
 python workspace/src/tooling/validate.py all
@@ -62,11 +66,13 @@ python workspace/src/tooling/validate.py path controlplane/baseline/config/root.
 ```
 
 **What it does:**
+
 - Calls `controlplane/baseline/validation/validate-root-specs.py` for full validation
 - Calls individual validators in `controlplane/baseline/validation/validators/` for specific checks
 - Provides convenient CLI interface for development workflow
 
 **What it does NOT do:**
+
 - Does NOT implement its own validation logic
 - Does NOT replace controlplane validators
 - Does NOT define governance rules
@@ -93,6 +99,7 @@ controlplane/baseline/validation/  # Authoritative validators (SSOT)
 ## Workflow
 
 ### Development Workflow
+
 1. Developer makes changes in workspace
 2. Developer runs `workspace/src/tooling/validate.py all`
 3. Tool calls `controlplane/baseline/validation/validate-root-specs.py`
@@ -100,6 +107,7 @@ controlplane/baseline/validation/  # Authoritative validators (SSOT)
 5. Developer reviews results and fixes issues
 
 ### CI/CD Workflow
+
 1. CI/CD pipeline runs authoritative validator directly
 2. `controlplane/baseline/validation/validate-root-specs.py` is executed
 3. Evidence is generated in `controlplane/overlay/evidence/`
@@ -167,6 +175,7 @@ def test_validate_tool():
 ## Maintenance
 
 When controlplane validators are updated:
+
 1. Tools automatically use the new validator logic (no changes needed)
 2. Tools may need CLI updates if validator interface changes
 3. Documentation should be updated to reflect new capabilities
@@ -174,6 +183,7 @@ When controlplane validators are updated:
 ## Support
 
 For questions about:
+
 - **Tool usage**: See this README
 - **Validation rules**: See `controlplane/baseline/specifications/`
 - **Validator implementation**: See `controlplane/baseline/validation/`

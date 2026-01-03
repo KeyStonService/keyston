@@ -13,6 +13,7 @@
 ## MCP 伺服器說明
 
 ### code-analyzer.js
+
 - **職責**：程式碼分析 MCP 伺服器
 - **功能**：
   - `analyze-code` - 代碼品質與複雜度分析
@@ -21,6 +22,7 @@
 - **特性**：循環複雜度、認知複雜度、安全漏洞、效能問題檢測
 
 ### test-generator.js
+
 - **職責**：測試生成 MCP 伺服器
 - **功能**：
   - `generate-unit-tests` - 單元測試生成
@@ -29,6 +31,7 @@
 - **特性**：支援 Jest, Mocha, Vitest, Playwright, Cypress
 
 ### doc-generator.js
+
 - **職責**：文檔生成 MCP 伺服器
 - **功能**：
   - `generate-jsdoc` - JSDoc 文檔生成
@@ -37,6 +40,7 @@
 - **特性**：多種文檔風格、自動 API 參考、多種輸出格式
 
 ### slsa-validator.js
+
 - **職責**：SLSA 驗證 MCP 伺服器
 - **功能**：
   - `validate-provenance` - 驗證 SLSA 溯源數據
@@ -45,6 +49,7 @@
 - **特性**：SLSA Level 1-4 驗證、差距分析、修復建議
 
 ### security-scanner.js
+
 - **職責**：安全掃描 MCP 伺服器
 - **功能**：
   - `scan-vulnerabilities` - 安全漏洞掃描
@@ -53,6 +58,7 @@
 - **特性**：SQL 注入、XSS、命令注入、硬編碼密鑰檢測
 
 ### performance-analyzer.js
+
 - **職責**：效能分析 MCP 伺服器
 - **功能**：
   - `analyze-performance` - 代碼效能指標分析
@@ -63,14 +69,17 @@
 ## 驗證器說明
 
 ### comprehensive-validator.js
+
 - **職責**：綜合驗證器
 - **功能**：組合所有驗證器，提供整體品質評分與等級
 
 ### deployment-validator.js
+
 - **職責**：部署配置驗證器
 - **功能**：必需檔案檢查、package.json 結構驗證、安全配置驗證
 
 ### logic-validator.js
+
 - **職責**：邏輯驗證器
 - **功能**：真實性檢查、混淆檢測、完整性雜湊、邏輯驗證
 
@@ -86,10 +95,12 @@
 ## 依賴規則
 
 **可以依賴**：
+
 - `src/core/` - 調用平台級 AI 能力
 - `src/shared/` - 共用工具和配置
 
 **不可依賴**：
+
 - `agent/` - MCP 端點不應依賴業務代理
 - `automation/intelligent/` - MCP 端點不應依賴 pipeline
 
@@ -116,4 +127,3 @@
 - **src/ai/**：AI 模組透過 MCP 調用工具
 - **src/services/**：服務層可封裝 MCP 端點為 HTTP API
 - **.github/agents/**：Agent 配置引用 MCP 伺服器
-

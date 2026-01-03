@@ -35,6 +35,7 @@
 - ✅ 專注在：**感知 → 建模 → 自我診斷 → 行動** 的知識循環
 
 對應的機器可讀合約會放在：
+
 - `knowledge/contracts/living-knowledge-contract.yaml`
 
 ### 🧩 知識庫的四個層次
@@ -44,6 +45,7 @@
 **回答的問題**: 最近發生了什麼變化？
 
 **資料來源**:
+
 - Git 提交紀錄（新增 / 修改 / 刪除）
 - GitHub Actions 工作流結果（成功 / 失敗）
 - 定期排程掃描（就算沒人動，也做一次體檢）
@@ -89,6 +91,7 @@
   - 文檔中指向已不存在路徑的連結
 
 **診斷結果輸出**:
+
 - `docs/knowledge-health-report.yaml` - 機器可讀的健康報告
 
 #### 4. 行動 / 回饋層（Action / Feedback Layer）
@@ -126,6 +129,7 @@
   - `constraints`: 約束條件
 
 #### 業務元數據 (Business Metadata)
+
 - **描述**: 業務術語、數據所有者、數據質量規則
 - **屬性**:
   - `business_terms`: 業務術語
@@ -135,6 +139,7 @@
   - `sensitivity`: 敏感度
 
 #### 操作元數據 (Operational Metadata)
+
 - **描述**: 數據血緣、變更歷史、訪問日誌
 - **屬性**:
   - `lineage`: 血緣關係
@@ -143,6 +148,7 @@
   - `performance_metrics`: 性能指標
 
 #### 治理元數據 (Governance Metadata)
+
 - **描述**: 策略、合規要求、審計記錄
 - **屬性**:
   - `policies`: 治理策略
@@ -206,11 +212,13 @@ lineage:
 99-元數據採用 **DAR-First** (Decision, Action, Reasoning) 架構，將知識庫從「資產中心」重新定位為「治理中心」，並完整整合**活體知識庫（Living Knowledge Base）**的四層架構。
 
 **核心特色：紀錄功能** 📝
+
 - 倉庫一有變動，立刻偵測並同步更新知識圖譜
 - 自動找到此次變動的相關內容和高度相關內容
 - 完整記錄每次變動，包含影響分析和依賴追蹤
 
 詳細架構文檔請參閱：
+
 - [DAR_FIRST_ARCHITECTURE.md](./DAR_FIRST_ARCHITECTURE.md) - DAR-First 完整架構
 - [knl-pack/LIVING_KNOWLEDGE_INTEGRATION.md](./knl-pack/LIVING_KNOWLEDGE_INTEGRATION.md) - 活體知識庫整合說明
 
@@ -256,6 +264,7 @@ src/governance/dimensions/99-metadata/
 ```
 
 **五層架構優先級：**
+
 1. **Governance**: 決策、規則、信任鏈（DAR 的目標和約束）
 2. **Reasoning**: DAR 任務、推理規則（DAR 的大腦）
 3. **Retrieval**: 向量索引、RAG 配置（DAR 的工具）
@@ -488,18 +497,21 @@ dependencies:
 ## 相關鏈接 (Related Links)
 
 ### 核心架構文檔
+
 - **[DAR-First 架構](./DAR_FIRST_ARCHITECTURE.md)** 🆕 - 完整的 DAR-First 知識庫架構說明
 - **[整合指南](./INTEGRATION.md)** - 與其他維度和系統的整合方法
 - [活體知識庫設計](/docs/architecture/components/LIVING_KNOWLEDGE_BASE.md) - 架構設計文檔
 - [知識庫文檔](/docs/LIVING_KNOWLEDGE_BASE.md) - 詳細文檔
 
 ### 相關治理維度
+
 - [數據治理框架](../10-policy/README.md) - 策略管理中心
 - [血緣治理](../61-lineage/README.md) - 血緣追踪維度
 - [溯源治理](../62-provenance/README.md) - 溯源管理維度
 - [審計軌跡](../70-audit-trail/README.md) - 審計追踪維度
 
 ### DAR 實戰場景
+
 - **P0 優先**: 自動補全 metadata（owner、domain、sla）- 最快見效
 - **P1 推薦**: 自動修復命名不一致 - 驗證完整 DAR 流程
 - **P2 進階**: 自動偵測治理 DAG 循環 - 結構驗證

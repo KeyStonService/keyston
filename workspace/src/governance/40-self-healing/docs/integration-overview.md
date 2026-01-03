@@ -128,13 +128,6 @@
 
 #### 6. unmanned-island-integration-manifest.md
 
-```yaml
-路徑:
-  governance/_legacy/30-agents (formerly 83-integration)
-  (deprecated)/unmanned-island-integration-manifest.md
-=======
-路徑: governance/dimensions/83-integration/unmanned-island-integration-manifest.md
->>>>>>> origin/copilot/sub-pr-402
 用途: 跨維度整合清單
 大小: ~14.5 KB
 內容:
@@ -223,8 +216,6 @@
 | 28-tests | Tests & Validation | validate_unmanned_island_integration.py | ✅ 100% |
 | 83-integration | Integration & Coordination | unmanned-island-integration-manifest.md | ✅ 100% |
 | 39-automation | Automation & Orchestration | unmanned_island_integration_engine.py | ✅ 100% |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -417,12 +408,6 @@ print(result)
 
 ### 功能文檔
 
-- [自我修復框架](governance/14-improvement/unmanned-island-self-healing.yaml)
-- [整合清單](governance/\_legacy/30-agents (formerly 83-integration)
-  (deprecated)/unmanned-island-integration-manifest.md)
-=======
-- [整合清單](governance/dimensions/83-integration/unmanned-island-integration-manifest.md)
->>>>>>> origin/copilot/sub-pr-402
 
 ### 代碼與腳本
 

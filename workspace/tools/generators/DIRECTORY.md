@@ -1,42 +1,47 @@
 # generators
 
 ## 目錄職責
+
 此目錄位於 `tools/generators`，負責 [待補充：描述此目錄的主要職責和在系統中的定位]。
-
-
 
 ## 檔案說明
 
 ### code-generator.py
+
 - **職責**：Python 源代碼
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### contract_generator.py
+
 - **職責**：Python 源代碼 - Smart Contract Generator for SynergyMesh Workflow System
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### documentation_generator.py
+
 - **職責**：Python 源代碼 - Documentation Generator for Workflow System
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### project-generator.py
+
 - **職責**：Python 源代碼
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### validator_generator.py
+
 - **職責**：Python 源代碼 - Validator Generator for Custom Validation Rules
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
-
 ## 職責分離說明
+
 [待補充：說明此目錄內各檔案如何實現職責分離，以及職責邊界的劃分]
 
 ## 設計原則
+
 [待補充：說明如何遵循單一職責原則，以及未來維護時應注意的事項]
 
 ---

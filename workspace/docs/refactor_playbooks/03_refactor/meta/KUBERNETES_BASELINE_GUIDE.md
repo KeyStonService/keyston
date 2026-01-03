@@ -202,13 +202,7 @@ kubectl describe networkpolicy baseline-allow-same-namespace -n intelligent-hype
 
 **Expected Resources:**
 
-- ✅ NetworkPolicies: `baseline-default-deny-all`,
-  `baseline-allow-same-namespace`, `baseline-allow-dns`,
-  `baseline-api-gateway-ingress`
-=======
 
-- ✅ NetworkPolicies: `baseline-default-deny-all`, `baseline-allow-same-namespace`, `baseline-allow-dns`, `baseline-api-gateway-ingress`
->>>>>>> origin/copilot/sub-pr-402
 - ✅ ConfigMaps: `network-segmentation-policy`, `network-observability-config`
 
 **Test Network Isolation:**
@@ -247,12 +241,7 @@ kubectl get clusterrole compliance-attestation-reader
 
 **Expected Resources:**
 
-- ✅ ConfigMaps: `compliance-framework-baseline`,
-  `merkle-tree-attestation-config`
-=======
 
-- ✅ ConfigMaps: `compliance-framework-baseline`, `merkle-tree-attestation-config`
->>>>>>> origin/copilot/sub-pr-402
 - ✅ CronJob: `compliance-attestation-job` (runs every 6 hours)
 - ✅ ServiceAccount: `compliance-attestation-sa`
 - ✅ ClusterRole + ClusterRoleBinding

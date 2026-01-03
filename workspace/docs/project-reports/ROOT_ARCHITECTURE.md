@@ -9,6 +9,7 @@
 ## 🗂️ 根層目錄結構
 
 ### 治理配置檔案（根層）
+
 ```
 MachineNativeOps/
 ├── root.config.yaml              # 全域基本配置
@@ -27,6 +28,7 @@ MachineNativeOps/
 ```
 
 ### 標準 FHS 目錄
+
 ```
 ├── bin/                          # 基本用戶命令二進制檔案
 ├── sbin/                         # 系統管理二進制檔案
@@ -42,6 +44,7 @@ MachineNativeOps/
 ```
 
 ### 專案特定目錄（保持不變）
+
 ```
 ├── src/                          # 原始碼
 ├── tests/                        # 測試
@@ -61,21 +64,25 @@ MachineNativeOps/
 ## 🎯 設計原則
 
 ### 1. 單一事實來源（Single Source of Truth）
+
 - 所有治理配置在根層，不分散在子目錄
 - `root.*` 檔案是系統配置的權威來源
 - 避免配置重複和不一致
 
 ### 2. FHS 標準遵循
+
 - 遵循 Filesystem Hierarchy Standard 3.0
 - 標準目錄結構易於理解和維護
 - 與 Unix/Linux 系統慣例一致
 
 ### 3. 清晰的職責分離
+
 - **根層配置**: 系統級治理和配置
 - **FHS 目錄**: 運行時資料和程式
 - **專案目錄**: 應用程式碼和資源
 
 ### 4. 可見性優先
+
 - 治理配置在根層直接可見
 - 不使用隱藏檔案（無 `.` 前綴）
 - 行動裝置友善
@@ -112,6 +119,7 @@ MachineNativeOps/
 ### 治理層（Root Layer）
 
 #### 配置檔案
+
 - **root.config.yaml**: 全域系統配置，定義核心參數
 - **root.governance.yaml**: RBAC 角色、策略、審核規則
 - **root.modules.yaml**: 模組註冊、依賴關係、載入順序
@@ -122,43 +130,51 @@ MachineNativeOps/
 - **root.bootstrap.yaml**: 5 階段初始化設定
 
 #### 映射檔案
+
 - **root.devices.map**: 200+ 設備映射定義
 - **root.fs.map**: 完整目錄結構映射
 - **root.kernel.map**: 核心模組與函式庫對應
 
 #### 腳本與政策
+
 - **root.env.sh**: Shell 環境變數、別名、函數
 - **root.naming-policy.yaml**: 命名規範與驗證規則
 
 ### 系統層（FHS Directories）
 
 #### /bin - 基本命令
+
 - 所有用戶可用的基本命令
 - 系統啟動必需的程式
 - Shell、檔案操作、文本處理
 
 #### /sbin - 系統管理
+
 - 需要 root 權限的工具
 - 系統初始化、修復、恢復
 - 網路配置和管理
 
 #### /etc - 配置檔案
+
 - 系統範圍的配置
 - 應用程式配置
 - 服務啟動腳本
 
 #### /lib - 共享函式庫
+
 - 系統啟動所需的函式庫
 - 核心模組
 - 動態連結函式庫
 
 #### /var - 變動資料
+
 - 日誌檔案 (/var/log)
 - 臨時檔案 (/var/tmp)
 - 快取資料 (/var/cache)
 - 應用狀態 (/var/lib)
 
 #### /usr - 用戶程式
+
 - 用戶命令 (/usr/bin)
 - 系統管理命令 (/usr/sbin)
 - 函式庫 (/usr/lib)
@@ -166,26 +182,31 @@ MachineNativeOps/
 - 本地軟體 (/usr/local)
 
 #### /home - 用戶目錄
+
 - 用戶個人檔案
 - 用戶配置
 - 用戶專案
 
 #### /tmp - 臨時檔案
+
 - 應用程式臨時檔案
 - 重啟後可能清空
 - 所有用戶可寫
 
 #### /opt - 可選軟體
+
 - 第三方軟體
 - 商業軟體
 - 大型應用套件
 
 #### /srv - 服務資料
+
 - Web 伺服器資料
 - FTP 資料
 - Git 儲存庫
 
 #### /init.d - 初始化腳本
+
 - 15 個系統初始化腳本
 - 按順序執行 (00-99)
 - 系統啟動和配置
@@ -197,6 +218,7 @@ MachineNativeOps/
 ### 從舊架構遷移
 
 **Before (舊架構):**
+
 ```
 MachineNativeOps/
 ├── root/
@@ -207,6 +229,7 @@ MachineNativeOps/
 ```
 
 **After (新架構):**
+
 ```
 MachineNativeOps/
 ├── root.config.yaml          # 提升到根層
@@ -218,6 +241,7 @@ MachineNativeOps/
 ```
 
 ### 變更內容
+
 1. ✅ 所有 `root/*` 檔案提升到根層
 2. ✅ 建立標準 FHS 目錄結構
 3. ✅ 治理文檔移至 `docs/governance/`
@@ -228,12 +252,14 @@ MachineNativeOps/
 ## 📱 行動裝置友善性
 
 ### 優勢
+
 - ✅ 治理配置在根層直接可見
 - ✅ 無需 `ls -a` 查看隱藏檔案
 - ✅ 目錄結構清晰易懂
 - ✅ 快速定位關鍵配置
 
 ### 驗證流程
+
 1. 打開 repo 根目錄
 2. 直接看到所有 `root.*` 配置
 3. 點擊檔案即可查看內容
@@ -244,6 +270,7 @@ MachineNativeOps/
 ## 🔍 配置查找指南
 
 ### 快速查找
+
 - **系統配置**: `root.config.yaml`
 - **權限管理**: `root.governance.yaml`
 - **模組管理**: `root.modules.yaml`
@@ -251,6 +278,7 @@ MachineNativeOps/
 - **初始化**: `init.d/` 目錄
 
 ### 文檔位置
+
 - **治理文檔**: `docs/governance/`
 - **API 文檔**: `docs/api/`
 - **架構文檔**: `docs/architecture/`
@@ -261,6 +289,7 @@ MachineNativeOps/
 ## 🚀 系統啟動流程
 
 ### 初始化順序
+
 1. **00-init.sh**: 系統基礎初始化
 2. **01-governance-init.sh**: 治理系統初始化
 3. **02-modules-init.sh**: 模組系統初始化

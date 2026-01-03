@@ -1,4 +1,4 @@
-# AAPS Marketplace 實施路線圖
+# MachineNativeOps Marketplace 實施路線圖
 
 ## 🎯 6週完整實施計畫
 
@@ -626,7 +626,7 @@ async def require_permission(permission: str):
 
 ---
 
-## 🚀 準備就緒！
+## 🚀 準備就緒
 
 這個路線圖提供了清晰的實施路徑，從當前狀態到完整的 GitHub Marketplace 應用。
 

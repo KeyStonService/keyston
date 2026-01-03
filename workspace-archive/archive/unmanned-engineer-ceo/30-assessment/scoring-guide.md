@@ -12,6 +12,8 @@
 - 最終評分 = 0.6 _Skill + 0.4_ Trait。
 =======
 
-- 最終評分 = 0.6 *Skill + 0.4* Trait。
+- 最終評分 = 0.6 _Skill + 0.4_ Trait。
+
 >>>>>>> origin/copilot/sub-pr-402
+
 - 若 security/compliance 評分 <6，無法升級。

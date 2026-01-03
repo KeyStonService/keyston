@@ -228,6 +228,7 @@ permissions:
 **檔案**：`.github/workflows/ci-consolidated-report.yml`
 
 接受以下輸入：
+
 - `ci-name`：CI workflow 名稱
 - `job-summaries`：JSON 格式的 job 摘要
 - `workflow-run-id`：GitHub workflow run ID
@@ -240,6 +241,7 @@ permissions:
 **檔案**：`.github/scripts/generate-consolidated-comment.py`
 
 功能：
+
 - 解析 job 摘要 JSON
 - 分析錯誤類型
 - 生成修復建議
@@ -249,6 +251,7 @@ permissions:
 ### 3. 評論更新機制
 
 使用 `peter-evans/create-or-update-comment@v4` 和 `peter-evans/find-comment@v3`：
+
 1. 搜尋現有評論（透過 HTML 註解標記）
 2. 如果找到，更新現有評論
 3. 如果沒有找到，建立新評論

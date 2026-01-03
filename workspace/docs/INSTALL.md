@@ -469,15 +469,6 @@ docker-compose up -d
 
 ## 📞 獲取幫助 | Get Help
 
-- **文檔**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/tree/main/docs>
-- **Issues**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/issues>
-- **Discussions**:
-  <https://github.com/MachineNativeOps-admin/MachineNativeOps/discussions>
-=======
-- **文檔**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/tree/main/docs>
-- **Issues**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/issues>
-- **Discussions**: <https://github.com/MachineNativeOps-admin/MachineNativeOps/discussions>
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 

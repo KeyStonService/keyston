@@ -13,6 +13,7 @@ This document catalogs all tools and capabilities extracted from the Claude Code
 **File**: `tools/autonomous_cleanup_toolkit.py`
 
 **Capabilities** | **能力**:
+
 - ✅ Duplicate file detection (MD5-based)
 - ✅ TODO marker scanning and analysis
 - ✅ NotImplementedError detection
@@ -21,6 +22,7 @@ This document catalogs all tools and capabilities extracted from the Claude Code
 - ✅ Multi-phase cleanup orchestration
 
 **Usage** | **使用**:
+
 ```bash
 # Run full analysis
 python tools/autonomous_cleanup_toolkit.py analyze
@@ -37,19 +39,22 @@ python tools/autonomous_cleanup_toolkit.py cleanup --phase duplicates --dry-run
 **File**: `tools/find_duplicate_scripts.py`
 
 **Claude's Method** | **Claude 的方法**:
+
 1. MD5 hash-based content comparison
 2. File extension filtering (.py, .sh, .js, .ts)
-3. Exclude system directories (.git, node_modules, __pycache__)
+3. Exclude system directories (.git, node_modules, **pycache**)
 4. Group by identical content
 5. Name similarity analysis for related files
 
 **Detection Rules** | **檢測規則**:
+
 - Same MD5 hash = exact duplicates
 - Priority: `services/agents/` > `agent/`
 - Legacy versions are deprioritized
 - Empty `__init__.py` files tracked separately
 
 **Usage**:
+
 ```bash
 python tools/find_duplicate_scripts.py
 ```
@@ -59,17 +64,20 @@ python tools/find_duplicate_scripts.py
 **File**: `tools/cleanup_duplicates.py`
 
 **Claude's Strategy** | **Claude 的策略**:
+
 1. **Strategy 1**: Remove legacy/ copies
 2. **Strategy 2**: Remove agent/ when services/agents/ exists
-3. **Strategy 3**: Remove empty __init__.py duplicates
+3. **Strategy 3**: Remove empty **init**.py duplicates
 
 **Safety Features** | **安全功能**:
+
 - Dry-run mode by default
 - Confirmation required for execution
 - Detailed logging of removals
 - Backup verification before delete
 
 **Usage**:
+
 ```bash
 # Dry run (safe)
 python tools/cleanup_duplicates.py
@@ -83,6 +91,7 @@ python tools/cleanup_duplicates.py --execute
 **File**: `tools/scan_tech_debt.py`
 
 **Claude's Analysis** | **Claude 的分析**:
+
 - Scans for TODO, FIXME, XXX, HACK, DEPRECATED markers
 - Detects high-complexity functions (>100 lines)
 - Categorizes by severity (HIGH, MEDIUM, LOW)
@@ -92,6 +101,7 @@ python tools/cleanup_duplicates.py --execute
 **Output**: `TECH_DEBT_SCAN_REPORT.json`
 
 **Usage**:
+
 ```bash
 python tools/scan_tech_debt.py
 ```
@@ -101,6 +111,7 @@ python tools/scan_tech_debt.py
 **File**: `tools/verify_p0_safety.py`
 
 **Claude's Verification Checklist** | **Claude 的驗證清單**:
+
 1. ✅ Emergency stop mechanisms exist
 2. ✅ Safety configuration (circuit_breaker, escalation_ladder)
 3. ✅ Monitoring setup validated
@@ -110,6 +121,7 @@ python tools/scan_tech_debt.py
 **Output**: `P0_SAFETY_VERIFICATION_REPORT.json`
 
 **Usage**:
+
 ```bash
 python tools/verify_p0_safety.py
 ```
@@ -152,6 +164,7 @@ Claude follows a systematic phase approach:
 ```
 
 **Implementation Pattern** | **實現模式**:
+
 1. Read the file first to understand context
 2. Identify the purpose of the TODO
 3. Implement following existing code patterns
@@ -192,6 +205,7 @@ git push -u origin claude/feature-name-sessionID
 ### Code Quality Checks | 代碼質量檢查
 
 **Before Committing** | **提交前檢查**:
+
 - ✅ All tests pass
 - ✅ No new linter errors
 - ✅ Code follows existing patterns
@@ -368,26 +382,31 @@ echo "📈 Comparing with previous scan..."
 ## 📚 Best Practices from Claude | Claude 的最佳實踐
 
 ### 1. Read First, Then Edit | 先讀後改
+
 - Always read the file before editing
 - Understand context and existing patterns
 - Maintain consistency with codebase style
 
 ### 2. Graceful Degradation | 優雅降級
+
 - Replace crashes with warnings
 - Return sensible defaults
 - Log for debugging
 
 ### 3. Incremental Progress | 漸進式進展
+
 - Small, focused commits
 - Regular pushes
 - Continuous testing
 
 ### 4. Documentation | 文檔
+
 - Update docs with code
 - Clear commit messages
 - Progress tracking
 
 ### 5. Safety First | 安全第一
+
 - Dry-run by default
 - Backup verification
 - Reversible operations

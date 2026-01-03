@@ -7,11 +7,13 @@ The Controlplane architecture implements a **Baseline + Overlay + Active** desig
 ## Architecture Components
 
 ### 1. Baseline (Immutable Governance Truth)
+
 **Location**: `controlplane/baseline/`  
 **Access**: Read-only  
 **Purpose**: Contains the canonical, immutable governance configuration
 
 **Structure**:
+
 ```
 baseline/
 ├── config/              # Core configuration files (10 files)
@@ -25,11 +27,13 @@ baseline/
 **Key Principle**: Baseline files are **never modified at runtime**. All changes require explicit governance approval and version control.
 
 ### 2. Overlay (Writable Runtime State)
+
 **Location**: `controlplane/overlay/`  
 **Access**: Read-write  
 **Purpose**: Stores runtime state, self-healing corrections, and operational evidence
 
 **Structure**:
+
 ```
 overlay/
 ├── config/              # Runtime configuration extensions
@@ -41,6 +45,7 @@ overlay/
 **Key Principle**: Self-healing operations **only write to overlay**. This preserves baseline integrity while allowing system adaptation.
 
 ### 3. Active (Synthesized View)
+
 **Location**: `controlplane/active/`  
 **Access**: Read-only  
 **Purpose**: Provides a unified, read-only view of baseline + overlay
@@ -85,12 +90,14 @@ cat $MACHINENATIVEOPS_OVERLAY_EVIDENCE/validation/controlplane.manifest.json
 The following environment variables are available after sourcing `root.env.sh`:
 
 **Controlplane Paths**:
+
 - `MACHINENATIVEOPS_CONTROLPLANE`: Root controlplane directory
 - `MACHINENATIVEOPS_BASELINE`: Baseline directory
 - `MACHINENATIVEOPS_OVERLAY`: Overlay directory
 - `MACHINENATIVEOPS_ACTIVE`: Active view directory
 
 **Baseline Subdirectories**:
+
 - `MACHINENATIVEOPS_BASELINE_CONFIG`: Baseline configuration
 - `MACHINENATIVEOPS_BASELINE_SPECS`: Baseline specifications
 - `MACHINENATIVEOPS_BASELINE_REGISTRIES`: Baseline registries
@@ -99,12 +106,14 @@ The following environment variables are available after sourcing `root.env.sh`:
 - `MACHINENATIVEOPS_BASELINE_DOCS`: Documentation
 
 **Overlay Subdirectories**:
+
 - `MACHINENATIVEOPS_OVERLAY_CONFIG`: Runtime configuration
 - `MACHINENATIVEOPS_OVERLAY_EVIDENCE`: Validation evidence
 - `MACHINENATIVEOPS_OVERLAY_RUNTIME`: Runtime state
 - `MACHINENATIVEOPS_OVERLAY_LOGS`: Operational logs
 
 **Validation Tools**:
+
 - `MACHINENATIVEOPS_VALIDATOR`: Validation script path
 - `MACHINENATIVEOPS_VALIDATION_GATE`: Validation gate config
 - `MACHINENATIVEOPS_VALIDATION_VECTORS`: Test vectors
@@ -192,6 +201,7 @@ After validation, three artifacts are generated:
 ### Success Criteria
 
 Validation passes when:
+
 - All 50 checks pass across all stages
 - No critical failures detected
 - Evidence successfully generated
@@ -219,6 +229,7 @@ spec:
 ### root.fs.map
 
 Filesystem mappings include:
+
 - `controlplane_baseline`: Read-only baseline directory
 - `controlplane_overlay`: Read-write overlay directory
 - `controlplane_active`: Read-only active view
@@ -256,16 +267,19 @@ Environment variables provide easy access to all controlplane paths and tools.
 If validation fails:
 
 1. Check the validation report:
+
    ```bash
    cat controlplane/overlay/evidence/validation/validation.report.json | jq '.stages[] | select(.passed == false)'
    ```
 
 2. Review specific failed checks:
+
    ```bash
    cat controlplane/overlay/evidence/validation/validation.report.md
    ```
 
 3. Fix the issues and re-run validation:
+
    ```bash
    python3 controlplane/baseline/validation/validate-root-specs.py
    ```
@@ -317,9 +331,11 @@ To create overlay extensions:
 ### Evidence Management
 
 Evidence is automatically generated and stored in:
+
 - `controlplane/overlay/evidence/validation/`
 
 Manage evidence:
+
 ```bash
 # Archive old evidence
 tar -czf evidence-$(date +%Y%m%d).tar.gz controlplane/overlay/evidence/
@@ -333,6 +349,7 @@ find controlplane/overlay/evidence -type f -mtime +90 -delete
 ### Immutability Enforcement
 
 In production:
+
 - Baseline directory should be mounted read-only
 - Filesystem permissions enforce immutability
 - Version control tracks all baseline changes
@@ -346,6 +363,7 @@ In production:
 ### Audit Trail
 
 All operations generate evidence:
+
 - Validation reports
 - Integrity checksums
 - Provenance tracking
@@ -369,6 +387,7 @@ All operations generate evidence:
 ### Getting Help
 
 For issues or questions:
+
 1. Review validation reports
 2. Check documentation
 3. Examine evidence logs

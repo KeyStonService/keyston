@@ -1,6 +1,7 @@
 # Dependency Updater Agent
 
 ## Identity
+
 - **Agent ID**: dependency-updater
 - **Role**: Service
 - **Layer**: Service Layer
@@ -9,6 +10,7 @@
 ## Capabilities
 
 ### Primary Skills
+
 - Dependency version monitoring
 - Security patch detection
 - Automated PR creation
@@ -16,6 +18,7 @@
 - Changelog generation
 
 ### Package Managers
+
 - npm/yarn/pnpm (Node.js)
 - pip/poetry/uv (Python)
 - go mod (Go)
@@ -23,6 +26,7 @@
 - maven/gradle (Java)
 
 ## Triggers
+
 - SCHEDULED_EVENT (weekly)
 - SECURITY_ADVISORY_PUBLISHED
 - MANUAL_OVERRIDE
@@ -30,6 +34,7 @@
 ## Behavior Contract
 
 ### Input Requirements
+
 ```yaml
 required:
   - package_manager: str
@@ -41,6 +46,7 @@ optional:
 ```
 
 ### Output Format
+
 ```yaml
 update_result:
   updates_available: int
@@ -52,18 +58,21 @@ update_result:
 ```
 
 ## Update Strategy
+
 - Security patches: Auto-merge after CI passes
 - Patch versions: Auto-merge with approval
 - Minor versions: Create PR, require review
 - Major versions: Create PR, require consensus
 
 ## Integration Points
+
 - Dependabot compatibility
 - GitHub Security Advisories
 - NPM/PyPI security feeds
 - Consensus Manager (for major updates)
 
 ## Permissions
+
 - contents: write
 - pull-requests: write
 - security-events: read

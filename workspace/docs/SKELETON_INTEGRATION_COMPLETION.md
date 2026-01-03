@@ -53,16 +53,6 @@ Successfully extracted, analyzed, and integrated architecture skeleton configura
 
 #### 差異識別
 
-- **缺失骨架**: 6 個（identity-tenancy, data-governance,
-  performance-reliability, cost-management, knowledge-base,
-  nucleus-orchestrator）
-- **命名不一致**: 2 個（testing-compatibility vs testing-governance,
-  docs-examples vs docs-governance）
-=======
-
-- **缺失骨架**: 6 個（identity-tenancy, data-governance, performance-reliability, cost-management, knowledge-base, nucleus-orchestrator）
-- **命名不一致**: 2 個（testing-compatibility vs testing-governance, docs-examples vs docs-governance）
->>>>>>> origin/copilot/sub-pr-402
 
 ### 2. 分析報告 / Analysis Report
 

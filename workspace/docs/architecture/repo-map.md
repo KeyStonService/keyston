@@ -40,8 +40,6 @@
 > `docs/DIRECTORY_TREE.md`。若需語義對應與治理邊界，請依此文檔與
 > `config/system-module-map.yaml`。
 
-=======
->>>>>>> origin/copilot/sub-pr-402
 ---
 
 ## 🎯 Semantic Boundaries 語義邊界

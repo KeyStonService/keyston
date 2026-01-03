@@ -175,6 +175,7 @@ All FHS standard directories are present:
 ### 1. Symlinks for Logical Organization
 
 Most FHS directories are symlinks to maintain:
+
 - **Single Source of Truth**: Files exist in one location
 - **Clear Ownership**: workspace (mutable) vs controlplane (immutable)
 - **Easy Navigation**: Standard Unix paths work as expected
@@ -182,6 +183,7 @@ Most FHS directories are symlinks to maintain:
 ### 2. Real Directories for Runtime Data
 
 Directories that need to be writable and independent:
+
 - `/var` - Runtime state and logs
 - `/tmp` - Temporary files (with sticky bit)
 - `/opt` - Optional packages
@@ -190,12 +192,14 @@ Directories that need to be writable and independent:
 ### 3. Immutability Enforcement
 
 Symlinks to `controlplane/baseline/` are read-only:
+
 - `/etc` -> controlplane/baseline/config (immutable)
 - `/sbin` -> controlplane/baseline/validation (immutable)
 
 ### 4. Workspace Integration
 
 Symlinks to `workspace/` are writable:
+
 - `/bin` -> workspace/src/bin
 - `/lib` -> workspace/shared
 - `/usr` -> workspace
@@ -218,6 +222,7 @@ Symlinks to `workspace/` are writable:
 ## Usage Examples
 
 ### Access Configuration
+
 ```bash
 # Standard FHS path
 cat /etc/root.config.yaml
@@ -227,6 +232,7 @@ cat controlplane/baseline/config/root.config.yaml
 ```
 
 ### Run Validators
+
 ```bash
 # Standard FHS path
 /sbin/validate-root-specs.py
@@ -236,6 +242,7 @@ controlplane/baseline/validation/validate-root-specs.py
 ```
 
 ### Use Shared Libraries
+
 ```bash
 # Standard FHS path
 ls /lib
@@ -245,6 +252,7 @@ ls workspace/shared
 ```
 
 ### Write Logs
+
 ```bash
 # Standard FHS path
 echo "log entry" >> /var/log/app.log
@@ -284,5 +292,6 @@ ls -la /var /tmp /opt /init.d
 **Status:** ✅ **FHS DIRECTORY STRUCTURE IMPLEMENTED**
 
 The root directory now fully complies with both:
+
 1. Minimal System Skeleton principle
 2. Filesystem Hierarchy Standard (FHS)

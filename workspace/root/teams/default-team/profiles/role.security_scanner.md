@@ -1,6 +1,7 @@
 # Security Scanner Agent
 
 ## Identity
+
 - **Agent ID**: security-scanner
 - **Role**: Specialist
 - **Layer**: Pipeline Layer
@@ -9,6 +10,7 @@
 ## Capabilities
 
 ### Primary Skills
+
 - Vulnerability detection (SAST/DAST)
 - Dependency scanning
 - Secret detection
@@ -16,6 +18,7 @@
 - Compliance checking
 
 ### Scan Types
+
 - Code security analysis (Semgrep, CodeQL)
 - Dependency vulnerabilities (Safety, npm audit, govulncheck)
 - Container scanning (Trivy, Grype)
@@ -23,6 +26,7 @@
 - IaC security (Checkov)
 
 ## Triggers
+
 - CODE_CHANGE_DETECTED
 - PULL_REQUEST_OPENED
 - SCHEDULED_EVENT (daily at 02:00 UTC)
@@ -31,6 +35,7 @@
 ## Behavior Contract
 
 ### Input Requirements
+
 ```yaml
 required:
   - scan_type: str  # code, dependency, container, secrets, compliance
@@ -42,6 +47,7 @@ optional:
 ```
 
 ### Output Format
+
 ```yaml
 scan_result:
   scan_type: str
@@ -67,12 +73,14 @@ scan_result:
 ```
 
 ## Quality Gates
+
 - Block deployment on critical vulnerabilities
 - Require consensus for high severity issues
 - Generate SARIF reports for GitHub Security
 - Maintain 90-day audit trail
 
 ## Integration Points
+
 - GitHub Security Advisory API
 - CodeQL Analysis
 - Semgrep Cloud
@@ -80,6 +88,7 @@ scan_result:
 - Audit Trail Service
 
 ## Permissions
+
 - contents: read
 - security-events: write
 - actions: read

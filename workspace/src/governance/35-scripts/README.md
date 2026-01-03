@@ -2,11 +2,6 @@
 
 # Python 語法驗證系統
 
-This directory contains utility scripts for governance automation and
-validation.
-=======
-## 📋 Overview | 概述
->>>>>>> origin/copilot/sub-pr-402
 
 This validation system ensures all Python code in the SynergyMesh repository maintains high quality standards, preventing syntax errors and ensuring compliance with project governance rules.
 
@@ -361,9 +356,3 @@ Planned improvements:
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** 2024-12-11  
-**Maintainer:** Platform Engineering Team  
-**Status:** ✅ Production Ready
-=======
->>>>>>> origin/copilot/sub-pr-402

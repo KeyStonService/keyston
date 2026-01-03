@@ -11,10 +11,7 @@
 This PR implements an enterprise-grade **Language Governance Dashboard** system
 with:
 
-=======
-This PR implements an enterprise-grade **Language Governance Dashboard** system with:
 
->>>>>>> origin/copilot/sub-pr-402
 - ✅ **7 commits** delivering 4 major visualization components
 - ✅ **Health scoring** with 85/100 current baseline (Grade B)
 - ✅ **Real-time monitoring** across 6-layer architecture (L0-L5)
@@ -44,8 +41,6 @@ This PR implements an enterprise-grade **Language Governance Dashboard** system 
 | `tools/generate-sankey-data.py` | Violation flow analysis | `governance/sankey-data.json` |
 | `tools/generate-hotspot-heatmap.py` | Intensity scoring | `governance/hotspot-data.json`, `docs/HOTSPOT_HEATMAP.md` |
 | `tools/generate-migration-flow.py` | Cluster migration tracking | `governance/migration-flow.json`, `docs/MIGRATION_FLOW.md` |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### 3. Governance Data Layer ✅
 
@@ -192,15 +187,12 @@ docs/
    - [ ] Link to language governance dashboard
    - [ ] Add policy compliance section
 
-2. **governance/policies/\*.md**
-=======
-2. **governance/policies/*.md**
->>>>>>> origin/copilot/sub-pr-402
-   - [ ] Reference new enforcement tooling
-   - [ ] Link to hotspot heatmap for violation tracking
-   - [ ] Add CI/CD automation details
 
-3. **core/contract_service/contracts-L1/contracts/BUILD_PROVENANCE.md**
+- [ ] Reference new enforcement tooling
+- [ ] Link to hotspot heatmap for violation tracking
+- [ ] Add CI/CD automation details
+
+1. **core/contract_service/contracts-L1/contracts/BUILD_PROVENANCE.md**
    - [ ] Add language governance validation step
    - [ ] Reference Semgrep integration
    - [ ] Link to security findings API
@@ -225,11 +217,6 @@ docs/
 
    **For each file, add:**
 
-- [ ] "Language Governance" subsection
-- [ ] Links to relevant hotspot/violation data
-- [ ] Reference dashboard for real-time monitoring
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 #### D. Create Cross-Reference Documentation
 
@@ -251,13 +238,6 @@ docs/
     - [ ] Include troubleshooting guide
     - [ ] Add FAQ section
 
-2. **tools/docs/GENERATOR_SCRIPTS_GUIDE.md** (NEW)
-    - [ ] Document all 3 generator scripts
-    - [ ] Usage examples for each
-    - [ ] Integration with CI/CD
-    - [ ] Manual execution procedures
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### Phase 2: Feature Enhancements (Short-term) 🚀
 
@@ -283,17 +263,11 @@ docs/
     - [ ] Show relationships between violations, files, layers
     - [ ] Enable drill-down from dashboard to specific issues
 
-2. **Sankey Diagram Enhancements**
+4. **Sankey Diagram Enhancements**
     - [ ] Add time-based filtering (last week, month, quarter)
     - [ ] Enable click-to-drill on flow paths
     - [ ] Show violation severity in flow thickness
 
-3. **Hotspot Heatmap Improvements**
-    - [ ] Add click-to-navigate to file location
-    - [ ] Implement hover tooltips with full violation details
-    - [ ] Enable layer filtering (show only L4, only L1, etc.)
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 #### B. Automation Enhancements
 
@@ -317,17 +291,11 @@ docs/
     - [ ] Integrate with existing auto-fix bot
     - [ ] Add validation checks before auto-merging
 
-2. **Slack/Email Notifications**
+4. **Slack/Email Notifications**
     - [ ] Send alerts when health score drops below threshold
     - [ ] Notify on new critical hotspots (score ≥ 70)
     - [ ] Weekly summary report generation
 
-3. **Historical Trend Tracking**
-    - [ ] Store daily snapshots of health scores
-    - [ ] Generate trend charts (30-day, 90-day)
-    - [ ] Predict future health score trajectory
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### Phase 3: Integration & Scaling (Medium-term) 📊
 
@@ -348,12 +316,6 @@ docs/
     - [ ] Link violations to knowledge base entries
     - [ ] Enable semantic search across governance reports
 
-2. **Documentation Health Scoring**
-    - [ ] Extend health score to include documentation quality
-    - [ ] Track documentation coverage per layer
-    - [ ] Flag outdated/missing docs
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 #### B. Developer Experience
 
@@ -372,12 +334,6 @@ docs/
     - [ ] Quick-fix suggestions based on governance rules
     - [ ] Local health score preview
 
-2. **Pre-commit Hooks**
-    - [ ] Block commits that worsen health score
-    - [ ] Show violation preview before commit
-    - [ ] Suggest alternative approaches
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### Phase 4: Advanced Analytics (Long-term) 📈
 
@@ -398,27 +354,11 @@ docs/
     - [ ] Predict future hotspots before they emerge
     - [ ] Recommend proactive refactoring
 
-2. **Auto-migration Path Optimization**
-    - [ ] Use graph algorithms to find optimal migration sequences
-    - [ ] Minimize disruption while maximizing health improvement
-    - [ ] Generate step-by-step migration plans
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 #### B. Multi-Repository Support
 
 **Timeline**: 3-4 months
 
-1. **Cross-repo Governance Dashboard**
-   - [ ] Aggregate health scores across multiple repositories
-   - [ ] Track organization-wide language compliance
-   - [ ] Enable portfolio-level decision making
-=======
-1. **Cross-repo Governance Dashboard**
-    - [ ] Aggregate health scores across multiple repositories
-    - [ ] Track organization-wide language compliance
-    - [ ] Enable portfolio-level decision making
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -467,8 +407,6 @@ docs/
 | Fix Success Rate | 87% | 92% | 95% |
 | Documentation Coverage | ~60%* | 85% | 95% |
 | CI/CD Uptime | 100% | 100% | 100% |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 *Estimated: 4 of 129 markdown files updated with governance references (3.1% complete), baseline ~60% includes other documentation
 
@@ -535,13 +473,6 @@ docs/
 
 ### For Engineering Team
 
-**Key Message**: "New language governance dashboard provides real-time
-visibility into code quality, with automated CI/CD enforcement and actionable
-insights."
-=======
-
-**Key Message**: "New language governance dashboard provides real-time visibility into code quality, with automated CI/CD enforcement and actionable insights."
->>>>>>> origin/copilot/sub-pr-402
 
 **Next Steps for Team**:
 
@@ -552,13 +483,6 @@ insights."
 
 ### For Management
 
-**Key Message**: "Delivered enterprise-grade governance system tracking health
-score of 85/100 across 6-layer architecture, with 87% fix success rate and
-automated enforcement."
-=======
-
-**Key Message**: "Delivered enterprise-grade governance system tracking health score of 85/100 across 6-layer architecture, with 87% fix success rate and automated enforcement."
->>>>>>> origin/copilot/sub-pr-402
 
 **Business Value**:
 
@@ -569,12 +493,6 @@ automated enforcement."
 
 ### For External Contributors
 
-**Key Message**: "Language governance dashboard ensures consistent code quality.
-Check health score before submitting PRs."
-=======
-
-**Key Message**: "Language governance dashboard ensures consistent code quality. Check health score before submitting PRs."
->>>>>>> origin/copilot/sub-pr-402
 
 **Contribution Guidelines Update Needed**:
 
@@ -611,13 +529,6 @@ Check health score before submitting PRs."
 
 ### Operational Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| Developer resistance to adoption | Medium | Medium | Training sessions, clear value demonstration |
-| Documentation drift continues | High | Low | Automate doc synchronization in CI |
-| Maintenance burden increases | Low | Medium | Clear ownership model, runbook documentation |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -626,10 +537,7 @@ Check health score before submitting PRs."
 PR #2 successfully delivers a comprehensive **Language Governance Dashboard**
 system that provides:
 
-=======
-PR #2 successfully delivers a comprehensive **Language Governance Dashboard** system that provides:
 
->>>>>>> origin/copilot/sub-pr-402
 - ✅ **Real-time monitoring** of code quality across 6 architectural layers
 - ✅ **4 visualization types** for actionable insights
 - ✅ **Automated CI/CD enforcement** with daily updates

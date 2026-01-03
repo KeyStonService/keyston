@@ -42,18 +42,22 @@ curl -X POST http://localhost:8000/api/v1/resources \
 ## 📚 Available Examples | 可用範例
 
 ### 1. Authentication | 認證
+
 **File**: `login.http`
 
 Examples:
+
 - Login (get JWT token)
 - Register new user
 - Refresh token
 - Logout
 
 ### 2. Resource Management | 資源管理
+
 **File**: `create-resource.http`
 
 Examples:
+
 - Create resource
 - Get resource by ID
 - Update resource
@@ -61,9 +65,11 @@ Examples:
 - List all resources with pagination
 
 ### 3. Task Scheduling | 任務排程
+
 **File**: `schedule-job.http`
 
 Examples:
+
 - Schedule cron job (daily backup)
 - Schedule one-time task
 - Schedule interval task (every 5 minutes)
@@ -73,9 +79,11 @@ Examples:
 - Cancel running task
 
 ### 4. Monitoring & Metrics | 監控與指標
+
 **File**: `monitoring.http`
 
 Examples:
+
 - Basic health check (no auth)
 - Detailed system health
 - System metrics
@@ -121,8 +129,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 | Environment | URL |
 |-------------|-----|
-| Development | http://localhost:8000 |
-| Production | https://api.synergymesh.io |
+| Development | <http://localhost:8000> |
+| Production | <https://api.synergymesh.io> |
 
 ---
 
@@ -168,8 +176,8 @@ Content-Type: application/json
 
 ## 🔗 Additional Resources | 其他資源
 
-- **Interactive Swagger UI**: http://localhost:8000/api/docs/ui
-- **OpenAPI JSON**: http://localhost:8000/api/docs
+- **Interactive Swagger UI**: <http://localhost:8000/api/docs/ui>
+- **OpenAPI JSON**: <http://localhost:8000/api/docs>
 - **Setup Guide**: `docs/PHASE1_SETUP_GUIDE.md`
 - **API Architecture**: `docs/PHASE1_ARCHITECTURE.md`
 

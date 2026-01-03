@@ -12,7 +12,9 @@
 =======
 
 - $Deploy \rightarrow ErrorRate \rightarrow Rollback$ vs $Deploy \rightarrow Observability \rightarrow AutoFix$。
+
 >>>>>>> origin/copilot/sub-pr-402
+
 - 事件圖應儲存在 docs/knowledge-graph.yaml 的因果層。
 
 ## 工具

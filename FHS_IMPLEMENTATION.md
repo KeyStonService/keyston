@@ -20,6 +20,7 @@ Root Layer (FHS Compliant)
 ### Root Layer
 
 The root layer contains only:
+
 - **FHS standard directories** (11 directories)
 - **Controlplane** (governance and configuration)
 - **Workspace** (project files)
@@ -28,67 +29,83 @@ The root layer contains only:
 ### FHS Directories
 
 #### /bin - Essential User Command Binaries
+
 **Purpose**: Essential command binaries needed for system boot and single-user mode.
 
 **Contents**:
+
 - `mno-admin` - MachineNativeOps administration tool
 - README.md - Directory documentation
 
 **FHS Compliance**: ✅ Contains only essential user commands
 
 #### /sbin - System Administration Binaries
+
 **Purpose**: Essential system administration binaries.
 
 **Contents**:
+
 - README.md - Points to controlplane/baseline/validation
 
 **FHS Compliance**: ✅ Reserved for system administration
 
 #### /etc - Host-specific System Configuration
+
 **Purpose**: Host-specific system configuration files.
 
 **Contents**:
+
 - README.md - Points to controlplane/baseline/config
 
 **FHS Compliance**: ✅ Configuration managed by controlplane
 
 #### /lib - Essential Shared Libraries
+
 **Purpose**: Essential shared libraries and kernel modules.
 
 **Contents**:
+
 - schema.ts - Type definitions
 - types.ts - TypeScript types
 
 **FHS Compliance**: ✅ Contains shared libraries
 
 #### /home - User Home Directories
+
 **Purpose**: User home directories with symlinks to workspace.
 
 **Contents**:
+
 - Symlinks to workspace directories (archive, artifacts, chatops, etc.)
 
 **FHS Compliance**: ✅ User home directories
 
 #### /usr - Secondary Hierarchy
+
 **Purpose**: Secondary hierarchy for read-only user data.
 
 **Contents**:
+
 - Symlinks to workspace directories
 
 **FHS Compliance**: ✅ User programs and data
 
 #### /var - Variable Data
+
 **Purpose**: Variable data files (logs, caches, etc.).
 
 **Contents**:
+
 - evidence/ - Validation evidence
 
 **FHS Compliance**: ✅ Variable data storage
 
 #### /srv - Service Data
+
 **Purpose**: Data for services provided by the system.
 
 **Contents**:
+
 - server/ - Server-related files
 
 **FHS Compliance**: ✅ Service data
@@ -100,6 +117,7 @@ The root layer contains only:
 **Purpose**: Centralized governance and configuration management.
 
 **Structure**:
+
 ```
 controlplane/
 ├── baseline/              # Immutable baseline configuration
@@ -128,6 +146,7 @@ controlplane/
 **Purpose**: Working directory for all project files.
 
 **Structure**:
+
 ```
 workspace/
 ├── archive/             # Archived files
@@ -136,7 +155,6 @@ workspace/
 ├── client/             # Client applications
 ├── config/             # Workspace configuration
 ├── deploy/             # Deployment files
-├── dev-tools/          # Development tools
 ├── docs/               # Project documentation
 ├── ops/                # Operations files
 ├── projects/           # Project files
@@ -156,6 +174,7 @@ workspace/
 **Purpose**: Root layer bootstrap configuration.
 
 **Key Features**:
+
 - Points to controlplane entry points
 - Defines required files
 - Configures boot mode
@@ -170,6 +189,7 @@ workspace/
 **Purpose**: Root layer environment configuration.
 
 **Key Features**:
+
 - Exports controlplane paths
 - Exports workspace paths
 - Exports FHS paths
@@ -185,6 +205,7 @@ workspace/
 **Purpose**: Root layer filesystem mapping.
 
 **Key Features**:
+
 - Defines mount points
 - Configures access modes
 - Maps FHS directories
@@ -223,26 +244,31 @@ workspace/
 ## Design Principles
 
 ### 1. Separation of Concerns
+
 - **Root Layer**: Only FHS structure and bootstrap files
 - **Controlplane**: All governance and configuration
 - **Workspace**: All project files
 
 ### 2. Immutability
+
 - Controlplane is read-only during runtime
 - Changes require explicit governance process
 - Baseline configuration is immutable
 
 ### 3. Simplicity
+
 - Root layer is minimal and clean
 - Only 3 bootstrap files in root
 - Clear directory purposes
 
 ### 4. Maintainability
+
 - Each directory has clear purpose
 - Documentation in README files
 - Consistent structure
 
 ### 5. Extensibility
+
 - Easy to add new FHS directories
 - Controlplane can be extended
 - Workspace is flexible
@@ -250,6 +276,7 @@ workspace/
 ## Migration from Previous Structure
 
 ### Before (Pre-FHS)
+
 ```
 root/
 ├── [Many governance files in root]
@@ -259,6 +286,7 @@ root/
 ```
 
 ### After (FHS Compliant)
+
 ```
 root/
 ├── bin/
@@ -277,6 +305,7 @@ root/
 ```
 
 ### Migration Steps
+
 1. ✅ Create FHS directories
 2. ✅ Move governance files to controlplane
 3. ✅ Simplify root layer
@@ -286,26 +315,31 @@ root/
 ## Benefits
 
 ### 1. Standards Compliance
+
 - Follows FHS 3.0 standard
 - Industry best practices
 - Familiar structure for developers
 
 ### 2. Clean Root Layer
+
 - Only 3 files in root
 - Clear separation of concerns
 - Easy to understand
 
 ### 3. Centralized Governance
+
 - All governance in controlplane
 - Single source of truth
 - Easy to manage
 
 ### 4. Maintainability
+
 - Clear directory structure
 - Well-documented
 - Easy to extend
 
 ### 5. Developer Experience
+
 - Familiar FHS structure
 - Clear documentation
 - Easy navigation
@@ -313,6 +347,7 @@ root/
 ## Usage
 
 ### Accessing Controlplane
+
 ```bash
 # Configuration files
 cd controlplane/baseline/config
@@ -325,6 +360,7 @@ cd controlplane/baseline/validation
 ```
 
 ### Accessing Workspace
+
 ```bash
 # Project files
 cd workspace
@@ -337,6 +373,7 @@ cd workspace/tests
 ```
 
 ### Using Bootstrap Files
+
 ```bash
 # Load environment
 source root.env.sh
@@ -351,6 +388,7 @@ cat root.fs.map
 ## Validation
 
 ### Structure Validation
+
 ```bash
 # Validate FHS structure
 python3 controlplane/baseline/validation/validate-root-specs.py
@@ -360,6 +398,7 @@ python3 controlplane/baseline/validation/enhanced_validator.py
 ```
 
 ### Compliance Checks
+
 - ✅ FHS directory structure
 - ✅ Controlplane organization
 - ✅ Workspace organization
@@ -369,16 +408,19 @@ python3 controlplane/baseline/validation/enhanced_validator.py
 ## Future Enhancements
 
 ### Phase 1 (Current)
+
 - ✅ Basic FHS structure
 - ✅ Controlplane organization
 - ✅ Bootstrap files
 
 ### Phase 2 (Planned)
+
 - [ ] Enhanced validation
 - [ ] Automated compliance checks
 - [ ] Performance monitoring
 
 ### Phase 3 (Future)
+
 - [ ] Advanced governance features
 - [ ] Multi-environment support
 - [ ] Cloud integration
@@ -400,6 +442,7 @@ python3 controlplane/baseline/validation/enhanced_validator.py
 ## Support
 
 For questions or issues:
+
 - Check controlplane/governance/docs/
 - Review FHS documentation
 - Contact governance committee

@@ -32,6 +32,7 @@ package.json 變更時自動觸發檢查
 **規則**: 新增外部依賴需要在 ADR 中說明理由
 **審查點**: package.json 變更時自動觸發檢查
 =======
+>>>>>>>
 >>>>>>> origin/copilot/sub-pr-402
 
 ## 網路依賴規則
@@ -88,6 +89,7 @@ subscriptions:
 **破壞性變更**: 必須發布新的 major 版本
 
 >>>>>>> origin/copilot/sub-pr-402
+
 ```json
 {
   "name": "@platform/foundation-types",

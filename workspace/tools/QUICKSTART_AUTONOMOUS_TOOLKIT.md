@@ -40,21 +40,25 @@ python tools/autonomous_cleanup_toolkit.py analyze
 After running the toolkit, you'll have:
 
 ### 1. Duplicate Analysis
+
 - File: `duplicate_analysis.txt`
 - Shows: All duplicate files grouped by content (MD5)
 - Action: Review and run `cleanup_duplicates.py --execute` to remove
 
 ### 2. Technical Debt Report
+
 - File: `TECH_DEBT_SCAN_REPORT.json`
 - Shows: TODOs, FIXMEs, complex functions
 - Action: Prioritize and implement based on severity
 
 ### 3. P0 Safety Report
+
 - File: `P0_SAFETY_VERIFICATION_REPORT.json`
 - Shows: Critical safety mechanism status
 - Action: Fix any failing checks immediately
 
 ### 4. Cleanup Analysis
+
 - File: `.automation_logs/cleanup_analysis_TIMESTAMP.json`
 - Shows: Comprehensive metrics and recommendations
 - Action: Use as roadmap for ongoing cleanup
@@ -130,6 +134,7 @@ jobs:
 **Purpose**: Main orchestrator, comprehensive analysis
 
 **Commands**:
+
 ```bash
 # Full analysis
 python tools/autonomous_cleanup_toolkit.py analyze
@@ -148,6 +153,7 @@ python tools/autonomous_cleanup_toolkit.py cleanup --phase duplicates
 **Purpose**: Detect duplicate files via MD5 hashing
 
 **Logic**:
+
 - Scans .py, .sh, .js, .ts files
 - Computes MD5 hash of contents
 - Groups by hash
@@ -160,11 +166,13 @@ python tools/autonomous_cleanup_toolkit.py cleanup --phase duplicates
 **Purpose**: Safe duplicate file removal
 
 **Strategies**:
+
 1. Remove legacy/ copies
 2. Remove agent/ when services/agents/ exists
-3. Remove empty __init__.py duplicates
+3. Remove empty **init**.py duplicates
 
 **Usage**:
+
 ```bash
 # Dry run (default)
 python tools/cleanup_duplicates.py
@@ -178,6 +186,7 @@ python tools/cleanup_duplicates.py --execute
 **Purpose**: Technical debt inventory
 
 **Scans For**:
+
 - TODO comments
 - FIXME comments
 - HACK comments
@@ -191,6 +200,7 @@ python tools/cleanup_duplicates.py --execute
 **Purpose**: Critical safety verification
 
 **Checks**:
+
 - Emergency stop mechanisms
 - Safety configurations
 - Monitoring setup
@@ -352,12 +362,14 @@ jobs:
 ## 💡 Tips & Best Practices | 提示與最佳實踐
 
 ### 1. Start with Analysis | 從分析開始
+
 ```bash
 # Always run analysis first (safe, no changes)
 ./tools/run_full_cleanup.sh
 ```
 
 ### 2. Review Before Execute | 執行前審查
+
 ```bash
 # Review what will be removed
 python tools/cleanup_duplicates.py
@@ -366,18 +378,21 @@ python tools/cleanup_duplicates.py --execute
 ```
 
 ### 3. Track Progress | 追蹤進度
+
 ```bash
 # Save reports for comparison
 cp TECH_DEBT_SCAN_REPORT.json reports/$(date +%Y%m%d)_debt.json
 ```
 
 ### 4. Automate Regular Scans | 自動化定期掃描
+
 ```bash
 # Add to crontab (weekly Monday 9 AM)
 0 9 * * 1 cd /path/to/repo && ./tools/run_full_cleanup.sh --auto
 ```
 
 ### 5. Integrate with PR Reviews | 整合到 PR 審查
+
 ```bash
 # In PR description, include:
 - [ ] Ran cleanup scan: `./tools/run_full_cleanup.sh`

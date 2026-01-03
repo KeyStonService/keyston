@@ -34,6 +34,7 @@ ops/
 ## 檔案說明
 
 ### machinenativeops-axm-gate-fused-v2r1.yaml.txt
+
 - **職責**：Axiom AXM Gate 融合配置
 - **功能**：定義系統閘門控制規則與驗證邏輯
 - **格式**：YAML 配置（.txt 副檔名）

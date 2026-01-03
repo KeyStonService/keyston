@@ -60,6 +60,7 @@ teams/
 ### 自動激活
 
 當 `auto_activate: true` 時，Orchestrator 啟動後自動激活團隊：
+
 1. 載入 `registry.yaml`
 2. 執行 `boot.yaml` 劇本
 3. 健康檢查所有成員
@@ -127,6 +128,7 @@ ls artifacts/runs/<run_id>/
 ## 審計與追蹤
 
 所有操作都會記錄到 `audit/events.jsonl`：
+
 ```json
 {"event": "TEAM_ACTIVATED", "team_id": "default-team", "timestamp": "..."}
 {"event": "PLAYBOOK_STARTED", "playbook": "on_run_created", "run_id": "..."}

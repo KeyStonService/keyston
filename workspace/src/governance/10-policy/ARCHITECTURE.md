@@ -167,6 +167,7 @@ rules:
 **三大新增策略 (PR #351)**:
 
 1. **SEC-PATH-001: Path Traversal Prevention**
+
    ```yaml
    policy_id: SEC-PATH-001
    description: "路徑遍歷防護"
@@ -187,6 +188,7 @@ rules:
    ```
 
 2. **SEC-LOG-001: Secure Logging Practices**
+
    ```yaml
    policy_id: SEC-LOG-001
    description: "安全日誌實踐"
@@ -212,6 +214,7 @@ rules:
    ```
 
 3. **SEC-CRYPTO-001: Strong Cryptographic Algorithms**
+
    ```yaml
    policy_id: SEC-CRYPTO-001
    description: "強密碼演算法"
@@ -732,6 +735,7 @@ class OPAPolicyEngine:
 **配置**: `conftest/policy/*.rego`
 
 **使用場景**:
+
 - Kubernetes manifests 驗證
 - Terraform plans 驗證
 - Docker Compose 驗證
@@ -753,6 +757,7 @@ terraform show -json plan.tfplan | conftest test -
 **IaC 安全掃描工具**
 
 **支持框架**:
+
 - Terraform
 - Kubernetes
 - Dockerfile
@@ -951,6 +956,7 @@ class AuditLogger:
 **違規追蹤器**
 
 **職責**:
+
 - 記錄所有違規事件
 - 分析違規模式
 - 生成違規報告

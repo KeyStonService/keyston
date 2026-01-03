@@ -14,20 +14,24 @@
 ## 🗂️ 治理核心檔案
 
 ### 📋 配置檔案
+
 - **[`.root.governance.yaml`](../.root.governance.yaml)** - 治理/權限/策略配置
 - **[`.root.config.yaml`](../.root.config.yaml)** - 全域基本配置
 - **[`.root.modules.yaml`](../.root.modules.yaml)** - 模組註冊管理與相依
 
 ### 🔒 安全與信任
+
 - **[`.root.trust.yaml`](../.root.trust.yaml)** - 信任/憑證/安全配置
 - **[`.root.integrity.yaml`](../.root.integrity.yaml)** - 整體性驗證規則
 - **[`.root.provenance.yaml`](../.root.provenance.yaml)** - 來源追溯與元資料
 
 ### ⚡ 執行系統
+
 - **[`.root.super-execution.yaml`](../.root.super-execution.yaml)** - 超級執行/流程定義
 - **[`.root.bootstrap.yaml`](../.root.bootstrap.yaml)** - 開機與初始化設定
 
 ### 🔧 環境映射
+
 - **[`.root.env.sh`](../.root.env.sh)** - root 使用者殼層環境
 - **[`.root.devices.map`](../.root.devices.map)** - 裝置檔案對應表
 - **[`.root.fs.map`](../.root.fs.map)** - 系統層級目錄映射
@@ -38,10 +42,12 @@
 ## 🤖 AI 代理人治理
 
 ### 📝 必讀合約
+
 - **[`AGENT_DELIVERY_CONTRACT.md`](./AGENT_DELIVERY_CONTRACT.md)** - 代理人交付合約
 - **[`.github/AI-BEHAVIOR-CONTRACT.md`](../.github/AI-BEHAVIOR-CONTRACT.md)** - AI 行為合約
 
 ### 🔄 工作流程
+
 1. **任務接收** → 檢查是否在能力範圍內
 2. **二元回應** → 可完成/不可完成 + 具體缺失
 3. **證據提供** → 必須提供可驗證的證據鏈
@@ -52,6 +58,7 @@
 ## 🚪 PR 閘門機制
 
 ### ✅ 必要條件
+
 所有 Pull Request 必須通過以下閘門：
 
 1. **🔍 證據驗證閘門**
@@ -74,12 +81,14 @@
 ## 📊 治理指標
 
 ### 🔍 監控指標
+
 - **PR 通過率**: 目標 > 95%
 - **合約遵循率**: 目標 100%
 - **證據完整性**: 目標 100%
 - **移動驗證效率**: 目標 < 3 分鐘
 
 ### 📈 持續改進
+
 - 每月審查治理效能
 - 根據實際使用情況調整規則
 - 收集使用者回饋優化體驗
@@ -89,11 +98,13 @@
 ## 🆘 快速協助
 
 ### 📞 治理支援
+
 - **問題回報**: 創建 GitHub Issue
 - **規則詮釋**: 查看對應配置檔案註解
 - **緊急聯絡**: 透過系統管理員
 
 ### 🔧 常見問題
+
 1. **Q**: 為什麼選擇 `root/` 而不是 `.` 開頭的隱藏檔案？
    **A**: 行動裝置上更容易查看和管理，提高透明度。
 

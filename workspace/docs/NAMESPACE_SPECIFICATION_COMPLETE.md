@@ -69,6 +69,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 1. Specifications (4 files)
 
 #### 1.1 root.specs.naming.yaml
+
 - **Purpose**: Naming conventions for files, directories, identifiers, versions, URNs
 - **Content**:
   - File naming rules (kebab-case, single extension)
@@ -80,6 +81,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete
 
 #### 1.2 root.specs.namespace.yaml
+
 - **Purpose**: Namespace syntax, hierarchy, and boundaries
 - **Content**:
   - Syntax rules (pattern: ^[a-z][a-z0-9-]*$, 2-63 chars)
@@ -92,6 +94,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete
 
 #### 1.3 root.specs.urn.yaml
+
 - **Purpose**: URN format and resolution specifications
 - **Content**:
   - URN format (urn:namespace:type:identifier[:version])
@@ -104,6 +107,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete
 
 #### 1.4 root.specs.paths.yaml
+
 - **Purpose**: Path and directory partitioning rules
 - **Content**:
   - Root structure (minimal skeleton + FHS directories)
@@ -118,30 +122,32 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 2. Registries (2 files)
 
 #### 2.1 root.registry.namespaces.yaml
+
 - **Purpose**: Registry of all registered namespaces
 - **Content**:
   - 14 registered namespaces:
-    * machinenativeops (root organizational namespace)
-    * machinenativeops.core, .agents, .baseline, .overlay, .validation, .controlplane
-    * chatops, chatops.commands, chatops.workflows
-    * automation
-    * workspace, workspace.src, workspace.tooling, workspace.runtime
+    - machinenativeops (root organizational namespace)
+    - machinenativeops.core, .agents, .baseline, .overlay, .validation, .controlplane
+    - chatops, chatops.commands, chatops.workflows
+    - automation
+    - workspace, workspace.src, workspace.tooling, workspace.runtime
   - Each entry includes: name, description, owner, created date, status, visibility, write policy, boundaries, directory mapping
   - 9 reserved namespaces (root, baseline, overlay, active, controlplane, system, kernel, admin, sudo)
 - **Size**: 200+ lines
 - **Status**: ✅ Complete
 
 #### 2.2 root.registry.urns.yaml
+
 - **Purpose**: Registry of all registered URNs
 - **Content**:
   - 17 registered URNs:
-    * 5 validators (root-specs, naming, namespace, urn, paths)
-    * 3 configs (root-config, root-governance, workspace-map)
-    * 4 schemas (naming-spec, namespace-spec, urn-spec, paths-spec)
-    * 1 policy (gate-root-specs)
-    * 2 commands (autofix, validate)
-    * 1 module (core-validator)
-    * 1 template (validation-vectors)
+    - 5 validators (root-specs, naming, namespace, urn, paths)
+    - 3 configs (root-config, root-governance, workspace-map)
+    - 4 schemas (naming-spec, namespace-spec, urn-spec, paths-spec)
+    - 1 policy (gate-root-specs)
+    - 2 commands (autofix, validate)
+    - 1 module (core-validator)
+    - 1 template (validation-vectors)
   - Each entry includes: urn, description, resource type, namespace, owner, created date, status, location, metadata
 - **Size**: 200+ lines
 - **Status**: ✅ Complete
@@ -149,18 +155,20 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 3. Authoritative Validators (5 files)
 
 #### 3.1 validate-root-specs.py (Main Validator)
+
 - **Purpose**: Main validation engine integrating all sub-validators
 - **Updates**:
   - Added 4 new validation methods:
-    * validate_naming_conventions()
-    * validate_namespaces()
-    * validate_urns()
-    * validate_paths()
+    - validate_naming_conventions()
+    - validate_namespaces()
+    - validate_urns()
+    - validate_paths()
   - Updated main() to run extended validations
   - Integrated with existing 5-stage validation pipeline
 - **Status**: ✅ Updated & Working
 
 #### 3.2 validators/validate_naming.py
+
 - **Purpose**: Validate naming conventions
 - **Functions**:
   - validate_naming(target, target_type) - Main entry point
@@ -174,6 +182,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete & Working
 
 #### 3.3 validators/validate_namespace.py
+
 - **Purpose**: Validate namespace syntax and registration
 - **Functions**:
   - validate_namespace(namespace, check_registration) - Main entry point
@@ -187,6 +196,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete & Working
 
 #### 3.4 validators/validate_urn.py
+
 - **Purpose**: Validate URN format and registration
 - **Functions**:
   - validate_urn(urn, check_registration) - Main entry point
@@ -202,6 +212,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete & Working
 
 #### 3.5 validators/validate_paths.py
+
 - **Purpose**: Validate path format and write policies
 - **Functions**:
   - validate_path(path, check_write_policy) - Main entry point
@@ -218,6 +229,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 4. Development Tools (2 files)
 
 #### 4.1 workspace/src/tooling/validate.py
+
 - **Purpose**: Development wrapper that calls authoritative validators
 - **Commands**:
   - `validate.py all` - Run full validation suite
@@ -230,6 +242,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Complete
 
 #### 4.2 workspace/src/tooling/README.md
+
 - **Purpose**: Tool usage documentation
 - **Content**:
   - Tool vs. Validator distinction
@@ -244,6 +257,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 5. Configuration Updates (2 files)
 
 #### 5.1 workspace.map.yaml
+
 - **Purpose**: Workspace directory structure mapping
 - **Content**:
   - Primary directory mappings (srcRoot, toolingRoot, chatopsRoot, etc.)
@@ -253,6 +267,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 - **Status**: ✅ Created
 
 #### 5.2 gate-root-specs.yml
+
 - **Purpose**: Validation gate configuration
 - **Updates**:
   - Added extended_checks section
@@ -265,6 +280,7 @@ workspace/src/tooling/      # Development tools (NOT validators)
 ### 6. Test Vectors (1 file)
 
 #### 6.1 root.validation.vectors.yaml
+
 - **Updates**:
   - Added naming_vectors (15 test cases)
   - Added namespace_vectors (20 test cases)
@@ -284,6 +300,7 @@ python3 controlplane/baseline/validation/validate-root-specs.py
 ```
 
 **Results:**
+
 - ✅ Original Validation: **56/56 checks PASSED**
 - ⚠️ Naming Validation: **6/7 passed** (1 rule needs adjustment)
 - ⚠️ Namespace Validation: **4/15 passed** (dot notation needs support)
@@ -295,6 +312,7 @@ python3 controlplane/baseline/validation/validate-root-specs.py
 ### Evidence Generated
 
 All validation runs produce evidence in:
+
 ```
 controlplane/overlay/evidence/validation/
 ├── validation.report.json      ✅ JSON format report
@@ -307,30 +325,35 @@ controlplane/overlay/evidence/validation/
 ## Key Achievements
 
 ### 1. Complete Specification System
+
 - ✅ 4 comprehensive specification files covering all aspects
 - ✅ 10+ examples (valid & invalid) for each specification
 - ✅ Clear rules, patterns, and validation criteria
 - ✅ Immutable SSOT in controlplane/baseline/
 
 ### 2. Registry System
+
 - ✅ 14 registered namespaces with complete metadata
 - ✅ 17 registered URNs with resource information
 - ✅ Clear ownership, boundaries, and write policies
 - ✅ Reserved namespace protection
 
 ### 3. Authoritative Validation System
+
 - ✅ 4 sub-validators (naming, namespace, urn, paths)
 - ✅ Integration with main validator
 - ✅ Comprehensive error and warning messages
 - ✅ Evidence generation for all validations
 
 ### 4. Tool Separation
+
 - ✅ Clear distinction between validators (controlplane) and tools (workspace)
 - ✅ Development tools that call (not replace) authoritative validators
 - ✅ Comprehensive documentation of tool design principles
 - ✅ Examples of good vs. bad tool design
 
 ### 5. Test Coverage
+
 - ✅ 150+ test vectors covering all validation scenarios
 - ✅ Positive and negative test cases
 - ✅ Edge cases and error conditions
@@ -341,24 +364,28 @@ controlplane/overlay/evidence/validation/
 ## Architecture Compliance
 
 ### SSOT Principle ✅
+
 - All specifications in `controlplane/baseline/specifications/`
 - All registries in `controlplane/baseline/registries/`
 - All authoritative validators in `controlplane/baseline/validation/`
 - No governance truth in workspace
 
 ### Tool Separation ✅
+
 - Development tools in `workspace/src/tooling/`
 - Tools call controlplane validators
 - Tools do not implement validation logic
 - Clear documentation of separation
 
 ### Immutability ✅
+
 - Baseline specifications are immutable
 - Runtime state in overlay (writable)
 - Evidence in overlay/evidence (writable)
 - Clear write policies enforced
 
 ### Evidence-Based ✅
+
 - All validations produce evidence
 - Evidence stored in overlay/evidence
 - JSON and Markdown formats
@@ -456,6 +483,7 @@ else:
 ## File Statistics
 
 ### Created Files
+
 - **Specifications**: 4 files (1,600+ lines)
 - **Registries**: 2 files (400+ lines)
 - **Validators**: 4 files (1,150+ lines)
@@ -466,6 +494,7 @@ else:
 **Total**: 15 files, 3,900+ lines of code and documentation
 
 ### Updated Files
+
 - **Main Validator**: validate-root-specs.py (+200 lines)
 - **Test Vectors**: root.validation.vectors.yaml (+300 lines)
 - **Gate Rules**: gate-root-specs.yml (+50 lines)

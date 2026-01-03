@@ -96,6 +96,7 @@ npm test -- provenance.test.ts slsa.test.ts api.test.ts
 ```
 
 Test coverage includes:
+
 - Valid paths within safe directory ✅
 - Directory traversal attempts ❌
 - Absolute path attempts ❌
@@ -109,6 +110,7 @@ Test coverage includes:
 The `safefiles/` directory is created automatically on first use. For production deployments:
 
 1. **Pre-create the directory** with appropriate permissions:
+
    ```bash
    mkdir -p safefiles
    chmod 755 safefiles
@@ -161,7 +163,7 @@ All path validation failures are logged but return generic 404 errors to clients
 If you discover a security vulnerability in this implementation, please report it responsibly:
 
 1. **Do not** create a public GitHub issue
-2. Email security@synergymesh.dev with details
+2. Email <security@synergymesh.dev> with details
 3. Allow time for patching before public disclosure
 4. We will credit security researchers in our security advisories
 

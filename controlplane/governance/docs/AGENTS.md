@@ -23,12 +23,12 @@
 
 ## PR 模板規範
 
-
 - 使用標準化狀態標記：✅ (Complete), ⏸️ (Blocked), 🔄 (In Progress), ❌ (Failed), ⏭️ (Skipped)
 - 確保狀態與清單進度一致：status ≡ checklist progress
 - 所有變更必須先更新治理文件再實施
 
 ## 證據鏈要求
+
 - CHANGELOG.md: 紀錄所有變更歷史
 - RISK_ASSESSMENT.md: 評估變更風險
 - AGENT_DELIVERY_CONTRACT.md: 遵循交付契約

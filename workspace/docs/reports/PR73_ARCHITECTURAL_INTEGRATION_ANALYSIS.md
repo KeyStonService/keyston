@@ -170,13 +170,6 @@ GitHub CI ──▶ arch-governance-validation.yml ──▶ 5 個驗證 jobs
 
 #### 重疊 (Overlaps) - 最小化
 
-| 重疊區域 | 現有                             | PR #73                  | 處理方式           |
-| -------- | -------------------------------- | ----------------------- | ------------------ |
-=======
-
-| 重疊區域 | 現有 | PR #73 | 處理方式 |
-|----------|------|--------|----------|
->>>>>>> origin/copilot/sub-pr-402
 | 錯誤處理 | `ci-comprehensive-solution.yaml` | `ci-error-handler.yaml` | 引用關聯，擴充功能 |
 | CI 配置 | 各個獨立 workflow | `ci-agent-config.yaml` | 統一代理模式 |
 
@@ -194,8 +187,6 @@ GitHub CI ──▶ arch-governance-validation.yml ──▶ 5 個驗證 jobs
 | 缺乏錯誤→行動映射 | 新增 error_to_action_mapping |
 | 缺乏架構骨架驗證 CI | 新增 arch-governance-validation.yml |
 | github-script 安全漏洞 | 修復為 env 模式 |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### 2.4 設計模式一致性分析 / Design Pattern Consistency
 

@@ -3,6 +3,7 @@
 ## Design Approach
 
 **Selected Approach:** Design System + Reference Hybrid
+
 - **Primary System:** Material Design 3 principles for structured data display
 - **Reference Inspiration:** GitHub's interface patterns, Linear's clean developer UX, Vercel's dashboard clarity
 - **Rationale:** Developer-focused tool requiring clarity, information density, and familiar patterns for technical users
@@ -16,11 +17,13 @@
 ## Typography
 
 **Font Families:**
+
 - **UI Text:** Inter (via Google Fonts) - clean, readable for interface elements
 - **Code/Technical:** JetBrains Mono (via Google Fonts) - for file names, code snippets, commits
 - **Headings:** Inter Semi-Bold/Bold
 
 **Hierarchy:**
+
 - Page Titles: text-3xl font-bold
 - Section Headers: text-xl font-semibold
 - Card Titles: text-lg font-medium
@@ -32,12 +35,14 @@
 ## Layout System
 
 **Spacing Primitives:** Consistent use of Tailwind units: 2, 4, 6, 8, 12, 16
+
 - Component padding: p-4 to p-6
 - Section gaps: gap-6 to gap-8
 - Card spacing: p-6
 - List items: py-3 px-4
 
 **Grid Structure:**
+
 - Main container: max-w-7xl mx-auto px-4
 - Dashboard layout: Three-column responsive grid for stat cards (grid-cols-1 md:grid-cols-3 gap-6)
 - File browser: Two-column split (tree navigation 1/3 width, content viewer 2/3 width on desktop)
@@ -46,11 +51,13 @@
 ## Component Library
 
 ### Navigation
+
 - **Top Navigation Bar:** Fixed header with repository name, breadcrumbs, user menu
   - Height: h-16
   - Contains: Logo/repo name, navigation tabs, GitHub link button
   
 ### Dashboard Cards
+
 - **Repository Overview Card:** Full-width header card displaying:
   - Repository name, description, visibility badge
   - Star count, fork count, language indicator
@@ -64,6 +71,7 @@
   - Each with subtle icon (Heroicons) and large number display
 
 ### File Structure Visualization
+
 - **Tree Navigation Panel:**
   - Collapsible folder structure using nested indentation (pl-4 per level)
   - Folder/file icons (Heroicons: folder, document icons)
@@ -77,6 +85,7 @@
   - Syntax highlighting using Prism.js or highlight.js
 
 ### Commits Timeline
+
 - **Commit List:**
   - Card-based layout with shadow (shadow-sm)
   - Each commit shows: message, author avatar (placeholder), timestamp, commit hash (truncated)
@@ -84,6 +93,7 @@
   - Spacing: space-y-4 between commits
 
 ### Branches Display
+
 - **Branch Cards:** Two-column grid (grid-cols-1 md:grid-cols-2)
   - Branch name with git icon
   - "Last commit" timestamp
@@ -91,6 +101,7 @@
   - Badge for default branch
 
 ### Data Tables
+
 - Standard table structure for technical data:
   - Header: sticky top-0 with medium font weight
   - Rows: hover:bg-gray-50 transition
@@ -100,6 +111,7 @@
 ## Icon Library
 
 **Selected Library:** Heroicons via CDN
+
 - Navigation: home, folder, document, code-bracket
 - Actions: clipboard, arrow-top-right-on-square, chevron-right/down
 - Status: check-circle, x-circle, clock
@@ -108,19 +120,22 @@
 ## Layout Patterns
 
 ### Page Structure
+
 1. **Header Section** (h-16): Fixed navigation bar
-2. **Main Content** (min-h-screen pt-16): 
+2. **Main Content** (min-h-screen pt-16):
    - Repository overview card (full-width)
    - Stats grid (3 columns)
    - Tabbed content area for Files/Commits/Branches
 
 ### Tab Navigation
+
 - Horizontal tab bar below overview card
 - Active tab indicator (border-b-2)
 - Tabs: "Files", "Commits", "Branches"
 - Spacing: space-x-8 between tabs
 
 ### Responsive Behavior
+
 - Desktop (lg+): Full multi-column layouts, side-by-side file tree + viewer
 - Tablet (md): Two-column grids, stacked tree + viewer
 - Mobile: Single column, collapsible tree navigation drawer
@@ -128,24 +143,30 @@
 ## Interactive Elements
 
 ### Buttons
+
 - **Primary Action:** Solid background, px-6 py-2.5, rounded-lg, font-medium
 - **Secondary Action:** Border style, same padding
 - **Icon Buttons:** Square p-2, rounded-md
 
 ### Cards
+
 - Standard card: rounded-lg, shadow-sm border, p-6
 - Hover cards (clickable): hover:shadow-md transition
 - Nested cards: Reduce padding to p-4
 
 ### Form Elements
+
 - Search bar for file filtering: Full-width, h-10, rounded-md, pl-10 (icon space)
 - No distracting animations - keep transitions subtle and functional (200ms)
 
 ## No Animations Policy
+
 Minimal transitions only:
+
 - Hover states: Simple opacity or shadow changes (transition-all duration-200)
 - No scroll animations, parallax, or decorative motion
 - Focus on instant, responsive feel
 
 ## Images
+
 **No hero images required** - This is a functional dashboard/tool, not a marketing site. All visual interest comes from data visualization, clear layouts, and structured content display.

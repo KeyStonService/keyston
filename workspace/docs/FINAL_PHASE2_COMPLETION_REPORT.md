@@ -29,12 +29,14 @@
 ### CRDs 設計原則
 
 #### 1. 風險登記冊 CRD (RiskRegister)
+
 ```yaml
 apiVersion: governance.machinenativeops.io/v1
 kind: RiskRegister
 ```
 
 **核心特性：**
+
 - 風險評估和分類系統
 - 自動風險分數計算
 - 合規框架集成 (SOX, GDPR, ISO-27001)
@@ -42,18 +44,21 @@ kind: RiskRegister
 - 監控和警報配置
 
 **業務價值：**
+
 - 統一風險管理視圖
 - 自動化合規檢查
 - 實時風險監控
 - 決策支援數據
 
 #### 2. 實施路線圖 CRD (ImplementationRoadmap)
+
 ```yaml
 apiVersion: governance.machinenativeops.io/v1
 kind: ImplementationRoadmap
 ```
 
 **核心特性：**
+
 - 多階段專案管理
 - 資源分配和預算追蹤
 - 依賴關係管理
@@ -61,18 +66,21 @@ kind: ImplementationRoadmap
 - 治理和變更管理
 
 **業務價值：**
+
 - 戰略執行可視化
 - 資源優化配置
 - 進度實時追蹤
 - 風險早期識別
 
 #### 3. 決策權限矩陣 CRD (DecisionAuthorityMatrix)
+
 ```yaml
 apiVersion: governance.machinenativeops.io/v1
 kind: DecisionAuthorityMatrix
 ```
 
 **核心特性：**
+
 - 四級決策權限體系
 - 自動化工作流程
 - 合規驗證機制
@@ -80,18 +88,21 @@ kind: DecisionAuthorityMatrix
 - 審計和報告功能
 
 **業務價值：**
+
 - 決策流程標準化
 - 權限管理透明化
 - 合規風險降低
 - 運營效率提升
 
 #### 4. 性能目標 CRD (PerformanceTargets)
+
 ```yaml
 apiVersion: governance.machinenativeops.io/v1
 kind: PerformanceTargets
 ```
 
 **核心特性：**
+
 - 多維度性能指標
 - SLO/SLA 定義和追蹤
 - 自動化監控配置
@@ -99,6 +110,7 @@ kind: PerformanceTargets
 - 合規報告生成
 
 **業務價值：**
+
 - 服務質量保證
 - 性能瓶頸識別
 - 資源使用優化
@@ -107,6 +119,7 @@ kind: PerformanceTargets
 ## 📁 創建的檔案結構
 
 ### CRDs 定義檔案
+
 ```
 src/governance/
 ├── 00-vision-strategy/k8s/crd/
@@ -119,6 +132,7 @@ src/governance/
 ```
 
 ### 示例資源檔案
+
 ```
 src/governance/
 ├── 00-vision-strategy/k8s/examples/
@@ -131,6 +145,7 @@ src/governance/
 ```
 
 ### 部署工具
+
 ```
 tools/
 └── deploy_governance_crds.sh
@@ -141,6 +156,7 @@ tools/
 ### 自動化部署腳本特性
 
 #### 1. 核心功能
+
 - **CRD 部署**: 自動部署所有治理 CRDs
 - **示例部署**: 部署預配置的示例資源
 - **驗證檢查**: 驗證部署完整性
@@ -148,6 +164,7 @@ tools/
 - **清理功能**: 完全清理已部署資源
 
 #### 2. 使用方式
+
 ```bash
 # 部署所有 CRDs 和示例
 ./tools/deploy_governance_crds.sh deploy
@@ -163,6 +180,7 @@ tools/
 ```
 
 #### 3. 安全特性
+
 - 語法驗證 (dry-run)
 - 錯誤處理和回滾
 - 互動式確認機制
@@ -173,17 +191,20 @@ tools/
 ### CRDs 設計標準
 
 #### 1. API 版本管理
+
 - 統一使用 `governance.machinenativeops.io/v1`
 - 向後兼容性保證
 - 版本升級路徑定義
 
 #### 2. 資源定義規範
+
 - 標準化的 metadata 標籤
 - 一致的 spec 結構
 - 完整的驗證規則
 - 詳細的文檔註釋
 
 #### 3. 合規性集成
+
 - SOX (薩班斯-奧克斯利法案)
 - GDPR (通用數據保護條例)
 - ISO-27001 (資訊安全管理)
@@ -192,11 +213,13 @@ tools/
 ### 性能和可擴展性
 
 #### 1. 資源優化
+
 - 輕量級 CRD 定義
 - 高效的存儲結構
 - 最小化網絡開銷
 
 #### 2. 擴展性設計
+
 - 模組化架構
 - 插件式擴展機制
 - 水平擴展支援
@@ -204,18 +227,21 @@ tools/
 ## 🔍 質量保證
 
 ### 代碼質量
+
 - ✅ YAML 語法驗證
 - ✅ CRD 規範檢查
 - ✅ 示例完整性驗證
 - ✅ 部署腳本測試
 
 ### 文檔完整性
+
 - ✅ 詳細的 CRD 文檔
 - ✅ 示例使用說明
 - ✅ 部署指南
 - ✅ 故障排除指南
 
 ### 安全性
+
 - ✅ 權限控制設計
 - ✅ 數據加密考慮
 - ✅ 審計追蹤機制
@@ -224,19 +250,23 @@ tools/
 ## 🚀 部署和運維
 
 ### 部署先決條件
+
 1. Kubernetes 1.20+ 集群
 2. kubectl 命令行工具
 3. 集群管理員權限
 4. 網絡連接性
 
 ### 部署步驟
+
 1. **準備環境**
+
    ```bash
    # 驗證 kubectl 連接
    kubectl cluster-info
    ```
 
 2. **執行部署**
+
    ```bash
    # 進入專案目錄
    cd MachineNativeOps
@@ -246,6 +276,7 @@ tools/
    ```
 
 3. **驗證部署**
+
    ```bash
    # 檢查 CRDs 狀態
    kubectl get crd | grep governance.machinenativeops.io
@@ -255,6 +286,7 @@ tools/
    ```
 
 ### 監控和維護
+
 - **日誌監控**: Kubernetes 事件日誌
 - **性能監控**: CRD 操作延遲
 - **資源使用**: 內存和 CPU 消耗
@@ -263,6 +295,7 @@ tools/
 ## 📈 業務價值和影響
 
 ### 直接業務價值
+
 1. **治理效率提升 40%**
    - 自動化決策流程
    - 標準化風險管理
@@ -279,6 +312,7 @@ tools/
    - 完整的審計軌跡
 
 ### 長期戰略價值
+
 1. **數字化轉型基礎**
    - 雲原生治理框架
    - 可擴展架構設計
@@ -292,6 +326,7 @@ tools/
 ## 🔮 未來發展路線
 
 ### Phase 3 計劃 (2025 Q2)
+
 1. **高級分析功能**
    - 機器學習風險預測
    - 智能決策推薦
@@ -308,6 +343,7 @@ tools/
    - 多語言支援
 
 ### 長期願景 (2025-2026)
+
 1. **AI 驅動治理**
    - 智能合規檢查
    - 預測性風險管理
@@ -321,6 +357,7 @@ tools/
 ## 📋 驗收標準檢查
 
 ### ✅ 技術驗收標準
+
 - [x] 所有 CRDs 成功部署
 - [x] 示例資源正常運行
 - [x] 部署腳本功能完整
@@ -328,6 +365,7 @@ tools/
 - [x] 安全性要求滿足
 
 ### ✅ 業務驗收標準
+
 - [x] 治理流程標準化
 - [x] 合規要求滿足
 - [x] 性能指標達成
@@ -335,6 +373,7 @@ tools/
 - [x] 可擴展性驗證
 
 ### ✅ 質量驗收標準
+
 - [x] 代碼質量合格
 - [x] 測試覆蓋充分
 - [x] 文檔完整性高

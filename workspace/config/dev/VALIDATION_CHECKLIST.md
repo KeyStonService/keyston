@@ -7,12 +7,14 @@
 ### ✅ 驗證項目
 
 #### 1. 環境準備檢查
+
 - [ ] Dockerfile 正確安裝 Kind v0.20.0
 - [ ] devcontainer.json 包含 Podman feature
 - [ ] devcontainer.json 包含 Azure CLI feature
 - [ ] 環境變數正確設定
 
 #### 2. 腳本語法檢查
+
 - [x] setup-kind-cluster.sh 語法驗證通過
 - [x] post-create.sh 語法驗證通過
 - [x] post-start.sh 語法驗證通過
@@ -21,6 +23,7 @@
 #### 3. 功能測試（需在 Codespaces 中執行）
 
 ##### 3.1 自動啟動測試
+
 ```bash
 # 在 Codespaces 啟動後，自動執行的項目：
 # 1. post-create.sh 應該自動執行
@@ -29,6 +32,7 @@
 ```
 
 驗證命令：
+
 ```bash
 # 檢查 Kind 是否安裝
 kind version
@@ -53,6 +57,7 @@ kubectl cluster-info --context kind-governance-test
 ```
 
 ##### 3.2 手動重建測試
+
 ```bash
 # 刪除 cluster
 kind delete cluster --name governance-test
@@ -66,6 +71,7 @@ kubectl get nodes
 ```
 
 ##### 3.3 錯誤處理測試
+
 ```bash
 # 測試重複執行（應該偵測到已存在的 cluster）
 bash .devcontainer/scripts/setup-kind-cluster.sh
@@ -73,6 +79,7 @@ bash .devcontainer/scripts/setup-kind-cluster.sh
 ```
 
 #### 4. 環境變數測試
+
 ```bash
 # 檢查環境變數
 echo $KIND_EXPERIMENTAL_PROVIDER  # 應輸出: podman
@@ -80,6 +87,7 @@ echo $KIND_CLUSTER_NAME           # 應輸出: governance-test
 ```
 
 #### 5. 整合測試
+
 ```bash
 # 部署測試應用
 kubectl create deployment nginx --image=nginx
@@ -92,6 +100,7 @@ kubectl delete deployment nginx
 ## 📊 預期結果
 
 ### 成功指標
+
 1. ✅ Codespaces 啟動後 60 秒內 Kind cluster 可用
 2. ✅ `kind get clusters` 顯示 "governance-test"
 3. ✅ `kubectl get nodes` 顯示至少一個 Ready 節點
@@ -99,6 +108,7 @@ kubectl delete deployment nginx
 5. ✅ 所有工具（kubectl, kind, podman, az）可正常執行
 
 ### 效能指標
+
 - Kind cluster 建立時間：< 60 秒
 - 總記憶體使用：< 2GB
 - CPU 使用率：< 50%
@@ -106,6 +116,7 @@ kubectl delete deployment nginx
 ## 🐛 常見問題排查
 
 ### 問題 1：Podman 服務未啟動
+
 ```bash
 # 解決方案
 sudo systemctl start podman
@@ -114,6 +125,7 @@ podman system service --time=0
 ```
 
 ### 問題 2：權限問題
+
 ```bash
 # 解決方案
 sudo usermod -aG podman $USER
@@ -121,6 +133,7 @@ newgrp podman
 ```
 
 ### 問題 3：Kind cluster 建立失敗
+
 ```bash
 # 檢查 logs
 podman ps -a

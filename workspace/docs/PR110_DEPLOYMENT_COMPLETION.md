@@ -16,12 +16,6 @@
 
 ### 發現 / Findings
 
-PR #110 建立了完整的 Governance-as-Code
-(GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
-=======
-
-PR #110 建立了完整的 Governance-as-Code (GaC) 三層架構（戰略層、運營層、自動化層），但存在以下部署相關問題：
->>>>>>> origin/copilot/sub-pr-402
 
 1. **CI/CD Workflows 位置錯誤** - 放在 `.github/workflows-gac/` 而非 `.github/workflows/`
 2. **缺少實際部署指南** - 僅有理論文檔，無實際部署步驟
@@ -335,11 +329,6 @@ argocd app list | grep gac-
 
 ### Tools
 
-- **[tests/deploy-local.sh](governance/00-vision-strategy/tests/deploy-local.sh)** - Local validation script
-- **[tests/generate-resources.sh](governance/00-vision-strategy/tests/generate-resources.sh)** - Resource generator
-- **[tests/validate-all.sh](governance/00-vision-strategy/tests/validate-all.sh)** - Validation script
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -361,12 +350,7 @@ argocd app list | grep gac-
 
 ### Continuous Operations
 
-- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to
-  cluster
-=======
 
-- Strategic YAML changes → Auto-regenerate GaC resources → Auto-deploy to cluster
->>>>>>> origin/copilot/sub-pr-402
 - **Time to production**: < 5 minutes ⚡
 
 ---

@@ -70,11 +70,13 @@
 ## 檔案說明
 
 ### demo_core.py
+
 - **職責**：核心功能演示腳本
 - **功能**：展示系統初始化、用戶認證等基本功能
 - **依賴**：`core.new.core` 模組
 
 ### demo_instant_generation.py
+
 - **職責**：即時生成功能演示
 - **功能**：展示 Phase 4 即時代碼生成能力
 - **依賴**：`core.instant_generation` 模組

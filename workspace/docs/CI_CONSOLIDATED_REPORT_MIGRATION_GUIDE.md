@@ -93,6 +93,7 @@ jobs:
 ```
 
 **重點**：
+
 - 使用 `continue-on-error: true` 讓 job 在失敗時繼續
 - 使用 `if: always()` 確保 summary 步驟總是執行
 - 輸出格式必須是 `{"status":"...","message":"..."}`
@@ -203,6 +204,7 @@ permissions:
 ### 場景 1：單一 Job 執行多個檢查
 
 **Before**:
+
 ```yaml
 jobs:
   validate:
@@ -293,18 +295,21 @@ echo '{"status":"success","message":"測試"}' | jq .
 ### 問題：Report job 沒有執行
 
 **解決方案**：
+
 - 檢查 `if: always()` 是否存在
 - 確認 `needs` 列表包含所有 jobs
 
 ### 問題：Job summary 為空
 
 **解決方案**：
+
 - 檢查 `steps.summary.outputs.text` 格式
 - 確認使用 `$GITHUB_OUTPUT` 而非已棄用的 `set-output`
 
 ### 問題：JSON 解析錯誤
 
 **解決方案**：
+
 - 確保 JSON 中的雙引號正確轉義
 - 使用 `jq -c` 壓縮 JSON
 - 檢查特殊字符（如換行符）
@@ -312,6 +317,7 @@ echo '{"status":"success","message":"測試"}' | jq .
 ### 問題：評論未更新
 
 **解決方案**：
+
 - 檢查 HTML 註解標記 `<!-- CI_REPORT:name -->` 是否一致
 - 確認 `ci-name` 參數與之前相同
 - 驗證權限設定

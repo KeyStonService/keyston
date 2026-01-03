@@ -39,6 +39,7 @@
    ```
 
 3. **手動啟動支援服務**:
+
    ```bash
    docker-compose -f .devcontainer/docker-compose.yml up -d
    ```
@@ -47,33 +48,33 @@
 
 #### 🧠💓 生命系統組件
 
-- **意識系統 (Consciousness)**: http://localhost:3010
+- **意識系統 (Consciousness)**: <http://localhost:3010>
   - `/consciousness` - 意識狀態
   - `/health` - 健康檢查
   - `/metrics` - Prometheus 指標
 
-- **大腦引擎 (Brain Engine)**: http://localhost:3015
+- **大腦引擎 (Brain Engine)**: <http://localhost:3015>
   - `/api/reasoning` - AI 推理
   - `/api/decisions` - 決策記錄
   - `/api/consciousness` - 意識集成
 
-- **心臟引擎 (Heart Engine)**: http://localhost:3018
+- **心臟引擎 (Heart Engine)**: <http://localhost:3018>
   - `/api/orchestration` - 資源編排
   - `/api/deployments` - 部署管理
   - `/api/health` - 資源健康
 
-- **心跳引擎 (Heartbeat Engine)**: http://localhost:3020
+- **心跳引擎 (Heartbeat Engine)**: <http://localhost:3020>
   - `/api/vitals` - 生命體徵
   - `/api/alerts` - 告警系統
   - `/dashboard` - 實時儀表板 (:3021)
 
 #### 📊 監控與觀測
 
-- **Prometheus**: http://localhost:9090
+- **Prometheus**: <http://localhost:9090>
   - 指標收集與查詢
   - 生命系統專用指標
 
-- **Grafana**: http://localhost:3000
+- **Grafana**: <http://localhost:3000>
   - 用戶名: admin
   - 密碼: consciousness_2024
   - 生命系統儀表板
@@ -191,6 +192,7 @@ LOG_LEVEL=debug
    ```
 
 3. **Redis 連接問題**:
+
    ```bash
    # 測試 Redis
    docker-compose -f .devcontainer/docker-compose.yml exec redis redis-cli ping

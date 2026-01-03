@@ -45,18 +45,21 @@ orch = EnterpriseSynergyMeshOrchestrator()
 創建新租戶。
 
 **參數：**
+
 - `tenant_name` (str): 租戶名稱
 - `tier` (TenantTier): 租戶等級 (BASIC, PROFESSIONAL, ENTERPRISE)
 
 **返回值：** 租戶 ID (str)
 
 **示例：**
+
 ```python
 tenant_id = orch.create_tenant("Company A", TenantTier.PROFESSIONAL)
 # 返回: "tenant-abc123def456"
 ```
 
 **功能：**
+
 - 創建新租戶記錄
 - 分配租戶 ID
 - 初始化資源配額
@@ -69,11 +72,13 @@ tenant_id = orch.create_tenant("Company A", TenantTier.PROFESSIONAL)
 獲取租戶配置。
 
 **參數：**
+
 - `tenant_id` (str): 租戶 ID
 
 **返回值：** `TenantConfig` 對象
 
 **示例：**
+
 ```python
 config = orch.get_tenant(tenant_id)
 print(f"等級: {config.tier.value}")
@@ -82,6 +87,7 @@ print(f"啟用功能: {config.features_enabled}")
 ```
 
 **返回的 TenantConfig 屬性：**
+
 - `tenant_id`: 租戶 ID
 - `tenant_name`: 租戶名稱
 - `tier`: 租戶等級 (TenantTier)
@@ -96,6 +102,7 @@ print(f"啟用功能: {config.features_enabled}")
 使用重試機制執行任務（異步）。
 
 **參數：**
+
 - `task_func` (async callable): 異步任務函數
 - `component_id` (str): 組件 ID
 - `tenant_id` (str): 租戶 ID
@@ -104,6 +111,7 @@ print(f"啟用功能: {config.features_enabled}")
 **返回值：** `ExecutionResult` 對象
 
 **示例：**
+
 ```python
 async def my_task(**kwargs):
     # 任務邏輯
@@ -124,6 +132,7 @@ else:
 ```
 
 **ExecutionResult 屬性：**
+
 - `component_id`: 組件 ID
 - `status`: 執行狀態 (SUCCESS, FAILED, TIMEOUT)
 - `output`: 任務輸出
@@ -138,12 +147,14 @@ else:
 檢查租戶是否有足夠的資源配額。
 
 **參數：**
+
 - `tenant_id` (str): 租戶 ID
 - `quota_type` (str): 配額類型 (concurrent, memory, rate_limit)
 
 **返回值：** bool
 
 **示例：**
+
 ```python
 can_run = orch.check_resource_quota(tenant_id, "concurrent")
 if can_run:
@@ -163,6 +174,7 @@ else:
 **返回值：** 指標字典
 
 **示例：**
+
 ```python
 metrics = orch.get_metrics()
 print(f"總執行數: {metrics['total_executions']}")
@@ -173,6 +185,7 @@ print(f"已註冊租戶: {metrics['registered_tenants']}")
 ```
 
 **返回的指標：**
+
 - `total_executions`: 總執行數
 - `successful_executions`: 成功執行數
 - `failed_executions`: 失敗執行數
@@ -189,11 +202,13 @@ print(f"已註冊租戶: {metrics['registered_tenants']}")
 獲取租戶健康狀態。
 
 **參數：**
+
 - `tenant_id` (str): 租戶 ID
 
 **返回值：** 健康狀態字典
 
 **示例：**
+
 ```python
 health = orch.get_tenant_health(tenant_id)
 print(f"正常運行時間: {health['uptime_percent']:.1f}%")
@@ -208,6 +223,7 @@ print(f"成功執行: {health['successful']}")
 獲取租戶的審計日誌。
 
 **參數：**
+
 - `tenant_id` (str): 租戶 ID
 - `hours` (int): 回查時間範圍（小時）
 - `action` (str): 可選，篩選特定操作類型
@@ -215,6 +231,7 @@ print(f"成功執行: {health['successful']}")
 **返回值：** `AuditLog` 對象列表
 
 **示例：**
+
 ```python
 # 獲取過去 24 小時的所有日誌
 logs = orch.get_audit_logs(tenant_id)
@@ -229,6 +246,7 @@ for log in logs:
 ```
 
 **AuditLog 屬性：**
+
 - `audit_id`: 審計記錄 ID
 - `timestamp`: 時間戳
 - `tenant_id`: 租戶 ID
@@ -270,6 +288,7 @@ TenantTier.ENTERPRISE
 ### 租戶隔離保證
 
 每個租戶：
+
 - 擁有獨立的資源配額
 - 不能訪問其他租戶的數據
 - 有獨立的審計日誌
@@ -295,6 +314,7 @@ orch.retry_policies["component_id"] = policy
 ```
 
 **指數退避公式：**
+
 ```
 delay = min(
     initial_delay * (exponential_base ^ attempt),
@@ -303,6 +323,7 @@ delay = min(
 ```
 
 **示例延遲序列（1s 初始延遲）：**
+
 - 第 1 次重試: 1s
 - 第 2 次重試: 2s
 - 第 3 次重試: 4s
@@ -362,6 +383,7 @@ quota = ResourceQuota(
 ### 審計日誌記錄
 
 所有敏感操作都會被記錄：
+
 - `create_tenant` - 創建租戶
 - `delete_tenant` - 刪除租戶
 - `modify_quota` - 修改配額
@@ -377,12 +399,14 @@ quota = ResourceQuota(
 ### 監控指標
 
 **實時指標：**
+
 - 活躍任務數
 - 每秒請求數 (RPS)
 - 平均響應時間
 - 錯誤率
 
 **累計指標：**
+
 - 總執行數
 - 成功率
 - 總重試次數
@@ -413,24 +437,28 @@ except Exception as e:
 ### 最佳實踐
 
 1. **總是檢查資源配額**
+
    ```python
    if orch.check_resource_quota(tenant_id):
        # 執行任務
    ```
 
 2. **實現優雅降級**
+
    ```python
    if result.status.value != "success":
        # 降級到備用方案
    ```
 
 3. **監控重試次數**
+
    ```python
    if result.retry_count > 0:
        logging.warning(f"Task required {result.retry_count} retries")
    ```
 
 4. **定期檢查審計日誌**
+
    ```python
    suspicious = orch.get_audit_logs(tenant_id, action="failed")
    if len(suspicious) > threshold:

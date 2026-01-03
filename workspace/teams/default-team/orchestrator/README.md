@@ -1,10 +1,11 @@
-# AAPS SuperAgent
+# MachineNativeOps SuperAgent
 
-SuperAgent is the central orchestrator in the AAPS Multi-Agent MPC architecture. It coordinates all other agents and manages the incident lifecycle state machine.
+SuperAgent is the central orchestrator in the MachineNativeOps Multi-Agent MPC architecture. It coordinates all other agents and manages the incident lifecycle state machine.
 
 ## 🎯 Purpose
 
 SuperAgent serves as the **control plane core** in the three-layer agent architecture:
+
 - **Control Plane**: Orchestrates and coordinates all agents
 - **Message Routing**: Routes messages between agents
 - **State Management**: Manages incident lifecycle state machine
@@ -14,6 +15,7 @@ SuperAgent serves as the **control plane core** in the three-layer agent archite
 ## 🏗️ Architecture
 
 ### Core Responsibilities
+
 ```
 🤖 SuperAgent (Orchestrator)
 ├── 📥 Message Reception & Validation
@@ -25,6 +27,7 @@ SuperAgent serves as the **control plane core** in the three-layer agent archite
 ```
 
 ### Incident Lifecycle State Machine
+
 ```
 OPEN → TRIAGE → RCA → PROPOSE → VERIFY → APPROVE → EXECUTE → VALIDATE → CLOSE → LEARN
                                      ↓
@@ -34,6 +37,7 @@ OPEN → TRIAGE → RCA → PROPOSE → VERIFY → APPROVE → EXECUTE → VALID
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Python 3.11+
 - Docker
 - Kubernetes cluster
@@ -41,6 +45,7 @@ OPEN → TRIAGE → RCA → PROPOSE → VERIFY → APPROVE → EXECUTE → VALID
 - kustomize (optional, kubectl has built-in kustomize support)
 
 ### Local Development
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
@@ -53,6 +58,7 @@ python test_super_agent.py
 ```
 
 ### Docker Build & Test
+
 ```bash
 # Build image (with environment-specific tag)
 docker build -t machinenativeops/super-agent:dev-latest .
@@ -85,6 +91,7 @@ The SuperAgent uses **Kustomize** for environment-specific deployments, making v
 ```
 
 #### Manual Kustomize Deployment
+
 ```bash
 # Preview what will be deployed to dev
 kustomize build overlays/dev
@@ -107,6 +114,7 @@ kubectl apply -k overlays/prod
 > ⚠️ **Security Warning**: The base deployment manifest includes cluster-wide RBAC permissions (ClusterRole/ClusterRoleBinding) that grant read access to secrets across all namespaces. **This configuration is not suitable for production or shared clusters.**
 >
 > **Before deploying:**
+>
 > - Review and harden the RBAC permissions in `base/deployment.yaml`
 > - Remove or tightly scope any `secrets` access
 > - Consider using namespace-scoped Role/RoleBinding instead of cluster-scoped resources
@@ -154,6 +162,7 @@ export IMAGE_TAG=v1.2.0
 ```
 
 This will:
+
 1. Build Docker image as `machinenativeops/super-agent:v1.2.0`
 2. Deploy that image to the production environment using Kustomize
 
@@ -165,14 +174,17 @@ images:
 - name: machinenativeops/super-agent
   newTag: v1.2.0  # Update version here
 ```
+
 ## 📡 API Endpoints
 
 ### Core Endpoints
 
 #### POST /message
+
 Receive and route messages from other agents.
 
 **Request:**
+
 ```json
 {
   "meta": {
@@ -196,6 +208,7 @@ Receive and route messages from other agents.
 ```
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -210,9 +223,11 @@ Receive and route messages from other agents.
 ```
 
 #### GET /health
+
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -223,9 +238,11 @@ Health check endpoint.
 ```
 
 #### GET /ready
+
 Readiness check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "ready",
@@ -241,9 +258,11 @@ Readiness check endpoint.
 ```
 
 #### GET /incidents
+
 List all incidents.
 
 **Response:**
+
 ```json
 {
   "incidents": [
@@ -264,14 +283,17 @@ List all incidents.
 ```
 
 #### GET /incidents/{incident_id}
+
 Get specific incident details.
 
 #### GET /metrics
+
 Get basic metrics and status.
 
 ## 📝 Message Types
 
 ### Supported Message Types
+
 - **IncidentSignal**: Incoming incident from monitoring systems
 - **RCAReport**: Root cause analysis from ProblemSolverAgent
 - **FixProposal**: Proposed fixes from ProblemSolverAgent
@@ -281,7 +303,9 @@ Get basic metrics and status.
 - **KnowledgeArtifactPublished**: Knowledge artifacts from LearningAgent
 
 ### Message Envelope Structure
+
 All messages must follow the standard envelope format:
+
 ```json
 {
   "meta": {
@@ -305,6 +329,7 @@ All messages must follow the standard envelope format:
 ## 🧪 Testing
 
 ### Running Tests
+
 ```bash
 # Run all tests
 python test_super_agent.py
@@ -317,6 +342,7 @@ python test_super_agent.py http://super-agent.machinenativeops.svc.cluster.local
 ```
 
 ### Test Coverage
+
 - ✅ Health and readiness checks
 - ✅ Message envelope validation
 - ✅ Incident lifecycle management
@@ -328,6 +354,7 @@ python test_super_agent.py http://super-agent.machinenativeops.svc.cluster.local
 ## 🔧 Configuration
 
 ### Environment Variables
+
 - `NAMESPACE`: Kubernetes namespace (default: from pod spec)
 - `POD_NAME`: Pod name (default: from pod spec)
 - `POD_IP`: Pod IP (default: from pod spec)
@@ -360,6 +387,7 @@ agents/super-agent/
 ```
 
 **Key benefits:**
+
 - ✅ **Version Management**: Image tags configured per environment
 - ✅ **Environment Isolation**: Separate namespaces and configs
 - ✅ **Easy Updates**: Change image version in one place
@@ -377,6 +405,7 @@ Each overlay uses a `namePrefix` to ensure cluster-scoped resources (ClusterRole
 This allows you to safely deploy dev, staging, and production environments side-by-side in the same Kubernetes cluster without RBAC conflicts.
 
 **Customizing image versions:**
+
 ```yaml
 # In overlays/prod/kustomization.yaml
 images:
@@ -385,6 +414,7 @@ images:
 ```
 
 ### Kubernetes Resources
+
 - **ServiceAccount**: `<env>-super-agent` with minimal required permissions
 - **ClusterRole**: `<env>-super-agent-role` - Read permissions + limited write permissions
 - **Deployment**: 2 replicas with anti-affinity (configurable per environment)
@@ -395,7 +425,9 @@ images:
 ## 📊 Monitoring
 
 ### Prometheus Metrics
+
 The service exposes metrics on port 9090:
+
 ```bash
 # Access metrics
 curl http://localhost:9090/metrics
@@ -406,6 +438,7 @@ curl http://localhost:9090/metrics
 ```
 
 ### Health Monitoring
+
 ```bash
 # Health check
 curl http://localhost:8080/health
@@ -418,6 +451,7 @@ curl http://localhost:8080/metrics
 ```
 
 ### Log Monitoring
+
 ```bash
 # View pod logs
 kubectl logs -n machinenativeops -l app=super-agent -f
@@ -429,12 +463,15 @@ kubectl logs -n machinenativeops deployment/super-agent -c super-agent -f
 ## 🛡️ Security
 
 ### RBAC Permissions
+
 SuperAgent operates with minimal required permissions:
+
 - **Read**: pods, services, configmaps, secrets, deployments, events
 - **Write**: limited to coordination resources (incident-trace, execution-plans)
 - **No access**: network policies, RBAC changes, PVC deletion
 
 ### Security Best Practices
+
 - Runs as non-root user (UID 1000)
 - Read-only filesystem (except /tmp and /var/log)
 - Health checks and readiness probes
@@ -447,6 +484,7 @@ SuperAgent operates with minimal required permissions:
 ### Common Issues
 
 #### Service Not Responding
+
 ```bash
 # Check pod status
 kubectl get pods -n machinenativeops -l app=super-agent
@@ -463,6 +501,7 @@ curl http://localhost:8080/health
 ```
 
 #### Permission Issues
+
 ```bash
 # Check service account permissions
 kubectl auth can-i --list --as=system:serviceaccount:machinenativeops:super-agent -n machinenativeops
@@ -472,6 +511,7 @@ kubectl get clusterrolebinding super-agent-binding -o yaml
 ```
 
 #### Message Processing Issues
+
 ```bash
 # Check incident processing
 curl http://localhost:8080/incidents
@@ -486,7 +526,9 @@ curl http://localhost:8080/metrics
 ## 📚 Integration
 
 ### Other Agents
+
 SuperAgent integrates with:
+
 - **MonitoringAgent**: Receives incident signals
 - **ProblemSolverAgent**: Processes RCA and fix proposals
 - **QualityAssuranceAgent**: Handles verification reports
@@ -494,6 +536,7 @@ SuperAgent integrates with:
 - **LearningAgent**: Publishes knowledge artifacts
 
 ### External Systems
+
 - **Prometheus**: Metrics and monitoring
 - **AlertManager**: Alert routing
 - **ArgoCD**: GitOps deployments
@@ -503,18 +546,21 @@ SuperAgent integrates with:
 ## 🚀 Next Steps
 
 ### Phase 1 Enhancements
+
 - [ ] Add distributed tracing
 - [ ] Implement retry mechanisms
 - [ ] Add circuit breakers
 - [ ] Enhance error handling
 
 ### Phase 2 Features
+
 - [ ] Add consensus voting algorithms
 - [ ] Implement MPC decision making
 - [ ] Add audit logging
 - [ ] Enhance security controls
 
 ### Phase 3 Capabilities
+
 - [ ] Add machine learning insights
 - [ ] Implement predictive analytics
 - [ ] Add cross-cluster federation
@@ -522,6 +568,6 @@ SuperAgent integrates with:
 
 ---
 
-**SuperAgent is the heart of the AAPS Multi-Agent MPC system, enabling truly intelligent, collaborative problem-solving.**
+**SuperAgent is the heart of the MachineNativeOps Multi-Agent MPC system, enabling truly intelligent, collaborative problem-solving.**
 
-#machine-native-ops #aaps #multi-agent #super-agent #orchestration
+# machine-native-ops #machine-native-ops #multi-agent #super-agent #orchestration

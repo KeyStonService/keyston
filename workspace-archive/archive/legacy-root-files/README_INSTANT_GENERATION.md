@@ -5,6 +5,7 @@
 一個突破性的AI驅動系統，能在**10分鐘內**將用戶需求轉化為完整的可運行應用程序！
 
 ### 🎯 核心特點
+
 - ⚡ **10分鐘生成** - 從需求到部署
 - 🤖 **6個AI代理** - 專業化並行處理
 - 🔧 **自我修復** - 自動故障處理
@@ -14,17 +15,20 @@
 ## 🚀 快速開始
 
 ### 1. 系統要求
+
 - Python 3.11+
 - 4GB+ RAM
 - 10GB+ 可用磁盤空間
 
 ### 2. 安裝依賴
+
 ```bash
 cd MachineNativeOps
 pip install -r requirements.txt
 ```
 
 ### 3. 一行代碼生成系統
+
 ```python
 from core.instant_generation.main import quick_generate
 
@@ -34,6 +38,7 @@ print(result)
 ```
 
 ### 4. 運行演示
+
 ```bash
 # 查看完整功能演示
 python src/demo_instant_generation.py
@@ -42,6 +47,7 @@ python src/demo_instant_generation.py
 ## 📝 使用示例
 
 ### 示例1：電商網站
+
 ```python
 user_input = """
 創建一個電商網站，包含：
@@ -55,6 +61,7 @@ result = await quick_generate(user_input)
 ```
 
 ### 示例2：企業管理系統
+
 ```python
 from core.instant_generation.main import InstantGenerationSystem
 
@@ -81,6 +88,7 @@ result = await system.generate_system(
 ```
 
 ### 6個專業化AI代理
+
 1. **🔍 輸入分析代理** - 理解用戶需求
 2. **🏗️ 架構設計代理** - 設計系統架構
 3. **💻 代碼生成代理** - 自動生成代碼
@@ -100,6 +108,7 @@ result = await system.generate_system(
 ## 🎁 生成結果包含什麼？
 
 ### 📁 完整的項目結構
+
 ```
 generated_system/
 ├── frontend/           # React前端
@@ -111,6 +120,7 @@ generated_system/
 ```
 
 ### 🔧 技術棧
+
 - **前端**: React + Tailwind CSS
 - **後端**: FastAPI + Python
 - **數據庫**: PostgreSQL + Redis
@@ -118,6 +128,7 @@ generated_system/
 - **監控**: Prometheus + Grafana
 
 ### 📋 自動生成功能
+
 - ✅ 用戶認證系統
 - ✅ RESTful API
 - ✅ 數據庫設計
@@ -130,6 +141,7 @@ generated_system/
 ## 🛠️ 高級功能
 
 ### 自我修復系統
+
 ```python
 # 自動檢測和修復問題
 result = await system.generate_system("複雜需求")
@@ -139,6 +151,7 @@ if not result["success"]:
 ```
 
 ### 實時監控
+
 ```python
 # 監控生成過程
 await system.monitor.start_monitoring("session_001")
@@ -146,6 +159,7 @@ metrics = system.monitor.get_current_metrics("session_001")
 ```
 
 ### 性能優化
+
 ```python
 # 自動性能優化
 optimizations = await system.optimizer.optimize_system(result)
@@ -157,6 +171,7 @@ print(f"應用了 {len(optimizations)} 個優化")
 ### 常見問題解決
 
 #### Q: 生成時間超過10分鐘？
+
 ```python
 # 啟用性能模式
 config = {"performance_mode": "fast"}
@@ -164,6 +179,7 @@ system = InstantGenerationSystem(config)
 ```
 
 #### Q: 代碼質量不夠好？
+
 ```python
 # 提高質量要求
 config = {"quality_threshold": 90}
@@ -171,6 +187,7 @@ system = InstantGenerationSystem(config)
 ```
 
 #### Q: 部署失敗？
+
 ```python
 # 使用部署代理修復
 from core.instant_generation.agents import DeploymentAgent
@@ -181,16 +198,19 @@ result = await agent.process_task(task)
 ## 📚 學習資源
 
 ### 📖 文檔
+
 - [完整技術文檔](INSTANT_GENERATION_ARCHITECTURE.md)
 - [API參考](docs/api.md)
 - [架構設計](docs/architecture.md)
 
 ### 🎥 教程
+
 - [快速入門教程](docs/quickstart.md)
 - [高級用法指南](docs/advanced.md)
 - [故障排除手冊](docs/troubleshooting.md)
 
 ### 💡 最佳實踐
+
 - [需求描述技巧](docs/best-practices/requirements.md)
 - [性能優化建議](docs/best-practices/performance.md)
 - [部署策略](docs/best-practices/deployment.md)
@@ -212,6 +232,7 @@ result = await agent.process_task(task)
 - **結果**: 可擴展的企業級應用
 
 ### 案例3：博客平台
+
 - **需求**: "建立個人博客系統"
 - **生成時間**: 7分20秒
 - **代碼質量**: 94分
@@ -220,12 +241,12 @@ result = await agent.process_task(task)
 ## 🤝 社區支持
 
 ### 💬 獲取幫助
+
 - 🐛 [報告問題](https://github.com/MachineNativeOps/MachineNativeOps/issues)
 - 💡 [功能建議](https://github.com/MachineNativeOps/MachineNativeOps/discussions)
 - 📧 [郵件支持](mailto:support@myninja.ai)
 
 ### 🎯 參與貢獻
-
 
 - 🔧 [貢獻代碼](CONTRIBUTING.md)
 - 📝 [改進文檔](docs/contributing.md)

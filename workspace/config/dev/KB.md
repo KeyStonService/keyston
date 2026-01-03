@@ -149,6 +149,7 @@
    - 从 requirements.txt 安装 Python 包
 
 6. **健康检查**（第58-59行）
+
    ```dockerfile
    HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
        CMD curl -f http://localhost:3000/health || exit 1
@@ -230,6 +231,7 @@ keystone-network (bridge)
    ```
 
 3. **网络配置**
+
    ```yaml
    networks:
      - keystone-network # 自定义桥接网络，服务可通过名称互相访问
@@ -250,8 +252,8 @@ docker-compose -f .devcontainer/docker-compose.dev.yml up -d
 **调试支持：**
 
 - Node.js 调试端口：9229
-- Prometheus 指标：http://localhost:9090
-- Grafana 仪表板：http://localhost:3001
+- Prometheus 指标：<http://localhost:9090>
+- Grafana 仪表板：<http://localhost:3001>
 
 ---
 
@@ -375,6 +377,7 @@ docker-compose -f .devcontainer/docker-compose.dev.yml up -d
    ```
 
 4. **错误处理**
+
    ```bash
    set -e  # 任何命令失败即退出
    ```
@@ -449,6 +452,7 @@ global:
    - 监控 Prometheus 自身
 
 3. **Node Exporter**
+
    ```yaml
    - job_name: 'node-exporter'
      static_configs:
@@ -538,10 +542,10 @@ bash .devcontainer/install-optional-tools.sh
   - 应用可通过 `postgres-dev:5432` 连接数据库
   - 应用可通过 `redis-dev:6379` 连接缓存
 - **本地宿主机访问**：通过端口转发
-  - http://localhost:3000 → 应用
-  - http://localhost:5432 → 数据库
-  - http://localhost:9090 → Prometheus
-  - http://localhost:3001 → Grafana
+  - <http://localhost:3000> → 应用
+  - <http://localhost:5432> → 数据库
+  - <http://localhost:9090> → Prometheus
+  - <http://localhost:3001> → Grafana
 
 ### 工具链层次结构
 
@@ -596,6 +600,7 @@ Level 5: 开发服务
    ```
 
 3. **交互式调试**
+
    ```bash
    docker-compose -f .devcontainer/docker-compose.dev.yml exec keystone-platform bash
    ```
@@ -640,9 +645,9 @@ docker-compose -f .devcontainer/docker-compose.dev.yml down -v
 
 | 服务       | 访问地址              |
 | ---------- | --------------------- |
-| 应用       | http://localhost:3000 |
-| Prometheus | http://localhost:9090 |
-| Grafana    | http://localhost:3001 |
+| 应用       | <http://localhost:3000> |
+| Prometheus | <http://localhost:9090> |
+| Grafana    | <http://localhost:3001> |
 | PostgreSQL | localhost:5432        |
 | Redis      | localhost:6379        |
 
@@ -758,9 +763,9 @@ npm update
 
 ## 相关文档和资源
 
-- **VSCode Remote 容器官方文档**：https://code.visualstudio.com/docs/devcontainers/containers
-- **Docker Compose 文档**：https://docs.docker.com/compose/
-- **Prometheus 文档**：https://prometheus.io/docs/
+- **VSCode Remote 容器官方文档**：<https://code.visualstudio.com/docs/devcontainers/containers>
+- **Docker Compose 文档**：<https://docs.docker.com/compose/>
+- **Prometheus 文档**：<https://prometheus.io/docs/>
 - **Kubernetes 部署**：见 /ARCHITECTURE.md
 
 ---

@@ -1,6 +1,7 @@
 # Code Reviewer Agent
 
 ## Identity
+
 - **Agent ID**: code-reviewer
 - **Role**: Specialist
 - **Layer**: Pipeline Layer
@@ -9,6 +10,7 @@
 ## Capabilities
 
 ### Primary Skills
+
 - Static code analysis (TypeScript, JavaScript, Python, Go)
 - Security pattern detection
 - Performance issue identification
@@ -16,6 +18,7 @@
 - Best practices enforcement
 
 ### Languages Supported
+
 - TypeScript/JavaScript
 - Python
 - Go
@@ -23,6 +26,7 @@
 - Rust
 
 ## Triggers
+
 - PULL_REQUEST_OPENED
 - PULL_REQUEST_SYNCHRONIZED
 - CODE_CHANGE_DETECTED
@@ -30,6 +34,7 @@
 ## Behavior Contract
 
 ### Input Requirements
+
 ```yaml
 required:
   - file_paths: List[str]
@@ -41,6 +46,7 @@ optional:
 ```
 
 ### Output Format
+
 ```yaml
 review_result:
   summary: str
@@ -58,18 +64,21 @@ review_result:
 ```
 
 ## Quality Gates
+
 - Must provide actionable feedback
 - Must categorize by severity (Critical, High, Medium, Low)
 - Must include file and line references
 - Must suggest specific fixes
 
 ## Integration Points
+
 - GitHub Pull Request API
 - ESLint/Pylint/golint
 - Custom security rules engine
 - Consensus service (for approval decisions)
 
 ## Permissions
+
 - contents: read
 - pull-requests: write
 - checks: write

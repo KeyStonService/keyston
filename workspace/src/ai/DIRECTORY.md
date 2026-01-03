@@ -35,14 +35,17 @@
 ## 根目錄檔案說明
 
 ### index.ts
+
 - **職責**：TypeScript 主入口
 - **功能**：AI 模組的統一導出點
 
 ### types.ts
+
 - **職責**：TypeScript 類型定義
 - **功能**：AI 模組的共用類型定義
 
 ### island-ai-README.md
+
 - **職責**：Island AI 文檔
 - **功能**：Island AI 子系統說明
 
@@ -59,12 +62,14 @@
 ## 模組範圍 (Scope)
 
 **本模組負責**：
+
 - 機器學習 / LLM 推論
 - 語意搜尋與向量操作
 - AI 自動化與編排（Refactor / 建議 / 分析）
 - 與 Core Engine 的認知層對接
 
 **本模組不負責**：
+
 - 前端 UI / HTTP API（由 apps/ 或 services/ 承擔）
 - 基礎設施部署（由 infrastructure/ 承擔）
 - 系統全域 orchestrator（由 core.unified_integration 承擔）
@@ -72,10 +77,12 @@
 ## 依賴規則
 
 **可以依賴**：
+
 - `src/core/` - mind_matrix 認知層
 - `src/services/mcp/` - MCP 工具調用
 
 **不可依賴**：
+
 - `apps/` - 避免 UI → AI Module 的緊耦合
 - `infrastructure/` - 由 Core 或 infra 層注入執行環境
 
@@ -92,4 +99,3 @@
 - **src/services/mcp/**：透過 MCP 調用外部工具
 - **src/automation/**：作為 AI-based decision provider
 - **config/**：讀取 AI 配置參數
-

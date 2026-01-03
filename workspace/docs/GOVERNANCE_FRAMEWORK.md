@@ -101,6 +101,7 @@ MachineNativeOps/
 ```
 
 **说明**:
+
 - 标注 `(NEW)` 的是新增的治理层组件
 - 其他现有目录保持不变，作为被治理的对象
 - 治理框架与现有代码和平共存，互不干扰
@@ -209,6 +210,7 @@ git push origin feature/change-request
   - 示例: `payment-service-deploy-prod`
 
 **工具**:
+
 - Schema: `schemas/resource-name.schema.yaml`
 - 策略: `policies/naming/k8s-deployment-naming.yaml`
 - 生成器: `tools/governance/bash/generate_resource_name.sh`
@@ -219,11 +221,13 @@ git push origin feature/change-request
 **目标**: 标准化变更请求、审批、实施和回滚流程
 
 **变更类型**:
+
 - **标准变更**: 低风险、预先批准、可自动执行
 - **常规变更**: 中等风险、需 CAB 审批
 - **紧急变更**: 生产故障修复、简化审批
 
 **流程**:
+
 1. 填写变更请求 (模板: `templates/forms/change-request.template.yaml`)
 2. 风险评估 (低/中/高)
 3. 审批 (Auto/CAB/Manager)
@@ -232,6 +236,7 @@ git push origin feature/change-request
 6. 回滚 (如需要)
 
 **KPI**:
+
 - 变更成功率: > 95%
 - 平均交付时间: < 3 天
 - 紧急变更比例: < 5%
@@ -241,17 +246,20 @@ git push origin feature/change-request
 **目标**: 合规例外的申请、审批和追踪流程
 
 **例外类型**:
+
 - 命名规范例外
 - 安全策略例外
 - 变更管理流程例外
 - 文档要求例外
 
 **审批层级** (根据风险):
+
 - 低风险: Team Lead (2 工作日)
 - 中风险: Manager + Governance Board (5 工作日)
 - 高风险: VP + CISO + Governance Board (10 工作日)
 
 **生命周期**:
+
 ```
 Draft → Under Review → Approved → Active → (Remediated | Expired | Revoked)
 ```
@@ -259,12 +267,14 @@ Draft → Under Review → Approved → Active → (Remediated | Expired | Revok
 ### 4️⃣ 指标与审计 (Metrics & Audit)
 
 **关键指标**:
+
 - 命名合规率: > 95%
 - 变更成功率: > 98%
 - 例外数量: 最小化
 - 治理健康分数: > 70
 
 **可观测性**:
+
 - Prometheus 告警规则
 - Grafana 仪表板
 - 审计日志和报告
@@ -272,6 +282,7 @@ Draft → Under Review → Approved → Active → (Remediated | Expired | Revok
 ### 5️⃣ 安全与合规 (Security & Compliance)
 
 **集成点**:
+
 - 数据分类标签
 - 密钥命名规范
 - 安全检查点
@@ -341,6 +352,7 @@ python tools/governance/python/validate_naming.py --help
 查看对比示例: [src/governance/dimensions/27-templates/examples/good-vs-bad-naming.yaml](../../src/governance/dimensions/27-templates/examples/good-vs-bad-naming.yaml)
 
 ✅ 好的示例:
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -353,6 +365,7 @@ metadata:
 ```
 
 ❌ 坏的示例:
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -369,6 +382,7 @@ metadata:
 完整参考资料索引: [references/references.yaml](./references/references.yaml)
 
 关键参考:
+
 - [Kubernetes 命名约定](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/)
 - [语义化版本](https://semver.org/)
 - [RESTful API 设计](https://restfulapi.net/)
@@ -380,6 +394,7 @@ metadata:
 欢迎贡献！请查看 [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 贡献类型:
+
 - 文档改进
 - 工具增强
 - 新的策略模板
@@ -387,10 +402,10 @@ metadata:
 
 ## 📞 支持
 
-- **文档**: https://machinenativeops.github.io/docs
-- **Issues**: https://github.com/MachineNativeOps/MachineNativeOps/issues
-- **Discussions**: https://github.com/MachineNativeOps/MachineNativeOps/discussions
-- **Email**: governance@machinenativeops.io
+- **文档**: <https://machinenativeops.github.io/docs>
+- **Issues**: <https://github.com/MachineNativeOps/MachineNativeOps/issues>
+- **Discussions**: <https://github.com/MachineNativeOps/MachineNativeOps/discussions>
+- **Email**: <governance@machinenativeops.io>
 
 ## 📝 许可证
 

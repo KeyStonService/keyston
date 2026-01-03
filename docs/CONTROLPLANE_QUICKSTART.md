@@ -246,6 +246,7 @@ Controlplane 強制執行以下命名規範：
 - ❌ `my_directory` (使用下劃線)
 
 ### 命名空間
+
 - ✅ `machinenativeops` (單一單詞)
 - ✅ `my-namespace` (kebab-case)
 - ❌ `machinenativeops.core` (包含點號)

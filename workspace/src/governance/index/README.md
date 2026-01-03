@@ -72,12 +72,6 @@ Index 是整個系統的「**單一真相來源 (SSOT)**」。機器讀取 Index
 
 ### 2. 依賴解析 (Dependency Resolution)
 
-81 個維度的 **DAG (Directed Acyclic Graph)**
-已驗證無循環依賴，可直接用於拓撲排序。
-=======
-
-81 個維度的 **DAG (Directed Acyclic Graph)** 已驗證無循環依賴，可直接用於拓撲排序。
->>>>>>> origin/copilot/sub-pr-402
 
 ### 3. 策略執行 (Execution Control)
 

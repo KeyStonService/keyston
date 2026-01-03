@@ -72,9 +72,11 @@
 
 - 只驗證核心工具（node, npm）
 - 優化的 npm 安裝流程：
+
   ```bash
   npm ci --prefer-offline --no-audit --loglevel=error
   ```
+
 - 移除了構建步驟（用戶可以手動運行 `npm run build`）
 - 移除了全局 npm 包安裝
 

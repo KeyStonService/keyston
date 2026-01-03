@@ -125,11 +125,7 @@ cp .prettierrc.example.json /path/to/project/.prettierrc.json
 複製 `sonar-project.properties.example` 到項目根目錄並重命名為
 `sonar-project.properties`：
 
-=======
 
-複製 `sonar-project.properties.example` 到項目根目錄並重命名為 `sonar-project.properties`：
-
->>>>>>> origin/copilot/sub-pr-402
 ```bash
 cp sonar-project.properties.example /path/to/project/sonar-project.properties
 ```

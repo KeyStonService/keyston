@@ -15,14 +15,17 @@
 ## API 類型說明
 
 ### REST API
+
 - **用途**：標準 CRUD 操作、資源管理
 - **特性**：RESTful 設計原則、HTTP 動詞語義
 
 ### GraphQL API
+
 - **用途**：彈性查詢、複雜數據獲取
 - **特性**：型別安全、單一端點、按需獲取
 
 ### WebSocket API
+
 - **用途**：實時通訊、事件推送
 - **特性**：雙向通訊、低延遲、持久連接
 
@@ -40,10 +43,12 @@
 ## 依賴規則
 
 **可以依賴**：
+
 - `src/services/` - 調用業務服務
 - `src/shared/` - 共用工具和類型
 
 **不可依賴**：
+
 - `src/core/` - API 層不應直接調用核心引擎
 - `src/automation/` - API 層不應直接調用自動化
 
@@ -52,4 +57,3 @@
 - **src/services/**：API 層調用服務層處理業務邏輯
 - **contracts/**：API 合約定義在根目錄 contracts/
 - **config/**：讀取 API 配置
-

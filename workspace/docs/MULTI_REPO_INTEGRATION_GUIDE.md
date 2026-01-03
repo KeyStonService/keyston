@@ -22,6 +22,7 @@
 **適合你的場景**: 將其他倉庫的代碼完全集成到 keystone-ai
 
 ### 原理
+
 - 將外部倉庫的代碼複製到子目錄
 - 保留完整的 git 歷史
 - 不需要 `.gitmodules`（比 submodule 更簡單）
@@ -296,6 +297,7 @@ nx g @nrwl/workspace:move-project --project=old-repo1 --destination=apps/repo1
 基於你的需求（100個倉庫），建議使用**分層整合策略**：
 
 ### 第一層：核心整合 (Git Subtree)
+
 將**關鍵的10-20個倉庫**使用 Git Subtree 完全集成：
 
 ```bash
@@ -315,6 +317,7 @@ done
 ```
 
 ### 第二層：服務集成 (自動同步)
+
 將**剩餘80-90個倉庫**使用自動同步腳本：
 
 ```bash
@@ -323,6 +326,7 @@ python tools/sync_external_repos.py
 ```
 
 ### 第三層：包引用 (可選)
+
 將**穩定不變的倉庫**發布為 npm/pip 包：
 
 ```json
@@ -523,7 +527,7 @@ jobs:
 
 ## ✅ 最終推薦
 
-### 針對你的場景（100個倉庫）：
+### 針對你的場景（100個倉庫）
 
 **混合策略 = Git Subtree (核心) + 自動同步 (其他)**
 

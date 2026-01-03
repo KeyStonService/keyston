@@ -169,7 +169,8 @@ function mno_log() {
     local level="$1"
     shift
     local message="$*"
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local timestamp
+    timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     
     echo "${timestamp} [${level}] ${message}" | tee -a "${MACHINENATIVEOPS_LOGS}/root-env.log"
 }
@@ -301,7 +302,8 @@ function mno_health() {
 
 # 備份函數
 function mno_backup() {
-    local backup_name="machinenativenops-backup-$(date +%Y%m%d-%H%M%S)"
+    local backup_name
+    backup_name="machinenativenops-backup-$(date +%Y%m%d-%H%M%S)"
     local backup_dir="${MACHINENATIVEOPS_BACKUP}/${backup_name}"
     
     mno_info "Creating backup: $backup_name"
@@ -315,7 +317,7 @@ function mno_backup() {
     cp -r "${MACHINENATIVEOPS_DATA}" "$backup_dir/"
     
     # 壓縮備份
-    cd "${MACHINENATIVEOPS_BACKUP}"
+    cd "${MACHINENATIVEOPS_BACKUP}" || return 1
     tar -czf "${backup_name}.tar.gz" "$backup_name"
     rm -rf "$backup_name"
     
@@ -327,7 +329,9 @@ function mno_cleanup() {
     mno_info "Cleaning up temporary files and logs"
     
     # 清理臨時檔案
-    rm -rf "${MACHINENATIVEOPS_TMP}"/*
+    if [ -n "${MACHINENATIVEOPS_TMP}" ]; then
+        rm -rf "${MACHINENATIVEOPS_TMP:?}"/*
+    fi
     
     # 清理舊日誌（超過 30 天）
     find "${MACHINENATIVEOPS_LOGS}" -name "*.log" -mtime +30 -delete

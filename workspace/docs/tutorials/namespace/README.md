@@ -107,19 +107,19 @@ chmod +x scripts/*.sh
 
 ### 第二階段：技術實踐
 
-3. 學習 [命名空間在不同技術棧中的體現](docs/technology_stacks.md)
-4. 應用 [Kubernetes 命名空間範例](examples/kubernetes_namespaces.yaml)
-5. 配置 [RBAC 角色和權限](examples/rbac_roles.yaml)
+1. 學習 [命名空間在不同技術棧中的體現](docs/technology_stacks.md)
+2. 應用 [Kubernetes 命名空間範例](examples/kubernetes_namespaces.yaml)
+3. 配置 [RBAC 角色和權限](examples/rbac_roles.yaml)
 
 ### 第三階段：設計與優化
 
-6. 掌握 [命名空間設計原則](docs/design_principles.md)
-7. 研究 [實際應用場景與案例](docs/use_cases.md)
+1. 掌握 [命名空間設計原則](docs/design_principles.md)
+2. 研究 [實際應用場景與案例](docs/use_cases.md)
 
 ### 第四階段：運維管理
 
-8. 學習 [故障排除與診斷](docs/troubleshooting.md)
-9. 使用監控和清理腳本
+1. 學習 [故障排除與診斷](docs/troubleshooting.md)
+2. 使用監控和清理腳本
 
 ## 🧪 運行測試
 

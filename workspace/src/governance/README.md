@@ -55,8 +55,7 @@ This framework makes architecture governance **explicit, measurable, and automat
 > up to resolve duplicates and conflicts. See
 > [RESTRUCTURING_GUIDE.md](./RESTRUCTURING_GUIDE.md) for migration details.
 
-=======
->>>>>>> origin/copilot/sub-pr-402
+
 ```
 governance/
 ├── ARCHITECTURE_GOVERNANCE_MATRIX.md     # 🎯 架構治理矩陣（核心文檔）
@@ -141,8 +140,7 @@ governance/
 - All changes tracked in `governance-map.yaml`
 - Migration deadline: 2026-03-31
 
-=======
->>>>>>> origin/copilot/sub-pr-402
+>>>>>>>
 ## 🎯 What This Directory Does 本目錄負責什麼
 
 ### ✅ Responsibilities 職責
@@ -345,6 +343,3 @@ SynergyMesh follows SLSA (Supply-chain Levels for Software Artifacts) framework:
 - ~~`schemas/`~~ → Use `31-schemas/`
 - ~~`scripts/`~~ → Use `35-scripts/`
 
-Last updated: 2025-12-12
-=======
->>>>>>> origin/copilot/sub-pr-402

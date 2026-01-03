@@ -28,12 +28,7 @@ This document summarizes the extraction of useful logic from 7 legacy files and 
 
 **Key Changes:**
 
-- Removed "intelligent-hyperautomation-baseline" namespace →
-  `machinenativeops-system`
-=======
 
-- Removed "intelligent-hyperautomation-baseline" namespace → `machinenativeops-system`
->>>>>>> origin/copilot/sub-pr-402
 - Removed "L1 Baseline" branding → "MachineNativeOps Baseline"
 - Updated label prefixes: `baseline.*` → `app.kubernetes.io/*`
 - Updated annotation prefixes: `baseline.io/*` → `machinenativeops.io/*`

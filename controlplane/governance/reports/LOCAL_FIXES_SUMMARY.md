@@ -3,9 +3,11 @@
 ## 🛠️ 已完成的修復
 
 ### 1. GitHub Actions SHA Pinning 修復
-**檔案**: `.github/workflows/aaps-phase1-gates.yml`
+
+**檔案**: `.github/workflows/machine-native-ops-phase1-gates.yml`
 
 **變更**:
+
 ```yaml
 # 修復前
 - uses: actions/checkout@v4
@@ -42,6 +44,7 @@
 ## 🎯 下一步行動
 
 1. **手動推送修復**：
+
    ```bash
    git push origin main
    ```
@@ -62,7 +65,6 @@
 - ⚠️ Workers Builds 可能需要檢查 Cloudflare 設定
 
 ### 流程改善  
-
 
 - ✅ PR 模板邏輯一致性
 - ✅ 移動端驗證體驗

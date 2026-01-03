@@ -35,7 +35,7 @@ esac
 SERVICE_NAME="${RESOURCE_PREFIX}super-agent"
 DEPLOYMENT_NAME="${RESOURCE_PREFIX}super-agent"
 
-echo "🚀 Deploying AAPS SuperAgent to ${ENVIRONMENT} environment..."
+echo "🚀 Deploying MachineNativeOps SuperAgent to ${ENVIRONMENT} environment..."
 echo "📍 Namespace: ${NAMESPACE}"
 echo "🏷️  Image Tag: ${IMAGE_TAG}"
 

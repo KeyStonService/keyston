@@ -49,14 +49,8 @@ example, before handing the repo to another agent):
   `sample`, and automatically writes `reports/self-awareness-sample.md` plus
   `reports/self-awareness-sample.json`.
 
-1. Omit `--sample` to perform the full automation chain before deployments; the
-   CLI will emit `reports/self-awareness-full.*` with the stricter run.
-=======
-1. Omit `--sample` to perform the full automation chain before deployments; the
-  CLI will emit `reports/self-awareness-full.*` with the stricter run.
->>>>>>> origin/copilot/sub-pr-402
 
-2. Need to re-run the reporter manually (for ad-hoc debugging)? Execute:
+1. Need to re-run the reporter manually (for ad-hoc debugging)? Execute:
 
   ```bash
   python automation/self_awareness_report.py \

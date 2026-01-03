@@ -121,7 +121,8 @@ class AIGovernanceEngine:
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         metrics.total_lines += len(f.readlines())
-                except:
+                except (IOError, OSError, UnicodeDecodeError):
+                    # Skip files that cannot be read
                     pass
         
         # Calculate derived metrics

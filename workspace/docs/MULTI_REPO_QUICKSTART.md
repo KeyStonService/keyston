@@ -141,6 +141,7 @@ jobs:
 ### Q: 如何添加新倉庫？
 
 **A**: 編輯 `config/external_repos.yaml`，添加新倉庫，然後運行：
+
 ```bash
 python tools/sync_external_repos.py --repo new-repo-name
 ```
@@ -148,6 +149,7 @@ python tools/sync_external_repos.py --repo new-repo-name
 ### Q: 如何排除某些文件？
 
 **A**: 在 `config/external_repos.yaml` 的 `exclude_patterns` 中添加：
+
 ```yaml
 sync_options:
   exclude_patterns:
@@ -159,6 +161,7 @@ sync_options:
 ### Q: 同步失敗怎麼辦？
 
 **A**: 查看錯誤信息，常見原因：
+
 - 倉庫 URL 錯誤
 - 分支不存在
 - 網絡問題
@@ -167,6 +170,7 @@ sync_options:
 ### Q: 如何處理私有倉庫？
 
 **A**: 使用 SSH URL 或配置 Git 憑證：
+
 ```yaml
 - name: private-repo
   url: git@github.com:your-org/private-repo.git
@@ -177,6 +181,7 @@ sync_options:
 ### Q: 可以選擇性同步子目錄嗎？
 
 **A**: 是的，使用 `include_paths`:
+
 ```yaml
 sync_options:
   include_paths:

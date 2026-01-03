@@ -52,10 +52,5 @@
 
 長期：
 
-- 在工具層接上 AI，用 evolution-state.yaml 作為輸入，產出更細緻的重構計畫與 Auto-Fix
-  PR。
-=======
 
-- 在工具層接上 AI，用 evolution-state.yaml 作為輸入，產出更細緻的重構計畫與 Auto-Fix PR。
->>>>>>> origin/copilot/sub-pr-402
 - 將「演化目標」擴充到成本、可靠性、延遲等維度。

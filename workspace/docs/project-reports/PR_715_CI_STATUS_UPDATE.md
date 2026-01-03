@@ -47,10 +47,11 @@
 
 | 檢查名稱 | 狀態 | 原因分析 |
 |---------|------|---------|
-| **Workers Builds: aaps-worker** | ❌ Fail | Cloudflare Workers 配置問題 |
+| **Workers Builds: machine-native-ops-worker** | ❌ Fail | Cloudflare Workers 配置問題 |
 | **Workers Builds: machine-native-ops** | ❌ Fail | Cloudflare Workers 配置問題 |
 
 **失敗原因分析**:
+
 - 這些失敗與 FHS 實施無關
 - 可能是 Cloudflare Workers 配置或部署問題
 - 不影響 PR #715 的核心功能
@@ -76,6 +77,7 @@
 ### ✅ GitHub Actions 安全政策修復成功
 
 **證據**:
+
 - ✅ 所有 CodeQL 分析通過 (5 個語言)
 - ✅ 所有安全掃描通過 (GitGuardian, Semgrep)
 - ✅ 所有代碼質量分析通過
@@ -87,6 +89,7 @@
 ### ✅ FHS 實施質量驗證
 
 **通過的檢查證明**:
+
 - ✅ 代碼質量優秀 (CodeQL, Semgrep 通過)
 - ✅ 安全性良好 (GitGuardian 通過)
 - ✅ 多語言支持 (5 種語言分析通過)
@@ -101,11 +104,13 @@
 ### Cloudflare Workers 構建失敗
 
 **影響評估**: 🟡 低影響
+
 - **範圍**: 僅影響 Cloudflare Workers 部署
 - **核心功能**: FHS 實施不受影響
 - **合併阻塞**: 不應阻塞 PR 合併
 
 **建議處理方式**:
+
 1. **選項 A**: 忽略這些失敗，合併 PR（推薦）
    - 理由: 與 FHS 實施無關
    - 優點: 不延遲關鍵基礎設施
@@ -151,6 +156,7 @@
 ### ✅ 強烈推薦立即合併
 
 **理由**:
+
 1. **核心功能完整**: FHS 實施質量優秀
 2. **安全性驗證**: 所有安全檢查通過
 3. **代碼質量**: 所有代碼分析通過
@@ -160,12 +166,13 @@
 **合併時機**: 🟢 **立即** (一旦 Codacy 完成)
 
 **合併方式**:
+
 ```bash
 # 選項 1: 使用 GitHub CLI
-gh pr merge 715 --repo MachineNativeOps/machine-native-ops-aaps --squash
+gh pr merge 715 --repo MachineNativeOps/machine-native-ops-machine-native-ops --squash
 
 # 選項 2: 使用 Web 界面
-# 訪問: https://github.com/MachineNativeOps/machine-native-ops-aaps/pull/715
+# 訪問: https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/pull/715
 # 點擊 "Merge pull request"
 ```
 
@@ -176,11 +183,13 @@ gh pr merge 715 --repo MachineNativeOps/machine-native-ops-aaps --squash
 ### 立即行動 (合併後 1 小時內)
 
 1. **驗證主分支狀態**
+
    ```bash
    gh run list --branch main --limit 5
    ```
 
 2. **檢查 FHS 工具可用性**
+
    ```bash
    python3 scripts/migration/fhs-structure-validator.py --check
    python3 scripts/migration/fhs-directory-manager.py --check
@@ -236,12 +245,14 @@ gh pr merge 715 --repo MachineNativeOps/machine-native-ops-aaps --squash
 ### CI 狀態: 🟢 良好 (78.6% 通過率)
 
 **關鍵成就**:
+
 - ✅ GitHub Actions 安全政策修復成功
 - ✅ 所有核心檢查通過
 - ✅ FHS 實施質量驗證通過
 - ✅ 安全性和代碼質量優秀
 
 **待處理問題**:
+
 - 🟡 Cloudflare Workers 構建失敗 (非阻塞)
 - ⏳ Codacy 分析進行中 (預期通過)
 

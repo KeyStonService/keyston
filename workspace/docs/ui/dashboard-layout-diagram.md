@@ -85,16 +85,19 @@ Dashboard
 ## Responsive Breakpoints
 
 ### Desktop (>= 1024px)
+
 - 4 metric cards in a row
 - 2-column layout for main content
 - Full sidebar navigation
 
 ### Tablet (768px - 1023px)
+
 - 2 metric cards per row
 - 2-column layout (narrower)
 - Collapsible sidebar
 
 ### Mobile (< 768px)
+
 - 1 metric card per row
 - Single column layout
 - Hamburger menu navigation
@@ -102,18 +105,21 @@ Dashboard
 ## Color Scheme
 
 ### Status Colors
+
 - ✅ Healthy/Success: `#10b981` (green-500)
 - ⚠️ Warning/Degraded: `#f59e0b` (amber-500)
 - ❌ Error/Critical: `#ef4444` (red-500)
 - 🔵 Info/Pending: `#3b82f6` (blue-500)
 
 ### Background Colors
+
 - Primary Background: `#0f172a` (slate-900)
 - Secondary Background: `#1e293b` (slate-800)
 - Card Background: `#334155` (slate-700)
 - Border Color: `#475569` (slate-600)
 
 ### Text Colors
+
 - Primary Text: `#f1f5f9` (slate-100)
 - Secondary Text: `#cbd5e1` (slate-300)
 - Muted Text: `#94a3b8` (slate-400)
@@ -144,21 +150,25 @@ Dashboard
 ## Interaction Patterns
 
 ### Metric Cards
+
 - Click: Navigate to detailed metrics view
 - Hover: Show tooltip with additional info
 - Auto-refresh: Every 5 seconds
 
 ### Service Status
+
 - Click service: Show detailed health check
 - Status indicator: Real-time color updates
 - Hover: Show last check timestamp
 
 ### Activity Feed
+
 - Click activity: Show full details
 - Auto-scroll: New items appear at top
 - Filter: By type (all/errors/warnings)
 
 ### Logs Viewer
+
 - Search: Full-text search in logs
 - Filter: By level (info/warn/error)
 - Auto-refresh: Live log streaming

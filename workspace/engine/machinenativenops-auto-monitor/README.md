@@ -5,12 +5,14 @@
 ## 概述 / Overview
 
 MachineNativeOps Auto-Monitor 是一個自主監控系統，為 MachineNativeOps 平台提供：
+
 - 系統級指標收集（CPU、記憶體、磁碟、網路）
 - 服務健康監控
 - 自動告警管理
 - 時間序列數據儲存
 
 MachineNativeOps Auto-Monitor is an autonomous monitoring system that provides:
+
 - System-level metrics collection (CPU, memory, disk, network)
 - Service health monitoring
 - Automated alert management
@@ -19,17 +21,20 @@ MachineNativeOps Auto-Monitor is an autonomous monitoring system that provides:
 ## 功能特性 / Features
 
 ### 指標收集 / Metrics Collection
+
 - **系統指標** / System Metrics: CPU、記憶體、磁碟、網路統計
 - **服務指標** / Service Metrics: 健康檢查、響應時間、自定義指標
 - **自定義收集器** / Custom Collectors: 支援自定義數據源
 
 ### 告警管理 / Alert Management
+
 - 基於規則的告警評估
 - 多種嚴重級別（Critical、Error、Warning、Info）
 - 告警歷史記錄
 - 通知發送（可擴展）
 
 ### 數據儲存 / Data Storage
+
 - SQLite 時間序列儲存
 - 自動數據清理
 - 查詢和分析支援
@@ -145,6 +150,7 @@ machinenativenops_auto_monitor/
 ## 命名空間對齊 / Namespace Alignment
 
 本模組完全對齊 MachineNativeOps 命名空間標準：
+
 - 命名空間: `machinenativeops`
 - API 版本: `machinenativeops.io/v1`
 - 註冊表: `registry.machinenativeops.io`
@@ -388,11 +394,13 @@ For issues and questions, please refer to the MachineNativeOps documentation or 
 **Namespace Alignment (命名空間對齊)**
 
 This module follows MachineNativeOps namespace standards:
+
 - Domain: `machinenativeops.io`
 - Namespace: `machinenativeops`
 - Registry: `registry.machinenativeops.io`
 - Certificate Path: `etc/machinenativeops/pkl`
 - Cluster Token: `super-agent-etcd-cluster`
+
 # MachineNativeOps Auto Monitor
 
 ## Overview
@@ -416,8 +424,8 @@ MachineNativeOps Auto Monitor is a production-ready system monitoring solution w
 
 ```bash
 # Clone repository
-git clone https://github.com/MachineNativeOps/machine-native-ops-aaps.git
-cd machine-native-ops-aaps/engine/machinenativenops-auto-monitor
+git clone https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops.git
+cd machine-native-ops-machine-native-ops/engine/machinenativenops-auto-monitor
 
 # Install in development mode
 pip install -e .
@@ -439,6 +447,7 @@ pip install machinenativenops-auto-monitor-2.0.0-py3-none-any.whl
 ## Configuration
 
 The monitor uses YAML configuration files. The default configuration is located at:
+
 - Package: `assets/default_config.yaml`
 - System: `/etc/machinenativenops/monitor_config.yaml`
 
@@ -770,6 +779,6 @@ MIT License - see LICENSE file for details.
 
 ## Support
 
-- Documentation: https://docs.machinenativenops.io
-- Issues: https://github.com/MachineNativeOps/machine-native-ops-aaps/issues
-- Community: https://github.com/MachineNativeOps/machine-native-ops-aaps/discussions
+- Documentation: <https://docs.machinenativenops.io>
+- Issues: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/issues>
+- Community: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/discussions>

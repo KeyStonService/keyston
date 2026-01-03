@@ -1,13 +1,21 @@
 # 高階代碼掃描系統依賴
 # Advanced Code Scanning System Dependencies
 
-# 安全掃描工具 - 固定版本以防供應鏈攻擊
+# 安全掃描工具
+# Pinned to exact versions to prevent supply-chain risks from unvetted releases
 bandit==1.7.10
+safety==2.3.5
+
+# Web 框架
+# Pinned to exact versions to prevent supply-chain risks from unvetted releases
 safety==3.2.11
 
+# Web 框架
+flask>=3.0.0
+werkzeug>=3.0.1
 # Web 框架 - 固定版本以防供應鏈攻擊
 flask==3.0.3
-werkzeug==3.0.6
+werkzeug==3.1.4
 
 # 數據處理
 # Python 標準庫已包含所需模組：
@@ -15,6 +23,7 @@ werkzeug==3.0.6
 # - os
 # - sys
 # - re
+# - ast
 # - pathlib
 # - datetime
 # - typing

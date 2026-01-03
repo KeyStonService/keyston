@@ -1,0 +1,45 @@
+---
+# Codacy Configuration
+# Exclude test, demo, and example files from security analysis
+
+exclude_paths:
+  - "workspace/src/autonomous/agents/examples/**"
+  - "workspace/src/autonomous/agents/tests/**"
+  - "workspace/src/autonomous/agents/test-vectors/**"
+  - "workspace/tests/**"
+  - "**/tests/**"
+  - "**/test_*.py"
+  - "**/*_test.py"
+  - "**/demo.py"
+  - "**/examples/**"
+  - "archive/**"
+
+# Disable specific security checks for demo/test code patterns
+engines:
+  bandit:
+    exclude_paths:
+      - "workspace/src/autonomous/agents/examples/**"
+      - "workspace/src/autonomous/agents/tests/**"
+      - "workspace/src/autonomous/agents/test-vectors/**"
+      - "**/tests/**"
+      - "**/examples/**"
+  
+  pylint:
+    python_version: 3
+
+  # Enable markdown linting but with relaxed rules
+  markdownlint:
+    enabled: true
+
+# Configure duplicate code detection with reasonable thresholds
+duplication:
+  enabled: true
+  config:
+    # Set minimum tokens to 50 (default is 25) to reduce false positives
+    minTokens: 50
+    # Ignore duplications in test files
+    exclude:
+      - "**/tests/**"
+      - "**/test_*.py"
+      - "**/*_test.py"
+      - "**/examples/**"

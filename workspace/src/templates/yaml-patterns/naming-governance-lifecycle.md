@@ -84,18 +84,7 @@ metadata:
 
 **Automated Intelligence Engine:**
 
-- **Codebase Deep Scan:** Abstract Syntax Tree (AST) analysis across all
-  repositories
-- **Pattern Recognition:** ML-based identification of existing naming
-  conventions
-- **Conflict Detection:** Automated discovery of naming collisions and
-  anti-patterns
-=======
 
-- **Codebase Deep Scan:** Abstract Syntax Tree (AST) analysis across all repositories
-- **Pattern Recognition:** ML-based identification of existing naming conventions
-- **Conflict Detection:** Automated discovery of naming collisions and anti-patterns
->>>>>>> origin/copilot/sub-pr-402
 - **Risk Scoring:** AI-powered impact assessment for each resource
 
 **Deliverables (Auto-Generated):**
@@ -297,18 +286,6 @@ continuous_optimization:
 
 **Automated Role Assignment:**
 
-- **Dynamic Skill Mapping:** AI analyzes commit history and assigns
-  responsibilities
-- **Automated Training Delivery:** Just-in-time learning content based on role
-  and gaps
-- **Virtual Governance Bot:** AI agent handles exceptions, reviews, and
-  arbitration
-=======
-
-- **Dynamic Skill Mapping:** AI analyzes commit history and assigns responsibilities
-- **Automated Training Delivery:** Just-in-time learning content based on role and gaps
-- **Virtual Governance Bot:** AI agent handles exceptions, reviews, and arbitration
->>>>>>> origin/copilot/sub-pr-402
 
 #### Naming Gatekeeper (AI Agent)
 
@@ -1042,15 +1019,7 @@ observability:
 
 **Stage 1: Intelligent Submission (< 30 seconds)**
 
-- **Auto-Populated Fields:** AI extracts context from repository, user history,
-  and similar exceptions
-- **Guided Justification:** Real-time suggestions based on past approved
-  exceptions
-=======
 
-- **Auto-Populated Fields:** AI extracts context from repository, user history, and similar exceptions
-- **Guided Justification:** Real-time suggestions based on past approved exceptions
->>>>>>> origin/copilot/sub-pr-402
 - **Instant Risk Scoring:** ML model predicts approval likelihood and risk level
 
 **Stage 2: AI Review & Decision (< 2 seconds)**

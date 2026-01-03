@@ -86,10 +86,7 @@ module.exports = config;
 For consistency with the advisory-database fix and to avoid potential module
 resolution issues:
 
-=======
-For consistency with the advisory-database fix and to avoid potential module resolution issues:
 
->>>>>>> origin/copilot/sub-pr-402
 - Explicit CommonJS syntax with `module.exports`
 - Works reliably across all Node.js module configurations
 - Standard approach for Jest configs in modern projects
@@ -98,14 +95,8 @@ For consistency with the advisory-database fix and to avoid potential module res
 
 This fix reveals the importance of:
 
-1. **Explicit test dependencies**: Always declare test runners and assertion
-   libraries
-=======
-
-1. **Explicit test dependencies**: Always declare test runners and assertion libraries
->>>>>>> origin/copilot/sub-pr-402
-2. **Complete test tooling**: Include all testing utilities (supertest, etc.)
-3. **Consistent configuration**: Use same config format across workspaces
+1. **Complete test tooling**: Include all testing utilities (supertest, etc.)
+2. **Consistent configuration**: Use same config format across workspaces
 
 ## Related Fixes
 

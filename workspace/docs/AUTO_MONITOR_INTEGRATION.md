@@ -2,7 +2,7 @@
 
 ## Overview
 
-The MachineNativeOps Auto-Monitor is a production-ready monitoring solution integrated into the AAPS (AI Architecture & Artifact Provisioning System) architecture. It provides comprehensive system monitoring, quantum state tracking, and integration with the unified gates workflow.
+The MachineNativeOps Auto-Monitor is a production-ready monitoring solution integrated into the MachineNativeOps (AI Architecture & Artifact Provisioning System) architecture. It provides comprehensive system monitoring, quantum state tracking, and integration with the unified gates workflow.
 
 ## Architecture Integration
 
@@ -23,7 +23,7 @@ The Auto-Monitor is registered in `root.modules.yaml` as a core monitoring modul
 
 ### Dependencies
 
-The Auto-Monitor depends on the following AAPS modules:
+The Auto-Monitor depends on the following MachineNativeOps modules:
 
 1. **config-manager** (>=1.0.0) - Configuration management
 2. **logging-service** (>=1.0.0) - Centralized logging
@@ -45,14 +45,17 @@ Stage 5: super-execution-engine
 ## Resource Allocation
 
 ### CPU Resources
+
 - **Request**: 200m (0.2 CPU cores)
 - **Limit**: 1000m (1.0 CPU core)
 
 ### Memory Resources
+
 - **Request**: 256Mi
 - **Limit**: 1Gi
 
 ### Storage Resources
+
 - **Request**: 500Mi
 - **Limit**: 5Gi
 
@@ -73,6 +76,7 @@ The Auto-Monitor is configured through the following environment variables:
 ### Configuration File
 
 The Auto-Monitor can also be configured via YAML file at:
+
 - `/etc/machinenativenops/monitor_config.yaml` (system-wide)
 - Custom path via `MNO_CONFIG_FILE` environment variable
 
@@ -80,10 +84,10 @@ The Auto-Monitor can also be configured via YAML file at:
 
 ### Workflow Integration
 
-The Auto-Monitor is integrated into the AAPS Unified Gates workflow (`.github/workflows/aaps-unified-gates.yml`):
+The Auto-Monitor is integrated into the MachineNativeOps Unified Gates workflow (`.github/workflows/machine-native-ops-unified-gates.yml`):
 
 ```yaml
-- name: Setup AAPS Environment
+- name: Setup MachineNativeOps Environment
   run: |
     # Install Auto-Monitor dependencies
     pip install -r engine/machinenativenops-auto-monitor/requirements.txt
@@ -123,12 +127,16 @@ Auto-Monitor metrics are included in the comprehensive gate validation report:
 ## System Metrics
 ### Auto-Monitor Metrics
 ```
+
 $(cat gate_metrics.txt)
+
 ```
 
 ### System Status
 ```
+
 $(cat system_status.txt)
+
 ```
 ```
 
@@ -444,13 +452,13 @@ rules:
 
 ## Support
 
-- **Documentation**: https://docs.machinenativenops.io
-- **Issues**: https://github.com/MachineNativeOps/machine-native-ops-aaps/issues
-- **Community**: https://github.com/MachineNativeOps/machine-native-ops-aaps/discussions
+- **Documentation**: <https://docs.machinenativenops.io>
+- **Issues**: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/issues>
+- **Community**: <https://github.com/MachineNativeOps/machine-native-ops-machine-native-ops/discussions>
 
 ## References
 
 - [Auto-Monitor README](../engine/machinenativenops-auto-monitor/README.md)
-- [AAPS Unified Gates Workflow](../.github/workflows/aaps-unified-gates.yml)
+- [MachineNativeOps Unified Gates Workflow](../.github/workflows/machine-native-ops-unified-gates.yml)
 - [Root Modules Configuration](../root.modules.yaml)
 - [SuperAgent Integration](../agents/super-agent/README.md)

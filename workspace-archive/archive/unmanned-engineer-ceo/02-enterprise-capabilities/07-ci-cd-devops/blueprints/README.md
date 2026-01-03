@@ -7,10 +7,11 @@
 =======
 
 1. Install deps (`npm install -w <service>` / `pip install -r requirements.txt`).
+
 >>>>>>> origin/copilot/sub-pr-402
-2. Run lint/test/build。
-3. Build container + cosign sign。
-4. Deploy via GH Actions → infrastructure/kubernetes。
+1. Run lint/test/build。
+2. Build container + cosign sign。
+3. Deploy via GH Actions → infrastructure/kubernetes。
 
 ## Agent Template
 

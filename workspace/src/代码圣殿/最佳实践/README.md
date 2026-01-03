@@ -52,6 +52,7 @@ const filterActiveUsers = (users: User[]): User[] =>
 ```
 
 **核心原则**:
+
 - 使用有意义的命名
 - 函数职责单一
 - 避免深层嵌套
@@ -105,6 +106,7 @@ await processor.process(100);
 ```
 
 📂 **其他设计模式**:
+
 - 工厂模式: `examples/coding-standards/factory-pattern.ts`
 - 单例模式: `examples/coding-standards/singleton-pattern.ts`
 - 观察者模式: `examples/coding-standards/observer-pattern.ts`
@@ -234,6 +236,7 @@ async function getUsersWithPostsBest() {
 ```
 
 📂 **其他性能优化**:
+
 - API优化: `examples/performance-optimization/api-optimization.ts`
 - 内存管理: `examples/performance-optimization/memory-management.ts`
 - 并发处理: `examples/performance-optimization/concurrency.ts`
@@ -309,6 +312,7 @@ async function secureQuery(pool: Pool, userId: string) {
 ```
 
 📂 **其他安全实践**:
+
 - 数据保护: `examples/security-practices/data-protection.ts`
 - 访问控制: `examples/security-practices/access-control.ts`
 - 审计日志: `examples/security-practices/audit-logging.ts`
@@ -389,6 +393,7 @@ jobs:
 ```
 
 📂 **其他部署实践**:
+
 - 容器化: `examples/deployment-practices/containerization/`
 - 基础设施即代码: `examples/deployment-practices/infrastructure-as-code/`
 - 蓝绿部署: `examples/deployment-practices/blue-green-deployment.md`

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AAPS SuperAgent - Multi-Agent Orchestrator
+MachineNativeOps SuperAgent - Multi-Agent Orchestrator
 
 SuperAgent is the central coordinator in the multi-agent MPC architecture.
 It handles message routing, state machine management, agent orchestration,
@@ -572,8 +572,8 @@ async def lifespan(app: FastAPI):
 
 # FastAPI Application
 app = FastAPI(
-    title="AAPS SuperAgent",
-    description="Multi-Agent Orchestrator for AAPS Platform with full feature set",
+    title="MachineNativeOps SuperAgent",
+    description="Multi-Agent Orchestrator for MachineNativeOps Platform with full feature set",
     version=settings.service_version,
     lifespan=lifespan,
 )

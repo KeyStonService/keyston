@@ -165,11 +165,7 @@ rm -rf .git/refactor-cache
 
 **Migration:** If you modified directories in the old script, now update:
 
-=======
-**Migration:**
-If you modified directories in the old script, now update:
 
->>>>>>> origin/copilot/sub-pr-402
 ```yaml
 sync:
   monitored_directories:

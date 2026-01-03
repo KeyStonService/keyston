@@ -5,6 +5,7 @@
 當你打開 GitHub Codespaces 時，**完整生產環境**自動部署。無需任何手動操作！
 
 **自動部署內容**:
+
 - 3-node Kubernetes cluster (1 control-plane + 2 workers)
 - NGINX Ingress Controller
 - Prometheus + Grafana 監控堆疊
@@ -167,6 +168,7 @@ kubectl delete ingress nginx-ingress
 ### 自訂 Cluster 配置
 
 編輯 `.devcontainer/kind-cluster-config.yaml`:
+
 - 調整節點數量
 - 修改資源分配
 - 配置網路設定

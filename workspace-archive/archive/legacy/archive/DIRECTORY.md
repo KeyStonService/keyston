@@ -16,20 +16,24 @@
 ## 各子目錄詳情
 
 ### experiments/
+
 - **內容**：空目錄，僅含 `.gitkeep` 保持目錄結構
 - **用途**：預留給未來實驗性功能的歸檔
 
 ### infrastructure/
+
 - **內容**：Kubernetes 編排、Prometheus/Grafana 監控、漂移檢測腳本
 - **來源**：早期 SynergyMesh 基礎設施配置
 - **注意**：現行配置已遷移至 `deploy/` 和 `ops/`
 
 ### legacy/
+
 - **v1-python-drones**：第一版 Python 無人機自動化系統
 - **v2-multi-islands**：第二版多島嶼架構系統
 - **用途**：保留歷史實作供參考，已不建議直接使用
 
 ### unmanned-engineer-ceo/
+
 - **內容**：虛擬工程師總執行長能力模型，包含 00-foundation 至 99-meta 共 14 個層級
 - **範圍**：技術基礎、進階工程、企業能力、智能系統、評估矩陣、模擬演練等
 - **注意**：部分檔案存在 git merge conflict 標記，需人工處理

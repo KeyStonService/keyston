@@ -15,15 +15,18 @@
 
 ## 根目錄檔案說明
 
-### __init__.py
+### **init**.py
+
 - **職責**：Python 套件初始化
 - **功能**：模組導出定義
 
 ### language_bridges.py
+
 - **職責**：語言橋接
 - **功能**：跨語言調用的橋接實現
 
 ### schema.ts
+
 - **職責**：TypeScript Schema 定義
 - **功能**：共用的資料結構 Schema
 
@@ -53,10 +56,12 @@ from shared.constants import VERSION, SUPPORTED_MODES
 ## 依賴規則
 
 **可以依賴**：
+
 - 標準庫（Python、Node.js）
 - 第三方基礎庫
 
 **不可依賴**：
+
 - `src/core/` - 共享層是基礎層，不應反向依賴核心
 - `src/services/` - 共享層不應依賴服務層
 - `src/automation/` - 共享層不應依賴自動化層
@@ -66,4 +71,3 @@ from shared.constants import VERSION, SUPPORTED_MODES
 - **所有 src/ 子目錄**：可被所有模組導入使用
 - **config/**：共享配置補充 config/ 的配置
 - **tests/**：對應的測試代碼
-

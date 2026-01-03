@@ -262,12 +262,7 @@ safety:
 
 ### 1. With automation_launcher.py
 
-The system integrates with the existing automation launcher via pipeline
-definitions.
-=======
-
 The system integrates with the existing automation launcher via pipeline definitions.
->>>>>>> origin/copilot/sub-pr-402
 
 ### 2. With Island AI Agents
 

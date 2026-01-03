@@ -38,14 +38,6 @@
 | Unified Integration Layer     | TypeScript              | 與 MCP/CLI 互通      |
 | Lifecycle / Registry / Safety | TypeScript              | 適合同步 + 非同步事件流     |
 
-> **底層性能模組（如需要）仍可用 C++，但必須有 TS/Python API 封裝。**
->
-> **📘 詳細的 Core
-> Engine 語言堆疊說明請參考：[Core Engine Language Stack](./core-engine-language-stack.md)**  
-=======
-
-> **📘 詳細的 Core Engine 語言堆疊說明請參考：[Core Engine Language Stack](./core-engine-language-stack.md)**  
->>>>>>> origin/copilot/sub-pr-402
 > 此文件定義了 TypeScript（控制層）、Python（認知層）、C++（性能層）的明確分工與邊界。
 
 ---

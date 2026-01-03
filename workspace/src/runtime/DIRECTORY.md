@@ -13,14 +13,17 @@
 ## mind_matrix/ 檔案說明
 
 ### main.py
+
 - **職責**：系統主入口點
 - **功能**：運行時初始化與系統啟動
 
 ### executive_auto.py
+
 - **職責**：自動執行管理
 - **功能**：自動化執行任務的協調與管理
 
-### __init__.py
+### **init**.py
+
 - **職責**：Python 模組初始化
 - **功能**：模組導出定義
 
@@ -48,12 +51,14 @@
 ## 職責範圍
 
 **本目錄負責**：
+
 - 實際部署時的啟動邏輯
 - 系統初始化和 bootstrap
 - 運行時狀態管理
 - 運行時協調
 
 **本目錄不負責**：
+
 - 定義執行邏輯抽象（使用 `core/execution_engine/`）
 - 定義執行架構（使用 `core/execution_architecture/`）
 - 提供 AI 能力（使用 `core/` 中的 AI 引擎）
@@ -62,12 +67,14 @@
 ## 依賴規則
 
 **可以依賴**：
+
 - `src/core/execution_engine/` - 使用執行邏輯抽象
 - `src/core/execution_architecture/` - 讀取執行架構定義
 - `src/shared/` - 共用工具和配置
 - `config/` - 運行時配置
 
 **不可依賴**：
+
 - `agent/` - 運行時不應直接依賴業務代理
 - `automation/` - 運行時不應直接依賴自動化模組
 - `frontend/` - 運行時不應依賴 UI
@@ -85,4 +92,3 @@
 - **src/core/execution_architecture/**：讀取架構定義
 - **config/**：讀取運行時配置
 - **src/shared/**：使用共用工具
-

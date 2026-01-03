@@ -2,7 +2,7 @@
 
 """
 Gate Validation Handler for SuperAgent
-AAPS Gate Validation Request Handler
+MachineNativeOps Gate Validation Request Handler
 """
 
 import asyncio
@@ -17,7 +17,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 class GateValidationHandler:
-    """Handle AAPS Gate Validation Requests"""
+    """Handle MachineNativeOps Gate Validation Requests"""
     
     def __init__(self):
         self.validation_steps = {
