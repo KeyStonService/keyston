@@ -479,6 +479,8 @@ def verify_password(password: str, hashed: str) -> bool:
                     "message": "可能存在 SQL 注入漏洞！使用參數化查詢",
                 })
         
+        # Security scanner: Detecting dangerous eval/exec usage in analyzed code
+        # This is NOT using eval/exec itself, but checking for them in user code
         if "eval(" in code_lower or "exec(" in code_lower:
             issues.append({
                 "severity": "critical",

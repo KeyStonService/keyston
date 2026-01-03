@@ -20,6 +20,7 @@ This workflow was created to address CI failures in dependency installation and 
 **Purpose**: Build, test, and validate the core Contracts L1 Service
 
 **Key Features**:
+
 - Isolated working directory for the contract service
 - Dependency installation with npm cache
 - Code quality checks (format, lint, typecheck)
@@ -31,6 +32,7 @@ This workflow was created to address CI failures in dependency installation and 
 **Working Directory**: `src/core/contract_service/contracts-L1/contracts`
 
 **Steps**:
+
 1. Checkout code
 2. Setup Node.js with caching
 3. Install dependencies using `npm ci`
@@ -52,16 +54,19 @@ This workflow was created to address CI failures in dependency installation and 
 **Strategy**: Matrix strategy for parallel processing
 
 **Workspaces**:
+
 - `src/mcp-servers`
 - `src/core/advisory-database`
 
 **Key Features**:
+
 - Retry logic for `npm ci` (3 attempts)
 - Fail-fast disabled for independent workspace testing
 - Optional lint and test execution
 - Conditional build steps
 
 **Retry Mechanism**:
+
 ```yaml
 for i in 1 2 3; do
   if npm ci --prefer-offline --no-audit; then
@@ -81,10 +86,12 @@ done
 **Purpose**: Validate integration between all services
 
 **Dependencies**:
+
 - Requires Tier 1 to succeed
 - Runs after Tier 2 completes
 
 **Steps**:
+
 1. Install root dependencies
 2. Install all workspace dependencies
 3. Run integration test suite
@@ -96,10 +103,12 @@ done
 **Purpose**: Prepare build artifacts for deployment
 
 **Trigger Conditions**:
+
 - Only on `push` events
 - Only for `main` or `develop` branches
 
 **Steps**:
+
 1. Download build artifacts
 2. Verify artifact completeness
 3. Generate deployment report
@@ -109,6 +118,7 @@ done
 **Purpose**: Aggregate results and provide visibility
 
 **Features**:
+
 - Runs with `if: always()` to execute even on failures
 - Downloads all stage reports
 - Generates comprehensive summary
@@ -116,6 +126,7 @@ done
 - Uploads final summary report
 
 **Failure Detection**:
+
 ```yaml
 if: |
   github.event_name == 'pull_request' && 
@@ -184,16 +195,19 @@ The workflow runs on:
 ### 1. Dependency Management
 
 ✅ **Use `npm ci` instead of `npm install`**
+
 - Ensures reproducible builds
 - Faster installation
 - Validates package-lock.json
 
 ✅ **Implement retry logic**
+
 - Handles transient network issues
 - 3 attempts with 5-second delays
 - Fails clearly after all attempts
 
 ✅ **Cache dependencies**
+
 - Uses Node.js cache action
 - Reduces installation time
 - Cache key based on lock file
@@ -201,15 +215,18 @@ The workflow runs on:
 ### 2. Error Handling
 
 ✅ **Non-blocking warnings**
+
 - Optional steps don't fail the build
 - Clear messaging for skipped steps
 
 ✅ **Detailed reporting**
+
 - Stage-specific reports
 - Aggregated summary
 - PR comments on failures
 
 ✅ **Proper failure detection**
+
 - Uses `contains(needs.*.result, 'failure')`
 - Checks for cancelled jobs
 - Accurate PR comment triggers
@@ -217,11 +234,13 @@ The workflow runs on:
 ### 3. Security
 
 ✅ **Security scanning**
+
 - npm audit at moderate level
 - SBOM generation
 - Audit reports in artifacts
 
 ✅ **CodeQL analysis**
+
 - Automated on all commits
 - No vulnerabilities detected
 
@@ -234,6 +253,7 @@ The workflow runs on:
 **Symptoms**: `npm ci` fails repeatedly
 
 **Solution**:
+
 - Check network connectivity
 - Verify package-lock.json is committed
 - Clear npm cache if needed
@@ -244,6 +264,7 @@ The workflow runs on:
 **Symptoms**: `npm run build` fails
 
 **Solution**:
+
 - Run `npm run typecheck` locally
 - Fix type errors in source files
 - Ensure all dependencies are installed
@@ -254,6 +275,7 @@ The workflow runs on:
 **Symptoms**: Tests fail in CI but pass locally
 
 **Solution**:
+
 - Check for environment-specific issues
 - Verify test data and fixtures
 - Review test timeouts
@@ -264,6 +286,7 @@ The workflow runs on:
 **Symptoms**: Artifacts not uploaded or found
 
 **Solution**:
+
 - Verify dist/ directory exists
 - Check file paths in upload action
 - Ensure build step completed successfully
@@ -294,17 +317,20 @@ Configure alerts for:
 ### Regular Tasks
 
 **Weekly**:
+
 - Review failed workflow runs
 - Update dependencies if needed
 - Check artifact storage usage
 
 **Monthly**:
+
 - Review and update Node.js version
 - Update GitHub Actions versions
 - Audit security scan results
 - Optimize workflow performance
 
 **Quarterly**:
+
 - Review entire workflow structure
 - Update documentation
 - Benchmark against best practices

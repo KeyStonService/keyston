@@ -49,6 +49,7 @@
 ### 進階功能
 
 #### 多 Cluster 管理
+
 ```bash
 # 建立開發環境
 ./devcontainer/scripts/multi-cluster-manager.sh create dev 1
@@ -67,6 +68,7 @@
 ```
 
 #### GitOps 部署
+
 ```bash
 # ArgoCD 訪問
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -81,6 +83,7 @@ flux reconcile source git machine-native-ops
 ```
 
 #### 健康監控
+
 ```bash
 # 查看即時監控日誌
 tail -f /tmp/kind-cluster-health.log
@@ -90,6 +93,7 @@ tail -f /tmp/kind-cluster-health.log
 ```
 
 #### 測試執行
+
 ```bash
 # 執行完整測試套件
 ./devcontainer/scripts/run-tests.sh
@@ -173,6 +177,7 @@ kubectl get svc
 ### 問題：叢集建立失敗
 
 **解決方案**:
+
 ```bash
 # 檢查 Podman 狀態
 podman ps
@@ -184,6 +189,7 @@ bash .devcontainer/scripts/setup-kind-cluster.sh
 ### 問題：kubectl 無法連接
 
 **解決方案**:
+
 ```bash
 # 確認 context
 kubectl config get-contexts
@@ -195,6 +201,7 @@ kubectl config use-context kind-governance-test
 ### 問題：需要重建叢集
 
 **解決方案**:
+
 ```bash
 # 完全清理
 kind delete cluster --name governance-test
@@ -230,6 +237,7 @@ podman system prune -a -f
 ## 🔄 更新日誌
 
 ### v1.0.0 (2025-12-11)
+
 - ✅ 初始版本
 - ✅ 整合 Kind v0.20.0
 - ✅ 配置 Podman 作為容器引擎

@@ -9,54 +9,63 @@
 本治理框架包含以下核心文档：
 
 ### 1. [组织采用生命周期](./02-org-adoption-lifecycle.md)
+
 - 意识阶段 (Awareness)
 - 试点阶段 (Pilot)
 - 推广阶段 (Rollout)
 - 成熟阶段 (Maturity)
 
 ### 2. [角色化培训与学习](./03-role-based-training.md)
+
 - 开发人员学习路径
 - 运维人员学习路径
 - 架构师学习路径
 - 管理层培训
 
 ### 3. [命名治理标准](./04-naming-standards.md)
+
 - Kubernetes 资源命名
 - API 端点命名
 - CI/CD Pipeline 命名
 - 命名验证工具
 
 ### 4. [变更管理流程](./05-change-management.md)
+
 - 变更类型定义
 - 风险评估
 - 审批流程
 - 实施和回滚
 
 ### 5. [指标与审计](./06-metrics-and-audit.md)
+
 - KPI 定义
 - 合规指标
 - 审计报告
 - 持续改进
 
 ### 7. [例外处理机制](./07-exception-handling.md)
+
 - 例外类型
 - 审批流程
 - 监控和复审
 - 补救计划
 
 ### 8. [可观测性与验证](./08-observability-validation.md)
+
 - Prometheus 规则
 - Grafana 仪表板
 - 告警配置
 - 验证流程
 
 ### 9. [安全与合规](./09-security-compliance.md)
+
 - 信息安全策略集成
 - 数据分类
 - 合规性映射
 - 审计要求
 
 ### 10. [跨团队治理协作](./10-cross-team-governance.md)
+
 - 治理委员会
 - 决策机制
 - 沟通协作
@@ -162,6 +171,7 @@ git commit -m "chore: add change request CHG-2025-XXX"
 完整的外部参考资料索引请查看 [references.yaml](../../references/references.yaml)
 
 关键参考：
+
 - [Kubernetes 命名约定](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/)
 - [语义化版本](https://semver.org/)
 - [RESTful API 设计](https://restfulapi.net/)
@@ -178,6 +188,7 @@ git commit -m "chore: add change request CHG-2025-XXX"
 4. 创建 Pull Request
 
 贡献类型：
+
 - 文档改进
 - 工具增强
 - 新的策略模板
@@ -185,10 +196,10 @@ git commit -m "chore: add change request CHG-2025-XXX"
 
 ## 📞 支持与联系
 
-- **文档**: https://machinenativeops.github.io/docs
-- **Issues**: https://github.com/MachineNativeOps/MachineNativeOps/issues
-- **Discussions**: https://github.com/MachineNativeOps/MachineNativeOps/discussions
-- **Email**: governance@machinenativeops.io
+- **文档**: <https://machinenativeops.github.io/docs>
+- **Issues**: <https://github.com/MachineNativeOps/MachineNativeOps/issues>
+- **Discussions**: <https://github.com/MachineNativeOps/MachineNativeOps/discussions>
+- **Email**: <governance@machinenativeops.io>
 
 ## 📝 许可证
 

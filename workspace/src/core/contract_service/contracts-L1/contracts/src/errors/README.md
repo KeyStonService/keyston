@@ -5,6 +5,7 @@ This directory contains custom error classes used throughout the contracts servi
 ## Overview
 
 All custom errors extend the base `AppError` class, which provides:
+
 - Consistent error structure
 - Trace IDs for debugging
 - HTTP status codes
@@ -31,6 +32,7 @@ export class AppError extends Error {
 Thrown when input validation fails (400 Bad Request).
 
 **Usage:**
+
 ```typescript
 throw new ValidationError('Invalid email format', [
   { field: 'email', message: 'Must be valid email', code: 'INVALID_EMAIL' }
@@ -42,6 +44,7 @@ throw new ValidationError('Invalid email format', [
 Thrown when a requested resource is not found (404 Not Found).
 
 **Usage:**
+
 ```typescript
 throw new NotFoundError('User');
 // Returns: "User not found"
@@ -56,11 +59,13 @@ Thrown when file path validation fails due to path traversal attempts or unautho
 **Why 404 instead of 403?**
 
 Returns 404 (Not Found) instead of 403 (Forbidden) to prevent information disclosure. If we returned 403, attackers could:
+
 1. Enumerate valid paths by distinguishing between "not found" and "forbidden"
 2. Learn about the file system structure
 3. Identify protected files outside the safe directory
 
 **Usage:**
+
 ```typescript
 const resolvedPath = path.resolve(SAFE_ROOT, userPath);
 const relativePath = path.relative(SAFE_ROOT, resolvedPath);
@@ -79,6 +84,7 @@ if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
 | Windows Path | `C:\Windows\System32` | 404 Not Found |
 
 **Security Benefits:**
+
 - ✅ Prevents path enumeration attacks
 - ✅ Protects file system structure information
 - ✅ Consistent error response for all path violations
@@ -89,6 +95,7 @@ if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
 Thrown when authentication fails (401 Unauthorized).
 
 **Usage:**
+
 ```typescript
 throw new UnauthorizedError('Invalid API key');
 ```
@@ -98,6 +105,7 @@ throw new UnauthorizedError('Invalid API key');
 Thrown when access is forbidden (403 Forbidden).
 
 **Usage:**
+
 ```typescript
 throw new ForbiddenError('Insufficient permissions');
 ```
@@ -107,6 +115,7 @@ throw new ForbiddenError('Insufficient permissions');
 Thrown when there's a conflict with current state (409 Conflict).
 
 **Usage:**
+
 ```typescript
 throw new ConflictError('Resource already exists');
 ```
@@ -116,6 +125,7 @@ throw new ConflictError('Resource already exists');
 Thrown when a service is temporarily unavailable (503 Service Unavailable).
 
 **Usage:**
+
 ```typescript
 throw new ServiceUnavailableError('Database');
 // Returns: "Database is currently unavailable"
@@ -130,6 +140,7 @@ app.use(errorMiddleware);
 ```
 
 The middleware:
+
 1. Logs operational errors at appropriate levels
 2. Returns consistent JSON error responses
 3. Hides internal error details in production
@@ -140,11 +151,13 @@ The middleware:
 ### 1. Use Specific Error Classes
 
 ❌ Don't:
+
 ```typescript
 throw new Error('File not found');
 ```
 
 ✅ Do:
+
 ```typescript
 throw new NotFoundError('File');
 ```
@@ -152,11 +165,13 @@ throw new NotFoundError('File');
 ### 2. Provide Context
 
 ❌ Don't:
+
 ```typescript
 throw new ValidationError('Invalid input');
 ```
 
 ✅ Do:
+
 ```typescript
 throw new ValidationError('Invalid email format', [
   { field: 'email', message: 'Must be valid email', code: 'INVALID_EMAIL' }
@@ -166,6 +181,7 @@ throw new ValidationError('Invalid email format', [
 ### 3. Catch Specific Errors
 
 ❌ Don't:
+
 ```typescript
 try {
   await operation();
@@ -175,6 +191,7 @@ try {
 ```
 
 ✅ Do:
+
 ```typescript
 try {
   await operation();

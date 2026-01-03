@@ -65,31 +65,38 @@
 ## 核心 Python 文件說明
 
 ### ai_decision_engine.py
+
 - **職責**：AI 決策引擎（Phase 3）
 - **功能**：智能決策、預測分析、多準則優化、自主策略選擇
 - **決策類型**：Strategic, Tactical, Operational, Reactive, Predictive
 
 ### contract_engine.py
+
 - **職責**：SynergyMesh 核心契約引擎
 - **功能**：契約註冊、驗證、執行、生命週期管理、版本控制
 
 ### context_understanding_engine.py
+
 - **職責**：上下文理解引擎（Phase 5）
 - **功能**：深層上下文分析、業務邏輯推理、歷史記憶、多維度需求解析
 
 ### auto_bug_detector.py
+
 - **職責**：自動錯誤檢測與修復器（Phase 5）
 - **功能**：智能錯誤檢測、根因分析、自動修復、持續學習
 
 ### auto_governance_hub.py
+
 - **職責**：自動治理中心
 - **功能**：治理規則自動執行與監控
 
 ### plugin_system.py
+
 - **職責**：SynergyMesh 插件系統
 - **功能**：插件載入、註冊、生命週期管理
 
 ### config.py / exceptions.py / main.py
+
 - **職責**：基礎設施文件
 - **功能**：配置載入、異常定義、主入口（目前為空文件）
 

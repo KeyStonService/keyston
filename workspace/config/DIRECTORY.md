@@ -29,38 +29,47 @@
 ## 核心配置文件
 
 ### unified-config-index.yaml
+
 - **職責**：統一配置索引（v2.1.0）
 - **功能**：所有配置的單一真實來源，對齊 governance/00-vision-strategy
 
 ### .auto-fix-bot.yml
+
 - **職責**：Auto-Fix Bot 配置
 - **功能**：自動修復 CI 失敗的規則和行為定義
 
 ### .pre-commit-config.yaml
+
 - **職責**：Pre-commit hooks 配置
 - **功能**：定義提交前執行的檢查腳本
 
 ### .eslintrc.yaml / .prettierrc / .markdownlint.json
+
 - **職責**：Linter 配置
 - **功能**：代碼風格和格式檢查規則
 
 ### cloud-agent-delegation.yml
+
 - **職責**：雲端代理委派配置
 - **功能**：定義雲端代理的任務委派規則
 
 ### dependencies.yaml
+
 - **職責**：依賴管理配置
 - **功能**：定義專案依賴和版本約束
 
 ### integrations-index.yaml
+
 - **職責**：整合索引
 - **功能**：外部系統整合的配置映射
 
 ### island-control.yml
+
 - **職責**：Island 控制配置
 - **功能**：多島嶼系統的控制參數
 
 ### yaml-module-system.yaml
+
 - **職責**：YAML 模組系統配置
 - **功能**：YAML 為基礎的模組定義和載入
 

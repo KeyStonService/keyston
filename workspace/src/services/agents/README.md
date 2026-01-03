@@ -28,10 +28,7 @@ services/agents/
 **Related Configuration** 相關配置: Agent configurations are centralized in
 `config/agents/` directory.
 
-=======
-**Related Configuration** 相關配置: Agent configurations are centralized in `config/agents/` directory.
 
->>>>>>> origin/copilot/sub-pr-402
 - Individual profiles: `config/agents/profiles/`
 - Team configurations: `config/agents/team/`
 - Validation schemas: `config/agents/schemas/`

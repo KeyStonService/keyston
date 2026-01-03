@@ -161,6 +161,7 @@ export class SomeService {
 - `buildSLSAProvenance(file, builder)` - Build SLSA provenance
 
 **Private Methods:**
+
 - `resolveSafePath(userInputPath)` - Validate paths against SAFE_ROOT
 **Security Enhancements (PR #351):**
 - **Policy SEC-PATH-001**: Path traversal prevention using SAFE_ROOT validation

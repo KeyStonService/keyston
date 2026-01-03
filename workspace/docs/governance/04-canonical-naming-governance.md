@@ -31,6 +31,7 @@ Canonical Naming Governance 是 MachineNativeOps 治理框架的核心組成部�
 ### 現有痛點
 
 #### 1. 命名不一致導致的運維困難
+
 ```yaml
 # 現狀：各團隊命名風格各異
 frontend-prod-v2          # 團隊 A
@@ -40,12 +41,14 @@ legacy_auth_system        # 團隊 D (底線)
 ```
 
 **影響**:
+
 - 自動化工具難以識別環境
 - 監控告警規則需要大量正則表達式
 - 成本分配和資源盤點困難
 - 新人學習曲線陡峭
 
 #### 2. 缺乏統一的命名規範來源
+
 ```
 當前問題:
 ├── Gatekeeper: policies/gatekeeper/naming-constraint.yaml (正則: [a-z0-9-]+)
@@ -57,6 +60,7 @@ legacy_auth_system        # 團隊 D (底線)
 ```
 
 #### 3. 資源關聯困難
+
 ```bash
 # 問題：如何關聯以下資源？
 Namespace: team-frontend-prod
@@ -68,6 +72,7 @@ PVC: frontend-prod-data-pvc
 ```
 
 #### 4. 遷移和重構風險高
+
 ```
 歷史遺留資源遷移時的挑戰:
 - 不知道哪些資源會發生命名衝突
@@ -101,6 +106,7 @@ canonical/
 ```
 
 **核心原則**:
+
 - ✅ 修改命名規則 = 只修改 `machine-spec.yaml`
 - ✅ 所有工具自動同步或代碼生成更新
 - ✅ 版本控制和 Changelog 追蹤所有變更
@@ -128,11 +134,13 @@ urn: "urn:machinenativeops:team:frontend:env:prod:v1"
 ```
 
 **適用場景**:
+
 - 10-50 人的工程團隊
 - 每個團隊負責 1-3 個微服務
 - 團隊自主管理命名空間
 
 **示例資源結構**:
+
 ```
 team-frontend-prod/
 ├── Deployment: frontend-api
@@ -163,11 +171,13 @@ urn: "urn:machinenativeops:tenant:payment:env:prod:region:uswest"
 ```
 
 **適用場景**:
+
 - SaaS 提供商
 - 多租戶隔離
 - 全球化部署（多區域）
 
 **示例資源結構**:
+
 ```
 tenant-payment-prod-uswest/
 ├── StatefulSet: payment-processor
@@ -198,11 +208,13 @@ urn: "urn:machinenativeops:env:prod:app:api:version:v2"
 ```
 
 **適用場景**:
+
 - 需要多版本 API 共存
 - 漸進式發布策略
 - 長期維護多個版本
 
 **示例資源結構**:
+
 ```
 prod-api-v2/
 ├── Deployment: api-v2
@@ -952,11 +964,13 @@ metrics:
 ## 📚 參考資料
 
 ### 內部文檔
+
 - [`canonical/machine-spec.yaml`](../canonical/machine-spec.yaml) - Single Source of Truth
 - [`policies/migration/naming-migration-policy.yaml`](../policies/migration/naming-migration-policy.yaml)
 - [`policies/validation/ci-validation-policy.yaml`](../policies/validation/ci-validation-policy.yaml)
 
 ### 外部參考
+
 詳見 `references/canonical-naming-governance.yaml`
 
 ---

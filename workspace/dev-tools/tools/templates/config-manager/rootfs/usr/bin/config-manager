@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-# Phase 1 wrapper：先確保命令存在（實際 python env 由你第二階段決定）
-exec config-manager "$@"

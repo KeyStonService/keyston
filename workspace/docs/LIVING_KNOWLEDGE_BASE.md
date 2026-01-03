@@ -197,6 +197,7 @@ living-knowledge-base/
 ### 使用範例
 
 完整的使用範例可在以下目錄找到：
+
 - [metadata-entry-example.yaml](../src/governance/dimensions/99-metadata/examples/metadata-entry-example.yaml)
 - [lineage-graph-example.yaml](../src/governance/dimensions/99-metadata/examples/lineage-graph-example.yaml)
 - [provenance-record-example.yaml](../src/governance/dimensions/99-metadata/examples/provenance-record-example.yaml)

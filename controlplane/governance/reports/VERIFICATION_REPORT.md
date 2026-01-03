@@ -24,6 +24,7 @@
 完整的 MachineNativeOps 命名空間配置檔案，包含:
 
 **標準對齊 (5/5):**
+
 1. ✅ **machinenativeops.io** - 所有 API 版本和標籤
 2. ✅ **machinenativeops** - 主要命名空間
 3. ✅ **registry.machinenativeops.io** - 容器鏡像倉庫
@@ -31,6 +32,7 @@
 5. ✅ **super-agent-etcd-cluster** - etcd 集群令牌
 
 **關鍵配置:**
+
 ```yaml
 namespace:
   primary: "machinenativeops"

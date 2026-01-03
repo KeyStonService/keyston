@@ -102,16 +102,19 @@ scripts/CI/DeployStaging/     # Mixed case
 ```
 
 **Files**:
+
 - Configuration files: `kebab-case.yaml`, `kebab-case.json`
 - Scripts: `kebab-case.sh`, `kebab-case.py`
 - TypeScript/JavaScript: `kebab-case.ts`, `PascalCase.tsx` (React components)
 - Python: `snake_case.py`
 
 **Code Naming** (Language-specific):
+
 - TypeScript: `camelCase` (variables/functions), `PascalCase` (classes/interfaces)
 - Python: `snake_case` (variables/functions), `PascalCase` (classes)
 
 **Prohibited Practices**:
+
 - ❌ Overly short names (e.g., `ai/`, `ops/`) - use descriptive names
 - ❌ Synonyms coexisting (e.g., `infra/` AND `infrastructure/`)
 - ❌ Version prefixes in directory names (e.g., `v1-python-drones/`) - use Git tags

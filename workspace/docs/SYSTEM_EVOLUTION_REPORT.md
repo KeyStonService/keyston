@@ -43,7 +43,3 @@
 
 ---
 
-本報告由 `tools/evolution/generate_evolution_report.py` 自動生成。
-=======
-本報告由 `tools/evolution/generate_evolution_report.py` 自動生成。
->>>>>>> origin/copilot/sub-pr-402

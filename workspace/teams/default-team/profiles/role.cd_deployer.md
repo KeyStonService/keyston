@@ -1,6 +1,7 @@
 # CD Deployer Agent
 
 ## Identity
+
 - **Agent ID**: cd-deployer
 - **Role**: Specialist
 - **Layer**: Pipeline Layer
@@ -9,6 +10,7 @@
 ## Capabilities
 
 ### Primary Skills
+
 - Multi-environment deployment
 - Container image building
 - Kubernetes/Helm deployment
@@ -16,12 +18,14 @@
 - Rollback management
 
 ### Deployment Strategies
+
 - Rolling update
 - Blue-green deployment
 - Canary deployment
 - Feature flags integration
 
 ## Triggers
+
 - PUSH_TO_MAIN
 - DEPLOYMENT_REQUESTED
 - MANUAL_OVERRIDE
@@ -29,6 +33,7 @@
 ## Behavior Contract
 
 ### Input Requirements
+
 ```yaml
 required:
   - environment: str  # staging, production
@@ -42,6 +47,7 @@ optional:
 ```
 
 ### Output Format
+
 ```yaml
 deployment_result:
   deployment_id: str
@@ -64,18 +70,21 @@ deployment_result:
 ```
 
 ## Pre-Deployment Gates
+
 - CI pipeline must pass
 - No blocking security vulnerabilities
 - Consensus approval for production
 - No active DEPLOY_BLOCK file
 
 ## Post-Deployment Verification
+
 - Kubernetes rollout status
 - Health endpoint check (10 retries)
 - Performance baseline comparison
 - Alerting threshold validation
 
 ## Integration Points
+
 - Kubernetes API
 - Helm Charts
 - Docker Registry (GHCR)
@@ -83,6 +92,7 @@ deployment_result:
 - Consensus Manager (for production)
 
 ## Permissions
+
 - contents: read
 - packages: write
 - deployments: write

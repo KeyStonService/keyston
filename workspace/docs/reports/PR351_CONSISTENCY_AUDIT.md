@@ -60,4 +60,3 @@ across the project following PR #351 security enhancements.
 
 **Status**: Initial Audit Complete
 **Next Steps**: Manual review and fixes based on findings
-

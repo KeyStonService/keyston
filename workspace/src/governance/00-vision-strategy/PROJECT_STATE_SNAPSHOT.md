@@ -37,15 +37,6 @@
 
 **關鍵差異**:
 
-| 傳統方式     | 自主方式     |
-| ------------ | ------------ |
-| 30 分鐘學習  | < 1 秒理解   |
-=======
-
-| 傳統方式 | 自主方式 |
-|---------|---------|
-| 30 分鐘學習 | < 1 秒理解 |
->>>>>>> origin/copilot/sub-pr-402
 | 人類可讀文檔 | 機器可讀清單 |
 | 週/月時間表 | 即時執行 |
 | 需要培訓 | 自我感知 |
@@ -238,8 +229,6 @@ Automation Layer (Phase 3) ✅ 100%  ← THIS PHASE
 | communication-plan.yaml | ✅ CommunicationPlan | ✅ comms-plan-v1 | ✅ policy-communication.rego |
 | success-metrics-dashboard.yaml | ✅ MetricsDashboard | ✅ metrics-dashboard-v1 | ✅ policy-metrics.rego |
 | change-management-protocol.yaml | ✅ ChangeProtocol | ✅ change-mgmt-v1 | ✅ policy-change.rego |
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -377,11 +366,6 @@ make all-kg  # 1504 nodes, 1503 edges
    - 驗證機制、儀表板工具
    - **實時反饋迴路** (< 1 小時全專案分析)
 
-**Iteration 2** (用戶: "持續自動演化"): 5. `risk-register.yaml` (16.5KB)
-=======
-**Iteration 2** (用戶: "持續自動演化"):
-5. `risk-register.yaml` (16.5KB)
->>>>>>> origin/copilot/sub-pr-402
 
 - 6 個主要戰略風險 (Tech Debt, AI Hallucinations, Competition, 等)
 - AI 驅動風險情報 (預測分析、蒙特卡羅模擬 10,000 次)
@@ -392,11 +376,6 @@ make all-kg  # 1504 nodes, 1503 edges
    - 季度級里程碑 (2025 Q4 → 2030 願景實現)
    - 應變計劃 (競爭、經濟、技術故障)
 
-**Iteration 3** (用戶: "繼續補充"): 7. `communication-plan.yaml` (25.5KB)
-=======
-**Iteration 3** (用戶: "繼續補充"):
-7. `communication-plan.yaml` (25.5KB)
->>>>>>> origin/copilot/sub-pr-402
 
 - 4 個溝通目標 (100% 願景認知、戰略對齊、雙向溝通、透明度)
 - **AI agent 專屬渠道** (event bus, webhooks, real-time dashboard)
@@ -414,13 +393,6 @@ make all-kg  # 1504 nodes, 1503 edges
 - 6 步驟變更工作流 (Proposal → Validation)
 - 版本控制 + 回滾協議
 
-1. `README.md` (更新)
-   - 修正過時內容 (4 個文件 → 9 個文件)
-   - 新增變更管理、AI 自主演化展示章節
-=======
-    - 修正過時內容 (4 個文件 → 9 個文件)
-    - 新增變更管理、AI 自主演化展示章節
->>>>>>> origin/copilot/sub-pr-402
 
 #### 完整度矩陣
 
@@ -855,13 +827,6 @@ SynergyMesh/
 
 ### Q1: 我從哪裡開始？
 
-**A**: 先讀本文件（`PROJECT_STATE_SNAPSHOT.md`），再讀
-`README.gac-deployment.md`，最後讀
-`gac-architecture.yaml`。按順序閱讀能快速建立完整脈絡。
-=======
-
-**A**: 先讀本文件（`PROJECT_STATE_SNAPSHOT.md`），再讀 `README.gac-deployment.md`，最後讀 `gac-architecture.yaml`。按順序閱讀能快速建立完整脈絡。
->>>>>>> origin/copilot/sub-pr-402
 
 ### Q2: Phase 1 完成了什麼？
 

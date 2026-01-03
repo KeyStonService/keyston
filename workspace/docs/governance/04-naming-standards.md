@@ -22,6 +22,7 @@
 ### 1. Kubernetes 资源命名
 
 #### 格式
+
 ```
 {environment}-{app}-{resource-type}-{version}
 ```
@@ -38,6 +39,7 @@
 #### 示例
 
 **正确命名** ✅
+
 ```yaml
 # Deployment
 prod-payment-api-deploy-v1.3.0
@@ -56,6 +58,7 @@ prod-api-gateway-ing-v2.1.0
 ```
 
 **错误命名** ❌
+
 ```yaml
 # 不遵循模式
 production_Payment_Service_1.3.0
@@ -89,12 +92,14 @@ prod-payment-deploy-1.3
 #### 规则
 
 1. **复数名词**: 使用复数形式表示集合
+
    ```
    ✅ /api/v1/users
    ❌ /api/v1/user
    ```
 
 2. **小写与连字符**: 使用小写字母和连字符分隔
+
    ```
    ✅ /api/v1/payment-methods
    ❌ /api/v1/paymentMethods
@@ -102,6 +107,7 @@ prod-payment-deploy-1.3
    ```
 
 3. **层次结构**: 使用路径表示资源关系
+
    ```
    /api/v1/users/{userId}/orders
    /api/v1/orders/{orderId}/items
@@ -129,6 +135,7 @@ prod-payment-deploy-1.3
 ### 3. CI/CD Pipeline 命名
 
 #### 格式
+
 ```
 {repository}-{action}-{target}
 ```
@@ -218,6 +225,7 @@ PaymentMethod
 所有命名标准都通过自动化工具强制执行：
 
 #### 1. Bash 生成器
+
 ```bash
 ./tools/governance/bash/generate_resource_name.sh \
   --environment prod \
@@ -229,6 +237,7 @@ PaymentMethod
 **输出**: `prod-payment-api-deploy-v1.3.0`
 
 #### 2. Python 验证器
+
 ```bash
 python tools/governance/python/validate_naming.py \
   --files k8s/deployment.yaml \
@@ -239,6 +248,7 @@ python tools/governance/python/validate_naming.py \
 #### 3. CI/CD 集成
 
 GitHub Actions 示例：
+
 ```yaml
 - name: Validate Naming
   uses: ./.github/workflows/naming-check.yml
@@ -358,6 +368,7 @@ governance_naming_violations_total
 ### Grafana 仪表板
 
 查看命名合规性仪表板：
+
 ```
 http://grafana.example.com/d/governance-naming-compliance
 ```

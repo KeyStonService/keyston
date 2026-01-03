@@ -154,6 +154,7 @@ All components now use the unified namespace: `machinenativenops`
 ## 📞 Support
 
 For any issues with the restructured project:
+
 1. Check the backup at: `.refactor-backups/restructure_1766213145`
 2. Review the migration log
 3. Run validation scripts

@@ -123,12 +123,7 @@ This document describes the comprehensive optimization of the Unmanned Island Sy
 
 **Implementation:**
 
-- `scripts/sync/watch-and-sync.sh` template reads from config (already using
-  `island.bootstrap.stage0.yaml`)
-=======
 
-- `scripts/sync/watch-and-sync.sh` template reads from config (already using `island.bootstrap.stage0.yaml`)
->>>>>>> origin/copilot/sub-pr-402
 - Sync workflow loads configuration dynamically
 - Refactor tool uses same configuration
 
@@ -348,15 +343,9 @@ done
 
 **Solution:**
 
-1. Check `sync-refactor-config.yaml` - `integration.sync_triggers_refactor`
-   should be `true`
-=======
-
-1. Check `sync-refactor-config.yaml` - `integration.sync_triggers_refactor` should be `true`
->>>>>>> origin/copilot/sub-pr-402
-2. Verify governance file paths in workflow triggers
-3. Check GitHub Actions permissions
-4. Review workflow run logs
+1. Verify governance file paths in workflow triggers
+2. Check GitHub Actions permissions
+3. Review workflow run logs
 
 ## Future Enhancements (Priority 2)
 

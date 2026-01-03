@@ -353,11 +353,6 @@ automation/ (自動化/工具)
 
 - 說明：
 
-  - `{{FILE_A}}` — 主要入口 / API 層 / Adapter 等說明。
-  - `{{FILE_B}}` — 補充說明。
-  - ...
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -374,6 +369,3 @@ automation/ (自動化/工具)
   - 重構順序 + 每步驟需要通過的測試 / CI。
 - 回滾策略：
 
-  - 若此 cluster 重構失敗，如何切回舊版組合？
-=======
->>>>>>> origin/copilot/sub-pr-402

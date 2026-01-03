@@ -45,6 +45,7 @@
 #### 實際測試步驟
 
 **測試 1: 檔案命名驗證**
+
 ```bash
 # 步驟 1: 創建測試檔案
 
@@ -64,12 +65,14 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2024-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
 - 備註: 正確檢測出所有命名違規
 
 **測試 2: YAML 鍵名驗證**
+
 ```bash
 # 步驟 1: 創建測試 YAML
 
@@ -88,6 +91,7 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2024-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -115,6 +119,7 @@ python scripts/validation/validate-root-specs.py
 #### 實際測試步驟
 
 **測試 1: URN 格式驗證**
+
 ```bash
 # 步驟 1: 測試各種 URN 格式
 
@@ -132,12 +137,14 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2024-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
 - 備註: 正確驗證 URN 格式
 
 **測試 2: 引用存在性檢查**
+
 ```bash
 # 步驟 1: 引用不存在的模組
 
@@ -152,6 +159,7 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2024-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -179,6 +187,7 @@ python scripts/validation/validate-root-specs.py
 #### 實際測試步驟
 
 **測試 1: 循環依賴檢測**
+
 ```bash
 # 步驟 1: 創建循環依賴
 
@@ -197,12 +206,14 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2024-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
 - 備註: DFS 算法正確檢測循環
 
 **測試 2: 資源約束檢查**
+
 ```bash
 # 步驟 1: 設定錯誤的資源限制
 
@@ -220,6 +231,7 @@ python scripts/validation/validate-root-specs.py
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-21
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -247,6 +259,7 @@ python scripts/validation/validate-root-specs.py
 #### 實際測試步驟
 
 **測試 1: PR 觸發驗證**
+
 ```bash
 # 步驟 1: 創建測試分支
 
@@ -272,12 +285,14 @@ gh pr checks
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-25
 - 測試人員: AI Agent
 - 結果: ✅ 通過
 - 備註: gate-root-specs.yml / gate-root-naming.yml 自動阻擋不合規 PR 並輸出報告
 
 **測試 2: 驗證報告生成**
+
 ```bash
 # 步驟 1: 等待 Actions 完成
 
@@ -293,6 +308,7 @@ gh run download
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-25
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -322,6 +338,7 @@ gh run download
 #### 實際測試步驟
 
 **測試 1: 合併觸發更新**
+
 ```bash
 # 步驟 1: 合併 PR 到 main
 
@@ -338,12 +355,14 @@ git log PROJECT_MEMORY.md
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-25
 - 測試人員: AI Agent
 - 結果: ✅ 通過
 - 備註: auto-memory-update.yml 於 main push 自動更新 PROJECT_MEMORY.md / CONVERSATION_LOG.md
 
 **測試 2: 變更分析準確性**
+
 ```bash
 # 步驟 1: 進行各種類型的變更
 
@@ -362,6 +381,7 @@ cat PROJECT_MEMORY.md
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-25
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -389,6 +409,7 @@ cat PROJECT_MEMORY.md
 #### 實際測試步驟
 
 **測試 1: 檔案結構變更檢測**
+
 ```bash
 # 步驟 1: 新增目錄和檔案
 
@@ -408,6 +429,7 @@ grep "new-module" ARCHITECTURE.md
 ```
 
 **測試結果**:
+
 - 測試日期: 2025-12-25
 - 測試人員: AI Agent
 - 結果: ✅ 通過
@@ -508,6 +530,7 @@ grep "new-module" ARCHITECTURE.md
 ```
 
 **測試結果**:
+
 - 測試日期: YYYY-MM-DD
 - 測試人員: [姓名]
 - 結果: ✅ 通過 / ❌ 失敗 / 📋 待測試
@@ -518,6 +541,7 @@ grep "new-module" ARCHITECTURE.md
 - [ ] 標準 1
 - [ ] 標準 2
 - [ ] 標準 3
+
 ```
 
 ---

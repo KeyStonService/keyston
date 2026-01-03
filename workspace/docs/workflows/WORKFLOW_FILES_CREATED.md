@@ -116,19 +116,19 @@
     - Non-root user
     - Health checks
 
-2. ✅ **docker-compose.workflow.yml** (91 lines)
+6. ✅ **docker-compose.workflow.yml** (91 lines)
     - Complete stack (5 services)
     - workflow-system, postgres, redis, prometheus, grafana
     - Volume management
     - Network isolation
 
-3. ✅ **deployment/kubernetes/workflow-deployment.yaml** (73 lines)
+7. ✅ **deployment/kubernetes/workflow-deployment.yaml** (73 lines)
     - Deployment (3 replicas)
     - Service (ClusterIP)
     - HorizontalPodAutoscaler (3-10 replicas)
     - Resource limits & health checks
 
-4. ✅ **.dockerignore** (26 lines)
+8. ✅ **.dockerignore** (26 lines)
     - Build optimization
 
 ### Documentation | 文檔
@@ -157,12 +157,6 @@
     - Troubleshooting
     - Security considerations
 
-5. ✅ **docs/VALIDATION_GUIDE.md**
-    - Validation layer details
-    - Customization guide
-    - Rule configuration
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ### Testing | 測試
 
@@ -196,18 +190,12 @@
     - Performance guarantees
     - Success criteria verification
 
-2. ✅ **setup.py** (80+ lines)
+4. ✅ **setup.py** (80+ lines)
     - Python packaging
     - Console scripts
     - Entry points
     - Dependencies
 
-3. ✅ **requirements-workflow.txt** (13 dependencies)
-    - Core dependencies
-    - Testing tools
-    - Quality tools
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ## Statistics | 統計
 

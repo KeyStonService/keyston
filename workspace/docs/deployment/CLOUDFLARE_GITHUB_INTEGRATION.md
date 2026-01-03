@@ -115,8 +115,8 @@ cloudflare/
 | Zone | Cloudflare Pages | Edit |
 | Zone | DNS | Edit |
 
-4. 點擊 **Continue to summary** > **Create Token**
-5. **立即複製 Token** (只顯示一次)
+1. 點擊 **Continue to summary** > **Create Token**
+2. **立即複製 Token** (只顯示一次)
 
 ### 2. GitHub Repository 設置
 
@@ -234,7 +234,7 @@ echo "your_secret" | wrangler secret put GITHUB_WEBHOOK_SECRET --env production
 | Secret | 您生成的 webhook secret |
 | SSL verification | Enable |
 
-4. 選擇事件：
+1. 選擇事件：
    - Push events
    - Pull requests
    - Issues
@@ -310,12 +310,14 @@ curl -X POST https://api.machinenativeops.com/webhooks/github \
 #### Development 環境
 
 **特點**：
+
 - 允許未簽名的 webhooks（會記錄警告）
 - 使用 `*.workers.dev` 子域名
 - 較寬鬆的錯誤處理（顯示詳細錯誤訊息）
 - 本地 wrangler dev 支援
 
 **配置**：
+
 ```toml
 [env.development]
 name = "machinenativeops-worker-dev"
@@ -331,6 +333,7 @@ id = "your-dev-sessions-id"
 ```
 
 **部署命令**：
+
 ```bash
 wrangler deploy --env development
 ```
@@ -338,12 +341,14 @@ wrangler deploy --env development
 #### Staging 環境
 
 **特點**：
+
 - **必須**配置 webhook secret（與生產環境相同的安全要求）
 - 使用自訂域名 `staging-api.machinenativeops.com`
 - 完整的錯誤日誌記錄
 - 用於 QA 和整合測試
 
 **配置**：
+
 ```toml
 [env.staging]
 name = "machinenativeops-worker-staging"
@@ -363,6 +368,7 @@ database_id = "your-staging-db-id"
 ```
 
 **必要 Secrets**：
+
 ```bash
 echo "$GITHUB_WEBHOOK_SECRET" | wrangler secret put GITHUB_WEBHOOK_SECRET --env staging
 echo "$GITHUB_TOKEN" | wrangler secret put GITHUB_TOKEN --env staging
@@ -371,6 +377,7 @@ echo "$GITHUB_TOKEN" | wrangler secret put GITHUB_TOKEN --env staging
 #### Production 環境
 
 **特點**：
+
 - **強制** webhook 簽名驗證
 - 嚴格的 CORS 策略（僅允許 machinenativeops.com）
 - 完整的 CSP 防護（無 unsafe-inline）
@@ -378,6 +385,7 @@ echo "$GITHUB_TOKEN" | wrangler secret put GITHUB_TOKEN --env staging
 - 完整的日誌和監控
 
 **配置**：
+
 ```toml
 [env.production]
 name = "machinenativeops-worker-prod"
@@ -405,6 +413,7 @@ bucket_name = "machinenativeops-assets-prod"
 ```
 
 **部署前檢查**：
+
 ```bash
 # 1. 驗證所有 namespace IDs 已填寫
 grep 'id = ""' wrangler.toml && echo "❌ 發現空的 ID！" || echo "✅ 所有 IDs 已填寫"
@@ -494,6 +503,7 @@ Error: Authentication error
 ```
 
 但是：
+
 - ❌ 沒有測試檔案存在於 `cloudflare/workers` 目錄
 - ❌ 沒有單元測試覆蓋率
 - ❌ 沒有整合測試
@@ -523,11 +533,13 @@ Error: Authentication error
 在正式測試套件實作之前，請使用：
 
 1. **型別檢查**：
+
    ```bash
    npm run typecheck
    ```
 
 2. **手動 API 測試**：
+
    ```bash
    # 健康檢查
    curl https://api.machinenativeops.com/health
@@ -541,6 +553,7 @@ Error: Authentication error
    ```
 
 3. **Wrangler 本地開發**：
+
    ```bash
    wrangler dev
    ```

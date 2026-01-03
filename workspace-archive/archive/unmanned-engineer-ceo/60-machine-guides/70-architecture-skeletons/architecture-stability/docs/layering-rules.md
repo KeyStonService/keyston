@@ -15,6 +15,7 @@
 **範例模組**:
 
 >>>>>>> origin/copilot/sub-pr-402
+
 - `core/domain` - 領域模型
 - `core/orchestrator` - 編排引擎
 - `core/knowledge-base` - 知識庫核心
@@ -27,10 +28,11 @@
 **職責**: 平台能力、基礎設施實作
 **允許依賴**: core, 標準庫, 基礎設施庫
 **禁止依賴**: services, agents, applications
-**子分層**:
+**子分層**
 =======
 
 >>>>>>> origin/copilot/sub-pr-402
+
 - `platform/foundation` - 架構、安全、身份
 - `platform/governance` - API/資料/測試治理
 - `platform/application` - 應用平台能力
@@ -70,6 +72,7 @@ MCP, HTTP API
 **允許依賴**: 所有下層
 **禁止依賴**: 無 (最外層)
 =======
+>>>>>>>
 >>>>>>> origin/copilot/sub-pr-402
 
 ## 依賴規則矩陣

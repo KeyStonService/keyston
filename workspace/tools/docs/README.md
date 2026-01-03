@@ -34,12 +34,7 @@ python tools/docs/analyze_root_reports.py \
 
 **Outputs**:
 
-- **Markdown**: Human-readable analysis report with executive summary,
-  inventory, findings, and action items
-=======
 
-- **Markdown**: Human-readable analysis report with executive summary, inventory, findings, and action items
->>>>>>> origin/copilot/sub-pr-402
 - **JSON**: Structured data for programmatic access and integration
 - **YAML**: Alternative structured format (requires PyYAML)
 
@@ -189,12 +184,7 @@ Optional dependencies:
 
 These tools are integrated into GitHub Actions workflows:
 
-- `.github/workflows/knowledge-graph-drift.yml`: Checks for drift in generated
-  docs
-=======
 
-- `.github/workflows/knowledge-graph-drift.yml`: Checks for drift in generated docs
->>>>>>> origin/copilot/sub-pr-402
 - `.github/workflows/project-self-awareness.yml`: Runs self-awareness reports
 
 ---

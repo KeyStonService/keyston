@@ -1,4 +1,4 @@
-# AAPS Marketplace 實施路線圖
+# MachineNativeOps Marketplace 實施路線圖
 
 ## 🎯 6週完整實施計畫
 
@@ -11,6 +11,7 @@
 ### Day 1-2: Token 追蹤系統
 
 #### 任務清單
+
 - [ ] 創建 `services/token-tracking/` 目錄結構
 - [ ] 實現 `tracker.py` - Token 事件追蹤
 - [ ] 實現 `cost_calculator.py` - 多模型成本計算
@@ -18,6 +19,7 @@
 - [ ] 配置 Redis Streams
 
 #### 技術細節
+
 ```python
 # services/token-tracking/tracker.py
 class TokenTracker:
@@ -42,6 +44,7 @@ class CostCalculator:
 ```
 
 #### 驗收標準
+
 - ✅ Token 事件可以成功追蹤
 - ✅ 成本計算準確 (誤差 < 0.1%)
 - ✅ 寫入延遲 < 100ms
@@ -50,6 +53,7 @@ class CostCalculator:
 ### Day 3-4: 成本告警系統
 
 #### 任務清單
+
 - [ ] 實現 `alert_manager.py` - 告警管理
 - [ ] 實現 `budget_tracker.py` - 預算追蹤
 - [ ] 配置 APScheduler 定時任務
@@ -57,6 +61,7 @@ class CostCalculator:
 - [ ] 創建告警模板
 
 #### 技術細節
+
 ```python
 # services/token-tracking/alert_manager.py
 class AlertManager:
@@ -73,6 +78,7 @@ class AlertManager:
 ```
 
 #### 驗收標準
+
 - ✅ 預算超限時自動告警
 - ✅ 支持 Email/Slack/Webhook
 - ✅ 告警延遲 < 5 分鐘
@@ -81,12 +87,14 @@ class AlertManager:
 ### Day 5: MonitoringAgent 整合
 
 #### 任務清單
+
 - [ ] 擴展 MonitoringAgent 支持 Token 監控
 - [ ] 添加成本追蹤 API 端點
 - [ ] 實現實時成本查詢
 - [ ] 創建成本趨勢分析
 
 #### 技術細節
+
 ```python
 # agents/monitoring-agent/main.py (擴展)
 class MonitoringAgent:
@@ -100,6 +108,7 @@ class MonitoringAgent:
 ```
 
 #### 驗收標準
+
 - ✅ MonitoringAgent 可以處理 Token 事件
 - ✅ API 端點正常工作
 - ✅ 實時查詢響應 < 200ms
@@ -111,6 +120,7 @@ class MonitoringAgent:
 ### Day 1-2: Artifact 元數據提取
 
 #### 任務清單
+
 - [ ] 創建 `agents/artifact-manager/` 目錄
 - [ ] 實現 Python (.whl) 元數據提取
 - [ ] 實現 Node.js (.tgz) 元數據提取
@@ -118,6 +128,7 @@ class MonitoringAgent:
 - [ ] 實現元數據驗證
 
 #### 技術細節
+
 ```python
 # agents/artifact-manager/metadata_extractor.py
 class MetadataExtractor:
@@ -130,6 +141,7 @@ class MetadataExtractor:
 ```
 
 #### 驗收標準
+
 - ✅ 正確提取 Python 包元數據
 - ✅ 正確提取 Node.js 包元數據
 - ✅ 元數據格式統一
@@ -138,6 +150,7 @@ class MetadataExtractor:
 ### Day 3-4: Artifact 存儲與檢索
 
 #### 任務清單
+
 - [ ] 配置 MinIO/S3 存儲
 - [ ] 實現文件上傳 API
 - [ ] 實現 SHA256 校驗
@@ -146,6 +159,7 @@ class MetadataExtractor:
 - [ ] 實現下載 API
 
 #### 技術細節
+
 ```python
 # agents/artifact-manager/storage_manager.py
 class StorageManager:
@@ -158,6 +172,7 @@ class StorageManager:
 ```
 
 #### 驗收標準
+
 - ✅ 文件上傳成功率 > 99%
 - ✅ 校驗和驗證正確
 - ✅ 搜索功能正常
@@ -166,6 +181,7 @@ class StorageManager:
 ### Day 5: GitHub OAuth 整合
 
 #### 任務清單
+
 - [ ] 創建 GitHub App
 - [ ] 實現 OAuth 2.0 流程
 - [ ] 實現 Installation token 管理
@@ -173,6 +189,7 @@ class StorageManager:
 - [ ] 實現 JWT token 生成
 
 #### 技術細節
+
 ```python
 # services/marketplace/oauth.py
 class GitHubOAuth:
@@ -185,6 +202,7 @@ class GitHubOAuth:
 ```
 
 #### 驗收標準
+
 - ✅ OAuth 流程完整
 - ✅ Token 管理正確
 - ✅ 用戶關聯成功
@@ -197,6 +215,7 @@ class GitHubOAuth:
 ### Day 1-2: Webhook 處理
 
 #### 任務清單
+
 - [ ] 實現 Webhook 簽名驗證
 - [ ] 處理 marketplace_purchase 事件
 - [ ] 處理 installation 事件
@@ -204,6 +223,7 @@ class GitHubOAuth:
 - [ ] 創建事件處理器
 
 #### 技術細節
+
 ```python
 # services/marketplace/webhooks.py
 class WebhookHandler:
@@ -216,6 +236,7 @@ class WebhookHandler:
 ```
 
 #### 驗收標準
+
 - ✅ 簽名驗證正確
 - ✅ 所有事件正確處理
 - ✅ 數據同步準確
@@ -224,6 +245,7 @@ class WebhookHandler:
 ### Day 3-4: 訂閱管理
 
 #### 任務清單
+
 - [ ] 創建訂閱數據模型
 - [ ] 實現訂閱狀態管理
 - [ ] 實現配額管理
@@ -231,6 +253,7 @@ class WebhookHandler:
 - [ ] 實現訂閱 API
 
 #### 技術細節
+
 ```python
 # services/marketplace/subscription.py
 class SubscriptionManager:
@@ -242,6 +265,7 @@ class SubscriptionManager:
 ```
 
 #### 驗收標準
+
 - ✅ 訂閱狀態正確
 - ✅ 配額管理準確
 - ✅ 計費邏輯正確
@@ -250,6 +274,7 @@ class SubscriptionManager:
 ### Day 5: 前端 Dashboard (Phase 1)
 
 #### 任務清單
+
 - [ ] 創建 Token 監控頁面
 - [ ] 創建 Artifact 管理頁面
 - [ ] 創建設置頁面
@@ -257,6 +282,7 @@ class SubscriptionManager:
 - [ ] 實現響應式設計
 
 #### 技術細節
+
 ```typescript
 // frontend/dashboard/TokenMonitoring.tsx
 export function TokenMonitoring() {
@@ -273,6 +299,7 @@ export function TokenMonitoring() {
 ```
 
 #### 驗收標準
+
 - ✅ 頁面渲染正確
 - ✅ 數據實時更新
 - ✅ 圖表交互流暢
@@ -285,6 +312,7 @@ export function TokenMonitoring() {
 ### Day 1-2: Go 生態系統
 
 #### 任務清單
+
 - [ ] 實現 go.mod 解析
 - [ ] 實現 .tar.gz 處理
 - [ ] 創建 Go 元數據提取器
@@ -292,6 +320,7 @@ export function TokenMonitoring() {
 - [ ] 創建測試用例
 
 #### 驗收標準
+
 - ✅ 正確解析 go.mod
 - ✅ 依賴關係準確
 - ✅ 測試覆蓋率 > 85%
@@ -299,6 +328,7 @@ export function TokenMonitoring() {
 ### Day 3: Java/Maven 支援
 
 #### 任務清單
+
 - [ ] 實現 pom.xml 解析
 - [ ] 實現 .jar 處理
 - [ ] 創建 Maven 元數據提取器
@@ -306,6 +336,7 @@ export function TokenMonitoring() {
 - [ ] 創建測試用例
 
 #### 驗收標準
+
 - ✅ 正確解析 pom.xml
 - ✅ 依賴關係準確
 - ✅ 測試覆蓋率 > 85%
@@ -313,6 +344,7 @@ export function TokenMonitoring() {
 ### Day 4: Rust/Cargo 支援
 
 #### 任務清單
+
 - [ ] 實現 Cargo.toml 解析
 - [ ] 實現 .crate 處理
 - [ ] 創建 Cargo 元數據提取器
@@ -320,6 +352,7 @@ export function TokenMonitoring() {
 - [ ] 創建測試用例
 
 #### 驗收標準
+
 - ✅ 正確解析 Cargo.toml
 - ✅ 依賴關係準確
 - ✅ 測試覆蓋率 > 85%
@@ -327,6 +360,7 @@ export function TokenMonitoring() {
 ### Day 5: 統一接口整合
 
 #### 任務清單
+
 - [ ] 創建統一元數據接口
 - [ ] 實現自動生態系統檢測
 - [ ] 更新 API 端點
@@ -334,6 +368,7 @@ export function TokenMonitoring() {
 - [ ] 完整測試
 
 #### 驗收標準
+
 - ✅ 所有語言統一處理
 - ✅ 自動檢測準確
 - ✅ API 兼容性良好
@@ -345,6 +380,7 @@ export function TokenMonitoring() {
 ### Day 1-2: 團隊管理數據模型
 
 #### 任務清單
+
 - [ ] 創建團隊數據表
 - [ ] 創建成員關係表
 - [ ] 創建權限定義表
@@ -352,6 +388,7 @@ export function TokenMonitoring() {
 - [ ] 實現數據庫遷移
 
 #### 驗收標準
+
 - ✅ Schema 設計合理
 - ✅ 索引優化完成
 - ✅ 遷移腳本正確
@@ -359,6 +396,7 @@ export function TokenMonitoring() {
 ### Day 3-4: RBAC 實現
 
 #### 任務清單
+
 - [ ] 實現權限檢查中間件
 - [ ] 創建角色定義
 - [ ] 實現權限驗證邏輯
@@ -366,6 +404,7 @@ export function TokenMonitoring() {
 - [ ] 實現成員管理 API
 
 #### 技術細節
+
 ```python
 # api/middleware/rbac.py
 async def require_permission(permission: str):
@@ -378,6 +417,7 @@ async def require_permission(permission: str):
 ```
 
 #### 驗收標準
+
 - ✅ 權限檢查正確
 - ✅ 角色管理完整
 - ✅ API 功能完善
@@ -385,6 +425,7 @@ async def require_permission(permission: str):
 ### Day 5: 團隊管理 UI
 
 #### 任務清單
+
 - [ ] 創建團隊管理頁面
 - [ ] 創建成員邀請組件
 - [ ] 創建權限設置組件
@@ -392,6 +433,7 @@ async def require_permission(permission: str):
 - [ ] 完整測試
 
 #### 驗收標準
+
 - ✅ UI 交互流暢
 - ✅ 功能完整
 - ✅ 響應式設計
@@ -403,6 +445,7 @@ async def require_permission(permission: str):
 ### Day 1-2: Prompt 版本控制
 
 #### 任務清單
+
 - [ ] 創建 Prompt 數據模型
 - [ ] 實現版本管理
 - [ ] 創建 Prompt API
@@ -410,6 +453,7 @@ async def require_permission(permission: str):
 - [ ] 創建性能評分
 
 #### 驗收標準
+
 - ✅ 版本控制正確
 - ✅ API 功能完整
 - ✅ 測試框架可用
@@ -417,6 +461,7 @@ async def require_permission(permission: str):
 ### Day 3: Prompt 編輯器
 
 #### 任務清單
+
 - [ ] 創建 Prompt 編輯器組件
 - [ ] 實現語法高亮
 - [ ] 實現實時測試
@@ -424,6 +469,7 @@ async def require_permission(permission: str):
 - [ ] 實現發布流程
 
 #### 驗收標準
+
 - ✅ 編輯器功能完整
 - ✅ 實時測試可用
 - ✅ 版本管理流暢
@@ -431,6 +477,7 @@ async def require_permission(permission: str):
 ### Day 4: 完整測試
 
 #### 任務清單
+
 - [ ] 單元測試 (覆蓋率 > 85%)
 - [ ] 集成測試
 - [ ] E2E 測試
@@ -438,6 +485,7 @@ async def require_permission(permission: str):
 - [ ] 安全測試
 
 #### 驗收標準
+
 - ✅ 所有測試通過
 - ✅ 性能指標達標
 - ✅ 安全漏洞修復
@@ -445,6 +493,7 @@ async def require_permission(permission: str):
 ### Day 5: 部署與發布
 
 #### 任務清單
+
 - [ ] 準備生產環境
 - [ ] 配置 CI/CD
 - [ ] 部署到 Staging
@@ -453,6 +502,7 @@ async def require_permission(permission: str):
 - [ ] 提交 GitHub Marketplace
 
 #### 驗收標準
+
 - ✅ 部署成功
 - ✅ 功能驗證通過
 - ✅ Marketplace 提交
@@ -462,6 +512,7 @@ async def require_permission(permission: str):
 ## 📊 進度追蹤
 
 ### 每日站會
+
 - 時間: 每天 10:00 AM
 - 內容:
   - 昨天完成了什麼
@@ -469,6 +520,7 @@ async def require_permission(permission: str):
   - 遇到什麼阻礙
 
 ### 每週回顧
+
 - 時間: 每週五 4:00 PM
 - 內容:
   - 本週完成情況
@@ -492,6 +544,7 @@ async def require_permission(permission: str):
 ## 🎯 成功標準
 
 ### 技術指標
+
 - [ ] Token 監控延遲 < 100ms
 - [ ] Artifact 上傳成功率 > 99%
 - [ ] API 響應時間 P95 < 500ms
@@ -499,12 +552,14 @@ async def require_permission(permission: str):
 - [ ] 測試覆蓋率 > 85%
 
 ### 功能完整性
+
 - [ ] 所有計劃功能實現
 - [ ] 所有 API 端點可用
 - [ ] 前端 UI 完整
 - [ ] 文檔齊全
 
 ### 質量標準
+
 - [ ] 無 P0/P1 Bug
 - [ ] 安全漏洞修復
 - [ ] 性能優化完成
@@ -515,18 +570,21 @@ async def require_permission(permission: str):
 ## 📝 文檔清單
 
 ### 技術文檔
+
 - [ ] API 文檔 (OpenAPI/Swagger)
 - [ ] 架構設計文檔
 - [ ] 數據庫 Schema 文檔
 - [ ] 部署指南
 
 ### 用戶文檔
+
 - [ ] 快速開始指南
 - [ ] 用戶手冊
 - [ ] FAQ
 - [ ] 視頻教程
 
 ### 開發文檔
+
 - [ ] 開發環境設置
 - [ ] 貢獻指南
 - [ ] 代碼規範
@@ -534,7 +592,7 @@ async def require_permission(permission: str):
 
 ---
 
-## 🚀 準備就緒！
+## 🚀 準備就緒
 
 這個路線圖提供了清晰的實施路徑，從當前狀態到完整的 GitHub Marketplace 應用。
 

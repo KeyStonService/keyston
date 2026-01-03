@@ -8430,7 +8430,7 @@
                 "size": 5746
               },
               {
-                "file": "templates/aaps-mno-baseline-skeleton.yaml",
+                "file": "templates/machine-native-ops-mno-baseline-skeleton.yaml",
                 "status": "valid",
                 "issues": [],
                 "size": 8938
@@ -21665,9 +21665,9 @@
                 "file": "root/engine/engine.yaml",
                 "index": 0,
                 "apiVersion": "machinenativeops.io/v1",
-                "kind": "AAPS Engine",
+                "kind": "MachineNativeOps Engine",
                 "metadata": {
-                  "name": "aaps-core-engine",
+                  "name": "machine-native-ops-core-engine",
                   "version": "1.0.0",
                   "description": "AI Architecture & Artifact Provisioning System Core Engine"
                 },
@@ -31160,17 +31160,17 @@
                   "name": "mno-agent-super-orchestrator-baseline",
                   "namespace": "machinenativeops",
                   "labels": {
-                    "machinenativeops.io/platform": "AAPS",
+                    "machinenativeops.io/platform": "MachineNativeOps",
                     "machinenativeops.io/stage": "1",
                     "machinenativeops.io/layer": "L2",
                     "machinenativeops.io/profile": "super-orchestrator",
                     "machinenativeops.io/component": "agents",
                     "machinenativeops.io/subcomponent": "super-agent",
-                    "machinenativeops.io/managed-by": "aaps-controller"
+                    "machinenativeops.io/managed-by": "machine-native-ops-controller"
                   },
                   "annotations": {
                     "machinenativeops.io/urn": "urn:machinenativeops:agent:super:orchestrator:v2.0.0",
-                    "machinenativeops.io/description": "SuperAgent \u591a\u4ee3\u7406\u5354\u8abf\u5668\u57fa\u7dda\u914d\u7f6e\uff08AAPS Profile\uff09",
+                    "machinenativeops.io/description": "SuperAgent \u591a\u4ee3\u7406\u5354\u8abf\u5668\u57fa\u7dda\u914d\u7f6e\uff08MachineNativeOps Profile\uff09",
                     "machinenativeops.io/version": "v2.0.0"
                   }
                 },
@@ -31526,7 +31526,7 @@
                 "violations": []
               },
               {
-                "file": "templates/aaps-mno-baseline-skeleton.yaml",
+                "file": "templates/machine-native-ops-mno-baseline-skeleton.yaml",
                 "index": 0,
                 "apiVersion": "machinenativeops.io/v2",
                 "kind": "MachineNativeOpsGlobalBaseline",
@@ -31534,16 +31534,16 @@
                   "name": "mno-stage0-bootstrap-baseline",
                   "namespace": "machinenativeops",
                   "labels": {
-                    "machinenativeops.io/platform": "AAPS",
+                    "machinenativeops.io/platform": "MachineNativeOps",
                     "machinenativeops.io/stage": "0",
                     "machinenativeops.io/layer": "L0",
                     "machinenativeops.io/profile": "bootstrap-baseline",
                     "machinenativeops.io/component": "core",
-                    "machinenativeops.io/managed-by": "aaps-controller"
+                    "machinenativeops.io/managed-by": "machine-native-ops-controller"
                   },
                   "annotations": {
                     "machinenativeops.io/urn": "urn:machinenativeops:baseline:stage0:bootstrap:v1",
-                    "machinenativeops.io/description": "Stage 0 \u5b8c\u6574\u81ea\u5305\u542b\u90e8\u7f72\u914d\u7f6e\uff08AAPS Profile\uff09",
+                    "machinenativeops.io/description": "Stage 0 \u5b8c\u6574\u81ea\u5305\u542b\u90e8\u7f72\u914d\u7f6e\uff08MachineNativeOps Profile\uff09",
                     "machinenativeops.io/version": "v1.0.0"
                   }
                 },

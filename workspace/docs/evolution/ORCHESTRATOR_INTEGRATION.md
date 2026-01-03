@@ -128,13 +128,11 @@ Generated plans follow this structure:
 # Create security refactor playbooks for affected clusters
 # Apply fixes following playbook guidelines
 ```
+
 ````
 
 ````
-=======
 
-```
->>>>>>> origin/copilot/sub-pr-402
 
 ## 🔄 Integration with Ecosystem Orchestrator
 

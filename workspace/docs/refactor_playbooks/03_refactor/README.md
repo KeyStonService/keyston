@@ -64,11 +64,6 @@ docs/refactor_playbooks/
   對應舊資產必須從 `_legacy_scratch/` 刪除。
 - 舊資產的「知識層」則透過：
 
-  - `01_deconstruction/legacy_assets_index.yaml`（ID + 來源 + 描述）
-  - `03_refactor/*_refactor.md` 檔頭中的 `legacy_assets` 欄位
-    保留追溯關係，而不是保留原始檔案。
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -149,16 +144,6 @@ clusters:
       - "gateway-old-ts-templates"
 ```
 
-> 規則：
->
-> - `legacy_assets` 中的每個 ID 必須在
->   `01_deconstruction/legacy_assets_index.yaml` 中有對應定義。
-> - 若未設定 `deconstruction_file` 或
->   `integration_file`，代表此 cluster 的重構資料尚不完整（可在 CI 中視為 warning）。
-=======
-> - 若未設定 `deconstruction_file` 或 `integration_file`，
->   代表此 cluster 的重構資料尚不完整（可在 CI 中視為 warning）。
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -219,11 +204,6 @@ clusters:
 
 9. **集成對齊與回滾策略**
 
-   - 上游/下游依賴
-   - 重構後的集成步驟順序
-   - 失敗時如何快速回到舊組合（branch / feature flag 等）
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 
@@ -235,11 +215,8 @@ clusters:
 
 2. 在 `02_integration/` 撰寫對應的 `*_integration.md`：
 
-   - 定義語言分層、邊界與整合方式。
-=======
->>>>>>> origin/copilot/sub-pr-402
 
-3. 在 `03_refactor/` 中：
+1. 在 `03_refactor/` 中：
 
    1. 依 domain 選擇目錄（例如 `core/`, `services/`）
    2. 以 `REFRACTOR_PLAYBOOK_TEMPLATE.md` 為基礎，新建檔案：
@@ -254,15 +231,12 @@ clusters:
       - legacy_assets IDs
    4. 依照「必備內容」填寫各章節。
 
-4. 更新 `index.yaml` 與 `INDEX.md`：
+2. 更新 `index.yaml` 與 `INDEX.md`：
 
    - 增加此 cluster 的索引條目。
 
-5. （可選）更新 `meta/CI_INTEGRATION.md` 或 CI 設定：
+3. （可選）更新 `meta/CI_INTEGRATION.md` 或 CI 設定：
 
-   - 讓新的 refactor 劇本能被語言治理 / Auto-Fix / Dashboard 使用。
-=======
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 

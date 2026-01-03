@@ -100,6 +100,7 @@ ai/             ←→  island-ai/
 | `script/` | `scripts/` | 🔴 未整合 | 與 `scripts/` 並存，易混淆 |
 
 **P0 行動（立即執行，<48h）：**
+
 - 鎖定新增頂層目錄的 PR，僅允許移動到 `src/`, `config/`, `scripts/`, `docs/`
 - 依上表批次 `git mv`（先 `ai`/`island-ai`，再部署與基礎設施目錄）
 - 更新導入路徑與 CI 檢查腳本，確保 `machinenativeops.yaml` 為單一入口
@@ -401,17 +402,20 @@ forbidden:
 #### 任務清單
 
 - [ ] **0.1 創建重構分支**
+
   ```bash
   git checkout -b refactor/architecture-restructuring
   ```
 
 - [ ] **0.2 完整備份當前狀態**
+
   ```bash
   git tag -a v4.0.0-pre-refactor -m "Backup before restructuring"
   tar -czf ../machinenativeops-backup-$(date +%Y%m%d).tar.gz .
   ```
 
 - [ ] **0.3 建立依賴關係圖**
+
   ```bash
   # 使用工具分析當前依賴
   npx madge --image deps-graph.png src/
@@ -423,6 +427,7 @@ forbidden:
   - 只接受 bugfix 和文檔更新
 
 - [ ] **0.5 準備遷移腳本**
+
   ```bash
   mkdir -p scripts/migration/
   # 創建自動化遷移腳本（見附錄）
@@ -437,6 +442,7 @@ forbidden:
 - [ ] **1.1 創建 ARCHITECTURE_RESTRUCTURING_PLAN.md** ✅ (當前文檔)
 
 - [ ] **1.2 更新 CONTRIBUTING.md**
+
   ```markdown
   ## 目錄結構規範
   
@@ -460,6 +466,7 @@ forbidden:
   ```
 
 - [ ] **1.3 更新 README.md 專案結構章節**
+
   ```markdown
   ## 📂 專案結構
   
@@ -479,6 +486,7 @@ forbidden:
   ```
 
 - [ ] **1.4 創建遷移指南 (MIGRATION_GUIDE.md)**
+
   ```markdown
   # 重構遷移指南
   
@@ -499,6 +507,7 @@ forbidden:
   ```
 
 - [ ] **1.5 更新版本管理文檔**
+
   ```markdown
   # 版本管理策略
   
@@ -606,6 +615,7 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
 #### 任務清單
 
 - [ ] **3.1 更新 TypeScript import 路徑**
+
   ```bash
   # 使用 ts-morph 或手動全局替換
   find src/ -name "*.ts" -o -name "*.tsx" | xargs sed -i \
@@ -614,12 +624,14 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
   ```
 
 - [ ] **3.2 更新 Python import 路徑**
+
   ```bash
   find src/ -name "*.py" | xargs sed -i \
     -e 's|from core\.|from src.core.|g'
   ```
 
 - [ ] **3.3 更新配置文件路徑引用**
+
   ```bash
   # 更新 machinenativeops.yaml
   sed -i 's|config/|config/|g' machinenativeops.yaml
@@ -629,6 +641,7 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
   ```
 
 - [ ] **3.4 更新 CI/CD 腳本**
+
   ```bash
   # 更新 .github/workflows/*.yml
   find .github/workflows/ -name "*.yml" | xargs sed -i \
@@ -636,6 +649,7 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
   ```
 
 - [ ] **3.5 更新文檔中的路徑**
+
   ```bash
   find docs/ -name "*.md" | xargs sed -i \
     -e 's|](core/|](src/core/|g' \
@@ -649,32 +663,38 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
 #### 任務清單
 
 - [ ] **4.1 運行單元測試**
+
   ```bash
   npm test
   ```
 
 - [ ] **4.2 運行整合測試**
+
   ```bash
   npm run test:integration
   ```
 
 - [ ] **4.3 運行 E2E 測試**
+
   ```bash
   npm run test:e2e
   ```
 
 - [ ] **4.4 運行 Linters**
+
   ```bash
   npm run lint
   npm run lint:fix
   ```
 
 - [ ] **4.5 驗證構建流程**
+
   ```bash
   npm run build
   ```
 
 - [ ] **4.6 驗證部署流程**
+
   ```bash
   # 在 staging 環境測試部署
   npm run deploy:staging
@@ -693,6 +713,7 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
 #### 任務清單
 
 - [ ] **5.1 更新 CHANGELOG.md**
+
   ```markdown
   ## [5.0.0] - 2025-12-XX
   
@@ -713,11 +734,13 @@ git mv v2-multi-islands/ legacy/multi-islands-v2/
   ```
 
 - [ ] **5.2 更新 machinenativeops.yaml 版本號**
+
   ```yaml
   version: "5.0.0"  # 主版本號遞增（重大變更）
   ```
 
 - [ ] **5.3 創建 Git tag**
+
   ```bash
   git add .
   git commit -m "refactor: Restructure project architecture (v5.0.0)"
@@ -770,6 +793,7 @@ grep -r "/home/runner/work/MachineNativeOps/MachineNativeOps/core" . \
 ```
 
 **緩解**:
+
 - 使用自動化工具（codemod, ts-morph）批量更新
 - 運行完整測試套件
 - 手動審查關鍵路徑
@@ -777,11 +801,13 @@ grep -r "/home/runner/work/MachineNativeOps/MachineNativeOps/core" . \
 #### 2. CI/CD 中斷
 
 **預防措施**:
+
 - 在 `refactor/architecture-restructuring` 分支上測試 CI/CD
 - 更新 workflow 文件後先在分支上驗證
 - 準備回退腳本
 
 **回退計劃**:
+
 ```bash
 # 如果發布後發現嚴重問題
 git revert <commit-hash>
@@ -793,12 +819,14 @@ git push origin main
 #### 3. 團隊協作混亂
 
 **預防措施**:
+
 - 提前 1 週通知團隊
 - 提供詳細的 MIGRATION_GUIDE.md
 - 舉辦團隊培訓會議
 - 建立 Slack 頻道解答問題
 
 **溝通計劃**:
+
 ```markdown
 # 郵件模板
 
@@ -1164,7 +1192,8 @@ echo "✅ All verifications passed!"
 
 #### Q3: 現有 PR 如何處理？
 
-**A**: 
+**A**:
+
 - 已合併的 PR 無需處理
 - 待審查的 PR 建議暫緩合併，等待重構完成後 rebase
 - 新的 PR 應基於重構後的結構
@@ -1172,6 +1201,7 @@ echo "✅ All verifications passed!"
 #### Q4: 如果遇到問題如何回退？
 
 **A**: 我們在 `v4.0.0-pre-refactor` tag 處創建了備份。如遇嚴重問題，可執行：
+
 ```bash
 git reset --hard v4.0.0-pre-refactor
 ```
@@ -1207,7 +1237,8 @@ git reset --hard v4.0.0-pre-refactor
 - [ ] 批准後創建 `refactor/architecture-restructuring` 分支
 - [ ] 開始 Phase 0: 準備階段
 
-**聯絡人**: 
+**聯絡人**:
+
 - 技術負責人: [指定負責人]
 - 問題反饋: [Slack 頻道 / Email]
 

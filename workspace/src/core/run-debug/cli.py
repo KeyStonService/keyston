@@ -374,7 +374,7 @@ def variables(scope):
 
 @debug.command()
 @click.argument('expression')
-def eval(expression):
+def evaluate(expression):
     """評估表達式"""
     cli = DebugCLI()
     asyncio.run(cli.evaluate_expression(expression))

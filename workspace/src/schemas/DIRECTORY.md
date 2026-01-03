@@ -43,15 +43,16 @@
 ## 依賴規則
 
 **可被依賴於**：
+
 - `config/` - 驗證配置文件
 - `src/governance/` - 治理相關驗證
 - CI/CD pipelines - 自動化驗證
 
 **不應依賴**：
+
 - 任何實作代碼 - Schema 應獨立於實作
 
 ## 與其他目錄的關係
 
 - **config/**：配置文件使用這些 Schema 驗證
 - **src/governance/**：治理相關 Schema 與治理框架整合
-

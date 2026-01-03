@@ -1,11 +1,13 @@
 # Canonical Naming Governance v1.0 | 單一權威命名治理研究報告
 
 ## 🎯 Purpose 目的
+
 - 將上傳的「Canonical Naming Governance v1.0」內容落地為可執行規範。
 - 建立單一權威 machine-spec，支援 URN/URI、Gatekeeper、CI/Conftest、Kubeval 與遷移腳本。
 - 先對現有目錄給出對齊的 canonical 命名方案（不強制立即改名），確保後續自動化驗證有依據。
 
 ## 📌 Machine-Spec 單一權威配置
+
 - 來源：`governance/34-config/naming/canonical-naming-machine-spec.yaml`
 - 核心規則：
   - `allowed_chars: [a-z0-9-]`，`case: lower`，`max_length: 63`
@@ -18,6 +20,7 @@
   - Segment → URN：`domain->{domain}`、`component->{component}`、`environment->{environment}`、`version->{version}`、`region->qualifier:region`、`suffix->suffix_map.*`
 
 ## 🗂️ Directory Canonical Mapping (non-disruptive)
+
 | Path | Canonical name (regex compliant) | URN sample | Notes |
 | --- | --- | --- | --- |
 | `governance/23-policies` | `dev-governance-policies` | `urn:machinenativeops:governance:policies:env:dev:v1` | 與 Gatekeeper / Conftest 政策對齊，標記 `managed-by=machinenativeops-naming-controller` |
@@ -28,6 +31,7 @@
 > 說明：表格提供「推薦 canonical 名稱」與 URN 樣板，先用於 labels/annotations 與 CI 驗證，不強迫立即改動實體目錄，避免破壞既有引用。
 
 ## 🔐 Enforcement / 驗證流程
+
 - **Admission**：Gatekeeper 使用 machine-spec 中 `K8sRequiredLabels`、`K8sNamingPattern` 參數，`failurePolicy: Fail`。
 - **CI**：`conftest`/`yamllint`/`kubeval` 讀取 machine-spec，阻擋不符 regex 或缺標籤的 manifest（`naming_policy.rego` 已改為 canonical regex）。
 - **URN/URI**：Annotations `machinenativeops.io/canonical-urn`、`machinenativeops.io/qualifiers` 由機器生成，確保與 labels 一致。
@@ -35,6 +39,7 @@
 - **映射檔**：`governance/34-config/naming/namespace-mapping.yaml` 提供舊 namespace → canonical → URN/labels 的轉換表（含 unmanned-island-system、machinenativeops、island-ai、uav/ad-production 等），供遷移腳本/工具套用。
 
 ## 🛠️ Migration & Acceptance / 遷移與驗收
+
 - 遷移策略：`warn-and-plan`，先輸出 `reports/canonical-naming-mapping.csv`（dry-run），標示高/中/低風險。
 - 驗收條件：
   - 目錄與資源命名可被 `canonical_regex` 驗證通過。

@@ -336,5 +336,5 @@ spec:
 ---
 
 **维护者**: SynergyMesh Development Team  
-**联系方式**: dev@machinenativeops.com  
+**联系方式**: <dev@machinenativeops.com>  
 **最后更新**: 2025-12-19

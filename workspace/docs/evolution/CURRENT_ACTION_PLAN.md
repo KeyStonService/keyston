@@ -20,7 +20,3 @@
 
 ---
 
-本計畫由 `evolution_orchestrator.py` 自動生成
-=======
-本計畫由 `evolution_orchestrator.py` 自動生成
->>>>>>> origin/copilot/sub-pr-402

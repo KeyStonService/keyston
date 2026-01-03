@@ -76,6 +76,7 @@ Root Layer Specifications System
 | Kind Names | `^Root[A-Z][a-zA-Z0-9]*$` | `RootModulesConfig` ✅ |
 
 **Forbidden Patterns:**
+
 - ❌ Uppercase in file names
 - ❌ Spaces in any names
 - ❌ `.yml` extension (must use `.yaml`)
@@ -88,6 +89,7 @@ Root Layer Specifications System
 **Purpose:** Ensure all references are valid, resolvable, and properly formatted.
 
 **URN Format Defined:**
+
 ```
 urn:machinenativeops:{type}:{identifier}[:version]
 
@@ -106,6 +108,7 @@ Types: module, service, config, policy, certificate, audit
 | REF-006 | Environment variables defined | Warning |
 
 **Resolution Strategy:**
+
 1. Check `root.registry.urns.yaml` (priority 1)
 2. Check `root.registry.modules.yaml` (priority 2)
 3. Check `root.*.yaml` files (priority 3)
@@ -133,6 +136,7 @@ Types: module, service, config, policy, certificate, audit
    - Example: `/opt/machinenativenops` → application → "MachineNativeOps application root"
 
 **Integrity Checks:**
+
 - ✅ Bidirectional consistency
 - ✅ Coverage verification (100% required)
 - ✅ Uniqueness enforcement
@@ -177,6 +181,7 @@ Types: module, service, config, policy, certificate, audit
    - Read-only cannot write/delete
 
 **Algorithms Implemented:**
+
 - Cycle Detection (DFS, O(V+E))
 - Topological Sort (Kahn's, O(V+E))
 - Version Compatibility (Semver)
@@ -222,6 +227,7 @@ Types: module, service, config, policy, certificate, audit
    - Development allows pre-release
 
 **Drift Detection:**
+
 - Name drift (0% tolerance)
 - Version drift (minor version tolerance)
 - Config drift (10% tolerance)
@@ -249,6 +255,7 @@ Types: module, service, config, policy, certificate, audit
 | monitoring-service | monitoring-service | 1.0.0 | monitoring | 2 |
 
 **Dependency Graph:**
+
 ```
 config-manager (no deps)
   ↓
@@ -276,6 +283,7 @@ integrity-validator, super-execution-engine, monitoring-service
 | Audit URNs | 2 | `urn:machinenativeops:audit:governance-audit:v1` |
 
 **Resolution Rules:**
+
 - Module URNs → `root.registry.modules.yaml`
 - Config URNs → `root.*.yaml`
 - Policy URNs → `root.governance.yaml`
@@ -289,6 +297,7 @@ integrity-validator, super-execution-engine, monitoring-service
 ### Python Validator (`validate-root-specs.py`)
 
 **Features:**
+
 - Multi-document YAML support
 - Exception pattern handling
 - Recursive key validation
@@ -297,6 +306,7 @@ integrity-validator, super-execution-engine, monitoring-service
 - Markdown report generation
 
 **Validation Steps:**
+
 1. Load specifications (5 files)
 2. Load registries (2 files)
 3. Load root files (9 files)
@@ -312,10 +322,12 @@ integrity-validator, super-execution-engine, monitoring-service
 ### GitHub Actions Gate (`gate-root-specs.yml`)
 
 **Triggers:**
+
 - Pull requests modifying `root.*.yaml`, `root.*.map`, `root.*.sh`
 - Push to main branch
 
 **Validation Jobs:**
+
 1. ✅ Naming Validation (file patterns, uppercase, spaces)
 2. ✅ Reference Validation (URN format, namespace)
 3. ✅ Mapping Validation (module consistency, duplicates)
@@ -324,12 +336,14 @@ integrity-validator, super-execution-engine, monitoring-service
 6. ✅ Python Validator (comprehensive checks)
 
 **On Failure:**
+
 - PR blocked from merging
 - Detailed comment added to PR
 - Validation report uploaded as artifact
 - Specific violations highlighted
 
 **On Success:**
+
 - PR can be merged
 - Summary added to PR
 - Validation report archived
@@ -356,6 +370,7 @@ integrity-validator, super-execution-engine, monitoring-service
    - `gate-security` - Security scanning
 
 **Execution Order:**
+
 ```
 Phase 1: Pre-validation
   → gate-pr-evidence
@@ -370,6 +385,7 @@ Phase 3: Code validation (parallel)
 ```
 
 **Dependencies:**
+
 - `gate-root-specs` requires `gate-root-naming`
 - `gate-ci` requires `gate-pr-evidence`
 
@@ -380,6 +396,7 @@ Phase 3: Code validation (parallel)
 ### Comprehensive Guide (`ROOT_SPECS_GUIDE.md`)
 
 **Sections:**
+
 1. Introduction (What & Why)
 2. Architecture (Components & Data Flow)
 3. Specification Files (Detailed explanations)
@@ -443,6 +460,7 @@ Phase 3: Code validation (parallel)
 **Command:** `python3 scripts/validation/validate-root-specs.py`
 
 **Results:**
+
 - ✅ Specifications loaded: 5/5
 - ✅ Registries loaded: 2/2
 - ✅ Root files validated: 9/9
@@ -462,6 +480,7 @@ Phase 3: Code validation (parallel)
 **Status:** ✅ Pushed successfully
 
 **Commit Message:**
+
 ```
 feat: Add comprehensive Root Layer Specifications system
 
@@ -469,6 +488,7 @@ Implements machine-verifiable governance framework with 5 core specifications
 ```
 
 **Files Changed:**
+
 - 12 files changed
 - 3,908 insertions
 - 127 deletions
@@ -480,6 +500,7 @@ Implements machine-verifiable governance framework with 5 core specifications
 **Remote:** `https://github.com/MachineNativeOps/MachineNativeOps.git`
 
 **Notes:**
+
 - CodeQL scanning in progress
 - 6 Dependabot vulnerabilities noted (pre-existing)
 
@@ -488,26 +509,31 @@ Implements machine-verifiable governance framework with 5 core specifications
 ## 💡 Key Benefits Achieved
 
 ### 1. Automated Enforcement
+
 - ✅ No manual review needed for naming violations
 - ✅ PR automatically blocked on violations
 - ✅ Immediate feedback to developers
 
 ### 2. Single Source of Truth
+
 - ✅ Registries serve as authoritative sources
 - ✅ No data duplication
 - ✅ Consistent references across files
 
 ### 3. Clear Error Messages
+
 - ✅ Specific violations identified
 - ✅ Fix suggestions provided
 - ✅ Examples of correct usage
 
 ### 4. Zero Ambiguity
+
 - ✅ Regex patterns define exact rules
 - ✅ Algorithms specify validation logic
 - ✅ No interpretation needed
 
 ### 5. Comprehensive Coverage
+
 - ✅ All root layer files validated
 - ✅ All naming conventions enforced
 - ✅ All references verified

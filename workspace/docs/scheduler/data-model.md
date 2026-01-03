@@ -72,6 +72,7 @@ This document describes the data model for the Scheduler Service, including data
 **Purpose**: Stores job definitions and scheduling configuration
 
 **Schema**:
+
 ```sql
 CREATE TABLE jobs (
     id UUID PRIMARY KEY,
@@ -113,17 +114,20 @@ CREATE TABLE jobs (
 ```
 
 **Job Types**:
-- `cron`: Recurring jobs with cron expression (e.g., "0 2 * * *")
+
+- `cron`: Recurring jobs with cron expression (e.g., "0 2 ** *")
 - `one-time`: Jobs scheduled for a specific time
 - `interval`: Recurring jobs at fixed intervals (e.g., every 5 minutes)
 
 **Priority Levels**:
+
 - `critical`: P0 - Must execute immediately
 - `high`: P1 - Execute before normal jobs
 - `normal`: P2 - Standard priority
 - `low`: P3 - Execute when resources available
 
 **Status Values**:
+
 - `active`: Job is enabled and scheduled
 - `paused`: Job is temporarily disabled
 - `completed`: One-time job has finished
@@ -131,6 +135,7 @@ CREATE TABLE jobs (
 - `failed`: Job failed permanently
 
 **Example**:
+
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -157,6 +162,7 @@ CREATE TABLE jobs (
 **Purpose**: Stores execution history and results
 
 **Schema**:
+
 ```sql
 CREATE TABLE job_executions (
     id UUID PRIMARY KEY,
@@ -185,6 +191,7 @@ CREATE TABLE job_executions (
 ```
 
 **Execution Status**:
+
 - `pending`: Queued for execution
 - `running`: Currently executing
 - `completed`: Finished successfully
@@ -193,6 +200,7 @@ CREATE TABLE job_executions (
 - `cancelled`: Manually cancelled
 
 **Example**:
+
 ```json
 {
   "id": "660e8400-e29b-41d4-a716-446655440001",
@@ -220,6 +228,7 @@ CREATE TABLE job_executions (
 **Purpose**: Define job chains and dependencies
 
 **Schema**:
+
 ```sql
 CREATE TABLE job_dependencies (
     id UUID PRIMARY KEY,
@@ -237,10 +246,12 @@ CREATE TABLE job_dependencies (
 ```
 
 **Dependency Types**:
+
 - `wait_for_completion`: Wait for dependency to finish before starting
 - `required`: Fail if dependency fails
 
 **Example - Job Chain**:
+
 ```
 backup-db → verify-backup → upload-to-s3
 ```
@@ -267,6 +278,7 @@ backup-db → verify-backup → upload-to-s3
 **Purpose**: Categorize and filter jobs
 
 **Schema**:
+
 ```sql
 CREATE TABLE job_tags (
     id UUID PRIMARY KEY,
@@ -280,11 +292,13 @@ CREATE TABLE job_tags (
 ```
 
 **Common Tags**:
+
 - `backup`, `maintenance`, `report`, `cleanup`
 - `production`, `staging`, `development`
 - `critical`, `monitored`, `external`
 
 **Example**:
+
 ```json
 {
   "job_id": "550e8400-e29b-41d4-a716-446655440000",
@@ -297,6 +311,7 @@ CREATE TABLE job_tags (
 **Purpose**: Configure monitoring and notifications
 
 **Schema**:
+
 ```sql
 CREATE TABLE job_alerts (
     id UUID PRIMARY KEY,
@@ -319,6 +334,7 @@ CREATE TABLE job_alerts (
 ```
 
 **Alert Types**:
+
 - `failure`: Job execution failed
 - `timeout`: Job exceeded timeout
 - `retry`: Job is being retried
@@ -326,6 +342,7 @@ CREATE TABLE job_alerts (
 - `duration`: Job took longer than expected
 
 **Example**:
+
 ```json
 {
   "job_id": "550e8400-e29b-41d4-a716-446655440000",
@@ -498,15 +515,18 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Data Migration Strategy
 
 ### Phase 1 (Current)
+
 - In-memory job storage (BullMQ + Redis)
 - No persistent database
 
 ### Phase 2 (Q2 2026)
+
 - Migrate to PostgreSQL for job definitions
 - Keep Redis for job queue
 - Implement migrations (001_create_jobs_table.sql)
 
 ### Phase 3 (Q3 2026)
+
 - Add audit logging
 - Implement job versioning
 - Add collaborative features
@@ -514,16 +534,19 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Performance Considerations
 
 ### Write Optimization
+
 - Use prepared statements
 - Batch inserts for executions
 - Async writes for non-critical data
 
 ### Read Optimization
+
 - Index on commonly queried fields
 - Materialized views for analytics
 - Connection pooling
 
 ### Scaling Strategy
+
 - Horizontal scaling with read replicas
 - Partition executions table by date
 - Archive old executions to cold storage
@@ -531,11 +554,13 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Security
 
 ### Access Control
+
 - Row-level security by created_by
 - Role-based access (admin, operator, viewer)
 - Audit trail for all modifications
 
 ### Data Protection
+
 - Encrypt sensitive payloads
 - Sanitize errors before storing
 - Redact PII in logs
@@ -543,11 +568,13 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Backup & Recovery
 
 ### Backup Strategy
+
 - Daily full backups
 - Hourly incremental backups
 - Point-in-time recovery enabled
 
 ### Recovery Plan
+
 - RPO: 1 hour
 - RTO: 15 minutes
 - Automated failover
@@ -555,6 +582,7 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Monitoring
 
 ### Key Metrics
+
 - Job execution rate
 - Success/failure ratio
 - Average execution time
@@ -562,6 +590,7 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 - Worker utilization
 
 ### Alerts
+
 - Failed job threshold exceeded
 - Long-running jobs
 - Queue backlog
@@ -570,12 +599,14 @@ ORDER BY failed_runs DESC, avg_duration DESC;
 ## Future Enhancements
 
 ### Phase 2
+
 - Job versioning
 - Workflow DAGs
 - Conditional execution
 - Job templates
 
 ### Phase 3
+
 - Multi-tenant support
 - Job marketplace
 - Visual workflow editor

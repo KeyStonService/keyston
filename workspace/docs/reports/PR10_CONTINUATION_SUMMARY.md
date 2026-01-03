@@ -52,18 +52,9 @@ HLP Executor Core Plugin
 
 #### Key Features Documented
 
-1. **Async DAG Orchestration** - Topological sorting with risk-weighted
-   scheduling
-2. **Partial Rollback Management** - 3-level granularity
-   (Phase/Plan-unit/Artifact)
-=======
-
-1. **Async DAG Orchestration** - Topological sorting with risk-weighted scheduling
-2. **Partial Rollback Management** - 3-level granularity (Phase/Plan-unit/Artifact)
->>>>>>> origin/copilot/sub-pr-402
-3. **State Machine Orchestration** - 7-state transition flow with recovery
-4. **Dynamic Retry Policies** - Exponential backoff + jitter + risk-adaptive
-5. **Quantum Backend Integration** - Graceful degradation to classical mode
+1. **State Machine Orchestration** - 7-state transition flow with recovery
+2. **Dynamic Retry Policies** - Exponential backoff + jitter + risk-adaptive
+3. **Quantum Backend Integration** - Graceful degradation to classical mode
 
 #### Deployment Configuration
 

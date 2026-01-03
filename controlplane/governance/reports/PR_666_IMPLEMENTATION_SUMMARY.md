@@ -63,42 +63,42 @@ engine/machinenativenops-auto-monitor/
     └── 儲存.py                 # Storage management (bilingual naming)
 ```
 
-#### Module Descriptions:
+#### Module Descriptions
 
-1. **__init__.py** - Package entry point with exports
-2. **__main__.py** - Command-line interface
+1. ****init**.py** - Package entry point with exports
+2. ****main**.py** - Command-line interface
 
    - Supports `--config`, `--verbose`, `--dry-run`, `--daemon` options
    - Signal handling for graceful shutdown
-   
+
 3. **alerts.py** - Alert Management System
 
    - AlertRule class with threshold-based evaluation
    - AlertManager for rule management and notification
    - Multiple severity levels (CRITICAL, ERROR, WARNING, INFO)
    - Alert history tracking
-   
+
 4. **app.py** - Main Application
 
    - AutoMonitorApp orchestrating all components
    - Foreground and daemon modes
    - Collection loop with error handling
    - Status reporting
-   
+
 5. **collectors.py** - Metrics Collection
 
    - SystemCollector: CPU, memory, disk, network metrics
    - ServiceCollector: Health check and custom metrics from services
    - CustomMetricCollector: Extensible for custom sources
    - MetricsCollector: Aggregates all collectors
-   
+
 6. **config.py** - Configuration Management
 
    - AutoMonitorConfig with YAML loading
    - Default configuration generation
    - Validation logic
    - Support for namespaced configuration
-   
+
 7. **儲存.py** - Storage Management (Bilingual)
 
    - TimeSeriesStorage using SQLite backend
@@ -169,7 +169,7 @@ PRODUCTION VERIFICATION
 
 ## 📁 Files Created/Modified
 
-### New Files (13 total):
+### New Files (13 total)
 
 1. `mno-namespace.yaml`
 2. `tools/namespace-converter.py`
@@ -185,7 +185,7 @@ PRODUCTION VERIFICATION
 12. `engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/config.py`
 13. `engine/machinenativenops-auto-monitor/src/machinenativenops_auto_monitor/儲存.py`
 
-### Modified Files:
+### Modified Files
 
 - None (all changes are new files)
 

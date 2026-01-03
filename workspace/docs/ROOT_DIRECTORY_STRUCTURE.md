@@ -22,16 +22,19 @@
 ## Compliance with Minimal System Skeleton
 
 ✅ **Boot Pointers** (3 files):
+
 - `root.bootstrap.yaml`
 - `root.env.sh`
 - `root.fs.map`
 
 ✅ **Git Files** (3 items):
+
 - `.git/`
 - `.github/`
 - `.gitignore`
 
 ✅ **Project Files** (4 files):
+
 - `README.md`
 - `CNAME`
 - `.env.example`
@@ -39,12 +42,14 @@
 - `wrangler.toml` (symlink)
 
 ✅ **Primary Directories** (2 directories):
+
 - `controlplane/` - Governance layer
 - `workspace/` - Work layer
 
 ## Files Moved to Workspace
 
 ### Documentation → `workspace/docs/`
+
 - CLOUDFLARE_DEPLOYMENT_FIX.md
 - FINAL_COMPLETION_SUMMARY.md
 - NAMESPACE_SPECIFICATION_COMPLETE.md
@@ -57,6 +62,7 @@
 - todo.md
 
 ### Configuration → `workspace/config/`
+
 - package.json
 - package-lock.json
 - postcss.config.js
@@ -68,6 +74,7 @@
 - wrangler.toml (original)
 
 ### Application Code → `workspace/`
+
 - chatops/ → workspace/chatops/
 - client/ → workspace/client/
 - db/ → workspace/db/
@@ -77,6 +84,7 @@
 - attached_assets/ → workspace/attached_assets/
 
 ### Archive → `workspace/archive/`
+
 - Screenshot_20251223_184259.jpg
 - fix_indentation.py
 - fix_main_function.py
@@ -87,14 +95,16 @@
 
 ## Root Directory Rules
 
-### ✅ Allowed in Root:
+### ✅ Allowed in Root
+
 1. Boot pointers (root.*)
 2. Git files (.git/, .github/, .gitignore)
 3. Essential project files (README.md, LICENSE, CNAME, .env.example, .replit)
 4. Symlinks to workspace configs (wrangler.toml)
 5. Primary directories (controlplane/, workspace/)
 
-### ❌ Prohibited in Root:
+### ❌ Prohibited in Root
+
 1. Governance files (must be in controlplane/baseline/)
 2. Source code (must be in workspace/src/)
 3. Configuration files (must be in workspace/config/ or controlplane/baseline/config/)

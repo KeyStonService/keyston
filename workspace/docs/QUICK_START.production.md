@@ -502,12 +502,3 @@ docker-compose up -d
 
 ## 🤝 Support
 
-- 📖 [Documentation](./docs/)
-- 🐛
-  [Issue Tracker](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
-- 💬
-  [Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
-=======
-- 🐛 [Issue Tracker](https://github.com/SynergyMesh-admin/Unmanned-Island/issues)
-- 💬 [Discussions](https://github.com/SynergyMesh-admin/Unmanned-Island/discussions)
->>>>>>> origin/copilot/sub-pr-402

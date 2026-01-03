@@ -19,23 +19,27 @@ This guide provides detailed instructions for Phase 2 of the MachineNativeOps re
 ## Current Issues
 
 ### src/ Directory
+
 - Multiple overlapping directories (automation/, autonomous/, bridges/)
 - Inconsistent naming (apps/ vs client/ vs frontend/)
 - Scratch and legacy directories mixed with production code
 - Unclear separation between services and shared code
 
 ### config/ Directory
+
 - 60+ files at root level without clear organization
 - Mixed concerns (CI, dev, docker, agents, etc.)
 - Duplicate configuration files
 - No clear environment separation
 
 ### scripts/ Directory
+
 - Mixed script types at root level
 - Unclear categorization
 - Legacy and duplicate scripts
 
 ### governance/ Directory
+
 - Currently located in src/governance/ (should be at root)
 - 40+ numbered directories (00-40+)
 - Mixed content types
@@ -173,27 +177,32 @@ tests/
 **Duration:** 30 minutes
 
 1. **Create Feature Branch**
+
    ```bash
    git checkout -b refactor/subdirectory-restructure
    ```
 
 2. **Create Backup Tag**
+
    ```bash
    git tag -a subdirectory-backup-$(date +%Y%m%d-%H%M%S) -m "Backup before subdirectory restructure"
    git push origin --tags
    ```
 
 3. **Generate Directory Tree Snapshot**
+
    ```bash
    tree -L 4 -I 'node_modules|.git' > docs/directory-tree-before.txt
    ```
 
 4. **Run Dependency Analysis**
+
    ```bash
    npx madge --circular --extensions ts,js,py src/ > docs/dependency-graph-before.txt
    ```
 
 5. **Document Current Import Paths**
+
    ```bash
    grep -r "from.*import" src/ > docs/import-paths-before.txt
    grep -r "import.*from" src/ >> docs/import-paths-before.txt
@@ -600,6 +609,7 @@ rm -rf src/governance/{ci,dimensions,index,packages}
 #### Step 1: Update Import Paths
 
 Run automated import path updater:
+
 ```bash
 node scripts/ops/migration/update-import-paths.js
 ```
@@ -644,17 +654,20 @@ Closes #[issue-number]"
 ## Validation Rules
 
 ### Naming Conventions
+
 - **Format:** kebab-case only
 - **Max Depth:** 4 levels
-- **Prohibited:** _scratch, _legacy, temp, tmp, old, backup
+- **Prohibited:** _scratch,_legacy, temp, tmp, old, backup
 
 ### Structure Requirements
+
 - No empty directories
 - No orphaned files
 - Consistent naming throughout
 - Clear separation of concerns
 
 ### Import Requirements
+
 - No absolute paths
 - Use path aliases
 - No circular dependencies
@@ -679,18 +692,21 @@ npm run build
 ## Success Criteria
 
 ### Structure
+
 - ✅ All directories follow kebab-case naming
 - ✅ No duplicate or overlapping directories
 - ✅ Clear separation of concerns
 - ✅ Maximum 3-4 levels of nesting
 
 ### Functionality
+
 - ✅ All tests pass
 - ✅ Build succeeds without errors
 - ✅ No broken imports
 - ✅ CI/CD pipelines work
 
 ### Documentation
+
 - ✅ Updated README files
 - ✅ Migration guide created
 - ✅ New directory tree documented
@@ -732,6 +748,7 @@ After completing subdirectory restructuring:
 ## Support
 
 For questions or issues:
+
 - Create an issue in the repository
 - Contact the architecture team
 - Refer to the troubleshooting section above

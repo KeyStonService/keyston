@@ -15,6 +15,7 @@ Reorganize the root directory to comply with the **Minimal System Skeleton** pri
 ## Before Cleanup
 
 Root directory contained **30+ items** including:
+
 - Multiple documentation files (.md reports)
 - Application directories (chatops/, client/, db/, server/, shared/)
 - Configuration files (package.json, tsconfig.json, etc.)
@@ -54,6 +55,7 @@ Root directory now contains **13 items**:
 ## File Movements
 
 ### 📄 Documentation → `workspace/docs/` (10 files)
+
 - CLOUDFLARE_DEPLOYMENT_FIX.md
 - FINAL_COMPLETION_SUMMARY.md
 - NAMESPACE_SPECIFICATION_COMPLETE.md
@@ -66,6 +68,7 @@ Root directory now contains **13 items**:
 - todo.md
 
 ### ⚙️ Configuration → `workspace/config/` (8 files)
+
 - package.json
 - package-lock.json
 - postcss.config.js
@@ -76,6 +79,7 @@ Root directory now contains **13 items**:
 - .gitignore.prod
 
 ### 💻 Application Code → `workspace/` (7 directories)
+
 - chatops/ → workspace/chatops/
 - client/ → workspace/client/
 - db/ → workspace/db/
@@ -85,6 +89,7 @@ Root directory now contains **13 items**:
 - attached_assets/ → workspace/attached_assets/
 
 ### 📦 Archive → `workspace/archive/` (6 items)
+
 - Screenshot_20251223_184259.jpg
 - fix_indentation.py
 - fix_main_function.py
@@ -110,6 +115,7 @@ Root directory now contains **13 items**:
 ### ✅ Root Directory Rules (All Passed)
 
 **Allowed in Root:**
+
 - ✅ Boot pointers (root.bootstrap.yaml, root.env.sh, root.fs.map)
 - ✅ Git files (.git/, .github/, .gitignore)
 - ✅ Project files (README.md, CNAME, .env.example, .replit)
@@ -117,6 +123,7 @@ Root directory now contains **13 items**:
 - ✅ Primary directories (controlplane/, workspace/)
 
 **Prohibited in Root:**
+
 - ✅ No governance files (moved to controlplane/baseline/)
 - ✅ No source code (moved to workspace/src/)
 - ✅ No configuration files (moved to workspace/config/)

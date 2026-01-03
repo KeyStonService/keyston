@@ -13,11 +13,12 @@
 =======
 
 1. **共識**：Paxos / Raft / Multi-Paxos / EPaxos，對應合約服務與 registry 的狀態流。
+
 >>>>>>> origin/copilot/sub-pr-402
-2. **一致性模型**：強一致、最終一致、因果一致，映射到 config/system-module-map 中的資料寫入策略。
-3. **複寫與分片**：sharding、range/哈希分片、leader/follower 與 quorum 調整。
-4. **容錯設計**：網路分割、延遲尖峰、clock drift、故障注入。
-5. **觀測**：將遙測/trace 指標映射至 infrastructure/monitoring。
+1. **一致性模型**：強一致、最終一致、因果一致，映射到 config/system-module-map 中的資料寫入策略。
+2. **複寫與分片**：sharding、range/哈希分片、leader/follower 與 quorum 調整。
+3. **容錯設計**：網路分割、延遲尖峰、clock drift、故障注入。
+4. **觀測**：將遙測/trace 指標映射至 infrastructure/monitoring。
 
 ## 使用指南 How To Consume
 

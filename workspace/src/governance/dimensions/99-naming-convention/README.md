@@ -41,10 +41,12 @@ urn:machinenativeops:{domain}:{resource}:{version}
 ```
 
 **範例：**
+
 - `urn:machinenativeops:governance:naming-convention:v1`
 - `urn:machinenativeops:ai:cognitive-engine:v2`
 
 **註冊域名：**
+
 - `governance` - 治理框架資源
 - `ai` - AI 相關資源
 - `core` - 核心引擎資源
@@ -104,6 +106,7 @@ dependencies:
 ## 元規範約束
 
 作為元規範層維度，99-naming-convention：
+
 - ✅ 可被其他維度依賴
 - ❌ 不可依賴下游模組（防止循環）
 - ✅ 定義所有其他維度遵循的命名標準

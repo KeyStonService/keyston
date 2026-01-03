@@ -19,11 +19,11 @@
   },
   "MD003": false,
   "MD036": false,
-  "MD040": false,
+  "MD040": true,
   "MD041": false,
   "MD051": false,
   "MD024": false,
   "MD055": false,
   "MD056": false,
-  "MD060": false
+  "MD060": true
 }

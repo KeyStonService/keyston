@@ -6,7 +6,6 @@
 
 ### 具體問題
 
-
 1. ❌ 配置文件存在但沒有被實際使用
 2. ❌ 驗證系統運行但沒有整合到開發流程
 3. ❌ 缺少開發者工具來訪問配置
@@ -30,6 +29,7 @@
 ```
 
 **功能**:
+
 - ✅ 狀態查看
 - ✅ 配置讀取
 - ✅ 資源列表
@@ -58,6 +58,7 @@ config.create_overlay_extension("my-ext", "baseline/config/root.config.yaml", {.
 ```
 
 **功能**:
+
 - ✅ 配置讀取 API
 - ✅ 命名驗證
 - ✅ 註冊表訪問
@@ -108,6 +109,7 @@ git commit -m "Add file"
 ```
 
 **功能**:
+
 - ✅ 自動命名驗證
 - ✅ Controlplane 文件變更時運行完整驗證
 - ✅ 友好的錯誤訊息
@@ -124,6 +126,7 @@ git commit -m "Add file"
 5. **practical-usage**: 實際應用案例示例
 
 **功能**:
+
 - ✅ CI/CD 整合
 - ✅ 自動驗證
 - ✅ PR 評論報告
@@ -135,6 +138,7 @@ git commit -m "Add file"
 #### 快速入門指南 (`docs/CONTROLPLANE_QUICKSTART.md`)
 
 **內容**:
+
 - ✅ 什麼是 Controlplane
 - ✅ 快速開始指南
 - ✅ CLI 工具使用
@@ -170,12 +174,14 @@ git commit -m "Add file"
 ### 案例 1: 自動驗證新文件命名
 
 **之前**: 手動檢查，容易出錯
+
 ```bash
 # 創建文件，可能違反命名規範
 touch MyNewFile.yaml  # ❌ 不符合規範
 ```
 
 **之後**: 自動驗證
+
 ```bash
 # 使用 controlplane 驗證
 ./bin/cp-cli check-name MyNewFile.yaml
@@ -188,6 +194,7 @@ touch MyNewFile.yaml  # ❌ 不符合規範
 ### 案例 2: CI/CD 中使用配置
 
 **之前**: 硬編碼配置值
+
 ```yaml
 - name: Deploy
   run: |
@@ -196,6 +203,7 @@ touch MyNewFile.yaml  # ❌ 不符合規範
 ```
 
 **之後**: 從 controlplane 讀取
+
 ```yaml
 - name: Deploy
   run: |
@@ -207,12 +215,14 @@ touch MyNewFile.yaml  # ❌ 不符合規範
 ### 案例 3: 自動化腳本中使用
 
 **之前**: 無法訪問治理策略
+
 ```python
 # 不知道是否需要審批
 proceed_with_deployment()
 ```
 
 **之後**: 讀取治理策略
+
 ```python
 from controlplane import get_config
 
@@ -228,12 +238,14 @@ else:
 ### 案例 4: Pre-commit 自動驗證
 
 **之前**: 提交後才發現命名錯誤
+
 ```bash
 git commit -m "Add file"
 # 提交成功，但 CI 失敗
 ```
 
 **之後**: 提交前自動驗證
+
 ```bash
 git commit -m "Add file"
 # 🔍 Running pre-commit validation...
@@ -249,7 +261,6 @@ git commit -m "Add file"
 - **之後**: 100% - 完整的工具鏈和 API
 
 ### 開發者體驗
-
 
 - **之前**: 需要手動讀取 YAML 文件
 - **之後**: 3 種便捷方式（CLI、Python、Shell）
@@ -281,19 +292,17 @@ git commit -m "Add file"
 
 #### 整合層
 
-
-4. `.githooks/pre-commit` - Pre-commit hook
-5. `.github/workflows/controlplane-integration.yml` - GitHub Actions 整合
+1. `.githooks/pre-commit` - Pre-commit hook
+2. `.github/workflows/controlplane-integration.yml` - GitHub Actions 整合
 
 #### 文檔層
 
-
-6. `docs/CONTROLPLANE_QUICKSTART.md` - 快速入門指南
-7. `docs/CONTROLPLANE_INTEGRATION_SUMMARY.md` - 本文檔
+1. `docs/CONTROLPLANE_QUICKSTART.md` - 快速入門指南
+2. `docs/CONTROLPLANE_INTEGRATION_SUMMARY.md` - 本文檔
 
 #### 測試層
 
-8. `tests/test_controlplane_integration.py` - 整合測試套件
+1. `tests/test_controlplane_integration.py` - 整合測試套件
 
 ### 功能特性
 
@@ -378,7 +387,6 @@ git commit -m "Add feature"  # Pre-commit 自動驗證
 Controlplane 已經從「華麗的擺設」轉變為「實用的工具」：
 
 ### 之前 ❌
-
 
 - 配置文件存在但無法使用
 - 沒有工具訪問配置

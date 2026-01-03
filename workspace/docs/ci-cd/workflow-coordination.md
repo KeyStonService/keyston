@@ -14,12 +14,6 @@
 
 **觸發條件**:
 
-- 每次 push 或 PR 影響 `mcp-servers/**` 或
-  `core/contract_service/contracts-L1/contracts/**`
-=======
-
-- 每次 push 或 PR 影響 `mcp-servers/**` 或 `core/contract_service/contracts-L1/contracts/**`
->>>>>>> origin/copilot/sub-pr-402
 
 **執行內容**:
 

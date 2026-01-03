@@ -25,6 +25,7 @@ python examples/debug-examples/demo.py
 ```
 
 這將展示：
+
 - ✅ 基本偵錯功能
 - ✅ 聊天式偵錯介面
 - ✅ 進階功能
@@ -100,16 +101,19 @@ python -m src.core.run-debug.cli breakpoint \
 ### 初學者
 
 1. **執行示範腳本**
+
    ```bash
    python examples/debug-examples/demo.py
    ```
 
 2. **嘗試基本命令**
+
    ```bash
    python -m src.core.run-debug.cli --help
    ```
 
 3. **使用 REPL**
+
    ```bash
    python -m src.core.run-debug.cli repl
    ```
@@ -224,6 +228,7 @@ except Exception as e:
 ### Q2: 如何偵錯 Docker 容器中的應用程式？
 
 **A:**
+
 1. 在容器中安裝 debugpy
 2. 暴露偵錯端口
 3. 使用附加配置連接

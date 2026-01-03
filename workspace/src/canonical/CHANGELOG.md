@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🎉 Initial Release
 
 #### Added
+
 - **Single Source of Truth**: `machine-spec.yaml` 作為所有命名規則的唯一權威來源
 - **三種 Canonical 命名模式**:
   - `team-domain-env`: 團隊級命名空間（例：team-frontend-prod）
@@ -82,11 +83,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 完整字段追蹤
 
 #### Documentation
+
 - `canonical/README.md`: 單頁治理摘要（Platform Engineer 快速參考）
 - `canonical/machine-spec.yaml`: 完整機器可讀規範
 - RFC 編號: RFC-2025-10-25
 
 #### Governance
+
 - 批准機構: Governance Board
 - 負責團隊: Platform Engineering Team
 - 生效日期: 2025-01-15
@@ -96,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned for v1.1.0
+
 - [ ] 增加更多命名模式支持（feature-branch-名稱模式）
 - [ ] 支持多集群命名衝突檢測
 - [ ] 增強 URN 映射到 Service Mesh 資源
@@ -103,6 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [ ] 支持 Terraform Provider 直接讀取 machine-spec
 
 ### Under Consideration
+
 - [ ] 命名規則 A/B 測試機制
 - [ ] 自動命名建議 AI 模型
 - [ ] 跨雲平台命名統一（AWS/GCP/Azure）
@@ -124,12 +129,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Upgrading to v1.0.0 (Initial Release)
 
 **For New Implementations:**
+
 1. 部署 Gatekeeper ConstraintTemplates
 2. 配置 CI/CD 驗證流程
 3. 啟用 Prometheus 監控指標
 4. 創建符合規範的新資源
 
 **For Existing Resources:**
+
 1. 使用 `naming-migration.py` 掃描現有資源
 2. 檢測命名衝突和不合規資源
 3. 生成遷移計劃
@@ -139,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Rollback Plan:**
 如需回滾遷移，請參考:
+
 - `templates/playbooks/migration-rollback.template.yaml`
 - `tools/governance/bash/rollback_migration.sh`
 
@@ -149,6 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 如何提議規範變更
 
 1. **創建 RFC**:
+
    ```bash
    # 複製 RFC 模板
    cp docs/governance/rfc-template.md docs/governance/rfc-YYYY-MM-DD-your-proposal.md
@@ -201,6 +210,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OpenTelemetry Semantic Conventions
 
 特別感謝:
+
 - Platform Engineering Team 的設計和實施
 - Governance Board 的審批和指導
 - SRE Team 的運維反饋

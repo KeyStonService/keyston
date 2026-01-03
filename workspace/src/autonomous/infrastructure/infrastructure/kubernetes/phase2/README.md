@@ -15,12 +15,7 @@ Phase 2 是 SynergyMesh 的完整生產級 Kubernetes 部署配置，包含：
 
 ### 1. 命名空間與 RBAC (`01-namespace-rbac/`)
 
-- **namespace.yaml**: 6 個命名空間（autofix, autofix-dev, autofix-staging,
-  monitoring, logging, ingress-nginx）
-=======
 
-- **namespace.yaml**: 6 個命名空間（autofix, autofix-dev, autofix-staging, monitoring, logging, ingress-nginx）
->>>>>>> origin/copilot/sub-pr-402
 - **rbac.yaml**: 完整的 RBAC 配置（管理員、開發者、查看者角色）
 - **network-policies.yaml**: 網絡微分段策略
 - **pod-security-policies.yaml**: Pod 安全策略

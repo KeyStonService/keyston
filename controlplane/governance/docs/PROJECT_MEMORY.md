@@ -55,6 +55,7 @@
 - [x] 循環依賴檢測
 
 **模組清單**:
+
 1. config-manager (配置管理器)
 2. logging-service (日誌服務)
 3. governance-engine (治理引擎)
@@ -109,7 +110,8 @@
 
 #### 1. YAML 作為配置格式
 
-**原因**: 
+**原因**:
+
 - 人類可讀性高
 - 支援註解
 - 廣泛的工具支援
@@ -120,6 +122,7 @@
 #### 2. Python 作為驗證語言
 
 **原因**:
+
 - 豐富的 YAML 處理庫
 - 易於編寫驗證邏輯
 - 良好的錯誤處理
@@ -130,6 +133,7 @@
 #### 3. GitHub Actions 作為 CI/CD
 
 **原因**:
+
 - 與 GitHub 深度整合
 - 免費額度充足
 - 配置簡單
@@ -140,6 +144,7 @@
 #### 4. Regex 模式驗證
 
 **原因**:
+
 - 精確且無歧義
 - 性能優異
 - 可測試性強
@@ -328,7 +333,8 @@ PR 創建
 
 **背景**: 需要統一的資源引用方式
 **決策**: 採用 URN 格式 `urn:machinenativeops:{type}:{identifier}[:version]`
-**理由**: 
+**理由**:
+
 - 全域唯一性
 - 版本控制支援
 - 類型安全
@@ -342,6 +348,7 @@ PR 創建
 **背景**: 避免資料重複和不一致
 **決策**: 創建 root.registry.modules.yaml 和 root.registry.urns.yaml 作為唯一事實來源
 **理由**:
+
 - 單一資料源
 - 避免漂移
 - 強制一致性
@@ -355,6 +362,7 @@ PR 創建
 **背景**: 需要強制執行規範
 **決策**: 使用 GitHub Actions 自動阻擋不合規的 PR
 **理由**:
+
 - 即時反饋
 - 防止錯誤進入 main
 - 減少人工審查負擔
@@ -457,7 +465,7 @@ PR 創建
 ### 專案維護者
 
 - **團隊**: MachineNativeOps Governance Team
-- **倉庫**: https://github.com/MachineNativeOps/MachineNativeOps
+- **倉庫**: <https://github.com/MachineNativeOps/MachineNativeOps>
 - **分支**: main
 
 ### 支援管道

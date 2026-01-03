@@ -189,9 +189,11 @@ kubectl apply -f 04-security-observability/config/rbac-policies.yaml
 ### Security & Observability
 
 =======
+
 ### Security & Observability  
 
 >>>>>>> origin/copilot/sub-pr-402
+
 - [ ] 生產環境啟用 RBAC
 - [ ] 結構化日誌配置完成
 - [ ] OpenTelemetry 配置部署

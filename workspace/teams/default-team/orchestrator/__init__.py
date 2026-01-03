@@ -1,7 +1,7 @@
 """
-AAPS SuperAgent - Multi-Agent Orchestrator
+MachineNativeOps SuperAgent - Multi-Agent Orchestrator
 
-SuperAgent is the central coordinator in the AAPS multi-agent MPC architecture.
+SuperAgent is the central coordinator in the MachineNativeOps multi-agent MPC architecture.
 It provides:
 - Message routing and distribution between agents
 - Incident lifecycle state machine management
@@ -12,7 +12,7 @@ It provides:
 """
 
 __version__ = "1.0.0"
-__author__ = "AAPS Team"
+__author__ = "MachineNativeOps Team"
 __all__ = [
     "models",
     "services",

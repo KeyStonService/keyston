@@ -25,5 +25,6 @@
 1. 使用 `npm exec --workspace core/contract_service/contracts-L1/contracts ts-node scripts/raft-lab.ts` 啟動 Raft 模擬。
 2. 以 `python automation/architect/fault_injector.py --scenario network-partition` 觸發混沌。
 =======
+
 >>>>>>> origin/copilot/sub-pr-402
-3. 將結果寫入 docs/KNOWLEDGE_HEALTH.md → Distributed Systems Panel。
+1. 將結果寫入 docs/KNOWLEDGE_HEALTH.md → Distributed Systems Panel。

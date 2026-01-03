@@ -15,11 +15,13 @@
 **目標**: 讓 PR 模板強制要求證據
 
 **步驟**:
+
 1. 確認 `.github/pull_request_template.md` 已部署
 2. 測試：開一個新 PR，確認模板自動載入
 3. 驗證：四大證據欄位都出現在 PR 描述中
 
 **驗收標準**:
+
 - ✅ 新 PR 自動顯示模板
 - ✅ 四大證據欄位清晰可見
 - ✅ 第五證據（命名規範）欄位存在
@@ -31,6 +33,7 @@
 **目標**: 啟用 GitHub Actions 自動檢查
 
 **步驟**:
+
 1. 確認以下檔案已部署：
 
    - `.github/workflows/gate-pr-evidence.yml`
@@ -50,6 +53,7 @@
    - 應該看到 ✅ 綠勾（檢查通過）
 
 **驗收標準**:
+
 - ✅ Actions 能正確偵測缺失證據
 - ✅ Actions 能正確偵測命名違規
 - ✅ 通過檢查後顯示綠勾
@@ -60,12 +64,15 @@
 
 **目標**: 讓不合規的 PR 無法合併
 
-**前提條件**: 
+**前提條件**:
+
 - 您必須是 repo 的 Owner 或 Admin
 - 如果不是，請聯絡 Owner 協助設定
 
 **步驟**:
+
 1. 進入 GitHub repo 設定：
+
    ```
    Settings → Branches → Branch protection rules
    ```
@@ -76,7 +83,7 @@
 
    - ✅ **Require a pull request before merging**
    - ✅ **Require status checks to pass before merging**
-   
+
 4. 在「Status checks that are required」中搜尋並勾選：
 
    - ✅ `gate-pr-evidence / validate-pr-evidence`
@@ -91,6 +98,7 @@
 6. 儲存設定
 
 **驗收標準**:
+
 - ✅ 嘗試合併一個檢查失敗的 PR → 應該被阻擋
 - ✅ 只有檢查通過的 PR 才能合併
 - ✅ 直接 push 到 main 被阻擋
@@ -104,6 +112,7 @@
 **目的**: 驗證正常的 PR 流程
 
 **步驟**:
+
 1. 創建新分支：`feature/test-normal-flow`
 2. 新增一個簡單檔案：`test.md`
 3. 提交並推送
@@ -113,6 +122,7 @@
 7. 合併 PR
 
 **預期結果**:
+
 - ✅ PR 模板自動載入
 - ✅ Actions 檢查通過
 - ✅ 可以成功合併
@@ -124,12 +134,14 @@
 **目的**: 驗證證據驗證機制
 
 **步驟**:
+
 1. 創建新分支：`feature/test-missing-evidence`
 2. 新增一個簡單檔案
 3. 開 PR，但**故意不填**四大證據
 4. 等待 Actions 執行
 
 **預期結果**:
+
 - ❌ `gate-pr-evidence` 檢查失敗
 - 📝 PR 中出現自動評論列出缺失項目
 - 🚫 無法合併（如果已啟用分支保護）
@@ -141,12 +153,14 @@
 **目的**: 驗證命名規範檢查
 
 **步驟**:
+
 1. 創建新分支：`feature/test-naming-violation`
 2. 在 `root/` 下新增違規檔案：`root/Root.Config.yaml`（大寫）
 3. 開 PR，填入完整證據
 4. 等待 Actions 執行
 
 **預期結果**:
+
 - ❌ `gate-root-naming` 檢查失敗
 - 📝 PR 中出現自動評論說明違規項目
 - 🚫 無法合併

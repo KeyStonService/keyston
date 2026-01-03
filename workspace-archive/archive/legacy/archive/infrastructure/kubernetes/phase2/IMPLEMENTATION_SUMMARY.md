@@ -23,7 +23,9 @@
 =======
 
 - 6 個命名空間：autofix, autofix-dev, autofix-staging, monitoring, logging, ingress-nginx
+
 >>>>>>> origin/copilot/sub-pr-402
+
 - 完整的標籤和註解
 
 ✅ **rbac.yaml**

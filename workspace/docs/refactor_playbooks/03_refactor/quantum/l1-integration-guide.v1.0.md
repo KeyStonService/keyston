@@ -714,18 +714,6 @@ kubectl apply -f custom-allow-policy.yaml
 
 ## 📚 參考資料 / References
 
-1. **Kubernetes Official Documentation**: <https://kubernetes.io/docs/>
-2. **Open Policy Agent (OPA)**: <https://www.openpolicyagent.org/>
-3. **Kyverno Policy Engine**: <https://kyverno.io/>
-4. **Istio Service Mesh**: <https://istio.io/>
-5. **Qiskit Quantum SDK**: <https://qiskit.org/>
-6. **ArgoCD GitOps**: <https://argo-cd.readthedocs.io/>
-7. **SLSA Supply Chain Security**: <https://slsa.dev/>
-8. **CNCF Security Best Practices**:
-   <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
-=======
-8. **CNCF Security Best Practices**: <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 

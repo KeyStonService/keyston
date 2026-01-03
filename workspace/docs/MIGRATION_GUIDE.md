@@ -108,6 +108,7 @@ MachineNativeOps 專案當前面臨嚴重的架構混亂問題：
    - 所有待審查的功能 PR 建議暫緩合併
 
 2. **備份本地工作**
+
    ```bash
    # 提交所有未提交的更改
    git add .
@@ -288,21 +289,24 @@ git push origin your-feature-branch
 
 ### Q1: 我的 PR 還沒合併，怎麼辦？
 
-**A**: 
+**A**:
+
 - 如果是功能 PR，建議等待重構完成後 rebase 到新結構
 - 如果是 bugfix，可以照常合併，我們會處理路徑衝突
 - 如果急需合併，請在 PR 中添加標籤 `pre-restructuring`
 
 ### Q2: 重構期間發現緊急 bug 怎麼辦？
 
-**A**: 
+**A**:
+
 - 緊急 bugfix 不受功能凍結限制
 - 在當前結構上修復並合併
 - 我們會在遷移腳本中處理這些變更
 
 ### Q3: 我的本地分支有很多未提交的更改？
 
-**A**: 
+**A**:
+
 ```bash
 # 選項 1: 提交到臨時分支
 git checkout -b backup/my-work
@@ -318,7 +322,8 @@ git stash pop
 
 ### Q4: TypeScript 編譯錯誤怎麼辦？
 
-**A**: 
+**A**:
+
 ```bash
 # 清除舊的構建緩存
 rm -rf dist/ build/ *.tsbuildinfo
@@ -333,27 +338,31 @@ npm run build
 
 ### Q5: CI/CD 失敗怎麼辦？
 
-**A**: 
+**A**:
+
 - 檢查 GitHub Actions workflow 是否已更新腳本路徑
 - 參考 `.github/workflows/` 下的更新模板
 - 如仍失敗，請在 `#architecture-restructuring` 頻道求助
 
 ### Q6: 我可以繼續使用舊路徑嗎？
 
-**A**: 
+**A**:
+
 - ❌ 不可以。舊路徑在遷移後將不存在
 - 所有代碼必須更新到新路徑
 - 我們提供自動化腳本協助遷移
 
 ### Q7: 重構後性能會受影響嗎？
 
-**A**: 
+**A**:
+
 - ✅ 不會。這是純粹的目錄重組，不影響運行時性能
 - ✅ 反而可能提升構建速度（更好的 webpack/tsconfig 緩存）
 
 ### Q8: 如何驗證我的更改是否正確？
 
-**A**: 
+**A**:
+
 ```bash
 # 運行完整驗證套件
 npm run verify-structure  # 驗證目錄結構
@@ -389,7 +398,7 @@ scripts/migration/verify-structure.sh
 
 - 💬 **Slack**: `#architecture-restructuring`
 - 🐛 **GitHub Issue**: `#TBD` (重構追蹤 issue)
-- 📧 **Email**: team@machinenativeops.io
+- 📧 **Email**: <team@machinenativeops.io>
 - 📅 **團隊會議**: [日期 TBD] - 重構說明會
 
 ### 聯絡人

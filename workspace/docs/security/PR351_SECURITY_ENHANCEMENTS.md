@@ -109,6 +109,7 @@ const hash = createHash('sha256');
 #### Approved Algorithms
 
 **Hashing**:
+
 - ✅ SHA-256, SHA-384, SHA-512
 - ✅ SHA3-256, SHA3-512
 - ✅ BLAKE2b, BLAKE3
@@ -116,6 +117,7 @@ const hash = createHash('sha256');
 - ❌ SHA-1 (forbidden)
 
 **Password Hashing**:
+
 - ✅ bcrypt
 - ✅ argon2id
 - ✅ scrypt
@@ -202,6 +204,7 @@ FLASK_DEBUG=False
 ### Behavior Contracts
 
 Updated `governance/37-behavior-contracts/core.slsa_provenance.yaml`:
+
 - Added SAFE_ROOT configuration schema
 - Updated guarantees to include path validation
 - Added ERR_PATH_SECURITY_VIOLATION error code
@@ -209,6 +212,7 @@ Updated `governance/37-behavior-contracts/core.slsa_provenance.yaml`:
 ### Policy Framework
 
 New policies added to `governance/10-policy/base-policies/security-policies.yaml`:
+
 - **SEC-PATH-001**: Path traversal prevention
 - **SEC-LOG-001**: Secure logging practices
 - **SEC-CRYPTO-001**: Cryptographic security (enhanced)

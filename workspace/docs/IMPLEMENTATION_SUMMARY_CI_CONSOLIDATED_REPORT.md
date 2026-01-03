@@ -13,7 +13,9 @@ This implementation successfully consolidates CI job comments into a single comm
 ### 1. 核心工作流程 | Core Workflows
 
 #### `.github/workflows/ci-consolidated-report.yml`
+
 可重用的工作流程，用於生成整合報告：
+
 - ✅ 接受多個 job 的摘要資訊
 - ✅ 使用 Python 腳本生成中文模板評論
 - ✅ 使用 `peter-evans/create-or-update-comment@v4` 更新單一評論
@@ -21,7 +23,9 @@ This implementation successfully consolidates CI job comments into a single comm
 - ✅ 智能錯誤類型識別與修復建議
 
 #### `.github/workflows/self-healing-validation.yml` (重構)
+
 實際應用範例，展示如何使用整合報告：
+
 - ✅ 將單一 job 拆分為 3 個獨立 jobs
 - ✅ 每個 job 輸出標準化摘要
 - ✅ 最後的 report job 整合所有結果
@@ -30,7 +34,9 @@ This implementation successfully consolidates CI job comments into a single comm
 ### 2. 核心腳本 | Core Scripts
 
 #### `.github/scripts/generate-consolidated-comment.py`
+
 智能評論生成腳本：
+
 - ✅ 解析 JSON 格式的 job 摘要
 - ✅ 識別錯誤類型（TypeScript、測試、Lint、建置等）
 - ✅ 提供對應的修復建議與快速命令
@@ -40,7 +46,9 @@ This implementation successfully consolidates CI job comments into a single comm
 ### 3. 文檔 | Documentation
 
 #### `docs/CI_CONSOLIDATED_REPORT.md`
+
 完整系統文檔：
+
 - ✅ 系統架構圖
 - ✅ 評論模板格式說明
 - ✅ 使用指南與代碼範例
@@ -48,7 +56,9 @@ This implementation successfully consolidates CI job comments into a single comm
 - ✅ 故障排除指南
 
 #### `docs/CI_CONSOLIDATED_REPORT_MIGRATION_GUIDE.md`
+
 遷移指南：
+
 - ✅ 遷移前檢查清單
 - ✅ 逐步遷移流程
 - ✅ 常見場景與解決方案
@@ -56,7 +66,9 @@ This implementation successfully consolidates CI job comments into a single comm
 - ✅ 完整範例
 
 #### `docs/examples/ci-consolidated-report-example.yml`
+
 範例 workflow：
+
 - ✅ 完整的 build、test、lint jobs
 - ✅ 正確的 job output 格式
 - ✅ report job 實作示範
@@ -214,6 +226,7 @@ python3 .github/scripts/generate-consolidated-comment.py
 ### ✅ YAML 驗證
 
 所有 workflow 檔案都通過 YAML 語法驗證：
+
 - ✅ `ci-consolidated-report.yml`
 - ✅ `self-healing-validation.yml`
 - ✅ `ci-consolidated-report-example.yml`
@@ -301,6 +314,7 @@ python3 .github/scripts/generate-consolidated-comment.py
 ## 📝 檔案清單 | File List
 
 ### 新增檔案 (7)
+
 1. `.github/workflows/ci-consolidated-report.yml`
 2. `.github/scripts/generate-consolidated-comment.py`
 3. `docs/CI_CONSOLIDATED_REPORT.md`
@@ -309,6 +323,7 @@ python3 .github/scripts/generate-consolidated-comment.py
 6. `IMPLEMENTATION_SUMMARY_CI_CONSOLIDATED_REPORT.md` (本檔案)
 
 ### 修改檔案 (2)
+
 1. `.github/workflows/self-healing-validation.yml` (重構)
 2. `DOCUMENTATION_INDEX.md` (新增索引)
 

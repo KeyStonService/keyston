@@ -1,2 +1,0 @@
-[console_scripts]
-config-manager = config_manager.__main__:main

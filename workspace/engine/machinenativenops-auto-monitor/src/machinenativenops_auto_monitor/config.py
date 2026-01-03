@@ -8,18 +8,13 @@ Configuration Module
 Manages configuration for the auto-monitor system.
 """
 
+import os
 import logging
-from pathlib import Path
-from typing import Any, Dict
 import yaml
-Handles configuration loading and management for the auto-monitor system.
-"""
-
-import yaml
-import logging
 from pathlib import Path
 from typing import Dict, Any, Optional
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
+
 
 
 @dataclass
@@ -352,7 +347,7 @@ class MonitorConfig:
     namespace: str = 'machinenativeops'
     registry: str = 'registry.machinenativeops.io'
     certificate_path: str = 'etc/machinenativeops/pkl'
-    cluster_token: str = 'super-agent-etcd-cluster'
+    cluster_token: str = field(default_factory=lambda: os.getenv('CLUSTER_TOKEN', ''))
     
     # Feature flags
     enable_kubernetes: bool = False
@@ -406,20 +401,19 @@ class MonitorConfig:
             logger.error(f"Invalid collection_interval: {self.collection_interval}")
             return False
         
+        # Validate cluster_token for production mode
+        if self.mode == 'production' and not self.cluster_token:
+            logger.error("cluster_token is required in production mode")
+            return False
+        
+        if self.mode == 'production' and self.cluster_token == '':
+            logger.warning("cluster_token is empty in production mode - this may lead to authentication issues")
+        
         logger.info("✅ Configuration validated successfully")
         return True
 
 
 def create_default_config_file(output_path: Path):
-    """
-    Create a default configuration file.
-    
-    Args:
-        output_path: Path to create configuration file
-    """
-    config = AutoMonitorConfig.default()
-    config.save(output_path)
-    print(f"Default configuration created at: {output_path}")
     """Create a default configuration file."""
     config = MonitorConfig.default()
     config.to_yaml(output_path)

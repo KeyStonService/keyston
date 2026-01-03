@@ -23,6 +23,7 @@
 ### 1. Dependabot 配置 ✅ 已完成
 
 **修復內容**:
+
 - 將 `version: 2` 移到文件開頭
 - 重新格式化所有配置項
 - 確保 YAML 語法正確
@@ -32,9 +33,11 @@
 ### 2. Cloudflare Workers 配置 🔧 需要操作
 
 #### 問題根源
+
 Cloudflare 部署失敗的主要原因：
 
 1. **KV Namespace IDs 未設置**
+
    ```toml
    [[env.production.kv_namespaces]]
    binding = "CACHE"
@@ -42,6 +45,7 @@ Cloudflare 部署失敗的主要原因：
    ```
 
 2. **D1 Database IDs 未設置**
+
    ```toml
    [[env.production.d1_databases]]
    binding = "DB"
@@ -62,11 +66,13 @@ ln -s workspace/config/wrangler.toml wrangler.toml
 ```
 
 **優點**:
+
 - 保持文件組織結構
 - Cloudflare 可以找到配置
 - 不需要移動文件
 
 **缺點**:
+
 - 需要在 Git 中追蹤符號連結
 
 ##### 選項 B: 複製配置文件到根目錄
@@ -77,23 +83,28 @@ cp workspace/config/wrangler.toml wrangler.toml
 ```
 
 **優點**:
+
 - 簡單直接
 - 不需要符號連結
 
 **缺點**:
+
 - 文件重複
 - 需要同步更新
 
 ##### 選項 C: 更新 Cloudflare 部署配置
 
 在 Cloudflare Dashboard 中指定配置文件路徑：
+
 - 設置 `wrangler.toml` 路徑為 `workspace/config/wrangler.toml`
 
 **優點**:
+
 - 保持文件組織
 - 不需要額外文件
 
 **缺點**:
+
 - 需要在 Dashboard 手動配置
 - 每個 Worker 都需要配置
 
@@ -158,7 +169,9 @@ database_id = "your-d1-database-id-here"
 ### 4. Cloudflare Pages 配置 🔧 需要操作
 
 #### 問題
+
 Pages 部署失敗可能是因為：
+
 1. 構建命令不正確
 2. 輸出目錄路徑錯誤
 3. 環境變數未設置
@@ -168,6 +181,7 @@ Pages 部署失敗可能是因為：
 在 Cloudflare Dashboard 中配置 Pages：
 
 1. **Build Configuration**:
+
    ```
    Build command: npm run build
    Build output directory: dist
@@ -208,6 +222,7 @@ Pages 部署失敗可能是因為：
 ### 短期（立即）
 
 1. **創建符號連結**（選項 A）
+
    ```bash
    ln -s workspace/config/wrangler.toml wrangler.toml
    git add wrangler.toml
@@ -218,6 +233,7 @@ Pages 部署失敗可能是因為：
    - 先讓基本部署通過
 
 3. **提交修復**
+
    ```bash
    git commit -m "fix: Update Dependabot config and add wrangler.toml symlink"
    git push
@@ -256,12 +272,14 @@ Pages 部署失敗可能是因為：
 ## 📊 影響評估
 
 ### 當前狀態
+
 - ❌ Cloudflare Workers: 3/3 失敗
 - ❌ Cloudflare Pages: 1/1 失敗
 - ✅ CodeQL: 10/10 通過
 - ✅ Security Scans: 3/3 通過
 
 ### 修復後預期
+
 - ✅ Cloudflare Workers: 3/3 通過（配置資源後）
 - ✅ Cloudflare Pages: 1/1 通過（配置後）
 - ✅ CodeQL: 10/10 通過
@@ -273,6 +291,7 @@ Pages 部署失敗可能是因為：
 ## 🔗 相關資源
 
 ### Cloudflare 文檔
+
 - [Wrangler Configuration](https://developers.cloudflare.com/workers/wrangler/configuration/)
 - [KV Namespaces](https://developers.cloudflare.com/kv/)
 - [D1 Databases](https://developers.cloudflare.com/d1/)
@@ -280,6 +299,7 @@ Pages 部署失敗可能是因為：
 - [Pages Configuration](https://developers.cloudflare.com/pages/configuration/)
 
 ### 內部文檔
+
 - `workspace/config/wrangler.toml` - Workers 配置
 - `.github/dependabot.yml` - Dependabot 配置
 - `PR_REVIEW_REPORT.md` - PR 審查報告

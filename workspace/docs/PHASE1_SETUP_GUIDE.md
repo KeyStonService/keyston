@@ -94,7 +94,7 @@ cd services/api-gateway
 npm run dev
 ```
 
-Access at: http://localhost:8000
+Access at: <http://localhost:8000>
 
 #### Terminal 2: Scheduler
 
@@ -110,7 +110,7 @@ cd apps/web
 npm run dev
 ```
 
-Access at: http://localhost:5173
+Access at: <http://localhost:5173>
 
 ---
 
@@ -133,8 +133,8 @@ docker-compose -f docker-compose.phase1.yml down
 
 | Service | Port | URL |
 |---------|------|-----|
-| API Gateway | 8000 | http://localhost:8000 |
-| Dashboard | 3000 | http://localhost:3000 |
+| API Gateway | 8000 | <http://localhost:8000> |
+| Dashboard | 3000 | <http://localhost:3000> |
 | Redis | 6379 | redis://localhost:6379 |
 
 ---
@@ -175,6 +175,7 @@ http://localhost:8000/api/docs/ui
 ```
 
 Features:
+
 - Interactive API testing
 - Request/response examples
 - Schema documentation
@@ -187,6 +188,7 @@ http://localhost:8000/api/docs
 ```
 
 Use this URL to import into:
+
 - Postman
 - Insomnia
 - API testing tools
@@ -261,6 +263,7 @@ curl http://localhost:8000/health
 ```
 
 Response:
+
 ```json
 {
   "status": "healthy",
@@ -284,9 +287,10 @@ curl http://localhost:8000/api/v1/system/metrics
 
 ### Dashboard Monitoring
 
-Access the dashboard at http://localhost:5173/dashboard
+Access the dashboard at <http://localhost:5173/dashboard>
 
 Features:
+
 - Real-time metrics
 - System health status
 - Resource usage
@@ -320,6 +324,7 @@ curl -X POST http://localhost:8000/api/v1/auth/login \
 ```
 
 Response:
+
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -407,6 +412,7 @@ const history = scheduler.getJobHistory('daily-backup', { limit: 10 });
 **Error**: `Error: Redis connection refused`
 
 **Solution**:
+
 ```bash
 # Check if Redis is running
 redis-cli ping
@@ -422,6 +428,7 @@ brew services start redis
 **Error**: `EADDRINUSE: address already in use :::8000`
 
 **Solution**:
+
 ```bash
 # Find process using the port
 lsof -i :8000
@@ -438,6 +445,7 @@ PORT=8001 npm run dev
 **Error**: `Cannot find module '@synergymesh/...'`
 
 **Solution**:
+
 ```bash
 # Clean install
 rm -rf node_modules package-lock.json
@@ -449,6 +457,7 @@ npm install
 **Error**: `JWT_SECRET is required in production`
 
 **Solution**:
+
 ```bash
 # Set environment variable
 export JWT_SECRET=$(openssl rand -base64 32)
@@ -518,6 +527,7 @@ docker push your-registry/api-gateway:1.0.0
 ### Kubernetes Deployment (Phase 2)
 
 Phase 2 will include complete Kubernetes deployment with:
+
 - Helm charts
 - Horizontal Pod Autoscaling
 - Service mesh integration
@@ -536,14 +546,14 @@ Phase 2 will include complete Kubernetes deployment with:
 
 ### API Documentation
 
-- Swagger UI: http://localhost:8000/api/docs/ui
-- OpenAPI JSON: http://localhost:8000/api/docs
+- Swagger UI: <http://localhost:8000/api/docs/ui>
+- OpenAPI JSON: <http://localhost:8000/api/docs>
 - API README: `services/api-gateway/README.md`
 
 ### Support
 
-- GitHub Issues: https://github.com/keystone-api/keystone-ai/issues
-- Email: support@synergymesh.io
+- GitHub Issues: <https://github.com/keystone-api/keystone-ai/issues>
+- Email: <support@synergymesh.io>
 
 ---
 

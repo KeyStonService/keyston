@@ -222,6 +222,7 @@ MachineNativeOps/
 ### 從舊架構遷移
 
 **Before (舊架構):**
+
 ```
 MachineNativeOps/
 ├── root/
@@ -232,6 +233,7 @@ MachineNativeOps/
 ```
 
 **After (新架構):**
+
 ```
 MachineNativeOps/
 ├── root.config.yaml          # 提升到根層

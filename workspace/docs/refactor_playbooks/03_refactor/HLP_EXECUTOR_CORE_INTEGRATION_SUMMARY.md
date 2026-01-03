@@ -10,12 +10,6 @@
 
 ### 1. 解構摘要文件
 
-**檔案**:
-`docs/refactor_playbooks/01_deconstruction/HLP_EXECUTOR_CORE_DECONSTRUCTION.md`
-=======
-
-**檔案**: `docs/refactor_playbooks/01_deconstruction/HLP_EXECUTOR_CORE_DECONSTRUCTION.md`
->>>>>>> origin/copilot/sub-pr-402
 
 **內容**:
 
@@ -29,12 +23,6 @@
 
 ### 2. 邏輯→目標位置對應表
 
-**檔案**:
-`docs/refactor_playbooks/02_integration/HLP_EXECUTOR_CORE_INTEGRATION_MAPPING.md`
-=======
-
-**檔案**: `docs/refactor_playbooks/02_integration/HLP_EXECUTOR_CORE_INTEGRATION_MAPPING.md`
->>>>>>> origin/copilot/sub-pr-402
 
 **內容**:
 
@@ -74,12 +62,6 @@
 
 ### 4. legacy_scratch 清理計畫
 
-**檔案**:
-`docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_LEGACY_CLEANUP.md`
-=======
-
-**檔案**: `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_LEGACY_CLEANUP.md`
->>>>>>> origin/copilot/sub-pr-402
 
 **內容**:
 
@@ -101,12 +83,6 @@
 
 ### 5. 目錄與檔案整合藍圖
 
-**檔案**:
-`docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_DIRECTORY_BLUEPRINT.md`
-=======
-
-**檔案**: `docs/refactor_playbooks/03_refactor/HLP_EXECUTOR_CORE_DIRECTORY_BLUEPRINT.md`
->>>>>>> origin/copilot/sub-pr-402
 
 **內容**:
 

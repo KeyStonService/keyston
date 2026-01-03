@@ -64,6 +64,7 @@ scope:
 ### 🆕 Security Enhancements (PR #351)
 
 **新增三大安全策略**：
+
 - **SEC-PATH-001**: Path Traversal Prevention - 路徑遍歷防護
   - SAFE_ROOT 驗證機制
   - realpath() + relative() 雙重檢查

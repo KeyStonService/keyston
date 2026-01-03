@@ -249,15 +249,7 @@ python-tests:
 
 #### Scenario 2: Security Vulnerability
 
-- **Before**: High-severity vulnerability found, workflow succeeds ✅ (false
-  positive)
-- **After**: High-severity vulnerability found, workflow fails ❌ (correct
-  behavior)
-=======
 
-- **Before**: High-severity vulnerability found, workflow succeeds ✅ (false positive)
-- **After**: High-severity vulnerability found, workflow fails ❌ (correct behavior)
->>>>>>> origin/copilot/sub-pr-402
 - **Result**: ✅ Working as expected
 
 #### Scenario 3: Shell Script Error

@@ -13,10 +13,7 @@
 Successfully consolidated all agent/character configuration files under a
 unified directory structure:
 
-=======
-Successfully consolidated all agent/character configuration files under a unified directory structure:
 
->>>>>>> origin/copilot/sub-pr-402
 - **Configuration**: `config/agents/` (profiles, team, schemas)
 - **Implementation**: `services/agents/` (existing structure maintained)
 

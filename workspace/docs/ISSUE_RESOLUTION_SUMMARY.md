@@ -24,12 +24,6 @@ Successfully identified and resolved the root cause of 51+ automated CI failure 
 
 ### Root Cause
 
-**File**:
-`core/contract_service/contracts-L1/contracts/src/middleware/validation.ts`  
-=======
-
-**File**: `core/contract_service/contracts-L1/contracts/src/middleware/validation.ts`  
->>>>>>> origin/copilot/sub-pr-402
 **Line**: 31  
 **Error**: `TS6133: 'res' is declared but its value is never read`  
 
@@ -73,10 +67,7 @@ return (req: Request, _res: Response, next: NextFunction): void => {
 
 ### Indirect Impact
 
-=======
-### Indirect Impact  
 
->>>>>>> origin/copilot/sub-pr-402
 - **Developer Experience**: Reduced noise in issue tracker
 - **CI/CD Health**: Improved pipeline reliability
 - **Team Productivity**: Real issues become more visible
@@ -85,14 +76,8 @@ return (req: Request, _res: Response, next: NextFunction): void => {
 
 ### Immediate Actions
 
-1. **Issue Cleanup**: Close all duplicate CI failure issues related to this
-   error
-=======
-
-1. **Issue Cleanup**: Close all duplicate CI failure issues related to this error
->>>>>>> origin/copilot/sub-pr-402
-2. **Verification**: Monitor CI runs to confirm fix is effective
-3. **Documentation**: Update contributing guidelines with pre-commit checks
+1. **Verification**: Monitor CI runs to confirm fix is effective
+2. **Documentation**: Update contributing guidelines with pre-commit checks
 
 ### Long-term Improvements
 

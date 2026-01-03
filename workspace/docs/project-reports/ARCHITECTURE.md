@@ -22,15 +22,18 @@
 ## 🎯 總覽
 
 ### 系統定位
+
 MachineNativeOps 是一個**企業級治理框架**，專注於 Root Layer 的配置管理、驗證和自動化。
 
 ### 核心價值
+
 - ✅ **機器可驗證** - 所有規則都可自動執行
 - ✅ **單一事實來源** - 註冊表作為權威資料
 - ✅ **自動化執行** - GitHub Actions 自動驗證
 - ✅ **持續記憶** - 自動更新專案知識
 
 ### 設計原則
+
 1. **配置即代碼** (Configuration as Code)
 2. **驗證優先** (Validation First)
 3. **自動化一切** (Automate Everything)
@@ -69,6 +72,7 @@ MachineNativeOps 是一個**企業級治理框架**，專注於 Root Layer 的�
 ### Root Layer 組成
 
 #### 1. 配置檔案層 (Configuration Files)
+
 ```yaml
 root.config.yaml          # 全域配置
 root.governance.yaml      # 治理規則
@@ -85,6 +89,7 @@ root.naming-policy.yaml   # 命名政策
 **驗證**: 所有變更必須通過 gate-root-specs
 
 #### 2. 規範檔案層 (Specification Files)
+
 ```yaml
 root.specs.naming.yaml      # 命名規範
 root.specs.references.yaml  # 引用規範
@@ -98,6 +103,7 @@ root.specs.context.yaml     # 上下文規範
 **驗證**: 規範變更需要治理委員會審核
 
 #### 3. 註冊表層 (Registry Files - SSOT)
+
 ```yaml
 root.registry.modules.yaml  # 模組註冊表
 root.registry.urns.yaml     # URN 註冊表
@@ -108,6 +114,7 @@ root.registry.urns.yaml     # URN 註冊表
 **驗證**: 嚴格的一致性檢查
 
 #### 4. 映射檔案層 (Mapping Files)
+
 ```
 root.devices.map    # 設備映射
 root.fs.map         # 檔案系統映射
@@ -119,6 +126,7 @@ root.kernel.map     # 核心模組映射
 **驗證**: 映射完整性檢查
 
 #### 5. 環境檔案層 (Environment Files)
+
 ```bash
 root.env.sh         # Shell 環境設定
 ```
@@ -215,24 +223,27 @@ MachineNativeOps/
 ### 檔案命名規範
 
 #### Root Layer 檔案
+
 - **格式**: `root.<category>.<ext>`
 - **範例**: `root.config.yaml`, `root.devices.map`
-- **規則**: 
+- **規則**:
   - 必須小寫
   - 使用 `.yaml` 而非 `.yml`
   - 不可包含空白或大寫
 
 #### 規範檔案
+
 - **格式**: `root.specs.<category>.yaml`
 - **範例**: `root.specs.naming.yaml`
-- **規則**: 
+- **規則**:
   - 必須在 root.specs. 命名空間下
   - category 使用 kebab-case
 
 #### 註冊表檔案
+
 - **格式**: `root.registry.<type>.yaml`
 - **範例**: `root.registry.modules.yaml`
-- **規則**: 
+- **規則**:
   - 必須在 root.registry. 命名空間下
   - 作為 SSOT，不可重複定義
 
@@ -495,30 +506,35 @@ config-manager (核心)
 ### 驗證層級
 
 #### Level 1: 語法驗證
+
 - **檢查項目**: YAML 語法、檔案格式
 - **工具**: Python yaml.safe_load()
 - **執行時機**: PR 創建時
 - **失敗處理**: 立即阻擋
 
 #### Level 2: 命名驗證
+
 - **檢查項目**: 檔名、鍵名、值名
 - **工具**: Regex 模式匹配
 - **執行時機**: PR 創建時
 - **失敗處理**: 阻擋 + 提供修復建議
 
 #### Level 3: 引用驗證
+
 - **檢查項目**: URN 格式、引用存在性
 - **工具**: 註冊表查詢
 - **執行時機**: PR 創建時
 - **失敗處理**: 阻擋 + 列出缺失引用
 
 #### Level 4: 邏輯驗證
+
 - **檢查項目**: 循環依賴、狀態一致性
 - **工具**: DFS 算法、拓撲排序
 - **執行時機**: PR 創建時
 - **失敗處理**: 阻擋 + 顯示循環路徑
 
 #### Level 5: 上下文驗證
+
 - **檢查項目**: 跨檔案一致性、漂移檢測
 - **工具**: 相似度分析
 - **執行時機**: PR 創建時
@@ -569,26 +585,31 @@ config-manager (核心)
 ### 自動化層級
 
 #### Level 1: 自動驗證
+
 - **觸發**: PR 創建/更新
 - **執行**: GitHub Actions
 - **結果**: 通過/失敗 + 報告
 
 #### Level 2: 自動記憶更新
+
 - **觸發**: 合併到 main
 - **執行**: GitHub Actions
 - **結果**: 更新 PROJECT_MEMORY.md
 
 #### Level 3: 自動架構同步
+
 - **觸發**: 檔案結構變更
 - **執行**: GitHub Actions
 - **結果**: 更新 ARCHITECTURE.md
 
 #### Level 4: 自動對話記錄
+
 - **觸發**: PR 合併
 - **執行**: GitHub Actions
 - **結果**: 更新 CONVERSATION_LOG.md
 
 #### Level 5: 自動知識萃取
+
 - **觸發**: 重大變更
 - **執行**: AI 分析
 - **結果**: 更新知識圖譜
@@ -620,6 +641,7 @@ jobs:
 ## 📊 架構決策記錄 (ADR)
 
 ### ADR-001: 採用 YAML 作為配置格式
+
 - **日期**: 2024-12-20
 - **狀態**: ✅ 已採用
 - **決策**: 使用 YAML 作為所有配置檔案格式
@@ -627,6 +649,7 @@ jobs:
 - **影響**: 所有配置必須是有效的 YAML
 
 ### ADR-002: 建立 SSOT 註冊表
+
 - **日期**: 2024-12-21
 - **狀態**: ✅ 已採用
 - **決策**: 創建 root.registry.*.yaml 作為唯一事實來源
@@ -634,6 +657,7 @@ jobs:
 - **影響**: 所有模組資訊必須先在註冊表定義
 
 ### ADR-003: 使用 URN 作為引用格式
+
 - **日期**: 2024-12-21
 - **狀態**: ✅ 已採用
 - **決策**: 採用 URN 格式作為主要引用方式
@@ -641,6 +665,7 @@ jobs:
 - **影響**: 所有引用必須使用 URN 格式
 
 ### ADR-004: 自動化 PR 阻擋
+
 - **日期**: 2024-12-21
 - **狀態**: ✅ 已採用
 - **決策**: 使用 GitHub Actions 自動阻擋不合規 PR
@@ -648,6 +673,7 @@ jobs:
 - **影響**: 所有 PR 必須通過驗證
 
 ### ADR-005: 建立自動記憶系統
+
 - **日期**: 2024-12-21
 - **狀態**: 🔄 實施中
 - **決策**: 建立自動更新的記憶系統
@@ -659,6 +685,7 @@ jobs:
 ## 🔄 版本歷史
 
 ### v1.0.0 (2024-12-21)
+
 - ✅ 完成 Root Layer 規範系統
 - ✅ 建立 5 個規範檔案
 - ✅ 建立 2 個註冊表檔案
@@ -667,7 +694,9 @@ jobs:
 - ✅ 完成完整文檔系統
 
 - 🔄 修復 monitoring-service 不一致問題 (2025-12-21 02:13:25)
+
 ### v1.1.0 (計劃中)
+
 - 📋 實現自動記憶更新
 - 📋 建立知識圖譜
 - 📋 增強驗證覆蓋率
@@ -678,11 +707,13 @@ jobs:
 ## 📞 維護資訊
 
 ### 文檔維護
+
 - **負責人**: MachineNativeOps Governance Team
 - **更新頻率**: 自動更新 (每次 commit)
 - **手動審查**: 每月一次
 
 ### 架構審查
+
 - **頻率**: 每季度
 - **參與者**: 技術委員會
 - **輸出**: 架構改進建議

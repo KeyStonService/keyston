@@ -261,11 +261,7 @@ AttributeError: module 'tools.refactor' has no attribute 'ClassName'
 
 **Fix:** Either:
 
-=======
-**Fix:**
-Either:
 
->>>>>>> origin/copilot/sub-pr-402
 1. Add `__getattr__` for lazy loading, OR
 2. Add explicit import: `from .module import ClassName`
 

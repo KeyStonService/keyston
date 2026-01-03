@@ -82,12 +82,7 @@
 
 #### HLP Executor Core → 現有系統
 
-- `config/system-manifest.yaml`: 新增 HLP
-  Executor 作為 enhanced_integration 元件
-=======
 
-- `config/system-manifest.yaml`: 新增 HLP Executor 作為 enhanced_integration 元件
->>>>>>> origin/copilot/sub-pr-402
 - `config/unified-config-index.yaml`: 引用 HLP 的向量配置與整合端點
 - `governance/registry/`: 註冊 HLP Executor 插件
 - `core/slsa_provenance/`: 引用 HLP 的 SLSA L3 證據

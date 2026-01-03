@@ -41,6 +41,7 @@ This document provides a visual overview of the subdirectory restructuring plan 
 ### src/ Directory
 
 #### BEFORE (Current State)
+
 ```
 src/
 ├── ai/                          ✅ Keep
@@ -70,6 +71,7 @@ src/
 ```
 
 #### AFTER (Target State)
+
 ```
 src/
 ├── ai/                          # AI & ML
@@ -115,6 +117,7 @@ src/
 ### config/ Directory
 
 #### BEFORE (Current State)
+
 ```
 config/
 ├── .auto-fix-bot.yml
@@ -158,6 +161,7 @@ config/
 ```
 
 #### AFTER (Target State)
+
 ```
 config/
 ├── environments/               # NEW - Environment configs
@@ -187,6 +191,7 @@ config/
 ### scripts/ Directory
 
 #### BEFORE (Current State)
+
 ```
 scripts/
 ├── auto_sync_flow.mermaid.txt
@@ -214,6 +219,7 @@ scripts/
 ```
 
 #### AFTER (Target State)
+
 ```
 scripts/
 ├── dev/                        # NEW - Development
@@ -250,6 +256,7 @@ scripts/
 ### governance/ Directory
 
 #### BEFORE (Current State - in src/)
+
 ```
 src/governance/
 ├── _legacy/                    ❌ Remove
@@ -308,6 +315,7 @@ src/governance/
 ```
 
 #### AFTER (Target State - at root)
+
 ```
 governance/
 ├── policies/                   # MERGED from 23-policies, 10-policy
@@ -359,26 +367,31 @@ governance/
 ## Benefits
 
 ### 1. Improved Discoverability
+
 - Clear, intuitive directory names
 - Logical grouping by function
 - Consistent naming conventions
 
 ### 2. Reduced Complexity
+
 - 77% fewer top-level directories in src/
 - 70% fewer governance directories
 - Eliminated duplicate directories
 
 ### 3. Better Maintainability
+
 - Clear separation of concerns
 - Easier to navigate codebase
 - Simplified onboarding
 
 ### 4. Enhanced Scalability
+
 - Room for growth within structure
 - Clear patterns for new components
 - Standardized organization
 
 ### 5. Cleaner Codebase
+
 - Removed 200+ deprecated files
 - Eliminated legacy directories
 - Consolidated overlapping code
@@ -386,21 +399,25 @@ governance/
 ## Risk Assessment
 
 ### Low Risk ✅
+
 - Creating new directories
 - Moving configuration files
 - Organizing scripts
 
 ### Medium Risk ⚠️
+
 - Merging duplicate directories
 - Updating import paths
 - Moving governance content
 
 ### High Risk 🔴
+
 - Removing deprecated code
 - Breaking existing imports
 - CI/CD pipeline changes
 
 ### Mitigation Strategies
+
 1. **Backup Everything** - Git tags before each phase
 2. **Incremental Changes** - Commit after each phase
 3. **Automated Testing** - Run tests frequently
@@ -423,18 +440,21 @@ Total Estimated Time:         8-11.5 hours
 ## Success Metrics
 
 ### Structure Quality
+
 - ✅ 100% kebab-case naming
 - ✅ 0 duplicate directories
 - ✅ Max 4 levels of nesting
 - ✅ 0 scratch/legacy directories
 
 ### Functionality
+
 - ✅ 100% tests passing
 - ✅ 0 broken imports
 - ✅ 0 circular dependencies
 - ✅ CI/CD pipelines working
 
 ### Documentation
+
 - ✅ README updated
 - ✅ Migration guide complete
 - ✅ Directory tree documented
@@ -472,6 +492,7 @@ Total Estimated Time:         8-11.5 hours
 This subdirectory restructuring represents a significant improvement in code organization and maintainability. By standardizing naming conventions, eliminating duplication, and improving logical grouping, we create a more intuitive and scalable codebase.
 
 **Key Achievements:**
+
 - 77% reduction in src/ top-level directories
 - 70% reduction in governance directories
 - Organized 60+ config files into 13 logical groups

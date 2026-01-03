@@ -592,11 +592,13 @@ python tools/governance/python/track_audit_actions.py \
 **面板**:
 
 1. **治理健康分数** (Gauge)
+
    ```promql
    governance_health_score
    ```
 
 2. **命名合规率趋势** (Graph)
+
    ```promql
    (
      sum(governance_naming_compliant_resources) /
@@ -605,6 +607,7 @@ python tools/governance/python/track_audit_actions.py \
    ```
 
 3. **变更成功率** (Graph)
+
    ```promql
    (
      sum(rate(governance_changes_successful_total[24h])) /
@@ -613,11 +616,13 @@ python tools/governance/python/track_audit_actions.py \
    ```
 
 4. **活跃例外** (Stat)
+
    ```promql
    sum(governance_exception_active_total) by (risk_level)
    ```
 
 5. **告警分布** (Bar Chart)
+
    ```promql
    count(ALERTS{category="governance"}) by (severity)
    ```

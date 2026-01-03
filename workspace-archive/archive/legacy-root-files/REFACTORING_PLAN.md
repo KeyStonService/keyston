@@ -1,6 +1,7 @@
 # MachineNativeOps 重构计划：命名规范与结构治理
 
 ## 目标
+
 统一 v1-python-drones 和 v2-multi-islands 的代码，整合到新的 MachineNativeOps 架构中，建立统一的命名规范和结构治理。
 
 ---
@@ -24,6 +25,7 @@ archive/legacy/v1-python-drones/
 ```
 
 **类名映射**:
+
 - `BaseDrone` → `BaseAgent`
 - `CoordinatorDrone` → `CoordinatorAgent`
 - `AutopilotDrone` → `AutopilotAgent`
@@ -31,6 +33,7 @@ archive/legacy/v1-python-drones/
 - `DroneStatus` → `AgentStatus`
 
 **方法映射**:
+
 - `start()` → `start()` (保持不变)
 - `stop()` → `stop()` (保持不变)
 - `execute()` → `execute()` (保持不变)
@@ -58,6 +61,7 @@ archive/legacy/v2-multi-islands/
 ```
 
 **类名映射**:
+
 - `BaseIsland` → `BaseIsland` (保持不变)
 - `PythonIsland` → `PythonIsland` (保持不变)
 - `RustIsland` → `RustIsland` (保持不变)
@@ -74,12 +78,14 @@ archive/legacy/v2-multi-islands/
 **新文件**: `src/core/orchestrators/synergy-mesh-orchestrator.py`
 
 **功能**:
+
 - 统一协调 Agents 和 Islands
 - 提供统一的执行接口
 - 管理资源和生命周期
 - 提供监控和报告
 
 **类定义**:
+
 ```python
 class SynergyMeshOrchestrator:
     - register_agent(agent: BaseAgent)
@@ -99,6 +105,7 @@ class SynergyMeshOrchestrator:
 **规则**: kebab-case (小写，用连字符分隔)
 
 **示例**:
+
 - ✓ `src/autonomous/agents/`
 - ✓ `src/bridges/language-islands/`
 - ✓ `src/core/orchestrators/`
@@ -110,6 +117,7 @@ class SynergyMeshOrchestrator:
 **规则**: kebab-case for all filenames
 
 **Python 文件**:
+
 - ✓ `base-agent.py`
 - ✓ `coordinator-agent.py`
 - ✓ `auto-upgrade-env.py`
@@ -121,6 +129,7 @@ class SynergyMeshOrchestrator:
 **规则**: PascalCase
 
 **示例**:
+
 - ✓ `class BaseAgent:`
 - ✓ `class CoordinatorAgent:`
 - ✓ `class LanguageIslandOrchestrator:`
@@ -132,6 +141,7 @@ class SynergyMeshOrchestrator:
 **规则**: snake_case
 
 **示例**:
+
 - ✓ `def start_agent():`
 - ✓ `def execute_deployment():`
 - ✓ `def get_status():`
@@ -143,6 +153,7 @@ class SynergyMeshOrchestrator:
 **规则**: UPPER_SNAKE_CASE
 
 **示例**:
+
 - ✓ `AGENT_STATUS_RUNNING = "running"`
 - ✓ `DEFAULT_TIMEOUT = 30`
 - ✓ `SUPPORTED_ISLANDS = ["python", "rust", "go"]`
@@ -155,6 +166,7 @@ class SynergyMeshOrchestrator:
 **函数**: snake_case
 
 **示例**:
+
 ```python
 # ✓ 正确
 from src.autonomous.agents.base_agent import BaseAgent
@@ -173,6 +185,7 @@ from src.autonomous.agents.base_agent import base_agent
 ### 3.1 修复大小写冲突
 
 **待修复的目录**:
+
 1. `docs/GOVERNANCE/` → 迁移到 `governance/29-docs/`
 2. `docs/ARCHITECTURE/` → 保留 `docs/architecture/` (小写)
 3. `docs/AGENTS/` → 保留 `docs/agents/` (小写)
@@ -181,6 +194,7 @@ from src.autonomous.agents.base_agent import base_agent
 ### 3.2 删除重复的遗留代码
 
 **待删除**:
+
 1. `archive/v1-python-drones/` (重复，保留 `archive/legacy/v1-python-drones/`)
 2. `archive/v2-multi-islands/` (重复，保留 `archive/legacy/v2-multi-islands/`)
 
@@ -193,6 +207,7 @@ from src.autonomous.agents.base_agent import base_agent
 **工具**: `tools/governance/python/validate_naming.py`
 
 **检查项**:
+
 - [ ] 所有目录使用 kebab-case
 - [ ] 所有 Python 文件使用 kebab-case
 - [ ] 所有 Python 类使用 PascalCase
@@ -205,6 +220,7 @@ from src.autonomous.agents.base_agent import base_agent
 **测试框架**: pytest
 
 **测试套件**:
+
 - [ ] Agent 系统测试
 - [ ] Island 系统测试
 - [ ] SynergyMeshOrchestrator 测试
@@ -213,6 +229,7 @@ from src.autonomous.agents.base_agent import base_agent
 ### 4.3 集成测试
 
 **验证**:
+
 - [ ] 所有 Agent 可以正常启动
 - [ ] 所有 Island 可以正常激活
 - [ ] Orchestrator 可以协调所有组件
@@ -223,31 +240,37 @@ from src.autonomous.agents.base_agent import base_agent
 ## 执行步骤
 
 ### Step 1: 准备工作
+
 - [ ] 创建新分支 `claude/refactor-naming-standards`
 - [ ] 备份现有代码
 
 ### Step 2: 创建目标目录结构
+
 - [ ] 创建 `src/autonomous/agents/` 子目录
 - [ ] 创建 `src/bridges/language-islands/` 目录
 - [ ] 创建 `src/core/orchestrators/` 目录
 
 ### Step 3: 复制和重命名代码
+
 - [ ] 复制 v1-python-drones 到新位置，重命名文件和类
 - [ ] 复制 v2-multi-islands 到新位置，重命名文件和类
 - [ ] 更新所有导入语句
 
 ### Step 4: 创建统一 Orchestrator
+
 - [ ] 编写 SynergyMeshOrchestrator
 - [ ] 集成 Agent 和 Island 系统
 - [ ] 编写单元测试
 
 ### Step 5: 清理和验证
+
 - [ ] 修复文档结构大小写
 - [ ] 删除重复的遗留代码
 - [ ] 运行验证工具
 - [ ] 运行完整测试套件
 
 ### Step 6: 提交和推送
+
 - [ ] 提交所有更改
 - [ ] 推送到分支
 - [ ] 准备 Pull Request

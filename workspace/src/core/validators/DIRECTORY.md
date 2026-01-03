@@ -1,45 +1,51 @@
 # validators
 
 ## 目錄職責
+
 此目錄包含 [待補充：模組名稱] 的源代碼實現，負責 [待補充：核心功能描述]。作為系統的 [待補充：定位描述]，它與 [待補充：相關目錄] 緊密協作。
-
-
 
 ## 檔案說明
 
 ### multi_layer_validator.py
+
 - **職責**：Python 源代碼 - Multi-Layer Validator - Orchestrates all validation layers
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### security_validator.py
+
 - **職責**：Python 源代碼 - Security Validator - Security vulnerability scanning
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### semantic_validator.py
+
 - **職責**：Python 源代碼 - Semantic Validator - Validates code semantics
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
 ### syntax_validator.py
+
 - **職責**：Python 源代碼 - Syntax Validator - Validates code syntax
 - **功能**：[待補充具體功能說明]
 - **依賴**：[待補充依賴關係]
 
-
 ## 職責分離說明
+
 此目錄實現了嚴格的職責分離原則：
+
 - [待補充：各層次的職責說明]
 
 ## 設計原則
 
 ### 單一職責原則 (SRP) 遵循
+
 1. **模組級別職責單一化**：[待補充]
 2. **文件級別職責專一化**：[待補充]
 3. **接口級別職責清晰化**：[待補充]
 
 ### 未來維護注意事項
+
 1. **添加新功能時**：[待補充]
 2. **修改現有功能時**：[待補充]
 3. **擴展策略**：[待補充]

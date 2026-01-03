@@ -348,6 +348,7 @@ governance_exception_expired_active
 ### 定期审查
 
 **月度审查会议**:
+
 - **时间**: 每月第一个周五
 - **参与者**: Governance Board, Team Leads
 - **议程**:
@@ -357,6 +358,7 @@ governance_exception_expired_active
   4. 决定续期、撤销或结束
 
 **审查清单**:
+
 ```yaml
 - [ ] 例外是否仍然必要？
 - [ ] 风险评估是否仍然准确？
@@ -479,11 +481,13 @@ python tools/governance/python/generate_exception_report.py \
 ### Grafana 仪表板
 
 访问例外管理仪表板：
+
 ```
 http://grafana.example.com/d/governance-exceptions
 ```
 
 **仪表板面板**:
+
 - 活跃例外总数（按风险级别）
 - 即将到期例外（< 30 天）
 - 例外持续时间分布

@@ -144,12 +144,6 @@
 
 ### 5.3 [automation/self_awareness_report.py](automation/self_awareness_report.py)
 
-- 腳本說明與輸出位於上述 docs；執行
-  `python automation/self_awareness_report.py --mode=health` 以產生最新報告。
-=======
-
-- 腳本說明與輸出位於上述 docs；執行 `python automation/self_awareness_report.py --mode=health` 以產生最新報告。
->>>>>>> origin/copilot/sub-pr-402
 
 ---
 

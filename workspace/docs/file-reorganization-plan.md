@@ -3,6 +3,7 @@
 ## 文件分類
 
 ### 1. 保留在根目錄（必要文件）
+
 - README.md (需要重寫)
 - .gitignore
 - .gitignore.prod
@@ -13,7 +14,9 @@
 - root.fs.map (文件系統映射)
 
 ### 2. 移動到 controlplane/governance/reports/
+
 **報告類文件**:
+
 - AAPS_INTEGRATION_SUMMARY.md
 - AAPS_PHASE1_COMPLETION_SUMMARY.md
 - AAPS_UNIFIED_GATES_OPTIMIZATION.md
@@ -37,7 +40,9 @@
 - validation-report-new.md
 
 ### 3. 移動到 controlplane/governance/docs/
+
 **治理文檔**:
+
 - ACCEPTANCE_CHECKLIST.md
 - AGENTS.md
 - ARCHITECTURE.md
@@ -55,13 +60,17 @@
 - ROOT_SPECS_GUIDE.md
 
 ### 4. 移動到 controlplane/governance/policies/
+
 **政策和配置文件**:
+
 - governance-config.yaml
 - gates.map.yaml
 - auto-fix-bot.yml
 
 ### 5. 移動到 controlplane/baseline/config/ (已存在的重複文件)
+
 **這些文件已經在 controlplane/baseline/config/ 中，根目錄的應該刪除**:
+
 - root.config.yaml
 - root.devices.map
 - root.governance.yaml
@@ -74,7 +83,9 @@
 - root.trust.yaml
 
 ### 6. 移動到 controlplane/baseline/specifications/ (已存在的重複文件)
+
 **這些文件已經在 controlplane/baseline/specifications/ 中，根目錄的應該刪除**:
+
 - root.specs.context.yaml
 - root.specs.logic.yaml
 - root.specs.mapping.yaml
@@ -82,12 +93,16 @@
 - root.specs.references.yaml
 
 ### 7. 移動到 controlplane/baseline/registries/ (已存在的重複文件)
+
 **這些文件已經在 controlplane/baseline/registries/ 中，根目錄的應該刪除**:
+
 - root.registry.modules.yaml
 - root.registry.urns.yaml
 
 ### 8. 移動到 workspace/projects/
+
 **專案相關文件**:
+
 - AAPS_MARKETPLACE_INTEGRATION_PLAN.md
 - CONVERSATION_LOG.md
 - IMMEDIATE_TASKS.md
@@ -96,7 +111,9 @@
 - governance-closed-loop-system.md
 
 ### 9. 移動到 workspace/config/
+
 **專案配置文件**:
+
 - machinenativeops.yaml
 - mno-namespace.yaml
 - root.bootstrap.minimal.yaml
@@ -104,6 +121,7 @@
 - docker-compose.prod.yml
 
 ### 10. 其他文件
+
 - CNAME (GitHub Pages 配置，保留在根目錄)
 - Cargo.toml (Rust 配置，移到 workspace/projects/)
 - Dockerfile (Docker 配置，移到 workspace/config/)

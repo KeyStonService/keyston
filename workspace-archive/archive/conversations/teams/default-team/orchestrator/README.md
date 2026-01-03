@@ -129,6 +129,7 @@ kubectl apply -k overlays/prod
 > ⚠️ **Security Warning**: The base deployment manifest includes cluster-wide RBAC permissions (ClusterRole/ClusterRoleBinding) that grant read access to secrets across all namespaces. **This configuration is not suitable for production or shared clusters.**
 >
 > **Before deploying:**
+>
 > - Review and harden the RBAC permissions in `base/deployment.yaml`
 > - Remove or tightly scope any `secrets` access
 > - Consider using namespace-scoped Role/RoleBinding instead of cluster-scoped resources
@@ -185,6 +186,7 @@ export IMAGE_TAG=v1.2.0
 ```
 
 This will:
+
 1. Build Docker image as `machinenativeops/super-agent:v1.2.0`
 2. Deploy that image to the production environment using Kustomize
 
@@ -198,6 +200,7 @@ images:
 - name: machinenativeops/super-agent
   newTag: v1.2.0  # Update version here
 ```
+
 ## 📡 API Endpoints
 
 ### Core Endpoints
@@ -207,6 +210,7 @@ images:
 Receive and route messages from other agents.
 
 **Request:**
+
 ```json
 {
   "meta": {
@@ -230,6 +234,7 @@ Receive and route messages from other agents.
 ```
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -248,6 +253,7 @@ Receive and route messages from other agents.
 Health check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -262,6 +268,7 @@ Health check endpoint.
 Readiness check endpoint.
 
 **Response:**
+
 ```json
 {
   "status": "ready",
@@ -281,6 +288,7 @@ Readiness check endpoint.
 List all incidents.
 
 **Response:**
+
 ```json
 {
   "incidents": [
@@ -323,6 +331,7 @@ Get basic metrics and status.
 ### Message Envelope Structure
 
 All messages must follow the standard envelope format:
+
 ```json
 {
   "meta": {
@@ -407,6 +416,7 @@ agents/super-agent/
 ```
 
 **Key benefits:**
+
 - ✅ **Version Management**: Image tags configured per environment
 - ✅ **Environment Isolation**: Separate namespaces and configs
 - ✅ **Easy Updates**: Change image version in one place
@@ -424,6 +434,7 @@ Each overlay uses a `namePrefix` to ensure cluster-scoped resources (ClusterRole
 This allows you to safely deploy dev, staging, and production environments side-by-side in the same Kubernetes cluster without RBAC conflicts.
 
 **Customizing image versions:**
+
 ```yaml
 # In overlays/prod/kustomization.yaml
 
@@ -447,6 +458,7 @@ images:
 ### Prometheus Metrics
 
 The service exposes metrics on port 9090:
+
 ```bash
 # Access metrics
 
@@ -605,4 +617,4 @@ SuperAgent integrates with:
 
 **SuperAgent is the heart of the AAPS Multi-Agent MPC system, enabling truly intelligent, collaborative problem-solving.**
 
-#machine-native-ops #aaps #multi-agent #super-agent #orchestration
+# machine-native-ops #aaps #multi-agent #super-agent #orchestration

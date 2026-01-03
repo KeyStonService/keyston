@@ -1,0 +1,3219 @@
+diff --git a/.github/policies/security.md b/.github/policies/security.md
+--- a/.github/policies/security.md
++++ b/.github/policies/security.md
+@@ -3,1 +3,1 @@
+-- **Reporting**: Email security@machinenativenops.com with vulnerability details and reproduction steps.
++- **Reporting**: Email <security@machinenativenops.com> with vulnerability details and reproduction steps.
+diff --git a/workspace/src/mcp-servers/DIRECTORY.md b/workspace/src/mcp-servers/DIRECTORY.md
+--- a/workspace/src/mcp-servers/DIRECTORY.md
++++ b/workspace/src/mcp-servers/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼ç¨å¼ç¢¼åæ MCP ä¼ºæå¨
++
+- **è·è²¬**ï¼ç¨å¼ç¢¼åæ MCP ä¼ºæå¨
+@@ -23,1 +23,1 @@
+-### test-generator.js
++### test-generator.js
+
+@@ -24,1 +24,1 @@
+-- **è·è²¬**ï¼æ¸¬è©¦çæ MCP ä¼ºæå¨
++
+- **è·è²¬**ï¼æ¸¬è©¦çæ MCP ä¼ºæå¨
+@@ -39,1 +39,1 @@
+-### slsa-validator.js
++### slsa-validator.js
+
+@@ -70,1 +70,1 @@
+-- **è·è²¬**ï¼é¨ç½²éç½®é©è­å¨
++
+- **è·è²¬**ï¼é¨ç½²éç½®é©è­å¨
+diff --git a/workspace/src/core/plugins/ci_error_handler/DIRECTORY.md b/workspace/src/core/plugins/ci_error_handler/DIRECTORY.md
+--- a/workspace/src/core/plugins/ci_error_handler/DIRECTORY.md
++++ b/workspace/src/core/plugins/ci_error_handler/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -15,1 +15,1 @@
+-### ci_error_analyzer.py
++### ci_error_analyzer.py
+
+@@ -20,1 +20,1 @@
+-### fix_status_tracker.py
++### fix_status_tracker.py
+
+@@ -25,1 +25,1 @@
+-### issue_manager.py
++### issue_manager.py
+
+diff --git a/workspace/src/governance/39-automation/coordinator/DIRECTORY.md b/workspace/src/governance/39-automation/coordinator/DIRECTORY.md
+--- a/workspace/src/governance/39-automation/coordinator/DIRECTORY.md
++++ b/workspace/src/governance/39-automation/coordinator/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Python æºä»£ç¢¼
++
+- **è·è²¬**ï¼Python æºä»£ç¢¼
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/teams/default-team/profiles/role.senior_frontend_dev.md b/workspace/teams/default-team/profiles/role.senior_frontend_dev.md
+--- a/workspace/teams/default-team/profiles/role.senior_frontend_dev.md
++++ b/workspace/teams/default-team/profiles/role.senior_frontend_dev.md
+@@ -13,1 +13,1 @@
+-## æè¡æ£§
++## æè¡æ£§
+
+@@ -22,1 +22,1 @@
+-1. åæå°æ¡éæ±
++
+1. åæå°æ¡éæ±
+@@ -29,1 +29,1 @@
+-- å®æ´ç React çµä»¶ä»£ç¢¼
++
+- å®æ´ç React çµä»¶ä»£ç¢¼
+diff --git a/workspace/src/client/src/components/ui/DIRECTORY.md b/workspace/src/client/src/components/ui/DIRECTORY.md
+--- a/workspace/src/client/src/components/ui/DIRECTORY.md
++++ b/workspace/src/client/src/components/ui/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -10,1 +10,1 @@
+-### accordion.tsx
++### accordion.tsx
+
+@@ -20,1 +20,1 @@
+-### alert.tsx
++### alert.tsx
+
+@@ -25,1 +25,1 @@
+-### aspect-ratio.tsx
++### aspect-ratio.tsx
+
+@@ -45,1 +45,1 @@
+-### button.tsx
++### button.tsx
+
+@@ -60,1 +60,1 @@
+-### carousel.tsx
++### carousel.tsx
+
+@@ -150,1 +150,1 @@
+-### progress.tsx
++### progress.tsx
+
+@@ -155,1 +155,1 @@
+-### radio-group.tsx
++### radio-group.tsx
+
+@@ -160,1 +160,1 @@
+-### resizable.tsx
++### resizable.tsx
+
+@@ -165,1 +165,1 @@
+-### scroll-area.tsx
++### scroll-area.tsx
+
+@@ -185,1 +185,1 @@
+-### sidebar.tsx
++### sidebar.tsx
+
+@@ -195,1 +195,1 @@
+-### slider.tsx
++### slider.tsx
+
+@@ -205,1 +205,1 @@
+-### table.tsx
++### table.tsx
+
+@@ -210,1 +210,1 @@
+-### tabs.tsx
++### tabs.tsx
+
+@@ -215,1 +215,1 @@
+-### textarea.tsx
++### textarea.tsx
+
+diff --git a/workspace/teams/default-team/profiles/role.workflow_optimizer.md b/workspace/teams/default-team/profiles/role.workflow_optimizer.md
+--- a/workspace/teams/default-team/profiles/role.workflow_optimizer.md
++++ b/workspace/teams/default-team/profiles/role.workflow_optimizer.md
+@@ -18,1 +18,1 @@
+-### Analysis Areas
++### Analysis Areas
+
+@@ -26,1 +26,1 @@
+-- SCHEDULED_EVENT (weekly analysis)
++
+- SCHEDULED_EVENT (weekly analysis)
+@@ -42,1 +42,1 @@
+-### Output Format
++### Output Format
+
+diff --git a/workspace/src/governance/dimensions/13-metrics-reporting/DIRECTORY.md b/workspace/src/governance/dimensions/13-metrics-reporting/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/13-metrics-reporting/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/13-metrics-reporting/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md b/workspace/src/core/contracts/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
+@@ -14,1 +14,1 @@
+-- `docs/SELF_HEALING_ARCHITECTURE.md` - Architecture guide with code snippets
++
+- `docs/SELF_HEALING_ARCHITECTURE.md` - Architecture guide with code snippets
+@@ -54,1 +54,1 @@
+-- Import from `src/` directories
++
+- Import from `src/` directories
+@@ -135,1 +135,1 @@
+-### 03. Monitoring & Governance
++### 03. Monitoring & Governance
+
+@@ -148,1 +148,1 @@
+-### 04. Event Subscription
++### 04. Event Subscription
+
+@@ -184,1 +184,1 @@
+-### 1. Verification
++### 1. Verification
+
+@@ -225,1 +225,1 @@
+-### Before (Documentation Only)
++### Before (Documentation Only)
+
+@@ -243,1 +243,1 @@
+-### After (Materialized)
++### After (Materialized)
+
+@@ -280,1 +280,1 @@
+-- **Example Code**: ~530 LOC
++
+- **Example Code**: ~530 LOC
+diff --git a/workspace/src/governance/dimensions/07-audit/DIRECTORY.md b/workspace/src/governance/dimensions/07-audit/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/07-audit/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/07-audit/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/governance/dimensions/80-synthesis/DIRECTORY.md b/workspace/src/governance/dimensions/80-synthesis/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/80-synthesis/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/80-synthesis/DIRECTORY.md
+@@ -25,1 +25,1 @@
+-
++
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/governance/dimensions/61-lineage/DIRECTORY.md b/workspace/src/governance/dimensions/61-lineage/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/61-lineage/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/61-lineage/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+diff --git a/workspace/src/governance/dimensions/40-self-healing/tests/DIRECTORY.md b/workspace/src/governance/dimensions/40-self-healing/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/40-self-healing/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/40-self-healing/tests/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/21-ecological/DIRECTORY.md b/workspace/src/governance/dimensions/21-ecological/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/21-ecological/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/21-ecological/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+diff --git a/workspace/src/governance/dimensions/03-change/tests/DIRECTORY.md b/workspace/src/governance/dimensions/03-change/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/03-change/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/03-change/tests/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -17,1 +17,1 @@
+-- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
++
+- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
+diff --git a/workspace/src/governance/dimensions/40-self-healing/DIRECTORY.md b/workspace/src/governance/dimensions/40-self-healing/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/40-self-healing/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/40-self-healing/DIRECTORY.md
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/IMPLEMENTATION_SUMMARY.md b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/IMPLEMENTATION_SUMMARY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/IMPLEMENTATION_SUMMARY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/IMPLEMENTATION_SUMMARY.md
+@@ -27,1 +27,1 @@
+-- å®æ´çæ¨ç±¤åè¨»è§£
++
+- å®æ´çæ¨ç±¤åè¨»è§£
+diff --git a/workspace/src/ai/agents/devops/DIRECTORY.md b/workspace/src/ai/agents/devops/DIRECTORY.md
+--- a/workspace/src/ai/agents/devops/DIRECTORY.md
++++ b/workspace/src/ai/agents/devops/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
+@@ -15,1 +15,1 @@
+-### index.ts
++### index.ts
+
+diff --git a/workspace/docs/deployment/DIRECTORY.md b/workspace/docs/deployment/DIRECTORY.md
+--- a/workspace/docs/deployment/DIRECTORY.md
++++ b/workspace/docs/deployment/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -10,1 +10,1 @@
+-### DEPLOYMENT_CHECKLIST.md
++### DEPLOYMENT_CHECKLIST.md
+
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -25,1 +25,1 @@
+-### DEPLOYMENT_MANIFEST.md
++### DEPLOYMENT_MANIFEST.md
+
+@@ -36,1 +36,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -37,1 +37,1 @@
+-- ä¸åç°å¢çé¨ç½²éç½®åé¢
++
+- ä¸åç°å¢çé¨ç½²éç½®åé¢
+diff --git a/workspace/src/governance/dimensions/25-principles/DIRECTORY.md b/workspace/src/governance/dimensions/25-principles/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/25-principles/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/25-principles/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -38,1 +38,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/05-compliance/schemas/DIRECTORY.md b/workspace/src/governance/05-compliance/schemas/DIRECTORY.md
+--- a/workspace/src/governance/05-compliance/schemas/DIRECTORY.md
++++ b/workspace/src/governance/05-compliance/schemas/DIRECTORY.md
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/misc/2-namespace.md b/workspace/docs/refactor_playbooks/03_refactor/misc/2-namespace.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/misc/2-namespace.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/misc/2-namespace.md
+@@ -24,1 +24,1 @@
+-### ç¬¬äºéæ®µï¼å·¥å·èå¹³å° (ç¬¬3-4é±)  
++
+### ç¬¬äºéæ®µï¼å·¥å·èå¹³å° (ç¬¬3-4é±)  
+diff --git a/workspace/src/governance/dimensions/08-process/tests/DIRECTORY.md b/workspace/src/governance/dimensions/08-process/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/08-process/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/08-process/tests/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+diff --git a/workspace/src/governance/23-policies/workflow/DIRECTORY.md b/workspace/src/governance/23-policies/workflow/DIRECTORY.md
+--- a/workspace/src/governance/23-policies/workflow/DIRECTORY.md
++++ b/workspace/src/governance/23-policies/workflow/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### behavior-contracts.yaml
++### behavior-contracts.yaml
+
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/scripts/DIRECTORY.md b/workspace/src/governance/scripts/DIRECTORY.md
+--- a/workspace/src/governance/scripts/DIRECTORY.md
++++ b/workspace/src/governance/scripts/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼Python æºä»£ç¢¼
++
+- **è·è²¬**ï¼Python æºä»£ç¢¼
+@@ -36,1 +36,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+diff --git a/workspace/src/governance/dimensions/15-economic/tests/DIRECTORY.md b/workspace/src/governance/dimensions/15-economic/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/15-economic/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/15-economic/tests/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### economic_test.rego
++### economic_test.rego
+
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md b/workspace/docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md
+--- a/workspace/docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md
++++ b/workspace/docs/refactor_playbooks/LEGACY_ANALYSIS_REPORT.md
+@@ -3,1 +3,1 @@
+-# \_legacy_scratch éæ§åæ¬ç³»çµ± - å®æ´åæå ±å
++# \_legacy_scratch éæ§åæ¬ç³»çµ± - å®æ´åæå ±å
+
+diff --git a/workspace/tools/scripts/backup/DIRECTORY.md b/workspace/tools/scripts/backup/DIRECTORY.md
+--- a/workspace/tools/scripts/backup/DIRECTORY.md
++++ b/workspace/tools/scripts/backup/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -6,1 +6,1 @@
+-
++
+diff --git a/workspace/tools/cli/DIRECTORY.md b/workspace/tools/cli/DIRECTORY.md
+--- a/workspace/tools/cli/DIRECTORY.md
++++ b/workspace/tools/cli/DIRECTORY.md
+@@ -26,1 +26,1 @@
+-### package-lock.json
++### package-lock.json
+
+@@ -41,1 +41,1 @@
+-
++
+diff --git a/workspace/docs/roadmap-2026.md b/workspace/docs/roadmap-2026.md
+--- a/workspace/docs/roadmap-2026.md
++++ b/workspace/docs/roadmap-2026.md
+@@ -109,1 +109,1 @@
+-- `deploy/k8s/*.yaml` - Kubernetes manifests
++
+- `deploy/k8s/*.yaml` - Kubernetes manifests
+@@ -113,1 +113,1 @@
+-#### 2. Machine Learning Optimization
++#### 2. Machine Learning Optimization
+
+@@ -127,1 +127,1 @@
+-- Analytics dashboard with custom reports
++
+- Analytics dashboard with custom reports
+@@ -135,1 +135,1 @@
+-- `services/analytics-service/` - Analytics backend
++
+- `services/analytics-service/` - Analytics backend
+@@ -184,1 +184,1 @@
+-- Plugin API framework and SDK
++
+- Plugin API framework and SDK
+@@ -315,1 +315,1 @@
+-### Phase 1 (Achieved) â
++### Phase 1 (Achieved) â
+
+@@ -329,1 +329,1 @@
+-- [ ] 100+ concurrent collaboration sessions
++
+- [ ] 100+ concurrent collaboration sessions
+diff --git a/workspace/config/security/compliance/DIRECTORY.md b/workspace/config/security/compliance/DIRECTORY.md
+--- a/workspace/config/security/compliance/DIRECTORY.md
++++ b/workspace/config/security/compliance/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -6,1 +6,1 @@
+-
++
+diff --git a/workspace/src/core/plugins/mind_matrix/DIRECTORY.md b/workspace/src/core/plugins/mind_matrix/DIRECTORY.md
+--- a/workspace/src/core/plugins/mind_matrix/DIRECTORY.md
++++ b/workspace/src/core/plugins/mind_matrix/DIRECTORY.md
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/docs/DIRECTORY.md b/workspace/docs/DIRECTORY.md
+--- a/workspace/docs/DIRECTORY.md
++++ b/workspace/docs/DIRECTORY.md
+@@ -42,1 +42,1 @@
+-### ADMIN_COPILOT_CLI.md
++### ADMIN_COPILOT_CLI.md
+
+@@ -52,1 +52,1 @@
+-### ADVANCED_FEATURES_SUMMARY.md
++### ADVANCED_FEATURES_SUMMARY.md
+
+@@ -77,1 +77,1 @@
+-### ARCHITECTURE_HEALTH_REPORT.md
++### ARCHITECTURE_HEALTH_REPORT.md
+
+@@ -82,1 +82,1 @@
+-### ARCHITECTURE_IMPLEMENTATION_SUMMARY.md
++### ARCHITECTURE_IMPLEMENTATION_SUMMARY.md
+
+@@ -87,1 +87,1 @@
+-### ARCHITECTURE_OPTIMIZATION_DASHBOARD.md
++### ARCHITECTURE_OPTIMIZATION_DASHBOARD.md
+
+@@ -97,1 +97,1 @@
+-### ARCHITECTURE_SKELETON_ANALYSIS.md
++### ARCHITECTURE_SKELETON_ANALYSIS.md
+
+@@ -162,1 +162,1 @@
+-### CHANGELOG.md
++### CHANGELOG.md
+
+@@ -192,1 +192,1 @@
+-### CI_GLOBAL_STATUS_FIX.md
++### CI_GLOBAL_STATUS_FIX.md
+
+@@ -247,1 +247,1 @@
+-### CONTRACT.md
++### CONTRACT.md
+
+@@ -257,1 +257,1 @@
+-### CONTRIBUTION_GUIDE.md
++### CONTRIBUTION_GUIDE.md
+
+diff --git a/workspace/docs/reports/LEGACY_REFACTORING_EVOLUTION_REPORT.md b/workspace/docs/reports/LEGACY_REFACTORING_EVOLUTION_REPORT.md
+--- a/workspace/docs/reports/LEGACY_REFACTORING_EVOLUTION_REPORT.md
++++ b/workspace/docs/reports/LEGACY_REFACTORING_EVOLUTION_REPORT.md
+@@ -118,1 +118,1 @@
+-- All 27 files successfully deleted from `docs/refactor_playbooks/_legacy_scratch/`
++- All 27 files successfully deleted from `docs/refactor_playbooks/_legacy_scratch/`
+
+@@ -252,1 +252,1 @@
+-### Deleted
++
+### Deleted
+diff --git a/workspace/docs/reports/self-awareness-full.md b/workspace/docs/reports/self-awareness-full.md
+--- a/workspace/docs/reports/self-awareness-full.md
++++ b/workspace/docs/reports/self-awareness-full.md
+@@ -30,1 +30,1 @@
+-=======
++=======
+
+diff --git a/workspace/docs/operations/runbooks/DIRECTORY.md b/workspace/docs/operations/runbooks/DIRECTORY.md
+--- a/workspace/docs/operations/runbooks/DIRECTORY.md
++++ b/workspace/docs/operations/runbooks/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### HLP_EXECUTOR_EMERGENCY.md
++### HLP_EXECUTOR_EMERGENCY.md
+
+@@ -15,1 +15,1 @@
+-### HLP_EXECUTOR_ERROR_HANDLING.md
++### HLP_EXECUTOR_ERROR_HANDLING.md
+
+@@ -20,1 +20,1 @@
+-### HLP_EXECUTOR_MAINTENANCE.md
++### HLP_EXECUTOR_MAINTENANCE.md
+
+diff --git a/workspace/src/governance/dimensions/52-tracing/DIRECTORY.md b/workspace/src/governance/dimensions/52-tracing/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/52-tracing/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/52-tracing/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -15,1 +15,1 @@
+-### policy.rego
++### policy.rego
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -38,1 +38,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/misc/DIRECTORY.md b/workspace/docs/refactor_playbooks/03_refactor/misc/DIRECTORY.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/misc/DIRECTORY.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/misc/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -39,1 +39,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/web/hooks/DIRECTORY.md b/workspace/src/core/contract_service/contracts-L1/contracts/web/hooks/DIRECTORY.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/web/hooks/DIRECTORY.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/web/hooks/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Inspired by react-hot-toast library
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Inspired by react-hot-toast library
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -27,1 +27,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -32,1 +32,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/api/graphql/DIRECTORY.md b/workspace/src/api/graphql/DIRECTORY.md
+--- a/workspace/src/api/graphql/DIRECTORY.md
++++ b/workspace/src/api/graphql/DIRECTORY.md
+@@ -23,1 +23,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/canary/DIRECTORY.md b/workspace/src/autonomous/infrastructure/infrastructure/canary/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/canary/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/canary/DIRECTORY.md
+@@ -27,1 +27,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/teams/default-team/profiles/role.code_reviewer.md b/workspace/teams/default-team/profiles/role.code_reviewer.md
+--- a/workspace/teams/default-team/profiles/role.code_reviewer.md
++++ b/workspace/teams/default-team/profiles/role.code_reviewer.md
+@@ -26,1 +26,1 @@
+-- PULL_REQUEST_OPENED
++
+- PULL_REQUEST_OPENED
+@@ -43,1 +43,1 @@
+-### Output Format
++### Output Format
+
+@@ -72,1 +72,1 @@
+-## Permissions
++## Permissions
+
+@@ -73,1 +73,1 @@
+-- contents: read
++
+- contents: read
+diff --git a/workspace/docs/reports/PR351_CONSISTENCY_SUMMARY.md b/workspace/docs/reports/PR351_CONSISTENCY_SUMMARY.md
+--- a/workspace/docs/reports/PR351_CONSISTENCY_SUMMARY.md
++++ b/workspace/docs/reports/PR351_CONSISTENCY_SUMMARY.md
+@@ -3,1 +3,1 @@
+-## Task Completed
++## Task Completed
+
+@@ -6,1 +6,1 @@
+-## Objective
++## Objective
+
+@@ -52,1 +52,1 @@
+-### 1. Policy Reference Consistency
++### 1. Policy Reference Consistency
+
+@@ -92,1 +92,1 @@
+-- PR351_SECURITY_ENHANCEMENTS.md
++
+- PR351_SECURITY_ENHANCEMENTS.md
+@@ -108,1 +108,1 @@
+-### Long-Term
++### Long-Term
+
+@@ -115,1 +115,1 @@
+-### Security Posture
++### Security Posture
+
+@@ -120,1 +120,1 @@
+-### Developer Experience
++### Developer Experience
+
+diff --git a/workspace/src/governance/19-evolutionary/DIRECTORY.md b/workspace/src/governance/19-evolutionary/DIRECTORY.md
+--- a/workspace/src/governance/19-evolutionary/DIRECTORY.md
++++ b/workspace/src/governance/19-evolutionary/DIRECTORY.md
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -32,1 +32,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/governance/29-docs/namespace-governance-lifecycle.md b/workspace/src/governance/29-docs/namespace-governance-lifecycle.md
+--- a/workspace/src/governance/29-docs/namespace-governance-lifecycle.md
++++ b/workspace/src/governance/29-docs/namespace-governance-lifecycle.md
+@@ -3,1 +3,1 @@
+-## Purpose
++## Purpose
+
+@@ -7,1 +7,1 @@
+-## Lifecycleï¼è¦å â è©¦è¡ â æ»¾å â åªåï¼
++## Lifecycleï¼è¦å â è©¦è¡ â æ»¾å â åªåï¼
+
+@@ -8,1 +8,1 @@
+-1) è¦åï¼å®ç¾©æ¨æº/ç¯çãæ²»ççµç¹ãä¾å¤éæª»ï¼è¼¸åºèæ¡èæ±ºç­æ¹åã  
++
+1) è¦åï¼å®ç¾©æ¨æº/ç¯çãæ²»ççµç¹ãä¾å¤éæª»ï¼è¼¸åºèæ¡èæ±ºç­æ¹åã  
+@@ -13,1 +13,1 @@
+-## Stakeholdersï¼ç²¾ç°¡ï¼
++## Stakeholdersï¼ç²¾ç°¡ï¼
+
+@@ -33,1 +33,1 @@
+-## Metrics & Auditï¼ç¤ºä¾ï¼
++## Metrics & Auditï¼ç¤ºä¾ï¼
+
+diff --git a/workspace/src/models/schemas/DIRECTORY.md b/workspace/src/models/schemas/DIRECTORY.md
+--- a/workspace/src/models/schemas/DIRECTORY.md
++++ b/workspace/src/models/schemas/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -12,1 +12,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -19,1 +19,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/dimensions/12-culture-capability/DIRECTORY.md b/workspace/src/governance/dimensions/12-culture-capability/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/12-culture-capability/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/12-culture-capability/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -21,1 +21,1 @@
+-- **è·è²¬**ï¼JSON éç½®æä»¶
++
+- **è·è²¬**ï¼JSON éç½®æä»¶
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/governance/dimensions/44-resilience/DIRECTORY.md b/workspace/src/governance/dimensions/44-resilience/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/44-resilience/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/44-resilience/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### policy.rego
++### policy.rego
+
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+diff --git a/workspace/src/governance/39-automation/engines/DIRECTORY.md b/workspace/src/governance/39-automation/engines/DIRECTORY.md
+--- a/workspace/src/governance/39-automation/engines/DIRECTORY.md
++++ b/workspace/src/governance/39-automation/engines/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Python æºä»£ç¢¼
++
+- **è·è²¬**ï¼Python æºä»£ç¢¼
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/web/admin/src/components/ui/DIRECTORY.md b/workspace/src/web/admin/src/components/ui/DIRECTORY.md
+--- a/workspace/src/web/admin/src/components/ui/DIRECTORY.md
++++ b/workspace/src/web/admin/src/components/ui/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### accordion.tsx
++### accordion.tsx
+
+@@ -20,1 +20,1 @@
+-### alert.tsx
++### alert.tsx
+
+@@ -25,1 +25,1 @@
+-### aspect-ratio.tsx
++### aspect-ratio.tsx
+
+@@ -40,1 +40,1 @@
+-### breadcrumb.tsx
++### breadcrumb.tsx
+
+@@ -60,1 +60,1 @@
+-### carousel.tsx
++### carousel.tsx
+
+@@ -120,1 +120,1 @@
+-### input.tsx
++### input.tsx
+
+@@ -130,1 +130,1 @@
+-### menubar.tsx
++### menubar.tsx
+
+@@ -215,1 +215,1 @@
+-### tabs.tsx
++### tabs.tsx
+
+@@ -220,1 +220,1 @@
+-### textarea.tsx
++### textarea.tsx
+
+@@ -225,1 +225,1 @@
+-### toast.tsx
++### toast.tsx
+
+@@ -240,1 +240,1 @@
+-### toggle.tsx
++### toggle.tsx
+
+diff --git a/workspace/docs/LEGACY_REFACTORING_EVOLUTION_REPORT.md b/workspace/docs/LEGACY_REFACTORING_EVOLUTION_REPORT.md
+--- a/workspace/docs/LEGACY_REFACTORING_EVOLUTION_REPORT.md
++++ b/workspace/docs/LEGACY_REFACTORING_EVOLUTION_REPORT.md
+@@ -23,1 +23,1 @@
+-- **Batch Analysis Results:** Reviewed pre-existing analysis at `/tmp/legacy_batch_results.yaml`
++- **Batch Analysis Results:** Reviewed pre-existing analysis at `/tmp/legacy_batch_results.yaml`
+
+@@ -118,1 +118,1 @@
+-- All 27 files successfully deleted from `docs/refactor_playbooks/_legacy_scratch/`
++- All 27 files successfully deleted from `docs/refactor_playbooks/_legacy_scratch/`
+
+@@ -252,1 +252,1 @@
+-### Deleted
++
+### Deleted
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/README.md b/workspace/docs/refactor_playbooks/03_refactor/README.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/README.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/README.md
+@@ -70,1 +70,1 @@
+-=======
++=======
+
+diff --git a/workspace/src/ai/agents/dependency-manager/src/updaters/DIRECTORY.md b/workspace/src/ai/agents/dependency-manager/src/updaters/DIRECTORY.md
+--- a/workspace/src/ai/agents/dependency-manager/src/updaters/DIRECTORY.md
++++ b/workspace/src/ai/agents/dependency-manager/src/updaters/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+diff --git a/workspace/src/governance/dimensions/68-visualization/DIRECTORY.md b/workspace/src/governance/dimensions/68-visualization/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/68-visualization/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/68-visualization/DIRECTORY.md
+@@ -20,1 +20,1 @@
+-### schema.json
++### schema.json
+
+diff --git a/workspace/src/frontend/ui/k8s/DIRECTORY.md b/workspace/src/frontend/ui/k8s/DIRECTORY.md
+--- a/workspace/src/frontend/ui/k8s/DIRECTORY.md
++++ b/workspace/src/frontend/ui/k8s/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/web/components/DIRECTORY.md b/workspace/src/core/contract_service/contracts-L1/contracts/web/components/DIRECTORY.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/web/components/DIRECTORY.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/web/components/DIRECTORY.md
+@@ -13,1 +13,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/34-config/DIRECTORY.md b/workspace/src/governance/dimensions/34-config/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/34-config/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/34-config/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -27,1 +27,1 @@
+-- ç°å¢ç¹å®éç½®èéç¨éç½®åé¢
++
+- ç°å¢ç¹å®éç½®èéç¨éç½®åé¢
+diff --git a/workspace/docs/PR_491_COMPLETION_REPORT.md b/workspace/docs/PR_491_COMPLETION_REPORT.md
+--- a/workspace/docs/PR_491_COMPLETION_REPORT.md
++++ b/workspace/docs/PR_491_COMPLETION_REPORT.md
+@@ -48,1 +48,1 @@
+-- Strategic alignment: `src/governance/00-vision-strategy/*`
++
+- Strategic alignment: `src/governance/00-vision-strategy/*`
+@@ -58,1 +58,1 @@
+-- Contract service path: `$ROOT_DIR/src/core/contract_service/contracts-L1/contracts`
++
+- Contract service path: `$ROOT_DIR/src/core/contract_service/contracts-L1/contracts`
+@@ -118,1 +118,1 @@
+-### Clean Root Directory
++### Clean Root Directory
+
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/02-storage/DIRECTORY.md b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/02-storage/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/02-storage/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/02-storage/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/38-sbom/DIRECTORY.md b/workspace/src/governance/dimensions/38-sbom/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/38-sbom/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/38-sbom/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### policy.rego
++### policy.rego
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -33,1 +33,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/dimensions/80-synthesis/tests/DIRECTORY.md b/workspace/src/governance/dimensions/80-synthesis/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/80-synthesis/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/80-synthesis/tests/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -17,1 +17,1 @@
+-- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
++
+- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/governance/dimensions/99-metadata/knl-pack/state/change-records/DIRECTORY.md b/workspace/src/governance/dimensions/99-metadata/knl-pack/state/change-records/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/99-metadata/knl-pack/state/change-records/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/99-metadata/knl-pack/state/change-records/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/config/integrations/DIRECTORY.md b/workspace/config/integrations/DIRECTORY.md
+--- a/workspace/config/integrations/DIRECTORY.md
++++ b/workspace/config/integrations/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -36,1 +36,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/governance/policies/change-management/DIRECTORY.md b/workspace/governance/policies/change-management/DIRECTORY.md
+--- a/workspace/governance/policies/change-management/DIRECTORY.md
++++ b/workspace/governance/policies/change-management/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+diff --git a/workspace/src/governance/dimensions/77-experimentation/tests/DIRECTORY.md b/workspace/src/governance/dimensions/77-experimentation/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/77-experimentation/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/77-experimentation/tests/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/autonomous/infrastructure/config/DIRECTORY.md b/workspace/src/autonomous/infrastructure/config/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/config/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/config/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-### auto-fix-bot .prompt.yml
++### auto-fix-bot .prompt.yml
+
+@@ -32,1 +32,1 @@
+-- **è·è²¬**ï¼JSON éç½®æä»¶
++
+- **è·è²¬**ï¼JSON éç½®æä»¶
+@@ -41,1 +41,1 @@
+-### ci-error-handler.yaml
++### ci-error-handler.yaml
+
+@@ -62,1 +62,1 @@
+-- **è·è²¬**ï¼Shell è³æ¬
++
+- **è·è²¬**ï¼Shell è³æ¬
+@@ -71,1 +71,1 @@
+-### grafana-dashboard.json
++### grafana-dashboard.json
+
+@@ -76,1 +76,1 @@
+-### island-control.yml
++### island-control.yml
+
+@@ -91,1 +91,1 @@
+-### prometheus-config.yml
++### prometheus-config.yml
+
+@@ -111,1 +111,1 @@
+-### synergymesh.config.yaml
++### synergymesh.config.yaml
+
+@@ -136,1 +136,1 @@
+-### yaml-module-system.yaml
++### yaml-module-system.yaml
+
+diff --git a/workspace/tools/governance/python/DIRECTORY.md b/workspace/tools/governance/python/DIRECTORY.md
+--- a/workspace/tools/governance/python/DIRECTORY.md
++++ b/workspace/tools/governance/python/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### validate_naming.py
++### validate_naming.py
+
+diff --git a/.github/agents/my-agent.agent.md b/.github/agents/my-agent.agent.md
+--- a/.github/agents/my-agent.agent.md
++++ b/.github/agents/my-agent.agent.md
+@@ -89,1 +89,1 @@
+-### Lifecycle Management
++### Lifecycle Management
+
+@@ -107,1 +107,1 @@
+-- **Core Engine:** SynergyMesh Core (unified_integration, mind_matrix, safety_mechanisms)
++
+- **Core Engine:** SynergyMesh Core (unified_integration, mind_matrix, safety_mechanisms)
+@@ -130,1 +130,1 @@
+-- **Health Checks:** Automated with failure detection
++
+- **Health Checks:** Automated with failure detection
+@@ -146,1 +146,1 @@
+-### Alerting
++### Alerting
+
+@@ -147,1 +147,1 @@
+-- **Critical:** Slack + Email (< 15 min response)
++
+- **Critical:** Slack + Email (< 15 min response)
+diff --git a/workspace/docs/guides/DIRECTORY.md b/workspace/docs/guides/DIRECTORY.md
+--- a/workspace/docs/guides/DIRECTORY.md
++++ b/workspace/docs/guides/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### deployment.md
++### deployment.md
+
+@@ -20,1 +20,1 @@
+-### development.md
++### development.md
+
+@@ -39,1 +39,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/governance/22-aesthetic/DIRECTORY.md b/workspace/src/governance/22-aesthetic/DIRECTORY.md
+--- a/workspace/src/governance/22-aesthetic/DIRECTORY.md
++++ b/workspace/src/governance/22-aesthetic/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/scripts/migration/DIRECTORY.md b/workspace/scripts/migration/DIRECTORY.md
+--- a/workspace/scripts/migration/DIRECTORY.md
++++ b/workspace/scripts/migration/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Shell è³æ¬
++
+- **è·è²¬**ï¼Shell è³æ¬
+diff --git a/workspace/src/autonomous/deployment/docker/DIRECTORY.md b/workspace/src/autonomous/deployment/docker/DIRECTORY.md
+--- a/workspace/src/autonomous/deployment/docker/DIRECTORY.md
++++ b/workspace/src/autonomous/deployment/docker/DIRECTORY.md
+@@ -17,1 +17,1 @@
+-- æææªé¡åçµç¹
++
+- æææªé¡åçµç¹
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/governance/29-docs/data/DIRECTORY.md b/workspace/src/governance/29-docs/data/DIRECTORY.md
+--- a/workspace/src/governance/29-docs/data/DIRECTORY.md
++++ b/workspace/src/governance/29-docs/data/DIRECTORY.md
+@@ -25,1 +25,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/templates/playbooks/DIRECTORY.md b/workspace/src/templates/playbooks/DIRECTORY.md
+--- a/workspace/src/templates/playbooks/DIRECTORY.md
++++ b/workspace/src/templates/playbooks/DIRECTORY.md
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -22,1 +22,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/src/automation/architect/scenarios/drone-systems/DIRECTORY.md b/workspace/src/automation/architect/scenarios/drone-systems/DIRECTORY.md
+--- a/workspace/src/automation/architect/scenarios/drone-systems/DIRECTORY.md
++++ b/workspace/src/automation/architect/scenarios/drone-systems/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -22,1 +22,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/docs/reports/PR351_FINAL_CONSISTENCY_REPORT.md b/workspace/docs/reports/PR351_FINAL_CONSISTENCY_REPORT.md
+--- a/workspace/docs/reports/PR351_FINAL_CONSISTENCY_REPORT.md
++++ b/workspace/docs/reports/PR351_FINAL_CONSISTENCY_REPORT.md
+@@ -176,1 +176,1 @@
+-- Unit tests: `describe('ServiceName') > describe('methodName') > it('should...')`
++
+- Unit tests: `describe('ServiceName') > describe('methodName') > it('should...')`
+@@ -280,1 +280,1 @@
+-1. `.env.example` - Added SAFE_ROOT_PATH with documentation
++
+1. `.env.example` - Added SAFE_ROOT_PATH with documentation
+@@ -284,1 +284,1 @@
+-### Documentation Files
++### Documentation Files
+
+@@ -315,1 +315,1 @@
+-### Immediate (Current Session)
++### Immediate (Current Session)
+
+diff --git a/workspace/src/autonomous/deployment/k8s/ingress/DIRECTORY.md b/workspace/src/autonomous/deployment/k8s/ingress/DIRECTORY.md
+--- a/workspace/src/autonomous/deployment/k8s/ingress/DIRECTORY.md
++++ b/workspace/src/autonomous/deployment/k8s/ingress/DIRECTORY.md
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -23,1 +23,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/docs/fixes/contracts-l1-jest-fix.md b/workspace/docs/fixes/contracts-l1-jest-fix.md
+--- a/workspace/docs/fixes/contracts-l1-jest-fix.md
++++ b/workspace/docs/fixes/contracts-l1-jest-fix.md
+@@ -93,1 +93,1 @@
+-- Explicit CommonJS syntax with `module.exports`
++
+- Explicit CommonJS syntax with `module.exports`
+@@ -105,1 +105,1 @@
+-1. **Explicit test dependencies**: Always declare test runners and assertion libraries
++1. **Explicit test dependencies**: Always declare test runners and assertion libraries
+
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md b/workspace/docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/quantum/l1-integration-guide.v1.0.md
+@@ -727,1 +727,1 @@
+-8. **CNCF Security Best Practices**: <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
++8. **CNCF Security Best Practices**: <https://www.cncf.io/blog/2022/06/07/cncf-kubernetes-security-best-practices/>
+
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/src/services/escalation/DIRECTORY.md b/workspace/src/core/contracts/contracts-L1/contracts/src/services/escalation/DIRECTORY.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/src/services/escalation/DIRECTORY.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/src/services/escalation/DIRECTORY.md
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/config/dev/init-db/DIRECTORY.md b/workspace/config/dev/init-db/DIRECTORY.md
+--- a/workspace/config/dev/init-db/DIRECTORY.md
++++ b/workspace/config/dev/init-db/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/58-capacity/DIRECTORY.md b/workspace/src/governance/dimensions/58-capacity/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/58-capacity/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/58-capacity/DIRECTORY.md
+@@ -33,1 +33,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -38,1 +38,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/dimensions/34-config/tests/DIRECTORY.md b/workspace/src/governance/dimensions/34-config/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/34-config/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/34-config/tests/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+diff --git a/workspace/src/governance/dimensions/99-metadata/knl-pack/state/snapshots/DIRECTORY.md b/workspace/src/governance/dimensions/99-metadata/knl-pack/state/snapshots/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/99-metadata/knl-pack/state/snapshots/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/99-metadata/knl-pack/state/snapshots/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -12,1 +12,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/tools/DIRECTORY.md b/workspace/docs/refactor_playbooks/03_refactor/tools/DIRECTORY.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/tools/DIRECTORY.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/tools/DIRECTORY.md
+@@ -17,1 +17,1 @@
+-- éç¼å·¥å·èé¨ç½²å·¥å·åé
++
+- éç¼å·¥å·èé¨ç½²å·¥å·åé
+diff --git a/workspace/docs/FINAL_REPOSITORY_STATUS_REPORT.md b/workspace/docs/FINAL_REPOSITORY_STATUS_REPORT.md
+--- a/workspace/docs/FINAL_REPOSITORY_STATUS_REPORT.md
++++ b/workspace/docs/FINAL_REPOSITORY_STATUS_REPORT.md
+@@ -10,1 +10,1 @@
+-- **ç¶ååæ¯**: `main` â
++
+- **ç¶ååæ¯**: `main` â
+@@ -15,1 +15,1 @@
+-### å·²æ¸ççåæ¯
++### å·²æ¸ççåæ¯
+
+@@ -41,1 +41,1 @@
+-### æä»¶çµ±è¨
++### æä»¶çµ±è¨
+
+@@ -55,1 +55,1 @@
+-- â ï¸ 6 åç¾æ Python èªæ³é¯èª¤ï¼é ç®é åå­å¨ï¼
++
+- â ï¸ 6 åç¾æ Python èªæ³é¯èª¤ï¼é ç®é åå­å¨ï¼
+@@ -74,1 +74,1 @@
+-### å®å¨æªæ½
++### å®å¨æªæ½
+
+@@ -87,1 +87,1 @@
+-### æè¡æå°±
++### æè¡æå°±
+
+@@ -107,1 +107,1 @@
+-### â å®æçæ
++### â å®æçæ
+
+@@ -120,1 +120,1 @@
+-### ð ä¸ä¸æ­¥
++### ð ä¸ä¸æ­¥
+
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/ARCHITECTURE.md b/workspace/src/core/contract_service/contracts-L1/contracts/ARCHITECTURE.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/ARCHITECTURE.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/ARCHITECTURE.md
+@@ -86,1 +86,1 @@
+-- **Assignment Engine** (`services/assignment/`): Automated responsibility assignment system
++- **Assignment Engine** (`services/assignment/`): Automated responsibility assignment system
+
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md b/workspace/src/core/contract_service/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/docs/EXAMPLES_MATERIALIZATION.md
+@@ -45,1 +45,1 @@
+-- â **Imports**: All necessary module imports
++
+- â **Imports**: All necessary module imports
+@@ -61,1 +61,1 @@
+-- README with run instructions
++
+- README with run instructions
+@@ -137,1 +137,1 @@
+-- Real-time metrics access
++
+- Real-time metrics access
+@@ -148,1 +148,1 @@
+-### 04. Event Subscription
++### 04. Event Subscription
+
+@@ -196,1 +196,1 @@
+-### 3. Testing
++### 3. Testing
+
+@@ -225,1 +225,1 @@
+-### Before (Documentation Only)
++### Before (Documentation Only)
+
+@@ -280,1 +280,1 @@
+-- **Example Code**: ~530 LOC
++
+- **Example Code**: ~530 LOC
+@@ -286,1 +286,1 @@
+-- **Architecture Patterns**: 100%
++
+- **Architecture Patterns**: 100%
+@@ -300,1 +300,1 @@
+-### Documentation Expansion
++### Documentation Expansion
+
+@@ -312,1 +312,1 @@
+-### Materialized Examples
++### Materialized Examples
+
+@@ -318,1 +318,1 @@
+-- [Self-Healing Tests](../src/__tests__/self-healing/)
++
+- [Self-Healing Tests](../src/__tests__/self-healing/)
+diff --git a/workspace/config/deployment/DIRECTORY.md b/workspace/config/deployment/DIRECTORY.md
+--- a/workspace/config/deployment/DIRECTORY.md
++++ b/workspace/config/deployment/DIRECTORY.md
+@@ -13,1 +13,1 @@
+-- **è·è²¬**ï¼Dockerfile
++
+- **è·è²¬**ï¼Dockerfile
+@@ -32,1 +32,1 @@
+-### instant-execution-pipeline.yaml
++### instant-execution-pipeline.yaml
+
+@@ -37,1 +37,1 @@
+-### nginx.conf
++### nginx.conf
+
+@@ -48,1 +48,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/docs/README_STRUCTURE_CHECK.md b/workspace/docs/README_STRUCTURE_CHECK.md
+--- a/workspace/docs/README_STRUCTURE_CHECK.md
++++ b/workspace/docs/README_STRUCTURE_CHECK.md
+@@ -115,1 +115,1 @@
+-çå­å¨éåäºéåååï¼é æãæ²»çå¨åªè£¡ãçæ··æ·ã
++çå­å¨éåäºéåååï¼é æãæ²»çå¨åªè£¡ãçæ··æ·
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/web/src/components/ui/DIRECTORY.md b/workspace/src/core/contract_service/contracts-L1/contracts/web/src/components/ui/DIRECTORY.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/web/src/components/ui/DIRECTORY.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/web/src/components/ui/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -15,1 +15,1 @@
+-### alert-dialog.tsx
++### alert-dialog.tsx
+
+@@ -40,1 +40,1 @@
+-### breadcrumb.tsx
++### breadcrumb.tsx
+
+@@ -50,1 +50,1 @@
+-### calendar.tsx
++### calendar.tsx
+
+@@ -75,1 +75,1 @@
+-### collapsible.tsx
++### collapsible.tsx
+
+@@ -90,1 +90,1 @@
+-### dialog.tsx
++### dialog.tsx
+
+@@ -105,1 +105,1 @@
+-### form.tsx
++### form.tsx
+
+@@ -120,1 +120,1 @@
+-### input.tsx
++### input.tsx
+
+@@ -125,1 +125,1 @@
+-### label.tsx
++### label.tsx
+
+@@ -165,1 +165,1 @@
+-### scroll-area.tsx
++### scroll-area.tsx
+
+@@ -170,1 +170,1 @@
+-### select.tsx
++### select.tsx
+
+@@ -190,1 +190,1 @@
+-### skeleton.tsx
++### skeleton.tsx
+
+@@ -225,1 +225,1 @@
+-### toast.tsx
++### toast.tsx
+
+@@ -240,1 +240,1 @@
+-### toggle.tsx
++### toggle.tsx
+
+diff --git a/workspace/src/governance/dimensions/56-incidents/DIRECTORY.md b/workspace/src/governance/dimensions/56-incidents/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/56-incidents/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/56-incidents/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### policy.rego
++### policy.rego
+
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/teams/default-team/profiles/role.governance_guardian.md b/workspace/teams/default-team/profiles/role.governance_guardian.md
+--- a/workspace/teams/default-team/profiles/role.governance_guardian.md
++++ b/workspace/teams/default-team/profiles/role.governance_guardian.md
+@@ -11,1 +11,1 @@
+-### Primary Skills
++### Primary Skills
+
+@@ -62,1 +62,1 @@
+-## Validation Rules
++## Validation Rules
+
+@@ -76,1 +76,1 @@
+-- Governance Dimensions (src/governance/dimensions/)
++
+- Governance Dimensions (src/governance/dimensions/)
+diff --git a/workspace/src/governance/dimensions/75-evolution/DIRECTORY.md b/workspace/src/governance/dimensions/75-evolution/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/75-evolution/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/75-evolution/DIRECTORY.md
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/web/hooks/DIRECTORY.md b/workspace/src/core/contracts/contracts-L1/contracts/web/hooks/DIRECTORY.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/web/hooks/DIRECTORY.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/web/hooks/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -10,1 +10,1 @@
+-### use-mobile.tsx
++### use-mobile.tsx
+
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Inspired by react-hot-toast library
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Inspired by react-hot-toast library
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -32,1 +32,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/tools/DIRECTORY.md b/workspace/tools/DIRECTORY.md
+--- a/workspace/tools/DIRECTORY.md
++++ b/workspace/tools/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -41,1 +41,1 @@
+-- **è·è²¬**ï¼AI è¼å©éç¼å·¥å·ç®é
++
+- **è·è²¬**ï¼AI è¼å©éç¼å·¥å·ç®é
+@@ -49,1 +49,1 @@
+-- **è·è²¬**ï¼èªååå·¥å·éåç®é
++
+- **è·è²¬**ï¼èªååå·¥å·éåç®é
+@@ -64,1 +64,1 @@
+-### cli/
++### cli/
+
+@@ -72,1 +72,1 @@
+-### docs/
++### docs/
+
+@@ -81,1 +81,1 @@
+-- **è·è²¬**ï¼ç³»çµ±æ¼ååé·ç§»å·¥å·ç®é
++
+- **è·è²¬**ï¼ç³»çµ±æ¼ååé·ç§»å·¥å·ç®é
+@@ -129,1 +129,1 @@
+-- **è·è²¬**ï¼èªç¾©åæäº¤ä¿¡æ¯çæå·¥å·
++
+- **è·è²¬**ï¼èªç¾©åæäº¤ä¿¡æ¯çæå·¥å·
+@@ -137,1 +137,1 @@
+-- **è·è²¬**ï¼Git subtree éæå·¥å·
++
+- **è·è²¬**ï¼Git subtree éæå·¥å·
+@@ -144,1 +144,1 @@
+-### utilities/
++### utilities/
+
+@@ -152,1 +152,1 @@
+-### validate-refactor-index.py
++### validate-refactor-index.py
+
+@@ -168,1 +168,1 @@
+-### verify_p0_safety.py
++### verify_p0_safety.py
+
+@@ -177,1 +177,1 @@
+-- **è·è²¬**ï¼è¨æå¯¦é©åååå·¥å·ç®é
++
+- **è·è²¬**ï¼è¨æå¯¦é©åååå·¥å·ç®é
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/overlays/prod/DIRECTORY.md b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/overlays/prod/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/overlays/prod/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/overlays/prod/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -23,1 +23,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/models/database/DIRECTORY.md b/workspace/src/models/database/DIRECTORY.md
+--- a/workspace/src/models/database/DIRECTORY.md
++++ b/workspace/src/models/database/DIRECTORY.md
+@@ -12,1 +12,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -19,1 +19,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -23,1 +23,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -24,1 +24,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/09-performance/k8s/examples/DIRECTORY.md b/workspace/src/governance/09-performance/k8s/examples/DIRECTORY.md
+--- a/workspace/src/governance/09-performance/k8s/examples/DIRECTORY.md
++++ b/workspace/src/governance/09-performance/k8s/examples/DIRECTORY.md
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/models/DIRECTORY.md b/workspace/src/models/DIRECTORY.md
+--- a/workspace/src/models/DIRECTORY.md
++++ b/workspace/src/models/DIRECTORY.md
+@@ -22,1 +22,1 @@
+-- **ç¨é**ï¼å®ç¾© API å±¤çè³æçµæ§
++
+- **ç¨é**ï¼å®ç¾© API å±¤çè³æçµæ§
+diff --git a/workspace/src/services/agents/auto-repair/DIRECTORY.md b/workspace/src/services/agents/auto-repair/DIRECTORY.md
+--- a/workspace/src/services/agents/auto-repair/DIRECTORY.md
++++ b/workspace/src/services/agents/auto-repair/DIRECTORY.md
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -27,1 +27,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/frontend/ui/src/components/ui/DIRECTORY.md b/workspace/src/frontend/ui/src/components/ui/DIRECTORY.md
+--- a/workspace/src/frontend/ui/src/components/ui/DIRECTORY.md
++++ b/workspace/src/frontend/ui/src/components/ui/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### alert-dialog.tsx
++### alert-dialog.tsx
+
+@@ -30,1 +30,1 @@
+-### avatar.tsx
++### avatar.tsx
+
+@@ -110,1 +110,1 @@
+-### hover-card.tsx
++### hover-card.tsx
+
+@@ -115,1 +115,1 @@
+-### input-otp.tsx
++### input-otp.tsx
+
+@@ -125,1 +125,1 @@
+-### label.tsx
++### label.tsx
+
+@@ -145,1 +145,1 @@
+-### popover.tsx
++### popover.tsx
+
+@@ -210,1 +210,1 @@
+-### table.tsx
++### table.tsx
+
+@@ -225,1 +225,1 @@
+-### toast.tsx
++### toast.tsx
+
+@@ -240,1 +240,1 @@
+-### toggle.tsx
++### toggle.tsx
+
+diff --git a/workspace/src/governance/dimensions/28-tests/tests/DIRECTORY.md b/workspace/src/governance/dimensions/28-tests/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/28-tests/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/28-tests/tests/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/services/agents/dependency-manager/tests/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/tests/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/tests/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/tests/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Python æºä»£ç¢¼
++
+- **è·è²¬**ï¼Python æºä»£ç¢¼
+@@ -20,1 +20,1 @@
+-### test_phase2.py
++### test_phase2.py
+
+@@ -45,1 +45,1 @@
+-### test_phase7.py
++### test_phase7.py
+
+@@ -50,1 +50,1 @@
+-### test_phase8.py
++### test_phase8.py
+
+diff --git a/workspace/src/autonomous/agents/artifacts/reports/schema/DIRECTORY.md b/workspace/src/autonomous/agents/artifacts/reports/schema/DIRECTORY.md
+--- a/workspace/src/autonomous/agents/artifacts/reports/schema/DIRECTORY.md
++++ b/workspace/src/autonomous/agents/artifacts/reports/schema/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -10,1 +10,1 @@
+-### compliance.schema.json
++### compliance.schema.json
+
+@@ -15,1 +15,1 @@
+-### sla.schema.json
++### sla.schema.json
+
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -27,1 +27,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/src/governance/dimensions/72-optimization/tests/DIRECTORY.md b/workspace/src/governance/dimensions/72-optimization/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/72-optimization/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/72-optimization/tests/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -6,1 +6,1 @@
+-
++
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+diff --git a/workspace/docs/architecture/DIRECTORY.md b/workspace/docs/architecture/DIRECTORY.md
+--- a/workspace/docs/architecture/DIRECTORY.md
++++ b/workspace/docs/architecture/DIRECTORY.md
+@@ -13,1 +13,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -17,1 +17,1 @@
+-### CHECKPOINT_STRATEGY.md
++### CHECKPOINT_STRATEGY.md
+
+@@ -27,1 +27,1 @@
+-### CROSS_LANG_COMM.md
++### CROSS_LANG_COMM.md
+
+@@ -42,1 +42,1 @@
+-### DIRECTORY_STRUCTURE.md
++### DIRECTORY_STRUCTURE.md
+
+@@ -47,1 +47,1 @@
+-### EXECUTION_MODEL.md
++### EXECUTION_MODEL.md
+
+@@ -53,1 +53,1 @@
+-- **è·è²¬**ï¼ææ¬æä»¶
++
+- **è·è²¬**ï¼ææ¬æä»¶
+@@ -107,1 +107,1 @@
+-### UNIFIED_TOOLCHAIN.md
++### UNIFIED_TOOLCHAIN.md
+
+@@ -112,1 +112,1 @@
+-### api-specs.md
++### api-specs.md
+
+@@ -117,1 +117,1 @@
+-### core-engine-language-stack.md
++### core-engine-language-stack.md
+
+@@ -162,1 +162,1 @@
+-### storage-architecture.md
++### storage-architecture.md
+
+@@ -176,1 +176,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/core/advisory-database/src/__tests__/DIRECTORY.md b/workspace/src/core/advisory-database/src/__tests__/DIRECTORY.md
+--- a/workspace/src/core/advisory-database/src/__tests__/DIRECTORY.md
++++ b/workspace/src/core/advisory-database/src/__tests__/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -13,1 +13,1 @@
+-- **ä¾è³´**ï¼[å¾è£åä¾è³´éä¿]
++- __ä¾è³´**ï¼[å¾è£åä¾è³´éä¿]
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/web/components/DIRECTORY.md b/workspace/src/core/contracts/contracts-L1/contracts/web/components/DIRECTORY.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/web/components/DIRECTORY.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/web/components/DIRECTORY.md
+@@ -19,1 +19,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -20,1 +20,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -25,1 +25,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/34-config/data/DIRECTORY.md b/workspace/src/governance/34-config/data/DIRECTORY.md
+--- a/workspace/src/governance/34-config/data/DIRECTORY.md
++++ b/workspace/src/governance/34-config/data/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -6,1 +6,1 @@
+-
++
+@@ -15,1 +15,1 @@
+-### migration-flow.json
++### migration-flow.json
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -33,1 +33,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/docs/deployment/DEPLOYMENT_INTEGRATION_SUMMARY.md b/workspace/docs/deployment/DEPLOYMENT_INTEGRATION_SUMMARY.md
+--- a/workspace/docs/deployment/DEPLOYMENT_INTEGRATION_SUMMARY.md
++++ b/workspace/docs/deployment/DEPLOYMENT_INTEGRATION_SUMMARY.md
+@@ -520,1 +520,1 @@
+-- **Email**: <admin@synergymesh.io>
++- **Email**: <admin@synergymesh.io>
+
+diff --git a/workspace/src/automation/architect/scenarios/autonomous-driving/DIRECTORY.md b/workspace/src/automation/architect/scenarios/autonomous-driving/DIRECTORY.md
+--- a/workspace/src/automation/architect/scenarios/autonomous-driving/DIRECTORY.md
++++ b/workspace/src/automation/architect/scenarios/autonomous-driving/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/00-vision-strategy/crd/DIRECTORY.md b/workspace/src/governance/00-vision-strategy/crd/DIRECTORY.md
+--- a/workspace/src/governance/00-vision-strategy/crd/DIRECTORY.md
++++ b/workspace/src/governance/00-vision-strategy/crd/DIRECTORY.md
+@@ -35,1 +35,1 @@
+-### risk-register-crd.yaml
++### risk-register-crd.yaml
+
+@@ -56,1 +56,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -62,1 +62,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -67,1 +67,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/automation/architect/core/repair/DIRECTORY.md b/workspace/src/automation/architect/core/repair/DIRECTORY.md
+--- a/workspace/src/automation/architect/core/repair/DIRECTORY.md
++++ b/workspace/src/automation/architect/core/repair/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### repair_verifier.py
++### repair_verifier.py
+
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/client/src/pages/DIRECTORY.md b/workspace/src/client/src/pages/DIRECTORY.md
+--- a/workspace/src/client/src/pages/DIRECTORY.md
++++ b/workspace/src/client/src/pages/DIRECTORY.md
+@@ -23,1 +23,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/config/automation/DIRECTORY.md b/workspace/config/automation/DIRECTORY.md
+--- a/workspace/config/automation/DIRECTORY.md
++++ b/workspace/config/automation/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -15,1 +15,1 @@
+-
++
+@@ -19,1 +19,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/frontend/ui/src/DIRECTORY.md b/workspace/src/frontend/ui/src/DIRECTORY.md
+--- a/workspace/src/frontend/ui/src/DIRECTORY.md
++++ b/workspace/src/frontend/ui/src/DIRECTORY.md
+@@ -13,1 +13,1 @@
+-### App.tsx
++### App.tsx
+
+@@ -14,1 +14,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -18,1 +18,1 @@
+-### main.tsx
++### main.tsx
+
+@@ -35,1 +35,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -36,1 +36,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -40,1 +40,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/autonomous/infrastructure/cost-management/DIRECTORY.md b/workspace/src/autonomous/infrastructure/cost-management/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/cost-management/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/cost-management/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### README.md
++### README.md
+
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -27,1 +27,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md b/workspace/docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md
+--- a/workspace/docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md
++++ b/workspace/docs/ARCHITECTURE_OPTIMIZATION_DASHBOARD.md
+@@ -14,1 +14,1 @@
+-- **Current State**: Measured from live system
++
+- **Current State**: Measured from live system
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/kg-builder_refactor.md b/workspace/docs/refactor_playbooks/03_refactor/kg-builder_refactor.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/kg-builder_refactor.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/kg-builder_refactor.md
+@@ -1024,1 +1024,1 @@
+-- `02_integration/kg-builder_integration.md` â  
++
+- `02_integration/kg-builder_integration.md` â  
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/docs/SELF_HEALING_ARCHITECTURE.md b/workspace/src/core/contract_service/contracts-L1/contracts/docs/SELF_HEALING_ARCHITECTURE.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/docs/SELF_HEALING_ARCHITECTURE.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/docs/SELF_HEALING_ARCHITECTURE.md
+@@ -28,1 +28,1 @@
+-- `VALIDATION_FAILED`: Path validation failed
++
+- `VALIDATION_FAILED`: Path validation failed
+diff --git a/workspace/docs/PR110_DEPLOYMENT_COMPLETION.md b/workspace/docs/PR110_DEPLOYMENT_COMPLETION.md
+--- a/workspace/docs/PR110_DEPLOYMENT_COMPLETION.md
++++ b/workspace/docs/PR110_DEPLOYMENT_COMPLETION.md
+@@ -341,1 +341,1 @@
+-=======
++=======
+
+diff --git a/workspace/config/dev/KIND_CLUSTER_README.md b/workspace/config/dev/KIND_CLUSTER_README.md
+--- a/workspace/config/dev/KIND_CLUSTER_README.md
++++ b/workspace/config/dev/KIND_CLUSTER_README.md
+@@ -51,1 +51,1 @@
+-#### å¤ Cluster ç®¡ç
++#### å¤ Cluster ç®¡ç
+
+@@ -69,1 +69,1 @@
+-#### GitOps é¨ç½²
++#### GitOps é¨ç½²
+
+diff --git a/workspace/tools/automation/DIRECTORY.md b/workspace/tools/automation/DIRECTORY.md
+--- a/workspace/tools/automation/DIRECTORY.md
++++ b/workspace/tools/automation/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### ci-automation.py
++### ci-automation.py
+
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md b/workspace/docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/templates/SCRATCH_NOTES_TEMPLATE.md
+@@ -149,1 +149,1 @@
+--
++
+-
+diff --git a/workspace/docs/INCOMPLETE_TASKS_SCAN_REPORT.md b/workspace/docs/INCOMPLETE_TASKS_SCAN_REPORT.md
+--- a/workspace/docs/INCOMPLETE_TASKS_SCAN_REPORT.md
++++ b/workspace/docs/INCOMPLETE_TASKS_SCAN_REPORT.md
+@@ -121,1 +121,1 @@
+-   - å»ºè­°: P0 - é¢¨éªè©ä¼°
++- å»ºè­°: P0 - é¢¨éªè©ä¼°
+@@ -130,1 +130,1 @@
+-   - å»ºè­°: P0 - æçºè¿½è¹¤
++- å»ºè­°: P0 - æçºè¿½è¹¤
+@@ -135,1 +135,1 @@
+-3. **ééµè·¯å¾ E2E æ¸¬è©¦** (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/checklists.md:52`)
++3. **ééµè·¯å¾ E2E æ¸¬è©¦** (`unmanned-engineer-ceo/60-machine-guides/70-architecture-skeletons/architecture-stability/checklists.md:52`)
+
+@@ -137,1 +137,1 @@
+-   - é¡å¥: ç«¯å°ç«¯æ¸¬è©¦
++- é¡å¥: ç«¯å°ç«¯æ¸¬è©¦
+@@ -138,1 +138,1 @@
+-   - å½±é¿: ç¨æ¶é«é©
++- å½±é¿: ç¨æ¶é«é©
+@@ -139,1 +139,1 @@
+-   - å»ºè­°: P0 - å»ºç«æ¸¬è©¦å¥ä»¶
++- å»ºè­°: P0 - å»ºç«æ¸¬è©¦å¥ä»¶
+@@ -191,1 +191,1 @@
+-=======
++=======
+
+diff --git a/workspace/src/governance/packages/DIRECTORY.md b/workspace/src/governance/packages/DIRECTORY.md
+--- a/workspace/src/governance/packages/DIRECTORY.md
++++ b/workspace/src/governance/packages/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/00-vision-strategy/tests/DIRECTORY.md b/workspace/src/governance/00-vision-strategy/tests/DIRECTORY.md
+--- a/workspace/src/governance/00-vision-strategy/tests/DIRECTORY.md
++++ b/workspace/src/governance/00-vision-strategy/tests/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### deploy-local.sh
++### deploy-local.sh
+
+@@ -20,1 +20,1 @@
+-### implement-phase4.sh
++### implement-phase4.sh
+
+@@ -41,1 +41,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/core/plugins/monitoring_system/DIRECTORY.md b/workspace/src/core/plugins/monitoring_system/DIRECTORY.md
+--- a/workspace/src/core/plugins/monitoring_system/DIRECTORY.md
++++ b/workspace/src/core/plugins/monitoring_system/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### auto_remediation.py
++### auto_remediation.py
+
+@@ -20,1 +20,1 @@
+-### intelligent_monitoring.py
++### intelligent_monitoring.py
+
+@@ -53,1 +53,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/services/agents/dependency-manager/src/enterprise/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/src/enterprise/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/src/enterprise/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/src/enterprise/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### integration.py
++### integration.py
+
+@@ -42,1 +42,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/docs/refactor_playbooks/03_refactor/misc/3-kubernetes-namespace.md b/workspace/docs/refactor_playbooks/03_refactor/misc/3-kubernetes-namespace.md
+--- a/workspace/docs/refactor_playbooks/03_refactor/misc/3-kubernetes-namespace.md
++++ b/workspace/docs/refactor_playbooks/03_refactor/misc/3-kubernetes-namespace.md
+@@ -1765,1 +1765,1 @@
+-- çéæéè§£æ±ºæéæ¸å° > 40%
++
+- çéæéè§£æ±ºæéæ¸å° > 40%
+diff --git a/workspace/src/governance/dimensions/20-intent/DIRECTORY.md b/workspace/src/governance/dimensions/20-intent/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/20-intent/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/20-intent/DIRECTORY.md
+@@ -21,1 +21,1 @@
+-- **è·è²¬**ï¼JSON éç½®æä»¶
++
+- **è·è²¬**ï¼JSON éç½®æä»¶
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -38,1 +38,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/05-core-services/orchestrator/DIRECTORY.md b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/05-core-services/orchestrator/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/05-core-services/orchestrator/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/kubernetes/phase2/05-core-services/orchestrator/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -20,1 +20,1 @@
+-### service.yaml
++### service.yaml
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/36-modules/tests/DIRECTORY.md b/workspace/src/governance/dimensions/36-modules/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/36-modules/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/36-modules/tests/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/tools/generators/DIRECTORY.md b/workspace/tools/generators/DIRECTORY.md
+--- a/workspace/tools/generators/DIRECTORY.md
++++ b/workspace/tools/generators/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### code-generator.py
++### code-generator.py
+
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼Python æºä»£ç¢¼ - Smart Contract Generator for SynergyMesh Workflow System
++
+- **è·è²¬**ï¼Python æºä»£ç¢¼ - Smart Contract Generator for SynergyMesh Workflow System
+@@ -20,1 +20,1 @@
+-### documentation_generator.py
++### documentation_generator.py
+
+@@ -25,1 +25,1 @@
+-### project-generator.py
++### project-generator.py
+
+diff --git a/workspace/docs/agents/mcp/DIRECTORY.md b/workspace/docs/agents/mcp/DIRECTORY.md
+--- a/workspace/docs/agents/mcp/DIRECTORY.md
++++ b/workspace/docs/agents/mcp/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+diff --git a/workspace/src/services/mcp/deploy/DIRECTORY.md b/workspace/src/services/mcp/deploy/DIRECTORY.md
+--- a/workspace/src/services/mcp/deploy/DIRECTORY.md
++++ b/workspace/src/services/mcp/deploy/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -47,1 +47,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/.github/island-ai-instructions.md b/.github/island-ai-instructions.md
+--- a/.github/island-ai-instructions.md
++++ b/.github/island-ai-instructions.md
+@@ -19,1 +19,1 @@
+-- **Primary Language:** TypeScript (strict mode)
++
+- **Primary Language:** TypeScript (strict mode)
+@@ -62,1 +62,1 @@
+-- **Indentation:** 2 spaces
++
+- **Indentation:** 2 spaces
+@@ -218,1 +218,1 @@
+-### JSDoc Comments
++### JSDoc Comments
+
+@@ -239,1 +239,1 @@
+-### Class and Interface Documentation
++### Class and Interface Documentation
+
+@@ -317,1 +317,1 @@
+-- **Minimum coverage:** 80%
++
+- **Minimum coverage:** 80%
+@@ -398,1 +398,1 @@
+-### Key Dependencies
++### Key Dependencies
+
+@@ -459,1 +459,1 @@
+-### Pull Request Checklist
++### Pull Request Checklist
+
+@@ -460,1 +460,1 @@
+-- [ ] Code follows style guide
++
+- [ ] Code follows style guide
+diff --git a/workspace/config/deployment/k8s/DIRECTORY.md b/workspace/config/deployment/k8s/DIRECTORY.md
+--- a/workspace/config/deployment/k8s/DIRECTORY.md
++++ b/workspace/config/deployment/k8s/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+diff --git a/workspace/src/core/plugins/training_system/DIRECTORY.md b/workspace/src/core/plugins/training_system/DIRECTORY.md
+--- a/workspace/src/core/plugins/training_system/DIRECTORY.md
++++ b/workspace/src/core/plugins/training_system/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### example_library.py
++### example_library.py
+
+@@ -20,1 +20,1 @@
+-### skills_training.py
++### skills_training.py
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/services/agents/dependency-manager/src/scanners/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/src/scanners/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/src/scanners/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/src/scanners/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### license_scanner.py
++### license_scanner.py
+
+diff --git a/workspace/src/autonomous/infrastructure/infrastructure/drift/DIRECTORY.md b/workspace/src/autonomous/infrastructure/infrastructure/drift/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/infrastructure/drift/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/infrastructure/drift/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -15,1 +15,1 @@
+-### scan-cronjob.yaml
++### scan-cronjob.yaml
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/dimensions/06-security/tests/DIRECTORY.md b/workspace/src/governance/dimensions/06-security/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/06-security/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/06-security/tests/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/governance/dimensions/49-canary/tests/DIRECTORY.md b/workspace/src/governance/dimensions/49-canary/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/49-canary/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/49-canary/tests/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### canary_test.rego
++### canary_test.rego
+
+@@ -17,1 +17,1 @@
+-- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
++
+- å®åæ¸¬è©¦å°æ³¨æ¼ç¨ç«åè½æ¸¬è©¦
+diff --git a/workspace/src/services/api-gateway/src/config/DIRECTORY.md b/workspace/src/services/api-gateway/src/config/DIRECTORY.md
+--- a/workspace/src/services/api-gateway/src/config/DIRECTORY.md
++++ b/workspace/src/services/api-gateway/src/config/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Generate a secure random secret for development if not provided
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼ - Generate a secure random secret for development if not provided
+@@ -15,1 +15,1 @@
+-### logger.ts
++### logger.ts
+
+@@ -31,1 +31,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/docs/architecture/PR351_ARCHITECTURE_EVOLUTION.md b/workspace/docs/architecture/PR351_ARCHITECTURE_EVOLUTION.md
+--- a/workspace/docs/architecture/PR351_ARCHITECTURE_EVOLUTION.md
++++ b/workspace/docs/architecture/PR351_ARCHITECTURE_EVOLUTION.md
+@@ -45,1 +45,1 @@
+-#### 1. SynergyMesh Core
++#### 1. SynergyMesh Core
+
+@@ -126,1 +126,1 @@
+-#### SEC-CRYPTO-001: Cryptographic Security (Enhanced)
++#### SEC-CRYPTO-001: Cryptographic Security (Enhanced)
+
+@@ -149,1 +149,1 @@
+-#### Guarantees
++#### Guarantees
+
+@@ -150,1 +150,1 @@
+-- Provenance follows SLSA v1.0 spec
++
+- Provenance follows SLSA v1.0 spec
+@@ -161,1 +161,1 @@
+-#### Security Controls
++#### Security Controls
+
+@@ -232,1 +232,1 @@
+-### Architecture Health
++### Architecture Health
+
+@@ -249,1 +249,1 @@
+-### 1. YAML Configs as Source of Truth
++### 1. YAML Configs as Source of Truth
+
+@@ -250,1 +250,1 @@
+-- All changes reflected in master configurations
++
+- All changes reflected in master configurations
+@@ -272,1 +272,1 @@
+-### What Worked Well
++### What Worked Well
+
+@@ -284,1 +284,1 @@
+-1. **Automated Policy Compliance**: CI/CD checks for policy violations
++
+1. **Automated Policy Compliance**: CI/CD checks for policy violations
+@@ -292,1 +292,1 @@
+-- [x] Security policies created
++
+- [x] Security policies created
+@@ -306,1 +306,1 @@
+-### Long-Term (Next Quarter)
++### Long-Term (Next Quarter)
+
+diff --git a/workspace/src/governance/dimensions/29-docs/tests/DIRECTORY.md b/workspace/src/governance/dimensions/29-docs/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/29-docs/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/29-docs/tests/DIRECTORY.md
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼å¶ä»æä»¶
++
+- **è·è²¬**ï¼å¶ä»æä»¶
+@@ -21,1 +21,1 @@
+-## è¨­è¨åå
++## è¨­è¨åå
+
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/web/components/ui/DIRECTORY.md b/workspace/src/core/contracts/contracts-L1/contracts/web/components/ui/DIRECTORY.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/web/components/ui/DIRECTORY.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/web/components/ui/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -20,1 +20,1 @@
+-### alert.tsx
++### alert.tsx
+
+@@ -30,1 +30,1 @@
+-### avatar.tsx
++### avatar.tsx
+
+@@ -50,1 +50,1 @@
+-### calendar.tsx
++### calendar.tsx
+
+@@ -60,1 +60,1 @@
+-### carousel.tsx
++### carousel.tsx
+
+@@ -70,1 +70,1 @@
+-### checkbox.tsx
++### checkbox.tsx
+
+@@ -80,1 +80,1 @@
+-### command.tsx
++### command.tsx
+
+@@ -85,1 +85,1 @@
+-### context-menu.tsx
++### context-menu.tsx
+
+@@ -100,1 +100,1 @@
+-### dropdown-menu.tsx
++### dropdown-menu.tsx
+
+@@ -110,1 +110,1 @@
+-### hover-card.tsx
++### hover-card.tsx
+
+@@ -160,1 +160,1 @@
+-### resizable.tsx
++### resizable.tsx
+
+@@ -205,1 +205,1 @@
+-### switch.tsx
++### switch.tsx
+
+diff --git a/workspace/src/core/advisory-database/src/services/DIRECTORY.md b/workspace/src/core/advisory-database/src/services/DIRECTORY.md
+--- a/workspace/src/core/advisory-database/src/services/DIRECTORY.md
++++ b/workspace/src/core/advisory-database/src/services/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -27,1 +27,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/docs/INSTANT_FIX_TEMPLATE_UPDATE.md b/workspace/docs/INSTANT_FIX_TEMPLATE_UPDATE.md
+--- a/workspace/docs/INSTANT_FIX_TEMPLATE_UPDATE.md
++++ b/workspace/docs/INSTANT_FIX_TEMPLATE_UPDATE.md
+@@ -20,1 +20,1 @@
+-#### æ°æ¨¡å¼ï¼å³æä¿®å¾©ï¼
++#### æ°æ¨¡å¼ï¼å³æä¿®å¾©ï¼
+
+@@ -29,1 +29,1 @@
+-### 1. æ ¸å¿è³æ¬æ´æ°
++### 1. æ ¸å¿è³æ¬æ´æ°
+
+@@ -41,1 +41,1 @@
+-### 2. Workflow æªæ¡æ´æ°
++### 2. Workflow æªæ¡æ´æ°
+
+@@ -51,1 +51,1 @@
+-- â æ´æ°è©è«æ¨¡æ¿ç¯ä¾çºå³æä¿®å¾©æ ¼å¼
++
+- â æ´æ°è©è«æ¨¡æ¿ç¯ä¾çºå³æä¿®å¾©æ ¼å¼
+@@ -57,1 +57,1 @@
+-- â æ´æ°è©è«æ¨¡æ¿ç¤ºä¾
++
+- â æ´æ°è©è«æ¨¡æ¿ç¤ºä¾
+@@ -130,1 +130,1 @@
+-#### æ°çï¼å³ææä½ï¼
++#### æ°çï¼å³ææä½ï¼
+
+@@ -341,1 +341,1 @@
+-#### â è¦æ± 5ï¼è©è«æ¨¡æ¿ä½¿ç¨åé¡é³è¿°æä¾çæ ¼å¼
++#### â è¦æ± 5ï¼è©è«æ¨¡æ¿ä½¿ç¨åé¡é³è¿°æä¾çæ ¼å¼
+
+@@ -342,1 +342,1 @@
+-- â å®æï¼å®å¨ç¬¦åæä¾çç¯ä¾æ ¼å¼
++
+- â å®æï¼å®å¨ç¬¦åæä¾çç¯ä¾æ ¼å¼
+@@ -345,1 +345,1 @@
+-- â å®æï¼rerunãpatchãlogsãsync
++
+- â å®æï¼rerunãpatchãlogsãsync
+@@ -351,1 +351,1 @@
+-- â å®æï¼å·²æ´åå¨ `ci-consolidated-report.yml`
++
+- â å®æï¼å·²æ´åå¨ `ci-consolidated-report.yml`
+diff --git a/workspace/src/mcp-servers/deploy/DIRECTORY.md b/workspace/src/mcp-servers/deploy/DIRECTORY.md
+--- a/workspace/src/mcp-servers/deploy/DIRECTORY.md
++++ b/workspace/src/mcp-servers/deploy/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### deployment.yaml
++### deployment.yaml
+
+@@ -25,1 +25,1 @@
+-### rbac.yaml
++### rbac.yaml
+
+@@ -43,1 +43,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/web/admin/src/components/ErrorBoundary/DIRECTORY.md b/workspace/src/web/admin/src/components/ErrorBoundary/DIRECTORY.md
+--- a/workspace/src/web/admin/src/components/ErrorBoundary/DIRECTORY.md
++++ b/workspace/src/web/admin/src/components/ErrorBoundary/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/docs/PHASE4_COMPLETION.md b/workspace/docs/PHASE4_COMPLETION.md
+--- a/workspace/docs/PHASE4_COMPLETION.md
++++ b/workspace/docs/PHASE4_COMPLETION.md
+@@ -259,1 +259,1 @@
+-- **After**: High-severity vulnerability found, workflow fails â (correct behavior)
++- **After**: High-severity vulnerability found, workflow fails â (correct behavior)
+
+diff --git a/workspace/src/governance/30-agents/permissions/DIRECTORY.md b/workspace/src/governance/30-agents/permissions/DIRECTORY.md
+--- a/workspace/src/governance/30-agents/permissions/DIRECTORY.md
++++ b/workspace/src/governance/30-agents/permissions/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/23-policies/conftest/DIRECTORY.md b/workspace/src/governance/23-policies/conftest/DIRECTORY.md
+--- a/workspace/src/governance/23-policies/conftest/DIRECTORY.md
++++ b/workspace/src/governance/23-policies/conftest/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-
++
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/23-policies/tests/DIRECTORY.md b/workspace/src/governance/dimensions/23-policies/tests/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/23-policies/tests/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/23-policies/tests/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### policies_test.rego
++### policies_test.rego
+
+diff --git a/workspace/docs/00-VISION-STRATEGY-ANALYSIS.md b/workspace/docs/00-VISION-STRATEGY-ANALYSIS.md
+--- a/workspace/docs/00-VISION-STRATEGY-ANALYSIS.md
++++ b/workspace/docs/00-VISION-STRATEGY-ANALYSIS.md
+@@ -34,1 +34,1 @@
+-#### æ ¸å¿é¡æ¯
++#### æ ¸å¿é¡æ¯
+
+@@ -356,1 +356,1 @@
+-#### 1.3 æ´æ° CHANGELOG.md
++#### 1.3 æ´æ° CHANGELOG.md
+
+@@ -394,1 +394,1 @@
+-### å§å®¹ä¸è´æ§é©è­
++### å§å®¹ä¸è´æ§é©è­
+
+diff --git a/workspace/src/governance/40-self-healing/docs/DIRECTORY.md b/workspace/src/governance/40-self-healing/docs/DIRECTORY.md
+--- a/workspace/src/governance/40-self-healing/docs/DIRECTORY.md
++++ b/workspace/src/governance/40-self-healing/docs/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -11,1 +11,1 @@
+-- **è·è²¬**ï¼Markdown ææª
++
+- **è·è²¬**ï¼Markdown ææª
+@@ -15,1 +15,1 @@
+-### integration-overview.md
++### integration-overview.md
+
+@@ -21,1 +21,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/docs/PR_ANALYSIS_AND_ACTION_PLAN.md b/workspace/docs/PR_ANALYSIS_AND_ACTION_PLAN.md
+--- a/workspace/docs/PR_ANALYSIS_AND_ACTION_PLAN.md
++++ b/workspace/docs/PR_ANALYSIS_AND_ACTION_PLAN.md
+@@ -18,1 +18,1 @@
+-- â **7 commits** delivering 4 major visualization components
++
+- â **7 commits** delivering 4 major visualization components
+@@ -197,1 +197,1 @@
+-2. **governance/policies/*.md**
++2. **governance/policies/*.md**
+
+diff --git a/workspace/src/autonomous/agents/runbooks/DIRECTORY.md b/workspace/src/autonomous/agents/runbooks/DIRECTORY.md
+--- a/workspace/src/autonomous/agents/runbooks/DIRECTORY.md
++++ b/workspace/src/autonomous/agents/runbooks/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -27,1 +27,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/web/DIRECTORY.md b/workspace/src/web/DIRECTORY.md
+--- a/workspace/src/web/DIRECTORY.md
++++ b/workspace/src/web/DIRECTORY.md
+@@ -20,1 +20,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/tools/docs/DIRECTORY.md b/workspace/tools/docs/DIRECTORY.md
+--- a/workspace/tools/docs/DIRECTORY.md
++++ b/workspace/tools/docs/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### README.md
++### README.md
+
+@@ -30,1 +30,1 @@
+-### pr_comment_summary.py
++### pr_comment_summary.py
+
+diff --git a/workspace/docs/ISSUE_RESOLUTION_SUMMARY.md b/workspace/docs/ISSUE_RESOLUTION_SUMMARY.md
+--- a/workspace/docs/ISSUE_RESOLUTION_SUMMARY.md
++++ b/workspace/docs/ISSUE_RESOLUTION_SUMMARY.md
+@@ -80,1 +80,1 @@
+-- **Developer Experience**: Reduced noise in issue tracker
++
+- **Developer Experience**: Reduced noise in issue tracker
+@@ -94,1 +94,1 @@
+-2. **Verification**: Monitor CI runs to confirm fix is effective
++
+2. **Verification**: Monitor CI runs to confirm fix is effective
+diff --git a/workspace/src/ai/collaboration/DIRECTORY.md b/workspace/src/ai/collaboration/DIRECTORY.md
+--- a/workspace/src/ai/collaboration/DIRECTORY.md
++++ b/workspace/src/ai/collaboration/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### index.ts
++### index.ts
+
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -32,1 +32,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -33,1 +33,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/09-performance/schemas/DIRECTORY.md b/workspace/src/governance/09-performance/schemas/DIRECTORY.md
+--- a/workspace/src/governance/09-performance/schemas/DIRECTORY.md
++++ b/workspace/src/governance/09-performance/schemas/DIRECTORY.md
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -22,1 +22,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/src/governance/29-docs/reports/DIRECTORY.md b/workspace/src/governance/29-docs/reports/DIRECTORY.md
+--- a/workspace/src/governance/29-docs/reports/DIRECTORY.md
++++ b/workspace/src/governance/29-docs/reports/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### language-governance-report.md
++### language-governance-report.md
+
+@@ -16,1 +16,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -22,1 +22,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -23,1 +23,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/20-intent/DIRECTORY.md b/workspace/src/governance/20-intent/DIRECTORY.md
+--- a/workspace/src/governance/20-intent/DIRECTORY.md
++++ b/workspace/src/governance/20-intent/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -26,1 +26,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -28,1 +28,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -37,1 +37,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/src/governance/00-vision-strategy/README.md b/workspace/src/governance/00-vision-strategy/README.md
+--- a/workspace/src/governance/00-vision-strategy/README.md
++++ b/workspace/src/governance/00-vision-strategy/README.md
+@@ -131,1 +131,1 @@
+-  - AI ä»£ç < 1 ç§å³æè¼å¥ï¼ç«å³å·è¡
++- AI ä»£ç < 1 ç§å³æè¼å¥ï¼ç«å³å·è¡
+@@ -162,1 +162,1 @@
+-=======
++=======
+
+diff --git a/workspace/src/governance/dimensions/73-learning/DIRECTORY.md b/workspace/src/governance/dimensions/73-learning/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/73-learning/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/73-learning/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### policy.rego
++### policy.rego
+
+@@ -20,1 +20,1 @@
+-### schema.json
++### schema.json
+
+diff --git a/workspace/src/governance/dimensions/99-metadata/examples/DIRECTORY.md b/workspace/src/governance/dimensions/99-metadata/examples/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/99-metadata/examples/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/99-metadata/examples/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### knowledge-graph-example.yaml
++### knowledge-graph-example.yaml
+
+@@ -20,1 +20,1 @@
+-### metadata-collection-config.yaml
++### metadata-collection-config.yaml
+
+@@ -25,1 +25,1 @@
+-### metadata-entry-example.yaml
++### metadata-entry-example.yaml
+
+@@ -30,1 +30,1 @@
+-### provenance-record-example.yaml
++### provenance-record-example.yaml
+
+@@ -42,1 +42,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/workspace/src/core/contract_service/contracts-L1/contracts/web/components/ui/DIRECTORY.md b/workspace/src/core/contract_service/contracts-L1/contracts/web/components/ui/DIRECTORY.md
+--- a/workspace/src/core/contract_service/contracts-L1/contracts/web/components/ui/DIRECTORY.md
++++ b/workspace/src/core/contract_service/contracts-L1/contracts/web/components/ui/DIRECTORY.md
+@@ -15,1 +15,1 @@
+-### alert-dialog.tsx
++### alert-dialog.tsx
+
+@@ -25,1 +25,1 @@
+-### aspect-ratio.tsx
++### aspect-ratio.tsx
+
+@@ -75,1 +75,1 @@
+-### collapsible.tsx
++### collapsible.tsx
+
+@@ -90,1 +90,1 @@
+-### dialog.tsx
++### dialog.tsx
+
+@@ -100,1 +100,1 @@
+-### dropdown-menu.tsx
++### dropdown-menu.tsx
+
+@@ -125,1 +125,1 @@
+-### label.tsx
++### label.tsx
+
+@@ -140,1 +140,1 @@
+-### pagination.tsx
++### pagination.tsx
+
+@@ -160,1 +160,1 @@
+-### resizable.tsx
++### resizable.tsx
+
+@@ -165,1 +165,1 @@
+-### scroll-area.tsx
++### scroll-area.tsx
+
+@@ -170,1 +170,1 @@
+-### select.tsx
++### select.tsx
+
+@@ -220,1 +220,1 @@
+-### textarea.tsx
++### textarea.tsx
+
+@@ -225,1 +225,1 @@
+-### toast.tsx
++### toast.tsx
+
+@@ -235,1 +235,1 @@
+-### toggle-group.tsx
++### toggle-group.tsx
+
+diff --git a/workspace/config/monitoring/prometheus/DIRECTORY.md b/workspace/config/monitoring/prometheus/DIRECTORY.md
+--- a/workspace/config/monitoring/prometheus/DIRECTORY.md
++++ b/workspace/config/monitoring/prometheus/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+diff --git a/workspace/src/services/agents/dependency-manager/src/utils/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/src/utils/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/src/utils/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/src/utils/DIRECTORY.md
+@@ -3,1 +3,1 @@
+-## ç®éè·è²¬
++## ç®éè·è²¬
+
+@@ -10,1 +10,1 @@
+-### audit_logger.py
++### audit_logger.py
+
+@@ -31,1 +31,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -38,1 +38,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -43,1 +43,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/web/admin/k8s/DIRECTORY.md b/workspace/src/web/admin/k8s/DIRECTORY.md
+--- a/workspace/src/web/admin/k8s/DIRECTORY.md
++++ b/workspace/src/web/admin/k8s/DIRECTORY.md
+@@ -6,1 +6,1 @@
+-
++
+@@ -18,1 +18,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/docs/LEGACY_EXTRACTION_SUMMARY.md b/workspace/docs/LEGACY_EXTRACTION_SUMMARY.md
+--- a/workspace/docs/LEGACY_EXTRACTION_SUMMARY.md
++++ b/workspace/docs/LEGACY_EXTRACTION_SUMMARY.md
+@@ -37,1 +37,1 @@
+-- Removed "L1 Baseline" branding â "MachineNativeOps Baseline"
++
+- Removed "L1 Baseline" branding â "MachineNativeOps Baseline"
+diff --git a/workspace/src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md b/workspace/src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md
+--- a/workspace/src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md
++++ b/workspace/src/governance/00-vision-strategy/PROJECT_STATE_SNAPSHOT.md
+@@ -422,1 +422,1 @@
+-    - æ°å¢è®æ´ç®¡çãAI èªä¸»æ¼åå±ç¤ºç« ç¯
++    - æ°å¢è®æ´ç®¡çãAI èªä¸»æ¼åå±ç¤ºç« ç¯
+
+diff --git a/workspace/src/apps/web-backend/services/api/DIRECTORY.md b/workspace/src/apps/web-backend/services/api/DIRECTORY.md
+--- a/workspace/src/apps/web-backend/services/api/DIRECTORY.md
++++ b/workspace/src/apps/web-backend/services/api/DIRECTORY.md
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/governance/00-vision-strategy/PHASE4_README.md b/workspace/src/governance/00-vision-strategy/PHASE4_README.md
+--- a/workspace/src/governance/00-vision-strategy/PHASE4_README.md
++++ b/workspace/src/governance/00-vision-strategy/PHASE4_README.md
+@@ -128,1 +128,1 @@
+-- **JIRA**: Auto-create tickets (compliance drift, critical violations)
++
+- **JIRA**: Auto-create tickets (compliance drift, critical violations)
+diff --git a/workspace/src/web/client/src/lib/DIRECTORY.md b/workspace/src/web/client/src/lib/DIRECTORY.md
+--- a/workspace/src/web/client/src/lib/DIRECTORY.md
++++ b/workspace/src/web/client/src/lib/DIRECTORY.md
+@@ -17,1 +17,1 @@
+-- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
++
+- **è·è²¬**ï¼TypeScript æºä»£ç¢¼
+@@ -22,1 +22,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+@@ -33,1 +33,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+diff --git a/workspace/root/teams/default-team/profiles/role.code_reviewer.md b/workspace/root/teams/default-team/profiles/role.code_reviewer.md
+--- a/workspace/root/teams/default-team/profiles/role.code_reviewer.md
++++ b/workspace/root/teams/default-team/profiles/role.code_reviewer.md
+@@ -18,1 +18,1 @@
+-### Languages Supported
++### Languages Supported
+
+@@ -25,1 +25,1 @@
+-## Triggers
++## Triggers
+
+diff --git a/workspace/src/core/cloud_agent_delegation/DIRECTORY.md b/workspace/src/core/cloud_agent_delegation/DIRECTORY.md
+--- a/workspace/src/core/cloud_agent_delegation/DIRECTORY.md
++++ b/workspace/src/core/cloud_agent_delegation/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### cloud_provider_adapter.py
++### cloud_provider_adapter.py
+
+@@ -25,1 +25,1 @@
+-### task_router.py
++### task_router.py
+
+@@ -33,1 +33,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -42,1 +42,1 @@
+-### æªä¾ç¶­è­·æ³¨æäºé 
++### æªä¾ç¶­è­·æ³¨æäºé 
+
+@@ -43,1 +43,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/config/monitoring/DIRECTORY.md b/workspace/config/monitoring/DIRECTORY.md
+--- a/workspace/config/monitoring/DIRECTORY.md
++++ b/workspace/config/monitoring/DIRECTORY.md
+@@ -13,1 +13,1 @@
+-- **è·è²¬**ï¼JSON éç½®æä»¶
++
+- **è·è²¬**ï¼JSON éç½®æä»¶
+@@ -22,1 +22,1 @@
+-### prometheus-config.yml
++### prometheus-config.yml
+
+@@ -27,1 +27,1 @@
+-### prometheus-rules.yml
++### prometheus-rules.yml
+
+@@ -33,1 +33,1 @@
+-## è·è²¬åé¢èªªæ
++## è·è²¬åé¢èªªæ
+
+diff --git a/workspace/src/governance/dimensions/81-auto-comment/DIRECTORY.md b/workspace/src/governance/dimensions/81-auto-comment/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/81-auto-comment/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/81-auto-comment/DIRECTORY.md
+@@ -12,1 +12,1 @@
+-- **è·è²¬**ï¼YAML éç½®æä»¶
++
+- **è·è²¬**ï¼YAML éç½®æä»¶
+@@ -19,1 +19,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+diff --git a/workspace/src/autonomous/agents/synergymesh_core/DIRECTORY.md b/workspace/src/autonomous/agents/synergymesh_core/DIRECTORY.md
+--- a/workspace/src/autonomous/agents/synergymesh_core/DIRECTORY.md
++++ b/workspace/src/autonomous/agents/synergymesh_core/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### autonomous_coordinator.py
++### autonomous_coordinator.py
+
+@@ -15,1 +15,1 @@
+-### ecosystem_orchestrator.py
++### ecosystem_orchestrator.py
+
+@@ -30,1 +30,1 @@
+-### nli_layer.py
++### nli_layer.py
+
+@@ -35,1 +35,1 @@
+-### orchestration_layer.py
++### orchestration_layer.py
+
+@@ -40,1 +40,1 @@
+-### self_evolution_engine.py
++### self_evolution_engine.py
+
+diff --git a/workspace/config/dev/COMPLETION_REPORT.md b/workspace/config/dev/COMPLETION_REPORT.md
+--- a/workspace/config/dev/COMPLETION_REPORT.md
++++ b/workspace/config/dev/COMPLETION_REPORT.md
+@@ -13,1 +13,1 @@
+-1. `.devcontainer/scripts/setup-kind-cluster.sh` - èªåå»ºç« Kind cluster è³æ¬
++
+1. `.devcontainer/scripts/setup-kind-cluster.sh` - èªåå»ºç« Kind cluster è³æ¬
+@@ -51,1 +51,1 @@
+-### 3. èªååæµç¨
++### 3. èªååæµç¨
+
+@@ -74,1 +74,1 @@
+-### Code Review ééé ç®
++### Code Review ééé ç®
+
+@@ -81,1 +81,1 @@
+-### é©è­æª¢æ¥
++### é©è­æª¢æ¥
+
+@@ -105,1 +105,1 @@
+-### INSTANT å·è¡æ¨æº
++### INSTANT å·è¡æ¨æº
+
+@@ -165,1 +165,1 @@
+-### 1. Kind Cluster éç½®æ¯æ´
++### 1. Kind Cluster éç½®æ¯æ´
+
+@@ -180,1 +180,1 @@
+-### 4. å¤ Cluster ç®¡ç
++### 4. å¤ Cluster ç®¡ç
+
+@@ -185,1 +185,1 @@
+-### 5. GitOps å·¥ä½æµæ´å
++### 5. GitOps å·¥ä½æµæ´å
+
+diff --git a/workspace/src/services/agents/dependency-manager/src/implementation/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/src/implementation/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/src/implementation/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/src/implementation/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### action_guide.py
++### action_guide.py
+
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+@@ -33,1 +33,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+@@ -38,1 +38,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/services/agents/dependency-manager/src/updaters/DIRECTORY.md b/workspace/src/services/agents/dependency-manager/src/updaters/DIRECTORY.md
+--- a/workspace/src/services/agents/dependency-manager/src/updaters/DIRECTORY.md
++++ b/workspace/src/services/agents/dependency-manager/src/updaters/DIRECTORY.md
+@@ -28,1 +28,1 @@
+-1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
++
+1. **æ·»å æ°åè½æ**ï¼[å¾è£å]
+diff --git a/workspace/src/core/contracts/contracts-L1/contracts/src/services/DIRECTORY.md b/workspace/src/core/contracts/contracts-L1/contracts/src/services/DIRECTORY.md
+--- a/workspace/src/core/contracts/contracts-L1/contracts/src/services/DIRECTORY.md
++++ b/workspace/src/core/contracts/contracts-L1/contracts/src/services/DIRECTORY.md
+@@ -16,1 +16,1 @@
+-### attestation.ts
++### attestation.ts
+
+@@ -21,1 +21,1 @@
+-### provenance.ts
++### provenance.ts
+
+diff --git a/workspace/src/autonomous/infrastructure/DIRECTORY.md b/workspace/src/autonomous/infrastructure/DIRECTORY.md
+--- a/workspace/src/autonomous/infrastructure/DIRECTORY.md
++++ b/workspace/src/autonomous/infrastructure/DIRECTORY.md
+@@ -26,1 +26,1 @@
+-### README.md
++### README.md
+
+@@ -34,1 +34,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+diff --git a/workspace/src/governance/34-config/naming/DIRECTORY.md b/workspace/src/governance/34-config/naming/DIRECTORY.md
+--- a/workspace/src/governance/34-config/naming/DIRECTORY.md
++++ b/workspace/src/governance/34-config/naming/DIRECTORY.md
+@@ -23,1 +23,1 @@
+-- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
++
+- [å¾è£åï¼åå±¤æ¬¡çè·è²¬èªªæ]
+@@ -28,1 +28,1 @@
+-1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
++
+1. **æ¨¡çµç´å¥è·è²¬å®ä¸å**ï¼[å¾è£å]
+diff --git a/workspace/docs/refactor_playbooks/NEXT_STEPS_PLAN.md b/workspace/docs/refactor_playbooks/NEXT_STEPS_PLAN.md
+--- a/workspace/docs/refactor_playbooks/NEXT_STEPS_PLAN.md
++++ b/workspace/docs/refactor_playbooks/NEXT_STEPS_PLAN.md
+@@ -18,1 +18,1 @@
+-- â Config integration (system-module-map.yaml v1.2.0, unified-config-index.yaml)
++- â Config integration (system-module-map.yaml v1.2.0, unified-config-index.yaml)
+
+diff --git a/workspace/teams/default-team/orchestrator/README.md b/workspace/teams/default-team/orchestrator/README.md
+--- a/workspace/teams/default-team/orchestrator/README.md
++++ b/workspace/teams/default-team/orchestrator/README.md
+@@ -16,1 +16,1 @@
+-### Core Responsibilities
++### Core Responsibilities
+
+@@ -168,1 +168,1 @@
+-## ð¡ API Endpoints
++
+## ð¡ API Endpoints
+@@ -212,1 +212,1 @@
+-#### GET /health
++#### GET /health
+
+@@ -243,1 +243,1 @@
+-#### GET /incidents
++#### GET /incidents
+
+@@ -307,1 +307,1 @@
+-### Running Tests
++### Running Tests
+
+@@ -387,1 +387,1 @@
+-### Kubernetes Resources
++### Kubernetes Resources
+
+@@ -437,1 +437,1 @@
+-### Security Best Practices
++### Security Best Practices
+
+diff --git a/workspace/root/teams/default-team/profiles/role.security_scanner.md b/workspace/root/teams/default-team/profiles/role.security_scanner.md
+--- a/workspace/root/teams/default-team/profiles/role.security_scanner.md
++++ b/workspace/root/teams/default-team/profiles/role.security_scanner.md
+@@ -44,1 +44,1 @@
+-### Output Format
++### Output Format
+
+@@ -76,1 +76,1 @@
+-- GitHub Security Advisory API
++
+- GitHub Security Advisory API
+diff --git a/workspace/teams/default-team/profiles/role.devrel_consultant.md b/workspace/teams/default-team/profiles/role.devrel_consultant.md
+--- a/workspace/teams/default-team/profiles/role.devrel_consultant.md
++++ b/workspace/teams/default-team/profiles/role.devrel_consultant.md
+@@ -22,1 +22,1 @@
+-- å¥ä»¶åæå ±å
++
+- å¥ä»¶åæå ±å
+@@ -32,1 +32,1 @@
+-## é©ç¨å ´æ¯
++## é©ç¨å ´æ¯
+
+diff --git a/workspace/docs/REFACTOR_PLAYBOOK_NEXT_STEPS.md b/workspace/docs/REFACTOR_PLAYBOOK_NEXT_STEPS.md
+--- a/workspace/docs/REFACTOR_PLAYBOOK_NEXT_STEPS.md
++++ b/workspace/docs/REFACTOR_PLAYBOOK_NEXT_STEPS.md
+@@ -81,1 +81,1 @@
+-- äºåå¼ä»é¢ï¼é»æ cluster æ¥çè©³ç´°éæ§è¨ç«
++
+- äºåå¼ä»é¢ï¼é»æ cluster æ¥çè©³ç´°éæ§è¨ç«
+diff --git a/workspace/src/governance/dimensions/57-postmortems/DIRECTORY.md b/workspace/src/governance/dimensions/57-postmortems/DIRECTORY.md
+--- a/workspace/src/governance/dimensions/57-postmortems/DIRECTORY.md
++++ b/workspace/src/governance/dimensions/57-postmortems/DIRECTORY.md
+@@ -10,1 +10,1 @@
+-### dimension.yaml
++### dimension.yaml
+
+@@ -32,1 +32,1 @@
+-### å®ä¸è·è²¬åå (SRP) éµå¾ª
++### å®ä¸è·è²¬åå (SRP) éµå¾ª
+
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+--- a/.github/pull_request_template.md
++++ b/.github/pull_request_template.md
+@@ -163,1 +163,1 @@
+-ð± **è¡åè£ç½®ä½¿ç¨è**: 
++ð± **è¡åè£ç½®ä½¿ç¨è**:
+diff --git a/workspace/docs/refactor_playbooks/02_integration/P0_COMPLETION_REPORT.md b/workspace/docs/refactor_playbooks/02_integration/P0_COMPLETION_REPORT.md
+--- a/workspace/docs/refactor_playbooks/02_integration/P0_COMPLETION_REPORT.md
++++ b/workspace/docs/refactor_playbooks/02_integration/P0_COMPLETION_REPORT.md
+@@ -34,1 +34,1 @@
+-- â Regex validation for each pattern
++
+- â Regex validation for each pattern
+@@ -138,1 +138,1 @@
+-- â JSON Schema Draft-07 format
++
+- â JSON Schema Draft-07 format
+@@ -278,1 +278,1 @@
+-2. **State Machine Extension** - Expand `governance/schemas/state-machine.yaml`
++
+2. **State Machine Extension** - Expand `governance/schemas/state-machine.yaml`
+diff --git a/workspace/teams/default-team/profiles/role.ml_engineer.md b/workspace/teams/default-team/profiles/role.ml_engineer.md
+--- a/workspace/teams/default-team/profiles/role.ml_engineer.md
++++ b/workspace/teams/default-team/profiles/role.ml_engineer.md
+@@ -6,1 +6,1 @@
+-## æ ¸å¿è½å
++## æ ¸å¿è½å
+
+@@ -14,1 +14,1 @@
+-1. æ¥æ¶æ©å¨å­¸ç¿æ¦å¿µåé¡
++
+1. æ¥æ¶æ©å¨å­¸ç¿æ¦å¿µåé¡
+@@ -21,1 +21,1 @@
+-- æ¦å¿µè§£éææª
++
+- æ¦å¿µè§£éææª
+diff --git a/.github/private/agents/code-review.agent.md b/.github/private/agents/code-review.agent.md
+--- a/.github/private/agents/code-review.agent.md
++++ b/.github/private/agents/code-review.agent.md
+@@ -106,1 +106,1 @@
+-- GitHub Pull Request API
++
+- GitHub Pull Request API
+diff --git a/.github/private/README.md b/.github/private/README.md
+--- a/.github/private/README.md
++++ b/.github/private/README.md
+@@ -28,1 +28,1 @@
+-- **åè½**: èªååä»£ç¢¼å¯©æ¥ãé¢¨æ ¼æª¢æ¥ãæä½³å¯¦è¸å»ºè­°
++
+- **åè½**: èªååä»£ç¢¼å¯©æ¥ãé¢¨æ ¼æª¢æ¥ãæä½³å¯¦è¸å»ºè­°
+@@ -33,1 +33,1 @@
+-- **åè½**: å®å¨æ¼æ´æª¢æ¸¬ãä¾è³´å¯©è¨ãå¯é°æ´©æ¼æª¢æ¸¬
++
+- **åè½**: å®å¨æ¼æ´æª¢æ¸¬ãä¾è³´å¯©è¨ãå¯é°æ´©æ¼æª¢æ¸¬
+@@ -38,1 +38,1 @@
+-- **åè½**: ä¾è³´çæ¬æª¢æ¥ãèªåæ´æ° PRãç¸å®¹æ§æ¸¬è©¦
++
+- **åè½**: ä¾è³´çæ¬æª¢æ¥ãèªåæ´æ° PRãç¸å®¹æ§æ¸¬è©¦
+diff --git a/.github/private/agents/security-scanner.agent.md b/.github/private/agents/security-scanner.agent.md
+--- a/.github/private/agents/security-scanner.agent.md
++++ b/.github/private/agents/security-scanner.agent.md
+@@ -156,1 +156,1 @@
+-- GitHub Advanced Security (GHAS)
++
+- GitHub Advanced Security (GHAS)
+diff --git a/.github/PULL_REQUEST_TEMPLATE.md b/.github/PULL_REQUEST_TEMPLATE.md
+--- a/.github/PULL_REQUEST_TEMPLATE.md
++++ b/.github/PULL_REQUEST_TEMPLATE.md
+@@ -153,1 +153,1 @@
+-- å¯ä½¿ç¨é·æè¤è£½é£çµå¿«éé©è­
++
+- å¯ä½¿ç¨é·æè¤è£½é£çµå¿«éé©è­

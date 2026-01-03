@@ -90,12 +90,7 @@
 
 **內容：**
 
-- **Phase 3 計畫**：Web 可視化儀表板、Auto-Fix Bot 深度整合、Living Knowledge
-  Base 整合、測試框架
-=======
 
-- **Phase 3 計畫**：Web 可視化儀表板、Auto-Fix Bot 深度整合、Living Knowledge Base 整合、測試框架
->>>>>>> origin/copilot/sub-pr-402
 - **Phase 4 規劃**：進階視覺化、LLM 完整整合、多語言支援、第三方平台整合
 - **立即行動項目**：24-72 小時內優先項目
 - **技術棧規劃**：Frontend/Backend/CI/CD/Testing
@@ -124,13 +119,7 @@
 
 **搜尋關鍵字：**
 
-- "refactor.\*playbook"
-- "language.\*governance"
-=======
 
-- "refactor.*playbook"
-- "language.*governance"
->>>>>>> origin/copilot/sub-pr-402
 - "語言治理"
 - "重構"
 

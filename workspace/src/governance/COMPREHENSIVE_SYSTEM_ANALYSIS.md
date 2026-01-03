@@ -844,17 +844,12 @@ security = 100 - (critical×10 + high×5 + medium×2 + low×0.5)
 
 **自動化流程**:
 
-1. Tag push (v\*)
-=======
-
-1. Tag push (v*)
->>>>>>> origin/copilot/sub-pr-402
-2. GitHub Actions 自動執行
-3. 構建所有平台安裝包
-4. 代碼簽名與公證
-5. 創建 GitHub Release
-6. 上傳所有產物
-7. 推送 Docker 映像
+1. GitHub Actions 自動執行
+2. 構建所有平台安裝包
+3. 代碼簽名與公證
+4. 創建 GitHub Release
+5. 上傳所有產物
+6. 推送 Docker 映像
 
 ### Auto-Fix Bot
 

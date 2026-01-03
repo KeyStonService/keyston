@@ -146,6 +146,7 @@ result = await orchestrator.execute_workflow('security-scan-and-fix')
 ### Adding a New Agent 新增代理
 
 1. 在 `agent/` 下創建新目錄，遵循標準結構：
+
    ```bash
    mkdir -p agent/<new-agent>/src
    mkdir -p agent/<new-agent>/tests/unit
@@ -156,6 +157,7 @@ result = await orchestrator.execute_workflow('security-scan-and-fix')
    mkdir -p agent/<new-agent>/examples   # 建議
    touch agent/<new-agent>/README.md
    ```
+
 2. 實作標準代理介面
 3. 在 `orchestrator/` 中註冊
 4. 更新本 README

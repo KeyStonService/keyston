@@ -319,7 +319,7 @@ python scripts/validation/validate-root-specs.py
   dependencies: []
 ```
 
-2. **Add URN to URN Registry:**
+1. **Add URN to URN Registry:**
 
 ```yaml
 # root.registry.urns.yaml
@@ -328,7 +328,7 @@ python scripts/validation/validate-root-specs.py
   target_registry: "root.registry.modules.yaml"
 ```
 
-3. **Add to Modules Config:**
+1. **Add to Modules Config:**
 
 ```yaml
 # root.modules.yaml
@@ -337,7 +337,7 @@ python scripts/validation/validate-root-specs.py
   entrypoint: "/opt/machinenativenops/modules/new-module/main.py"
 ```
 
-4. **Run Validation:**
+1. **Run Validation:**
 
 ```bash
 python scripts/validation/validate-root-specs.py
@@ -393,6 +393,7 @@ python scripts/validation/validate-root-specs.py
 **Cause:** File name contains uppercase, spaces, or wrong extension
 
 **Fix:**
+
 ```bash
 # Wrong
 Root.Config.yaml
@@ -408,6 +409,7 @@ root.config.yaml
 **Cause:** URN format incorrect
 
 **Fix:**
+
 ```yaml
 # Wrong
 urn:machinenativeops:module:governance-engine

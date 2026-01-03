@@ -1,6 +1,7 @@
 # 根目錄
 
 ## 為什麼會來這裡 / 入口
+
 - **位置**: `.`
 - **我在這裡通常要解決什麼**：找到整個平台的入口、全域配置與操作指南。
 - **首選入口**：`README.md`（平台概覽）、`machinenativeops.yaml`（統一配置）、`Makefile`（常用自動化任務）。
@@ -30,11 +31,13 @@
 5. 對應子系統的 `DIRECTORY.md`（例如 `src/DIRECTORY.md`、`tools/DIRECTORY.md`）
 
 ## 輸入 / 輸出（直覺版）
+
 - **輸入**：統一配置 (`machinenativeops.yaml`)、工作區 package 配置、Python/Node 依賴清單、環境變數。
 - **輸出**：生成的文檔 / 知識圖 (`docs/generated/*`)、構建產物、CI 報告、部署工件。
 - **主要上下游/協作者**：CI/CD 工作流、開發者工具（`tools/`、`scripts/`）、部署 / 運維（`deploy/`、`ops/`）、核心服務（`src/`）。
 
 ## 變更影響範圍（Blast radius）
+
 - 修改 `machinenativeops.yaml` 會影響所有下游配置與工具。
 - 修改 `package.json` / `requirements-*.txt` 會影響開發/CI 環境依賴。
 - 修改 `Makefile` 會影響文檔與知識圖生成流程。
@@ -43,11 +46,13 @@
 ## 檔案速覽（人話版）
 
 ### README.md
+
 - **一句話摘要**：平台總覽、設計理念與快速開始入口。
 - **我不確定/待釐清**：需與 `docs/` 中的最新細節保持同步。
 - **相關連結**：`docs/`、`governance/00-vision-strategy/`
 
 ### machinenativeops.yaml
+
 - **一句話摘要**：整個平台的統一配置（入口與真實來源）。
 - **我不確定/待釐清**：與 `config/` 下環境覆蓋的優先序。
 - **相關連結**：`config/`、`deploy/`
@@ -71,6 +76,7 @@
 - **相關連結**：`requirements-debug.txt`、`requirements-workflow.txt`
 
 ### Dockerfile
+
 - **一句話摘要**：基礎容器鏡像定義（平台根鏡像）。
 - **我不確定/待釐清**：對應的 compose / 部署流程。
 - **相關連結**：`docker-compose.prod.yml`、`deploy/docker/`
@@ -88,21 +94,25 @@
 - **相關連結**：`src/DIRECTORY.md`、`governance/`
 
 ### scripts/
+
 - **一句話摘要**：CI/CD、部署與運維相關的自動化腳本。
 - **我不確定/待釐清**：各腳本的執行前提與目標環境。
 - **相關連結**：`scripts/DIRECTORY.md`、`ops/`、`deploy/`
 
 ### tools/
+
 - **一句話摘要**：生成器、驗證器與開發輔助工具（含 DIRECTORY 生成）。
 - **我不確定/待釐清**：哪些工具會改寫生成產物。
 - **相關連結**：`tools/DIRECTORY.md`、`tools/directory_doc_generator.py`
 
 ## 待釐清 / TODO
+
 - 子目錄的 `DIRECTORY.md` 需逐步補齊導航與影響範圍。
 - 確認 `config/` 與 `machinenativeops.yaml` 的覆蓋策略並記錄。
 - 標記 `docs/generated/*` 的再生成條件。
 
 ## 未來可轉 JSON 的錨點
+
 - **path**: `.`
 - **entrypoints**: ["README.md", "machinenativeops.yaml", "Makefile"]
 - **status**: draft

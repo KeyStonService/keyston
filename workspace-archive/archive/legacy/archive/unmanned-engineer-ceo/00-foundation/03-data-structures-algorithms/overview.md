@@ -7,7 +7,9 @@
 =======
 
 - 將高級 DS/Algo 與 SynergyMesh 實戰場景對應（registry、knowledge graph、observability）。
+
 >>>>>>> origin/copilot/sub-pr-402
+
 - 為核心服務提供性能、可擴展與正確性的數學基礎。
 
 ## 應用場景

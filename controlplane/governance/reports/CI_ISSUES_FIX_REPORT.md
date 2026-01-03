@@ -4,7 +4,6 @@
 
 客戶反饋了兩個關鍵問題：
 
-
 1. **PR #608 狀態問題**：CI 檢查顯示兩個失敗但實際可能是「假性通過」
 2. **PR 模板結構不一致**：完成狀態與審核清單邏輯矛盾
 
@@ -13,6 +12,7 @@
 ### 問題1：GitHub Actions SHA Pinning 錯誤
 
 **錯誤訊息**：
+
 ```
 The actions actions/checkout@v4, actions/setup-python@v5, and actions/upload-artifact@v4 are not allowed in MachineNativeOps/machine-native-ops because all actions must be pinned to a full-length commit SHA.
 ```
@@ -22,6 +22,7 @@ The actions actions/checkout@v4, actions/setup-python@v5, and actions/upload-art
 ### 問題2：PR 模板邏輯不一致
 
 **問題現象**：
+
 - 完成狀態區塊所有項目標記為 `⏸️ Blocked: awaiting feedback content`
 - 但審核者檢查清單卻顯示空白，暗示可以進行審核
 - 這造成了視覺和邏輯上的不一致
@@ -30,7 +31,7 @@ The actions actions/checkout@v4, actions/setup-python@v5, and actions/upload-art
 
 ### 修復1：GitHub Actions SHA Pinning
 
-已修復 `.github/workflows/aaps-phase1-gates.yml`：
+已修復 `.github/workflows/machine-native-ops-phase1-gates.yml`：
 
 ```yaml
 # 修復前
@@ -83,6 +84,7 @@ The actions actions/checkout@v4, actions/setup-python@v5, and actions/upload-art
 ### 當前狀況分析
 
 PR #608 的標題是「Clarify feedback requirements for webhook.py event_name handling」，但實際上：
+
 1. **沒有程式碼變更**：0 additions, 0 deletions
 2. **等待回饋**：因為無法訪問原始回饋連結
 3. **模板完成度高**：PR 模板填寫完整，符合規範
@@ -115,7 +117,6 @@ gh issue create --title "webhook.py event_name usage clarification needed" --bod
 
 ### 2. 治理機制
 
-
 - 建立 PR 狀態管理規範
 - 定期審查 CI 失敗原因
 - 建立回饋處理流程
@@ -145,6 +146,7 @@ gh issue create --title "webhook.py event_name usage clarification needed" --bod
 ## 📝 結論
 
 本次修復解決了兩個核心問題：
+
 1. **技術問題**：GitHub Actions SHA pinning 要求
 2. **流程問題**：PR 模板邏輯不一致
 
