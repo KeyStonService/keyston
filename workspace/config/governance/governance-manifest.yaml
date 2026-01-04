@@ -120,15 +120,15 @@ spec:
       tags: ["exception", "compliance", "approval"]
     - id: chatops-automation
       name: "ChatOps 自動化"
-      description: "整合 chatops-main 的腳本與服務到 MachineNativeOps 治理與工作流程"
-      doc: "chatops/chatops-main/README.md"
+      description: "整合 chatops 的腳本與服務到 MachineNativeOps 治理與工作流程"
+      doc: "chatops/README.md"
       category: "automation"
       status: "experimental"
       version: "0.1.0"
       tools:
-        - "chatops/chatops-main/scripts"
+        - "chatops/scripts"
       services:
-        - "chatops/chatops-main/services"
+        - "chatops/services"
       tags: ["chatops", "automation", "integration"]
 
     # Observability and validation

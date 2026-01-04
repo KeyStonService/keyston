@@ -18,7 +18,7 @@ export MACHINENATIVEOPS_HOME="/opt/machinenativenops"
 export MACHINENATIVEOPS_ROOT="${MACHINENATIVEOPS_HOME}"
 export MACHINENATIVEOPS_USER="root"
 export MACHINENATIVEOPS_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
-export CHATOPS_HOME="${MACHINENATIVEOPS_SCRIPT_DIR}/chatops/chatops-main"
+export CHATOPS_HOME="${MACHINENATIVEOPS_SCRIPT_DIR}/chatops"
 export CHATOPS_SCRIPTS="${CHATOPS_HOME}/scripts"
 export CHATOPS_SERVICES="${CHATOPS_HOME}/services"
 

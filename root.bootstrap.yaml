@@ -315,9 +315,9 @@ spec:
       action: register_external_module
       parameters:
         module_id: chatops-automation
-        scripts_path: chatops/chatops-main/scripts
-        services_path: chatops/chatops-main/services
-        init_sequence: chatops/chatops-main/root/init/steps
+        scripts_path: chatops/scripts
+        services_path: chatops/services
+        init_sequence: chatops/root/init/steps
       dependencies:
       - register_and_start_modules
       success_criteria:
@@ -329,12 +329,12 @@ spec:
       action: run_hooks
       parameters:
         hooks:
-        - chatops/chatops-main/root/init/steps/00-init.sh
-        - chatops/chatops-main/root/init/steps/01-governance-init.sh
-        - chatops/chatops-main/root/init/steps/02-modules-init.sh
-        - chatops/chatops-main/root/init/steps/03-super-execution-init.sh
-        - chatops/chatops-main/root/init/steps/04-trust-init.sh
-        - chatops/chatops-main/root/init/steps/05-provenance-init.sh
+        - chatops/root/init/steps/00-init.sh
+        - chatops/root/init/steps/01-governance-init.sh
+        - chatops/root/init/steps/02-modules-init.sh
+        - chatops/root/init/steps/03-super-execution-init.sh
+        - chatops/root/init/steps/04-trust-init.sh
+        - chatops/root/init/steps/05-provenance-init.sh
       dependencies:
       - chatops_scripts_registered
       success_criteria:
