@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh System Manifest Configuration
+#                    MachineNativeOps System Manifest Configuration
 #                    系統宣告清單（整合心智矩陣 + 執行長系統）
 # ═══════════════════════════════════════════════════════════════════════════════
 #
@@ -12,7 +12,7 @@
 version: "2.1.0"
 id: "machinenativeops.system"
 description: |
-  SynergyMesh 系統宣告清單 - 次世代雲原生智能自動化平台
+  MachineNativeOps 系統宣告清單 - 次世代雲原生智能自動化平台
   整合心智矩陣 + 執行長系統 + 增強統一整合 + Phase 2 配置整合 + 治理框架對齊
   
   Strategic Vision: 實現「無人值守」的智能運維，讓企業專注於創新而非維運

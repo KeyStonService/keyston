@@ -1,10 +1,10 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh Core Engine - Subsystem Entity
-#                    SynergyMesh 核心引擎 - 子系統實體
+#                    MachineNativeOps Core Engine - Subsystem Entity
+#                    MachineNativeOps 核心引擎 - 子系統實體
 # ═══════════════════════════════════════════════════════════════════════════════
 #
 # Schema: https://schema.superroot.kn/mndoc/entity/subsystem/v1
-# Source: README.md - SynergyMesh Core Engine section
+# Source: README.md - MachineNativeOps Core Engine section
 #
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -12,7 +12,7 @@ $schema: "https://schema.superroot.kn/mndoc/entity/subsystem/v1"
 entity: "Subsystem"
 id: "machinenativeops-core"
 type: "subsystem"
-title: "SynergyMesh Core Engine"
+title: "MachineNativeOps Core Engine"
 description: |
   雲原生智能業務自動化和數據編排平台。Cloud-native intelligent business 
   automation and data orchestration platform.

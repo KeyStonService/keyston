@@ -1,19 +1,19 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh Configuration
+#                    MachineNativeOps Configuration
 #                    無人化自主協同網格系統配置
 # ═══════════════════════════════════════════════════════════════════════════════
 #
-# This is the main configuration file for the SynergyMesh system.
+# This is the main configuration file for the MachineNativeOps system.
 # It integrates all 13 phases into a unified automation system.
 #
-# 這是 SynergyMesh 系統的主配置文件。
+# 這是 MachineNativeOps 系統的主配置文件。
 # 它將所有 13 個階段整合成統一的自動化系統。
 #
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # System Metadata
 system:
-  name: SynergyMesh
+  name: MachineNativeOps
   version: "1.0.0"
   description: "無人化自主協同網格系統 - Autonomous Coordination Grid System"
   environment: development  # development, staging, production

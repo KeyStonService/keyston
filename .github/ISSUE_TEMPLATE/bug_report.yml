@@ -97,7 +97,7 @@ body:
     label: Additional Context
   id: additional
   type: textarea
-description: Report a bug to help us improve SynergyMesh
+description: Report a bug to help us improve MachineNativeOps
 labels:
 - bug
 - triage

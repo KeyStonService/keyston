@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh Unified Configuration Index
+#                    MachineNativeOps Unified Configuration Index
 #                    統一配置索引 - 第二階段整合
 # ═══════════════════════════════════════════════════════════════════════════════
 #
@@ -8,14 +8,14 @@
 # Purpose:
 # - 合併配置減少子目錄數量 (Merge configurations, reduce subdirectory count)
 # - 高度映射/引用整合 (High-level mapping/reference integration)
-# - 對齊 SynergyMesh 唯一配置 (Align with SynergyMesh unified configuration)
+# - 對齊 MachineNativeOps 唯一配置 (Align with MachineNativeOps unified configuration)
 # - 確保無缺失技能功能 (Ensure no missing skills/functionality)
 # - 確保無重複定義 (Ensure no duplicate definitions)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 version: "2.1.0"
 id: "machinenativeops.unified-config"
-description: "SynergyMesh 統一配置索引 - 所有配置的單一真實來源 (對齊 governance/00-vision-strategy)"
+description: "MachineNativeOps 統一配置索引 - 所有配置的單一真實來源 (對齊 governance/00-vision-strategy)"
 
 # ============================================================================
 # Governance Framework (治理框架)

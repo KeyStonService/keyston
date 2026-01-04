@@ -8,4 +8,4 @@ contact_links:
   url: https://docs.machinenativeops.io
 - about: Report security vulnerabilities privately
   name: 🔒 Security Issues
-  url: https://github.com/SynergyMesh/SynergyMesh/security/advisories/new
+  url: https://github.com/MachineNativeOps/machine-native-ops/security/advisories/new

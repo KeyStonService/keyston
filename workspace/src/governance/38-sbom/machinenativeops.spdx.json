@@ -3,12 +3,12 @@
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
   "name": "machinenativeops-sbom",
-  "documentNamespace": "https://github.com/Unmanned-Island-admin/SynergyMesh/sbom",
+  "documentNamespace": "https://github.com/MachineNativeOps/machine-native-ops/sbom",
   "creationInfo": {
     "created": "2025-11-30T00:00:00Z",
     "creators": [
-      "Tool: SynergyMesh CI/CD Pipeline",
-      "Organization: SynergyMesh Team"
+      "Tool: MachineNativeOps CI/CD Pipeline",
+      "Organization: MachineNativeOps Team"
     ],
     "licenseListVersion": "3.21"
   },
@@ -18,13 +18,13 @@
       "SPDXID": "SPDXRef-Package-machinenativeops",
       "name": "machinenativeops",
       "versionInfo": "1.0.0",
-      "downloadLocation": "https://github.com/Unmanned-Island-admin/SynergyMesh",
+      "downloadLocation": "https://github.com/MachineNativeOps/machine-native-ops",
       "filesAnalyzed": false,
       "licenseConcluded": "MIT",
       "licenseDeclared": "MIT",
-      "copyrightText": "Copyright 2025 SynergyMesh Team",
-      "supplier": "Organization: SynergyMesh Team",
-      "description": "SynergyMesh - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration"
+      "copyrightText": "Copyright 2025 MachineNativeOps Team",
+      "supplier": "Organization: MachineNativeOps Team",
+      "description": "MachineNativeOps - Next-generation cloud-native platform for intelligent business automation and seamless data orchestration"
     }
   ],
   "relationships": [

@@ -1,11 +1,11 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-#                    SynergyMesh System Module Map
+#                    MachineNativeOps System Module Map
 #                    系統模組映射 - 統一目錄結構與元件整合
 # ═══════════════════════════════════════════════════════════════════════════════
 #
-# 此配置提供 SynergyMesh 統一系統的完整目錄映射與元件引用
+# 此配置提供 MachineNativeOps 統一系統的完整目錄映射與元件引用
 # This configuration provides the complete directory mapping and component 
-# references for the SynergyMesh unified system.
+# references for the MachineNativeOps unified system.
 #
 # Purpose:
 # - 清理根目錄混亂 (Clean up root directory clutter)
@@ -21,7 +21,7 @@
 
 version: "1.2.0"
 id: "machinenativeops.module-map"
-description: "SynergyMesh 系統模組映射 - 統一目錄結構"
+description: "MachineNativeOps 系統模組映射 - 統一目錄結構"
 
 # Phase 2 Reference
 phase2_consolidation:

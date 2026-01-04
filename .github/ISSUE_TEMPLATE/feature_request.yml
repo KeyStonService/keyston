@@ -88,7 +88,7 @@ body:
     - label: I can help with documentation
   id: contribution
   type: checkboxes
-description: Suggest a new feature for SynergyMesh
+description: Suggest a new feature for MachineNativeOps
 labels:
 - enhancement
 - triage
