@@ -46,7 +46,7 @@ def normalize_physical_path(physical_path: str) -> str:
     if normalized.startswith('./'):
         normalized = normalized[2:]
     elif normalized.startswith('/'):
-        normalized = normalized.lstrip('/')
+        normalized = normalized[1:]
 
     return normalized or '.'
 
@@ -133,12 +133,12 @@ def get_mapped_directories(generated_maps: Dict[str, List[FsMapEntry]]) -> Set[s
     }
 
 
-def compute_coverage_percentage(total_dirs: int, mapped_dirs: Set[str]) -> float:
+def compute_coverage_percentage(total_dirs: int, mapped_count: int) -> float:
     """Compute coverage percentage using a shared calculation."""
     if total_dirs == 0:
         return 100.0
 
-    return round((len(mapped_dirs) / total_dirs) * 100, 2)
+    return round((mapped_count / total_dirs) * 100, 2)
 
 
 # =============================================================================
@@ -430,7 +430,7 @@ class IndexUpdater:
 
         mapped_dirs = get_mapped_directories(generated_maps)
 
-        return compute_coverage_percentage(total_dirs, mapped_dirs)
+        return compute_coverage_percentage(total_dirs, len(mapped_dirs))
 
 
 # =============================================================================
@@ -715,7 +715,7 @@ class ReportGenerator:
         module_boundaries = len([d for d in scanner.directories.values() if d.is_module_boundary])
         total_mappings = sum(len(entries) for entries in generator.generated_maps.values())
         mapped_dirs = get_mapped_directories(generator.generated_maps)
-        coverage_percentage = compute_coverage_percentage(total_dirs, mapped_dirs)
+        coverage_percentage = compute_coverage_percentage(total_dirs, len(mapped_dirs))
 
         report = f"""# Filesystem Mapping Report
 # Generated: {timestamp}
